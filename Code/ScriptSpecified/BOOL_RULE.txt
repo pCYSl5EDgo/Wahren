@@ -1,0 +1,29 @@
+S = BOOL
+BOOL = Num0
+BOOL = TF0
+TF0 = TF0 || TF1
+TF0 = TF1
+TF1 = TF1 && TF2
+TF1 = TF2
+TF2 = Str0 == Str0
+TF2 = Num0 == Num0
+TF2 = Str1 == Num3
+TF2 = Str1 == Str0
+TF2 = Num3 == Str1
+TF2 = ( TF0 )
+Num0 = Num0 * Num1
+Num0 = Num1
+Num1 = Num1 + Num2
+Num1 = Num2
+Num2 = ( Num0 )
+Num2 = fig
+Num2 = func
+Num2 = Num3
+Num3 = ( Num3 )
+Num3 = id
+Str0 = ( Str0 )
+Str0 = Str1
+Str0 = @
+Str0 = text
+Str1 = ( Str1 )
+Str1 = var

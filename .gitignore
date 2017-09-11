@@ -1,0 +1,4 @@
+.vscode/*
+bin/*
+obj/*
+System.Text.Encoding.CodePages.4.4.0/*
