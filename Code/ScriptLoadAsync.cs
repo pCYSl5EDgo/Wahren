@@ -212,9 +212,9 @@ namespace Wahren
                         Scenario.GetOrAdd(scenario.Name, scenario);
                         break;
                     case StructureDataType.Field:
+                        if (Object.ContainsKey(tree.Name)) throw new Exception();
                         var field = new FieldData(tree.Name, inh);
                         Parse(SelectAssign(tree), field);
-
                         while (!string.IsNullOrEmpty(field.Inherit))
                         {
                             FieldData inheritfield;
@@ -229,6 +229,7 @@ namespace Wahren
                         Field.GetOrAdd(field.Name, field);
                         break;
                     case StructureDataType.Object:
+                        if (Field.ContainsKey(tree.Name)) throw new Exception();
                         var object1 = new ObjectData(tree.Name, inh);
                         Parse(SelectAssign(tree), object1);
                         while (!string.IsNullOrEmpty(object1.Inherit))
