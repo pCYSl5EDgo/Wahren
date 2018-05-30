@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Text;
@@ -221,7 +222,7 @@ namespace Wahren.Specific
             switch (tree.Type)
             {
                 case 0:
-                    if (tree.Children[0] == null) throw new Exception();
+                    if (tree.Children[0] == null) throw new ArgumentNullException();
                     CollectData(tree.Children[0]);
                     CollectData(tree.Children[1]);
                     break;
@@ -232,7 +233,8 @@ namespace Wahren.Specific
                         case "yet":
                             content.ThrowException(1);
                             if (content.IsVariable(0)) Variable.Add(content[0].ToLowerString());
-                            else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                            else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString()))
+                                throw new Exception(content[0].DebugInfo);
                             Yet.Add(content[0].ToLowerString());
                             break;
                         case "amount":
@@ -255,7 +257,9 @@ namespace Wahren.Specific
                             {
                                 var coni = content[i].ToLowerString();
                                 if (content.IsVariable(i)) Variable.Add(coni);
-                                else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni)) throw new Exception();
+                                else if (!ScriptLoader.Unit.ContainsKey(coni)
+                                && !ScriptLoader.GenericUnit.ContainsKey(coni))
+                                    throw new Exception(content[i].DebugInfo);
                             }
                             break;
                         case "isalive":
@@ -267,8 +271,10 @@ namespace Wahren.Specific
                                 var coni = content[i].ToLowerString();
                                 if (content.IsVariable(i))
                                     Variable.Add(coni);
-                                else if (!ScriptLoader.Power.ContainsKey(coni) && !ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni))
-                                    throw new Exception();
+                                else if (!ScriptLoader.Power.ContainsKey(coni)
+                                && !ScriptLoader.Unit.ContainsKey(coni)
+                                && !ScriptLoader.GenericUnit.ContainsKey(coni))
+                                    throw new Exception(content[i].DebugInfo);
                             }
                             break;
                         case "isanydead":
@@ -277,7 +283,8 @@ namespace Wahren.Specific
                             for (int i = 0; i < content.Count; i++)
                             {
                                 if (content.IsVariable(i)) Variable.Add(content[i].ToLowerString());
-                                else if (!ScriptLoader.Unit.ContainsKey(content[i].ToLowerString())) throw new Exception();
+                                else if (!ScriptLoader.Unit.ContainsKey(content[i].ToLowerString()))
+                                    throw new Exception(content[i].DebugInfo);
                             }
                             break;
                         case "isplayer":
@@ -323,8 +330,9 @@ namespace Wahren.Specific
                             break;
                         case "isjoin":
                             content.ThrowException(2, 3);
-                            if (content.Count == 3)
-                                if (content[2].Content.ToLower() != "on") throw new Exception();
+                            if (content.Count == 3
+                            && content[2].Content.ToLower() != "on")
+                                throw new Exception(content[2].DebugInfo);
                             content.AddVariable_NotAddIdentifier(0, Variable);
                             content.AddVariable_NotAddIdentifier(1, Variable);
                             break;
@@ -374,7 +382,7 @@ namespace Wahren.Specific
                             content.ThrowException(1);
                             content.AddIdentifierOrNumber(0, Identifier);
                             break;
-                        default: throw new Exception();
+                        default: throw new Exception(tree.Token.DebugInfo);
                     }
                     break;
                 case 3:
@@ -528,7 +536,8 @@ namespace Wahren.Specific
                 case "setgameclear":
                     content.ThrowException(0, 1);
                     if (content.Count == 0) break;
-                    if (!content.IsVariable(0) && content[0].ToLowerString() != "on") throw new Exception();
+                    if (!content.IsVariable(0) && content[0].ToLowerString() != "on")
+                        throw new Exception(content[0].DebugInfo);
                     break;
                 case "exit":
                     content.ThrowException(0, 2);
@@ -579,8 +588,9 @@ namespace Wahren.Specific
                 case "doskill":
                     content.ThrowException(5);
                     content.AddVariable_NotAddIdentifier(0, Variable);
-                    if (!content.IsVariable(0) && !ScriptLoader.Skill.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception();
+                    if (!content.IsVariable(0)
+                    && !ScriptLoader.Skill.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddIdentifierOrNumber(1, Identifier);
                     content.AddIdentifierOrNumber(2, Identifier);
                     content.AddIdentifierOrNumber(3, Identifier);
@@ -589,7 +599,7 @@ namespace Wahren.Specific
                         case "on":
                         case "off":
                             break;
-                        default: throw new Exception();
+                        default: throw new Exception(content[4].DebugInfo);
                     }
                     break;
                 case "showspot":
@@ -608,7 +618,7 @@ namespace Wahren.Specific
                 case "gread":
                     content.ThrowException(2, 3);
                     if (!content.IsVariableOrIdentifier(0))
-                        throw new Exception();
+                        throw new Exception(content[0].DebugInfo);
                     content.AddIdentifier(1, Identifier);
                     if (content.Count == 3)
                         content.AddVariable(2, Variable);
@@ -616,7 +626,7 @@ namespace Wahren.Specific
                 case "gwrite":
                     content.ThrowException(2, 3);
                     if (!content.IsVariableOrIdentifier(0))
-                        throw new Exception();
+                        throw new Exception(content[0].DebugInfo);
                     content.AddIdentifierOrNumber(1, Identifier);
                     if (content.Count == 3)
                         content.AddVariableOrString(2, Variable);
@@ -713,24 +723,36 @@ namespace Wahren.Specific
                     content.ThrowException(2, 4);
                     if (content.Count == 4)
                     {
-                        if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(0)
+                        && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
+                        && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                            throw new Exception(content[0].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddIdentifierOrNumber(1, Identifier);
                         content.AddIdentifierOrNumber(2, Identifier);
                         content.AddIdentifierOrNumber(3, Identifier);
                     }
-                    else if (content.Count == 3) throw new Exception();
+                    else if (content.Count == 3) throw new ArgumentOutOfRangeException();
                     else
                     {
-                        if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                        if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(0)
+                        && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
+                        && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                            throw new Exception(content[0].DebugInfo);
+                        if (!content.IsVariable(1)
+                        && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())
+                        && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
                     break;
                 case "addtroop":
                     content.ThrowException(5);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0)
+                    && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
+                    && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     content.AddIdentifierOrNumber(2, Identifier);
@@ -740,7 +762,7 @@ namespace Wahren.Specific
                         case "red":
                         case "blue":
                             break;
-                        default: throw new Exception();
+                        default: throw new Exception(content[4].DebugInfo);
                     }
                     break;
                 case "ispostin":
@@ -771,7 +793,7 @@ namespace Wahren.Specific
                     break;
                 case "shadow":
                     if (content.Count == 0) break;
-                    if (content.Count != 10) throw new Exception();
+                    if (content.Count != 10) throw new ArgumentOutOfRangeException();
                     content.AddIdentifierOrNumber(0, Identifier);
                     content.AddIdentifierOrNumber(1, Identifier);
                     content.AddIdentifierOrNumber(2, Identifier);
@@ -804,15 +826,21 @@ namespace Wahren.Specific
                     if (content.Count == 1) content.AddVariable(0, Variable);
                     else if (content.Count == 2)
                     {
-                        if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(0)
+                        && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                            throw new Exception(content[0].DebugInfo);
+                        if (!content.IsVariable(1)
+                        && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
                     else
                     {
-                        if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                            throw new Exception(content[0].DebugInfo);
+                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                         content.AddIdentifierOrNumber(2, Identifier);
@@ -820,18 +848,22 @@ namespace Wahren.Specific
                     break;
                 case "resetenemypower":
                     content.ThrowException(1, 2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.Count == 2)
                     {
-                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
                     break;
                 case "setenemypower":
                     content.ThrowException(3);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     content.AddIdentifierOrNumber(2, Identifier);
@@ -848,8 +880,10 @@ namespace Wahren.Specific
                     }
                     else
                     {
-                        if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                            throw new Exception(content[0].DebugInfo);
+                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                         content.AddIdentifierOrNumber(2, Identifier);
@@ -857,44 +891,54 @@ namespace Wahren.Specific
                     break;
                 case "addunit":
                     content.ThrowException(2, 3);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0)
+                    && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
+                    && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.Count == 2)
                     {
                         if (!content.IsVariable(1))
                         {
                             var cont1 = content[1].ToLowerString();
-                            if (!ScriptLoader.Unit.ContainsKey(cont1) && !ScriptLoader.Spot.ContainsKey(cont1) && !ScriptLoader.Power.ContainsKey(cont1)) throw new Exception();
+                            if (!ScriptLoader.Unit.ContainsKey(cont1) && !ScriptLoader.Spot.ContainsKey(cont1) && !ScriptLoader.Power.ContainsKey(cont1))
+                                throw new Exception(content[1].DebugInfo);
                         }
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
                     else
                     {
                         if (!content.IsVariable(1) && !ScriptLoader.Spot.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception();
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(1, Variable);
-                        if (!content.IsVariable(2) && content[2].ToLowerString() != "roam") throw new Exception();
+                        if (!content.IsVariable(2) && content[2].ToLowerString() != "roam")
+                            throw new Exception(content[2].DebugInfo);
                     }
                     break;
                 case "eraseunit2":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
-                        if (!content.IsVariable(i) && !ScriptLoader.GenericUnit.ContainsKey(content[i].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(i) && !ScriptLoader.GenericUnit.ContainsKey(content[i].ToLowerString()))
+                            throw new Exception(content[i].DebugInfo);
                         content.AddVariable_NotAddIdentifier(i, Variable);
                     }
                     break;
                 case "roamunit":
                     content.ThrowException(1);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     break;
                 case "unionpower":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
@@ -905,29 +949,35 @@ namespace Wahren.Specific
                 case "setbaselevel":
                 case "addbaselevel":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
                 case "addpowermerce2":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                         if (content.IsVariable(i)) Variable.Add(content[i].Content.ToLower());
-                        else if (!ScriptLoader.GenericUnit.ContainsKey(content[i].ToLowerString())) throw new Exception();
+                        else if (!ScriptLoader.GenericUnit.ContainsKey(content[i].ToLowerString()))
+                            throw new Exception(content[i].DebugInfo);
                     break;
                 case "addpowerstaff2":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                         if (content.IsVariable(i)) Variable.Add(content[i].Content.ToLower());
-                        else if (!ScriptLoader.GenericUnit.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.Race.ContainsKey(content[i].ToLowerString())) throw new Exception();
+                        else if (!ScriptLoader.GenericUnit.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.Race.ContainsKey(content[i].ToLowerString()))
+                            throw new Exception(content[i].DebugInfo);
                     break;
                 case "changepowerfix":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.IsVariable(1)) Variable.Add(content[1].ToLowerString());
                     else switch (content[1].ToLowerString())
@@ -940,21 +990,23 @@ namespace Wahren.Specific
                             case "freeze":
                                 break;
                             default:
-                                throw new Exception();
+                                throw new Exception(content[1].DebugInfo);
                         }
                     break;
                 case "changepowername":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.IsVariable(1)) Variable.Add(content[1].Content.ToLower());
                     break;
                 case "changepowerflag":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
-                    if (!content.IsVariable(1) && !ScriptLoader.Folder.Flag_Bmp.Any(_ => System.IO.Path.GetFileNameWithoutExtension(_) == content[1].Content) && !ScriptLoader.Folder.Flag_Png.Any(_ => System.IO.Path.GetFileNameWithoutExtension(_) == content[1].Content) && !ScriptLoader.Folder.Flag_Jpg.Any(_ => System.IO.Path.GetFileNameWithoutExtension(_) == content[1].Content))
-                        throw new Exception();
+                    if (!content.IsVariable(1) && !ScriptLoader.Folder.Flag_Bmp.Any(_ => Path.GetFileNameWithoutExtension(_) == content[1].Content) && !ScriptLoader.Folder.Flag_Png.Any(_ => Path.GetFileNameWithoutExtension(_) == content[1].Content) && !ScriptLoader.Folder.Flag_Jpg.Any(_ => Path.GetFileNameWithoutExtension(_) == content[1].Content))
+                        throw new Exception(content[1].DebugInfo);
                     else Variable.Add(content[1].ToLowerString());
                     break;
                 case "changemaster":
@@ -962,19 +1014,25 @@ namespace Wahren.Specific
                     switch (content.Count)
                     {
                         case 1:
-                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                                throw new Exception(content[0].DebugInfo);
                             content.AddVariable_NotAddIdentifier(0, Variable);
                             break;
                         case 2:
-                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                            if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                                throw new Exception(content[0].DebugInfo);
+                            if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString()))
+                                throw new Exception(content[1].DebugInfo);
                             content.AddVariable_NotAddIdentifier(0, Variable);
                             content.AddVariable_NotAddIdentifier(1, Variable);
                             break;
                         case 3:
-                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                            if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())) throw new Exception();
-                            if (!content.IsVariable(2) && content[2].ToLowerString() != "flag") throw new Exception();
+                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                                throw new Exception(content[0].DebugInfo);
+                            if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString()))
+                                throw new Exception(content[1].DebugInfo);
+                            if (!content.IsVariable(2) && content[2].ToLowerString() != "flag")
+                                throw new Exception(content[2].DebugInfo);
                             content.AddVariable_NotAddIdentifier(0, Variable);
                             content.AddVariable_NotAddIdentifier(1, Variable);
                             content.AddVariable_NotAddIdentifier(2, Variable);
@@ -984,14 +1042,16 @@ namespace Wahren.Specific
                 case "changeplayer":
                     content.ThrowException(0, 1);
                     if (content.Count == 0) break;
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     break;
                 case "eraseunit":
                 case "eraseunittroop":
                 case "roamtroop":
                     content.ThrowException(1);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     break;
                 case "shifttroop":
@@ -1000,21 +1060,31 @@ namespace Wahren.Specific
                     if (content.Count == 4)
                     {
                         if (content.IsVariable(3)) Variable.Add(content[3].ToLowerString());
-                        else if (content[3].ToLowerString() != "on") throw new Exception();
+                        else if (content[3].ToLowerString() != "on")
+                            throw new Exception(content[3].DebugInfo);
                     }
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     content.AddIdentifierOrNumber(2, Identifier);
                     break;
                 case "skilltroop":
                     content.ThrowException(2, 3);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.Count == 2)
                     {
-                        if (content.IsVariable(1)) { Variable.Add(content[1].ToLowerString()); break; }
-                        if (!ScriptLoader.Skill.ContainsKey(content[1].ToLowerString()) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (content.IsVariable(1))
+                        {
+                            Variable.Add(content[1].ToLowerString());
+                            break;
+                        }
+                        if (!ScriptLoader.Skill.ContainsKey(content[1].ToLowerString())
+                        && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())
+                        && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                     }
                     else if (content.IsIdentifierOrNumber(1))
                     {
@@ -1027,13 +1097,14 @@ namespace Wahren.Specific
                             case "on":
                             case "dead_ok":
                                 break;
-                            default: throw new Exception();
+                            default: throw new Exception(content[2].DebugInfo);
                         }
                     break;
                 case "formtroop":
                 case "speedtroop":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
@@ -1046,7 +1117,10 @@ namespace Wahren.Specific
                 case "freetroop":
                 case "halttroop":
                     content.ThrowException(1);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0)
+                    && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
+                    && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     break;
                 case "setgain":
@@ -1057,15 +1131,18 @@ namespace Wahren.Specific
                 case "addcapa":
                 case "changecastle":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
                 case "changemap":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.Folder.Stage_Map.Any((_) => System.IO.Path.GetFileNameWithoutExtension(_).ToLower() == content[1].Content.ToLower()))
-                        throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1)
+                    && !ScriptLoader.Folder.Stage_Map.Any((_) => Path.GetFileNameWithoutExtension(_).ToLower() == content[1].Content.ToLower()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
@@ -1074,28 +1151,34 @@ namespace Wahren.Specific
                 case "erasepowermerce":
                 case "erasepowerstaff":
                     content.ThrowException(1);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     break;
                 case "addspot":
                     content.ThrowException(1, 2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.Count == 2)
                     {
-                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
                     break;
                 case "removespot":
                     content.ThrowException(1);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     break;
                 case "setarbeit":
                     content.ThrowException(3);
-                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1) && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     content.AddIdentifierOrNumber(2, Identifier);
@@ -1133,50 +1216,59 @@ namespace Wahren.Specific
                         case "off":
                             break;
                         default:
-                            if (!content.IsVariable(0)) throw new Exception();
+                            if (!content.IsVariable(0)) throw new Exception(content[0].DebugInfo);
                             break;
                     }
                     break;
                 case "changespotimage":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
                 case "changedungeon":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.Dungeon.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Spot.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1) && !ScriptLoader.Dungeon.ContainsKey(content[1].ToLowerString()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
                 case "setdungeonfloor":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Dungeon.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Dungeon.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
                 case "setmoney":
                 case "addmoney":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
                 case "changeclass":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1) && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
                 case "eraseskill":
                     content.ThrowException(1, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
-                        if (!content.IsVariable(i) && !ScriptLoader.Skill.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.SkillSet.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(i) && !ScriptLoader.Skill.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.SkillSet.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[i].DebugInfo);
                         content.AddVariable_NotAddIdentifier(i, Identifier);
                     }
                     break;
@@ -1184,18 +1276,21 @@ namespace Wahren.Specific
                 case "addskill2":
                 case "removeskill":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
-                        if (!content.IsVariable(i) && !ScriptLoader.Skill.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.SkillSet.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                        if (!content.IsVariable(i) && !ScriptLoader.Skill.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.SkillSet.ContainsKey(content[1].ToLowerString()))
+                            throw new Exception(content[i].DebugInfo);
                         content.AddVariable_NotAddIdentifier(i, Identifier);
                     }
                     break;
                 case "addstatus":
                 case "setstatus":
                     content.ThrowException(3);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (!content.IsVariable(1))
                         switch (content[1].ToLowerString())
@@ -1212,7 +1307,7 @@ namespace Wahren.Specific
                             case "hprec":
                             case "mprec":
                                 break;
-                            default: throw new Exception();
+                            default: throw new Exception(content[1].DebugInfo);
                         }
                     content.AddIdentifierOrNumber(2, Identifier);
                     break;
@@ -1225,19 +1320,21 @@ namespace Wahren.Specific
                 case "equipitem":
                     content.ThrowException(2, 3);
                     if (content.Count == 3)
+                    {
                         if (content.IsVariable(2))
-                        { if (content[2].ToLowerString() != "on") throw new Exception(); }
+                        {
+                            if (content[2].ToLowerString() != "on")
+                                throw new Exception(content[2].DebugInfo);
+                        }
                         else Variable.Add(content[2].ToLowerString());
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    }
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.IsVariable(1)) Variable.Add(content[1].ToLowerString());
-                    else
-                    {
-                        SkillData tmpSkill;
-                        if (ScriptLoader.Skill.TryGetValue(content[1].ToLowerString(), out tmpSkill))
-                        { if (tmpSkill.ItemType == null) throw new Exception(); }
-                        else throw new Exception();
-                    }
+                    else if (ScriptLoader.Skill.TryGetValue(content[1].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
+                        break;
+                    else throw new Exception(content[1].DebugInfo);
                     break;
                 case "entryitem":
                 case "exititem":
@@ -1246,17 +1343,14 @@ namespace Wahren.Specific
                     content.ThrowException(1);
                     if (content.IsVariable(0))
                         Variable.Add(content[0].ToLowerString());
-                    else
-                    {
-                        SkillData tmpSkill;
-                        if (ScriptLoader.Skill.TryGetValue(content[0].ToLowerString(), out tmpSkill))
-                        { if (tmpSkill.ItemType == null) throw new Exception(); }
-                        else throw new Exception();
-                    }
+                    else if (ScriptLoader.Skill.TryGetValue(content[0].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
+                        break;
+                    else throw new Exception(content[0].DebugInfo);
                     break;
                 case "erasefriend":
                     content.ThrowException(1, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
@@ -1264,12 +1358,13 @@ namespace Wahren.Specific
                         if (content.IsVariable(i))
                             Variable.Add(coni);
                         else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni) && !ScriptLoader.Race.ContainsKey(coni))
-                            throw new Exception();
+                            throw new Exception(content[i].DebugInfo);
                     }
                     break;
                 case "addfriend":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
@@ -1277,19 +1372,22 @@ namespace Wahren.Specific
                         if (content.IsVariable(i))
                             Variable.Add(coni);
                         else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni) && !ScriptLoader.Race.ContainsKey(coni))
-                            throw new Exception();
+                            throw new Exception(content[i].DebugInfo);
                     }
                     break;
                 case "changerace":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
-                    if (!content.IsVariable(1) && !ScriptLoader.Race.ContainsKey(content[1].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    if (!content.IsVariable(1) && !ScriptLoader.Race.ContainsKey(content[1].ToLowerString()))
+                        throw new Exception(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
                 case "setdone":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.IsVariable(1)) Variable.Add(content[1].ToLowerString());
                     switch (content[1].Content.ToLower())
@@ -1297,7 +1395,7 @@ namespace Wahren.Specific
                         case "on":
                         case "off":
                             break;
-                        default: throw new Exception();
+                        default: throw new Exception(content[1].DebugInfo);
                     }
                     break;
                 case "addloyal":
@@ -1306,7 +1404,8 @@ namespace Wahren.Specific
                 case "addlevel":
                 case "setlevel":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
@@ -1314,7 +1413,8 @@ namespace Wahren.Specific
                 case "bcg":
                     content.ThrowException(1, 2);
                     if (content.Count == 2)
-                        if (content[1].ToLowerString() != "on") throw new Exception();
+                        if (content[1].ToLowerString() != "on")
+                            throw new Exception(content[1].DebugInfo);
                     content.AddVariableOrString(0, Variable);
                     break;
                 case "choice":
@@ -1380,21 +1480,26 @@ namespace Wahren.Specific
                     content.ThrowException(1);
                     var coni_routine = content[0].ToLowerString();
                     if (content.IsVariable(0)) Variable.Add(content[0].ToLowerString());
-                    else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString())) throw new Exception();
+                    else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
                     BattleEvent.Add(content[0].ToLowerString());
                     break;
                 case "event":
                     content.ThrowException(1);
                     coni_routine = content[0].ToLowerString();
                     if (content.IsVariable(0)) Variable.Add(content[0].ToLowerString());
-                    else if (!ScriptLoader.Event.ContainsKey(coni_routine) && coni_routine != "world_bgm" && coni_routine != "count") throw new Exception();
+                    else if (!ScriptLoader.Event.ContainsKey(coni_routine) && coni_routine != "world_bgm" && coni_routine != "count")
+                        throw new Exception(content[0].DebugInfo);
                     Event.Add(content[0].ToLowerString());
                     break;
                 case "routine":
                     content.ThrowException(1);
                     coni_routine = content[0].ToLowerString();
                     if (content.IsVariable(0)) Variable.Add(coni_routine);
-                    else if (!ScriptLoader.Event.ContainsKey(coni_routine) && coni_routine != "world_bgm" && coni_routine != "count") throw new Exception();
+                    else if (!ScriptLoader.Event.ContainsKey(coni_routine)
+                    && coni_routine != "world_bgm"
+                    && coni_routine != "count")
+                        throw new Exception(content[0].DebugInfo);
                     Routine.Add(content[0].ToLowerString());
                     break;
                     //未だ追加しきれていない関数を調べる際にはコメントインしてください。

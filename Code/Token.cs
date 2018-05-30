@@ -24,6 +24,7 @@ namespace Wahren
         public readonly long Number;
 
         public override string ToString() => Type == 0 ? Content : (Type == 2 ? Number.ToString() : (Symbol2 == default(char) ? new string(new char[1] { Symbol1 }) : new string(new char[2] { Symbol1, Symbol2 })));
+        public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
         public string ToLowerString()
         {
             switch (Type)

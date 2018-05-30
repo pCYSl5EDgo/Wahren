@@ -147,24 +147,26 @@ namespace Wahren.Specific
             }
         }
         private Tree _tree;
-        internal Tree Tree
-        {
-            get
-            {
-                if (_tree != null) return _tree;
-                return _tree = Run();
-            }
-        }
+        internal Tree Tree => _tree != null ? _tree : (_tree = this.Run());
         private Tree Run()
         {
             int loopcount = 0;
             //ここでNullReferenceExceptionを吐いた場合はまずthis.inputを見ましょう。
             //if文中に間違いが見つかるはずです。
             //見つからなければこのプログラムのバグです。
-            while (!Table[modeStack.Peek()][Classify](this))
-                if (loopcount++ >= 100000)
-                    throw new Exception("無限ループ防止機構により無限ループが終了されました。");
-            return treeStack.Pop();
+            try
+            {
+                while (!Table[modeStack.Peek()][Classify](this))
+                    if (loopcount++ >= 100000)
+                        throw new Exception("無限ループ防止機構により無限ループが終了されました。");
+                return treeStack.Pop();
+            }
+            catch (NullReferenceException)
+            {
+                foreach (var item in this.input)
+                    Console.Error.WriteLine($@"{item.File}/{item.Line + 1}/{item.Column}");
+                throw;
+            }
         }
         Stack<Tree> treeStack = new Stack<Tree>();
         Stack<byte> modeStack = new Stack<byte>(new byte[1] { 0 });
