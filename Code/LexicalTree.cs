@@ -27,7 +27,7 @@ namespace Wahren
         public TreeType Type { get; set; }
         public string Name { get; set; }
 
-        //Unit構�?体やContext構�?�?
+        //Unit構造体やContext構造体
         public static IEnumerable<LexicalTree_Block> Parse(List<Token> input, bool isDebug)
         {
             IEnumerator<Token> c;
@@ -696,7 +696,7 @@ namespace Wahren
             Block.Children.AddRange(ParseAssigns(stack));
             return Block;
         }
-        //副作用として引数が�?�消費され�?
+        //副作用として引数が�?�消費され�?
         public static Stack<LexicalTree_Assign> ParseAssigns(Stack<Token> stack)
         {
             Token token;

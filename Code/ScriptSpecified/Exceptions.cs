@@ -13,6 +13,26 @@ namespace Wahren.Specific
             StreamingContext context) : base(info, context) { }
     }
     [System.Serializable]
+    public class UnitPowerNotFoundException : System.Exception
+    {
+        public UnitPowerNotFoundException() { }
+        public UnitPowerNotFoundException(string message) : base(message) { }
+        public UnitPowerNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        protected UnitPowerNotFoundException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+    [System.Serializable]
+    public class SpotPowerNotFoundException : System.Exception
+    {
+        public SpotPowerNotFoundException() { }
+        public SpotPowerNotFoundException(string message) : base(message) { }
+        public SpotPowerNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        protected SpotPowerNotFoundException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+    [System.Serializable]
     public class SpotNotFoundException : System.Exception
     {
         public SpotNotFoundException() { }
@@ -89,6 +109,16 @@ namespace Wahren.Specific
         public EventNotFoundException(string message) : base(message) { }
         public EventNotFoundException(string message, System.Exception inner) : base(message, inner) { }
         EventNotFoundException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+    [System.Serializable]
+    public class UnitSpotNotFoundException : System.Exception
+    {
+        public UnitSpotNotFoundException() { }
+        public UnitSpotNotFoundException(string message) : base(message) { }
+        public UnitSpotNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        protected UnitSpotNotFoundException(
             System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }

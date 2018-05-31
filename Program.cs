@@ -55,21 +55,29 @@ namespace Wahren
             {
                 app.Execute(args);
             }
-            catch(AggregateException e)
+            catch (AggregateException e)
             {
                 Console.WriteLine(e.InnerException.ToString());
                 return;
             }
+            ScenarioData2 data2 = null;
             while (true)
             {
                 var l = Console.ReadLine();
-                ScenarioData2 data2;
                 if (l == "q") return;
-                if (l == "p" && Scenario.TryTake(out data2))
+                else if (l == "p")
                 {
-                    foreach (var item in data2.Detail)
+                    if (Scenario.TryTake(out data2))
+                        System.Console.WriteLine(data2.Name);
+                    else return;
+                }
+                else if (l == "z" && data2 != null)
+                {
+                    for (int i = 0; i < data2.World.Count; i++)
                     {
-                        Console.WriteLine($"{item.Key}:\n{item.Value}");
+                        if (data2.World[i].Type != LexicalTree.TreeType.Function)
+                            continue;
+                        System.Console.WriteLine(data2.World[i].ToString());
                     }
                 }
             }
