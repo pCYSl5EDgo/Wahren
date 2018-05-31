@@ -12,6 +12,7 @@ namespace Wahren
         public string File { get; set; }
         public int Line { get; set; }
         public int Column { get; set; }
+        public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
         public enum TreeType
         {
             Block,
@@ -26,7 +27,7 @@ namespace Wahren
         public TreeType Type { get; set; }
         public string Name { get; set; }
 
-        //Unit構造体やContext構造体
+        //Unit構�?体やContext構�?�?
         public static IEnumerable<LexicalTree_Block> Parse(List<Token> input, bool isDebug)
         {
             IEnumerator<Token> c;
@@ -695,7 +696,7 @@ namespace Wahren
             Block.Children.AddRange(ParseAssigns(stack));
             return Block;
         }
-        //副作用として引数が全消費される
+        //副作用として引数が�?�消費され�?
         public static Stack<LexicalTree_Assign> ParseAssigns(Stack<Token> stack)
         {
             Token token;

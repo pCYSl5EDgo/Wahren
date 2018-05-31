@@ -76,7 +76,7 @@ namespace Wahren
             foreach (var tree in LexicalTree.Parse(await scriptFile.Parse(encoding, englishMode), isDebug))
             {
                 var inh = (tree as IInherit)?.Inherit;
-                if (tree.Name == inh) throw new ApplicationException(tree.File + "\r\n" + tree.Name + " : 循環参照です");
+                if (tree.Name == inh) throw new ApplicationException(tree.File + "\r\n" + tree.Name + " : 循環参�?�で�?");
                 switch ((tree as IStructureDataType).Structure)
                 {
                     case StructureDataType.Attribute:
@@ -154,7 +154,7 @@ namespace Wahren
                             EventData inheritEvent;
                             if (Event.TryGetValue(eventData.Inherit, out inheritEvent))
                             {
-                                if (eventData.Inherit == inheritEvent.Inherit) throw new ApplicationException(inheritEvent.Inherit + " : 循環参照");
+                                if (eventData.Inherit == inheritEvent.Inherit) throw new ApplicationException(inheritEvent.Inherit + " : 循環参�?�");
                                 eventData.Inherit = inheritEvent.Inherit;
                                 Resolve(eventData, inheritEvent);
                             }
@@ -170,7 +170,7 @@ namespace Wahren
                             StoryData inheritStory;
                             if (Story.TryGetValue(story.Inherit, out inheritStory))
                             {
-                                if (story.Inherit == inheritStory.Inherit) throw new ApplicationException(inheritStory.Inherit + " : 循環参照");
+                                if (story.Inherit == inheritStory.Inherit) throw new ApplicationException(inheritStory.Inherit + " : 循環参�?�");
                                 story.Inherit = inheritStory.Inherit;
                                 Resolve(story, inheritStory);
                             }
@@ -186,7 +186,7 @@ namespace Wahren
                             DungeonData inheritdungeon;
                             if (Dungeon.TryGetValue(dungeon.Inherit, out inheritdungeon))
                             {
-                                if (dungeon.Inherit == inheritdungeon.Inherit) throw new ApplicationException(inheritdungeon.Inherit + " : 循環参照");
+                                if (dungeon.Inherit == inheritdungeon.Inherit) throw new ApplicationException(inheritdungeon.Inherit + " : 循環参�?�");
                                 dungeon.Inherit = inheritdungeon.Inherit;
                                 Resolve(dungeon, inheritdungeon);
                             }
@@ -203,7 +203,7 @@ namespace Wahren
                             ScenarioData inheritscenario;
                             if (Scenario.TryGetValue(scenario.Inherit, out inheritscenario))
                             {
-                                if (scenario.Inherit == inheritscenario.Inherit) throw new ApplicationException(inheritscenario.Inherit + " : 循環参照");
+                                if (scenario.Inherit == inheritscenario.Inherit) throw new ApplicationException(inheritscenario.Inherit + " : 循環参�?�");
                                 scenario.Inherit = inheritscenario.Inherit;
                                 Resolve(scenario, inheritscenario);
                             }
@@ -220,7 +220,7 @@ namespace Wahren
                             FieldData inheritfield;
                             if (Field.TryGetValue(field.Inherit, out inheritfield))
                             {
-                                if (field.Inherit == inheritfield.Inherit) throw new ApplicationException(inheritfield.Inherit + " : 循環参照");
+                                if (field.Inherit == inheritfield.Inherit) throw new ApplicationException(inheritfield.Inherit + " : 循環参�?�");
                                 field.Inherit = inheritfield.Inherit;
                                 Resolve(field, inheritfield);
                             }
@@ -237,7 +237,7 @@ namespace Wahren
                             ObjectData inheritobject1;
                             if (Object.TryGetValue(object1.Inherit, out inheritobject1))
                             {
-                                if (object1.Inherit == inheritobject1.Inherit) throw new ApplicationException(inheritobject1.Inherit + " : 循環参照");
+                                if (object1.Inherit == inheritobject1.Inherit) throw new ApplicationException(inheritobject1.Inherit + " : 循環参�?�");
                                 object1.Inherit = inheritobject1.Inherit;
                                 Resolve(object1, inheritobject1);
                             }
@@ -2316,7 +2316,8 @@ namespace Wahren
                         skill.FilledWithNull.Remove(assign.Name);
                         for (int i = 0; i < assign.Content.Count; i++)
                         {
-                            if (assign.Content[i].Type == 0)
+                            if (assign.Content[i].Type != 0) continue;
+                            try
                             {
                                 switch (assign.Content[i].Content.ToLower())
                                 {
@@ -2417,6 +2418,11 @@ namespace Wahren
                                         skill.YorozuAttribute[assign.Content[i].ToLowerString()] = (int)assign.Content[i + 1].Number;
                                         break;
                                 }
+                            }
+                            catch
+                            {
+                                Console.Error.WriteLine(i + 1);
+                                Console.Error.WriteLine(assign.File + '/' + (assign.Line + 1));
                             }
                         }
                         break;

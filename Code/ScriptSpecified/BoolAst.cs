@@ -5,6 +5,7 @@ using System.Linq;
 namespace Wahren.Specific
 {
     //書き換え可能な構造体とか本当に酷いものだ
+    //構文解析器を独自に実装したけれど……　もうこれ自分でも何書いてるかわかんねえな
     public class Tree
     {
         public Token Token;
@@ -37,29 +38,29 @@ namespace Wahren.Specific
                     case '%':
                     case '(':
                     case ')':
-                        if (token.IsDoubleSymbol) throw new Exception();
+                        if (token.IsDoubleSymbol) throw new Exception(token.DebugInfo);
                         Type = 0;
                         Children = new Tree[2];
                         break;
                     case '&':
-                        if (token.IsSingleSymbol || token.Symbol2 != '&') throw new Exception();
+                        if (token.IsSingleSymbol || token.Symbol2 != '&') throw new Exception(token.DebugInfo);
                         Type = 0;
                         Children = new Tree[2];
                         break;
                     case '|':
-                        if (token.IsSingleSymbol || token.Symbol2 != '|') throw new Exception();
+                        if (token.IsSingleSymbol || token.Symbol2 != '|') throw new Exception(token.DebugInfo);
                         Type = 0;
                         Children = new Tree[2];
                         break;
                     case '!':
                     case '=':
-                        if (token.IsSingleSymbol || token.Symbol2 != '=') throw new Exception();
+                        if (token.IsSingleSymbol || token.Symbol2 != '=') throw new Exception(token.DebugInfo);
                         Type = 0;
                         Children = new Tree[2];
                         break;
                     case '>':
                     case '<':
-                        if (token.IsDoubleSymbol && token.Symbol2 != '=') throw new Exception();
+                        if (token.IsDoubleSymbol && token.Symbol2 != '=') throw new Exception(token.DebugInfo);
                         Type = 0;
                         Children = new Tree[2];
                         break;
@@ -95,13 +96,17 @@ namespace Wahren.Specific
         internal static Tree Convert(LexicalTree_BoolParen.SingleContent singleContent) => new Tree(ref singleContent.Content);
         internal static Tree Convert(LexicalTree tree)
         {
-            if (tree is LexicalTree_Function) return Convert(tree as LexicalTree_Function);
-            return Convert(tree as LexicalTree_BoolParen.SingleContent);
+            switch (tree)
+            {
+                case LexicalTree_Function _1:
+                    return Convert(_1);
+                default:
+                    return Convert(tree as LexicalTree_BoolParen.SingleContent);
+            }
         }
+
         internal InterpretTreeMachine(LexicalTree_BoolParen boolParen)
-        {
-            this.input = boolParen?.Children ?? new List<LexicalTree>();
-        }
+            => this.input = boolParen?.Children ?? new List<LexicalTree>();
         int Classify
         {
             get
@@ -177,18 +182,15 @@ namespace Wahren.Specific
         static readonly Dictionary<int, Func<InterpretTreeMachine, bool>> ShiftTable = new Dictionary<int, Func<InterpretTreeMachine, bool>>(60);
 
         static Func<InterpretTreeMachine, bool> ShiftGen(int mode)
-        {
-            Func<InterpretTreeMachine, bool> ans;
-            if (ShiftTable.TryGetValue(mode, out ans))
-                return ans;
-            return ShiftTable[mode] = (_) =>
+            => (ShiftTable.TryGetValue(mode, out var ans))
+            ? ans
+            : (ShiftTable[mode] = (_) =>
             {
                 _.treeStack.Push(Convert(_.input[_.location]));
                 ++_.location;
                 _.modeStack.Push((byte)mode);
                 return false;
-            };
-        }
+            });
 
         static void ReduceCommon1(InterpretTreeMachine machine)
         {

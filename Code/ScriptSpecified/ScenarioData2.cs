@@ -35,20 +35,19 @@ namespace Wahren.Specific
         {
             Scenario = data;
             LoadingDone = Task.Factory.StartNew(() =>
-              {
-                  DetailCollect();
-                  CollectData(ScriptLoader.Spot);
-                  CollectData(ScriptLoader.Unit);
-                  CollectData(ScriptLoader.GenericUnit);
-                  CollectData(ScriptLoader.Power);
-              });
+            {
+                DetailCollect();
+                CollectData(ScriptLoader.Spot);
+                CollectData(ScriptLoader.Unit);
+                CollectData(ScriptLoader.GenericUnit);
+                CollectData(ScriptLoader.Power);
+            });
             WPFCollect();
             FunctionCollect();
         }
 
         private void CollectData<T>(ConcurrentDictionary<string, T> dictionary) where T : ScenarioVariantData, new()
         {
-            var type = typeof(T);
             foreach (var item in dictionary.Values)
             {
                 T data = new T();
@@ -57,19 +56,25 @@ namespace Wahren.Specific
                 data.FilledWithNull.AddRange(item.FilledWithNull);
                 ScriptLoader.Resolve(data, item);
                 data.VariantData.Clear();
-                Dictionary<string, LexicalTree_Assign> tmpDic;
-                if (item.VariantData.TryGetValue("", out tmpDic))
+                if (item.VariantData.TryGetValue("", out var tmpDic))
                     ScriptLoader.Parse(tmpDic.Values, data);
                 if (item.VariantData.TryGetValue(Name, out tmpDic))
                     ScriptLoader.Parse(tmpDic.Values, data);
-                if (type == ScriptLoader.GenericUnitDataType)
-                    GenericUnit[data.Name] = data as GenericUnitData;
-                else if (type == ScriptLoader.SpotDataType)
-                    Spot[data.Name] = data as SpotData;
-                else if (type == ScriptLoader.UnitDataType)
-                    Unit[data.Name] = data as UnitData;
-                else if (type == ScriptLoader.PowerDataType)
-                    Power[data.Name] = data as PowerData;
+                switch (data)
+                {
+                    case GenericUnitData _1:
+                        GenericUnit[data.Name] = _1;
+                        break;
+                    case SpotData _2:
+                        Spot[data.Name] = _2;
+                        break;
+                    case UnitData _3:
+                        Unit[data.Name] = _3;
+                        break;
+                    case PowerData _4:
+                        Power[data.Name] = _4;
+                        break;
+                }
             }
         }
 
@@ -77,8 +82,7 @@ namespace Wahren.Specific
         {
             foreach (var item in ScriptLoader.Detail)
                 Detail[item.Key] = item.Value;
-            Dictionary<string, string> variant;
-            if (!ScriptLoader.Detail.VariantData.TryGetValue(Name, out variant)) return;
+            if (!ScriptLoader.Detail.VariantData.TryGetValue(Name, out var variant)) return;
             foreach (var item in variant)
                 Detail[item.Key] = item.Value;
         }
@@ -86,47 +90,43 @@ namespace Wahren.Specific
         private void FunctionCollect()
         {
             int exCount = Event.Count + Routine.Count + BattleEvent.Count;
-            SortedSet<string> calledRoutines = new SortedSet<string>(Routine);
+            var calledRoutines = new SortedSet<string>(Routine);
             calledRoutines.UnionWith(Event);
             calledRoutines.UnionWith(BattleEvent);
             foreach (var item in calledRoutines)
             {
-                EventData tmp;
-                if (ScriptLoader.Event.TryGetValue(item, out tmp))
+                if (ScriptLoader.Event.TryGetValue(item, out var tmp))
                     CollectData(tmp.Script);
             }
             while (exCount != Event.Count + Routine.Count + BattleEvent.Count)
             {
-                SortedSet<string> neoRoutines = new SortedSet<string>(Routine);
+                var neoRoutines = new SortedSet<string>(Routine);
                 neoRoutines.UnionWith(Event);
                 neoRoutines.UnionWith(BattleEvent);
                 neoRoutines.ExceptWith(calledRoutines);
                 calledRoutines.UnionWith(neoRoutines);
                 exCount = Routine.Count + Event.Count + BattleEvent.Count;
                 foreach (var item in neoRoutines)
-                {
-                    EventData tmp;
-                    if (ScriptLoader.Event.TryGetValue(item, out tmp))
+                    if (ScriptLoader.Event.TryGetValue(item, out var tmp))
                         CollectData(tmp.Script);
-                }
             }
         }
+        //World, Politics, Fight構造体の情報収集
         private void WPFCollect()
         {
-            EventData poli, fight, world;
             LinkedList<LexicalTree> wList = null, pList = null, fList = null;
             InitialRoutine.AddRange(Scenario.Script);
-            if (!string.IsNullOrEmpty(Scenario.PoliticsEvent) && ScriptLoader.Event.TryGetValue(Scenario.PoliticsEvent, out poli))
+            if (!string.IsNullOrEmpty(Scenario.PoliticsEvent) && ScriptLoader.Event.TryGetValue(Scenario.PoliticsEvent, out var poli))
             {
                 pList = new LinkedList<LexicalTree>(poli.Script);
                 CollectData(poli.Script);
             }
-            if (!string.IsNullOrEmpty(Scenario.FightEvent) && ScriptLoader.Event.TryGetValue(Scenario.FightEvent, out fight))
+            if (!string.IsNullOrEmpty(Scenario.FightEvent) && ScriptLoader.Event.TryGetValue(Scenario.FightEvent, out var fight))
             {
                 fList = new LinkedList<LexicalTree>(fight.Script);
                 CollectData(fight.Script);
             }
-            if (!string.IsNullOrEmpty(Scenario.WorldEvent) && ScriptLoader.Event.TryGetValue(Scenario.WorldEvent, out world))
+            if (!string.IsNullOrEmpty(Scenario.WorldEvent) && ScriptLoader.Event.TryGetValue(Scenario.WorldEvent, out var world))
             {
                 wList = new LinkedList<LexicalTree>(world.Script);
                 CollectData(world.Script);
@@ -140,16 +140,17 @@ namespace Wahren.Specific
                 if (tmp.Pre.HasValue && tmp.Pre.Value)
                 {
                     if (tmp.Fight.HasValue && tmp.Fight.Value)
+                    {
                         if (fList == null)
                             fList = new LinkedList<LexicalTree>(tmp.Script);
                         else for (int i = tmp.Script.Count - 1; i >= 0; --i)
                                 fList.AddFirst(tmp.Script[i]);
+                    }
                     else if (tmp.Politics.HasValue && tmp.Politics.Value)
                     {
                         if (pList == null)
                             pList = new LinkedList<LexicalTree>(tmp.Script);
-                        else
-                            for (int i = tmp.Script.Count - 1; i >= 0; --i)
+                        else for (int i = tmp.Script.Count - 1; i >= 0; --i)
                                 pList.AddFirst(tmp.Script[i]);
                     }
                     else if (wList == null)
@@ -161,16 +162,14 @@ namespace Wahren.Specific
                 {
                     if (fList == null)
                         fList = new LinkedList<LexicalTree>(tmp.Script);
-                    else
-                        for (int i = 0; i < tmp.Script.Count; i++)
+                    else for (int i = 0; i < tmp.Script.Count; i++)
                             fList.AddLast(tmp.Script[i]);
                 }
                 else if (tmp.Politics.HasValue && tmp.Politics.Value)
                 {
                     if (pList == null)
                         pList = new LinkedList<LexicalTree>(tmp.Script);
-                    else
-                        for (int i = 0; i < tmp.Script.Count; i++)
+                    else for (int i = 0; i < tmp.Script.Count; i++)
                             pList.AddLast(tmp.Script[i]);
                 }
                 else if (wList == null)
@@ -234,7 +233,7 @@ namespace Wahren.Specific
                             content.ThrowException(1);
                             if (content.IsVariable(0)) Variable.Add(content[0].ToLowerString());
                             else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString()))
-                                throw new Exception(content[0].DebugInfo);
+                                throw new EventNotFoundException(content[0].DebugInfo);
                             Yet.Add(content[0].ToLowerString());
                             break;
                         case "amount":
@@ -259,7 +258,7 @@ namespace Wahren.Specific
                                 if (content.IsVariable(i)) Variable.Add(coni);
                                 else if (!ScriptLoader.Unit.ContainsKey(coni)
                                 && !ScriptLoader.GenericUnit.ContainsKey(coni))
-                                    throw new Exception(content[i].DebugInfo);
+                                    throw new UnitClassNotFoundException(content[i].DebugInfo);
                             }
                             break;
                         case "isalive":
@@ -274,7 +273,7 @@ namespace Wahren.Specific
                                 else if (!ScriptLoader.Power.ContainsKey(coni)
                                 && !ScriptLoader.Unit.ContainsKey(coni)
                                 && !ScriptLoader.GenericUnit.ContainsKey(coni))
-                                    throw new Exception(content[i].DebugInfo);
+                                    throw new UnitClassNotFoundException(content[i].DebugInfo);
                             }
                             break;
                         case "isanydead":
@@ -284,7 +283,7 @@ namespace Wahren.Specific
                             {
                                 if (content.IsVariable(i)) Variable.Add(content[i].ToLowerString());
                                 else if (!ScriptLoader.Unit.ContainsKey(content[i].ToLowerString()))
-                                    throw new Exception(content[i].DebugInfo);
+                                    throw new UnitNotFoundException(content[i].DebugInfo);
                             }
                             break;
                         case "isplayer":
@@ -332,7 +331,7 @@ namespace Wahren.Specific
                             content.ThrowException(2, 3);
                             if (content.Count == 3
                             && content[2].Content.ToLower() != "on")
-                                throw new Exception(content[2].DebugInfo);
+                                throw new OnOffException(content[2].DebugInfo);
                             content.AddVariable_NotAddIdentifier(0, Variable);
                             content.AddVariable_NotAddIdentifier(1, Variable);
                             break;
@@ -376,13 +375,17 @@ namespace Wahren.Specific
                         case "rand":
                         case "countpower":
                         case "isnpm":
+                        case "ismap":
                             content.ThrowException(0);
                             break;
                         case "isinterval":
                             content.ThrowException(1);
                             content.AddIdentifierOrNumber(0, Identifier);
                             break;
-                        default: throw new Exception(tree.Token.DebugInfo);
+                        default:
+                            if (content.Count != 0)
+                                throw new Exception(content[0].DebugInfo);
+                            else throw new Exception(tree.Function.DebugInfo);
                     }
                     break;
                 case 3:
@@ -537,7 +540,7 @@ namespace Wahren.Specific
                     content.ThrowException(0, 1);
                     if (content.Count == 0) break;
                     if (!content.IsVariable(0) && content[0].ToLowerString() != "on")
-                        throw new Exception(content[0].DebugInfo);
+                        throw new OnOffException(content[0].DebugInfo);
                     break;
                 case "exit":
                     content.ThrowException(0, 2);
@@ -590,7 +593,7 @@ namespace Wahren.Specific
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (!content.IsVariable(0)
                     && !ScriptLoader.Skill.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new SkillNotFoundException(content[0].DebugInfo);
                     content.AddIdentifierOrNumber(1, Identifier);
                     content.AddIdentifierOrNumber(2, Identifier);
                     content.AddIdentifierOrNumber(3, Identifier);
@@ -599,7 +602,7 @@ namespace Wahren.Specific
                         case "on":
                         case "off":
                             break;
-                        default: throw new Exception(content[4].DebugInfo);
+                        default: throw new OnOffException(content[4].DebugInfo);
                     }
                     break;
                 case "showspot":
@@ -726,7 +729,7 @@ namespace Wahren.Specific
                         if (!content.IsVariable(0)
                         && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
                         && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
-                            throw new Exception(content[0].DebugInfo);
+                            throw new UnitClassNotFoundException(content[0].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddIdentifierOrNumber(1, Identifier);
                         content.AddIdentifierOrNumber(2, Identifier);
@@ -738,11 +741,11 @@ namespace Wahren.Specific
                         if (!content.IsVariable(0)
                         && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
                         && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
-                            throw new Exception(content[0].DebugInfo);
+                            throw new UnitClassNotFoundException(content[0].DebugInfo);
                         if (!content.IsVariable(1)
                         && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())
                         && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception(content[1].DebugInfo);
+                            throw new UnitClassNotFoundException(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
@@ -752,7 +755,7 @@ namespace Wahren.Specific
                     if (!content.IsVariable(0)
                     && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
                     && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitClassNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     content.AddIdentifierOrNumber(2, Identifier);
@@ -828,10 +831,10 @@ namespace Wahren.Specific
                     {
                         if (!content.IsVariable(0)
                         && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
-                            throw new Exception(content[0].DebugInfo);
+                            throw new PowerNotFoundException(content[0].DebugInfo);
                         if (!content.IsVariable(1)
                         && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception(content[1].DebugInfo);
+                            throw new PowerNotFoundException(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
@@ -849,21 +852,21 @@ namespace Wahren.Specific
                 case "resetenemypower":
                     content.ThrowException(1, 2);
                     if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new PowerNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.Count == 2)
                     {
                         if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception(content[1].DebugInfo);
+                            throw new PowerNotFoundException(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                     }
                     break;
                 case "setenemypower":
                     content.ThrowException(3);
                     if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new PowerNotFoundException(content[0].DebugInfo);
                     if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
-                        throw new Exception(content[1].DebugInfo);
+                        throw new PowerNotFoundException(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     content.AddIdentifierOrNumber(2, Identifier);
@@ -881,9 +884,9 @@ namespace Wahren.Specific
                     else
                     {
                         if (!content.IsVariable(0) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
-                            throw new Exception(content[0].DebugInfo);
+                            throw new PowerNotFoundException(content[0].DebugInfo);
                         if (!content.IsVariable(1) && !ScriptLoader.Power.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception(content[1].DebugInfo);
+                            throw new PowerNotFoundException(content[1].DebugInfo);
                         content.AddVariable_NotAddIdentifier(0, Variable);
                         content.AddVariable_NotAddIdentifier(1, Variable);
                         content.AddIdentifierOrNumber(2, Identifier);
@@ -894,7 +897,7 @@ namespace Wahren.Specific
                     if (!content.IsVariable(0)
                     && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString())
                     && !ScriptLoader.GenericUnit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitClassNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.Count == 2)
                     {
@@ -1345,12 +1348,12 @@ namespace Wahren.Specific
                         Variable.Add(content[0].ToLowerString());
                     else if (ScriptLoader.Skill.TryGetValue(content[0].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
                         break;
-                    else throw new Exception(content[0].DebugInfo);
+                    else throw new SkillNotFoundException(content[0].DebugInfo);
                     break;
                 case "erasefriend":
                     content.ThrowException(1, int.MaxValue);
                     if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
@@ -1358,13 +1361,13 @@ namespace Wahren.Specific
                         if (content.IsVariable(i))
                             Variable.Add(coni);
                         else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni) && !ScriptLoader.Race.ContainsKey(coni))
-                            throw new Exception(content[i].DebugInfo);
+                            throw new UnitClassNotFoundException(content[i].DebugInfo);
                     }
                     break;
                 case "addfriend":
                     content.ThrowException(2, int.MaxValue);
                     if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     for (int i = 1; i < content.Count; i++)
                     {
@@ -1372,22 +1375,22 @@ namespace Wahren.Specific
                         if (content.IsVariable(i))
                             Variable.Add(coni);
                         else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni) && !ScriptLoader.Race.ContainsKey(coni))
-                            throw new Exception(content[i].DebugInfo);
+                            throw new UnitClassNotFoundException(content[i].DebugInfo);
                     }
                     break;
                 case "changerace":
                     content.ThrowException(2);
                     if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitNotFoundException(content[0].DebugInfo);
                     if (!content.IsVariable(1) && !ScriptLoader.Race.ContainsKey(content[1].ToLowerString()))
-                        throw new Exception(content[1].DebugInfo);
+                        throw new RaceNotFoundException(content[1].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddVariable_NotAddIdentifier(1, Variable);
                     break;
                 case "setdone":
                     content.ThrowException(2);
                     if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     if (content.IsVariable(1)) Variable.Add(content[1].ToLowerString());
                     switch (content[1].Content.ToLower())
@@ -1395,7 +1398,7 @@ namespace Wahren.Specific
                         case "on":
                         case "off":
                             break;
-                        default: throw new Exception(content[1].DebugInfo);
+                        default: throw new OnOffException(content[1].DebugInfo);
                     }
                     break;
                 case "addloyal":
@@ -1405,7 +1408,7 @@ namespace Wahren.Specific
                 case "setlevel":
                     content.ThrowException(2);
                     if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new UnitNotFoundException(content[0].DebugInfo);
                     content.AddVariable_NotAddIdentifier(0, Variable);
                     content.AddIdentifierOrNumber(1, Identifier);
                     break;
@@ -1414,7 +1417,7 @@ namespace Wahren.Specific
                     content.ThrowException(1, 2);
                     if (content.Count == 2)
                         if (content[1].ToLowerString() != "on")
-                            throw new Exception(content[1].DebugInfo);
+                            throw new OnOffException(content[1].DebugInfo);
                     content.AddVariableOrString(0, Variable);
                     break;
                 case "choice":
@@ -1481,7 +1484,7 @@ namespace Wahren.Specific
                     var coni_routine = content[0].ToLowerString();
                     if (content.IsVariable(0)) Variable.Add(content[0].ToLowerString());
                     else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
+                        throw new EventNotFoundException(content[0].DebugInfo);
                     BattleEvent.Add(content[0].ToLowerString());
                     break;
                 case "event":
@@ -1489,7 +1492,7 @@ namespace Wahren.Specific
                     coni_routine = content[0].ToLowerString();
                     if (content.IsVariable(0)) Variable.Add(content[0].ToLowerString());
                     else if (!ScriptLoader.Event.ContainsKey(coni_routine) && coni_routine != "world_bgm" && coni_routine != "count")
-                        throw new Exception(content[0].DebugInfo);
+                        throw new EventNotFoundException(content[0].DebugInfo);
                     Event.Add(content[0].ToLowerString());
                     break;
                 case "routine":
@@ -1499,7 +1502,7 @@ namespace Wahren.Specific
                     else if (!ScriptLoader.Event.ContainsKey(coni_routine)
                     && coni_routine != "world_bgm"
                     && coni_routine != "count")
-                        throw new Exception(content[0].DebugInfo);
+                        throw new EventNotFoundException(content[0].DebugInfo);
                     Routine.Add(content[0].ToLowerString());
                     break;
                     //未だ追加しきれていない関数を調べる際にはコメントインしてください。

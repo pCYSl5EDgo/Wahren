@@ -51,7 +51,15 @@ namespace Wahren
         //サンプル
         static void Main(string[] args)
         {
-            app.Execute(args);
+            try
+            {
+                app.Execute(args);
+            }
+            catch(AggregateException e)
+            {
+                Console.WriteLine(e.InnerException.ToString());
+                return;
+            }
             while (true)
             {
                 var l = Console.ReadLine();

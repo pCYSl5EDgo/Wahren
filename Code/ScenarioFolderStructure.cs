@@ -65,18 +65,9 @@ namespace Wahren
         //image2.dat, imagedata2.dat
         public Tuple<string, string> ImageData2 { get; protected set; }
 
-        public ScenarioFolder(string folderPath, bool? isDebug = null)
+        public ScenarioFolder(string folderPath, bool isDebug = false)
         {
-            var args = Environment.GetCommandLineArgs();
-            if (isDebug.HasValue)
-                IsDebug = isDebug.Value;
-            else if (args.Length > 1)
-                for (int i = 1; i < args.Length; i++)
-                {
-                    if (args[i].ToLower() == "switch")
-                        IsDebug = true;
-                }
-            else IsDebug = false;
+            IsDebug = isDebug;
             Name = new DirectoryInfo(folderPath).Name;
             foreach (var folder in Directory.GetDirectories(folderPath))
             {
