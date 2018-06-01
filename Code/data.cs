@@ -120,6 +120,7 @@ namespace Wahren
         public bool? IsNotHome { get; set; }
         public bool? IsNotRaisableSpot { get; set; }
         public int? CastleLot { get; set; }
+        public bool? Politics { get; set; }
     }
     public class SoundData : ConcurrentDictionary<string, int>
     {
