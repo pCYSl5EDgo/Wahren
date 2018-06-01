@@ -337,6 +337,12 @@ namespace Wahren
         {
             return ParseBool_Inner(ref c);
         }
+        public override string ToString(){
+            var buf = new StringBuilder();
+            for (int i = 0; i < Children.Count; i++)
+                buf.Append(Children[i].ToString());
+            return buf.ToString();
+        }
     }
     public sealed class LexicalTree_Function : LexicalTree
     {
@@ -508,7 +514,17 @@ namespace Wahren
             Type = TreeType.Statement;
         }
         public LexicalTree_BoolParen Paren { get; set; }
-        public override string ToString() => Name + "(" + Paren.ToString() + ")" + "{(" + Children.Count + ")}";
+        public override string ToString()
+        {
+            var buf = new StringBuilder()
+            .Append(Name)
+            .Append('(')
+            .Append(Paren.ToString())
+            .Append("){");
+            for (int i = 0; i < Children.Count; i++)
+                buf.Append("\n\t").Append(Children[i].ToString());
+            return buf.Append("\n}").ToString();
+        }
     }
     public interface IStructureDataType
     {
@@ -710,9 +726,11 @@ namespace Wahren
                 {
                     case 0:
                     case 2:
-                        Token old;
-                        if (!separated && tmp.TryPop(out old))
-                            tmp.Push(token.Merge(ref old));
+                        if (!separated && tmp.Count != 0)
+                        {
+                            var tmpToken = tmp.Pop();
+                            tmp.Push(token.Merge(ref tmpToken));
+                        }
                         else tmp.Push(token);
                         separated = false;
                         break;
@@ -726,13 +744,15 @@ namespace Wahren
                             {
                                 name = stack.Pop();
                                 Token tmpName;
-                                if (stack.TryPop(out tmpName))
+                                if (stack.Count != 0)
                                 {
+                                    tmpName = stack.Pop();
                                     if (tmpName.Type == 1 && tmpName.Symbol1 == '@' && tmpName.IsNext(ref name))
                                     {
                                         Token beforeIt;
-                                        if (stack.TryPop(out beforeIt))
+                                        if (stack.Count != 0)
                                         {
+                                            beforeIt = stack.Pop();
                                             if (beforeIt.Symbol1 != '=')
                                             {
                                                 name = beforeIt.ForceMerge(ref tmpName).ForceMerge(ref name);
@@ -763,8 +783,11 @@ namespace Wahren
                         }
                         else
                         {
-                            if (!separated && tmp.TryPop(out old))
-                                tmp.Push(token.Merge(ref old));
+                            if (!separated && tmp.Count != 0)
+                            {
+                                Token tmpToken = tmp.Pop();
+                                tmp.Push(token.Merge(ref tmpToken));
+                            }
                             else tmp.Push(token);
                             separated = false;
                         }
