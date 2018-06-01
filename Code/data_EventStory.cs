@@ -93,8 +93,8 @@ namespace Wahren
         public Dictionary<string, Tuple<string, string>> PoliticsData { get; set; } = new Dictionary<string, Tuple<string, string>>();
         public Dictionary<string, Tuple<string, string>> CampingData { get; } = new Dictionary<string, Tuple<string, string>>();
 
-        public Dictionary<string, int> ItemWindowTab { get; } = new Dictionary<string, int>();
-        public Dictionary<string, int> ItemSale { get; } = new Dictionary<string, int>();
+        public ValueTuple<string, int>[] ItemWindowTab { get; } = new ValueTuple<string, int>[7];
+        public List<string> ItemSale { get; } = new List<string>();
         public bool? IsItemLimit { get; set; }
 
         public List<string> PlayerInitialItem { get; } = new List<string>();
