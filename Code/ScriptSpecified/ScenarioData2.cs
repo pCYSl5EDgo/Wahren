@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace Wahren.Specific
 {
     public class ScenarioData2
@@ -12,7 +13,10 @@ namespace Wahren.Specific
         internal Task LoadingDone;
         public string Name => Scenario.Name;
         public ScenarioData Scenario { get; set; }
-        public SortedSet<string> Identifier { get; } = new SortedSet<string>();
+        //数値変数（読み取り）の集合
+        public SortedSet<string> Identifier_Get { get; } = new SortedSet<string>();
+        //数値変数（書き出し）の集合
+        public SortedSet<string> Identifier_Set { get; } = new SortedSet<string>();
         //スクリプト中で0あるいは1とのみsetされたことがあり、add,sub,mul,divなどの数式操作もされなかった変数の集合
         public SortedSet<string> BoolIdentifier { get; } = new SortedSet<string>();
         public SortedSet<string> NotBoolIdentifier { get; } = new SortedSet<string>();
@@ -40,13 +44,14 @@ namespace Wahren.Specific
             LoadingDone = Task.Factory.StartNew(() =>
             {
                 DetailCollect();
-                CollectData(ScriptLoader.Spot);
-                CollectData(ScriptLoader.Unit);
-                CollectData(ScriptLoader.GenericUnit);
-                CollectData(ScriptLoader.Power);
+                CollectData(ScriptLoader.SpotDictionary);
+                CollectData(ScriptLoader.UnitDictionary);
+                CollectData(ScriptLoader.GenericUnitDictionary);
+                CollectData(ScriptLoader.PowerDictionary);
+                CollectData(Scenario.Script);
+                WPFCollect();
+                FunctionCollect();
             });
-            WPFCollect();
-            FunctionCollect();
         }
 
         private void CollectData<T>(ConcurrentDictionary<string, T> dictionary) where T : ScenarioVariantData, new()
@@ -98,7 +103,7 @@ namespace Wahren.Specific
             calledRoutines.UnionWith(BattleEvent);
             foreach (var item in calledRoutines)
             {
-                if (ScriptLoader.Event.TryGetValue(item, out var tmp))
+                if (ScriptLoader.EventDictionary.TryGetValue(item, out var tmp))
                     CollectData(tmp.Script);
             }
             while (exCount != Event.Count + Routine.Count + BattleEvent.Count)
@@ -110,7 +115,7 @@ namespace Wahren.Specific
                 calledRoutines.UnionWith(neoRoutines);
                 exCount = Routine.Count + Event.Count + BattleEvent.Count;
                 foreach (var item in neoRoutines)
-                    if (ScriptLoader.Event.TryGetValue(item, out var tmp))
+                    if (ScriptLoader.EventDictionary.TryGetValue(item, out var tmp))
                         CollectData(tmp.Script);
             }
         }
@@ -119,66 +124,66 @@ namespace Wahren.Specific
         {
             LinkedList<LexicalTree> wList = null, pList = null, fList = null;
             InitialRoutine.AddRange(Scenario.Script);
-            if (!string.IsNullOrEmpty(Scenario.PoliticsEvent) && ScriptLoader.Event.TryGetValue(Scenario.PoliticsEvent, out var poli))
+            if (!string.IsNullOrEmpty(Scenario.PoliticsEvent) && ScriptLoader.EventDictionary.TryGetValue(Scenario.PoliticsEvent, out var poli))
             {
                 pList = new LinkedList<LexicalTree>(poli.Script);
                 CollectData(poli.Script);
             }
-            if (!string.IsNullOrEmpty(Scenario.FightEvent) && ScriptLoader.Event.TryGetValue(Scenario.FightEvent, out var fight))
+            if (!string.IsNullOrEmpty(Scenario.FightEvent) && ScriptLoader.EventDictionary.TryGetValue(Scenario.FightEvent, out var fight))
             {
                 fList = new LinkedList<LexicalTree>(fight.Script);
                 CollectData(fight.Script);
             }
-            if (!string.IsNullOrEmpty(Scenario.WorldEvent) && ScriptLoader.Event.TryGetValue(Scenario.WorldEvent, out var world))
+            if (!string.IsNullOrEmpty(Scenario.WorldEvent) && ScriptLoader.EventDictionary.TryGetValue(Scenario.WorldEvent, out var world))
             {
                 wList = new LinkedList<LexicalTree>(world.Script);
                 CollectData(world.Script);
             }
-            var c = ScriptLoader.Story.Where(_ => _.Value.Friend.Contains(Scenario.Name) || _.Value.Friend.Count == 0).Select(_ => _.Value).GetEnumerator();
+            var c = ScriptLoader.StoryDictionary.Where(_ => _.Value.Friend.Contains(Scenario.Name) || _.Value.Friend.Count == 0).Select(_ => _.Value).GetEnumerator();
             while (c.MoveNext())
             {
-                var tmp = c.Current;
-                if (tmp.Script.Count == 0) continue;
-                CollectData(tmp.Script);
-                if (tmp.Pre.HasValue && tmp.Pre.Value)
+                var tmpStory = c.Current;
+                if (tmpStory.Script.Count == 0) continue;
+                CollectData(tmpStory.Script);
+                if (tmpStory.Pre.HasValue && tmpStory.Pre.Value)
                 {
-                    if (tmp.Fight.HasValue && tmp.Fight.Value)
+                    if (tmpStory.Fight.HasValue && tmpStory.Fight.Value)
                     {
                         if (fList == null)
-                            fList = new LinkedList<LexicalTree>(tmp.Script);
-                        else for (int i = tmp.Script.Count - 1; i >= 0; --i)
-                                fList.AddFirst(tmp.Script[i]);
+                            fList = new LinkedList<LexicalTree>(tmpStory.Script);
+                        else for (int i = tmpStory.Script.Count - 1; i >= 0; --i)
+                                fList.AddFirst(tmpStory.Script[i]);
                     }
-                    else if (tmp.Politics.HasValue && tmp.Politics.Value)
+                    else if (tmpStory.Politics.HasValue && tmpStory.Politics.Value)
                     {
                         if (pList == null)
-                            pList = new LinkedList<LexicalTree>(tmp.Script);
-                        else for (int i = tmp.Script.Count - 1; i >= 0; --i)
-                                pList.AddFirst(tmp.Script[i]);
+                            pList = new LinkedList<LexicalTree>(tmpStory.Script);
+                        else for (int i = tmpStory.Script.Count - 1; i >= 0; --i)
+                                pList.AddFirst(tmpStory.Script[i]);
                     }
                     else if (wList == null)
-                        wList = new LinkedList<LexicalTree>(tmp.Script);
-                    else for (int i = tmp.Script.Count - 1; i >= 0; --i)
-                            wList.AddFirst(tmp.Script[i]);
+                        wList = new LinkedList<LexicalTree>(tmpStory.Script);
+                    else for (int i = tmpStory.Script.Count - 1; i >= 0; --i)
+                            wList.AddFirst(tmpStory.Script[i]);
                 }
-                else if (tmp.Fight.HasValue && tmp.Fight.Value)
+                else if (tmpStory.Fight.HasValue && tmpStory.Fight.Value)
                 {
                     if (fList == null)
-                        fList = new LinkedList<LexicalTree>(tmp.Script);
-                    else for (int i = 0; i < tmp.Script.Count; i++)
-                            fList.AddLast(tmp.Script[i]);
+                        fList = new LinkedList<LexicalTree>(tmpStory.Script);
+                    else for (int i = 0; i < tmpStory.Script.Count; i++)
+                            fList.AddLast(tmpStory.Script[i]);
                 }
-                else if (tmp.Politics.HasValue && tmp.Politics.Value)
+                else if (tmpStory.Politics.HasValue && tmpStory.Politics.Value)
                 {
                     if (pList == null)
-                        pList = new LinkedList<LexicalTree>(tmp.Script);
-                    else for (int i = 0; i < tmp.Script.Count; i++)
-                            pList.AddLast(tmp.Script[i]);
+                        pList = new LinkedList<LexicalTree>(tmpStory.Script);
+                    else for (int i = 0; i < tmpStory.Script.Count; i++)
+                            pList.AddLast(tmpStory.Script[i]);
                 }
                 else if (wList == null)
-                    wList = new LinkedList<LexicalTree>(tmp.Script);
-                else for (int i = 0; i < tmp.Script.Count; i++)
-                        wList.AddLast(tmp.Script[i]);
+                    wList = new LinkedList<LexicalTree>(tmpStory.Script);
+                else for (int i = 0; i < tmpStory.Script.Count; i++)
+                        wList.AddLast(tmpStory.Script[i]);
             }
             if (wList != null) World.AddRange(wList);
             if (pList != null) Politics.AddRange(pList);
@@ -188,6 +193,7 @@ namespace Wahren.Specific
         {
             if (trees == null) return;
             for (int i = 0; i < trees.Count; i++)
+            {
                 switch (trees[i].Type)
                 {
                     case LexicalTree.TreeType.Assign:
@@ -210,15 +216,24 @@ namespace Wahren.Specific
                     case LexicalTree.TreeType.Function:
                         var f = trees[i] as LexicalTree_Function;
                         if (f == null) continue;
-                        CollectData(f.Name, f.Variable.Content);
+                        try
+                        {
+                            CollectData(f.Name, f.Variable.Content);
+                        }
+                        catch (ApplicationException)
+                        {
+                            throw new Exception(f.DebugInfo);
+                        }
                         break;
                 }
+            }
         }
         private void CollectData(LexicalTree_BoolParen boolParen)
         {
             if (boolParen == null) return;
             CollectData(new InterpretTreeMachine(boolParen).Tree);
         }
+        //In Bool Paren
         private void CollectData(Tree tree)
         {
             switch (tree.Type)
@@ -230,32 +245,41 @@ namespace Wahren.Specific
                     break;
                 case 1:
                     var content = tree.Function.Variable.Content;
+                    #region LocalRoutines
                     void LocalPowerRoutine(int index)
                     {
                         if (content.IsVariable(index))
                             content.AddVariable(index, Variable_Get);
-                        else if (!ScriptLoader.Power.ContainsKey(content[index].ToLowerString()))
+                        else if (!ScriptLoader.PowerDictionary.ContainsKey(content[index].ToLowerString()))
                             throw new PowerNotFoundException(content[index].DebugInfo);
                     }
                     void LocalSpotRoutine(int index)
                     {
                         if (content.IsVariable(index))
                             content.AddVariable(index, Variable_Get);
-                        else if (!ScriptLoader.Spot.ContainsKey(content[index].ToLowerString()))
+                        else if (!ScriptLoader.SpotDictionary.ContainsKey(content[index].ToLowerString()))
                             throw new SpotNotFoundException(content[index].DebugInfo);
+                    }
+                    void LocalPowerSpotRoutine(int index)
+                    {
+                        var key = content[index].ToLowerString();
+                        if (content.IsVariable(index))
+                            content.AddVariable(index, Variable_Get);
+                        else if (!ScriptLoader.PowerDictionary.ContainsKey(key) && !ScriptLoader.SpotDictionary.ContainsKey(key))
+                            throw new UnitSpotNotFoundException(content[index].DebugInfo);
                     }
                     void LocalUnitSpotRoutine(int index)
                     {
                         if (content.IsVariable(index))
                             content.AddVariable(index, Variable_Get);
-                        else if (!ScriptLoader.Unit.ContainsKey(content[index].ToLowerString()) && !ScriptLoader.Spot.ContainsKey(content[index].ToLowerString()))
+                        else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToLowerString()) && !ScriptLoader.SpotDictionary.ContainsKey(content[index].ToLowerString()))
                             throw new UnitSpotNotFoundException(content[index].DebugInfo);
                     }
                     void LocalEventRoutine(int index)
                     {
                         if (content.IsVariable(index))
                             content.AddVariable(index, Variable_Get);
-                        else if (!ScriptLoader.Event.ContainsKey(content[index].ToLowerString()))
+                        else if (!ScriptLoader.EventDictionary.ContainsKey(content[index].ToLowerString()))
                             throw new EventNotFoundException(content[index].DebugInfo);
                     }
                     void LocalUnitRoutine(int index)
@@ -263,27 +287,35 @@ namespace Wahren.Specific
                         var coni = content[index].ToLowerString();
                         if (content.IsVariable(index))
                             content.AddVariable(index, Variable_Get);
-                        else if (!ScriptLoader.Unit.ContainsKey(coni))
+                        else if (!ScriptLoader.UnitDictionary.ContainsKey(coni))
                             throw new UnitNotFoundException(content[index].DebugInfo);
                     }
                     void LocalUnitClassRoutine(int index)
                     {
                         var coni = content[index].ToLowerString();
                         if (content.IsVariable(index))
-                            Variable_Get.Add(coni);
-                        else if (!ScriptLoader.Unit.ContainsKey(coni)
-                        && !ScriptLoader.GenericUnit.ContainsKey(coni))
+                            content.AddVariable(index, Variable_Get);
+                        else if (!ScriptLoader.UnitDictionary.ContainsKey(coni)
+                        && !ScriptLoader.GenericUnitDictionary.ContainsKey(coni))
                             throw new UnitClassNotFoundException(content[index].DebugInfo);
                     }
                     void LocalUnitPowerRoutine(int index)
                     {
                         var coni = content[index].ToLowerString();
                         if (content.IsVariable(index))
-                            Variable_Get.Add(coni);
-                        else if (!ScriptLoader.Unit.ContainsKey(coni)
-                        && !ScriptLoader.Power.ContainsKey(coni))
+                            content.AddVariable(index, Variable_Get);
+                        else if (!ScriptLoader.UnitDictionary.ContainsKey(coni)
+                        && !ScriptLoader.PowerDictionary.ContainsKey(coni))
                             throw new UnitPowerNotFoundException(content[index].DebugInfo);
                     }
+                    void LocalDungeonRoutine(int index)
+                    {
+                        if (content.IsVariable(index))
+                            content.AddVariable(index, Variable_Get);
+                        else if (!ScriptLoader.DungeonDictionary.ContainsKey(content[index].ToLowerString()))
+                            throw new DungeonNotFoundException();
+                    }
+                    #endregion
                     switch (tree.Function.Name)
                     {
                         case "yet":
@@ -337,12 +369,33 @@ namespace Wahren.Specific
                                 LocalUnitRoutine(i);
                             break;
                         case "isplayer":
+                            content.ThrowException(1);
+                            LocalUnitPowerRoutine(0);
+                            break;
                         case "isscenario":
+                            content.ThrowException(1);
+                            if (content.IsVariable(0))
+                                content.AddVariable(0, Variable_Get);
+                            else if (!ScriptLoader.ScenarioDictionary.ContainsKey(content[0].ToLowerString()))
+                                throw new Exception(content[0].DebugInfo);
+                            break;
                         case "countmoney":
                         case "countgain":
                         case "countforce":
                         case "countspot":
                         case "isinvade":
+                            content.ThrowException(1);
+                            LocalPowerRoutine(0);
+                            break;
+                        case "isnowspot":
+                            content.ThrowException(1);
+                            LocalSpotRoutine(0);
+                            break;
+                        case "istalent":
+                        case "countunit":
+                            content.ThrowException(1);
+                            LocalUnitClassRoutine(0);
+                            break;
                         case "isdone":
                         case "isarbeit":
                         case "isroamleader":
@@ -350,18 +403,9 @@ namespace Wahren.Specific
                         case "isvassal":
                         case "isleader":
                         case "ismaster":
-                        case "istalent":
                         case "isenable":
-                        case "isalldead":
-                        case "isnowspot":
-                            content.ThrowException(1);
-                            content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                            break;
-                        case "countunit":
-                            content.ThrowException(1);
-                            LocalUnitClassRoutine(0);
-                            break;
                         case "isactive":
+                        case "isalldead":
                         case "getlife":
                             content.ThrowException(1);
                             LocalUnitRoutine(0);
@@ -373,45 +417,79 @@ namespace Wahren.Specific
                             content.AddVariable(0, Variable_Get);
                             break;
                         case "ptest":
+                            content.ThrowException(2);
+                            if (content.IsVariable(0))
+                                content.AddVariable(0, Variable_Get);
+                            else if (!(ScriptLoader.SpotDictionary.TryGetValue(content[0].ToLowerString(), out var value) && value.Politics.HasValue && value.Politics.Value))
+                                throw new SpotNotFoundException(content[0].DebugInfo);
+                            LocalUnitClassRoutine(1);
+                            break;
                         case "isenemy":
                         case "isfriend":
+                            content.ThrowException(2);
+                            LocalUnitSpotRoutine(0);
+                            LocalUnitSpotRoutine(1);
+                            break;
                         case "iswar":
                         case "isleague":
                             content.ThrowException(2);
-                            content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                            content.AddVariable_NotAddIdentifier(1, Variable_Get);
+                            LocalPowerRoutine(0);
+                            LocalPowerRoutine(1);
                             break;
                         case "iscomturn":
                             content.ThrowException(0, 1);
                             if (content.Count == 1)
-                                content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                                LocalPowerRoutine(0);
                             break;
                         case "isjoin":
                             content.ThrowException(2, 3);
-                            if (content.Count == 3
-                            && content[2].Content.ToLower() != "on")
-                                throw new OnOffException(content[2].DebugInfo);
-                            content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                            content.AddVariable_NotAddIdentifier(1, Variable_Get);
+                            if (content.Count == 3)
+                            {
+                                if (content[2].Content.ToLower() != "on")
+                                    throw new OnOffException(content[2].DebugInfo);
+                                LocalSpotRoutine(0);
+                                LocalSpotRoutine(1);
+                                break;
+                            }
+                            if (content.IsVariable(0))
+                            {
+                                content.AddVariable(0, Variable_Get);
+                                LocalPowerSpotRoutine(1);
+                            }
+                            else if (content.IsVariable(1))
+                            {
+                                LocalPowerSpotRoutine(0);
+                                content.AddVariable(1, Variable_Get);
+                            }
+                            else if (ScriptLoader.PowerDictionary.ContainsKey(content[0].ToLowerString()))
+                                LocalPowerRoutine(1);
+                            else if (ScriptLoader.SpotDictionary.ContainsKey(content[0].ToLowerString()))
+                                LocalSpotRoutine(1);
+                            else throw new SpotPowerNotFoundException(content[0].DebugInfo);
                             break;
                         case "isnext":
                             content.ThrowException(2, 3);
+                            LocalSpotRoutine(0);
+                            LocalSpotRoutine(1);
                             if (content.Count == 3)
-                                content.AddIdentifierOrNumber(2, Identifier);
-                            content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                            content.AddVariable_NotAddIdentifier(1, Variable_Get);
+                                content.AddIdentifierOrNumber(2, Identifier_Get);
                             break;
                         case "reckon":
                         case "equal":
                             content.ThrowException(2);
                             content.AddVariable(0, Variable_Get);
-                            content.AddVariableOrIdentifier(1, Variable_Get, Identifier);
+                            content.AddVariable_NotAddIdentifier(1, Variable_Get);
                             break;
                         case "isdungeon":
-                            content.ThrowException(1, 2);
-                            content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                            content.ThrowException(0, 2);
+                            if (content.Count == 0) break;
+                            LocalDungeonRoutine(0);
                             if (content.Count == 2)
-                                content.AddIdentifierOrNumber(1, Identifier);
+                                content.AddIdentifierOrNumber(1, Identifier_Get);
+                            break;
+                        case "getclearfloor":
+                            content.ThrowException(1);
+                            LocalDungeonRoutine(0);
                             break;
                         case "getmode":
                         case "isgameclear":
@@ -439,16 +517,14 @@ namespace Wahren.Specific
                             break;
                         case "isinterval":
                             content.ThrowException(1);
-                            content.AddIdentifierOrNumber(0, Identifier);
+                            content.AddIdentifierOrNumber(0, Identifier_Get);
                             break;
                         default:
-                            if (content.Count != 0)
-                                throw new Exception(content[0].DebugInfo);
-                            else throw new Exception(tree.Function.DebugInfo);
+                            throw new Exception(tree.Function.DebugInfo);
                     }
                     break;
                 case 3:
-                    Identifier.Add(tree.Token.Content.ToLower());
+                    Identifier_Get.Add(tree.Token.Content.ToLower());
                     break;
                 case 4:
                     Variable_Get.Add(tree.Token.Content.ToLower());
@@ -457,179 +533,358 @@ namespace Wahren.Specific
         }
         private void CollectData(string name, List<Token> content)
         {
+            #region LocalRoutines
+            void LocalEventRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.EventDictionary.ContainsKey(content[index].ToLowerString()))
+                    throw new PowerNotFoundException(content[index].DebugInfo);
+            }
             void LocalPowerRoutine(int index)
             {
-                var key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Power.ContainsKey(key))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.PowerDictionary.ContainsKey(content[index].ToLowerString()))
                     throw new PowerNotFoundException(content[index].DebugInfo);
             }
             void LocalUnitPowerRoutine(int index)
             {
-                var key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Unit.ContainsKey(key) && !ScriptLoader.Power.ContainsKey(key))
-                    throw new PowerNotFoundException(content[index].DebugInfo);
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    var key = content[index].ToLowerString();
+                    if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.PowerDictionary.ContainsKey(key))
+                        throw new PowerNotFoundException(content[index].DebugInfo);
+                }
+            }
+            void LocalSkillRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.SkillDictionary.ContainsKey(content[index].ToLowerString()))
+                    throw new SkillNotFoundException(content[index].DebugInfo);
+            }
+            void LocalSkillSkillSetRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    string key = content[index].ToLowerString();
+                    if (!ScriptLoader.SkillDictionary.ContainsKey(key) && !ScriptLoader.SkillSetDictionary.ContainsKey(key))
+                        throw new SkillNotFoundException(content[index].DebugInfo);
+                }
             }
             void LocalSpotRoutine(int index)
             {
-                string key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Spot.ContainsKey(key))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.SpotDictionary.ContainsKey(content[index].ToLowerString()))
                     throw new SpotNotFoundException(content[index].DebugInfo);
             }
             void LocalSpotPowerRoutine(int index)
             {
-                string key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Spot.ContainsKey(key) && !ScriptLoader.Power.ContainsKey(key))
-                    throw new SpotPowerNotFoundException(content[index].DebugInfo);
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    string key = content[index].ToLowerString();
+                    if (!ScriptLoader.SpotDictionary.ContainsKey(key) && !ScriptLoader.PowerDictionary.ContainsKey(key))
+                        throw new SpotPowerNotFoundException(content[index].DebugInfo);
+                }
+            }
+            void LocalUnitSpotRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    string key = content[index].ToLowerString();
+                    if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.SpotDictionary.ContainsKey(key))
+                        throw new Exception(content[index].DebugInfo);
+                }
             }
             void LocalUnitSpotPowerRoutine(int index)
             {
-                string key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Unit.ContainsKey(key) && !ScriptLoader.Spot.ContainsKey(key) && !ScriptLoader.Power.ContainsKey(key))
-                    throw new Exception(content[index].DebugInfo);
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    string key = content[index].ToLowerString();
+                    if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.SpotDictionary.ContainsKey(key) && !ScriptLoader.PowerDictionary.ContainsKey(key))
+                        throw new Exception(content[index].DebugInfo);
+                }
             }
             void LocalUnitClassRoutine(int index)
             {
-                var key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Unit.ContainsKey(key) && !ScriptLoader.GenericUnit.ContainsKey(key))
-                    throw new UnitClassNotFoundException(content[index].DebugInfo);
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    var key = content[index].ToLowerString();
+                    if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.GenericUnitDictionary.ContainsKey(key))
+                        throw new UnitClassNotFoundException(content[index].DebugInfo);
+                }
+            }
+            void LocalUnitClassRaceRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    var key = content[index].ToLowerString();
+                    if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.GenericUnitDictionary.ContainsKey(key) && !ScriptLoader.RaceDictionary.ContainsKey(key))
+                        throw new UnitClassRaceNotFoundException(content[index].DebugInfo);
+                }
+            }
+            void LocalRaceRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.RaceDictionary.ContainsKey(content[index].ToLowerString()))
+                    throw new UnitNotFoundException(content[index].DebugInfo);
             }
             void LocalUnitRoutine(int index)
             {
-                var key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.Unit.ContainsKey(key))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToLowerString()))
                     throw new UnitNotFoundException(content[index].DebugInfo);
+            }
+            void LocalDungeonRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.DungeonDictionary.ContainsKey(content[index].ToLowerString()))
+                    throw new ClassNotFoundException(content[index].DebugInfo);
             }
             void LocalClassRoutine(int index)
             {
-                var key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.GenericUnit.ContainsKey(key))
+                    content.AddVariable(index, Variable_Get);
+                else if (!ScriptLoader.GenericUnitDictionary.ContainsKey(content[index].ToLowerString()))
                     throw new ClassNotFoundException(content[index].DebugInfo);
             }
             void LocalClassRaceRoutine(int index)
             {
-                var key = content[index].ToLowerString();
                 if (content.IsVariable(index))
-                    content.AddVariable_NotAddIdentifier(index, Variable_Get);
-                else if (!ScriptLoader.GenericUnit.ContainsKey(key) && !ScriptLoader.Race.ContainsKey(key))
-                    throw new ClassNotFoundException(content[index].DebugInfo);
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    var key = content[index].ToLowerString();
+                    if (!ScriptLoader.GenericUnitDictionary.ContainsKey(key) && !ScriptLoader.RaceDictionary.ContainsKey(key))
+                        throw new ClassNotFoundException(content[index].DebugInfo);
+                }
             }
+            void LocalPoliticsUnit(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else
+                {
+                    var key = content[index].ToLowerString();
+                    if (!((ScriptLoader.UnitDictionary.TryGetValue(key, out var unit) && unit.Politics.HasValue) || (ScriptLoader.GenericUnitDictionary.TryGetValue(key, out var genericUnit) && genericUnit.Politics.HasValue)))
+                        throw new Exception(content[index].DebugInfo);
+                }
+            }
+            void LocalOnOffRoutine(int index)
+            {
+                if (content.IsVariable(index))
+                    content.AddVariable(index, Variable_Get);
+                else switch (content[index].ToLowerString())
+                    {
+                        case "on":
+                        case "off":
+                            break;
+                        default: throw new OnOffException(content[index].DebugInfo);
+                    }
+            }
+            #endregion
             switch (name)
             {
                 case "storerectunit":
                     content.ThrowException(6);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
-                    content.AddIdentifierOrNumber(3, Identifier);
-                    content.AddIdentifierOrNumber(4, Identifier);
-                    content.AddVariable(5, Variable_Get);
+                    {
+                        var coni = content[0].ToLowerString();
+                        if (content.IsVariable(0))
+                            content.AddVariable(0, Variable_Get);
+                        else if (coni != "red" && coni != "blue")
+                            throw new OnOffException(content[0].DebugInfo);
+                    }
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
+                    content.AddIdentifierOrNumber(3, Identifier_Get);
+                    content.AddIdentifierOrNumber(4, Identifier_Get);
+                    content.AddVariable(5, Variable_Set);
                     break;
                 case "storepowerofforce":
                     content.ThrowException(2);
-                    content.AddIdentifierOrNumber(0, Identifier);
-                    content.AddVariable(1, Variable_Get);
+                    content.AddIdentifierOrNumber(0, Identifier_Get);
+                    content.AddVariable(1, Variable_Set);
                     break;
                 case "storenextspot":
-                case "storetalentpower":
                 case "storepowerofspot":
-                case "storepowerofunit":
-                case "storespotofpower":
-                case "storespotofunit":
-                case "storeleaderofpower":
-                case "storeleaderofspot":
-                case "storeunitofpower":
                 case "storeunitofspot":
                 case "storeroamunitofspot":
+                case "storeleaderofspot":
+                    content.ThrowException(2);
+                    LocalSpotRoutine(0);
+                    content.AddVariable(1, Variable_Set);
+                    break;
+                case "storespotofunit":
+                case "storepowerofunit":
+                case "storetalentpower":
                 case "storememberofunit":
-                case "storemasterofpower":
-                case "storealiveunit":
-                case "storetodounit":
                 case "storeskillofunit":
                 case "storeclassofunit":
                 case "storebaseclassofunit":
                 case "storeraceofunit":
+                    content.ThrowException(2);
+                    LocalUnitRoutine(0);
+                    content.AddVariable(1, Variable_Set);
+                    break;
+                case "storespotofpower":
+                case "storeleaderofpower":
+                case "storeunitofpower":
+                case "storemasterofpower":
+                    content.ThrowException(2);
+                    LocalPowerRoutine(0);
+                    content.AddVariable(1, Variable_Set);
+                    break;
+                case "storealiveunit":
+                case "storetodounit":
+                    content.ThrowException(2);
+                    LocalClassRoutine(0);
+                    content.AddVariable(1, Variable_Set);
+                    break;
                 case "storeskillset":
+                    content.ThrowException(2);
+                    if (content.IsVariable(0))
+                        content.AddVariable(0, Variable_Get);
+                    else if (!ScriptLoader.SkillSetDictionary.ContainsKey(content[0].ToLowerString()))
+                        throw new Exception(content[0].DebugInfo);
+                    content.AddVariable(1, Variable_Set);
+                    break;
                 case "storeud":
                     content.ThrowException(2);
                     content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddVariable(1, Variable_Get);
+                    content.AddVariable(1, Variable_Set);
                     break;
                 case "index":
+                case "storeindexvar":
                     content.ThrowException(3);
                     content.AddVariable(0, Variable_Get);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddVariable(2, Variable_Get);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddVariable(2, Variable_Set);
                     break;
                 case "pushbattlehome":
                 case "pushbattlerect":
                     content.ThrowException(2);
-                    content.AddIdentifier(0, Variable_Get);
-                    content.AddIdentifier(1, Variable_Get);
+                    content.AddIdentifier(0, Identifier_Set);
+                    content.AddIdentifier(1, Identifier_Set);
                     break;
                 case "pushdiplo":
+                    content.ThrowException(3);
+                    LocalPowerRoutine(0);
+                    LocalPowerRoutine(1);
+                    content.AddIdentifier(2, Identifier_Set);
+                    break;
                 case "pushcon":
+                    content.ThrowException(3);
+                    LocalSpotRoutine(0);
+                    LocalUnitClassRoutine(1);
+                    content.AddIdentifier(2, Identifier_Set);
+                    break;
                 case "pushstatus":
                     content.ThrowException(3);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddVariable_NotAddIdentifier(1, Variable_Get);
-                    content.AddIdentifier(2, Variable_Get);
+                    LocalUnitRoutine(0);
+                    if (content.IsVariable(1))
+                        content.AddVariable(1, Variable_Get);
+                    else
+                    {
+                        var coni = content[1].ToLowerString();
+                        if (coni != "hp" && coni != "mp" && coni != "attack" && coni != "defense" && coni != "magic" && coni != "magdef" && coni != "dext" && coni != "speed" && coni != "move" && coni != "hprec" && coni != "mprec")
+                            throw new Exception(content[1].DebugInfo);
+                    }
+                    content.AddIdentifier(2, Identifier_Set);
                     break;
                 case "pushspotpos":
                     content.ThrowException(3);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddIdentifier(1, Variable_Get);
-                    content.AddIdentifier(2, Variable_Get);
+                    LocalSpotRoutine(0);
+                    content.AddIdentifier(1, Identifier_Set);
+                    content.AddIdentifier(2, Identifier_Set);
                     break;
                 case "pushlevel":
-                case "pushmoney":
                 case "pushloyal":
                 case "pushmerits":
                 case "pushsex":
                 case "pushrank":
-                case "pushitem":
+                    content.ThrowException(2);
+                    LocalUnitRoutine(0);
+                    content.AddIdentifier(1, Identifier_Set);
+                    break;
                 case "pushtrust":
+                case "pushmoney":
                 case "pushforce":
+                    content.ThrowException(2);
+                    LocalUnitPowerRoutine(0);
+                    content.AddIdentifier(1, Identifier_Set);
+                    break;
                 case "pushspot":
                 case "pushbaselevel":
                 case "pushtrain":
                 case "pushtrainup":
+                    content.ThrowException(2);
+                    LocalPowerRoutine(0);
+                    content.AddIdentifier(1, Identifier_Set);
+                    break;
+                case "pushitem":
+                    content.ThrowException(2);
+                    if (content.IsVariable(0))
+                        content.AddVariable(0, Variable_Get);
+                    else if (!(ScriptLoader.SkillDictionary.TryGetValue(content[0].ToLowerString(), out var item) && item.ItemType.HasValue))
+                        throw new Exception(content[0].DebugInfo);
+                    content.AddIdentifier(1, Identifier_Set);
+                    break;
                 case "pushgain":
+                    content.ThrowException(2);
+                    LocalSpotPowerRoutine(0);
+                    content.AddIdentifier(1, Identifier_Set);
+                    break;
                 case "pushcastle":
                 case "pushcapa":
                     content.ThrowException(2);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddIdentifier(1, Identifier);
+                    LocalSpotRoutine(0);
+                    content.AddIdentifier(1, Identifier_Set);
                     break;
                 case "pushv":
                 case "pushvar":
                     content.ThrowException(2, 3);
+                    content.AddVariable(0, Variable_Get);
                     if (content.Count == 3)
                     {
                         content.AddVariable_NotAddIdentifier(1, Variable_Get);
-                        content.AddIdentifier(2, Identifier);
+                        content.AddIdentifier(2, Identifier_Set);
                     }
-                    else content.AddIdentifier(1, Identifier);
-                    content.AddVariable(0, Variable_Get);
+                    else content.AddIdentifier(1, Identifier_Set);
                     break;
                 case "hidelink":
+                    content.ThrowException(2);
+                    LocalSpotRoutine(0);
+                    LocalSpotRoutine(1);
+                    break;
                 case "setpm":
+                    content.ThrowException(2);
+                    LocalPoliticsUnit(0);
+                    content.AddVariable(1, Variable_Get);
+                    break;
                 case "storepm":
+                    content.ThrowException(2);
+                    LocalPoliticsUnit(0);
+                    content.AddVariable(1, Variable_Set);
+                    break;
                 case "setud":
                     content.ThrowException(2);
                     content.AddVariable_NotAddIdentifier(0, Variable_Get);
@@ -638,7 +893,7 @@ namespace Wahren.Specific
                 case "focus":
                     content.ThrowException(0, 1);
                     if (content.Count == 1)
-                        content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                        LocalUnitRoutine(0);
                     break;
                 case "title":
                 case "title2":
@@ -646,9 +901,9 @@ namespace Wahren.Specific
                     if (content.Count == 2)
                     {
                         content.AddVariableOrString(0, Variable_Get);
-                        content.AddIdentifierOrNumber(1, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
                     }
-                    else content.AddIdentifierOrNumber(0, Identifier);
+                    else content.AddIdentifierOrNumber(0, Identifier_Get);
                     break;
                 case "face":
                 case "picture":
@@ -659,13 +914,13 @@ namespace Wahren.Specific
                     content.ThrowException(1, 5);
                     content.AddVariableOrString(0, Variable_Get);
                     if (content.Count > 1)
-                        content.AddIdentifierOrNumber(1, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
                     if (content.Count > 2)
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                     if (content.Count > 3)
-                        content.AddIdentifierOrNumber(3, Identifier);
+                        content.AddIdentifierOrNumber(3, Identifier_Get);
                     if (content.Count > 4)
-                        content.AddIdentifierOrNumber(4, Identifier);
+                        content.AddIdentifierOrNumber(4, Identifier_Get);
                     break;
                 case "setgameclear":
                     content.ThrowException(0, 1);
@@ -679,32 +934,30 @@ namespace Wahren.Specific
                 case "wait":
                     content.ThrowException(0, 1);
                     if (content.Count == 1)
-                        content.AddIdentifierOrNumber(0, Identifier);
+                        content.AddIdentifierOrNumber(0, Identifier_Get);
                     break;
                 case "linkspot":
                 case "linkescape":
                     content.ThrowException(2, 4);
+                    LocalSpotRoutine(0);
+                    LocalSpotRoutine(1);
                     if (content.Count == 4)
-                        content.AddIdentifierOrNumber(3, Identifier);
+                        content.AddIdentifierOrNumber(3, Identifier_Get);
                     else if (content.Count == 3)
                         if (content[2].Type == 2)
-                            content.AddIdentifierOrNumber(2, Identifier);
+                            content.AddIdentifierOrNumber(2, Identifier_Get);
                         else
                             content.AddVariable_NotAddIdentifier(2, Variable_Get);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddVariable_NotAddIdentifier(1, Variable_Get);
-                    content[0].IsSpot();
-                    content[1].IsSpot();
                     break;
                 case "showchara":
                     content.ThrowException(3, 5);
                     content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
                     if (content.Count == 5)
                     {
-                        content.AddIdentifierOrNumber(3, Identifier);
-                        content.AddIdentifierOrNumber(4, Identifier);
+                        content.AddIdentifierOrNumber(3, Identifier_Get);
+                        content.AddIdentifierOrNumber(4, Identifier_Get);
                     }
                     break;
                 case "scroll":
@@ -712,66 +965,71 @@ namespace Wahren.Specific
                 case "locate":
                     content.ThrowException(1, 2);
                     if (content.Count == 1)
-                        content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                        LocalUnitSpotRoutine(0);
                     else
                     {
-                        content.AddIdentifierOrNumber(0, Identifier);
-                        content.AddIdentifierOrNumber(1, Identifier);
+                        content.AddIdentifierOrNumber(0, Identifier_Get);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
                     }
                     break;
                 case "doskill":
                     content.ThrowException(5);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    if (!content.IsVariable(0)
-                    && !ScriptLoader.Skill.ContainsKey(content[0].ToLowerString()))
-                        throw new SkillNotFoundException(content[0].DebugInfo);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
-                    content.AddIdentifierOrNumber(3, Identifier);
-                    switch (content[4].ToLowerString())
-                    {
-                        case "on":
-                        case "off":
-                            break;
-                        default: throw new OnOffException(content[4].DebugInfo);
-                    }
+                    LocalSkillRoutine(0);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
+                    content.AddIdentifierOrNumber(3, Identifier_Get);
+                    LocalOnOffRoutine(4);
                     break;
                 case "showspot":
                 case "hidespot":
                     content.ThrowException(1);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content[0].IsSpot();
+                    LocalSpotRoutine(0);
                     break;
+                case "showspotmark":
                 case "spotmark":
                     content.ThrowException(0, 2);
                     if (content.Count > 0)
-                        content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                        LocalSpotPowerRoutine(0);
                     if (content.Count == 2)
-                        content.AddIdentifierOrNumber(1, Identifier);
+                    {
+                        if (content.IsIdentifier(1))
+                            content.AddIdentifier(1, Identifier_Get);
+                        else if (content[1].Number < -2 || content[1].Number > 6)
+                            throw new IndexOutOfRangeException(content[1].DebugInfo);
+                    }
                     break;
                 case "gread":
                     content.ThrowException(2, 3);
                     if (!content.IsVariableOrIdentifier(0))
                         throw new Exception(content[0].DebugInfo);
-                    content.AddIdentifier(1, Identifier);
+                    content.AddIdentifier(1, Identifier_Set);
                     if (content.Count == 3)
-                        content.AddVariable(2, Variable_Get);
+                        content.AddVariable(2, Variable_Set);
                     break;
                 case "gwrite":
                     content.ThrowException(2, 3);
                     if (!content.IsVariableOrIdentifier(0))
                         throw new Exception(content[0].DebugInfo);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     if (content.Count == 3)
                         content.AddVariableOrString(2, Variable_Get);
                     break;
+                case "setpowerhome":
+                    content.ThrowException(1, 2);
+                    LocalPowerRoutine(1);
+                    if (content.Count == 2)
+                        content.AddVariable(1, Variable_Get);
+                    break;
                 case "setv":
+                case "setvar":
                 case "addv":
+                case "addvar":
                 case "subv":
+                case "subvar":
                 case "addstr":
                 case "addint":
                     content.ThrowException(2);
-                    content.AddVariable(0, Variable_Get);
+                    content.AddVariable(0, Variable_Set);
                     content.AddVariableOrString(1, Variable_Get);
                     break;
                 case "storeplayerunit":
@@ -783,12 +1041,13 @@ namespace Wahren.Specific
                 case "storealltalent":
                 case "storenowpower":
                 case "clear":
+                case "clearvar":
                 case "shuffle":
                 case "storebattlespot":
                 case "storeattackpower":
                 case "storedefensepower":
                     content.ThrowException(1);
-                    content.AddVariable(0, Variable_Get);
+                    content.AddVariable(0, Variable_Set);
                     break;
                 case "add":
                 case "sub":
@@ -799,14 +1058,14 @@ namespace Wahren.Specific
                 case "mod":
                 case "per":
                     content.ThrowException(2);
-                    content.AddIdentifier(0, Identifier);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifier(0, Identifier_Set);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     content.NotBoolIdentifier(NotBoolIdentifier, BoolIdentifier);
                     break;
                 case "set":
                     content.ThrowException(2);
-                    content.AddIdentifier(0, Identifier);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifier(0, Identifier_Set);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     var identifierName = content[0].Content.ToLower();
                     if (content[1].Type == 2 && (content[1].Number == 0 || content[1].Number == 1))
                     {
@@ -825,13 +1084,15 @@ namespace Wahren.Specific
                 case "pushlimit":
                 case "pushcountpower":
                     content.ThrowException(1);
-                    content.AddIdentifier(0, Identifier);
+                    content.AddIdentifier(0, Identifier_Set);
                     break;
+                case "hidespotmark":
                 case "break":
                 case "continue":
                 case "clearbattlerecord":
                 case "return":
                 case "erase":
+                case "next":
                 case "hideblind":
                 case "showblind":
                 case "save":
@@ -855,26 +1116,25 @@ namespace Wahren.Specific
                 case "smovetroop":
                 case "smovetroopfix":
                     content.ThrowException(2, 4);
+                    LocalUnitClassRoutine(0);
                     if (content.Count == 4)
                     {
-                        LocalUnitClassRoutine(0);
-                        content.AddIdentifierOrNumber(1, Identifier);
-                        content.AddIdentifierOrNumber(2, Identifier);
-                        content.AddIdentifierOrNumber(3, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
+                        content.AddIdentifierOrNumber(3, Identifier_Get);
                     }
                     else if (content.Count == 3) throw new ArgumentOutOfRangeException();
                     else
                     {
-                        LocalUnitClassRoutine(0);
                         LocalUnitClassRoutine(1);
                     }
                     break;
                 case "addtroop":
                     content.ThrowException(5);
                     LocalUnitClassRoutine(0);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
-                    content.AddIdentifierOrNumber(3, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
+                    content.AddIdentifierOrNumber(3, Identifier_Get);
                     switch (content[4].ToLowerString())
                     {
                         case "red":
@@ -888,56 +1148,66 @@ namespace Wahren.Specific
                     content.AddVariable_NotAddIdentifier(0, Variable_Get);
                     if (content.Count == 3)
                     {
-                        content.AddVariable_NotAddIdentifier(1, Variable_Get);
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        LocalUnitRoutine(1);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                         break;
                     }
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
-                    content.AddIdentifierOrNumber(3, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
+                    content.AddIdentifierOrNumber(3, Identifier_Get);
                     if (content.Count == 5)
-                        content.AddIdentifierOrNumber(4, Identifier);
+                        content.AddIdentifierOrNumber(4, Identifier_Get);
                     break;
                 case "getdistance":
                     content.ThrowException(2, 3);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                    LocalUnitRoutine(0);
                     if (content.Count == 2)
-                        content.AddVariable_NotAddIdentifier(1, Variable_Get);
+                        LocalUnitRoutine(1);
                     else
                     {
-                        content.AddIdentifierOrNumber(1, Identifier);
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Set);
+                        content.AddIdentifierOrNumber(2, Identifier_Set);
                     }
                     break;
                 case "shadow":
                     if (content.Count == 0) break;
                     if (content.Count != 10) throw new ArgumentOutOfRangeException();
-                    content.AddIdentifierOrNumber(0, Identifier);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
-                    content.AddIdentifierOrNumber(3, Identifier);
-                    content.AddIdentifierOrNumber(4, Identifier);
-                    content.AddIdentifierOrNumber(5, Identifier);
-                    content.AddIdentifierOrNumber(6, Identifier);
-                    content.AddIdentifierOrNumber(7, Identifier);
-                    content.AddIdentifierOrNumber(8, Identifier);
-                    content.AddIdentifierOrNumber(9, Identifier);
+                    content.AddIdentifierOrNumber(0, Identifier_Get);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
+                    content.AddIdentifierOrNumber(3, Identifier_Get);
+                    content.AddIdentifierOrNumber(4, Identifier_Get);
+                    content.AddIdentifierOrNumber(5, Identifier_Get);
+                    content.AddIdentifierOrNumber(6, Identifier_Get);
+                    content.AddIdentifierOrNumber(7, Identifier_Get);
+                    content.AddIdentifierOrNumber(8, Identifier_Get);
+                    content.AddIdentifierOrNumber(9, Identifier_Get);
                     break;
                 case "darkness":
                     content.ThrowException(0, 4);
                     if (content.Count > 0)
-                        content.AddIdentifierOrNumber(0, Identifier);
+                        content.AddIdentifierOrNumber(0, Identifier_Get);
                     if (content.Count > 1)
-                        content.AddIdentifierOrNumber(1, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
                     if (content.Count > 2)
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                     if (content.Count > 3)
-                        content.AddIdentifierOrNumber(3, Identifier);
+                        content.AddIdentifierOrNumber(3, Identifier_Get);
                     break;
                 case "loopbgm":
                     content.ThrowException(1, int.MaxValue);
                     for (int i = 0; i < content.Count; i++)
                         content.AddVariableOrString(i, Variable_Get);
+                    break;
+                case "resettruce":
+                    content.ThrowException(1, 2);
+                    if (content.Count == 1)
+                        content.AddVariable(0, Variable_Get);
+                    else
+                    {
+                        LocalPowerRoutine(0);
+                        LocalPowerRoutine(1);
+                    }
                     break;
                 case "resetleague":
                     content.ThrowException(1, 3);
@@ -950,7 +1220,7 @@ namespace Wahren.Specific
                     LocalPowerRoutine(1);
                     if (content.Count == 2)
                         break;
-                    content.AddIdentifierOrNumber(2, Identifier);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
                     break;
                 case "resetenemypower":
                     content.ThrowException(1, 2);
@@ -962,7 +1232,7 @@ namespace Wahren.Specific
                     content.ThrowException(3);
                     LocalPowerRoutine(0);
                     LocalPowerRoutine(1);
-                    content.AddIdentifierOrNumber(2, Identifier);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
                     break;
                 case "setdiplo":
                 case "adddiplo":
@@ -972,13 +1242,13 @@ namespace Wahren.Specific
                     if (content.Count == 2)
                     {
                         content.AddVariable(0, Variable_Get);
-                        content.AddIdentifierOrNumber(1, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
                     }
                     else
                     {
                         LocalPowerRoutine(0);
                         LocalPowerRoutine(1);
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                     }
                     break;
                 case "addunit":
@@ -1016,15 +1286,17 @@ namespace Wahren.Specific
                 case "addbaselevel":
                     content.ThrowException(2);
                     LocalPowerRoutine(0);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     break;
                 case "addpowermerce2":
+                case "addpowermerce":
                     content.ThrowException(2, int.MaxValue);
                     LocalPowerRoutine(0);
                     for (int i = 1; i < content.Count; i++)
                         LocalClassRoutine(i);
                     break;
                 case "addpowerstaff2":
+                case "addpowerstaff":
                     content.ThrowException(2, int.MaxValue);
                     LocalPowerRoutine(0);
                     for (int i = 1; i < content.Count; i++)
@@ -1069,7 +1341,7 @@ namespace Wahren.Specific
                             LocalUnitRoutine(0);
                             break;
                         case 2:
-                            if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.Power.ContainsKey(content[0].ToLowerString()))
+                            if (!content.IsVariable(0) && !ScriptLoader.UnitDictionary.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.PowerDictionary.ContainsKey(content[0].ToLowerString()))
                                 throw new Exception(content[0].DebugInfo);
                             LocalUnitRoutine(1);
                             content.AddVariable_NotAddIdentifier(0, Variable_Get);
@@ -1104,8 +1376,8 @@ namespace Wahren.Specific
                             throw new Exception(content[3].DebugInfo);
                     }
                     LocalUnitClassRoutine(0);
-                    content.AddIdentifierOrNumber(1, Identifier);
-                    content.AddIdentifierOrNumber(2, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
                     break;
                 case "skilltroop":
                     content.ThrowException(2, 3);
@@ -1117,17 +1389,18 @@ namespace Wahren.Specific
                             Variable_Get.Add(content[1].ToLowerString());
                             break;
                         }
-                        if (!ScriptLoader.Skill.ContainsKey(content[1].ToLowerString())
-                        && !ScriptLoader.Unit.ContainsKey(content[1].ToLowerString())
-                        && !ScriptLoader.GenericUnit.ContainsKey(content[1].ToLowerString()))
+                        if (!ScriptLoader.SkillDictionary.ContainsKey(content[1].ToLowerString())
+                        && !ScriptLoader.UnitDictionary.ContainsKey(content[1].ToLowerString())
+                        && !ScriptLoader.GenericUnitDictionary.ContainsKey(content[1].ToLowerString()))
                             throw new Exception(content[1].DebugInfo);
                     }
                     else if (content.IsIdentifierOrNumber(1))
                     {
-                        content.AddIdentifierOrNumber(1, Identifier);
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                     }
-                    else if (content.IsVariable(2)) Variable_Get.Add(content[2].Content.ToLower());
+                    else if (content.IsVariable(2))
+                        content.AddVariable(2, Variable_Get);
                     else switch (content[2].ToLowerString())
                         {
                             case "on":
@@ -1140,7 +1413,7 @@ namespace Wahren.Specific
                 case "speedtroop":
                     content.ThrowException(2);
                     LocalUnitClassRoutine(0);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     break;
                 case "unctrltroop":
                 case "ctrltroop":
@@ -1162,15 +1435,15 @@ namespace Wahren.Specific
                 case "changecastle":
                     content.ThrowException(2);
                     LocalSpotRoutine(0);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     break;
                 case "changemap":
                     content.ThrowException(2);
                     LocalSpotRoutine(0);
-                    if (!content.IsVariable(1)
-                    && !ScriptLoader.Folder.Stage_Map.Any((_) => Path.GetFileNameWithoutExtension(_).ToLower() == content[1].Content.ToLower()))
+                    if (content.IsVariable(1))
+                        content.AddVariable(1, Variable_Get);
+                    else if (!ScriptLoader.Folder.Stage_Map.Any((_) => Path.GetFileNameWithoutExtension(_).ToLower() == content[1].Content.ToLower()))
                         throw new Exception(content[1].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(1, Variable_Get);
                     break;
                 case "addpower":
                 case "erasepower":
@@ -1193,7 +1466,7 @@ namespace Wahren.Specific
                     content.ThrowException(3);
                     LocalPowerRoutine(0);
                     LocalUnitRoutine(1);
-                    content.AddIdentifierOrNumber(2, Identifier);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
                     break;
                 case "scrollspeed":
                 case "zoom":
@@ -1201,36 +1474,28 @@ namespace Wahren.Specific
                 case "setlimit":
                 case "addlimit":
                     content.ThrowException(1);
-                    content.AddIdentifierOrNumber(0, Identifier);
+                    content.AddIdentifierOrNumber(0, Identifier_Get);
                     break;
                 case "fadeout":
                 case "fadein":
                 case "shake":
                     content.ThrowException(0, 1);
                     if (content.Count == 1)
-                        content.AddIdentifierOrNumber(0, Identifier);
+                        content.AddIdentifierOrNumber(0, Identifier_Get);
                     break;
                 case "playbgm":
                     content.ThrowException(0, 1);
                     if (content.Count == 0) break;
                     content.AddVariableOrString(0, Variable_Get);
                     break;
-                case "playese":
+                case "playse":
                     content.ThrowException(1);
                     content.AddVariableOrString(0, Variable_Get);
                     break;
                 case "showpolitics":
                 case "showparty":
                     content.ThrowException(1);
-                    switch (content[0].ToLowerString())
-                    {
-                        case "on":
-                        case "off":
-                            break;
-                        default:
-                            if (!content.IsVariable(0)) throw new OnOffException(content[0].DebugInfo);
-                            break;
-                    }
+                    LocalOnOffRoutine(0);
                     break;
                 case "changespotimage":
                     content.ThrowException(2);
@@ -1240,22 +1505,18 @@ namespace Wahren.Specific
                 case "changedungeon":
                     content.ThrowException(2);
                     LocalSpotRoutine(0);
-                    if (!content.IsVariable(1) && !ScriptLoader.Dungeon.ContainsKey(content[1].ToLowerString()))
-                        throw new Exception(content[1].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(1, Variable_Get);
+                    LocalDungeonRoutine(1);
                     break;
                 case "setdungeonfloor":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Dungeon.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    LocalDungeonRoutine(0);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     break;
                 case "setmoney":
                 case "addmoney":
                     content.ThrowException(2);
                     LocalUnitPowerRoutine(0);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     break;
                 case "changeclass":
                     content.ThrowException(2);
@@ -1266,32 +1527,20 @@ namespace Wahren.Specific
                     content.ThrowException(1, int.MaxValue);
                     LocalUnitRoutine(0);
                     for (int i = 1; i < content.Count; i++)
-                    {
-                        if (!content.IsVariable(i) && !ScriptLoader.Skill.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.SkillSet.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception(content[i].DebugInfo);
-                        content.AddVariable_NotAddIdentifier(i, Variable_Get);
-                    }
+                        LocalSkillSkillSetRoutine(i);
                     break;
                 case "addskill":
                 case "addskill2":
                 case "removeskill":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                    LocalUnitRoutine(0);
                     for (int i = 1; i < content.Count; i++)
-                    {
-                        if (!content.IsVariable(i) && !ScriptLoader.Skill.ContainsKey(content[i].ToLowerString()) && !ScriptLoader.SkillSet.ContainsKey(content[1].ToLowerString()))
-                            throw new Exception(content[i].DebugInfo);
-                        content.AddVariable_NotAddIdentifier(i, Variable_Get);
-                    }
+                        LocalSkillSkillSetRoutine(i);
                     break;
                 case "addstatus":
                 case "setstatus":
                     content.ThrowException(3);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                    LocalUnitRoutine(0);
                     if (!content.IsVariable(1))
                         switch (content[1].ToLowerString())
                         {
@@ -1309,7 +1558,7 @@ namespace Wahren.Specific
                                 break;
                             default: throw new Exception(content[1].DebugInfo);
                         }
-                    content.AddIdentifierOrNumber(2, Identifier);
+                    content.AddIdentifierOrNumber(2, Identifier_Get);
                     break;
                 case "hidechara":
                 case "reversechara":
@@ -1328,11 +1577,9 @@ namespace Wahren.Specific
                         }
                         else Variable_Get.Add(content[2].ToLowerString());
                     }
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new Exception(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                    LocalUnitRoutine(0);
                     if (content.IsVariable(1)) Variable_Get.Add(content[1].ToLowerString());
-                    else if (ScriptLoader.Skill.TryGetValue(content[1].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
+                    else if (ScriptLoader.SkillDictionary.TryGetValue(content[1].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
                         break;
                     else throw new Exception(content[1].DebugInfo);
                     break;
@@ -1343,71 +1590,41 @@ namespace Wahren.Specific
                     content.ThrowException(1);
                     if (content.IsVariable(0))
                         Variable_Get.Add(content[0].ToLowerString());
-                    else if (ScriptLoader.Skill.TryGetValue(content[0].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
+                    else if (ScriptLoader.SkillDictionary.TryGetValue(content[0].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
                         break;
                     else throw new SkillNotFoundException(content[0].DebugInfo);
                     break;
                 case "erasefriend":
                     content.ThrowException(1, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new UnitNotFoundException(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                    LocalUnitRoutine(0);
                     for (int i = 1; i < content.Count; i++)
-                    {
-                        var coni = content[i].ToLowerString();
-                        if (content.IsVariable(i))
-                            Variable_Get.Add(coni);
-                        else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni) && !ScriptLoader.Race.ContainsKey(coni))
-                            throw new UnitClassNotFoundException(content[i].DebugInfo);
-                    }
+                        LocalUnitClassRaceRoutine(i);
                     break;
                 case "addfriend":
                     content.ThrowException(2, int.MaxValue);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new UnitNotFoundException(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                    LocalUnitRoutine(0);
                     for (int i = 1; i < content.Count; i++)
-                    {
-                        var coni = content[i].ToLowerString();
-                        if (content.IsVariable(i))
-                            Variable_Get.Add(coni);
-                        else if (!ScriptLoader.Unit.ContainsKey(coni) && !ScriptLoader.GenericUnit.ContainsKey(coni) && !ScriptLoader.Race.ContainsKey(coni))
-                            throw new UnitClassNotFoundException(content[i].DebugInfo);
-                    }
+                        LocalUnitClassRaceRoutine(i);
                     break;
                 case "changerace":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new UnitNotFoundException(content[0].DebugInfo);
-                    if (!content.IsVariable(1) && !ScriptLoader.Race.ContainsKey(content[1].ToLowerString()))
-                        throw new RaceNotFoundException(content[1].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddVariable_NotAddIdentifier(1, Variable_Get);
+                    LocalUnitRoutine(0);
+                    LocalRaceRoutine(1);
                     break;
                 case "setdone":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new UnitNotFoundException(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    if (content.IsVariable(1)) Variable_Get.Add(content[1].ToLowerString());
-                    switch (content[1].Content.ToLower())
-                    {
-                        case "on":
-                        case "off":
-                            break;
-                        default: throw new OnOffException(content[1].DebugInfo);
-                    }
+                    LocalUnitRoutine(0);
+                    LocalOnOffRoutine(1);
                     break;
                 case "addloyal":
                 case "addmerits":
                 case "addtrust":
                 case "addlevel":
+                case "levelup":
                 case "setlevel":
                     content.ThrowException(2);
-                    if (!content.IsVariable(0) && !ScriptLoader.Unit.ContainsKey(content[0].ToLowerString()))
-                        throw new UnitNotFoundException(content[0].DebugInfo);
-                    content.AddVariable_NotAddIdentifier(0, Variable_Get);
-                    content.AddIdentifierOrNumber(1, Identifier);
+                    LocalUnitRoutine(0);
+                    content.AddIdentifierOrNumber(1, Identifier_Get);
                     break;
                 case "bg":
                 case "bcg":
@@ -1419,7 +1636,7 @@ namespace Wahren.Specific
                     break;
                 case "choice":
                     content.ThrowException(1, int.MaxValue);
-                    content.AddIdentifier(0, Identifier);
+                    content.AddIdentifier(0, Identifier_Set);
                     break;
                 case "choicetitle":
                     content.ThrowException(0, 1);
@@ -1428,7 +1645,7 @@ namespace Wahren.Specific
                     break;
                 case "select":
                     content.ThrowException(2);
-                    content.AddIdentifier(0, Identifier);
+                    content.AddIdentifier(0, Identifier_Set);
                     break;
                 case "dialog":
                     content.ThrowException(1, 2);
@@ -1443,9 +1660,9 @@ namespace Wahren.Specific
                     content.ThrowException(0, 3);
                     if (content.Count == 3)
                     {
-                        content.AddIdentifierOrNumber(0, Identifier);
-                        content.AddIdentifierOrNumber(1, Identifier);
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(0, Identifier_Get);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                     }
                     break;
                 case "font":
@@ -1453,10 +1670,11 @@ namespace Wahren.Specific
                     if (content.Count == 3)
                     {
                         content.AddVariableOrString(0, Variable_Get);
-                        content.AddIdentifierOrNumber(1, Identifier);
-                        content.AddIdentifierOrNumber(2, Identifier);
+                        content.AddIdentifierOrNumber(1, Identifier_Get);
+                        content.AddIdentifierOrNumber(2, Identifier_Get);
                     }
                     break;
+                case "talk":
                 case "msg":
                 case "msg2":
                     content.ThrowException(1, 3);
@@ -1466,7 +1684,8 @@ namespace Wahren.Specific
                             content.AddVariableOrString(0, Variable_Get);
                             break;
                         case 2:
-                            content.AddVariable_NotAddIdentifier(0, Variable_Get);
+                            if (content.IsVariable(0))
+                                content.AddVariable(0, Variable_Get);
                             content.AddVariableOrString(1, Variable_Get);
                             break;
                         case 3:
@@ -1478,32 +1697,38 @@ namespace Wahren.Specific
                     break;
                 case "battleevent":
                     content.ThrowException(1);
-                    var coni_routine = content[0].ToLowerString();
-                    if (content.IsVariable(0)) Variable_Get.Add(content[0].ToLowerString());
-                    else if (!ScriptLoader.Event.ContainsKey(content[0].ToLowerString()))
-                        throw new EventNotFoundException(content[0].DebugInfo);
+                    LocalEventRoutine(0);
                     BattleEvent.Add(content[0].ToLowerString());
                     break;
                 case "event":
                     content.ThrowException(1);
-                    coni_routine = content[0].ToLowerString();
-                    if (content.IsVariable(0)) Variable_Get.Add(content[0].ToLowerString());
-                    else if (!ScriptLoader.Event.ContainsKey(coni_routine) && coni_routine != "world_bgm" && coni_routine != "count")
-                        throw new EventNotFoundException(content[0].DebugInfo);
+                    if (content.IsVariable(0))
+                        content.AddVariable(0, Variable_Get);
+                    else
+                    {
+                        var key = content[0].ToLowerString();
+                        if (!ScriptLoader.EventDictionary.ContainsKey(key) && key != "world_bgm" && key != "count")
+                            throw new EventNotFoundException(content[0].DebugInfo);
+                    }
                     Event.Add(content[0].ToLowerString());
                     break;
                 case "routine":
                     content.ThrowException(1);
-                    coni_routine = content[0].ToLowerString();
-                    if (content.IsVariable(0)) Variable_Get.Add(coni_routine);
-                    else if (!ScriptLoader.Event.ContainsKey(coni_routine)
-                    && coni_routine != "world_bgm"
-                    && coni_routine != "count")
-                        throw new EventNotFoundException(content[0].DebugInfo);
+                    if (content.IsVariable(0))
+                        content.AddVariable(0, Variable_Get);
+                    else
+                    {
+                        var key = content[0].ToLowerString();
+                        if (!ScriptLoader.EventDictionary.ContainsKey(key) && key != "world_bgm" && key != "count")
+                            throw new EventNotFoundException(content[0].DebugInfo);
+                    }
                     Routine.Add(content[0].ToLowerString());
                     break;
-                    //未だ追加しきれていない関数を調べる際にはコメントインしてください。
-                    //default: throw new Exception();
+                //未だ追加しきれていない関数を調べる際にはコメントインしてください。
+                default:
+                    if (content.Count != 0)
+                        throw new Exception(content[0].DebugInfo);
+                    throw new ApplicationException();
             }
         }
     }
