@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Collections.Concurrent;
+
 namespace Wahren
 {
     public class GenericUnitData : CommonUnitData
@@ -213,5 +212,10 @@ namespace Wahren
         public List<string> Item { get; set; } = new List<string>();
         public bool? IsNoTraining { get; set; }
         public string DeadEvent { get; set; }
+        //1: on
+        //2: fix
+        //3: erase
+        //4: unique
+        public byte? Politics { get; set; }
     }
 }
