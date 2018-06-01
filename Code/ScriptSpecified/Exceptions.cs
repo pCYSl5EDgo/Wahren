@@ -83,6 +83,26 @@ namespace Wahren.Specific
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
     [System.Serializable]
+    public class DungeonNotFoundException : System.Exception
+    {
+        public DungeonNotFoundException() { }
+        public DungeonNotFoundException(string message) : base(message) { }
+        public DungeonNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        protected DungeonNotFoundException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+    [System.Serializable]
+    public class UnitClassRaceNotFoundException : System.Exception
+    {
+        public UnitClassRaceNotFoundException() { }
+        public UnitClassRaceNotFoundException(string message) : base(message) { }
+        public UnitClassRaceNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        protected UnitClassRaceNotFoundException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+    [System.Serializable]
     public sealed class UnitClassNotFoundException : System.Exception
     {
         public UnitClassNotFoundException() { }
