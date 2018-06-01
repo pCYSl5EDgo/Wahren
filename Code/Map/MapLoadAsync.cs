@@ -33,10 +33,9 @@ namespace Wahren.Map
                         FieldData field = null;
                         for (int l = 0; l < p.Pool[j][k].Count; l++)
                         {
-                            if (!ScriptLoader.Field.TryGetValue(p.Pool[j][k][l].Name, out field))
+                            if (!ScriptLoader.FieldDictionary.TryGetValue(p.Pool[j][k][l].Name, out field))
                             {
-                                ObjectData obj;
-                                if (!ScriptLoader.Object.TryGetValue(p.Pool[j][k][l].Name, out obj))
+                                if (!ScriptLoader.ObjectDictionary.TryGetValue(p.Pool[j][k][l].Name, out var obj))
                                     throw new Exception();
                                 objects.Add(obj);
                             }
@@ -193,12 +192,11 @@ namespace Wahren.Map
         public static short Distance(MoveTypeData move, FieldData from, FieldData to)
         {
             short ans = 0;
-            byte mode1, mode2;
-            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out mode1))
+            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out var mode1))
                 ans = DistanceTable[mode1];
             else ans = DistanceTable[5];
             if (mode1 == 0) return short.MaxValue >> 1;
-            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out mode2))
+            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out var mode2))
             {
                 if (mode2 == 0) return DistanceTable[0];
                 return (short)(DistanceTable[mode2] + ans);
@@ -208,12 +206,11 @@ namespace Wahren.Map
         public static short DistanceOblique(MoveTypeData move, FieldData from, FieldData to)
         {
             short ans = 0;
-            byte mode1, mode2;
-            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out mode1))
+            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out var mode1))
                 ans = DistanceObliqueTable[mode1];
             else ans = DistanceObliqueTable[5];
             if (mode1 == 0) return DistanceObliqueTable[0];
-            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out mode2))
+            if (move.FieldMoveDictionary.TryGetValue(from.Attribute, out var mode2))
             {
                 if (mode2 == 0) return DistanceObliqueTable[0];
                 return (short)(DistanceObliqueTable[mode2] + ans);
