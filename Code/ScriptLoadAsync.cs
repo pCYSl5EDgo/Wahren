@@ -1,42 +1,60 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Tasks;
-
-using InheritDictionary = System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Concurrent.ConcurrentStack<string>>;
+using Wahren.Specific;
 
 namespace Wahren
 {
     public static class ScriptLoader
     {
         public static ScenarioFolder Folder { get; set; }
-        public static readonly ConcurrentDictionary<string, ScenarioData> Scenario = new ConcurrentDictionary<string, ScenarioData>();
-        public static readonly ConcurrentDictionary<string, GenericUnitData> GenericUnit = new ConcurrentDictionary<string, GenericUnitData>();
-        public static readonly ConcurrentDictionary<string, UnitData> Unit = new ConcurrentDictionary<string, UnitData>();
-        public static readonly ConcurrentDictionary<string, PowerData> Power = new ConcurrentDictionary<string, PowerData>();
-        public static readonly ConcurrentDictionary<string, SpotData> Spot = new ConcurrentDictionary<string, SpotData>();
-        public static readonly ConcurrentDictionary<string, RaceData> Race = new ConcurrentDictionary<string, RaceData>();
-        public static readonly ConcurrentDictionary<string, StoryData> Story = new ConcurrentDictionary<string, StoryData>();
-        public static readonly ConcurrentDictionary<string, DungeonData> Dungeon = new ConcurrentDictionary<string, DungeonData>();
-        public static readonly ConcurrentDictionary<string, FieldData> Field = new ConcurrentDictionary<string, FieldData>();
-        public static readonly ConcurrentDictionary<string, EventData> Event = new ConcurrentDictionary<string, EventData>();
-        public static readonly ConcurrentDictionary<string, ObjectData> Object = new ConcurrentDictionary<string, ObjectData>();
-        public static readonly ConcurrentDictionary<string, SkillData> Skill = new ConcurrentDictionary<string, SkillData>();
-        public static readonly ConcurrentDictionary<string, SkillSetData> SkillSet = new ConcurrentDictionary<string, SkillSetData>();
-        public static readonly ConcurrentDictionary<string, VoiceData> Voice = new ConcurrentDictionary<string, VoiceData>();
-        public static readonly ConcurrentDictionary<string, MoveTypeData> MoveType = new ConcurrentDictionary<string, MoveTypeData>();
+        public static ScenarioData2[] Scenarios => scenarios == null ? throw new NullReferenceException() : scenarios;
+
+        internal static readonly ConcurrentDictionary<string, ScenarioData> ScenarioDictionary = new ConcurrentDictionary<string, ScenarioData>();
+        private static Specific.ScenarioData2[] scenarios = null;
+        public static readonly ConcurrentDictionary<string, GenericUnitData> GenericUnitDictionary = new ConcurrentDictionary<string, GenericUnitData>();
+        public static readonly ConcurrentDictionary<string, UnitData> UnitDictionary = new ConcurrentDictionary<string, UnitData>();
+        public static readonly ConcurrentDictionary<string, PowerData> PowerDictionary = new ConcurrentDictionary<string, PowerData>();
+        public static readonly ConcurrentDictionary<string, SpotData> SpotDictionary = new ConcurrentDictionary<string, SpotData>();
+        public static readonly ConcurrentDictionary<string, RaceData> RaceDictionary = new ConcurrentDictionary<string, RaceData>();
+        public static readonly ConcurrentDictionary<string, StoryData> StoryDictionary = new ConcurrentDictionary<string, StoryData>();
+        public static readonly ConcurrentDictionary<string, DungeonData> DungeonDictionary = new ConcurrentDictionary<string, DungeonData>();
+        public static readonly ConcurrentDictionary<string, FieldData> FieldDictionary = new ConcurrentDictionary<string, FieldData>();
+        public static readonly ConcurrentDictionary<string, EventData> EventDictionary = new ConcurrentDictionary<string, EventData>();
+        public static readonly ConcurrentDictionary<string, ObjectData> ObjectDictionary = new ConcurrentDictionary<string, ObjectData>();
+        public static readonly ConcurrentDictionary<string, SkillData> SkillDictionary = new ConcurrentDictionary<string, SkillData>();
+        public static readonly ConcurrentDictionary<string, SkillSetData> SkillSetDictionary = new ConcurrentDictionary<string, SkillSetData>();
+        public static readonly ConcurrentDictionary<string, VoiceData> Dictionary = new ConcurrentDictionary<string, VoiceData>();
+        public static readonly ConcurrentDictionary<string, MoveTypeData> MoveTypeDictionary = new ConcurrentDictionary<string, MoveTypeData>();
         public static readonly SoundData Sound = new SoundData();
         public static readonly ContextData Context = new ContextData();
         public static readonly AttributeData Attribute = new AttributeData();
         public static readonly WorkspaceData Workspace = new WorkspaceData();
         public static readonly DetailData Detail = new DetailData();
-        internal static readonly Type GenericUnitDataType = typeof(GenericUnitData);
-        internal static readonly Type UnitDataType = typeof(UnitData);
-        internal static readonly Type SpotDataType = typeof(SpotData);
-        internal static readonly Type PowerDataType = typeof(PowerData);
+        //Vahren.exeと同階層にあるシナリオフォルダを指定してネ
+        //シナリオフォルダのエンコード（Shift-JIS）や英文モードとかを解析するヨ
+        public static void InitializeComponent(string folderPath, bool isDebug = false)
+        {
+            Folder = new ScenarioFolder(folderPath, isDebug);
+            //Scriptフォルダ以下の.dat全てをかるーく非同期に解析するよ
+            //ここである程度構造体の継承も処理するが別ファイルからのは継承できなかったりする
+            Task.WaitAll(LoadAllAsync());
+            //全ファイルが出揃ったら解決できていない継承を解決する
+            //名前は良い名前が思い浮かんだら変更する予定
+            Resolve2nd();
+            var _scenarios = ScenarioDictionary.ToArray();
+            scenarios = new Specific.ScenarioData2[_scenarios.Length];
+            var wait = new Task[_scenarios.Length];
+            for (int i = 0; i < _scenarios.Length; i++)
+            {
+                scenarios[i] = new Specific.ScenarioData2(_scenarios[i].Value);
+                wait[i] = scenarios[i].LoadingDone;
+            }
+            Task.WaitAll(wait);
+        }
 
         public static void Clear()
         {
@@ -46,26 +64,26 @@ namespace Wahren
             Attribute.Clear();
             Workspace.Clear();
             Detail.Clear();
-            MoveType.Clear();
-            Voice.Clear();
-            SkillSet.Clear();
-            Skill.Clear();
-            Object.Clear();
-            Field.Clear();
-            Event.Clear();
-            Dungeon.Clear();
-            Story.Clear();
-            Race.Clear();
-            Spot.Clear();
-            Power.Clear();
-            Unit.Clear();
-            GenericUnit.Clear();
-            Scenario.Clear();
+            MoveTypeDictionary.Clear();
+            Dictionary.Clear();
+            SkillSetDictionary.Clear();
+            SkillDictionary.Clear();
+            ObjectDictionary.Clear();
+            FieldDictionary.Clear();
+            EventDictionary.Clear();
+            DungeonDictionary.Clear();
+            StoryDictionary.Clear();
+            RaceDictionary.Clear();
+            SpotDictionary.Clear();
+            PowerDictionary.Clear();
+            UnitDictionary.Clear();
+            GenericUnitDictionary.Clear();
+            ScenarioDictionary.Clear();
         }
 
         public static Task[] LoadAllAsync()
         {
-            if (Folder == null) throw new ApplicationException();
+            if (Folder == null) throw new ApplicationException("Folder must not be null!");
             var ans = new Task[Folder.Script_Dat.Count];
             for (int i = 0; i < ans.Length; i++)
                 ans[i] = Folder.Script_Dat[i].LoadAsync(Folder.Encoding, Folder.IsEnglishMode, Folder.IsDebug);
@@ -76,7 +94,7 @@ namespace Wahren
             foreach (var tree in LexicalTree.Parse(await scriptFile.Parse(encoding, englishMode), isDebug))
             {
                 var inh = (tree as IInherit)?.Inherit;
-                if (tree.Name == inh) throw new ApplicationException(tree.File + "\r\n" + tree.Name + " : 循環参�?�で�?");
+                if (tree.Name == inh) throw new ApplicationException(tree.File + "\r\n" + tree.Name + " : 循環参照です");
                 switch ((tree as IStructureDataType).Structure)
                 {
                     case StructureDataType.Attribute:
@@ -140,7 +158,7 @@ namespace Wahren
                                 default: throw new ApplicationException($"{assign.File}:{assign.Line}");
                             }
                         }
-                        MoveType.TryAdd(tree.Name, movetype);
+                        MoveTypeDictionary.TryAdd(tree.Name, movetype);
                         break;
                     case StructureDataType.Event:
                     case StructureDataType.Deploy:
@@ -151,144 +169,134 @@ namespace Wahren
                         Parse(tree.Children, eventData);
                         while (!string.IsNullOrEmpty(eventData.Inherit))
                         {
-                            EventData inheritEvent;
-                            if (Event.TryGetValue(eventData.Inherit, out inheritEvent))
+                            if (EventDictionary.TryGetValue(eventData.Inherit, out var inheritEvent))
                             {
-                                if (eventData.Inherit == inheritEvent.Inherit) throw new ApplicationException(inheritEvent.Inherit + " : 循環参�?�");
+                                if (eventData.Inherit == inheritEvent.Inherit) throw new ApplicationException(inheritEvent.Inherit + " : 循環参照です");
                                 eventData.Inherit = inheritEvent.Inherit;
                                 Resolve(eventData, inheritEvent);
                             }
                             else break;
                         }
-                        Event.GetOrAdd(eventData.Name, eventData);
+                        EventDictionary.GetOrAdd(eventData.Name, eventData);
                         break;
                     case StructureDataType.Story:
                         var story = new StoryData(tree.Name, inh);
                         Parse(tree.Children, story);
                         while (!string.IsNullOrEmpty(story.Inherit))
                         {
-                            StoryData inheritStory;
-                            if (Story.TryGetValue(story.Inherit, out inheritStory))
+                            if (StoryDictionary.TryGetValue(story.Inherit, out var inheritStory))
                             {
-                                if (story.Inherit == inheritStory.Inherit) throw new ApplicationException(inheritStory.Inherit + " : 循環参�?�");
+                                if (story.Inherit == inheritStory.Inherit) throw new ApplicationException(inheritStory.Inherit + " : 循環参照です");
                                 story.Inherit = inheritStory.Inherit;
                                 Resolve(story, inheritStory);
                             }
                             else break;
                         }
-                        Story.GetOrAdd(story.Name, story);
+                        StoryDictionary.GetOrAdd(story.Name, story);
                         break;
                     case StructureDataType.Dungeon:
                         var dungeon = new DungeonData(tree.Name, inh);
                         Parse(SelectAssign(tree), dungeon);
                         while (!string.IsNullOrEmpty(dungeon.Inherit))
                         {
-                            DungeonData inheritdungeon;
-                            if (Dungeon.TryGetValue(dungeon.Inherit, out inheritdungeon))
+                            if (DungeonDictionary.TryGetValue(dungeon.Inherit, out var inheritdungeon))
                             {
-                                if (dungeon.Inherit == inheritdungeon.Inherit) throw new ApplicationException(inheritdungeon.Inherit + " : 循環参�?�");
+                                if (dungeon.Inherit == inheritdungeon.Inherit) throw new ApplicationException(inheritdungeon.Inherit + " : 循環参照です");
                                 dungeon.Inherit = inheritdungeon.Inherit;
                                 Resolve(dungeon, inheritdungeon);
                             }
                             else break;
                         }
-                        Dungeon.GetOrAdd(dungeon.Name, dungeon);
+                        DungeonDictionary.GetOrAdd(dungeon.Name, dungeon);
                         break;
                     case StructureDataType.Scenario:
                         var scenario = new ScenarioData(tree.Name, inh);
                         Parse(tree.Children, scenario);
-
                         while (!string.IsNullOrEmpty(scenario.Inherit))
                         {
-                            ScenarioData inheritscenario;
-                            if (Scenario.TryGetValue(scenario.Inherit, out inheritscenario))
+                            if (ScenarioDictionary.TryGetValue(scenario.Inherit, out var inheritscenario))
                             {
-                                if (scenario.Inherit == inheritscenario.Inherit) throw new ApplicationException(inheritscenario.Inherit + " : 循環参�?�");
+                                if (scenario.Inherit == inheritscenario.Inherit) throw new ApplicationException(inheritscenario.Inherit + " : 循環参照です");
                                 scenario.Inherit = inheritscenario.Inherit;
                                 Resolve(scenario, inheritscenario);
                             }
                             else break;
                         }
-                        Scenario.GetOrAdd(scenario.Name, scenario);
+                        ScenarioDictionary.GetOrAdd(scenario.Name, scenario);
                         break;
                     case StructureDataType.Field:
-                        if (Object.ContainsKey(tree.Name)) throw new Exception();
+                        if (ObjectDictionary.ContainsKey(tree.Name)) throw new Exception();
                         var field = new FieldData(tree.Name, inh);
                         Parse(SelectAssign(tree), field);
                         while (!string.IsNullOrEmpty(field.Inherit))
                         {
-                            FieldData inheritfield;
-                            if (Field.TryGetValue(field.Inherit, out inheritfield))
+                            if (FieldDictionary.TryGetValue(field.Inherit, out var inheritfield))
                             {
-                                if (field.Inherit == inheritfield.Inherit) throw new ApplicationException(inheritfield.Inherit + " : 循環参�?�");
+                                if (field.Inherit == inheritfield.Inherit) throw new ApplicationException(inheritfield.Inherit + " : 循環参照です");
                                 field.Inherit = inheritfield.Inherit;
                                 Resolve(field, inheritfield);
                             }
                             else break;
                         }
-                        Field.GetOrAdd(field.Name, field);
+                        FieldDictionary.GetOrAdd(field.Name, field);
                         break;
                     case StructureDataType.Object:
-                        if (Field.ContainsKey(tree.Name)) throw new Exception();
+                        if (FieldDictionary.ContainsKey(tree.Name)) throw new Exception();
                         var object1 = new ObjectData(tree.Name, inh);
                         Parse(SelectAssign(tree), object1);
                         while (!string.IsNullOrEmpty(object1.Inherit))
                         {
-                            ObjectData inheritobject1;
-                            if (Object.TryGetValue(object1.Inherit, out inheritobject1))
+                            if (ObjectDictionary.TryGetValue(object1.Inherit, out var inheritobject1))
                             {
-                                if (object1.Inherit == inheritobject1.Inherit) throw new ApplicationException(inheritobject1.Inherit + " : 循環参�?�");
+                                if (object1.Inherit == inheritobject1.Inherit) throw new ApplicationException(inheritobject1.Inherit + " : 循環参照です");
                                 object1.Inherit = inheritobject1.Inherit;
                                 Resolve(object1, inheritobject1);
                             }
                             else break;
                         }
-                        Object.GetOrAdd(object1.Name, object1);
+                        ObjectDictionary.GetOrAdd(object1.Name, object1);
                         break;
                     case StructureDataType.Power:
                         var power = new PowerData(tree.Name, inh);
                         Parse(SelectAssign(tree), power);
                         while (!string.IsNullOrEmpty(power.Inherit))
                         {
-                            PowerData inheritpower;
-                            if (Power.TryGetValue(power.Inherit, out inheritpower))
+                            if (PowerDictionary.TryGetValue(power.Inherit, out var inheritpower))
                             {
                                 power.Inherit = inheritpower.Inherit;
                                 Resolve(power, inheritpower);
                             }
                             else break;
                         }
-                        Power.GetOrAdd(power.Name, power);
+                        PowerDictionary.GetOrAdd(power.Name, power);
                         break;
                     case StructureDataType.Race:
                         var race = new RaceData(tree.Name, inh);
                         Parse(SelectAssign(tree), race);
                         while (!string.IsNullOrEmpty(race.Inherit))
                         {
-                            RaceData inheritrace;
-                            if (Race.TryGetValue(race.Inherit, out inheritrace))
+                            if (RaceDictionary.TryGetValue(race.Inherit, out var inheritrace))
                             {
                                 race.Inherit = inheritrace.Inherit;
                                 Resolve(race, inheritrace);
                             }
                             else break;
                         }
-                        Race.GetOrAdd(race.Name, race);
+                        RaceDictionary.GetOrAdd(race.Name, race);
                         break;
                     case StructureDataType.Skill:
                         var skill = new SkillData(tree.Name, inh);
                         Parse(SelectAssign(tree), skill);
                         while (!string.IsNullOrEmpty(skill.Inherit))
                         {
-                            SkillData inheritskill;
-                            if (Skill.TryGetValue(skill.Inherit, out inheritskill))
+                            if (SkillDictionary.TryGetValue(skill.Inherit, out var inheritskill))
                             {
                                 skill.Inherit = inheritskill.Inherit;
                                 Resolve(skill, inheritskill);
                             }
                             else break;
                         }
-                        Skill.GetOrAdd(skill.Name, skill);
+                        SkillDictionary.GetOrAdd(skill.Name, skill);
                         break;
                     case StructureDataType.Skillset:
                         var skillset = new SkillSetData(tree.Name, inh);
@@ -296,45 +304,42 @@ namespace Wahren
 
                         while (!string.IsNullOrEmpty(skillset.Inherit))
                         {
-                            SkillSetData inheritskillset;
-                            if (SkillSet.TryGetValue(skillset.Inherit, out inheritskillset))
+                            if (SkillSetDictionary.TryGetValue(skillset.Inherit, out var inheritskillset))
                             {
                                 skillset.Inherit = inheritskillset.Inherit;
                                 Resolve(skillset, inheritskillset);
                             }
                             else break;
                         }
-                        SkillSet.GetOrAdd(skillset.Name, skillset);
+                        SkillSetDictionary.GetOrAdd(skillset.Name, skillset);
                         break;
                     case StructureDataType.Spot:
                         var spot = new SpotData(tree.Name, inh);
                         Parse(SelectAssign(tree), spot);
                         while (!string.IsNullOrEmpty(spot.Inherit))
                         {
-                            SpotData inheritspot;
-                            if (Spot.TryGetValue(spot.Inherit, out inheritspot))
+                            if (SpotDictionary.TryGetValue(spot.Inherit, out var inheritspot))
                             {
                                 spot.Inherit = inheritspot.Inherit;
                                 Resolve(spot, inheritspot);
                             }
                             else break;
                         }
-                        Spot.GetOrAdd(spot.Name, spot);
+                        SpotDictionary.GetOrAdd(spot.Name, spot);
                         break;
                     case StructureDataType.Voice:
                         var voice = new VoiceData(tree.Name, inh) { NoPower = true };
                         Parse(SelectAssign(tree), voice);
                         while (!string.IsNullOrEmpty(voice.Inherit))
                         {
-                            VoiceData inheritvoice;
-                            if (Voice.TryGetValue(voice.Inherit, out inheritvoice))
+                            if (Dictionary.TryGetValue(voice.Inherit, out var inheritvoice))
                             {
                                 voice.Inherit = inheritvoice.Inherit;
                                 Resolve(voice, inheritvoice);
                             }
                             else break;
                         }
-                        Voice.GetOrAdd(voice.Name, voice);
+                        Dictionary.GetOrAdd(voice.Name, voice);
                         break;
                     case StructureDataType.Class:
                         var genericunit = new GenericUnitData(tree.Name, inh);
@@ -342,15 +347,14 @@ namespace Wahren
                         Parse(genericunit);
                         while (!string.IsNullOrEmpty(genericunit.Inherit))
                         {
-                            GenericUnitData inheritgenericunit;
-                            if (GenericUnit.TryGetValue(genericunit.Inherit, out inheritgenericunit))
+                            if (GenericUnitDictionary.TryGetValue(genericunit.Inherit, out var inheritgenericunit))
                             {
                                 genericunit.Inherit = inheritgenericunit.Inherit;
                                 Resolve(genericunit, inheritgenericunit);
                             }
                             else break;
                         }
-                        GenericUnit.GetOrAdd(genericunit.Name, genericunit);
+                        GenericUnitDictionary.GetOrAdd(genericunit.Name, genericunit);
                         break;
                     case StructureDataType.Unit:
                         var unit = new UnitData(tree.Name, inh);
@@ -358,8 +362,7 @@ namespace Wahren
                         Parse(unit);
                         while (!string.IsNullOrEmpty(unit.Inherit))
                         {
-                            UnitData inheritunit;
-                            if (Unit.TryGetValue(unit.Inherit, out inheritunit))
+                            if (UnitDictionary.TryGetValue(unit.Inherit, out var inheritunit))
                             {
                                 if (unit.Inherit == inheritunit.Inherit) throw new ApplicationException();
                                 unit.Inherit = inheritunit.Inherit;
@@ -367,7 +370,7 @@ namespace Wahren
                             }
                             else break;
                         }
-                        Unit.GetOrAdd(unit.Name, unit);
+                        UnitDictionary.GetOrAdd(unit.Name, unit);
                         break;
                 }
             }
@@ -381,12 +384,11 @@ namespace Wahren
             {
                 return dic.Where(_ => !string.IsNullOrEmpty(_.Value.Inherit)).Select(_ => _.Value);
             }
-            foreach (var item in WHERESELECT(Voice))
+            foreach (var item in WHERESELECT(Dictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    VoiceData inh;
-                    if (Voice.TryGetValue(item.Inherit, out inh))
+                    if (Dictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -395,12 +397,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(SkillSet))
+            foreach (var item in WHERESELECT(SkillSetDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    SkillSetData inh;
-                    if (SkillSet.TryGetValue(item.Inherit, out inh))
+                    if (SkillSetDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -409,12 +410,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Skill))
+            foreach (var item in WHERESELECT(SkillDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    SkillData inh;
-                    if (Skill.TryGetValue(item.Inherit, out inh))
+                    if (SkillDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -423,12 +423,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Object))
+            foreach (var item in WHERESELECT(ObjectDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    ObjectData inh;
-                    if (Object.TryGetValue(item.Inherit, out inh))
+                    if (ObjectDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -437,12 +436,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Event))
+            foreach (var item in WHERESELECT(EventDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    EventData inh;
-                    if (Event.TryGetValue(item.Inherit, out inh))
+                    if (EventDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -451,12 +449,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Field))
+            foreach (var item in WHERESELECT(FieldDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    FieldData inh;
-                    if (Field.TryGetValue(item.Inherit, out inh))
+                    if (FieldDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -465,12 +462,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Dungeon))
+            foreach (var item in WHERESELECT(DungeonDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    DungeonData inh;
-                    if (Dungeon.TryGetValue(item.Inherit, out inh))
+                    if (DungeonDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -479,12 +475,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Story))
+            foreach (var item in WHERESELECT(StoryDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    StoryData inh;
-                    if (Story.TryGetValue(item.Inherit, out inh))
+                    if (StoryDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -493,12 +488,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Race))
+            foreach (var item in WHERESELECT(RaceDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    RaceData inh;
-                    if (Race.TryGetValue(item.Inherit, out inh))
+                    if (RaceDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -507,12 +501,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Spot))
+            foreach (var item in WHERESELECT(SpotDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    SpotData inh;
-                    if (Spot.TryGetValue(item.Inherit, out inh))
+                    if (SpotDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -521,12 +514,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Power))
+            foreach (var item in WHERESELECT(PowerDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    PowerData inh;
-                    if (Power.TryGetValue(item.Inherit, out inh))
+                    if (PowerDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -535,12 +527,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Unit))
+            foreach (var item in WHERESELECT(UnitDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    UnitData inh;
-                    if (Unit.TryGetValue(item.Inherit, out inh))
+                    if (UnitDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -549,12 +540,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(GenericUnit))
+            foreach (var item in WHERESELECT(GenericUnitDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    GenericUnitData inh;
-                    if (GenericUnit.TryGetValue(item.Inherit, out inh))
+                    if (GenericUnitDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -563,12 +553,11 @@ namespace Wahren
                     else break;
                 }
             }
-            foreach (var item in WHERESELECT(Scenario))
+            foreach (var item in WHERESELECT(ScenarioDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    ScenarioData inh;
-                    if (Scenario.TryGetValue(item.Inherit, out inh))
+                    if (ScenarioDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -582,8 +571,7 @@ namespace Wahren
         {
             foreach (var sc in dic2)
             {
-                Dictionary<T2, T3> tmpDic;
-                if (dic1.TryGetValue(sc.Key, out tmpDic))
+                if (dic1.TryGetValue(sc.Key, out var tmpDic))
                 {
                     foreach (var item in sc.Value)
                         if (!tmpDic.ContainsKey(item.Key)) tmpDic[item.Key] = item.Value;
@@ -594,15 +582,21 @@ namespace Wahren
         internal static void Resolve<T>(T data1, T data2) where T : ScenarioVariantData
         {
             if (data1 == null || data2 == null) throw new ArgumentNullException();
-            var type = typeof(T);
-            if (type == GenericUnitDataType)
-                Resolve(data1 as GenericUnitData, data2 as GenericUnitData);
-            else if (type == PowerDataType)
-                Resolve(data1 as PowerData, data2 as PowerData);
-            else if (type == SpotDataType)
-                Resolve(data1 as SpotData, data2 as SpotData);
-            else if (type == UnitDataType)
-                Resolve(data1 as UnitData, data2 as UnitData);
+            switch (data1)
+            {
+                case GenericUnitData _1:
+                    Resolve(_1, data2 as GenericUnitData);
+                    break;
+                case PowerData _2:
+                    Resolve(_2, data2 as PowerData);
+                    break;
+                case SpotData _3:
+                    Resolve(_3, data2 as SpotData);
+                    break;
+                case UnitData _4:
+                    Resolve(_4, data2 as UnitData);
+                    break;
+            }
         }
         internal static void Resolve(VoiceData voiceData1, VoiceData voiceData2)
         {
@@ -1720,31 +1714,30 @@ namespace Wahren
                 foreach (var item in scenarioData2.CampingData)
                     scenarioData1.CampingData[item.Key] = item.Value;
             if (scenarioData1.ItemSale.Count == 0 && scenarioData2.ItemSale.Count != 0 && !scenarioData1.FilledWithNull.Contains("item_sale"))
-                foreach (var item in scenarioData2.ItemSale)
-                    scenarioData1.ItemSale[item.Key] = item.Value;
-            if (scenarioData1.ItemWindowTab.Count == 0 && scenarioData2.ItemWindowTab.Count != 0)
-                foreach (var item in scenarioData2.ItemWindowTab)
-                    scenarioData1.ItemWindowTab[item.Key] = item.Value;
+                scenarioData1.ItemSale.AddRange(scenarioData2.ItemSale);
+            if (scenarioData1.ItemWindowTab[0].Item1 == null && scenarioData2.ItemWindowTab[0].Item1 != null)
+                for (int i = 0; i < scenarioData1.ItemWindowTab.Length; i++)
+                    scenarioData1.ItemWindowTab[i] = scenarioData2.ItemWindowTab[i];
             if (scenarioData1.PoliticsData.Count == 0 && scenarioData2.PoliticsData.Count != 0 && !scenarioData1.FilledWithNull.Contains("poli"))
                 foreach (var item in scenarioData2.PoliticsData)
                     scenarioData1.PoliticsData[item.Key] = item.Value;
         }
         internal static void Parse<T>(IEnumerable<LexicalTree_Assign> enumerable, T data) where T : ScenarioVariantData
         {
-            var type = typeof(T);
-            if (type == SpotDataType)
-                Parse(enumerable, data as SpotData);
-            else if (type == PowerDataType)
-                Parse(enumerable, data as PowerData);
-            else if (type == GenericUnitDataType)
+            switch (data)
             {
-                Parse(enumerable, data as CommonUnitData);
-                Parse(data as GenericUnitData);
-            }
-            else if (type == UnitDataType)
-            {
-                Parse(enumerable, data as CommonUnitData);
-                Parse(data as UnitData);
+                case SpotData _1:
+                    Parse(enumerable, _1);
+                    break;
+                case PowerData _2:
+                    Parse(enumerable, _2);
+                    break;
+                case GenericUnitData _3:
+                    Parse(_3);
+                    break;
+                case UnitData _4:
+                    Parse(_4);
+                    break;
             }
         }
         internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, SkillData skill)
@@ -3537,8 +3530,7 @@ namespace Wahren
                         switch (keyVal.Value.Content.Count)
                         {
                             case 1:
-                                byte arbeitPercentage;
-                                if (byte.TryParse(keyVal.Value.Content[0].Content, out arbeitPercentage))
+                                if (byte.TryParse(keyVal.Value.Content[0].Content, out var arbeitPercentage))
                                 {
                                     unit.ArbeitPercentage = arbeitPercentage;
                                     unit.ArbeitType = 0;
@@ -4183,6 +4175,31 @@ namespace Wahren
                             default: throw new ApplicationException();
                         }
                         break;
+                    case "politics":
+                        if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
+                        {
+                            unit.Politics = null;
+                            unit.FilledWithNull.Add(assign.Name);
+                            break;
+                        }
+                        unit.FilledWithNull.Remove("politics");
+                        switch (assign.Content[0].ToLowerString())
+                        {
+                            case "on":
+                                unit.Politics = 1;
+                                break;
+                            case "fix":
+                                unit.Politics = 2;
+                                break;
+                            case "erase":
+                                unit.Politics = 3;
+                                break;
+                            case "unique":
+                                unit.Politics = 4;
+                                break;
+                            default: throw new ApplicationException();
+                        }
+                        break;
                     default:
                         ScenarioVariantRoutine(assign, unit.VariantData);
                         break;
@@ -4346,6 +4363,9 @@ namespace Wahren
                         break;
                     case "castle_lot":
                         spot.CastleLot = InsertInt(assign, spot.FilledWithNull);
+                        break;
+                    case "politics":
+                        spot.Politics = InsertBool(assign, spot.FilledWithNull);
                         break;
                     default:
                         ScenarioVariantRoutine(assign, spot.VariantData);
@@ -4530,6 +4550,18 @@ namespace Wahren
                         }
                         break;
                     case "item":
+                        for (int i = 0; i < scenario.ItemWindowTab.Length; i++)
+                        {
+                            scenario.ItemWindowTab[i] = (null, 0);
+                        }
+                        if (assign.Content[0].Symbol1 == '@' || assign.Content[0].ToLowerString() == "none")
+                        {
+                            scenario.FilledWithNull.Add(assign.Name);
+                            break;
+                        }
+                        scenario.FilledWithNull.Remove(assign.Name);
+                        for (int i = 0; i < assign.Content.Count; i++)
+                            scenario.ItemWindowTab[i] = (assign.Content[i].ToLowerString(), 1);
                         break;
                     case "item0":
                     case "item1":
@@ -4538,21 +4570,24 @@ namespace Wahren
                     case "item4":
                     case "item5":
                     case "item6":
+                        var itemIndex = int.Parse(assign.Name.Last().ToString());
+                        var itemTabName = scenario.ItemWindowTab[itemIndex].Item1;
                         switch (assign.Content[0].ToLowerString())
                         {
                             case "on":
-                                scenario.ItemWindowTab[assign.Name] = int.MaxValue;
+                                scenario.ItemWindowTab[itemIndex] = (itemTabName, int.MaxValue);
                                 break;
                             case "@":
                             case "off":
-                                scenario.ItemWindowTab[assign.Name] = 0;
+                                scenario.ItemWindowTab[itemIndex] = (itemTabName, 0);
                                 break;
                             default:
-                                scenario.ItemWindowTab[assign.Name] = (int)assign.Content[0].Number;
+                                scenario.ItemWindowTab[itemIndex] = (itemTabName, (int)assign.Content[0].Number);
                                 break;
                         }
                         break;
                     case "item_sale":
+                        InsertStringList(assign, scenario.FilledWithNull, scenario.ItemSale);
                         break;
                     case "item_limit":
                         scenario.IsItemLimit = InsertBool(assign, scenario.FilledWithNull);
@@ -4727,10 +4762,9 @@ namespace Wahren
                             break;
                         }
                         answer.FilledWithNull.Remove("monster");
-                        int count;
                         for (int i = 0; i < assign.Content.Count; i++)
                         {
-                            if (i + 1 < assign.Content.Count && int.TryParse(assign.Content[i + 1].Content, out count))
+                            if (i + 1 < assign.Content.Count && int.TryParse(assign.Content[i + 1].Content, out var count))
                                 answer.Monsters[assign.Content[i].ToLowerString()] = count;
                             else if (answer.Monsters.TryGetValue(assign.Content[i].ToLowerString(), out count))
                                 answer.Monsters[assign.Content[i].ToLowerString()] = count + 1;
@@ -4748,7 +4782,7 @@ namespace Wahren
                         answer.Item.AddRange(assign.Content.Select(_ => _.ToLowerString()));
                         break;
                     default:
-                        var split = assign.Name.Split('@', StringSplitOptions.RemoveEmptyEntries);
+                        var split = assign.Name.Split(new char[1] { '@' }, StringSplitOptions.RemoveEmptyEntries);
                         if (split.Length == 1)
                             answer.VariantData[int.Parse(split[1])][split[0]] = assign.Content;
                         else
@@ -5658,7 +5692,7 @@ namespace Wahren
                     VariantData[""] = new Dictionary<string, LexicalTree_Assign>() { { assign.Name.Substring(0, assign.Name.Length - 1), assign } };
                 return;
             }
-            var array = assign.Name.Split('@', StringSplitOptions.RemoveEmptyEntries);
+            var array = assign.Name.Split(new char[1] { '@' }, StringSplitOptions.RemoveEmptyEntries);
             switch (array.Length)
             {
                 case 1:
