@@ -27,7 +27,7 @@ namespace Wahren
         public static readonly ConcurrentDictionary<string, ObjectData> ObjectDictionary = new ConcurrentDictionary<string, ObjectData>();
         public static readonly ConcurrentDictionary<string, SkillData> SkillDictionary = new ConcurrentDictionary<string, SkillData>();
         public static readonly ConcurrentDictionary<string, SkillSetData> SkillSetDictionary = new ConcurrentDictionary<string, SkillSetData>();
-        public static readonly ConcurrentDictionary<string, VoiceData> Dictionary = new ConcurrentDictionary<string, VoiceData>();
+        public static readonly ConcurrentDictionary<string, VoiceData> VoiceDictionary = new ConcurrentDictionary<string, VoiceData>();
         public static readonly ConcurrentDictionary<string, MoveTypeData> MoveTypeDictionary = new ConcurrentDictionary<string, MoveTypeData>();
         public static readonly SoundData Sound = new SoundData();
         public static readonly ContextData Context = new ContextData();
@@ -65,7 +65,7 @@ namespace Wahren
             Workspace.Clear();
             Detail.Clear();
             MoveTypeDictionary.Clear();
-            Dictionary.Clear();
+            VoiceDictionary.Clear();
             SkillSetDictionary.Clear();
             SkillDictionary.Clear();
             ObjectDictionary.Clear();
@@ -129,7 +129,7 @@ namespace Wahren
                             Workspace.TryAdd(assign.Name, assign.ToString());
                         break;
                     case StructureDataType.Movetype:
-                        var movetype = new MoveTypeData(tree.Name);
+                        var movetype = new MoveTypeData(tree.Name, tree.File, tree.Line);
                         foreach (var assign in SelectAssign(tree))
                         {
                             switch (assign.Name)
@@ -165,7 +165,7 @@ namespace Wahren
                     case StructureDataType.Fight:
                     case StructureDataType.Function:
                     case StructureDataType.World:
-                        var eventData = new EventData(tree.Name, inh);
+                        var eventData = new EventData(tree.Name, inh, tree.File, tree.Line);
                         Parse(tree.Children, eventData);
                         while (!string.IsNullOrEmpty(eventData.Inherit))
                         {
@@ -180,7 +180,7 @@ namespace Wahren
                         EventDictionary.GetOrAdd(eventData.Name, eventData);
                         break;
                     case StructureDataType.Story:
-                        var story = new StoryData(tree.Name, inh);
+                        var story = new StoryData(tree.Name, inh, tree.File, tree.Line);
                         Parse(tree.Children, story);
                         while (!string.IsNullOrEmpty(story.Inherit))
                         {
@@ -195,7 +195,7 @@ namespace Wahren
                         StoryDictionary.GetOrAdd(story.Name, story);
                         break;
                     case StructureDataType.Dungeon:
-                        var dungeon = new DungeonData(tree.Name, inh);
+                        var dungeon = new DungeonData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), dungeon);
                         while (!string.IsNullOrEmpty(dungeon.Inherit))
                         {
@@ -210,7 +210,7 @@ namespace Wahren
                         DungeonDictionary.GetOrAdd(dungeon.Name, dungeon);
                         break;
                     case StructureDataType.Scenario:
-                        var scenario = new ScenarioData(tree.Name, inh);
+                        var scenario = new ScenarioData(tree.Name, inh, tree.File, tree.Line);
                         Parse(tree.Children, scenario);
                         while (!string.IsNullOrEmpty(scenario.Inherit))
                         {
@@ -225,8 +225,8 @@ namespace Wahren
                         ScenarioDictionary.GetOrAdd(scenario.Name, scenario);
                         break;
                     case StructureDataType.Field:
-                        if (ObjectDictionary.ContainsKey(tree.Name)) throw new Exception();
-                        var field = new FieldData(tree.Name, inh);
+                        if (ObjectDictionary.ContainsKey(tree.Name)) throw new Exception(tree.DebugInfo);
+                        var field = new FieldData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), field);
                         while (!string.IsNullOrEmpty(field.Inherit))
                         {
@@ -241,8 +241,8 @@ namespace Wahren
                         FieldDictionary.GetOrAdd(field.Name, field);
                         break;
                     case StructureDataType.Object:
-                        if (FieldDictionary.ContainsKey(tree.Name)) throw new Exception();
-                        var object1 = new ObjectData(tree.Name, inh);
+                        if (FieldDictionary.ContainsKey(tree.Name)) throw new Exception(tree.DebugInfo);
+                        var object1 = new ObjectData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), object1);
                         while (!string.IsNullOrEmpty(object1.Inherit))
                         {
@@ -257,7 +257,7 @@ namespace Wahren
                         ObjectDictionary.GetOrAdd(object1.Name, object1);
                         break;
                     case StructureDataType.Power:
-                        var power = new PowerData(tree.Name, inh);
+                        var power = new PowerData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), power);
                         while (!string.IsNullOrEmpty(power.Inherit))
                         {
@@ -271,7 +271,7 @@ namespace Wahren
                         PowerDictionary.GetOrAdd(power.Name, power);
                         break;
                     case StructureDataType.Race:
-                        var race = new RaceData(tree.Name, inh);
+                        var race = new RaceData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), race);
                         while (!string.IsNullOrEmpty(race.Inherit))
                         {
@@ -285,7 +285,7 @@ namespace Wahren
                         RaceDictionary.GetOrAdd(race.Name, race);
                         break;
                     case StructureDataType.Skill:
-                        var skill = new SkillData(tree.Name, inh);
+                        var skill = new SkillData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), skill);
                         while (!string.IsNullOrEmpty(skill.Inherit))
                         {
@@ -299,7 +299,7 @@ namespace Wahren
                         SkillDictionary.GetOrAdd(skill.Name, skill);
                         break;
                     case StructureDataType.Skillset:
-                        var skillset = new SkillSetData(tree.Name, inh);
+                        var skillset = new SkillSetData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), skillset);
 
                         while (!string.IsNullOrEmpty(skillset.Inherit))
@@ -314,7 +314,7 @@ namespace Wahren
                         SkillSetDictionary.GetOrAdd(skillset.Name, skillset);
                         break;
                     case StructureDataType.Spot:
-                        var spot = new SpotData(tree.Name, inh);
+                        var spot = new SpotData(tree.Name, inh, tree.File, tree.Line);
                         Parse(SelectAssign(tree), spot);
                         while (!string.IsNullOrEmpty(spot.Inherit))
                         {
@@ -328,21 +328,21 @@ namespace Wahren
                         SpotDictionary.GetOrAdd(spot.Name, spot);
                         break;
                     case StructureDataType.Voice:
-                        var voice = new VoiceData(tree.Name, inh) { NoPower = true };
+                        var voice = new VoiceData(tree.Name, inh, tree.File, tree.Line) { NoPower = true };
                         Parse(SelectAssign(tree), voice);
                         while (!string.IsNullOrEmpty(voice.Inherit))
                         {
-                            if (Dictionary.TryGetValue(voice.Inherit, out var inheritvoice))
+                            if (VoiceDictionary.TryGetValue(voice.Inherit, out var inheritvoice))
                             {
                                 voice.Inherit = inheritvoice.Inherit;
                                 Resolve(voice, inheritvoice);
                             }
                             else break;
                         }
-                        Dictionary.GetOrAdd(voice.Name, voice);
+                        VoiceDictionary.GetOrAdd(voice.Name, voice);
                         break;
                     case StructureDataType.Class:
-                        var genericunit = new GenericUnitData(tree.Name, inh);
+                        var genericunit = new GenericUnitData(tree.Name, inh, tree.File, tree.Line);
                         CommonParse<GenericUnitData>(SelectAssign(tree), genericunit);
                         Parse(genericunit);
                         while (!string.IsNullOrEmpty(genericunit.Inherit))
@@ -357,7 +357,7 @@ namespace Wahren
                         GenericUnitDictionary.GetOrAdd(genericunit.Name, genericunit);
                         break;
                     case StructureDataType.Unit:
-                        var unit = new UnitData(tree.Name, inh);
+                        var unit = new UnitData(tree.Name, inh, tree.File, tree.Line);
                         CommonParse<UnitData>(SelectAssign(tree), unit);
                         Parse(unit);
                         while (!string.IsNullOrEmpty(unit.Inherit))
@@ -384,11 +384,11 @@ namespace Wahren
             {
                 return dic.Where(_ => !string.IsNullOrEmpty(_.Value.Inherit)).Select(_ => _.Value);
             }
-            foreach (var item in WHERESELECT(Dictionary))
+            foreach (var item in WHERESELECT(VoiceDictionary))
             {
                 while (!string.IsNullOrEmpty(item.Inherit))
                 {
-                    if (Dictionary.TryGetValue(item.Inherit, out var inh))
+                    if (VoiceDictionary.TryGetValue(item.Inherit, out var inh))
                     {
                         if (item.Inherit == inh.Inherit) throw new ApplicationException();
                         item.Inherit = inh.Inherit;
@@ -1158,6 +1158,8 @@ namespace Wahren
         internal static void Resolve(SpotData spotData1, SpotData spotData2)
         {
             spotData1.VariantData.ResolveVariant(spotData2.VariantData);
+            if (spotData1.Politics == null && spotData2.Politics != null && !spotData1.FilledWithNull.Contains("politics"))
+                spotData1.Politics = spotData2.Politics;
             if (spotData1.BGM == null && spotData2.BGM != null && !spotData1.FilledWithNull.Contains("bgm"))
                 spotData1.BGM = spotData2.BGM;
             if (spotData1.Capacity == null && spotData2.Capacity != null && !spotData1.FilledWithNull.Contains("capacity"))
@@ -1574,8 +1576,8 @@ namespace Wahren
                 unitData1.IsViewUnit = unitData2.IsViewUnit;
             if (unitData1.Level == null && unitData2.Level != null && !unitData1.FilledWithNull.Contains("level"))
                 unitData1.Level = unitData2.Level;
-            if (unitData1.Line == null && unitData2.Line != null && !unitData1.FilledWithNull.Contains("line"))
-                unitData1.Line = unitData2.Line;
+            if (unitData1.DefenseLine == null && unitData2.DefenseLine != null && !unitData1.FilledWithNull.Contains("line"))
+                unitData1.DefenseLine = unitData2.DefenseLine;
             if (unitData1.LostCorpse == null && unitData2.LostCorpse != null && !unitData1.FilledWithNull.Contains("lost_corpse"))
                 unitData1.LostCorpse = unitData2.LostCorpse;
             if (unitData1.MoveType == null && unitData2.MoveType != null && !unitData1.FilledWithNull.Contains("movetype"))
@@ -3941,17 +3943,17 @@ namespace Wahren
                     case "line":
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
                         {
-                            unit.Line = null;
+                            unit.DefenseLine = null;
                             unit.FilledWithNull.Add("line");
                             break;
                         }
                         unit.FilledWithNull.Remove("line");
                         byte line = (byte)assign.Content[0].Number;
                         if (assign.Content[0].Type == 1)
-                            unit.Line = line;
+                            unit.DefenseLine = line;
                         else if (assign.Content[0].ToLowerString() == "front")
-                            unit.Line = 10;
-                        else unit.Line = 0;
+                            unit.DefenseLine = 10;
+                        else unit.DefenseLine = 0;
                         break;
                     case "satellite":
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
