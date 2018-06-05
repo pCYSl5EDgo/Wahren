@@ -86,7 +86,7 @@ namespace Wahren
             if (Folder == null) throw new ApplicationException("Folder must not be null!");
             var ans = new Task[Folder.Script_Dat.Count];
             for (int i = 0; i < ans.Length; i++)
-                ans[i] = Folder.Script_Dat[i].LoadAsync(Folder.Encoding, Folder.IsEnglishMode, Folder.IsDebug);
+                ans[i] = String.Intern(Folder.Script_Dat[i]).LoadAsync(Folder.Encoding, Folder.IsEnglishMode, Folder.IsDebug);
             return ans;
         }
         public static async Task LoadAsync(this string scriptFile, Encoding encoding, bool englishMode, bool isDebug)

@@ -9,7 +9,10 @@ namespace Wahren
 {
     public class LexicalTree : IName, Specific.IDebugInfo
     {
-        public string File { get; set; }
+        private string _name;
+        private string _file;
+
+        public string File { get => _file; set => _file = String.Intern(value); }
         public int Line { get; set; }
         public int Column { get; set; }
         public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
@@ -25,7 +28,7 @@ namespace Wahren
             NoNameStructure
         }
         public TreeType Type { get; set; }
-        public string Name { get; set; }
+        public string Name { get => _name; set => _name = String.Intern(value); }
 
         //Unit構造体やContext構造体
         public static IEnumerable<LexicalTree_Block> Parse(List<Token> input, bool isDebug)

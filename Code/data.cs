@@ -16,7 +16,9 @@ namespace Wahren
     }
     public abstract class BaseData : IName, Specific.IDebugInfo
     {
-        public string File { get; set; }
+        private string _file;
+
+        public string File { get => _file; set => _file = String.Intern(value); }
         public int Line { get; set; }
         public string Name { get; set; }
         //継承のためのもの

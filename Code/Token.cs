@@ -44,7 +44,7 @@ namespace Wahren
 
         public Token(string file, int line, int column, bool isDebug, bool isMemo, byte type, string content, char symbol1, char symbol2, long number)
         {
-            File = file;
+            File = String.Intern(file);
             Line = line;
             Column = column;
             IsDebug = isDebug;
@@ -58,7 +58,7 @@ namespace Wahren
 
         public Token(string file, int line, int column, bool isDebug, bool isMemo, string content)
         {
-            File = file;
+            File = String.Intern(file);
             Line = line;
             Column = column;
             IsDebug = isDebug;
@@ -70,7 +70,7 @@ namespace Wahren
         }
         public Token(string file, int line, int column, bool isDebug, bool isMemo, char symbol1)
         {
-            File = file;
+            File = String.Intern(file);
             Line = line;
             Column = column;
             IsDebug = isDebug;
@@ -83,7 +83,7 @@ namespace Wahren
         }
         public Token(string file, int line, int column, bool isDebug, bool isMemo, char symbol1, char symbol2)
         {
-            File = file;
+            File = String.Intern(file);
             Line = line;
             Column = column;
             IsDebug = isDebug;
@@ -96,7 +96,7 @@ namespace Wahren
         }
         public Token(string file, int line, int column, bool isDebug, bool isMemo, long number)
         {
-            File = file;
+            File = String.Intern(file);
             Line = line;
             Column = column;
             IsDebug = isDebug;
@@ -259,9 +259,8 @@ namespace Wahren
             if (string.IsNullOrWhiteSpace(file) || !new FileInfo(file).Exists) throw new ArgumentException($"{file}は存在しません。");
             void TryParse(List<Token> ans, StringBuilder _, string f, int l, int col, bool dbg)
             {
-                long tmp;
                 var b = _.ToString();
-                if (long.TryParse(b, out tmp))
+                if (long.TryParse(b, out var tmp))
                     ans.Add(new Token(f, l, col - _.Length, dbg, false, tmp));
                 else
                     ans.Add(new Token(f, l, col - _.Length, dbg, false, b));

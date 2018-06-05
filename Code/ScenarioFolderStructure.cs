@@ -74,7 +74,7 @@ namespace Wahren
                 switch (new DirectoryInfo(folder).Name.ToLower())
                 {
                     case "script":
-                        Script_Dat.AddRange(Directory.GetFiles(folder, "*.dat", SearchOption.AllDirectories));
+                        Script_Dat.AddRange(Directory.GetFiles(folder, "*.dat", SearchOption.AllDirectories).Select(String.Intern));
                         Script_Language.AddRange(Directory.GetFiles(folder, "language*.txt"));
                         //UTF8モード
                         var utf8FileInfo = new FileInfo(Path.Combine(folder, "utf8.txt"));
