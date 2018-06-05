@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wahren
 {
-    public class LexicalTree : IName
+    public class LexicalTree : IName, Specific.IDebugInfo
     {
         public string File { get; set; }
         public int Line { get; set; }
@@ -95,7 +95,6 @@ namespace Wahren
         public List<Token> Content { get; } = new List<Token>();
         public LexicalTree_Content(string name) : base(name) { }
     }
-
     public sealed class LexicalTree_VariableParen : LexicalTree_Content
     {
         public static LexicalTree_VariableParen Parse(ref IEnumerator<Token> c)
@@ -187,7 +186,7 @@ namespace Wahren
                 act((int)item.Number);
         }
     }
-    public class LexicalTree_BoolParen : LexicalTree_Block
+    public sealed class LexicalTree_BoolParen : LexicalTree_Block
     {
         public sealed class SingleContent : LexicalTree
         {
@@ -337,7 +336,8 @@ namespace Wahren
         {
             return ParseBool_Inner(ref c);
         }
-        public override string ToString(){
+        public override string ToString()
+        {
             var buf = new StringBuilder();
             for (int i = 0; i < Children.Count; i++)
                 buf.Append(Children[i].ToString());
