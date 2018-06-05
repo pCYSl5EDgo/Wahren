@@ -25,19 +25,22 @@ namespace Wahren
 
         public override string ToString() => Type == 0 ? Content : (Type == 2 ? Number.ToString() : (Symbol2 == default(char) ? new string(new char[1] { Symbol1 }) : new string(new char[2] { Symbol1, Symbol2 })));
         public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
+        private string toLowerString;
         public string ToLowerString()
         {
+            if (toLowerString != null)
+                return toLowerString;
             switch (Type)
             {
                 case 0:
-                    return Content.ToLower();
+                    return toLowerString = String.Intern(Content.ToLower());
                 case 1:
-                    return Number.ToString();
+                    return toLowerString = Number.ToString();
                 case 2:
                     if (Symbol2 == default(char))
-                        return Symbol1.ToString();
+                        return toLowerString = Symbol1.ToString();
                     else
-                        return new string(new char[2] { Symbol1, Symbol2 });
+                        return toLowerString = new string(new char[2] { Symbol1, Symbol2 });
             }
             throw new InvalidDataException();
         }
@@ -54,6 +57,7 @@ namespace Wahren
             Symbol1 = symbol1;
             Symbol2 = symbol2;
             Number = number;
+            toLowerString = null;
         }
 
         public Token(string file, int line, int column, bool isDebug, bool isMemo, string content)
@@ -67,6 +71,7 @@ namespace Wahren
             Type = 0;
             Symbol1 = Symbol2 = default(char);
             Number = default(long);
+            toLowerString = null;
         }
         public Token(string file, int line, int column, bool isDebug, bool isMemo, char symbol1)
         {
@@ -80,6 +85,7 @@ namespace Wahren
             Symbol1 = symbol1;
             Symbol2 = default(char);
             Number = default(long);
+            toLowerString = null;
         }
         public Token(string file, int line, int column, bool isDebug, bool isMemo, char symbol1, char symbol2)
         {
@@ -93,6 +99,7 @@ namespace Wahren
             Symbol1 = symbol1;
             Symbol2 = symbol2;
             Number = default(long);
+            toLowerString = null;
         }
         public Token(string file, int line, int column, bool isDebug, bool isMemo, long number)
         {
@@ -105,6 +112,7 @@ namespace Wahren
             Type = 2;
             Symbol1 = Symbol2 = default(char);
             Number = number;
+            toLowerString = null;
         }
         public bool IsSingleSymbol => Type == 1 && Symbol2 == default(char);
         public bool IsDoubleSymbol => Type == 1 && Symbol2 != default(char);
