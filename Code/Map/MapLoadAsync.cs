@@ -54,6 +54,9 @@ namespace Wahren.Map
         public void Load(string path) => Load(new FileInfo(path));
         public void Load(FileInfo fi)
         {
+            if (fi == null)
+                throw new ArgumentNullException(nameof(fi));
+
             using (var stream = fi.Open(FileMode.Open))
             {
                 byte[] b2 = new byte[2];
@@ -104,6 +107,9 @@ namespace Wahren.Map
         }
         public Task Save(FileInfo fi)
         {
+            if (fi == null)
+                throw new ArgumentNullException(nameof(fi));
+
             var ans = new List<byte>();
             ans.Add((byte)Pool[0].Length);
             ans.Add((byte)Pool.Length);
