@@ -15,13 +15,13 @@ namespace Wahren
         public bool? Fight { get; set; }
         public bool? Politics { get; set; }
         public bool? Pre { get; set; }
-        public StoryData(string name, string inherit) : base(name, inherit) { }
+        public StoryData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
     }
     public class EventData : InheritData, IScript
     {
         public List<LexicalTree> Script { get; } = new List<LexicalTree>();
 
-        public EventData(string name, string inherit) : base(name, inherit) { }
+        public EventData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public string BackGround { get; set; }
         public int? Width { get; set; }
         public int? Height { get; set; }
@@ -43,7 +43,7 @@ namespace Wahren
     public partial class ScenarioData : InheritData, IScript
     {
         public List<LexicalTree> Script { get; } = new List<LexicalTree>();
-        public ScenarioData(string name, string inherit) : base(name, inherit) { }
+        public ScenarioData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public override string ToString() => DisplayName;
         public string DisplayName { get; set; }
         public string WorldMapPath { get; set; }

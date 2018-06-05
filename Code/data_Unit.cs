@@ -5,16 +5,16 @@ namespace Wahren
 {
     public class GenericUnitData : CommonUnitData
     {
-        public GenericUnitData(string name, string inherit) : base(name, inherit) { }
-        public GenericUnitData() : base("", "") { }
+        public GenericUnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        public GenericUnitData() : base("", "", "", 0) { }
         public string BaseClassKey { get; set; }
         public bool? IsUnique { get; set; }
         public Tuple<string, int> Change { get; set; }
     }
     public sealed class UnitData : CommonUnitData
     {
-        public UnitData(string name, string inherit) : base(name, inherit) { }
-        public UnitData() : base("", "") { }
+        public UnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        public UnitData() : base("", "", "", 0) { }
         public bool? IsTalent { get; set; }
         public string BGM { get; set; }
         public byte? Volume { get; set; }
@@ -90,8 +90,7 @@ namespace Wahren
     }
     public class CommonUnitData : ScenarioVariantData
     {
-        public CommonUnitData(string name, string inherit) : base(name, inherit) { }
-        internal CommonUnitData() : base("", "") { }
+        public CommonUnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public string DisplayName { get; set; }
         // 0 neuter
         // 1 male
@@ -155,7 +154,7 @@ namespace Wahren
         public string MoveType { get; set; }
         //front 10
         //back 0
-        public byte? Line { get; set; }
+        public byte? DefenseLine { get; set; }
         public bool? IsSatellite { get; set; }
         public int? Satellite { get; set; }
         public bool? IsBeast { get; set; }

@@ -14,27 +14,35 @@ namespace Wahren
         Fight, Function, Deploy,
         Object, Race, Scenario, Skill, Skillset, Voice
     }
-    public class BaseData : IName
+    public abstract class BaseData : IName, Specific.IDebugInfo
     {
+        public string File { get; set; }
+        public int Line { get; set; }
         public string Name { get; set; }
         //継承のためのもの
         //どの項目がnull(@)に設定されたかを示す
         public List<string> FilledWithNull { get; } = new List<string>();
 
-        protected BaseData(string name) { Name = name?.ToLower() ?? ""; }
+        protected BaseData(string name, string file, int line)
+        {
+            Name = name?.ToLower() ?? "";
+            File = file;
+            Line = line;
+        }
+        public string DebugInfo => File + '/' + (Line + 1);
     }
 
-    public class InheritData : BaseData, IInherit
+    public abstract class InheritData : BaseData, IInherit
     {
         public string Inherit { get; set; }
-        protected InheritData(string name, string inherit) : base(name) { Inherit = inherit?.ToLower() ?? ""; }
+        protected InheritData(string name, string inherit, string file, int line) : base(name, file, line) { Inherit = inherit?.ToLower() ?? ""; }
     }
 
     public class ScenarioVariantData : InheritData
     {
         //scenario, 項目, データ
         public Dictionary<string, Dictionary<string, LexicalTree_Assign>> VariantData { get; } = new Dictionary<string, Dictionary<string, LexicalTree_Assign>>();
-        protected ScenarioVariantData(string name, string inherit) : base(name, inherit) { }
+        protected ScenarioVariantData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
     }
 
     public class AttributeData : ConcurrentDictionary<string, Tuple<string, int>>
@@ -76,8 +84,7 @@ namespace Wahren
     { }
     public sealed class VoiceData : InheritData
     {
-        public VoiceData(string name, string inherit) : base(name, inherit) { }
-        internal VoiceData() : base("", "") { }
+        public VoiceData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public List<string> VoiceType { get; } = new List<string>();
         public List<string> DeleteVoiceType { get; } = new List<string>();
         public List<string> SpotVoice { get; } = new List<string>();
@@ -86,8 +93,8 @@ namespace Wahren
     }
     public class SpotData : ScenarioVariantData
     {
-        public SpotData(string name, string inherit) : base(name, inherit) { }
-        public SpotData() : base("", "") { }
+        public SpotData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        public SpotData() : base("", "", "", 0) { }
         public string DisplayName { get; set; }
         public string Image { get; set; }
         public int? X { get; set; }
@@ -134,16 +141,14 @@ namespace Wahren
     }
     public class SkillSetData : ScenarioVariantData
     {
-        public SkillSetData(string name, string inherit) : base(name, inherit) { }
-        internal SkillSetData() : base("", "") { }
+        public SkillSetData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public string DisplayName { get; set; }
         public List<string> MemberSkill { get; } = new List<string>();
         public string BackIconPath { get; set; }
     }
     public class RaceData : ScenarioVariantData
     {
-        public RaceData(string name, string inherit) : base(name, inherit) { }
-        internal RaceData() : base("", "") { }
+        public RaceData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public string DisplayName { get; set; }
         public byte? Align { get; set; }
         public byte? Brave { get; set; }
@@ -152,8 +157,8 @@ namespace Wahren
     }
     public class PowerData : ScenarioVariantData
     {
-        public PowerData(string name, string inherit) : base(name, inherit) { }
-        public PowerData() : base("", "") { }
+        public PowerData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        public PowerData() : base("", "", "", 0) { }
         public string DisplayName { get; set; }
         public string FlagPath { get; set; }
         public string Master { get; set; }
@@ -208,8 +213,7 @@ namespace Wahren
     }
     public class ObjectData : InheritData
     {
-        public ObjectData(string name, string inherit) : base(name, inherit) { }
-        internal ObjectData() : base("", "") { }
+        public ObjectData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public enum ChipType
         {
             None, coll, wall, wall2, breakable, gate, floor, start, goal, box, cover
@@ -236,7 +240,7 @@ namespace Wahren
     //name, (displayName, help, (field, move))
     public class MoveTypeData : BaseData
     {
-        public MoveTypeData(string name) : base(name) { }
+        public MoveTypeData(string name, string file, int line) : base(name, file, line) { }
         public string DisplayName { get; set; }
         public string Help { get; set; }
         public Dictionary<string, byte> FieldMoveDictionary { get; } = new Dictionary<string, byte>();
@@ -244,8 +248,7 @@ namespace Wahren
     }
     public class FieldData : InheritData
     {
-        public FieldData(string name, string inherit) : base(name, inherit) { }
-        internal FieldData() : base("", "") { }
+        public FieldData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public enum Smooth : byte { on, off, step }
         public enum ChipType : byte { None, coll, wall, wall2 }
         public ChipType Type { get; set; }
@@ -265,8 +268,7 @@ namespace Wahren
     }
     public class DungeonData : InheritData
     {
-        public DungeonData(string name, string inherit) : base(name, inherit) { }
-        internal DungeonData() : base("", "") { }
+        public DungeonData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         public string DisplayName { get; set; }
         public int? Max { get; set; }
         public int? MoveSpeedRatio { get; set; }

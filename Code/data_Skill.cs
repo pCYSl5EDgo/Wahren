@@ -7,7 +7,6 @@ namespace Wahren
     public enum StrType { None, Attack, Magic, AttackMagic, AttackDext, MagicDext, Fix }
     public class SkillData : ScenarioVariantData
     {
-        internal SkillData() : base("", "") { }
         public string DisplayName { get; set; }
         public List<string> Icon { get; } = new List<string>();
         public List<byte> IconAlpha { get; } = new List<byte>();
@@ -249,9 +248,6 @@ namespace Wahren
 
         /*Status */
 
-        public SkillData(string name, string inherit) : base(name, inherit)
-        {
-
-        }
+        public SkillData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
     }
 }

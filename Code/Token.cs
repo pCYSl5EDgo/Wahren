@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wahren
 {
-    public struct Token
+    public struct Token : Specific.IDebugInfo
     {
         public readonly string File;
         public readonly int Line;
