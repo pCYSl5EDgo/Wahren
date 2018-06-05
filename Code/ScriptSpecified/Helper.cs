@@ -54,14 +54,44 @@ namespace Wahren.Specific
                 set.Add(list[index].Content.ToLower());
             else if (list[index].Type != 2) throw new Exception(list[index].DebugInfo);
         }
-        internal static void AddVariable(this List<Token> list, int index, SortedSet<string> set)
+        internal static void AddVariableOnly(this List<Token> list, int index, SortedSet<string> set, SortedSet<string> set2)
+        {
+            if (list.Count <= index) throw new IndexOutOfRangeException();
+            else if (list[index].Type == 1 && list[index].Symbol1 != '@')
+                throw new Exception(list[index].DebugInfo);
+            else
+            {
+                var item = (list[index].Content ?? "").ToLower();
+                if (!Variable.IsMatch(item))
+                    item = '@' + item;
+                set.Add(item);
+                set2.Add(item);
+            }
+        }
+        internal static void AddVariableOnly(this List<Token> list, int index, SortedSet<string> set)
+        {
+            if (list.Count <= index) throw new IndexOutOfRangeException();
+            else if (list[index].Type == 1 && list[index].Symbol1 != '@')
+                throw new Exception(list[index].DebugInfo);
+            else
+            {
+                var item = (list[index].Content ?? "").ToLower();
+                if (!Variable.IsMatch(item))
+                    set.Add('@' + item);
+                else set.Add(item);
+            }
+        }
+        internal static void AddVariable(this List<Token> list, int index, SortedSet<string> set, params SortedSet<string>[] sets)
         {
             if (list.Count <= index) throw new IndexOutOfRangeException();
             else if (list[index].Type == 1 && list[index].Symbol1 != '@')
                 throw new Exception(list[index].DebugInfo);
             else if (!Variable.IsMatch(list[index].Content ?? ""))
                 throw new Exception(list[index].DebugInfo);
-            set.Add(list[index].Content.ToLower());
+            var name = list[index].Content.ToLower();
+            set.Add(name);
+            for (int i = 0; i < sets.Length; i++)
+                sets[i].Add(name);
         }
         internal static void AddVariableOrIdentifier(this List<Token> list, int index, SortedSet<string> variable, SortedSet<string> identifier)
         {
