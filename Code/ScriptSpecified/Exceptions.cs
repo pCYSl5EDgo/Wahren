@@ -1,9 +1,20 @@
 using System;
 using System.Runtime.Serialization;
+
 namespace Wahren.Specific
 {
     [Serializable]
-    public sealed class UnitNotFoundException : Exception
+    public class NotFoundException : Exception
+    {
+        public NotFoundException() { }
+        public NotFoundException(string message) : base(message) { }
+        public NotFoundException(string message, Exception inner) : base(message, inner) { }
+        protected NotFoundException(
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public sealed class UnitNotFoundException : NotFoundException
     {
         public UnitNotFoundException() { }
         public UnitNotFoundException(string message) : base(message) { }
@@ -12,134 +23,134 @@ namespace Wahren.Specific
             SerializationInfo info,
             StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class UnitPowerNotFoundException : System.Exception
+    [Serializable]
+    public class UnitPowerNotFoundException : NotFoundException
     {
         public UnitPowerNotFoundException() { }
         public UnitPowerNotFoundException(string message) : base(message) { }
-        public UnitPowerNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public UnitPowerNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected UnitPowerNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class SpotPowerNotFoundException : System.Exception
+    [Serializable]
+    public class SpotPowerNotFoundException : NotFoundException
     {
         public SpotPowerNotFoundException() { }
         public SpotPowerNotFoundException(string message) : base(message) { }
-        public SpotPowerNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public SpotPowerNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected SpotPowerNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class SpotNotFoundException : System.Exception
+    [Serializable]
+    public class SpotNotFoundException : NotFoundException
     {
         public SpotNotFoundException() { }
         public SpotNotFoundException(string message) : base(message) { }
-        public SpotNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public SpotNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected SpotNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class RaceNotFoundException : System.Exception
+    [Serializable]
+    public class RaceNotFoundException : NotFoundException
     {
         public RaceNotFoundException() { }
         public RaceNotFoundException(string message) : base(message) { }
-        public RaceNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public RaceNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected RaceNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public sealed class PowerNotFoundException : System.Exception
+    [Serializable]
+    public sealed class PowerNotFoundException : NotFoundException
     {
         public PowerNotFoundException() { }
         public PowerNotFoundException(string message) : base(message) { }
-        public PowerNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public PowerNotFoundException(string message, Exception inner) : base(message, inner) { }
         PowerNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public sealed class SkillNotFoundException : System.Exception
+    [Serializable]
+    public sealed class SkillNotFoundException : NotFoundException
     {
         public SkillNotFoundException() { }
         public SkillNotFoundException(string message) : base(message) { }
-        public SkillNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public SkillNotFoundException(string message, Exception inner) : base(message, inner) { }
         SkillNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public sealed class OnOffException : System.Exception
+    [Serializable]
+    public sealed class OnOffException : NotFoundException
     {
         public OnOffException() { }
         public OnOffException(string message) : base(message) { }
-        public OnOffException(string message, System.Exception inner) : base(message, inner) { }
+        public OnOffException(string message, Exception inner) : base(message, inner) { }
         OnOffException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class DungeonNotFoundException : System.Exception
+    [Serializable]
+    public class DungeonNotFoundException : NotFoundException
     {
         public DungeonNotFoundException() { }
         public DungeonNotFoundException(string message) : base(message) { }
-        public DungeonNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public DungeonNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected DungeonNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class UnitClassRaceNotFoundException : System.Exception
+    [Serializable]
+    public class UnitClassRaceNotFoundException : NotFoundException
     {
         public UnitClassRaceNotFoundException() { }
         public UnitClassRaceNotFoundException(string message) : base(message) { }
-        public UnitClassRaceNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public UnitClassRaceNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected UnitClassRaceNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public sealed class UnitClassNotFoundException : System.Exception
+    [Serializable]
+    public sealed class UnitClassNotFoundException : NotFoundException
     {
         public UnitClassNotFoundException() { }
         public UnitClassNotFoundException(string message) : base(message) { }
-        public UnitClassNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public UnitClassNotFoundException(string message, Exception inner) : base(message, inner) { }
         UnitClassNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public sealed class ClassNotFoundException : System.Exception
+    [Serializable]
+    public sealed class ClassNotFoundException : NotFoundException
     {
         public ClassNotFoundException() { }
         public ClassNotFoundException(string message) : base(message) { }
-        public ClassNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public ClassNotFoundException(string message, Exception inner) : base(message, inner) { }
         ClassNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public sealed class EventNotFoundException : System.Exception
+    [Serializable]
+    public sealed class EventNotFoundException : NotFoundException
     {
         public EventNotFoundException() { }
         public EventNotFoundException(string message) : base(message) { }
-        public EventNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public EventNotFoundException(string message, Exception inner) : base(message, inner) { }
         EventNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
-    [System.Serializable]
-    public class UnitSpotNotFoundException : System.Exception
+    [Serializable]
+    public class UnitSpotNotFoundException : NotFoundException
     {
         public UnitSpotNotFoundException() { }
         public UnitSpotNotFoundException(string message) : base(message) { }
-        public UnitSpotNotFoundException(string message, System.Exception inner) : base(message, inner) { }
+        public UnitSpotNotFoundException(string message, Exception inner) : base(message, inner) { }
         protected UnitSpotNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context) : base(info, context) { }
     }
 }
