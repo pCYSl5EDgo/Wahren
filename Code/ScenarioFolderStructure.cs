@@ -135,6 +135,7 @@ namespace Wahren
                         {
                             Span<byte> tmp = stackalloc byte[12];
                             Span<byte> file;
+                            if (!new FileInfo(filePath).Exists) return default;
                             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, false))
                             {
                                 fs.Read(tmp);

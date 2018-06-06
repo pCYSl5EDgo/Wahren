@@ -27,15 +27,16 @@ namespace Wahren
                 image.OnExecute(() =>
                 {
                     var sc = new ScenarioFolder(folderArgument.Value);
-                    var dest = destArgument.Value;
-                    if (Directory.Exists(dest))
-                        Directory.Delete(dest, true);
-                    Directory.CreateDirectory(dest);
+                    var destinationFolder = destArgument.Value;
+                    if (Directory.Exists(destinationFolder))
+                        Directory.Delete(destinationFolder, true);
+                    Directory.CreateDirectory(destinationFolder);
+                    var imageDirectory = Path.Combine(destinationFolder, "image");
+                    Directory.CreateDirectory(imageDirectory);
                     void ProcessChip(string f, (byte R, byte G, byte B, byte A) transparent, string imagedata, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
                     {
-                        var chipDir = Path.Combine(dest, f);
-                        Directory.CreateDirectory(chipDir);
-                        var trans = new Rgba32(transparent.R, transparent.G, transparent.B, transparent.A);
+                        var chipDir = Path.Combine(destinationFolder, f);
+                        var transColor = new Rgb24(transparent.R, transparent.G, transparent.B);
                         using (var input = Image.Load(imagedata))
                         {
                             foreach (var (name, (left, top, right, bottom)) in dictionary)
@@ -44,14 +45,96 @@ namespace Wahren
                                 {
                                     for (int i = 0; i < right - left; i++)
                                         for (int j = 0; j < bottom - top; j++)
-                                            destination[i, j] = input[i + left, j + top].Equals(trans) ? Rgba32.Transparent : input[i + left, j + top];
+                                        {
+                                            var tmp = input[i + left, j + top];
+                                            destination[i, j] = tmp.Rgb.Equals(transColor) ? Rgba32.Transparent : tmp;
+                                        }
                                     destination.Save(Path.Combine(chipDir, name + ".png"));
                                 }
                             }
                         }
                     }
-                    ProcessChip("chip", sc.ImageData1TransparentColor, sc.ImageData1, sc.ImageData1Dictionary);
-                    ProcessChip("chip2", sc.ImageData2TransparentColor, sc.ImageData2, sc.ImageData2Dictionary);
+                    void AppendChip(string f, List<string> bmps, List<string> jpgs, List<string> pngs)
+                    {
+                        var chipDir = Path.Combine(destinationFolder, f);
+                        for (int i = 0; i < bmps.Count; i++)
+                            using (var input = Image.Load(bmps[i]))
+                            {
+                                input.Save(Path.Combine(chipDir, Path.GetFileNameWithoutExtension(bmps[i]).ToLower() + ".png"));
+                            }
+                        for (int i = 0; i < jpgs.Count; i++)
+                            using (var input = Image.Load(jpgs[i]))
+                            {
+                                input.Save(Path.Combine(chipDir, Path.GetFileNameWithoutExtension(jpgs[i]).ToLower() + ".png"));
+                            }
+                        for (int i = 0; i < pngs.Count; i++)
+                            File.Copy(pngs[i], Path.Combine(chipDir, Path.GetFileName(pngs[i]).ToLower()), true);
+                    }
+                    Directory.CreateDirectory(Path.Combine(destinationFolder, "chip"));
+                    Directory.CreateDirectory(Path.Combine(destinationFolder, "chip2"));
+                    if (sc.ImageData1Dictionary.Count != 0)
+                        ProcessChip("chip", sc.ImageData1TransparentColor, sc.ImageData1, sc.ImageData1Dictionary);
+                    if (sc.ImageData2Dictionary.Count != 0)
+                        ProcessChip("chip2", sc.ImageData2TransparentColor, sc.ImageData2, sc.ImageData2Dictionary);
+                    AppendChip("chip", sc.Chip_Bmp, sc.Chip_Jpg, sc.Chip_Png);
+                    AppendChip("chip2", sc.Chip2_Bmp, sc.Chip2_Jpg, sc.Chip2_Png);
+                    #region ウィンドウスキンやタイトル画面関連の画像処理
+                    {
+                        Span<char> span = stackalloc char[8];
+                        "wnd0.png".AsSpan().CopyTo(span);
+                        var inputDirectory = Path.Combine(folderArgument.Value, "image");
+                        for (int i = 0; i < 5; i++)
+                        {
+                            span[3] = (char)('0' + i);
+                            using (var img = Image.Load(Path.Combine(inputDirectory, span.ToString())))
+                            using (var destimg = new Image<Rgba32>(64, 64))
+                            {
+                                for (int j = 0; j < 64; j++)
+                                    for (int k = 0; k < 64; k++)
+                                        destimg[k, j] = img[k, j];
+                                for (int j = 0; j < 16; j++)
+                                    for (int k = 64; k < 128; k++)
+                                        if (img[k, j].A != 0)
+                                            destimg[k - 64, j] = img[k, j];
+                                for (int j = 16; j < 48; j++)
+                                {
+                                    for (int k = 64; k < 80; k++)
+                                        if (img[k, j].A != 0)
+                                            destimg[k - 64, j] = img[k, j];
+                                    for (int k = 112; k < 128; k++)
+                                        if (img[k, j].A != 0)
+                                            destimg[k - 64, j] = img[k, j];
+                                }
+                                for (int j = 48; j < 64; j++)
+                                    for (int k = 64; k < 128; k++)
+                                        if (img[k, j].A != 0)
+                                            destimg[k - 64, j] = img[k, j];
+                                destimg.Save(Path.Combine(imageDirectory, span.ToString()));
+                            }
+                        }
+                        var titleImages = new string[] {
+                            "easy.png",
+                            "normal.png",
+                            "hard.png",
+                            "luna.png",
+                            "continue.png",
+                            "tool.png",
+                            "wnd5.png",
+                        };
+                        for (int i = 0; i < titleImages.Length; i++)
+                        {
+                            using (var img = Image.Load(Path.Combine(inputDirectory, titleImages[i])))
+                            using (var destimg = new Image<Rgba32>(img.Width, img.Height))
+                            {
+                                var transparent = img[0, 0];
+                                for (int j = 0; j < destimg.Height; j++)
+                                    for (int k = 0; k < destimg.Width; k++)
+                                        destimg[k, j] = img[k, j].Equals(transparent) ? Rgba32.Transparent : img[k, j];
+                                destimg.Save(Path.Combine(imageDirectory, titleImages[i]));
+                            }
+                        }
+                    }
+                    #endregion
                     return 0;
                 });
             });
