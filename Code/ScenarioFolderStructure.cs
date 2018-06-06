@@ -152,7 +152,7 @@ namespace Wahren
                             while (true)
                             {
                                 if (file.StartsWith(endOfFile))
-                                    return (tmp[0], tmp[1], tmp[2], tmp[3]);
+                                    return (tmp[2], tmp[1], tmp[0], tmp[3]);
                                 index = file.IndexOf<byte>(0);
                                 if (index > lower.Length)
                                     throw new IndexOutOfRangeException();
