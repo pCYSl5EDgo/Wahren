@@ -69,7 +69,7 @@ namespace Wahren
             foreach (var tree in LexicalTree.Parse(await scriptFile.Parse(encoding, englishMode), isDebug))
             {
                 var inh = (tree as IInherit)?.Inherit;
-                if (tree.Name == inh) throw new ApplicationException(tree.File + "\r\n" + tree.Name + " : 循環参照です");
+                if (tree.Name == inh) throw new CircularReferenceException(tree.DebugInfo);
                 switch ((tree as IStructureDataType).Structure)
                 {
                     case StructureDataType.Attribute:
@@ -146,7 +146,7 @@ namespace Wahren
                         {
                             if (EventDictionary.TryGetValue(eventData.Inherit, out var inheritEvent))
                             {
-                                if (eventData.Inherit == inheritEvent.Inherit) throw new ApplicationException(inheritEvent.Inherit + " : 循環参照です");
+                                if (eventData.Inherit == inheritEvent.Inherit) throw new CircularReferenceException(inheritEvent.DebugInfo + ':' + inheritEvent.Inherit);
                                 eventData.Inherit = inheritEvent.Inherit;
                                 Resolve(eventData, inheritEvent);
                             }
@@ -161,7 +161,7 @@ namespace Wahren
                         {
                             if (StoryDictionary.TryGetValue(story.Inherit, out var inheritStory))
                             {
-                                if (story.Inherit == inheritStory.Inherit) throw new ApplicationException(inheritStory.Inherit + " : 循環参照です");
+                                if (story.Inherit == inheritStory.Inherit) throw new CircularReferenceException(inheritStory.DebugInfo + ':' + inheritStory.Inherit);
                                 story.Inherit = inheritStory.Inherit;
                                 Resolve(story, inheritStory);
                             }
@@ -176,7 +176,7 @@ namespace Wahren
                         {
                             if (DungeonDictionary.TryGetValue(dungeon.Inherit, out var inheritdungeon))
                             {
-                                if (dungeon.Inherit == inheritdungeon.Inherit) throw new ApplicationException(inheritdungeon.Inherit + " : 循環参照です");
+                                if (dungeon.Inherit == inheritdungeon.Inherit) throw new CircularReferenceException(inheritdungeon.DebugInfo + ':' + inheritdungeon.Inherit);
                                 dungeon.Inherit = inheritdungeon.Inherit;
                                 Resolve(dungeon, inheritdungeon);
                             }
@@ -191,7 +191,7 @@ namespace Wahren
                         {
                             if (ScenarioDictionary.TryGetValue(scenario.Inherit, out var inheritscenario))
                             {
-                                if (scenario.Inherit == inheritscenario.Inherit) throw new ApplicationException(inheritscenario.Inherit + " : 循環参照です");
+                                if (scenario.Inherit == inheritscenario.Inherit) throw new CircularReferenceException(inheritscenario.DebugInfo + ':' + inheritscenario.Inherit);
                                 scenario.Inherit = inheritscenario.Inherit;
                                 Resolve(scenario, inheritscenario);
                             }
@@ -207,7 +207,7 @@ namespace Wahren
                         {
                             if (FieldDictionary.TryGetValue(field.Inherit, out var inheritfield))
                             {
-                                if (field.Inherit == inheritfield.Inherit) throw new ApplicationException(inheritfield.Inherit + " : 循環参照です");
+                                if (field.Inherit == inheritfield.Inherit) throw new CircularReferenceException(inheritfield.DebugInfo + ':' + inheritfield.Inherit);
                                 field.Inherit = inheritfield.Inherit;
                                 Resolve(field, inheritfield);
                             }
@@ -223,7 +223,7 @@ namespace Wahren
                         {
                             if (ObjectDictionary.TryGetValue(object1.Inherit, out var inheritobject1))
                             {
-                                if (object1.Inherit == inheritobject1.Inherit) throw new ApplicationException(inheritobject1.Inherit + " : 循環参照です");
+                                if (object1.Inherit == inheritobject1.Inherit) throw new CircularReferenceException(inheritobject1.DebugInfo + ':' + inheritobject1.Inherit);
                                 object1.Inherit = inheritobject1.Inherit;
                                 Resolve(object1, inheritobject1);
                             }
