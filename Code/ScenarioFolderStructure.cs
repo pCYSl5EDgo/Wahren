@@ -61,11 +61,13 @@ namespace Wahren
         public List<string> Sound_Wav { get; protected set; } = new List<string>();
         public List<string> Stage_Map { get; protected set; } = new List<string>();
         //image.dat, imagedata.dat
+        public readonly string ImageData1;
         public readonly (byte R, byte G, byte B, byte A) ImageData1TransparentColor;
-        public readonly Dictionary<string, (int left, int top, int right, int bottom)> ImageData1 = new Dictionary<string, (int left, int top, int right, int bottom)>();
+        public readonly Dictionary<string, (int left, int top, int right, int bottom)> ImageData1Dictionary = new Dictionary<string, (int left, int top, int right, int bottom)>();
         //image2.dat, imagedata2.dat
+        public readonly string ImageData2;
         public readonly (byte R, byte G, byte B, byte A) ImageData2TransparentColor;
-        public readonly Dictionary<string, (int left, int top, int right, int bottom)> ImageData2 = new Dictionary<string, (int left, int top, int right, int bottom)>();
+        public readonly Dictionary<string, (int left, int top, int right, int bottom)> ImageData2Dictionary = new Dictionary<string, (int left, int top, int right, int bottom)>();
 
         public ScenarioFolder(string folderPath, bool isDebug = false)
         {
@@ -161,8 +163,10 @@ namespace Wahren
                                 file = file.Slice(index + 17);
                             }
                         }
-                        ImageData1TransparentColor = ReadImageData(Path.Combine(folder, "imagedata.dat"), ImageData1);
-                        ImageData2TransparentColor = ReadImageData(Path.Combine(folder, "imagedata2.dat"), ImageData2);
+                        ImageData1 = Path.Combine(folder, "image.dat");
+                        ImageData2 = Path.Combine(folder, "image2.dat");
+                        ImageData1TransparentColor = ReadImageData(Path.Combine(folder, "imagedata.dat"), ImageData1Dictionary);
+                        ImageData2TransparentColor = ReadImageData(Path.Combine(folder, "imagedata2.dat"), ImageData2Dictionary);
                         break;
                     case "icon":
                         Icon_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));

@@ -6,6 +6,8 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.CommandLineUtils;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Wahren
 {
@@ -18,6 +20,41 @@ namespace Wahren
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             app = new CommandLineApplication();
             app.Name = nameof(Wahren);
+            app.Command("image", (image) =>
+            {
+                var folderArgument = image.Argument("folder", "", false);
+                var destArgument = image.Argument("destination", "", false);
+                image.OnExecute(() =>
+                {
+                    var sc = new ScenarioFolder(folderArgument.Value);
+                    var dest = destArgument.Value;
+                    if (Directory.Exists(dest))
+                        Directory.Delete(dest, true);
+                    Directory.CreateDirectory(dest);
+                    void ProcessChip(string f, (byte R, byte G, byte B, byte A) transparent, string imagedata, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
+                    {
+                        var chipDir = Path.Combine(dest, f);
+                        Directory.CreateDirectory(chipDir);
+                        var trans = new Rgba32(transparent.R, transparent.G, transparent.B, transparent.A);
+                        using (var input = Image.Load(imagedata))
+                        {
+                            foreach (var (name, (left, top, right, bottom)) in dictionary)
+                            {
+                                using (var destination = new Image<Rgba32>(right - left, bottom - top))
+                                {
+                                    for (int i = 0; i < right - left; i++)
+                                        for (int j = 0; j < bottom - top; j++)
+                                            destination[i, j] = input[i + left, j + top].Equals(trans) ? Rgba32.Transparent : input[i + left, j + top];
+                                    destination.Save(Path.Combine(chipDir, name + ".png"));
+                                }
+                            }
+                        }
+                    }
+                    ProcessChip("chip", sc.ImageData1TransparentColor, sc.ImageData1, sc.ImageData1Dictionary);
+                    ProcessChip("chip2", sc.ImageData2TransparentColor, sc.ImageData2, sc.ImageData2Dictionary);
+                    return 0;
+                });
+            });
             {
                 var folderArgument = app.Argument("folder", "", false);
                 app.OnExecute(() =>
