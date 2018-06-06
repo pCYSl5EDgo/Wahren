@@ -44,7 +44,7 @@ namespace Wahren
             Task.WaitAll(LoadAllAsync());
             //全ファイルが出揃ったら解決できていない継承を解決する
             //名前は良い名前が思い浮かんだら変更する予定
-            Resolve2nd();
+            ResolveDependencyWithAllFiles();
             var _scenarios = ScenarioDictionary.ToArray();
             scenarios = new Specific.ScenarioData2[_scenarios.Length];
             var wait = new Task[_scenarios.Length];
@@ -351,7 +351,7 @@ namespace Wahren
             }
         }
         static bool resolve2nd_done = false;
-        internal static void Resolve2nd()
+        internal static void ResolveDependencyWithAllFiles()
         {
             if (resolve2nd_done) return;
             resolve2nd_done = true;
