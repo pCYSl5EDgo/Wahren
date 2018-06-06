@@ -56,31 +56,6 @@ namespace Wahren
             Task.WaitAll(wait);
         }
 
-        public static void Clear()
-        {
-            Folder = null;
-            Sound.Clear();
-            Context.Clear();
-            Attribute.Clear();
-            Workspace.Clear();
-            Detail.Clear();
-            MoveTypeDictionary.Clear();
-            VoiceDictionary.Clear();
-            SkillSetDictionary.Clear();
-            SkillDictionary.Clear();
-            ObjectDictionary.Clear();
-            FieldDictionary.Clear();
-            EventDictionary.Clear();
-            DungeonDictionary.Clear();
-            StoryDictionary.Clear();
-            RaceDictionary.Clear();
-            SpotDictionary.Clear();
-            PowerDictionary.Clear();
-            UnitDictionary.Clear();
-            GenericUnitDictionary.Clear();
-            ScenarioDictionary.Clear();
-        }
-
         public static Task[] LoadAllAsync()
         {
             if (Folder == null) throw new ApplicationException("Folder must not be null!");
