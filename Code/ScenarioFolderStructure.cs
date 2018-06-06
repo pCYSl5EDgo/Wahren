@@ -61,9 +61,11 @@ namespace Wahren
         public List<string> Sound_Wav { get; protected set; } = new List<string>();
         public List<string> Stage_Map { get; protected set; } = new List<string>();
         //image.dat, imagedata.dat
-        public Tuple<string, string> ImageData1 { get; protected set; }
+        public readonly (byte R, byte G, byte B, byte A) ImageData1TransparentColor;
+        public readonly Dictionary<string, (int left, int top, int right, int bottom)> ImageData1 = new Dictionary<string, (int left, int top, int right, int bottom)>();
         //image2.dat, imagedata2.dat
-        public Tuple<string, string> ImageData2 { get; protected set; }
+        public readonly (byte R, byte G, byte B, byte A) ImageData2TransparentColor;
+        public readonly Dictionary<string, (int left, int top, int right, int bottom)> ImageData2 = new Dictionary<string, (int left, int top, int right, int bottom)>();
 
         public ScenarioFolder(string folderPath, bool isDebug = false)
         {
@@ -127,6 +129,40 @@ namespace Wahren
                         Image_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
                         Image_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
                         Image_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        (byte, byte, byte, byte) ReadImageData(string filePath, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
+                        {
+                            Span<byte> tmp = stackalloc byte[12];
+                            Span<byte> file;
+                            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, false))
+                            {
+                                fs.Read(tmp);
+                                file = new byte[fs.Length - 12];
+                                fs.Read(file);
+                                tmp = tmp.Slice(8, 4);
+                            }
+                            int ReadInt32(Span<byte> input)
+                            {
+                                return input[0] + (input[1] << 8) + (input[2] << 16) + (input[3] << 24);
+                            }
+                            ReadOnlySpan<byte> endOfFile = stackalloc byte[] { 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x00 };
+                            Span<char> lower = stackalloc char[256];
+                            int index;
+                            while (true)
+                            {
+                                if (file.StartsWith(endOfFile))
+                                    return (tmp[0], tmp[1], tmp[2], tmp[3]);
+                                index = file.IndexOf<byte>(0);
+                                if (index > lower.Length)
+                                    throw new IndexOutOfRangeException();
+                                for (int i = 0; i < index; i++)
+                                    lower[i] = (char)(file[i] >= 0x41 && file[i] <= 0x5a ? (file[i] + 0x20) : file[i]);
+                                var rect = file.Slice(index + 1, 16);
+                                dictionary[String.Intern(new string(lower.Slice(0, index)))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
+                                file = file.Slice(index + 17);
+                            }
+                        }
+                        ImageData1TransparentColor = ReadImageData(Path.Combine(folder, "imagedata.dat"), ImageData1);
+                        ImageData2TransparentColor = ReadImageData(Path.Combine(folder, "imagedata2.dat"), ImageData2);
                         break;
                     case "icon":
                         Icon_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
