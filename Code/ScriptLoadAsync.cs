@@ -4780,6 +4780,18 @@ namespace Wahren
                 if (assign.Content[0].Symbol1 == '@') continue;
                 switch (assign.Name)
                 {
+                    case "title_name":
+                        Context.TitleName = firstString;
+                        break;
+                    case "title_menu_right":
+                        Context.TitleMenuRight = firstInt;
+                        break;
+                    case "title_menu_top":
+                        Context.TitleMenuTop = firstInt;
+                        break;
+                    case "title_menu_space":
+                        Context.TitleMenuSpace = firstInt;
+                        break;
                     case "event_bg_size":
                         Context.event_bg_size = firstInt;
                         break;

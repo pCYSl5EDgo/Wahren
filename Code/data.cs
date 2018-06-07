@@ -332,6 +332,10 @@ namespace Wahren
     public class ContextData
     {
         public Dictionary<string, List<Token>> VariantData { get; } = new Dictionary<string, List<Token>>();
+        public string TitleName { get; set; } = "";
+        public int TitleMenuRight { get; set; } = -50;
+        public int TitleMenuTop { get; set; } = -50;
+        public int TitleMenuSpace { get; set; } = 50;
         public byte Member { get; set; } = 8;
         public byte MovementNumber { get; set; } = 1;
         public byte EmployRange { get; set; } = 2;
