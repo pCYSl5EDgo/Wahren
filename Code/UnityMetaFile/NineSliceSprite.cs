@@ -2,16 +2,55 @@ using System;
 using System.Text;
 namespace Wahren.UnityMetaFile
 {
+    using static Buffer;
     public static partial class MetaFileMaker
     {
+        private static byte[] NineSliceSpriteBytes(this Guid guid0, Guid guid1, byte[] _x, byte[] _y, byte[] _z, byte[] _w)
+        {
+            var answer = new byte[_FileFormatVersion_Guid.Length + 64 + _NineSliceSprite0.Length + _NineSliceSprite1.Length + _NineSliceSprite2.Length + _NineSliceSprite3.Length + _NineSliceSprite4.Length + _NineSliceSprite5.Length + _x.Length + _y.Length + _z.Length + _w.Length];
+            int index = 0;
+            BlockCopy(_FileFormatVersion_Guid, 0, answer, index, _FileFormatVersion_Guid.Length);
+            index += _FileFormatVersion_Guid.Length;
+            BlockCopy(guid0.Convert(), 0, answer, index, 32);
+            index += 32;
+            BlockCopy(_NineSliceSprite0, 0, answer, index, _NineSliceSprite0.Length);
+            index += _NineSliceSprite0.Length;
+            BlockCopy(_x, 0, answer, index, _x.Length);
+            index += _x.Length;
+            BlockCopy(_NineSliceSprite1, 0, answer, index, _NineSliceSprite1.Length);
+            index += _NineSliceSprite1.Length;
+            BlockCopy(_y, 0, answer, index, _y.Length);
+            index += _y.Length;
+            BlockCopy(_NineSliceSprite2, 0, answer, index, _NineSliceSprite2.Length);
+            index += _NineSliceSprite2.Length;
+            BlockCopy(_z, 0, answer, index, _z.Length);
+            index += _z.Length;
+            BlockCopy(_NineSliceSprite3, 0, answer, index, _NineSliceSprite3.Length);
+            index += _NineSliceSprite3.Length;
+            BlockCopy(_w, 0, answer, index, _w.Length);
+            index += _w.Length;
+            BlockCopy(_NineSliceSprite4, 0, answer, index, _NineSliceSprite4.Length);
+            index += _NineSliceSprite4.Length;
+            BlockCopy(guid1.Convert(), 0, answer, index, 32);
+            index += 32;
+            BlockCopy(_NineSliceSprite5, 0, answer, index, _NineSliceSprite5.Length);
+            return answer;
+        }
+        public static byte[] NineSliceSpriteBytes(this Guid guid0, Guid guid1, int border)
+        {
+            var _x = Encoding.UTF8.GetBytes(border.ToString());
+            return guid0.NineSliceSpriteBytes(guid1, _x, _x, _x, _x);
+        }
+        public static byte[] NineSliceSpriteBytes(this Guid guid0, Guid guid1, int x, int y, int z, int w)
+        => guid0.NineSliceSpriteBytes(guid1, Encoding.UTF8.GetBytes(x.ToString()), Encoding.UTF8.GetBytes(y.ToString()), Encoding.UTF8.GetBytes(z.ToString()), Encoding.UTF8.GetBytes(w.ToString()));
         private static readonly byte[] _NineSliceSprite0;
         private static readonly byte[] _NineSliceSprite1;
         private static readonly byte[] _NineSliceSprite2;
         private static readonly byte[] _NineSliceSprite3;
         private static readonly byte[] _NineSliceSprite4;
         private static readonly byte[] _NineSliceSprite5;
-        public static string NineSliceSprite(Guid guid0, Guid guid1, int border) => NineSliceSprite(guid0, guid1, border, border, border, border);
-        public static string NineSliceSprite(Guid guid0, Guid guid1, int x, int y, int z, int w) => buf
+        public static string NineSliceSprite(this Guid guid0, Guid guid1, int border) => NineSliceSprite(guid0, guid1, border, border, border, border);
+        public static string NineSliceSprite(this Guid guid0, Guid guid1, int x, int y, int z, int w) => buf
         .Clear()
         .Append(@"fileFormatVersion: 2
 guid: ").Append(guid0.ToString("N"))
