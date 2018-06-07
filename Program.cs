@@ -148,8 +148,12 @@ namespace Wahren
             });
             {
                 var folderArgument = app.Argument("folder", "", false);
+                var getOnlyOption = app.Option("--getOnly", "", CommandOptionType.NoValue);
+                var setOnlyOption = app.Option("--setOnly", "", CommandOptionType.NoValue);
                 app.OnExecute(() =>
                 {
+                    var isGetOnly = getOnlyOption.HasValue();
+                    var isSetOnly = setOnlyOption.HasValue();
                     ScriptLoader.InitializeComponent(folderArgument.Value);
                     IEnumerable<string> GetOnly(int index)
                     {
@@ -170,37 +174,52 @@ namespace Wahren
                         .Append("...")
                         .Append(ScriptLoader.Scenarios[i].Variable_Set.Count)
                         .Append('\n');
-                        HashSet<string> go, so;
-                        foreach (var item in (go = new HashSet<string>(GetOnly(i))))
-                            buf.Append("Only Get: ").AppendLine(item);
-                        foreach (var item in (so = new HashSet<string>(SetOnly(i))))
-                            buf.Append("Only Set: ").AppendLine(item);
+                        HashSet<string> go = new HashSet<string>(GetOnly(i)), so = new HashSet<string>(SetOnly(i));
+                        if (isGetOnly)
+                        {
+                            foreach (var item in go)
+                                buf.Append("Only Get: ").AppendLine(item);
+                        }
+                        if (isSetOnly)
+                        {
+                            foreach (var item in so)
+                                buf.Append("Only Set: ").AppendLine(item);
+                        }
                         System.Console.WriteLine(buf.ToString());
                         return (go, so);
                     }
-                    HashSet<string> getonly = null, setonly = null;
-                    int j = 0;
-                    for (j = 0; j < ScriptLoader.Scenarios.Length; j++)
+                    if (isGetOnly || isSetOnly)
                     {
-                        (getonly, setonly) = Write(j);
-                        if (getonly != null)
+                        HashSet<string> getonly = null, setonly = null;
+                        int j = 0;
+                        for (j = 0; j < ScriptLoader.Scenarios.Length; j++)
                         {
-                            ++j;
-                            break;
+                            (getonly, setonly) = Write(j);
+                            if (getonly != null)
+                            {
+                                ++j;
+                                break;
+                            }
+                        }
+                        for (; j < ScriptLoader.Scenarios.Length; j++)
+                        {
+                            var (_g, _s) = Write(j);
+                            if (_g == null)
+                                continue;
+                            getonly.IntersectWith(_g);
+                            setonly.IntersectWith(_s);
+                        }
+                        if (isGetOnly)
+                        {
+                            foreach (var item in getonly)
+                                System.Console.Error.WriteLine("Get Only:" + item);
+                        }
+                        if (isSetOnly)
+                        {
+                            foreach (var item in setonly)
+                                System.Console.Error.WriteLine("Set Only:" + item);
                         }
                     }
-                    for (; j < ScriptLoader.Scenarios.Length; j++)
-                    {
-                        var (_g, _s) = Write(j);
-                        if (_g == null)
-                            continue;
-                        getonly.IntersectWith(_g);
-                        setonly.IntersectWith(_s);
-                    }
-                    foreach (var item in getonly)
-                        System.Console.Error.WriteLine("Get Only:" + item);
-                    foreach (var item in setonly)
-                        System.Console.Error.WriteLine("Set Only:" + item);
                     return 0;
                 });
             }
