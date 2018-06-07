@@ -24,8 +24,10 @@ namespace Wahren
             {
                 var folderArgument = image.Argument("folder", "", false);
                 var destArgument = image.Argument("destination", "", false);
+                var metaOption = image.Option("-m|--meta", "generate meta files", CommandOptionType.NoValue);
                 image.OnExecute(() =>
                 {
+                    var isMeta = metaOption.HasValue();
                     var sc = new ScenarioFolder(folderArgument.Value);
                     var destinationFolder = destArgument.Value;
                     if (Directory.Exists(destinationFolder))
@@ -49,7 +51,11 @@ namespace Wahren
                                             var tmp = input[i + left, j + top];
                                             destination[i, j] = tmp.Rgb.Equals(transColor) ? Rgba32.Transparent : tmp;
                                         }
-                                    destination.Save(Path.Combine(chipDir, name + ".png"));
+                                    var outputFilePath = Path.Combine(chipDir, name + ".png");
+                                    destination.Save(outputFilePath);
+                                    if (isMeta)
+                                    {
+                                    }
                                 }
                             }
                         }
@@ -58,10 +64,12 @@ namespace Wahren
                     {
                         var chipDir = Path.Combine(destinationFolder, f);
                         for (int i = 0; i < bmps.Count; i++)
+                        {
                             using (var input = Image.Load(bmps[i]))
                             {
                                 input.Save(Path.Combine(chipDir, Path.GetFileNameWithoutExtension(bmps[i]).ToLower() + ".png"));
                             }
+                        }
                         for (int i = 0; i < jpgs.Count; i++)
                             using (var input = Image.Load(jpgs[i]))
                             {

@@ -4,6 +4,13 @@ namespace Wahren.UnityMetaFile
 {
     public static partial class MetaFileMaker
     {
+        private static readonly byte[] _NineSliceSprite0;
+        private static readonly byte[] _NineSliceSprite1;
+        private static readonly byte[] _NineSliceSprite2;
+        private static readonly byte[] _NineSliceSprite3;
+        private static readonly byte[] _NineSliceSprite4;
+        private static readonly byte[] _NineSliceSprite5;
+        public static string NineSliceSprite(Guid guid0, Guid guid1, int border) => NineSliceSprite(guid0, guid1, border, border, border, border);
         public static string NineSliceSprite(Guid guid0, Guid guid1, int x, int y, int z, int w) => buf
         .Clear()
         .Append(@"fileFormatVersion: 2

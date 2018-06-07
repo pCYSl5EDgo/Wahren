@@ -4,6 +4,7 @@ namespace Wahren.UnityMetaFile
 {
     public static partial class MetaFileMaker
     {
+        private static readonly byte[] _SingleSpriteBytes;
         public static string SingleSprite(Guid guid) => buf
         .Clear()
         .Append(@"fileFormatVersion: 2

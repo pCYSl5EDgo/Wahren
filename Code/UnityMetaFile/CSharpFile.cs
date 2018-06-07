@@ -4,6 +4,13 @@ namespace Wahren.UnityMetaFile
 {
     public static partial class MetaFileMaker
     {
+        public static byte[] CSharpFileBytes(this Guid guid){
+            var answer = new byte[_CSharpFileBytes.Length];
+            Buffer.BlockCopy(_CSharpFileBytes, 0, answer, 0, answer.Length);
+            Buffer.BlockCopy(guid.Convert(), 0, answer, _FileFormatVersion_Guid.Length, 32);
+            return answer;
+        }
+        private static readonly byte[] _CSharpFileBytes;
         public static string CSharpFile(Guid guid) => buf
         .Clear()
         .Append(@"fileFormatVersion: 2

@@ -4,6 +4,7 @@ namespace Wahren.UnityMetaFile
 {
     public static partial class MetaFileMaker
     {
+        private static readonly byte[] _SceneBytes;
         public static string Scene(Guid guid) => buf
         .Clear()
         .Append(@"fileFormatVersion: 2
