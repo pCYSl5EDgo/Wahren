@@ -3746,7 +3746,7 @@ namespace Wahren
                         unit.IsTkool = InsertBool(assign, unit.FilledWithNull);
                         break;
                     case "face":
-                        unit.Face = InsertString(assign, unit.FilledWithNull);
+                        unit.Face = InsertString(assign, unit.FilledWithNull).ToLower();
                         break;
                     case "price":
                         unit.Price = InsertInt(assign, unit.FilledWithNull);

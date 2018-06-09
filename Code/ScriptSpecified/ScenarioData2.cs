@@ -11,10 +11,12 @@ namespace Wahren.Specific
     [MessagePackObject]
     public sealed class ScenarioData2
     {
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         internal Task LoadingDone;
 
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         public string Name => Scenario.Name;
         [Key(0)]
         public ScenarioData Scenario { get; set; }
@@ -86,14 +88,17 @@ namespace Wahren.Specific
         public Dictionary<string, string> Detail { get; } = new Dictionary<string, string>();
         [Key(31)]
         public List<LexicalTree> InitialRoutine { get; } = new List<LexicalTree>();
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         public List<LexicalTree> World { get; } = new List<LexicalTree>();
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         public List<LexicalTree> Fight { get; } = new List<LexicalTree>();
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         public List<LexicalTree> Politics { get; } = new List<LexicalTree>();
         [SerializationConstructor]
-        public ScenarioData2(){}
+        public ScenarioData2() { }
         public ScenarioData2(ScenarioData data)
         {
             Scenario = data;
@@ -111,6 +116,28 @@ namespace Wahren.Specific
         }
         private void CollectData(GenericUnitData data)
         {
+            const string doesnotexists = " does not exits!\n";
+            var dbg = data.DebugInfo;
+            if (data.Change != null)
+                if (string.IsNullOrWhiteSpace(data.Change.Item1) || !ScriptLoader.GenericUnitDictionary.ContainsKey(data.Change.Item1))
+                    throw new ClassNotFoundException("Change Error\n" + data.Change.Item1 + doesnotexists + dbg);
+            if (data.Class != null)
+                throw new Exception("Class is not Empty!\n" + dbg);
+            if (data.DeadEvent != null)
+            {
+                if (string.IsNullOrWhiteSpace(data.DeadEvent) || !ScriptLoader.EventDictionary.TryGetValue(data.DeadEvent, out var eventData))
+                    throw new Exception("Dead Event Error!\n" + data.DeadEvent + doesnotexists + dbg);
+                else CollectDataInScript(eventData.Script);
+            }
+            for (int i = 0; i < data.DeleteSkill.Count; i++)
+                if (!ScriptLoader.SkillDictionary.ContainsKey(data.DeleteSkill[i]))
+                    throw new SkillNotFoundException("Delete Skill Error!\n" + data.DeleteSkill[i] + doesnotexists + dbg);
+            for (int i = 0; i < data.DeleteSkill2.Count; i++)
+                if (!ScriptLoader.SkillDictionary.ContainsKey(data.DeleteSkill2[i]))
+                    throw new SkillNotFoundException("Delete Skill2 Error!\n" + data.DeleteSkill2[i] + doesnotexists + dbg);
+            if (data.Face != null)
+                if (!ScriptLoader.Folder.Face_Bmp.Contains(data.Face) && !ScriptLoader.Folder.Face_Jpg.Contains(data.Face) && !ScriptLoader.Folder.Face_Png.Contains(data.Face))
+                    throw new Exception("Face " + data.Face + doesnotexists + dbg);
         }
         private void CollectData(UnitData data)
         {
@@ -144,15 +171,19 @@ namespace Wahren.Specific
                 {
                     case GenericUnitData _1:
                         GenericUnit[data.Name] = _1;
+                        CollectData(_1);
                         break;
                     case SpotData _2:
                         Spot[data.Name] = _2;
+                        CollectData(_2);
                         break;
                     case UnitData _3:
                         Unit[data.Name] = _3;
+                        CollectData(_3);
                         break;
                     case PowerData _4:
                         Power[data.Name] = _4;
+                        CollectData(_4);
                         break;
                 }
             }
