@@ -14,7 +14,7 @@ namespace Wahren
         public static ScenarioData2[] Scenarios => scenarios == null ? throw new NullReferenceException() : scenarios;
 
         internal static readonly ConcurrentDictionary<string, ScenarioData> ScenarioDictionary = new ConcurrentDictionary<string, ScenarioData>();
-        private static Specific.ScenarioData2[] scenarios = null;
+        private static ScenarioData2[] scenarios = null;
         public static readonly ConcurrentDictionary<string, GenericUnitData> GenericUnitDictionary = new ConcurrentDictionary<string, GenericUnitData>();
         public static readonly ConcurrentDictionary<string, UnitData> UnitDictionary = new ConcurrentDictionary<string, UnitData>();
         public static readonly ConcurrentDictionary<string, PowerData> PowerDictionary = new ConcurrentDictionary<string, PowerData>();
@@ -46,11 +46,11 @@ namespace Wahren
             //名前は良い名前が思い浮かんだら変更する予定
             ResolveDependencyWithAllFiles();
             var _scenarios = ScenarioDictionary.ToArray();
-            scenarios = new Specific.ScenarioData2[_scenarios.Length];
+            scenarios = new ScenarioData2[_scenarios.Length];
             var wait = new Task[_scenarios.Length];
             for (int i = 0; i < _scenarios.Length; i++)
             {
-                scenarios[i] = new Specific.ScenarioData2(_scenarios[i].Value);
+                scenarios[i] = new ScenarioData2(_scenarios[i].Value);
                 wait[i] = scenarios[i].LoadingDone;
             }
             Task.WaitAll(wait);
