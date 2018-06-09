@@ -1,17 +1,14 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.Extensions.CommandLineUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace Wahren
 {
-    using Specific;
     static class Program
     {
         static readonly CommandLineApplication app;
