@@ -66,7 +66,7 @@ namespace Wahren
         }
         public static async Task LoadAsync(this string scriptFile, Encoding encoding, bool englishMode, bool isDebug)
         {
-            foreach (var tree in LexicalTree.Parse(await scriptFile.Parse(encoding, englishMode), isDebug))
+            foreach (var tree in (await scriptFile.Parse(encoding, englishMode)).Parse(isDebug))
             {
                 var inh = (tree as IInherit)?.Inherit;
                 if (tree.Name == inh) throw new CircularReferenceException(tree.DebugInfo);
