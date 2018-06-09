@@ -191,6 +191,136 @@ namespace Wahren
             Block.Children.AddRange(ParseAssigns(stack));
             return Block;
         }
+        internal static LexicalTree_BoolParen ParseBoolParen(this IEnumerator<Token> c)
+        {
+            var token = c.Current;
+            var answer = new LexicalTree_BoolParen() { File = token.File, Line = token.Line, Column = token.Column };
+            string content;
+            Token next;
+            int count = 1;
+            while (c.MoveNext())
+            {
+            Top:
+                token = c.Current;
+                content = token.Content?.ToLower();
+                if (token.Type == 0)
+                {
+                    if (c.MoveNext())
+                    {
+                        next = c.Current;
+                        if (next.Symbol1 == '(' && token.IsNext(next))
+                        {
+                            answer.Children.Add(new LexicalTree_Function(content) { File = token.File, Line = token.Line, Column = token.Column, Variable = c.ParseVariableParen() });
+                        }
+                        else
+                        {
+                            answer.Children.Add(new SingleContent(token));
+                            goto Top;
+                        }
+                    }
+                    else throw new LexicalTreeConstructionException(token);
+                }
+                else if (token.Type == 2)
+                    answer.Children.Add(new SingleContent(token));
+                else if (token.IsSingleSymbol)
+                {
+                    switch (token.Symbol1)
+                    {
+                        case ')':
+                            --count;
+                            if (count != 0)
+                                answer.Children.Add(new SingleContent(token));
+                            else return answer;
+                            break;
+                        case '(':
+                            ++count;
+                            answer.Children.Add(new SingleContent(token));
+                            break;
+                        case '+':
+                            var last = answer.Children.LastOrDefault() as SingleContent;
+                            if (last != null)
+                            {
+                                var last_token = last.Content;
+                                if (last_token.Symbol1 == '+' || last_token.Symbol1 == '-' || last_token.Symbol1 == '*' || last_token.Symbol1 == '/' || last_token.Symbol1 == '%' || last_token.Symbol1 == '(' || last_token.Symbol1 == '=' || last_token.Symbol1 == '!' || last_token.Symbol1 == '<' || last_token.Symbol1 == '>')
+                                {
+                                    if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
+                                    next = c.Current;
+                                    if (token.IsNext(next) && next.Type == 2)
+                                    {
+                                        token = new Token(token.File, token.Line, token.Column, token.IsDebug, token.IsMemo, token.Number);
+                                        answer.Children.Add(new SingleContent(token));
+                                    }
+                                    else goto Top;
+                                }
+                                else answer.Children.Add(new SingleContent(token));
+                            }
+                            else if (answer.Children.Count == 0)
+                            {
+                                if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
+                                next = c.Current;
+                                if (token.IsNext(next) && next.Type == 2)
+                                {
+                                    token = new Token(token.File, token.Line, token.Column, token.IsDebug, token.IsMemo, token.Number);
+                                    answer.Children.Add(new SingleContent(token));
+                                }
+                                else goto Top;
+                            }
+                            else answer.Children.Add(new SingleContent(token));
+                            break;
+                        case '-':
+                            var last2 = answer.Children.LastOrDefault() as SingleContent;
+                            if (last2 != null)
+                            {
+                                var last_token2 = last2.Content;
+                                if (last_token2.Symbol1 == '+' || last_token2.Symbol1 == '-' || last_token2.Symbol1 == '*' || last_token2.Symbol1 == '/' || last_token2.Symbol1 == '%' || last_token2.Symbol1 == '(' || last_token2.Symbol1 == '=' || last_token2.Symbol1 == '!' || last_token2.Symbol1 == '<' || last_token2.Symbol1 == '>')
+                                {
+                                    if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
+                                    next = c.Current;
+                                    if (token.IsNext(next) && next.Type == 2)
+                                    {
+                                        token = new Token(token.File, token.Line, token.Column, token.IsDebug, token.IsMemo, -token.Number);
+                                        answer.Children.Add(new SingleContent(token));
+                                    }
+                                    else goto Top;
+                                }
+                                else answer.Children.Add(new SingleContent(token));
+                            }
+                            else if (answer.Children.Count == 0)
+                            {
+                                if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
+                                next = c.Current;
+                                if (token.IsNext(next) && next.Type == 2)
+                                {
+                                    token = new Token(token.File, token.Line, token.Column, token.IsDebug, token.IsMemo, -token.Number);
+                                    answer.Children.Add(new SingleContent(token));
+                                }
+                                else goto Top;
+                            }
+                            else answer.Children.Add(new SingleContent(token));
+                            break;
+                        case '@':
+                            if (c.MoveNext())
+                            {
+                                next = c.Current;
+                                if (next.Type != 0 || !token.IsNext(next))
+                                {
+                                    answer.Children.Add(new SingleContent(token));
+                                    goto Top;
+                                }
+                                token = token.Merge(next);
+                                answer.Children.Add(new SingleContent(token));
+                            }
+                            else throw new LexicalTreeConstructionException(token);
+                            break;
+                        default:
+                            answer.Children.Add(new SingleContent(token));
+                            break;
+                    }
+                }
+                else answer.Children.Add(new SingleContent(token));
+            }
+            throw new LexicalTreeConstructionException(token);
+        }
         public static LexicalTree_VariableParen ParseVariableParen(this IEnumerator<Token> c)
         {
             var token = c.Current;
@@ -221,15 +351,15 @@ namespace Wahren
                         old = null;
                         continue;
                     }
-                    else if (token.Type == 2 && _tmpOld.Type == 1 && _tmpOld.IsSingleSymbol && _tmpOld.IsNext(ref token))
+                    else if (token.Type == 2 && _tmpOld.Type == 1 && _tmpOld.IsSingleSymbol && _tmpOld.IsNext(token))
                     {
                         if (_tmpOld.Symbol1 == '+')
                             old = token;
                         else if (old.Value.Symbol1 == '-')
                             old = new Token(token.File, token.Line, _tmpOld.Column, _tmpOld.IsDebug, false, -token.Number);
-                        else old = old.Value.Merge(ref token);
+                        else old = old.Value.Merge(token);
                     }
-                    else old = old.Value.Merge(ref token);
+                    else old = old.Value.Merge(token);
                 }
             }
             throw new LexicalTreeConstructionException(token);
@@ -292,7 +422,7 @@ namespace Wahren
                             {
                                 if (tmp.Count > 0) answer.AddRange(tmp.ParseAssigns());
                                 var stmt = new LexicalTree_Statement(content) { File = old.File, Line = old.Line, Column = old.Column };
-                                stmt.Paren = LexicalTree_BoolParen.ParseBool(ref c);
+                                stmt.Paren = c.ParseBoolParen();
                                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                                 token = c.Current;
                                 if (token.Type != 1 || token.IsDoubleSymbol || token.Symbol1 != '{') throw new LexicalTreeConstructionException(token);
@@ -339,7 +469,7 @@ namespace Wahren
                             {
                                 var _else = new LexicalTree_Statement("elseif") { File = token.File, Line = token.Line, Column = token.Column };
                                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
-                                _else.Paren = LexicalTree_BoolParen.ParseBool(ref c);
+                                _else.Paren = c.ParseBoolParen();
                                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                                 _else.Children.AddRange(c.ParseBlock());
                                 answer.Add(_else);
@@ -350,7 +480,7 @@ namespace Wahren
                             old = token;
                             if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                             token = c.Current;
-                            if (token.Symbol1 != '(' || !old.IsNext(ref token))
+                            if (token.Symbol1 != '(' || !old.IsNext(token))
                             {
                                 tmp.Push(old);
                                 goto Top;
@@ -418,7 +548,7 @@ namespace Wahren
                         if (!separated && tmp.Count != 0)
                         {
                             var tmpToken = tmp.Pop();
-                            tmp.Push(token.Merge(ref tmpToken));
+                            tmp.Push(token.Merge(tmpToken));
                         }
                         else tmp.Push(token);
                         separated = false;
@@ -436,7 +566,7 @@ namespace Wahren
                                 if (stack.Count != 0)
                                 {
                                     tmpName = stack.Pop();
-                                    if (tmpName.Type == 1 && tmpName.Symbol1 == '@' && tmpName.IsNext(ref name))
+                                    if (tmpName.Type == 1 && tmpName.Symbol1 == '@' && tmpName.IsNext(name))
                                     {
                                         Token beforeIt;
                                         if (stack.Count != 0)
@@ -444,7 +574,7 @@ namespace Wahren
                                             beforeIt = stack.Pop();
                                             if (beforeIt.Symbol1 != '=')
                                             {
-                                                name = beforeIt.ForceMerge(ref tmpName).ForceMerge(ref name);
+                                                name = beforeIt.ForceMerge(tmpName).ForceMerge(name);
                                             }
                                             else
                                             {
@@ -475,7 +605,7 @@ namespace Wahren
                             if (!separated && tmp.Count != 0)
                             {
                                 Token tmpToken = tmp.Pop();
-                                tmp.Push(token.Merge(ref tmpToken));
+                                tmp.Push(token.Merge(tmpToken));
                             }
                             else tmp.Push(token);
                             separated = false;

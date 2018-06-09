@@ -117,7 +117,7 @@ namespace Wahren
         public bool IsSingleSymbol => Type == 1 && Symbol2 == default(char);
         public bool IsDoubleSymbol => Type == 1 && Symbol2 != default(char);
 
-        public bool IsNext(ref Token next)
+        public bool IsNext(in Token next)
         {
             if (Line == next.Line)
                 switch (this.Type)
@@ -138,7 +138,7 @@ namespace Wahren
                 }
             return false;
         }
-        public bool IsOneWhiteSpaced(ref Token next)
+        public bool IsOneWhiteSpaced(in Token next)
         {
             if (Line == next.Line)
                 switch (this.Type)
@@ -160,9 +160,9 @@ namespace Wahren
             return false;
         }
 
-        public Token ForceMerge(ref Token next)
+        public Token ForceMerge(in Token next)
         {
-            if (this.Type == 1 && this.IsNext(ref next) && next.Type == 2)
+            if (this.Type == 1 && this.IsNext(next) && next.Type == 2)
             {
                 if (this.Symbol1 == '+')
                     return next;
@@ -217,9 +217,9 @@ namespace Wahren
                 default: throw new ApplicationException();
             }
         }
-        public Token Merge(ref Token next)
+        public Token Merge(in Token next)
         {
-            if (IsOneWhiteSpaced(ref next))
+            if (IsOneWhiteSpaced(next))
             {
                 var buf = new StringBuilder();
                 switch (this.Type)
@@ -255,7 +255,7 @@ namespace Wahren
                 }
                 return new Token(File, Line, Column, IsDebug, IsMemo, buf.ToString());
             }
-            return ForceMerge(ref next);
+            return ForceMerge(next);
         }
     }
 

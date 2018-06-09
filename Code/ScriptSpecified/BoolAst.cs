@@ -93,7 +93,7 @@ namespace Wahren.Specific
     internal class InterpretTreeMachine
     {
         internal static Tree Convert(LexicalTree_Function tree) => new Tree(tree);
-        internal static Tree Convert(LexicalTree_BoolParen.SingleContent singleContent) => new Tree(ref singleContent.Content);
+        internal static Tree Convert(SingleContent singleContent) => new Tree(ref singleContent.Content);
         internal static Tree Convert(LexicalTree tree)
         {
             switch (tree)
@@ -101,7 +101,7 @@ namespace Wahren.Specific
                 case LexicalTree_Function _1:
                     return Convert(_1);
                 default:
-                    return Convert(tree as LexicalTree_BoolParen.SingleContent);
+                    return Convert(tree as SingleContent);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Wahren.Specific
                     return 13;
                 if (input[location].Type == LexicalTree.TreeType.Function)
                     return 1;
-                var content = input[location] as LexicalTree_BoolParen.SingleContent;
+                var content = input[location] as SingleContent;
                 switch (content.Content.Type)
                 {
                     case 0:
