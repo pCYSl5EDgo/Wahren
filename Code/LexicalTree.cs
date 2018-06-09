@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wahren
 {
-    public class LexicalTree : IName, Specific.IDebugInfo
+    public class LexicalTree : IName, IDebugInfo
     {
         private string _name;
         private string _file;

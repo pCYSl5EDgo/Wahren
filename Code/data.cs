@@ -14,7 +14,7 @@ namespace Wahren
         Fight, Function, Deploy,
         Object, Race, Scenario, Skill, Skillset, Voice
     }
-    public abstract class BaseData : IName, Specific.IDebugInfo
+    public abstract class BaseData : IName, IDebugInfo
     {
         private string _file;
 

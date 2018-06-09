@@ -1,4 +1,4 @@
-namespace Wahren.Specific
+namespace Wahren
 {
     public interface IDebugInfo
     {
