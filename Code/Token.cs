@@ -779,109 +779,23 @@ namespace Wahren
             }
             return answer;
         }
-        public static List<Token> RemoveDebugCommentWhiteSpace(this List<Token> input)
+        public static IEnumerable<Token> RemoveDebugCommentWhiteSpace(this List<Token> input)
         {
-            var answer = new List<Token>(input.Count);
             for (int i = 0; i < input.Count; i++)
             {
                 if (input[i].IsMemo || input[i].IsDebug) continue;
                 if (input[i].Type == 0 && string.IsNullOrWhiteSpace(input[i].Content)) continue;
-                answer.Add(input[i]);
+                yield return input[i];
             }
-            return answer;
         }
-        public static List<Token> RemoveCommentWhiteSpace(this List<Token> input)
+        public static IEnumerable<Token> RemoveCommentWhiteSpace(this List<Token> input)
         {
-            var answer = new List<Token>(input.Count);
             for (int i = 0; i < input.Count; i++)
             {
                 if (input[i].IsMemo) continue;
                 if (input[i].Type == 0 && string.IsNullOrWhiteSpace(input[i].Content)) continue;
-                answer.Add(input[i]);
+                yield return input[i];
             }
-            return answer;
-        }
-
-        public static async Task<List<Token>> RemoveDebugComment(this Task<List<Token>> input)
-        {
-            if (input == null) throw new ArgumentNullException();
-            var list = await input;
-            var ans = new List<Token>(list.Count);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].IsDebug || list[i].IsMemo) continue;
-                else ans.Add(list[i]);
-            return ans;
-        }
-        public static async Task<List<Token>> RemoveComment(this Task<IEnumerable<Token>> input)
-        {
-            if (input == null) throw new ArgumentNullException();
-            var ans = new List<Token>();
-            ans.AddRange((await input).Where(_ => !_.IsMemo));
-            return ans;
-        }
-        public static async Task<List<Token>> RemoveDebug(this Task<IEnumerable<Token>> input)
-        {
-            if (input == null) throw new ArgumentNullException();
-            var ans = new List<Token>();
-            ans.AddRange((await input).Where(_ => !_.IsDebug));
-            return ans;
-        }
-        public static async Task<List<Token>> RemoveComment(this Task<List<Token>> input)
-        {
-            if (input == null) throw new ArgumentNullException();
-            var list = await input;
-            var ans = new List<Token>(list.Count);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].IsMemo) continue;
-                else ans.Add(list[i]);
-            return ans;
-        }
-        public static async Task<List<Token>> RemoveDebug(this Task<List<Token>> input)
-        {
-            if (input == null) throw new ArgumentNullException();
-            var list = await input;
-            var ans = new List<Token>(list.Count);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].IsDebug) continue;
-                else ans.Add(list[i]);
-            return ans;
-        }
-        public static List<Token> RemoveDebugComment(this List<Token> list)
-        {
-            var ans = new List<Token>(list.Count);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].IsDebug || list[i].IsMemo) continue;
-                else ans.Add(list[i]);
-            return ans;
-        }
-        public static List<Token> RemoveComment(this IEnumerable<Token> input)
-        {
-            if (input == null) throw new ArgumentNullException();
-            var ans = new List<Token>();
-            ans.AddRange(input.Where(_ => !_.IsMemo));
-            return ans;
-        }
-        public static List<Token> RemoveDebug(this IEnumerable<Token> input)
-        {
-            var ans = new List<Token>();
-            ans.AddRange(input.Where(_ => !_.IsDebug));
-            return ans;
-        }
-        public static List<Token> RemoveComment(this List<Token> list)
-        {
-            var ans = new List<Token>(list.Count);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].IsMemo) continue;
-                else ans.Add(list[i]);
-            return ans;
-        }
-        public static List<Token> RemoveDebug(this List<Token> list)
-        {
-            var ans = new List<Token>(list.Count);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].IsDebug) continue;
-                else ans.Add(list[i]);
-            return ans;
         }
     }
 }
