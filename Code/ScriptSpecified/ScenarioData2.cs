@@ -138,6 +138,30 @@ namespace Wahren.Specific
             if (data.Face != null)
                 if (!ScriptLoader.Folder.Face_Bmp.Contains(data.Face) && !ScriptLoader.Folder.Face_Jpg.Contains(data.Face) && !ScriptLoader.Folder.Face_Png.Contains(data.Face))
                     throw new Exception("Face " + data.Face + doesnotexists + dbg);
+            if (data.Image != null)
+                if (!ScriptLoader.Folder.Chip_Bmp.Contains(data.Image) && !ScriptLoader.Folder.Chip_Jpg.Contains(data.Image) && !ScriptLoader.Folder.Chip_Png.Contains(data.Image) && !ScriptLoader.Folder.ImageData1Dictionary.ContainsKey(data.Image))
+                    throw new Exception("Chip " + data.Image + doesnotexists + dbg);
+            if (data.Image2 != null)
+                if (!ScriptLoader.Folder.Chip_Bmp.Contains(data.Image2) && !ScriptLoader.Folder.Chip_Jpg.Contains(data.Image2) && !ScriptLoader.Folder.Chip_Png.Contains(data.Image2) && !ScriptLoader.Folder.ImageData1Dictionary.ContainsKey(data.Image2))
+                    throw new Exception("Chip " + data.Image2 + doesnotexists + dbg);
+            for (int i = 0; i < data.Item.Count; i++)
+                if (!ScriptLoader.SkillDictionary.TryGetValue(data.Item[i], out var skill) || !skill.ItemType.HasValue)
+                    throw new SkillNotFoundException(data.Item[i] + doesnotexists + dbg);
+            if (data.Learn.Count != 0)
+                throw new Exception("Learn should be empty!\n" + dbg);
+            foreach (var item in new HashSet<string>(data.Member))
+                if (!ScriptLoader.UnitDictionary.ContainsKey(item) && !ScriptLoader.GenericUnitDictionary.ContainsKey(item))
+                    throw new Exception("Member " + item + doesnotexists + dbg);
+            foreach (var item in new HashSet<string>(data.Merce))
+                if (!ScriptLoader.UnitDictionary.ContainsKey(item) && !ScriptLoader.GenericUnitDictionary.ContainsKey(item))
+                    throw new Exception("Member " + item + doesnotexists + dbg);
+            for (int i = 0; i < data.Skill.Count; i++)
+                if (!ScriptLoader.SkillDictionary.ContainsKey(data.Skill[i]) && !ScriptLoader.SkillSetDictionary.ContainsKey(data.Skill[i]))
+                    throw new SkillNotFoundException(data.Skill[i] + doesnotexists + dbg);
+            foreach (var (_, skills) in data.Skill2)
+                for (int i = 0; i < skills.Count; i++)
+                    if (skills[i] != "none" && !ScriptLoader.SkillDictionary.ContainsKey(skills[i]) && !ScriptLoader.SkillSetDictionary.ContainsKey(skills[i]))
+                        throw new SkillNotFoundException(skills[i] + doesnotexists + dbg);
         }
         private void CollectData(UnitData data)
         {
@@ -1527,7 +1551,7 @@ namespace Wahren.Specific
                 case "changepowerflag":
                     content.ThrowException(2);
                     LocalPowerRoutine(0);
-                    if (!content.IsVariable(1) && !ScriptLoader.Folder.Flag_Bmp.Any(_ => Path.GetFileNameWithoutExtension(_) == content[1].Content) && !ScriptLoader.Folder.Flag_Png.Any(_ => Path.GetFileNameWithoutExtension(_) == content[1].Content) && !ScriptLoader.Folder.Flag_Jpg.Any(_ => Path.GetFileNameWithoutExtension(_) == content[1].Content))
+                    if (!content.IsVariable(1) && ScriptLoader.Folder.Flag_Bmp.All(_ => _ != content[1].ToLowerString()) && ScriptLoader.Folder.Flag_Png.All(_ => _ != content[1].ToLowerString()) && ScriptLoader.Folder.Flag_Jpg.All(_ => _ != content[1].ToLowerString()))
                         throw new Exception(content[1].DebugInfo);
                     else
                         content.AddVariable_NotAddIdentifier(1, Variable_Get);

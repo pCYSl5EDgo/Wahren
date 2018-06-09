@@ -128,9 +128,9 @@ namespace Wahren
                         Sound_Wav.AddRange(Directory.GetFiles(folder, "*.wav", SearchOption.AllDirectories));
                         break;
                     case "image":
-                        Image_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
-                        Image_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
-                        Image_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        Image_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
+                        Image_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
+                        Image_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
                         (byte, byte, byte, byte) ReadImageData(string filePath, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
                         {
 #if NETCOREAPP2_1
@@ -187,14 +187,14 @@ namespace Wahren
                         ImageData2TransparentColor = ReadImageData(Path.Combine(folder, "imagedata2.dat"), ImageData2Dictionary);
                         break;
                     case "icon":
-                        Icon_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
-                        Icon_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
-                        Icon_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        Icon_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Icon_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Icon_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         break;
                     case "flag":
-                        Flag_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
-                        Flag_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
-                        Flag_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        Flag_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Flag_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Flag_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         break;
                     case "face":
                         Face_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
@@ -202,19 +202,19 @@ namespace Wahren
                         Face_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
                         break;
                     case "picture":
-                        Picture_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
-                        Picture_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
-                        Picture_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        Picture_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Picture_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Picture_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         break;
                     case "chip":
-                        Chip_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
-                        Chip_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
-                        Chip_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        Chip_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Chip_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Chip_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         break;
                     case "chip2":
-                        Chip2_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories));
-                        Chip2_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories));
-                        Chip2_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
+                        Chip2_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Chip2_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        Chip2_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         break;
                 }
             }

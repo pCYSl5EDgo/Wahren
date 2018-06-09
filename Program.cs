@@ -50,9 +50,6 @@ namespace Wahren
                                         }
                                     var outputFilePath = Path.Combine(chipDir, name + ".png");
                                     destination.Save(outputFilePath);
-                                    if (isMeta)
-                                    {
-                                    }
                                 }
                             }
                         }
@@ -61,19 +58,13 @@ namespace Wahren
                     {
                         var chipDir = Path.Combine(destinationFolder, f);
                         for (int i = 0; i < bmps.Count; i++)
-                        {
                             using (var input = Image.Load(bmps[i]))
-                            {
-                                input.Save(Path.Combine(chipDir, Path.GetFileNameWithoutExtension(bmps[i]).ToLower() + ".png"));
-                            }
-                        }
+                                input.Save(Path.Combine(chipDir, bmps[i] + ".png"));
                         for (int i = 0; i < jpgs.Count; i++)
                             using (var input = Image.Load(jpgs[i]))
-                            {
-                                input.Save(Path.Combine(chipDir, Path.GetFileNameWithoutExtension(jpgs[i]).ToLower() + ".png"));
-                            }
+                                input.Save(Path.Combine(chipDir, jpgs[i] + ".png"));
                         for (int i = 0; i < pngs.Count; i++)
-                            File.Copy(pngs[i], Path.Combine(chipDir, Path.GetFileName(pngs[i]).ToLower()), true);
+                            File.Copy(pngs[i], Path.Combine(chipDir, pngs[i] + ".png"), true);
                     }
                     Directory.CreateDirectory(Path.Combine(destinationFolder, "chip"));
                     Directory.CreateDirectory(Path.Combine(destinationFolder, "chip2"));

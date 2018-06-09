@@ -3737,10 +3737,10 @@ namespace Wahren
                         unit.Alpha = InsertByte(assign, unit.FilledWithNull);
                         break;
                     case "image":
-                        unit.Image = InsertString(assign, unit.FilledWithNull);
+                        unit.Image = String.Intern(InsertString(assign, unit.FilledWithNull).ToLower());
                         break;
                     case "image2":
-                        unit.Image2 = InsertString(assign, unit.FilledWithNull);
+                        unit.Image2 = String.Intern(InsertString(assign, unit.FilledWithNull).ToLower());
                         break;
                     case "tkool":
                         unit.IsTkool = InsertBool(assign, unit.FilledWithNull);
@@ -5659,13 +5659,13 @@ namespace Wahren
                 switch (content[i].Type)
                 {
                     case 0:
-                        list.Add(content[i].ToLowerString());
+                        list.Add(String.Intern(content[i].ToLowerString()));
                         break;
                     case 1:
                         throw new Exception(content[i].DebugInfo);
                     case 2:
                         for (int j = 1; j < content[i].Number; j++)
-                            list.Add(content[i - 1].ToLowerString());
+                            list.Add(String.Intern(content[i - 1].ToLowerString()));
                         break;
                 }
             }
