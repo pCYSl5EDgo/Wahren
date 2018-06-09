@@ -3926,6 +3926,9 @@ namespace Wahren
                         break;
                     case "consti":
                         InsertStringIntPair(assign, unit.FilledWithNull, unit.Consti);
+                        foreach (var (key, value) in unit.Consti)
+                            if (value < 0 || value > 10)
+                                throw new IndexOutOfRangeException("Consti Error\n" + unit.DebugInfo);
                         break;
                     case "movetype":
                         unit.MoveType = InsertString(assign, unit.FilledWithNull);
@@ -5620,7 +5623,8 @@ namespace Wahren
                     throw new ScriptLoadingException(assign.Content[0]);
             }
         }
-        static void InsertStringOnlyList(LexicalTree_Assign assign, List<string> fillWithNull, List<string> list){
+        static void InsertStringOnlyList(LexicalTree_Assign assign, List<string> fillWithNull, List<string> list)
+        {
             list.Clear();
             var content = assign.Content;
             if (content.Count == 1 && content[0].Symbol1 == '@')
