@@ -548,8 +548,9 @@ namespace Wahren
             {
                 if (dic1.TryGetValue(sc.Key, out var tmpDic))
                 {
-                    foreach (var item in sc.Value)
-                        if (!tmpDic.ContainsKey(item.Key)) tmpDic[item.Key] = item.Value;
+                    foreach (var (key, value) in sc.Value)
+                        if (!tmpDic.ContainsKey(key))
+                            tmpDic[key] = value;
                 }
                 else dic1.Add(sc.Key, sc.Value);
             }
@@ -798,8 +799,8 @@ namespace Wahren
                 if (skillData2.YorozuSil != null) skillData1.YorozuSil = skillData2.YorozuSil;
                 if (skillData2.YorozuStone != null) skillData1.YorozuStone = skillData2.YorozuStone;
                 if (skillData2.YorozuAttribute.Count != 0)
-                    foreach (var item in skillData2.YorozuAttribute)
-                        skillData1.YorozuAttribute.Add(item.Key, item.Value);
+                    foreach (var (key, value) in skillData2.YorozuAttribute)
+                        skillData1.YorozuAttribute.Add(key, value);
                 if (skillData2.TroopType != null) skillData1.TroopType = skillData2.TroopType;
                 if (skillData2.EffectWidth != null) skillData1.EffectWidth = skillData2.EffectWidth;
                 if (skillData2.EffectHeight != null) skillData1.EffectHeight = skillData2.EffectHeight;
@@ -1081,8 +1082,8 @@ namespace Wahren
             if (dungeonData1.MonsterNumber == null && dungeonData2.MonsterNumber != null && !dungeonData1.FilledWithNull.Contains("monster_num"))
                 dungeonData1.MonsterNumber = dungeonData2.MonsterNumber;
             if (dungeonData1.Monsters.Count == 0 && dungeonData2.Monsters.Count != 0 && !dungeonData1.FilledWithNull.Contains("monster"))
-                foreach (var item in dungeonData2.Monsters)
-                    dungeonData1.Monsters[item.Key] = item.Value;
+                foreach (var (key, value) in dungeonData2.Monsters)
+                    dungeonData1.Monsters[key] = value;
             if (dungeonData1.MoveSpeedRatio == null && dungeonData2.MoveSpeedRatio != null && !dungeonData1.FilledWithNull.Contains("move_speed"))
                 dungeonData1.MoveSpeedRatio = dungeonData2.MoveSpeedRatio;
             if (dungeonData1.DisplayName == null && dungeonData2.DisplayName != null && !dungeonData1.FilledWithNull.Contains("name"))
@@ -1127,8 +1128,8 @@ namespace Wahren
             if (raceData1.MoveType == null && raceData2.MoveType != null && !raceData1.FilledWithNull.Contains("movetype"))
                 raceData1.MoveType = raceData2.MoveType;
             if (raceData1.Consti.Count == 0 && raceData2.Consti.Count != 0 && !raceData1.FilledWithNull.Contains("consti"))
-                foreach (var item in raceData2.Consti)
-                    raceData1.Consti[item.Key] = item.Value;
+                foreach (var (key, value) in raceData2.Consti)
+                    raceData1.Consti[key] = value;
         }
         internal static void Resolve(SpotData spotData1, SpotData spotData2)
         {
@@ -1246,20 +1247,20 @@ namespace Wahren
             if (powerData1.Yabo == null && powerData2.Yabo != null && !powerData1.FilledWithNull.Contains("yabo"))
                 powerData1.Yabo = powerData2.Yabo;
             if (powerData1.Diplo.Count == 0 && powerData2.Diplo.Count != 0 && !powerData1.FilledWithNull.Contains("diplo"))
-                foreach (var item in powerData2.Diplo)
-                    powerData1.Diplo[item.Key] = item.Value;
+                foreach (var (key, value) in powerData2.Diplo)
+                    powerData1.Diplo[key] = value;
             if (powerData1.EnemyPower.Count == 0 && powerData2.EnemyPower.Count != 0 && !powerData1.FilledWithNull.Contains("enemy"))
-                foreach (var item in powerData2.EnemyPower)
-                    powerData1.EnemyPower[item.Key] = item.Value;
+                foreach (var (key, value) in powerData2.EnemyPower)
+                    powerData1.EnemyPower[key] = value;
             if (powerData1.League.Count == 0 && powerData2.League.Count != 0 && !powerData1.FilledWithNull.Contains("league"))
-                foreach (var item in powerData2.League)
-                    powerData1.League[item.Key] = item.Value;
+                foreach (var (key, value) in powerData2.League)
+                    powerData1.League[key] = value;
             if (powerData1.Loyals.Count == 0 && powerData2.Loyals.Count != 0 && !powerData1.FilledWithNull.Contains("loyal"))
-                foreach (var item in powerData2.Loyals)
-                    powerData1.Loyals[item.Key] = item.Value;
+                foreach (var (key, value) in powerData2.Loyals)
+                    powerData1.Loyals[key] = value;
             if (powerData1.Merits.Count == 0 && powerData2.Merits.Count != 0 && !powerData1.FilledWithNull.Contains("merit"))
-                foreach (var item in powerData2.Merits)
-                    powerData1.Merits[item.Key] = item.Value;
+                foreach (var (key, value) in powerData2.Merits)
+                    powerData1.Merits[key] = value;
             if (powerData1.Friend.Count == 0 && powerData2.Friend.Count != 0 && !powerData1.FilledWithNull.Contains("friend"))
                 powerData1.Friend.AddRange(powerData2.Friend);
             if (powerData1.MemberSpot.Count == 0 && powerData2.MemberSpot.Count != 0 && !powerData1.FilledWithNull.Contains("member"))
@@ -1373,14 +1374,14 @@ namespace Wahren
             if (unitData1.Home.Count == 0 && unitData2.Home.Count != 0 && !unitData1.FilledWithNull.Contains("home"))
                 unitData1.Home.AddRange(unitData2.Home);
             if (unitData1.LeaderSkill.Count == 0 && unitData2.LeaderSkill.Count != 0 && !unitData1.FilledWithNull.Contains("leader_skill"))
-                foreach (var item in unitData2.LeaderSkill)
-                    unitData1.LeaderSkill[item.Key] = item.Value;
+                foreach (var (key, value) in unitData2.LeaderSkill)
+                    unitData1.LeaderSkill[key] = value;
             if (unitData1.AssistSkill.Count == 0 && unitData2.AssistSkill.Count != 0 && !unitData1.FilledWithNull.Contains("assist_skill"))
-                foreach (var item in unitData2.AssistSkill)
-                    unitData1.AssistSkill[item.Key] = item.Value;
+                foreach (var (key, value) in unitData2.AssistSkill)
+                    unitData1.AssistSkill[key] = value;
             if (unitData1.CastleGuard.Count == 0 && unitData2.CastleGuard.Count != 0 && !unitData1.FilledWithNull.Contains("castle_guard"))
-                foreach (var item in unitData2.CastleGuard)
-                    unitData1.CastleGuard[item.Key] = item.Value;
+                foreach (var (key, value) in unitData2.CastleGuard)
+                    unitData1.CastleGuard[key] = value;
         }
         internal static void Resolve(GenericUnitData genericUnitData1, GenericUnitData genericUnitData2)
         {
@@ -1610,14 +1611,14 @@ namespace Wahren
             if (unitData1.Skill2.Count == 0 && unitData2.Skill2.Count != 0 && !unitData1.FilledWithNull.Contains("skill2"))
                 unitData1.Skill2.AddRange(unitData2.Skill2);
             if (unitData1.Consti.Count == 0 && unitData2.Consti.Count != 0 && !unitData1.FilledWithNull.Contains("consti"))
-                foreach (var item in unitData2.Consti)
-                    unitData1.Consti[item.Key] = item.Value;
+                foreach (var (key, value) in unitData2.Consti)
+                    unitData1.Consti[key] = value;
             if (unitData1.Learn.Count == 0 && unitData2.Learn.Count != 0 && !unitData1.FilledWithNull.Contains("learn"))
-                foreach (var item in unitData2.Learn)
-                    unitData1.Learn[item.Key] = item.Value;
+                foreach (var (key, value) in unitData2.Learn)
+                    unitData1.Learn[key] = value;
             if (unitData1.Multi.Count == 0 && unitData2.Multi.Count != 0 && !unitData1.FilledWithNull.Contains("multi"))
-                foreach (var item in unitData2.Multi)
-                    unitData1.Multi[item.Key] = item.Value;
+                foreach (var (key, value) in unitData2.Multi)
+                    unitData1.Multi[key] = value;
         }
         internal static void Resolve(ScenarioData scenarioData1, ScenarioData scenarioData2)
         {
@@ -1688,16 +1689,16 @@ namespace Wahren
             if (scenarioData1.Spot.Count == 0 && scenarioData2.Spot.Count != 0 && !scenarioData1.FilledWithNull.Contains("spot"))
                 scenarioData1.Spot.AddRange(scenarioData2.Spot);
             if (scenarioData1.CampingData.Count == 0 && scenarioData2.CampingData.Count != 0 && !scenarioData1.FilledWithNull.Contains("camp"))
-                foreach (var item in scenarioData2.CampingData)
-                    scenarioData1.CampingData[item.Key] = item.Value;
+                foreach (var (key, value) in scenarioData2.CampingData)
+                    scenarioData1.CampingData[key] = value;
             if (scenarioData1.ItemSale.Count == 0 && scenarioData2.ItemSale.Count != 0 && !scenarioData1.FilledWithNull.Contains("item_sale"))
                 scenarioData1.ItemSale.AddRange(scenarioData2.ItemSale);
             if (scenarioData1.ItemWindowTab[0].Item1 == null && scenarioData2.ItemWindowTab[0].Item1 != null)
                 for (int i = 0; i < scenarioData1.ItemWindowTab.Length; i++)
                     scenarioData1.ItemWindowTab[i] = scenarioData2.ItemWindowTab[i];
             if (scenarioData1.PoliticsData.Count == 0 && scenarioData2.PoliticsData.Count != 0 && !scenarioData1.FilledWithNull.Contains("poli"))
-                foreach (var item in scenarioData2.PoliticsData)
-                    scenarioData1.PoliticsData[item.Key] = item.Value;
+                foreach (var (key, value) in scenarioData2.PoliticsData)
+                    scenarioData1.PoliticsData[key] = value;
         }
         internal static void Parse<T>(IEnumerable<LexicalTree_Assign> enumerable, T data) where T : ScenarioVariantData
         {
@@ -3285,7 +3286,7 @@ namespace Wahren
                         genericunit.FilledWithNull.Remove("change");
                         if (keyVal.Value.Content.Count != 2 || keyVal.Value.Content[1].Type != 2)
                             throw new ApplicationException();
-                        genericunit.Change = new ValueTuple<string, int>(keyVal.Value.Content[0].ToLowerString(), (int)keyVal.Value.Content[1].Number);
+                        genericunit.Change = new Tuple<string, int>(keyVal.Value.Content[0].ToLowerString(), (int)keyVal.Value.Content[1].Number);
                         break;
                 }
             }
@@ -3422,10 +3423,7 @@ namespace Wahren
                             break;
                         }
                         unit.FilledWithNull.Remove("loyal");
-                        if (keyVal.Value.Content.Count == 2)
-                            unit.Loyal = new ValueTuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), (byte)keyVal.Value.Content[0].Number);
-                        else
-                            unit.Loyal = new ValueTuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), 0);
+                        unit.Loyal = new Tuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), (byte)(keyVal.Value.Content.Count == 2 ? keyVal.Value.Content[0].Number : 0));
                         break;
                     case "power_name":
                         unit.PowerDisplayName = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
@@ -3676,7 +3674,7 @@ namespace Wahren
                                     unit.ActiveTroop = keyVal.Value.Content[0].ToLowerString();
                                 break;
                             case 4:
-                                unit.ActiveRect = new ValueTuple<int, int, int, int>((int)keyVal.Value.Content[0].Number, (int)keyVal.Value.Content[1].Number, (int)keyVal.Value.Content[2].Number, (int)keyVal.Value.Content[3].Number);
+                                unit.ActiveRect = new Tuple<int, int, int, int>((int)keyVal.Value.Content[0].Number, (int)keyVal.Value.Content[1].Number, (int)keyVal.Value.Content[2].Number, (int)keyVal.Value.Content[3].Number);
                                 break;
                             default: throw new ApplicationException();
                         }
@@ -4005,7 +4003,7 @@ namespace Wahren
                         int multiLevel = 0;
                         for (int i = 0; i < assign.Content.Count; i++)
                         {
-                            if (assign.Content[i].Type != 2)
+                            if (assign.Content[i].Type == 2)
                                 multiLevel = (int)assign.Content[i].Number;
                             else unit.Multi[assign.Content[i].ToLowerString()] = multiLevel;
                         }
@@ -5615,9 +5613,7 @@ namespace Wahren
             }
             fillWithNull.Remove(assign.Name);
             foreach (var item in assign.Content)
-            {
                 list.Add(item.ToLowerString());
-            }
             return;
         }
         static void InsertStringIntPair(LexicalTree_Assign assign, List<string> fillWithNull, Dictionary<string, int> dic)
