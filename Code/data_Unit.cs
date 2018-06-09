@@ -8,18 +8,20 @@ namespace Wahren
     public class GenericUnitData : CommonUnitData
     {
         public GenericUnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
         public GenericUnitData() : base("", "", "", 0) { }
         [Key(119)]
         public string BaseClassKey { get; set; }
         [Key(120)]
         public bool? IsUnique { get; set; }
         [Key(121)]
-        public ValueTuple<string, int>? Change { get; set; }
+        public Tuple<string, int> Change { get; set; }
     }
     [MessagePackObject]
     public sealed class UnitData : CommonUnitData
     {
         public UnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
         public UnitData() : base("", "", "", 0) { }
         [Key(119)]
         public bool? IsTalent { get; set; }
@@ -61,7 +63,7 @@ namespace Wahren
         [Key(137)]
         public List<string> Enemy { get; set; } = new List<string>();
         [Key(138)]
-        public ValueTuple<string, byte>? Loyal { get; set; }
+        public Tuple<string, byte> Loyal { get; set; }
         [Key(139)]
         public string PowerDisplayName { get; set; }
         [Key(140)]
@@ -144,12 +146,14 @@ namespace Wahren
         [Key(169)]
         public string ActiveTroop { get; set; }
         [Key(170)]
-        public ValueTuple<int, int, int, int>? ActiveRect { get; set; }
+        public Tuple<int, int, int, int> ActiveRect { get; set; }
     }
     [MessagePackObject]
     public class CommonUnitData : ScenarioVariantData
     {
         public CommonUnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public CommonUnitData() : base("", "", "", 0) { }
         [Key(6)]
         public string DisplayName { get; set; }
         // 0 neuter
@@ -258,7 +262,7 @@ namespace Wahren
         [Key(57)]
         public List<string> Skill { get; set; } = new List<string>();
         [Key(58)]
-        public List<string> Skill2 { get; set; } = new List<string>();
+        public Dictionary<int, List<string>> Skill2 { get; set; } = new Dictionary<int, List<string>>();
         [Key(59)]
         public List<string> DeleteSkill { get; set; } = new List<string>();
         [Key(60)]

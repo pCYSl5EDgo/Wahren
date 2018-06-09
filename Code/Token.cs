@@ -15,6 +15,11 @@ namespace Wahren
         [Key(2)]
         public readonly int Column;
         [Key(3)]
+        /// <summary>
+        /// 0: 通常文字列("a_system"とか)
+        /// 1: 記号
+        /// 2: 数値
+        /// </summary>
         public readonly byte Type;
         [Key(4)]
         public readonly bool IsDebug;
@@ -30,10 +35,10 @@ namespace Wahren
         public readonly long Number;
 
         public override string ToString() => Type == 0 ? Content : (Type == 2 ? Number.ToString() : (Symbol2 == default(char) ? new string(new char[1] { Symbol1 }) : new string(new char[2] { Symbol1, Symbol2 })));
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
 
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         private string toLowerString;
 
         public string ToLowerString()
@@ -55,7 +60,7 @@ namespace Wahren
             throw new InvalidDataException();
         }
         [SerializationConstructor]
-        public Token(string file, int line, int column, bool isDebug, bool isMemo, byte type, string content, char symbol1, char symbol2, long number)
+        public Token(string file, int line, int column, byte type, bool isDebug, bool isMemo, string content, char symbol1, char symbol2, long number)
         {
             File = String.Intern(file);
             Line = line;
@@ -124,9 +129,9 @@ namespace Wahren
             Number = number;
             toLowerString = null;
         }
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public bool IsSingleSymbol => Type == 1 && Symbol2 == default(char);
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public bool IsDoubleSymbol => Type == 1 && Symbol2 != default(char);
 
         public bool IsNext(in Token next)

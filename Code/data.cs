@@ -16,7 +16,7 @@ namespace Wahren
     [MessagePackObject]
     public class BaseData : IName, IDebugInfo
     {
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         private string _file;
         [Key(0)]
         public string File { get => _file; set => _file = String.Intern(value); }
@@ -35,7 +35,7 @@ namespace Wahren
             File = file;
             Line = line;
         }
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public string DebugInfo => File + '/' + (Line + 1);
     }
     [MessagePackObject]
@@ -44,6 +44,8 @@ namespace Wahren
         [Key(4)]
         public string Inherit { get; set; }
         protected InheritData(string name, string inherit, string file, int line) : base(name, file, line) { Inherit = inherit?.ToLower() ?? ""; }
+        [SerializationConstructor]
+        protected InheritData() : base("", "", 0) { }
     }
     [MessagePackObject]
     public class ScenarioVariantData : InheritData
@@ -88,12 +90,14 @@ namespace Wahren
             return true;
         }
     }
-    public sealed class WorkspaceData : ConcurrentDictionary<string, string>
-    { }
+    public sealed class WorkspaceData : ConcurrentDictionary<string, string> { }
+
     [MessagePackObject]
     public sealed class VoiceData : InheritData
     {
         public VoiceData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public VoiceData() : base("", "", "", 0) { }
         [Key(5)]
         public List<string> VoiceType { get; } = new List<string>();
         [Key(6)]
@@ -109,6 +113,7 @@ namespace Wahren
     public class SpotData : ScenarioVariantData
     {
         public SpotData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
         public SpotData() : base("", "", "", 0) { }
         [Key(6)]
         public string DisplayName { get; set; }
@@ -181,6 +186,8 @@ namespace Wahren
     public sealed class SkillSetData : ScenarioVariantData
     {
         public SkillSetData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public SkillSetData() : base("", "", "", 0) { }
         [Key(6)]
         public string DisplayName { get; set; }
         [Key(7)]
@@ -192,6 +199,8 @@ namespace Wahren
     public sealed class RaceData : ScenarioVariantData
     {
         public RaceData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public RaceData() : base("", "", "", 0) { }
         [Key(6)]
         public string DisplayName { get; set; }
         [Key(7)]
@@ -207,6 +216,7 @@ namespace Wahren
     public sealed class PowerData : ScenarioVariantData
     {
         public PowerData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
         public PowerData() : base("", "", "", 0) { }
         [Key(6)]
         public string DisplayName { get; set; }
@@ -305,6 +315,8 @@ namespace Wahren
     public sealed class ObjectData : InheritData
     {
         public ObjectData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public ObjectData() : base("", "", "", 0) { }
         public enum ChipType
         {
             None, coll, wall, wall2, breakable, gate, floor, start, goal, box, cover
@@ -350,6 +362,8 @@ namespace Wahren
     public sealed class MoveTypeData : BaseData
     {
         public MoveTypeData(string name, string file, int line) : base(name, file, line) { }
+        [SerializationConstructor]
+        public MoveTypeData() : base("", "", 0) { }
         [Key(4)]
         public string DisplayName { get; set; }
         [Key(5)]
@@ -363,6 +377,8 @@ namespace Wahren
     public sealed class FieldData : InheritData
     {
         public FieldData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public FieldData() : base("", "", "", 0) { }
         public enum Smooth : byte { on, off, step }
         public enum ChipType : byte { None, coll, wall, wall2 }
         [Key(5)]
@@ -398,6 +414,8 @@ namespace Wahren
     public sealed class DungeonData : InheritData
     {
         public DungeonData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public DungeonData() : base("", "", "", 0) { }
         [Key(5)]
         public string DisplayName { get; set; }
         [Key(6)]
@@ -501,6 +519,8 @@ namespace Wahren
     [MessagePackObject]
     public sealed class ContextData
     {
+        [SerializationConstructor]
+        public ContextData() { }
         [Key(0)]
         public Dictionary<string, List<Token>> VariantData { get; } = new Dictionary<string, List<Token>>();
         [Key(1)]

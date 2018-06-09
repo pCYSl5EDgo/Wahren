@@ -1609,7 +1609,8 @@ namespace Wahren
             if (unitData1.Skill.Count == 0 && unitData2.Skill.Count != 0 && !unitData1.FilledWithNull.Contains("skill"))
                 unitData1.Skill.AddRange(unitData2.Skill);
             if (unitData1.Skill2.Count == 0 && unitData2.Skill2.Count != 0 && !unitData1.FilledWithNull.Contains("skill2"))
-                unitData1.Skill2.AddRange(unitData2.Skill2);
+                foreach (var (key, value) in unitData2.Skill2)
+                    unitData1.Skill2[key] = value;
             if (unitData1.Consti.Count == 0 && unitData2.Consti.Count != 0 && !unitData1.FilledWithNull.Contains("consti"))
                 foreach (var (key, value) in unitData2.Consti)
                     unitData1.Consti[key] = value;
@@ -1815,7 +1816,7 @@ namespace Wahren
                         skill.HideHelp = InsertBool(assign, skill.FilledWithNull);
                         break;
                     case "sound":
-                        InsertStringList(assign, skill.FilledWithNull, skill.Sound);
+                        InsertStringOnlyList(assign, skill.FilledWithNull, skill.Sound);
                         break;
                     case "msg":
                         skill.Message = InsertString(assign, skill.FilledWithNull);
@@ -2583,7 +2584,7 @@ namespace Wahren
                             skill.Offset.Add(item.ToLowerString());
                         break;
                     case "offset_attr":
-                        InsertStringList(assign, skill.FilledWithNull, skill.OffsetAttribute);
+                        InsertStringOnlyList(assign, skill.FilledWithNull, skill.OffsetAttribute);
                         break;
                     case "knock":
                         skill.Knock = InsertInt(assign, skill.FilledWithNull);
@@ -2731,7 +2732,7 @@ namespace Wahren
                         skill.Price = InsertInt(assign, skill.FilledWithNull);
                         break;
                     case "friend":
-                        InsertStringList(assign, skill.FilledWithNull, skill.Friend);
+                        InsertStringOnlyList(assign, skill.FilledWithNull, skill.Friend);
                         break;
                     case "movetype":
                         if (assign.Content[0].Symbol1 == '@')
@@ -2792,7 +2793,7 @@ namespace Wahren
                 switch (assign.Name)
                 {
                     case "friend":
-                        InsertStringList(assign, story.FilledWithNull, story.Friend);
+                        InsertStringOnlyList(assign, story.FilledWithNull, story.Friend);
                         break;
                     case "fight":
                         story.Fight = InsertBool(assign, story.FilledWithNull);
@@ -3096,7 +3097,7 @@ namespace Wahren
                         InsertStringList(assign, power.FilledWithNull, power.MemberSpot);
                         break;
                     case "friend":
-                        InsertStringList(assign, power.FilledWithNull, power.Friend);
+                        InsertStringOnlyList(assign, power.FilledWithNull, power.Friend);
                         break;
                     case "flag":
                         power.FlagPath = InsertString(assign, power.FilledWithNull);
@@ -3126,7 +3127,7 @@ namespace Wahren
                         power.Money = InsertInt(assign, power.FilledWithNull);
                         break;
                     case "home":
-                        InsertStringList(assign, power.FilledWithNull, power.HomeSpot);
+                        InsertStringOnlyList(assign, power.FilledWithNull, power.HomeSpot);
                         break;
                     case "fix":
                         power.FilledWithNull.Remove("fix");
@@ -3167,7 +3168,7 @@ namespace Wahren
                         InsertStringIntPair(assign, power.FilledWithNull, power.EnemyPower);
                         break;
                     case "staff":
-                        InsertStringList(assign, power.FilledWithNull, power.Staff);
+                        InsertStringOnlyList(assign, power.FilledWithNull, power.Staff);
                         break;
                     case "merce":
                         AddStringIntPair(assign, power.FilledWithNull, power.Merce);
@@ -3251,7 +3252,7 @@ namespace Wahren
                         skillset.DisplayName = InsertString(assign, skillset.FilledWithNull);
                         break;
                     case "member":
-                        InsertStringList(assign, skillset.FilledWithNull, skillset.MemberSkill);
+                        InsertStringOnlyList(assign, skillset.FilledWithNull, skillset.MemberSkill);
                         break;
                     case "back":
                         skillset.BackIconPath = InsertString(assign, skillset.FilledWithNull);
@@ -3412,7 +3413,7 @@ namespace Wahren
                         unit.Align = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "enemy":
-                        InsertStringList(keyVal.Value, unit.FilledWithNull, unit.Enemy); removeList.Add(keyVal.Key);
+                        InsertStringOnlyList(keyVal.Value, unit.FilledWithNull, unit.Enemy); removeList.Add(keyVal.Key);
                         break;
                     case "loyal":
                         removeList.Add(keyVal.Key);
@@ -3432,7 +3433,7 @@ namespace Wahren
                         unit.Flag = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "staff":
-                        InsertStringList(keyVal.Value, unit.FilledWithNull, unit.Staff); removeList.Add(keyVal.Key);
+                        InsertStringOnlyList(keyVal.Value, unit.FilledWithNull, unit.Staff); removeList.Add(keyVal.Key);
                         break;
                     case "diplomacy":
                         unit.Diplomacy = InsertBool(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
@@ -3485,7 +3486,7 @@ namespace Wahren
                         }
                         break;
                     case "home":
-                        InsertStringList(keyVal.Value, unit.FilledWithNull, unit.Home); removeList.Add(keyVal.Key);
+                        InsertStringOnlyList(keyVal.Value, unit.FilledWithNull, unit.Home); removeList.Add(keyVal.Key);
                         break;
                     case "no_escape":
                         unit.IsNoEscape = InsertBool(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
@@ -3759,7 +3760,7 @@ namespace Wahren
                     case "friend":
                         unit.IsFriendAllRace = null;
                         unit.IsFriendAllClass = null;
-                        InsertStringList(assign, unit.FilledWithNull, unit.Friends);
+                        InsertStringOnlyList(assign, unit.FilledWithNull, unit.Friends);
                         if (unit.Friends.Contains("allrace"))
                             unit.IsFriendAllRace = true;
                         if (unit.Friends.Contains("allclass"))
@@ -3877,10 +3878,26 @@ namespace Wahren
                         unit.mprec_max = InsertInt(assign, unit.FilledWithNull);
                         break;
                     case "skill":
-                        InsertStringList(assign, unit.FilledWithNull, unit.Skill);
+                        InsertStringOnlyList(assign, unit.FilledWithNull, unit.Skill);
                         break;
                     case "skill2":
-                        InsertStringList(assign, unit.FilledWithNull, unit.Skill2);
+                        unit.Skill2.Clear();
+                        if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
+                        {
+                            unit.FilledWithNull.Add(assign.Name);
+                            break;
+                        }
+                        unit.FilledWithNull.Remove(assign.Name);
+                        int _tmplevel = 0;
+                        for (int i = 0; i < assign.Content.Count; i++)
+                        {
+                            if (assign.Content[i].Type == 2)
+                                unit.Skill2[(_tmplevel = (int)assign.Content[i].Number)] = new List<string>();
+                            else if (!unit.Skill2.ContainsKey(_tmplevel))
+                                unit.Skill2[_tmplevel] = new List<string>() { assign.Content[i].ToLowerString() };
+                            else
+                                unit.Skill2[_tmplevel].Add(assign.Content[i].ToLowerString());
+                        }
                         break;
                     case "delskill":
                         InsertStringList(assign, unit.FilledWithNull, unit.DeleteSkill);
@@ -4381,13 +4398,13 @@ namespace Wahren
                         scenario.BeginText = InsertString(assign, scenario.FilledWithNull);
                         break;
                     case "power":
-                        InsertStringList(assign, scenario.FilledWithNull, scenario.Power);
+                        InsertStringOnlyList(assign, scenario.FilledWithNull, scenario.Power);
                         break;
                     case "spot":
-                        InsertStringList(assign, scenario.FilledWithNull, scenario.Spot);
+                        InsertStringOnlyList(assign, scenario.FilledWithNull, scenario.Spot);
                         break;
                     case "roam":
-                        InsertStringList(assign, scenario.FilledWithNull, scenario.Roamer);
+                        InsertStringOnlyList(assign, scenario.FilledWithNull, scenario.Roamer);
                         break;
                     case "world":
                         scenario.WorldEvent = InsertString(assign, scenario.FilledWithNull);
@@ -4562,13 +4579,13 @@ namespace Wahren
                         }
                         break;
                     case "item_sale":
-                        InsertStringList(assign, scenario.FilledWithNull, scenario.ItemSale);
+                        InsertStringOnlyList(assign, scenario.FilledWithNull, scenario.ItemSale);
                         break;
                     case "item_limit":
                         scenario.IsItemLimit = InsertBool(assign, scenario.FilledWithNull);
                         break;
                     case "item_hold":
-                        InsertStringList(assign, scenario.FilledWithNull, scenario.PlayerInitialItem);
+                        InsertStringOnlyList(assign, scenario.FilledWithNull, scenario.PlayerInitialItem);
                         break;
                 }
             }
@@ -4580,20 +4597,20 @@ namespace Wahren
                 switch (assign.Name)
                 {
                     case "voice_type":
-                        InsertStringList(assign, voice.FilledWithNull, voice.VoiceType);
+                        InsertStringOnlyList(assign, voice.FilledWithNull, voice.VoiceType);
                         break;
                     case "delskill":
-                        InsertStringList(assign, voice.FilledWithNull, voice.DeleteVoiceType);
+                        InsertStringOnlyList(assign, voice.FilledWithNull, voice.DeleteVoiceType);
                         break;
                     case "power":
-                        InsertStringList(assign, voice.FilledWithNull, voice.PowerVoice);
+                        InsertStringOnlyList(assign, voice.FilledWithNull, voice.PowerVoice);
                         if (voice.PowerVoice.Count != 0)
                         {
                             voice.NoPower = false;
                         }
                         break;
                     case "spot":
-                        InsertStringList(assign, voice.FilledWithNull, voice.SpotVoice);
+                        InsertStringOnlyList(assign, voice.FilledWithNull, voice.SpotVoice);
                         break;
                 }
             }
@@ -5603,18 +5620,51 @@ namespace Wahren
                     throw new ScriptLoadingException(assign.Content[0]);
             }
         }
-        static void InsertStringList(LexicalTree_Assign assign, List<string> fillWithNull, List<string> list)
-        {
+        static void InsertStringOnlyList(LexicalTree_Assign assign, List<string> fillWithNull, List<string> list){
             list.Clear();
-            if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
+            var content = assign.Content;
+            if (content.Count == 1 && content[0].Symbol1 == '@')
             {
                 fillWithNull.Add(assign.Name);
                 return;
             }
             fillWithNull.Remove(assign.Name);
-            foreach (var item in assign.Content)
-                list.Add(item.ToLowerString());
-            return;
+            for (int i = 0; i < content.Count; i++)
+            {
+                switch (content[i].Type)
+                {
+                    case 0:
+                        list.Add(content[i].ToLowerString());
+                        break;
+                    default: throw new Exception(content[i].DebugInfo);
+                }
+            }
+        }
+        static void InsertStringList(LexicalTree_Assign assign, List<string> fillWithNull, List<string> list)
+        {
+            list.Clear();
+            var content = assign.Content;
+            if (content.Count == 1 && content[0].Symbol1 == '@')
+            {
+                fillWithNull.Add(assign.Name);
+                return;
+            }
+            fillWithNull.Remove(assign.Name);
+            for (int i = 0; i < content.Count; i++)
+            {
+                switch (content[i].Type)
+                {
+                    case 0:
+                        list.Add(content[i].ToLowerString());
+                        break;
+                    case 1:
+                        throw new Exception(content[i].DebugInfo);
+                    case 2:
+                        for (int j = 1; j < content[i].Number; j++)
+                            list.Add(content[i - 1].ToLowerString());
+                        break;
+                }
+            }
         }
         static void InsertStringIntPair(LexicalTree_Assign assign, List<string> fillWithNull, Dictionary<string, int> dic)
         {

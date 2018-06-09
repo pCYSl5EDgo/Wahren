@@ -14,7 +14,7 @@ namespace Wahren
         [Key(1)]
         private string _file;
 
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public string File { get => _file; set => _file = String.Intern(value); }
 
         [Key(2)]
@@ -22,7 +22,7 @@ namespace Wahren
 
         [Key(3)]
         public int Column { get; set; }
-        [IgnoreMember]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
         public enum TreeType
         {
@@ -46,6 +46,8 @@ namespace Wahren
         {
             Name = name.ToLower();
         }
+        [SerializationConstructor]
+        public LexicalTree() { }
     }
     public sealed class LexicalTreeConstructionException : ApplicationException
     {
@@ -73,6 +75,8 @@ namespace Wahren
         {
             Type = TreeType.Assign;
         }
+        [SerializationConstructor]
+        public LexicalTree_Assign() : base("") { }
         public override string ToString()
         {
             var buf = new StringBuilder();

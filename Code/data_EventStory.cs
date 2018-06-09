@@ -4,9 +4,6 @@ using MessagePack;
 
 namespace Wahren
 {
-    [Union(0, typeof(StoryData))]
-    [Union(1, typeof(EventData))]
-    [Union(2, typeof(ScenarioData))]
     public interface IScript
     {
         List<LexicalTree> Script { get; }
@@ -14,7 +11,7 @@ namespace Wahren
     [MessagePackObject]
     public sealed class StoryData : InheritData, IScript
     {
-        [Key(5)]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public List<LexicalTree> Script { get; } = new List<LexicalTree>();
         [Key(6)]
         public List<string> Friend { get; } = new List<string>();
@@ -29,7 +26,7 @@ namespace Wahren
     [MessagePackObject]
     public sealed class EventData : InheritData, IScript
     {
-        [Key(5)]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public List<LexicalTree> Script { get; } = new List<LexicalTree>();
 
         public EventData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
@@ -68,9 +65,11 @@ namespace Wahren
     [MessagePackObject]
     public partial class ScenarioData : InheritData, IScript
     {
-        [Key(5)]
+        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
         public List<LexicalTree> Script { get; } = new List<LexicalTree>();
         public ScenarioData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public ScenarioData() : base("", "", "", 0) { }
         public override string ToString() => DisplayName;
         [Key(6)]
         public string DisplayName { get; set; }
