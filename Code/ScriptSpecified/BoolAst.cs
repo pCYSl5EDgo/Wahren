@@ -168,8 +168,7 @@ namespace Wahren.Specific
             }
             catch (NullReferenceException)
             {
-                foreach (var item in this.input)
-                    Console.Error.WriteLine($@"{item.File}/{item.Line + 1}/{item.Column}");
+                Console.Error.WriteLine($"==1がおそらく必要です。\n{input[0].File}/{input[0].Line + 1}/{input[0].Column}");
                 throw;
             }
         }
