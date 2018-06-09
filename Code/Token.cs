@@ -1,28 +1,41 @@
 using System;
 using System.IO;
 using System.Text;
+using MessagePack;
 
 namespace Wahren
 {
+    [MessagePackObject]
     public struct Token : IDebugInfo
     {
+        [Key(0)]
         public readonly string File;
+        [Key(1)]
         public readonly int Line;
+        [Key(2)]
         public readonly int Column;
-        //string 0
-        //symbol 1
-        //digit 2
+        [Key(3)]
         public readonly byte Type;
+        [Key(4)]
         public readonly bool IsDebug;
+        [Key(5)]
         public readonly bool IsMemo;
+        [Key(6)]
         public readonly string Content;
+        [Key(7)]
         public readonly char Symbol1;
+        [Key(8)]
         public readonly char Symbol2;
+        [Key(9)]
         public readonly long Number;
 
         public override string ToString() => Type == 0 ? Content : (Type == 2 ? Number.ToString() : (Symbol2 == default(char) ? new string(new char[1] { Symbol1 }) : new string(new char[2] { Symbol1, Symbol2 })));
+        [IgnoreMember]
         public string DebugInfo => File + '/' + (Line + 1) + '/' + Column;
+
+        [IgnoreMember]
         private string toLowerString;
+
         public string ToLowerString()
         {
             if (toLowerString != null)
@@ -41,7 +54,7 @@ namespace Wahren
             }
             throw new InvalidDataException();
         }
-
+        [SerializationConstructor]
         public Token(string file, int line, int column, bool isDebug, bool isMemo, byte type, string content, char symbol1, char symbol2, long number)
         {
             File = String.Intern(file);
@@ -111,7 +124,9 @@ namespace Wahren
             Number = number;
             toLowerString = null;
         }
+        [IgnoreMember]
         public bool IsSingleSymbol => Type == 1 && Symbol2 == default(char);
+        [IgnoreMember]
         public bool IsDoubleSymbol => Type == 1 && Symbol2 != default(char);
 
         public bool IsNext(in Token next)

@@ -3,3 +3,4 @@ bin/*
 obj/*
 destination/*
 System.Text.Encoding.CodePages.4.4.0/*
+.vs/*

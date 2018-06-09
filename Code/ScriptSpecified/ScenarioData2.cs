@@ -2,56 +2,95 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using MessagePack;
 
 namespace Wahren.Specific
 {
+    [MessagePackObject]
     public sealed class ScenarioData2
     {
+        [Key(0)]
         internal Task LoadingDone;
+
+        [IgnoreMember]
         public string Name => Scenario.Name;
+        [Key(1)]
         public ScenarioData Scenario { get; set; }
         //数値変数（読み取り）の集合
+        [Key(2)]
         public SortedSet<string> Identifier_Get { get; } = new SortedSet<string>();
         //数値変数（書き出し）の集合
+        [Key(3)]
         public SortedSet<string> Identifier_Set { get; } = new SortedSet<string>();
         //スクリプト中で0あるいは1とのみsetされたことがあり、add,sub,mul,divなどの数式操作もされなかった変数の集合
+        [Key(4)]
         public SortedSet<string> BoolIdentifier { get; } = new SortedSet<string>();
+        [Key(5)]
         public SortedSet<string> NotBoolIdentifier { get; } = new SortedSet<string>();
         //文字変数（読み取り）の集合
+        [Key(6)]
         public SortedSet<string> Variable_Get { get; } = new SortedSet<string>();
+        [Key(7)]
         public SortedSet<string> Spot_Variable_Get { get; } = new SortedSet<string>();
+        [Key(8)]
         public SortedSet<string> Power_Variable_Get { get; } = new SortedSet<string>();
+        [Key(9)]
         public SortedSet<string> Dungeon_Variable_Get { get; } = new SortedSet<string>();
+        [Key(10)]
         public SortedSet<string> Unit_Variable_Get { get; } = new SortedSet<string>();
+        [Key(11)]
         public SortedSet<string> GenericUnit_Variable_Get { get; } = new SortedSet<string>();
+        [Key(12)]
         public SortedSet<string> Fkey_Variable_Get { get; } = new SortedSet<string>();
+        [Key(13)]
         public SortedSet<string> Race_Variable_Get { get; } = new SortedSet<string>();
+        [Key(14)]
         public SortedSet<string> Skill_Variable_Get { get; } = new SortedSet<string>();
         //文字変数（書き出し）の集合
+        [Key(15)]
         public SortedSet<string> Variable_Set { get; } = new SortedSet<string>();
+        [Key(16)]
         public SortedSet<string> Spot_Variable_Set { get; } = new SortedSet<string>();
+        [Key(17)]
         public SortedSet<string> Power_Variable_Set { get; } = new SortedSet<string>();
+        [Key(18)]
         public SortedSet<string> Unit_Variable_Set { get; } = new SortedSet<string>();
+        [Key(19)]
         public SortedSet<string> GenericUnit_Variable_Set { get; } = new SortedSet<string>();
+        [Key(20)]
         public SortedSet<string> Fkey_Variable_Set { get; } = new SortedSet<string>();
+        [Key(21)]
         public SortedSet<string> Race_Variable_Set { get; } = new SortedSet<string>();
+        [Key(22)]
         public SortedSet<string> Skill_Variable_Set { get; } = new SortedSet<string>();
 
+        [Key(23)]
         public SortedSet<string> Routine { get; } = new SortedSet<string>();
+        [Key(24)]
         public SortedSet<string> Event { get; } = new SortedSet<string>();
+        [Key(25)]
         public SortedSet<string> BattleEvent { get; } = new SortedSet<string>();
+        [Key(26)]
         public SortedSet<string> Yet { get; } = new SortedSet<string>();
+        [Key(27)]
         public Dictionary<string, UnitData> Unit { get; } = new Dictionary<string, UnitData>();
+        [Key(28)]
         public Dictionary<string, GenericUnitData> GenericUnit { get; } = new Dictionary<string, GenericUnitData>();
+        [Key(29)]
         public Dictionary<string, PowerData> Power { get; } = new Dictionary<string, PowerData>();
+        [Key(30)]
         public Dictionary<string, SpotData> Spot { get; } = new Dictionary<string, SpotData>();
+        [Key(31)]
         public Dictionary<string, string> Detail { get; } = new Dictionary<string, string>();
+        [Key(32)]
         public List<LexicalTree> InitialRoutine { get; } = new List<LexicalTree>();
+        [Key(33)]
         public List<LexicalTree> World { get; } = new List<LexicalTree>();
+        [Key(34)]
         public List<LexicalTree> Fight { get; } = new List<LexicalTree>();
+        [Key(35)]
         public List<LexicalTree> Politics { get; } = new List<LexicalTree>();
         public ScenarioData2(ScenarioData data)
         {
@@ -79,7 +118,6 @@ namespace Wahren.Specific
         }
         private void CollectData(PowerData data)
         {
-
         }
 
         private void CollectData<T>(ConcurrentDictionary<string, T> dictionary) where T : ScenarioVariantData, new()
