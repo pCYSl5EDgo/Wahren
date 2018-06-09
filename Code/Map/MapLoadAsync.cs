@@ -17,16 +17,16 @@ namespace Wahren.Map
             return ans;
         }
 
-        public static Tuple<FieldData, List<ObjectData>>[][][] LoadMapAll(this ScenarioFolder sc)
+        public static ValueTuple<FieldData, List<ObjectData>>[][][] LoadMapAll(this ScenarioFolder sc)
         {
-            var ans = new Tuple<FieldData, List<ObjectData>>[sc.Stage_Map.Count][][];
+            var ans = new ValueTuple<FieldData, List<ObjectData>>[sc.Stage_Map.Count][][];
             for (int i = 0; i < sc.Stage_Map.Count; i++)
             {
                 var p = sc.Stage_Map[i].LoadPanel();
-                ans[i] = new Tuple<FieldData, List<ObjectData>>[p.Height][];
+                ans[i] = new ValueTuple<FieldData, List<ObjectData>>[p.Height][];
                 for (int j = 0; j < ans.Length; j++)
                 {
-                    ans[i][j] = new Tuple<FieldData, List<ObjectData>>[p.Width];
+                    ans[i][j] = new ValueTuple<FieldData, List<ObjectData>>[p.Width];
                     for (int k = 0; k < p.Pool[j].Length; k++)
                     {
                         var objects = new List<ObjectData>(p.Pool[j][k].Count - 1);
@@ -41,7 +41,7 @@ namespace Wahren.Map
                             }
                         }
                         if (field == null) throw new Exception();
-                        ans[i][j][k] = new Tuple<FieldData, List<ObjectData>>(field, objects);
+                        ans[i][j][k] = new ValueTuple<FieldData, List<ObjectData>>(field, objects);
                     }
                 }
             }

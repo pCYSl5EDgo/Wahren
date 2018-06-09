@@ -75,11 +75,11 @@ namespace Wahren
                     case StructureDataType.Attribute:
                         foreach (var attribute in SelectAssign(tree))
                         {
-                            Tuple<string, int> tpl;
+                            ValueTuple<string, int> tpl;
                             if (attribute.Content.Count >= 2)
-                                tpl = new Tuple<string, int>(attribute.Content[0].Content, (int)attribute.Content[1].Number);
+                                tpl = new ValueTuple<string, int>(attribute.Content[0].Content, (int)attribute.Content[1].Number);
                             else
-                                tpl = new Tuple<string, int>(attribute.Content[0].Content, 0);
+                                tpl = new ValueTuple<string, int>(attribute.Content[0].Content, 0);
                             Attribute.TryAdd(attribute.Name, tpl);
                         }
                         break;
@@ -3285,7 +3285,7 @@ namespace Wahren
                         genericunit.FilledWithNull.Remove("change");
                         if (keyVal.Value.Content.Count != 2 || keyVal.Value.Content[1].Type != 2)
                             throw new ApplicationException();
-                        genericunit.Change = new Tuple<string, int>(keyVal.Value.Content[0].ToLowerString(), (int)keyVal.Value.Content[1].Number);
+                        genericunit.Change = new ValueTuple<string, int>(keyVal.Value.Content[0].ToLowerString(), (int)keyVal.Value.Content[1].Number);
                         break;
                 }
             }
@@ -3423,9 +3423,9 @@ namespace Wahren
                         }
                         unit.FilledWithNull.Remove("loyal");
                         if (keyVal.Value.Content.Count == 2)
-                            unit.Loyal = new Tuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), (byte)keyVal.Value.Content[0].Number);
+                            unit.Loyal = new ValueTuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), (byte)keyVal.Value.Content[0].Number);
                         else
-                            unit.Loyal = new Tuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), 0);
+                            unit.Loyal = new ValueTuple<string, byte>(keyVal.Value.Content[0].ToLowerString(), 0);
                         break;
                     case "power_name":
                         unit.PowerDisplayName = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
@@ -3676,7 +3676,7 @@ namespace Wahren
                                     unit.ActiveTroop = keyVal.Value.Content[0].ToLowerString();
                                 break;
                             case 4:
-                                unit.ActiveRect = new Tuple<int, int, int, int>((int)keyVal.Value.Content[0].Number, (int)keyVal.Value.Content[1].Number, (int)keyVal.Value.Content[2].Number, (int)keyVal.Value.Content[3].Number);
+                                unit.ActiveRect = new ValueTuple<int, int, int, int>((int)keyVal.Value.Content[0].Number, (int)keyVal.Value.Content[1].Number, (int)keyVal.Value.Content[2].Number, (int)keyVal.Value.Content[3].Number);
                                 break;
                             default: throw new ApplicationException();
                         }
@@ -4507,7 +4507,7 @@ namespace Wahren
                             var con1 = assign.Content[i * 3].ToLowerString();
                             var con2 = assign.Content[i * 3 + 1].ToLowerString();
                             var con3 = assign.Content[i * 3 + 2].ToLowerString();
-                            scenario.PoliticsData[con1] = new Tuple<string, string>(con2 == "@" ? "" : con2, con3 == "@" ? "" : con3);
+                            scenario.PoliticsData[con1] = new ValueTuple<string, string>(con2 == "@" ? "" : con2, con3 == "@" ? "" : con3);
                         }
                         break;
                     case "camp":
@@ -4523,7 +4523,7 @@ namespace Wahren
                             var con1 = assign.Content[i * 3].Content;
                             var con2 = assign.Content[i * 3 + 1].Content;
                             var con3 = assign.Content[i * 3 + 2].Content;
-                            scenario.CampingData[con1] = new Tuple<string, string>(con2 == "@" ? "" : con2, con3 == "@" ? "" : con3);
+                            scenario.CampingData[con1] = new ValueTuple<string, string>(con2 == "@" ? "" : con2, con3 == "@" ? "" : con3);
                         }
                         break;
                     case "item":

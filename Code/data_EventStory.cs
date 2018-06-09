@@ -90,8 +90,8 @@ namespace Wahren
         public bool? IsNoZone { get; set; }
         public string ZoneName { get; set; }
 
-        public Dictionary<string, Tuple<string, string>> PoliticsData { get; set; } = new Dictionary<string, Tuple<string, string>>();
-        public Dictionary<string, Tuple<string, string>> CampingData { get; } = new Dictionary<string, Tuple<string, string>>();
+        public Dictionary<string, ValueTuple<string, string>> PoliticsData { get; set; } = new Dictionary<string, ValueTuple<string, string>>();
+        public Dictionary<string, ValueTuple<string, string>> CampingData { get; } = new Dictionary<string, ValueTuple<string, string>>();
 
         public ValueTuple<string, int>[] ItemWindowTab { get; } = new ValueTuple<string, int>[7];
         public List<string> ItemSale { get; } = new List<string>();

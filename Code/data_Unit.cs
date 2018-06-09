@@ -9,7 +9,7 @@ namespace Wahren
         public GenericUnitData() : base("", "", "", 0) { }
         public string BaseClassKey { get; set; }
         public bool? IsUnique { get; set; }
-        public Tuple<string, int> Change { get; set; }
+        public ValueTuple<string, int>? Change { get; set; }
     }
     public sealed class UnitData : CommonUnitData
     {
@@ -35,7 +35,7 @@ namespace Wahren
         public byte? Kosen { get; set; }
         public byte? Align { get; set; }
         public List<string> Enemy { get; set; } = new List<string>();
-        public Tuple<string, byte> Loyal { get; set; }
+        public ValueTuple<string, byte>? Loyal { get; set; }
         public string PowerDisplayName { get; set; }
         public string Flag { get; set; }
         public List<string> Staff { get; set; } = new List<string>();
@@ -86,7 +86,7 @@ namespace Wahren
         public int? ActiveRange { get; set; }
         public int? ActiveTime { get; set; }
         public string ActiveTroop { get; set; }
-        public Tuple<int, int, int, int> ActiveRect { get; set; }
+        public ValueTuple<int, int, int, int>? ActiveRect { get; set; }
     }
     public class CommonUnitData : ScenarioVariantData
     {
