@@ -133,16 +133,29 @@ namespace Wahren
                         Image_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories));
                         (byte, byte, byte, byte) ReadImageData(string filePath, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
                         {
+                            #if NETCOREAPP2_1
                             Span<byte> tmp = stackalloc byte[12];
+                            #else
+                            var tmp = new byte[12];
+                            byte[] _tmpFile;
+                            #endif
                             Span<byte> file;
                             if (!new FileInfo(filePath).Exists) return default;
                             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, false))
                             {
+                                #if NETCOREAPP2_1
                                 fs.Read(tmp);
                                 file = new byte[fs.Length - 12];
                                 fs.Read(file);
                                 tmp = tmp.Slice(8, 4);
+                                #else
+                                fs.Read(tmp, 0, tmp.Length);
+                                _tmpFile = new byte[fs.Length - 12];
+                                fs.Read(_tmpFile, 0, _tmpFile.Length);
+                                file = _tmpFile;
+                                #endif
                             }
+
                             int ReadInt32(Span<byte> input)
                             {
                                 return input[0] + (input[1] << 8) + (input[2] << 16) + (input[3] << 24);
@@ -160,7 +173,11 @@ namespace Wahren
                                 for (int i = 0; i < index; i++)
                                     lower[i] = (char)(file[i] >= 0x41 && file[i] <= 0x5a ? (file[i] + 0x20) : file[i]);
                                 var rect = file.Slice(index + 1, 16);
+                                #if NETCOREAPP2_1
                                 dictionary[String.Intern(new string(lower.Slice(0, index)))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
+                                #else
+                                dictionary[String.Intern(new string(lower.Slice(0, index).ToArray()))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
+                                #endif
                                 file = file.Slice(index + 17);
                             }
                         }
