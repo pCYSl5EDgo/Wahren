@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Wahren.Unity
 {
-    public static class FileCreator
+    public static partial class FileCreator
     {
         public static string TitleFunction(this ContextData context)
         {
