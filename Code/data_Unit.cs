@@ -378,10 +378,11 @@ namespace Wahren
         public int? SortKey { get; set; }
         [Key(113)]
         public byte? Brave { get; set; }
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         private string _face;
         [Key(114)]
-        public string Face { get => _face; set => _face = String.Intern(value); }
+        public string Face { get => _face; set => _face = value == null ? null : String.Intern(value); }
         [Key(115)]
         public List<string> Item { get; set; } = new List<string>();
         [Key(116)]

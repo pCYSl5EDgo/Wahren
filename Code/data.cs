@@ -526,9 +526,9 @@ namespace Wahren
         [Key(1)]
         public string TitleName { get; set; } = "";
         [Key(2)]
-        public int TitleMenuRight { get; set; } = -50;
+        public int TitleMenuRight { get; set; } = 200;
         [Key(3)]
-        public int TitleMenuTop { get; set; } = -50;
+        public int TitleMenuTop { get; set; } = 0;
         [Key(4)]
         public int TitleMenuSpace { get; set; } = 50;
         [Key(5)]

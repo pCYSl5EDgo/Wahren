@@ -6,6 +6,8 @@ using System.IO;
 using Microsoft.Extensions.CommandLineUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using Wahren.Unity;
+using Wahren.Specific;
 
 namespace Wahren
 {
@@ -143,6 +145,8 @@ namespace Wahren
                     var isGetOnly = getOnlyOption.HasValue();
                     var isSetOnly = setOnlyOption.HasValue();
                     ScriptLoader.InitializeComponent(folderArgument.Value);
+                    Console.WriteLine(ScriptLoader.Context.TitleFunction());
+                    #region GS
                     IEnumerable<string> GetOnly(int index)
                     {
                         return ScriptLoader.Scenarios[index].Variable_Get.Except(ScriptLoader.Scenarios[index].Variable_Set);
@@ -208,6 +212,7 @@ namespace Wahren
                                 System.Console.Error.WriteLine("Set Only:" + item);
                         }
                     }
+                    #endregion
                     return 0;
                 });
             }

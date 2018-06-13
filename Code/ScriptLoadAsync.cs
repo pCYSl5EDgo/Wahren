@@ -17,6 +17,7 @@ namespace Wahren
         private static ScenarioData2[] scenarios = null;
         public static readonly ConcurrentDictionary<string, GenericUnitData> GenericUnitDictionary = new ConcurrentDictionary<string, GenericUnitData>();
         public static readonly ConcurrentDictionary<string, UnitData> UnitDictionary = new ConcurrentDictionary<string, UnitData>();
+        public static readonly ConcurrentDictionary<string, byte> BaseClassKeyDictionary = new ConcurrentDictionary<string, byte>();
         public static readonly ConcurrentDictionary<string, PowerData> PowerDictionary = new ConcurrentDictionary<string, PowerData>();
         public static readonly ConcurrentDictionary<string, SpotData> SpotDictionary = new ConcurrentDictionary<string, SpotData>();
         public static readonly ConcurrentDictionary<string, RaceData> RaceDictionary = new ConcurrentDictionary<string, RaceData>();
@@ -61,7 +62,7 @@ namespace Wahren
             if (Folder == null) throw new ApplicationException("Folder must not be null!");
             var ans = new Task[Folder.Script_Dat.Count];
             for (int i = 0; i < ans.Length; i++)
-                ans[i] = String.Intern(Folder.Script_Dat[i]).LoadAsync(Folder.Encoding, Folder.IsEnglishMode, Folder.IsDebug);
+                ans[i] = Intern(Folder.Script_Dat[i]).LoadAsync(Folder.Encoding, Folder.IsEnglishMode, Folder.IsDebug);
             return ans;
         }
         public static async Task LoadAsync(this string scriptFile, Encoding encoding, bool englishMode, bool isDebug)
@@ -3100,13 +3101,13 @@ namespace Wahren
                         InsertStringOnlyList(assign, power.FilledWithNull, power.Friend);
                         break;
                     case "flag":
-                        power.FlagPath = InsertString(assign, power.FilledWithNull);
+                        power.FlagPath = Intern(InsertString(assign, power.FilledWithNull)?.ToLower());
                         break;
                     case "event":
                         power.IsEvent = InsertBool(assign, power.FilledWithNull);
                         break;
                     case "bgm":
-                        power.BGM = InsertString(assign, power.FilledWithNull);
+                        power.BGM = Intern(InsertString(assign, power.FilledWithNull)?.ToLower());
                         break;
                     case "volume":
                         power.Volume = InsertByte(assign, power.FilledWithNull);
@@ -3272,7 +3273,7 @@ namespace Wahren
                 switch (keyVal.Key)
                 {
                     case "fkey":
-                        genericunit.BaseClassKey = InsertString(keyVal.Value, genericunit.FilledWithNull);
+                        ScriptLoader.BaseClassKeyDictionary.AddOrUpdate(genericunit.BaseClassKey = InsertString(keyVal.Value, genericunit.FilledWithNull), 0, (_1, _2) => _2);
                         break;
                     case "unique":
                         genericunit.IsUnique = InsertBool(keyVal.Value, genericunit.FilledWithNull);
@@ -3737,16 +3738,16 @@ namespace Wahren
                         unit.Alpha = InsertByte(assign, unit.FilledWithNull);
                         break;
                     case "image":
-                        unit.Image = String.Intern(InsertString(assign, unit.FilledWithNull).ToLower());
+                        unit.Image = Intern(InsertString(assign, unit.FilledWithNull)?.ToLower());
                         break;
                     case "image2":
-                        unit.Image2 = String.Intern(InsertString(assign, unit.FilledWithNull).ToLower());
+                        unit.Image2 = Intern(InsertString(assign, unit.FilledWithNull)?.ToLower());
                         break;
                     case "tkool":
                         unit.IsTkool = InsertBool(assign, unit.FilledWithNull);
                         break;
                     case "face":
-                        unit.Face = InsertString(assign, unit.FilledWithNull).ToLower();
+                        unit.Face = InsertString(assign, unit.FilledWithNull)?.ToLower();
                         break;
                     case "price":
                         unit.Price = InsertInt(assign, unit.FilledWithNull);
@@ -5659,13 +5660,16 @@ namespace Wahren
                 switch (content[i].Type)
                 {
                     case 0:
-                        list.Add(String.Intern(content[i].ToLowerString()));
+                        list.Add(Intern(content[i].ToLowerString()));
                         break;
                     case 1:
-                        throw new Exception(content[i].DebugInfo);
+                        if (content[i].IsSingleSymbol && content[i].Symbol1 == '@')
+                            list.Add("");
+                        else throw new Exception(content[i].DebugInfo);
+                        break;
                     case 2:
                         for (int j = 1; j < content[i].Number; j++)
-                            list.Add(String.Intern(content[i - 1].ToLowerString()));
+                            list.Add(Intern(content[i - 1].ToLowerString()));
                         break;
                 }
             }
@@ -5760,6 +5764,7 @@ namespace Wahren
                 yield return assign;
             }
         }
+        private static string Intern(string str) => str == null ? null : String.Intern(str);
     }
 
     public sealed class ScriptLoadingException : ApplicationException
