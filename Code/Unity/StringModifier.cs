@@ -6,7 +6,33 @@ namespace Wahren.Unity
     public static class StringModifier
     {
         private static readonly StringBuilder buf = new StringBuilder();
-        public static string SimpleEscape(this string input)
+        public static string Escape(this string input)
+        {
+            buf.Clear();
+            var span = input.AsSpan();
+            while (true)
+            {
+                var i = span.IndexOfAny('"', '\\');
+                if (i == -1)
+                {
+                    buf.Append(span);
+                    break;
+                }
+                buf.Append(span.Slice(0, i));
+                switch (span[i])
+                {
+                    case '"':
+                        buf.Append("\\\"");
+                        break;
+                    case '\\':
+                        buf.Append("\\\\");
+                        break;
+                }
+                span = span.Slice(i + 1);
+            }
+            return buf.ToString();
+        }
+        public static string StringEscape(this string input)
         {
             buf.Clear();
             var span = input.AsSpan();

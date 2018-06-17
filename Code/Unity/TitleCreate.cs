@@ -12,7 +12,7 @@ namespace Wahren.Unity
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         var canvas = new GameObject(""Canvas"", typeof(GraphicRaycaster));
         canvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-        GetRect(canvas).position = Vector3.zero;
+        canvas.GetRect().position = Vector3.zero;
         canvas.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         new GameObject(""EventSystem"", typeof(UnityEngine.EventSystems.EventSystem), typeof(UnityEngine.EventSystems.StandaloneInputModule));
         var cvt = canvas.transform;")
@@ -22,7 +22,7 @@ namespace Wahren.Unity
         {
             var blackBack = new GameObject(""BlackBack"");
             blackBack.transform.parent = cvt;
-            GetRect(blackBack).anchoredPosition = Vector2.zero;
+            blackBack.GetRect().anchoredPosition = Vector2.zero;
             {
                 var image = blackBack.AddComponent<Image>();
                 image.color = Color.black;
@@ -32,19 +32,17 @@ namespace Wahren.Unity
         {
             var title = new GameObject(""Title"");
             title.transform.parent = cvt;
-            GetRect(title).anchoredPosition = Vector2.zero;
+            title.GetRect().anchoredPosition = Vector2.zero;
             {
-                var image = title.AddComponent<Image>();
+                var image = title.AddImage(Path.Combine(ImageFolder, ""title.png""));
                 image.raycastTarget = false;
-                image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Path.Combine(ImageFolder, ""title.png""));
                 image.preserveAspect = true;
-                image.type = Image.Type.Simple;
             }
         }
         {
             var buttonList = new GameObject(""ButtonList"");
             buttonList.transform.parent = cvt;
-            AddComponentSizeFitter(buttonList);
+            buttonList.AddComponentSizeFitter();
             var blt = buttonList.transform;
             buttonList.AddComponent<WindowHolder>().Window = AssetDatabase.LoadAssetAtPath<GameObject>(""Assets/Scenes/TitleSceneScripts/DescriptionPanel.prefab"");
             {
@@ -66,18 +64,16 @@ namespace Wahren.Unity
             }
             buf.Append("}var list2 = new string[]{");
             for (int i = 0; i < context.ModeText.Length; i++)
-                buf.Append("\"").Append(context.ModeText[i].SimpleEscape()).Append("\",\n");
+                buf.Append("\"").Append(context.ModeText[i].StringEscape()).Append("\",\n");
             buf.AppendLine("};");
             buf.Append(@"var list = new string[] { ""Easy"", ""Normal"", ""Hard"", ""Luna"", ""Continue"", ""Tool"" };
-            Add<VerticalLayoutGroup>(buttonList, 30, 30);
+            buttonList.Add<VerticalLayoutGroup>(30, 30);
             for (int i = 0; i < 6; i++)
             {
                 var btn = new GameObject(list[i]);
                 btn.transform.parent = blt;
-                AddComponentSizeFitter(btn);
-                var image = btn.AddComponent<Image>();
-                image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Path.Combine(ImageFolder, list[i].ToLower() + "".png""));
-                image.type = Image.Type.Simple;
+                btn.AddComponentSizeFitter();
+                var image = btn.AddImage(list[i].ToLower() + "".png"");
                 switch (i)
                 {
                     case 4:

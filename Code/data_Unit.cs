@@ -23,6 +23,8 @@ namespace Wahren
         public UnitData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         [SerializationConstructor]
         public UnitData() : base("", "", "", 0) { }
+        [Key(9)]
+        public string Class { get; set; }
         [Key(119)]
         public bool? IsTalent { get; set; }
         [Key(120)]
@@ -163,8 +165,6 @@ namespace Wahren
         public byte? Sex { get; set; }
         [Key(8)]
         public string Race { get; set; }
-        [Key(9)]
-        public string Class { get; set; }
         [Key(10)]
         public int? Radius { get; set; }
         [Key(11)]

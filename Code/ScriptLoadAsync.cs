@@ -1276,6 +1276,8 @@ namespace Wahren
         internal static void Resolve(UnitData unitData1, UnitData unitData2)
         {
             Resolve(unitData1, (CommonUnitData)unitData2);
+            if (unitData1.Class == null && unitData2.Class != null && !unitData1.FilledWithNull.Contains("class"))
+                unitData1.Class = unitData2.Class;
             if (unitData1.ActiveTroop == null && unitData1.ActiveTime == null && unitData1.ActiveRect == null && unitData1.ActiveRange == null && !unitData1.FilledWithNull.Contains("active_num"))
             {
                 unitData1.ActiveRange = unitData2.ActiveRange;
@@ -1490,8 +1492,6 @@ namespace Wahren
             }
             if (unitData1.CavalryRange == null && unitData2.CavalryRange != null && !unitData1.FilledWithNull.Contains("cavalary_range"))
                 unitData1.CavalryRange = unitData2.CavalryRange;
-            if (unitData1.Class == null && unitData2.Class != null && !unitData1.FilledWithNull.Contains("class"))
-                unitData1.Class = unitData2.Class;
             if (unitData1.Cost == null && unitData2.Cost != null && !unitData1.FilledWithNull.Contains("cost"))
                 unitData1.Cost = unitData2.Cost;
             if (unitData1.DeadEvent == null && unitData2.DeadEvent != null && !unitData1.FilledWithNull.Contains("dead_event"))
@@ -3303,6 +3303,9 @@ namespace Wahren
             {
                 switch (keyVal.Key)
                 {
+                    case "class":
+                        unit.Class = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
+                        break;
                     case "talent":
                         unit.IsTalent = InsertBool(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
@@ -3693,7 +3696,6 @@ namespace Wahren
             {
                 switch (assign.Name)
                 {
-
                     case "name":
                         unit.DisplayName = InsertString(assign, unit.FilledWithNull);
                         break;
@@ -3718,9 +3720,6 @@ namespace Wahren
                         break;
                     case "race":
                         unit.Race = InsertString(assign, unit.FilledWithNull);
-                        break;
-                    case "class":
-                        unit.Class = InsertString(assign, unit.FilledWithNull);
                         break;
                     case "radius":
                         unit.Radius = InsertInt(assign, unit.FilledWithNull);
@@ -4298,7 +4297,9 @@ namespace Wahren
                         spot.DisplayName = InsertString(assign, spot.FilledWithNull);
                         break;
                     case "image":
-                        spot.Image = InsertString(assign, spot.FilledWithNull);
+                        spot.Image = InsertString(assign, spot.FilledWithNull)?.ToLower();
+                        if (spot.Image != null)
+                            spot.Image = String.Intern(spot.Image);
                         break;
                     case "x":
                         spot.X = InsertInt(assign, spot.FilledWithNull);
@@ -4312,8 +4313,13 @@ namespace Wahren
                     case "h":
                         spot.Height = InsertInt(assign, spot.FilledWithNull);
                         break;
+                    case "big":
+                        spot.Width = spot.Height = InsertInt(assign, spot.FilledWithNull);
+                        break;
                     case "map":
-                        spot.Map = InsertString(assign, spot.FilledWithNull);
+                        spot.Map = InsertString(assign, spot.FilledWithNull)?.ToLower();
+                        if (spot.Map != null)
+                            spot.Map = String.Intern(spot.Map);
                         break;
                     case "castle_battle":
                         spot.IsCastleBattle = InsertBool(assign, spot.FilledWithNull);
@@ -4325,7 +4331,9 @@ namespace Wahren
                         spot.Limit = InsertInt(assign, spot.FilledWithNull);
                         break;
                     case "bgm":
-                        spot.BGM = InsertString(assign, spot.FilledWithNull);
+                        spot.BGM = InsertString(assign, spot.FilledWithNull)?.ToLower();
+                        if (spot.BGM != null)
+                            spot.BGM = String.Intern(spot.BGM);
                         break;
                     case "volume":
                         spot.Volume = InsertByte(assign, spot.FilledWithNull);
@@ -5716,10 +5724,12 @@ namespace Wahren
             foreach (var item in assign.Content)
             {
                 if (item.Type == 0)
-                    monsters.Add(item.Content);
+                    monsters.Add(String.Intern(item.Content.ToLower()));
+                else if (item.Symbol1 == '@')
+                    monsters.Add("");
                 else if (item.Type == 2)
                 {
-                    var lst = monsters.Last();
+                    var lst = monsters[monsters.Count - 1];
                     for (long i = 1; i < item.Number; ++i)
                         monsters.Add(lst);
                 }

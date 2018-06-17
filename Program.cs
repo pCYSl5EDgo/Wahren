@@ -145,10 +145,11 @@ namespace Wahren
                     var isGetOnly = getOnlyOption.HasValue();
                     var isSetOnly = setOnlyOption.HasValue();
                     ScriptLoader.InitializeComponent(folderArgument.Value);
-                    Console.WriteLine(FileCreator.Start);
-                    Console.WriteLine(FileCreator.ScenarioChoiceFunction());
-                    Console.WriteLine(ScriptLoader.Context.TitleFunction());
-                    Console.WriteLine(FileCreator.End);
+                    FileCreator.StaticData();
+                    // Console.WriteLine(FileCreator.Start);
+                    // Console.WriteLine(FileCreator.ScenarioChoiceFunction());
+                    // Console.WriteLine(ScriptLoader.Context.TitleFunction());
+                    // Console.WriteLine(FileCreator.End);
                     #region GS
                     IEnumerable<string> GetOnly(int index)
                     {

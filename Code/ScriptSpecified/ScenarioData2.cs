@@ -121,8 +121,6 @@ namespace Wahren.Specific
             if (data.Change != null)
                 if (string.IsNullOrWhiteSpace(data.Change.Item1) || !ScriptLoader.GenericUnitDictionary.ContainsKey(data.Change.Item1))
                     throw new ClassNotFoundException("Change Error\n" + data.Change.Item1 + doesnotexists + dbg);
-            if (data.Class != null)
-                throw new Exception("Class is not Empty!\n" + dbg);
             if (data.DeadEvent != null)
             {
                 if (string.IsNullOrWhiteSpace(data.DeadEvent) || !ScriptLoader.EventDictionary.TryGetValue(data.DeadEvent, out var eventData))
@@ -136,13 +134,13 @@ namespace Wahren.Specific
                 if (!ScriptLoader.SkillDictionary.ContainsKey(data.DeleteSkill2[i]))
                     throw new SkillNotFoundException("Delete Skill2 Error!\n" + data.DeleteSkill2[i] + doesnotexists + dbg);
             if (data.Face != null)
-                if (!ScriptLoader.Folder.Face_Bmp.Contains(data.Face) && !ScriptLoader.Folder.Face_Jpg.Contains(data.Face) && !ScriptLoader.Folder.Face_Png.Contains(data.Face))
+                if (!ScriptLoader.Folder.Face.Contains(data.Face))
                     throw new Exception("Face " + data.Face + doesnotexists + dbg);
             if (data.Image != null)
-                if (!ScriptLoader.Folder.Chip_Bmp.Contains(data.Image) && !ScriptLoader.Folder.Chip_Jpg.Contains(data.Image) && !ScriptLoader.Folder.Chip_Png.Contains(data.Image) && !ScriptLoader.Folder.ImageData1Dictionary.ContainsKey(data.Image))
+                if (!ScriptLoader.Folder.Chip.Contains(data.Image))
                     throw new Exception("Chip " + data.Image + doesnotexists + dbg);
             if (data.Image2 != null)
-                if (!ScriptLoader.Folder.Chip_Bmp.Contains(data.Image2) && !ScriptLoader.Folder.Chip_Jpg.Contains(data.Image2) && !ScriptLoader.Folder.Chip_Png.Contains(data.Image2) && !ScriptLoader.Folder.ImageData1Dictionary.ContainsKey(data.Image2))
+                if (!ScriptLoader.Folder.Chip.Contains(data.Image2))
                     throw new Exception("Chip " + data.Image2 + doesnotexists + dbg);
             for (int i = 0; i < data.Item.Count; i++)
                 if (!ScriptLoader.SkillDictionary.TryGetValue(data.Item[i], out var skill) || !skill.ItemType.HasValue)
@@ -174,7 +172,7 @@ namespace Wahren.Specific
         private void VerifyData(PowerData data)
         {
             if (!string.IsNullOrWhiteSpace(data.BGM))
-                if (!ScriptLoader.Folder.Bgm_Mid.Contains(data.BGM) && !ScriptLoader.Folder.Bgm_Mp3.Contains(data.BGM) && !ScriptLoader.Folder.Bgm_Ogg.Contains(data.BGM))
+                if (!ScriptLoader.Folder.Bgm.Contains(data.BGM))
                     throw new Exception("BGM " + data.BGM + doesnotexists + data.DebugInfo);
             foreach (var (power, _) in data.Diplo)
                 if (!ScriptLoader.PowerDictionary.ContainsKey(power))
@@ -194,7 +192,7 @@ namespace Wahren.Specific
                 if (!ScriptLoader.SpotDictionary.ContainsKey(members[i]))
                     throw new SpotNotFoundException(members[i] + doesnotexists + data.DebugInfo);
             if (!string.IsNullOrWhiteSpace(data.FlagPath))
-                if (!ScriptLoader.Folder.Flag_Bmp.Contains(data.FlagPath) && !ScriptLoader.Folder.Flag_Jpg.Contains(data.FlagPath) && !ScriptLoader.Folder.Flag_Png.Contains(data.FlagPath))
+                if (!ScriptLoader.Folder.Flag.Contains(data.FlagPath))
                     throw new Exception("Flag " + data.FlagPath + doesnotexists + data.DebugInfo);
             var friends = data.Friend;
             for (int i = 0; i < friends.Count; i++)

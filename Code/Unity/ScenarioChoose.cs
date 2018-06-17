@@ -14,14 +14,14 @@ namespace Wahren.Unity
     var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
     var canvas = new GameObject(""Canvas"", typeof(GraphicRaycaster));
     canvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-    GetRect(canvas).position = Vector3.zero;
+    canvas.GetRect().position = Vector3.zero;
     canvas.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
     new GameObject(""EventSystem"", typeof(UnityEngine.EventSystems.EventSystem), typeof(UnityEngine.EventSystems.StandaloneInputModule));
     {
         var blackBack = new GameObject(""BlackBack"");
         blackBack.transform.parent = canvas.transform;
         blackBack.AddComponent<BackToTitle>();
-        GetRect(blackBack).anchoredPosition = Vector2.zero;
+        blackBack.GetRect().anchoredPosition = Vector2.zero;
         {
             var image = blackBack.AddComponent<Image>();
             image.color = Color.black;
@@ -31,24 +31,24 @@ namespace Wahren.Unity
                 bg.transform.SetParent(canvas.transform);
                 bg.AddComponent<BackToTitle>();
                 bg.AddComponent<BackGroundInitialization>().pre = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(ImageFolder + ""preAtlas.spriteatlas"");
-                GetRect(bg).anchoredPosition = Vector2.zero;}
+                bg.GetRect().anchoredPosition = Vector2.zero;}
                 {
                     var layout = new GameObject(""HorizontalLayoutPanel"");
                     layout.transform.parent = canvas.transform;
-                    GetRect(layout);
+                    layout.GetRect();
                     layout.AddComponent<BackToTitle>();
                     {
-                        var hor = Add<HorizontalLayoutGroup>(layout, 16);
+                        var hor = layout.Add<HorizontalLayoutGroup>(16);
                         hor.childControlWidth = hor.childControlHeight = hor.childForceExpandHeight = true;}
                         var scrollPanel = AssetDatabase.LoadAssetAtPath<GameObject>(SceneFolder+""ChooseScenarioScripts/ScrollPanel.prefab"");
                         {
                             var v = new GameObject(""VerticalLayoutPanel"");
                             v.transform.parent = layout.transform;
                             v.AddComponent<BackToTitle>();
-                            Add<VerticalLayoutGroup>(v, 0, childAlignment: TextAnchor.UpperLeft).childControlWidth = true;
+                            v.Add<VerticalLayoutGroup>(0, childAlignment: TextAnchor.UpperLeft).childControlWidth = true;
                             var descriptionList = new string[] { ""シナリオ選択");
             if (ScriptLoader.Context.ScenarioSelect2On)
-                buf.Append("\",\"").Append(ScriptLoader.Context.ScenarioSelect2.SimpleEscape());
+                buf.Append("\",\"").Append(ScriptLoader.Context.ScenarioSelect2.StringEscape());
             buf.Append("\" };\nvar scenarios = new(string name, string id, string desc)[][]{");
             if (ScriptLoader.Context.ScenarioSelect2On)
             {
@@ -62,22 +62,22 @@ namespace Wahren.Unity
                     if (key.HasValue && key.Value < 0)
                     {
                         if (list1.TryGetValue(key.Value, out var s))
-                            s.Add(Hash64(sc.Name), (sc.DisplayName.SimpleEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").SimpleEscape()));
+                            s.Add(Hash64(sc.Name), (sc.DisplayName.StringEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").StringEscape()));
                         else
                         {
                             var tmp = new SortedList<ulong, (string, string, string)>();
-                            tmp.Add(Hash64(sc.Name), (sc.DisplayName.SimpleEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").SimpleEscape()));
+                            tmp.Add(Hash64(sc.Name), (sc.DisplayName.StringEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").StringEscape()));
                             list1.Add(key.Value, tmp);
                         }
                     }
                     else
                     {
                         if (list2.TryGetValue(key ?? 0, out var s))
-                            s.Add(Hash64(sc.Name), (sc.DisplayName.SimpleEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").SimpleEscape()));
+                            s.Add(Hash64(sc.Name), (sc.DisplayName.StringEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").StringEscape()));
                         else
                         {
                             var tmp = new SortedList<ulong, (string, string, string)>();
-                            tmp.Add(Hash64(sc.Name), (sc.DisplayName.SimpleEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").SimpleEscape()));
+                            tmp.Add(Hash64(sc.Name), (sc.DisplayName.StringEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").StringEscape()));
                             list2.Add(key ?? 0, tmp);
                         }
                     }
@@ -100,11 +100,11 @@ namespace Wahren.Unity
                     var sc = scs[i].Scenario;
                     var key = sc.SortKey ?? 0;
                     if (list.TryGetValue(key, out var s))
-                        s.Add(Hash64(sc.Name), (sc.DisplayName.SimpleEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").SimpleEscape()));
+                        s.Add(Hash64(sc.Name), (sc.DisplayName.StringEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").StringEscape()));
                     else
                     {
                         var tmp = new SortedList<ulong, (string, string, string)>();
-                        tmp.Add(Hash64(sc.Name), (sc.DisplayName.SimpleEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").SimpleEscape()));
+                        tmp.Add(Hash64(sc.Name), (sc.DisplayName.StringEscape(), sc.Name, sc.DescriptionText.Replace("、$", "、").StringEscape()));
                         list.Add(key, tmp);
                     }
                 }
@@ -128,7 +128,7 @@ namespace Wahren.Unity
             {
                 var sc = Instantiate(scrollPanel);
                 sc.transform.SetParent(v.transform);
-                GetRect(sc,0,");
+                sc.GetRect(0,");
             if (ScriptLoader.Context.ScenarioSelect2On)
                 buf.Append("i==0 ? ").Append(5.76 * ScriptLoader.Context.ScenarioSelect2Percentage).Append("f : ").Append(5.76 * (100 - ScriptLoader.Context.ScenarioSelect2Percentage)).Append("f);\n");
             else
@@ -143,7 +143,7 @@ namespace Wahren.Unity
             var descriptionPanel = Instantiate(scrollPanel);
             descriptionPanel.name = ""Description Panel"";
             descriptionPanel.transform.SetParent(layout.transform);
-            GetRect(descriptionPanel, 0, 576);
+            descriptionPanel.GetRect(0, 576);
             descriptionPanel.GetComponentInChildren<Text>().text = """";
             {
                 var scrollRect = descriptionPanel.GetComponentInChildren<ScrollRect>();

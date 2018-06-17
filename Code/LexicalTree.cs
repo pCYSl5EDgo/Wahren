@@ -40,12 +40,9 @@ namespace Wahren
         public TreeType Type { get; set; }
 
         [Key(5)]
-        public string Name { get => _name; set => _name = String.Intern(value); }
+        public string Name { get => _name; set => _name = String.Intern(value.ToLower()); }
 
-        protected LexicalTree(string name)
-        {
-            Name = name.ToLower();
-        }
+        protected LexicalTree(string name) => Name = name;
         [SerializationConstructor]
         public LexicalTree() { }
     }

@@ -16,7 +16,8 @@ namespace Wahren
     [MessagePackObject]
     public class BaseData : IName, IDebugInfo
     {
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         private string _file;
         [Key(0)]
         public string File { get => _file; set => _file = String.Intern(value); }
@@ -35,7 +36,8 @@ namespace Wahren
             File = file;
             Line = line;
         }
-        [IgnoreMember][System.Runtime.Serialization.IgnoreDataMember]
+        [IgnoreMember]
+        [System.Runtime.Serialization.IgnoreDataMember]
         public string DebugInfo => File + '/' + (Line + 1);
     }
     [MessagePackObject]

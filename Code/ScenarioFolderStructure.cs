@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace Wahren
 {
@@ -16,37 +17,43 @@ namespace Wahren
         public bool IsUTF8 => EncType.UTF8 == encType;
         public bool IsEnglishMode { get; protected set; } = false;
         public bool IsDebug { get; set; } = false;
-        private static readonly System.Text.Encoding shift_jis_encoding = System.Text.Encoding.GetEncoding("Shift_JIS");
-        public System.Text.Encoding Encoding
+        private static readonly Encoding shift_jis_encoding = Encoding.GetEncoding("Shift_JIS");
+        public Encoding Encoding
         {
             get
             {
                 switch (encType)
                 {
                     case EncType.Unicode:
-                        return System.Text.Encoding.Unicode;
+                        return Encoding.Unicode;
                     case EncType.UTF8:
-                        return System.Text.Encoding.UTF8;
+                        return Encoding.UTF8;
                     default:
                         return shift_jis_encoding;
                 }
             }
         }
+        public readonly HashSet<string> Bgm = new HashSet<string>();
         public List<string> Bgm_Mid { get; protected set; } = new List<string>();
         public List<string> Bgm_Mp3 { get; protected set; } = new List<string>();
         public List<string> Bgm_Ogg { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Chip = new HashSet<string>();
         public List<string> Chip_Png { get; protected set; } = new List<string>();
         public List<string> Chip_Jpg { get; protected set; } = new List<string>();
         public List<string> Chip_Bmp { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Chip2 = new HashSet<string>();
         public List<string> Chip2_Png { get; protected set; } = new List<string>();
         public List<string> Chip2_Jpg { get; protected set; } = new List<string>();
         public List<string> Chip2_Bmp { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Face = new HashSet<string>();
         public List<string> Face_Png { get; protected set; } = new List<string>();
         public List<string> Face_Jpg { get; protected set; } = new List<string>();
         public List<string> Face_Bmp { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Flag = new HashSet<string>();
         public List<string> Flag_Png { get; protected set; } = new List<string>();
         public List<string> Flag_Jpg { get; protected set; } = new List<string>();
         public List<string> Flag_Bmp { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Icon = new HashSet<string>();
         public List<string> Icon_Png { get; protected set; } = new List<string>();
         public List<string> Icon_Jpg { get; protected set; } = new List<string>();
         public List<string> Icon_Bmp { get; protected set; } = new List<string>();
@@ -106,7 +113,7 @@ namespace Wahren
                                 if (unicodeFileInfo.Exists)
                                 {
                                     encType = EncType.Unicode;
-                                    using (var sr = new StreamReader(unicodeFileInfo.OpenRead(), System.Text.Encoding.Unicode))
+                                    using (var sr = new StreamReader(unicodeFileInfo.OpenRead(), Encoding.Unicode))
                                     {
                                         var line = sr.ReadLine();
                                         if (!string.IsNullOrWhiteSpace(line) && line.Trim().ToLower() == "foreign")
@@ -123,6 +130,12 @@ namespace Wahren
                         Bgm_Mid.AddRange(Directory.GetFiles(folder, "*.mid", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Bgm_Mp3.AddRange(Directory.GetFiles(folder, "*.mp3", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Bgm_Ogg.AddRange(Directory.GetFiles(folder, "*.ogg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        for (int i = 0; i < Bgm_Mid.Count; i++)
+                            Bgm.Add(Bgm_Mid[i]);
+                        for (int i = 0; i < Bgm_Mp3.Count; i++)
+                            Bgm.Add(Bgm_Mp3[i]);
+                        for (int i = 0; i < Bgm_Ogg.Count; i++)
+                            Bgm.Add(Bgm_Ogg[i]);
                         break;
                     case "sound":
                         Sound_Wav.AddRange(Directory.GetFiles(folder, "*.wav", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
@@ -133,34 +146,38 @@ namespace Wahren
                         Image_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
                         (byte, byte, byte, byte) ReadImageData(string filePath, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
                         {
-                            #if NETCOREAPP2_1
+#if NETCOREAPP2_1
                             Span<byte> tmp = stackalloc byte[12];
-                            #else
+#else
                             var tmp = new byte[12];
                             byte[] _tmpFile;
-                            #endif
+#endif
                             Span<byte> file;
                             if (!new FileInfo(filePath).Exists) return default;
                             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, false))
                             {
-                                #if NETCOREAPP2_1
+#if NETCOREAPP2_1
                                 fs.Read(tmp);
                                 file = new byte[fs.Length - 12];
                                 fs.Read(file);
                                 tmp = tmp.Slice(8, 4);
-                                #else
+#else
                                 fs.Read(tmp, 0, tmp.Length);
                                 _tmpFile = new byte[fs.Length - 12];
                                 fs.Read(_tmpFile, 0, _tmpFile.Length);
                                 file = _tmpFile;
-                                #endif
+#endif
                             }
 
                             int ReadInt32(Span<byte> input)
                             {
                                 return input[0] + (input[1] << 8) + (input[2] << 16) + (input[3] << 24);
                             }
-                            ReadOnlySpan<byte> endOfFile = stackalloc byte[] { 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x5f, 0x00 };
+                            Span<byte> ___ = stackalloc byte[9];
+                            for (int i = 0; i < 8; i++)
+                                ___[i] = 0x5f;
+                            ___[8] = 0;
+                            ReadOnlySpan<byte> endOfFile = ___;
                             Span<char> lower = stackalloc char[256];
                             int index;
                             while (true)
@@ -173,11 +190,11 @@ namespace Wahren
                                 for (int i = 0; i < index; i++)
                                     lower[i] = (char)(file[i] >= 0x41 && file[i] <= 0x5a ? (file[i] + 0x20) : file[i]);
                                 var rect = file.Slice(index + 1, 16);
-                                #if NETCOREAPP2_1
+#if NETCOREAPP2_1
                                 dictionary[String.Intern(new string(lower.Slice(0, index)))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
-                                #else
+#else
                                 dictionary[String.Intern(new string(lower.Slice(0, index).ToArray()))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
-                                #endif
+#endif
                                 file = file.Slice(index + 17);
                             }
                         }
@@ -185,21 +202,43 @@ namespace Wahren
                         ImageData2 = Path.Combine(folder, "image2.dat");
                         ImageData1TransparentColor = ReadImageData(Path.Combine(folder, "imagedata.dat"), ImageData1Dictionary);
                         ImageData2TransparentColor = ReadImageData(Path.Combine(folder, "imagedata2.dat"), ImageData2Dictionary);
+                        foreach (var key in ImageData1Dictionary.Keys)
+                            Chip.Add(key);
+                        foreach (var key in ImageData2Dictionary.Keys)
+                            Chip2.Add(key);
                         break;
                     case "icon":
                         Icon_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Icon_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Icon_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        for (int i = 0; i < Icon_Bmp.Count; i++)
+                            Icon.Add(Icon_Bmp[i]);
+                        for (int i = 0; i < Icon_Jpg.Count; i++)
+                            Icon.Add(Icon_Jpg[i]);
+                        for (int i = 0; i < Icon_Png.Count; i++)
+                            Icon.Add(Icon_Png[i]);
                         break;
                     case "flag":
                         Flag_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Flag_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Flag_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        for (int i = 0; i < Flag_Bmp.Count; i++)
+                            Flag.Add(Flag_Bmp[i]);
+                        for (int i = 0; i < Flag_Jpg.Count; i++)
+                            Flag.Add(Flag_Jpg[i]);
+                        for (int i = 0; i < Flag_Png.Count; i++)
+                            Flag.Add(Flag_Png[i]);
                         break;
                     case "face":
                         Face_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
                         Face_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
                         Face_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
+                        for (int i = 0; i < Face_Bmp.Count; i++)
+                            Face.Add(Face_Bmp[i]);
+                        for (int i = 0; i < Face_Jpg.Count; i++)
+                            Face.Add(Face_Jpg[i]);
+                        for (int i = 0; i < Face_Png.Count; i++)
+                            Face.Add(Face_Png[i]);
                         break;
                     case "picture":
                         Picture_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
@@ -210,15 +249,27 @@ namespace Wahren
                         Chip_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Chip_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Chip_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        for (int i = 0; i < Chip_Bmp.Count; i++)
+                            Chip.Add(Chip_Bmp[i]);
+                        for (int i = 0; i < Chip_Jpg.Count; i++)
+                            Chip.Add(Chip_Jpg[i]);
+                        for (int i = 0; i < Chip_Png.Count; i++)
+                            Chip.Add(Chip_Png[i]);
                         break;
                     case "chip2":
                         Chip2_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Chip2_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
                         Chip2_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        for (int i = 0; i < Chip2_Bmp.Count; i++)
+                            Chip2.Add(Chip2_Bmp[i]);
+                        for (int i = 0; i < Chip2_Jpg.Count; i++)
+                            Chip2.Add(Chip2_Jpg[i]);
+                        for (int i = 0; i < Chip2_Png.Count; i++)
+                            Chip2.Add(Chip2_Png[i]);
                         break;
                 }
             }
-            if(Script_Dat.Count == 0)
+            if (Script_Dat.Count == 0)
                 throw new FileNotFoundException();
         }
     }
