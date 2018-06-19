@@ -124,7 +124,7 @@ namespace Wahren
         [Key(28)]
         public int? SortKey { get; set; }
         [Key(29)]
-        public bool? IsDefaulEnding { get; set; }
+        public bool? IsDefaultEnding { get; set; }
 
         [Key(30)]
         public ContextData.Order? Order { get; set; }

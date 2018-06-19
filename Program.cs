@@ -145,11 +145,16 @@ namespace Wahren
                     var isGetOnly = getOnlyOption.HasValue();
                     var isSetOnly = setOnlyOption.HasValue();
                     ScriptLoader.InitializeComponent(folderArgument.Value);
-                    FileCreator.StaticData();
+                    // FileCreator.StaticData();
                     // Console.WriteLine(FileCreator.Start);
                     // Console.WriteLine(FileCreator.ScenarioChoiceFunction());
                     // Console.WriteLine(ScriptLoader.Context.TitleFunction());
                     // Console.WriteLine(FileCreator.End);
+                    for (int i = 0; i < ScriptLoader.Scenarios.Length; i++)
+                    {
+                        foreach (var spot in ScriptLoader.Scenarios[i].Spot.Values)
+                            System.Console.WriteLine(FileCreator.SpotCreator(spot));
+                    }
                     #region GS
                     IEnumerable<string> GetOnly(int index)
                     {

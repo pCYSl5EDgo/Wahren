@@ -544,7 +544,7 @@ namespace Wahren
         [Key(9)]
         public byte SupportRange { get; set; } = 3;
         [Key(10)]
-        public byte Myrange { get; set; } = 1;
+        public byte MyRange { get; set; } = 1;
         [Key(11)]
         public byte MyHelpRange { get; set; } = 1;
         [Key(12)]

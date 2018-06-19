@@ -8,7 +8,7 @@ using Wahren.Specific;
 
 namespace Wahren
 {
-    public static class ScriptLoader
+    public static partial class ScriptLoader
     {
         public static ScenarioFolder Folder { get; set; }
         public static ScenarioData2[] Scenarios => scenarios == null ? throw new NullReferenceException() : scenarios;
@@ -88,9 +88,14 @@ namespace Wahren
                         ContextParse(SelectAssign(tree));
                         break;
                     case StructureDataType.Detail:
+                        var buf_detail = new StringBuilder();
                         foreach (var assign in SelectAssign(tree))
                         {
-                            Detail.TryAdd(assign.Name, assign.Content.Aggregate(new StringBuilder(), (buf, _) => _.Symbol1 == '$' ? buf.AppendLine() : buf.Append(_.ToString()), buf => buf.ToString()));
+                            buf_detail.Clear();
+                            var content = assign.Content;
+                            for (int j = 0; j < content.Count; j++)
+                                buf_detail.Append(content[j].ToString());
+                            Detail.TryAdd(string.Intern(assign.Name.ToLower()), buf_detail.ToString());
                         }
                         break;
                     case StructureDataType.Sound:
@@ -1646,8 +1651,8 @@ namespace Wahren
                 scenarioData1.IsAbleToMerce = scenarioData2.IsAbleToMerce;
             if (scenarioData1.IsNoAutoSave == null && scenarioData2.IsNoAutoSave != null && !scenarioData1.FilledWithNull.Contains("no_autosave"))
                 scenarioData1.IsNoAutoSave = scenarioData2.IsNoAutoSave;
-            if (scenarioData1.IsDefaulEnding == null && scenarioData2.IsDefaulEnding != null && !scenarioData1.FilledWithNull.Contains("default_ending"))
-                scenarioData1.IsDefaulEnding = scenarioData2.IsDefaulEnding;
+            if (scenarioData1.IsDefaultEnding == null && scenarioData2.IsDefaultEnding != null && !scenarioData1.FilledWithNull.Contains("default_ending"))
+                scenarioData1.IsDefaultEnding = scenarioData2.IsDefaultEnding;
             if (scenarioData1.IsEnable == null && scenarioData2.IsEnable != null && !scenarioData1.FilledWithNull.Contains("enable"))
                 scenarioData1.IsEnable = scenarioData2.IsEnable;
             if (scenarioData1.IsItemLimit == null && scenarioData2.IsItemLimit != null && !scenarioData1.FilledWithNull.Contains("item_limit"))
@@ -3310,13 +3315,13 @@ namespace Wahren
                         unit.IsTalent = InsertBool(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "bgm":
-                        unit.BGM = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
+                        unit.BGM = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
                         break;
                     case "volume":
                         unit.Volume = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "picture":
-                        unit.Picture = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
+                        unit.Picture = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
                         break;
                     case "picture_detail":
                         removeList.Add(keyVal.Key);
@@ -3363,7 +3368,7 @@ namespace Wahren
                         unit.PictureCenter = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "picture_back":
-                        unit.PictureBack = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
+                        unit.PictureBack = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
                         break;
                     case "alive_per":
                         unit.AlivePercentage = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
@@ -3403,8 +3408,8 @@ namespace Wahren
                         for (int i = 0; i < keyVal.Value.Content.Count; i++)
                         {
                             if (keyVal.Value.Content[i].Type == 2) { tmplevel = (int)keyVal.Value.Content[i].Number; }
-                            else if (unit.AssistSkill.TryGetValue(tmplevel, out list)) { list.Add(keyVal.Value.Content[i].ToLowerString()); }
-                            else { unit.AssistSkill[tmplevel] = new List<string>() { keyVal.Value.Content[i].ToLowerString() }; }
+                            else if (unit.AssistSkill.TryGetValue(tmplevel, out list)) { list.Add(Intern(keyVal.Value.Content[i].ToLowerString())); }
+                            else { unit.AssistSkill[tmplevel] = new List<string>() { Intern(keyVal.Value.Content[i].ToLowerString()) }; }
                         }
                         break;
                     case "yabo":
@@ -4465,14 +4470,14 @@ namespace Wahren
                         switch (assign.Content[0].ToLowerString())
                         {
                             case "on":
-                                scenario.IsDefaulEnding = true;
+                                scenario.IsDefaultEnding = true;
                                 break;
                             case "@":
                                 scenario.FilledWithNull.Add("default_ending");
-                                scenario.IsDefaulEnding = null;
+                                scenario.IsDefaultEnding = null;
                                 break;
                             case "off":
-                                scenario.IsDefaulEnding = false;
+                                scenario.IsDefaultEnding = false;
                                 break;
                         }
                         break;
@@ -4839,7 +4844,7 @@ namespace Wahren
                         Context.SupportRange = firstByte;
                         break;
                     case "my_range":
-                        Context.Myrange = firstByte;
+                        Context.MyRange = firstByte;
                         break;
                     case "myhelp_range":
                         Context.MyHelpRange = firstByte;
@@ -5647,7 +5652,7 @@ namespace Wahren
                 switch (content[i].Type)
                 {
                     case 0:
-                        list.Add(content[i].ToLowerString());
+                        list.Add(Intern(content[i].ToLowerString()));
                         break;
                     default: throw new Exception(content[i].DebugInfo);
                 }
@@ -5693,7 +5698,7 @@ namespace Wahren
             fillWithNull.Remove(assign.Name);
             for (int i = 0; (i << 1) < assign.Content.Count; i++)
             {
-                dic[assign.Content[i << 1].ToLowerString()] = (int)assign.Content[(i << 1) + 1].Number;
+                dic[Intern(assign.Content[i << 1].ToLowerString())] = (int)assign.Content[(i << 1) + 1].Number;
             }
             return;
         }
@@ -5708,7 +5713,7 @@ namespace Wahren
             fillWithNull.Remove(assign.Name);
             for (int i = 0; (i << 1) < assign.Content.Count; i++)
             {
-                dic[assign.Content[i << 1].ToLowerString()] = (byte)assign.Content[(i << 1) + 1].Number;
+                dic[Intern(assign.Content[i << 1].ToLowerString())] = (byte)assign.Content[(i << 1) + 1].Number;
             }
             return;
         }
@@ -5724,7 +5729,7 @@ namespace Wahren
             foreach (var item in assign.Content)
             {
                 if (item.Type == 0)
-                    monsters.Add(String.Intern(item.Content.ToLower()));
+                    monsters.Add(Intern(item.Content.ToLower()));
                 else if (item.Symbol1 == '@')
                     monsters.Add("");
                 else if (item.Type == 2)

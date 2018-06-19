@@ -273,7 +273,7 @@ namespace Wahren
         public Dictionary<string, int> Consti { get; set; } = new Dictionary<string, int>();
         [Key(63)]
         public string MoveType { get; set; }
-        //front 10
+        //front 1
         //back 0
         [Key(64)]
         public byte? DefenseLine { get; set; }
