@@ -117,8 +117,8 @@ namespace Wahren.Map
                 return chips.AsSpan(y * width, width);
             }
         }
-
-        public static bool TryLoad(ReadOnlySpan<byte> input, out byte width, out byte height, out List<(string name, byte type)>[] chips)
+        private static readonly (string, byte)[] empty = new(string, byte)[0];
+        public static bool TryLoad(ReadOnlySpan<byte> input, out byte width, out byte height, out (string name, byte type)[][] chips)
         {
             if (input.Length < 2)
             {
@@ -128,7 +128,8 @@ namespace Wahren.Map
             }
             width = input[0];
             height = input[1];
-            chips = new List<(string name, byte type)>[width * height];
+            chips = new(string, byte)[width * height][];
+            var tmpList = new List<(string, byte)>(4);
             input = input.Slice(2);
             Span<char> nameSpan = stackalloc char[256];
             byte x = 0, y = 0;
@@ -138,11 +139,10 @@ namespace Wahren.Map
                     return false;
                 var type = input[0];
                 input = input.Slice(1);
-                ref var chipList = ref chips[x + width * y];
-                if (chipList == null)
-                    chipList = new List<(string name, byte type)>(type == 0xff ? 0 : 4);
                 if (type == 0xff)
                 {
+                    chips[x + width * y] = tmpList.Count == 0 ? empty : tmpList.ToArray();
+                    tmpList.Clear();
                     if (++x == width)
                     {
                         x = 0;
@@ -151,10 +151,10 @@ namespace Wahren.Map
                     continue;
                 }
                 var endIndex = input.IndexOfAny<byte>(0xff, 0xfe);
-                if (endIndex == -1) return false;
+                if (endIndex == -1 || endIndex >= 256) return false;
                 for (int i = 0; i < endIndex; i++)
                     nameSpan[i] = (char)input[i];
-                chipList.Add((string.Intern(new string(nameSpan.Slice(0, endIndex))), type));
+                tmpList.Add((string.Intern(new string(nameSpan.Slice(0, endIndex))), type));
                 input = input.Slice(endIndex + 1);
             }
             return true;
