@@ -109,6 +109,9 @@ namespace Wahren.Specific
                 CollectData(ScriptLoader.UnitDictionary);
                 CollectData(ScriptLoader.GenericUnitDictionary);
                 CollectData(ScriptLoader.PowerDictionary);
+                CollectData(ScriptLoader.RaceDictionary);
+                CollectData(ScriptLoader.SkillDictionary);
+                CollectData(ScriptLoader.SkillSetDictionary);
                 CollectDataInScript(Scenario.Script);
                 WPFCollect();
                 FunctionCollect();
@@ -231,26 +234,22 @@ namespace Wahren.Specific
                     throw new Exception(data.GetType().Name + "->" + data.Name + ':' + data.Inherit + '\n' + data.DebugInfo);
                 data.VariantData.Clear();
                 if (item.VariantData.TryGetValue("", out var tmpDic))
-                    ScriptLoader.Parse(tmpDic.Values, data);
+                    tmpDic.Values.Parse(data);
                 if (item.VariantData.TryGetValue(Name, out tmpDic))
-                    ScriptLoader.Parse(tmpDic.Values, data);
+                    tmpDic.Values.Parse(data);
                 switch (data)
                 {
                     case GenericUnitData _1:
-                        GenericUnit[data.Name] = _1;
-                        VerifyData(_1);
+                        VerifyData(GenericUnit[data.Name] = _1);
                         break;
                     case SpotData _2:
-                        Spot[data.Name] = _2;
-                        VerifyData(_2);
+                        VerifyData(Spot[data.Name] = _2);
                         break;
                     case UnitData _3:
-                        Unit[data.Name] = _3;
-                        VerifyData(_3);
+                        VerifyData(Unit[data.Name] = _3);
                         break;
                     case PowerData _4:
-                        Power[data.Name] = _4;
-                        VerifyData(_4);
+                        VerifyData(Power[data.Name] = _4);
                         break;
                 }
             }
@@ -410,19 +409,19 @@ namespace Wahren.Specific
             {
                 if (content.IsVariable(index))
                     content.AddVariable(index, Variable_Get, Power_Variable_Get);
-                else if (!ScriptLoader.PowerDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.PowerDictionary.ContainsKey(content[index].ToString()))
                     throw new PowerNotFoundException(content[index].DebugInfo);
             }
             void LocalSpotRoutine(int index)
             {
                 if (content.IsVariable(index))
                     content.AddVariable(index, Variable_Get, Spot_Variable_Get);
-                else if (!ScriptLoader.SpotDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.SpotDictionary.ContainsKey(content[index].ToString()))
                     throw new SpotNotFoundException(content[index].DebugInfo);
             }
             void LocalPowerSpotRoutine(int index)
             {
-                var key = content[index].ToLowerString();
+                var key = content[index].ToString();
                 if (content.IsVariable(index))
                     content.AddVariable(index, Variable_Get, Power_Variable_Get, Spot_Variable_Get);
                 else if (!ScriptLoader.PowerDictionary.ContainsKey(key) && !ScriptLoader.SpotDictionary.ContainsKey(key))
@@ -432,21 +431,21 @@ namespace Wahren.Specific
             {
                 if (content.IsVariable(index))
                     content.AddVariable(index, Variable_Get, Unit_Variable_Get, Spot_Variable_Get);
-                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToLowerString()) && !ScriptLoader.SpotDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToString()) && !ScriptLoader.SpotDictionary.ContainsKey(content[index].ToString()))
                     throw new UnitSpotNotFoundException(content[index].DebugInfo);
             }
             void LocalEventRoutine(int index)
             {
                 if (content.IsVariable(index))
                     throw new Exception(content[index].DebugInfo);
-                else if (!ScriptLoader.EventDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.EventDictionary.ContainsKey(content[index].ToString()))
                     throw new EventNotFoundException(content[index].DebugInfo);
             }
             void LocalUnitRoutine(int index)
             {
                 if (content.IsVariable(index))
                     content.AddVariable(index, Variable_Get, Unit_Variable_Get);
-                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToString()))
                     throw new UnitNotFoundException(content[index].DebugInfo);
             }
             void LocalUnitClassRoutine(int index)
@@ -455,7 +454,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Unit_Variable_Get, GenericUnit_Variable_Get);
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key)
                     && !ScriptLoader.GenericUnitDictionary.ContainsKey(key))
                         throw new UnitClassNotFoundException(content[index].DebugInfo);
@@ -467,7 +466,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Unit_Variable_Get, Power_Variable_Get);
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key)
                     && !ScriptLoader.PowerDictionary.ContainsKey(key))
                         throw new UnitPowerNotFoundException(content[index].DebugInfo);
@@ -477,16 +476,16 @@ namespace Wahren.Specific
             {
                 if (content.IsVariable(index))
                     content.AddVariable(index, Variable_Get, Dungeon_Variable_Get);
-                else if (!ScriptLoader.DungeonDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.DungeonDictionary.ContainsKey(content[index].ToString()))
                     throw new DungeonNotFoundException();
             }
             #endregion
-            switch (name)
+            switch (name.ToLower())
             {
                 case "yet":
                     content.ThrowException(1);
                     LocalEventRoutine(0);
-                    Yet.Add(content[0].ToLowerString());
+                    Yet.Add(content[0].ToString());
                     break;
                 case "amount":
                 case "eqvar":
@@ -539,7 +538,7 @@ namespace Wahren.Specific
                     content.ThrowException(1);
                     if (content.IsVariable(0))
                         throw new NotFoundException(content[0].DebugInfo);
-                    else if (!ScriptLoader.ScenarioDictionary.ContainsKey(content[0].ToLowerString()))
+                    else if (!ScriptLoader.ScenarioDictionary.ContainsKey(content[0].ToString()))
                         throw new NotFoundException(content[0].DebugInfo);
                     break;
                 case "countmoney":
@@ -583,7 +582,7 @@ namespace Wahren.Specific
                     content.ThrowException(2);
                     if (content.IsVariable(0))
                         content.AddVariable(0, Variable_Get);
-                    else if (!(ScriptLoader.SpotDictionary.TryGetValue(content[0].ToLowerString(), out var value) && value.Politics.HasValue && value.Politics.Value))
+                    else if (!(ScriptLoader.SpotDictionary.TryGetValue(content[0].ToString(), out var value) && value.Politics.HasValue && value.Politics.Value))
                         throw new SpotNotFoundException(content[0].DebugInfo);
                     LocalUnitClassRoutine(1);
                     break;
@@ -608,7 +607,7 @@ namespace Wahren.Specific
                     content.ThrowException(2, 3);
                     if (content.Count == 3)
                     {
-                        if (content[2].Content.ToLower() != "on")
+                        if (content[2].Content != "on")
                             throw new OnOffException(content[2].DebugInfo);
                         LocalSpotRoutine(0);
                         LocalSpotRoutine(1);
@@ -624,9 +623,9 @@ namespace Wahren.Specific
                         LocalPowerSpotRoutine(0);
                         content.AddVariable(1, Variable_Get);
                     }
-                    else if (ScriptLoader.PowerDictionary.ContainsKey(content[0].ToLowerString()))
+                    else if (ScriptLoader.PowerDictionary.ContainsKey(content[0].ToString()))
                         LocalPowerRoutine(1);
-                    else if (ScriptLoader.SpotDictionary.ContainsKey(content[0].ToLowerString()))
+                    else if (ScriptLoader.SpotDictionary.ContainsKey(content[0].ToString()))
                         LocalSpotRoutine(1);
                     else throw new SpotPowerNotFoundException(content[0].DebugInfo);
                     break;
@@ -702,10 +701,10 @@ namespace Wahren.Specific
                     CollectDataInBoolParenFunction(tree.Function.Name, tree.Function.Variable.Content);
                     break;
                 case 3:
-                    Identifier_Get.Add(tree.Token.ToLowerString());
+                    Identifier_Get.Add(tree.Token.ToString());
                     break;
                 case 4:
-                    Variable_Get.Add(tree.Token.ToLowerString());
+                    Variable_Get.Add(tree.Token.ToString());
                     break;
             }
         }
@@ -760,7 +759,7 @@ namespace Wahren.Specific
                     throw new Exception(content[index].DebugInfo);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.EventDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.EventDictionary.ContainsKey(content[index].ToString()))
                     throw new EventNotFoundException(content[index].DebugInfo);
             }
             void LocalPowerRoutine(int index)
@@ -769,7 +768,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Power_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.PowerDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.PowerDictionary.ContainsKey(content[index].ToString()))
                     throw new PowerNotFoundException(content[index].DebugInfo);
             }
             void LocalUnitPowerRoutine(int index)
@@ -780,7 +779,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.PowerDictionary.ContainsKey(key))
                         throw new PowerNotFoundException(content[index].DebugInfo);
                 }
@@ -791,7 +790,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Skill_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.SkillDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.SkillDictionary.ContainsKey(content[index].ToString()))
                     throw new SkillNotFoundException(content[index].DebugInfo);
             }
             void LocalSkillSkillSetRoutine(int index)
@@ -802,7 +801,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    string key = content[index].ToLowerString();
+                    string key = content[index].ToString();
                     if (!ScriptLoader.SkillDictionary.ContainsKey(key) && !ScriptLoader.SkillSetDictionary.ContainsKey(key))
                         throw new SkillNotFoundException(content[index].DebugInfo);
                 }
@@ -813,7 +812,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Spot_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.SpotDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.SpotDictionary.ContainsKey(content[index].ToString()))
                     throw new SpotNotFoundException(content[index].DebugInfo);
             }
             void LocalSpotPowerRoutine(int index)
@@ -824,7 +823,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    string key = content[index].ToLowerString();
+                    string key = content[index].ToString();
                     if (!ScriptLoader.SpotDictionary.ContainsKey(key) && !ScriptLoader.PowerDictionary.ContainsKey(key))
                         throw new SpotPowerNotFoundException(content[index].DebugInfo);
                 }
@@ -837,7 +836,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    string key = content[index].ToLowerString();
+                    string key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.SpotDictionary.ContainsKey(key))
                         throw new Exception(content[index].DebugInfo);
                 }
@@ -850,7 +849,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    string key = content[index].ToLowerString();
+                    string key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.SpotDictionary.ContainsKey(key) && !ScriptLoader.PowerDictionary.ContainsKey(key))
                         throw new Exception(content[index].DebugInfo);
                 }
@@ -863,7 +862,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.GenericUnitDictionary.ContainsKey(key))
                         throw new UnitClassNotFoundException(content[index].DebugInfo);
                 }
@@ -876,7 +875,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.GenericUnitDictionary.ContainsKey(key) && !ScriptLoader.RaceDictionary.ContainsKey(key))
                         throw new UnitClassRaceNotFoundException(content[index].DebugInfo);
                 }
@@ -887,7 +886,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Race_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.RaceDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.RaceDictionary.ContainsKey(content[index].ToString()))
                     throw new UnitNotFoundException(content[index].DebugInfo);
             }
             void LocalUnitRoutine(int index)
@@ -896,7 +895,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Unit_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.UnitDictionary.ContainsKey(content[index].ToString()))
                     throw new UnitNotFoundException(content[index].DebugInfo);
             }
             void LocalDungeonRoutine(int index)
@@ -905,7 +904,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, Dungeon_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.DungeonDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.DungeonDictionary.ContainsKey(content[index].ToString()))
                     throw new ClassNotFoundException(content[index].DebugInfo);
             }
             void LocalClassRoutine(int index)
@@ -914,7 +913,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get, GenericUnit_Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else if (!ScriptLoader.GenericUnitDictionary.ContainsKey(content[index].ToLowerString()))
+                else if (!ScriptLoader.GenericUnitDictionary.ContainsKey(content[index].ToString()))
                     throw new ClassNotFoundException(content[index].DebugInfo);
             }
             void LocalClassRaceRoutine(int index)
@@ -925,7 +924,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!ScriptLoader.GenericUnitDictionary.ContainsKey(key) && !ScriptLoader.RaceDictionary.ContainsKey(key))
                         throw new ClassNotFoundException(content[index].DebugInfo);
                 }
@@ -938,7 +937,7 @@ namespace Wahren.Specific
                     return;
                 else
                 {
-                    var key = content[index].ToLowerString();
+                    var key = content[index].ToString();
                     if (!((ScriptLoader.UnitDictionary.TryGetValue(key, out var unit) && unit.Politics.HasValue) || (ScriptLoader.GenericUnitDictionary.TryGetValue(key, out var genericUnit) && genericUnit.Politics.HasValue)))
                         throw new Exception(content[index].DebugInfo);
                 }
@@ -949,7 +948,7 @@ namespace Wahren.Specific
                     content.AddVariable(index, Variable_Get);
                 else if (content[index].Symbol1 == '@')
                     return;
-                else switch (content[index].ToLowerString())
+                else switch (content[index].ToString())
                     {
                         case "on":
                         case "off":
@@ -958,7 +957,7 @@ namespace Wahren.Specific
                     }
             }
             #endregion
-            switch (name)
+            switch (name.ToLower())
             {
                 case "minimap":
                     content.ThrowException(1);
@@ -1064,7 +1063,7 @@ namespace Wahren.Specific
                     content.ThrowException(2);
                     if (content.IsVariable(0))
                         content.AddVariable(0, Variable_Get);
-                    else if (!ScriptLoader.SkillSetDictionary.ContainsKey(content[0].ToLowerString()))
+                    else if (!ScriptLoader.SkillSetDictionary.ContainsKey(content[0].ToString()))
                         throw new Exception(content[0].DebugInfo);
                     content.AddVariableOnly(1, Variable_Set, Skill_Variable_Set);
                     break;
@@ -1145,7 +1144,7 @@ namespace Wahren.Specific
                     content.ThrowException(2);
                     if (content.IsVariable(0))
                         content.AddVariable(0, Variable_Get, Skill_Variable_Get);
-                    else if (!(ScriptLoader.SkillDictionary.TryGetValue(content[0].ToLowerString(), out var item) && item.ItemType.HasValue))
+                    else if (!(ScriptLoader.SkillDictionary.TryGetValue(content[0].ToString(), out var item) && item.ItemType.HasValue))
                         throw new Exception(content[0].DebugInfo);
                     content.AddIdentifier(1, Identifier_Set);
                     break;
@@ -1383,7 +1382,7 @@ namespace Wahren.Specific
                     content.ThrowException(2);
                     content.AddIdentifier(0, Identifier_Set);
                     content.AddIdentifierOrNumber(1, Identifier_Get);
-                    var identifierName = content[0].Content.ToLower();
+                    var identifierName = content[0].Content;
                     if (content[1].Type == 2 && (content[1].Number == 0 || content[1].Number == 1))
                     {
                         if (!NotBoolIdentifier.Contains(identifierName))
@@ -1654,7 +1653,7 @@ namespace Wahren.Specific
                 case "changepowerflag":
                     content.ThrowException(2);
                     LocalPowerRoutine(0);
-                    if (!content.IsVariable(1) && ScriptLoader.Folder.Flag_Bmp.All(_ => _ != content[1].ToLowerString()) && ScriptLoader.Folder.Flag_Png.All(_ => _ != content[1].ToLowerString()) && ScriptLoader.Folder.Flag_Jpg.All(_ => _ != content[1].ToLowerString()))
+                    if (!content.IsVariable(1) && !ScriptLoader.Folder.Flag.Contains(content[1].ToString()))
                         throw new Exception(content[1].DebugInfo);
                     else
                         content.AddVariable_NotAddIdentifier(1, Variable_Get);
@@ -1667,7 +1666,7 @@ namespace Wahren.Specific
                             LocalUnitRoutine(0);
                             break;
                         case 2:
-                            if (!content.IsVariable(0) && !ScriptLoader.UnitDictionary.ContainsKey(content[0].ToLowerString()) && !ScriptLoader.PowerDictionary.ContainsKey(content[0].ToLowerString()))
+                            if (!content.IsVariable(0) && !ScriptLoader.UnitDictionary.ContainsKey(content[0].ToString()) && !ScriptLoader.PowerDictionary.ContainsKey(content[0].ToString()))
                                 throw new Exception(content[0].DebugInfo);
                             LocalUnitRoutine(1);
                             content.AddVariable_NotAddIdentifier(0, Variable_Get);
@@ -1698,7 +1697,7 @@ namespace Wahren.Specific
                     content.ThrowException(3, 4);
                     if (content.Count == 4)
                     {
-                        if (content.IsVariable(3)) Variable_Get.Add(content[3].ToLowerString());
+                        if (content.IsVariable(3)) Variable_Get.Add(content[3].ToString());
                         else if (content[3].ToLowerString() != "on")
                             throw new Exception(content[3].DebugInfo);
                     }
@@ -1713,12 +1712,11 @@ namespace Wahren.Specific
                     {
                         if (content.IsVariable(1))
                         {
-                            Variable_Get.Add(content[1].ToLowerString());
+                            Variable_Get.Add(content[1].ToString());
                             break;
                         }
-                        if (!ScriptLoader.SkillDictionary.ContainsKey(content[1].ToLowerString())
-                        && !ScriptLoader.UnitDictionary.ContainsKey(content[1].ToLowerString())
-                        && !ScriptLoader.GenericUnitDictionary.ContainsKey(content[1].ToLowerString()))
+                        var key = content[1].ToString();
+                        if (!ScriptLoader.SkillDictionary.ContainsKey(key) && !ScriptLoader.UnitDictionary.ContainsKey(key) && !ScriptLoader.GenericUnitDictionary.ContainsKey(key))
                             throw new Exception(content[1].DebugInfo);
                     }
                     else if (content.IsIdentifierOrNumber(1))
@@ -1769,8 +1767,12 @@ namespace Wahren.Specific
                     LocalSpotRoutine(0);
                     if (content.IsVariable(1))
                         content.AddVariable(1, Variable_Get);
-                    else if (!ScriptLoader.Folder.Stage_Map.Any((_) => Path.GetFileNameWithoutExtension(_).ToLower() == content[1].Content.ToLower()))
-                        throw new Exception(content[1].DebugInfo);
+                    else
+                    {
+                        var tmpc = content[1].Content;
+                        if (ScriptLoader.Folder.Stage_Map.All(_ => !Path.Equals(_, tmpc)))
+                            throw new Exception(content[1].DebugInfo);
+                    }
                     break;
                 case "addpower":
                 case "erasepower":
@@ -1902,11 +1904,11 @@ namespace Wahren.Specific
                             if (content[2].ToLowerString() != "on")
                                 throw new Exception(content[2].DebugInfo);
                         }
-                        else Variable_Get.Add(content[2].ToLowerString());
+                        else Variable_Get.Add(content[2].ToString());
                     }
                     LocalUnitRoutine(0);
-                    if (content.IsVariable(1)) Variable_Get.Add(content[1].ToLowerString());
-                    else if (ScriptLoader.SkillDictionary.TryGetValue(content[1].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
+                    if (content.IsVariable(1)) Variable_Get.Add(content[1].ToString());
+                    else if (ScriptLoader.SkillDictionary.TryGetValue(content[1].ToString(), out var tmpSkill) && tmpSkill.ItemType != null)
                         break;
                     else throw new Exception(content[1].DebugInfo);
                     break;
@@ -1916,8 +1918,8 @@ namespace Wahren.Specific
                 case "eraseitem":
                     content.ThrowException(1);
                     if (content.IsVariable(0))
-                        Variable_Get.Add(content[0].ToLowerString());
-                    else if (ScriptLoader.SkillDictionary.TryGetValue(content[0].ToLowerString(), out var tmpSkill) && tmpSkill.ItemType != null)
+                        Variable_Get.Add(content[0].ToString());
+                    else if (ScriptLoader.SkillDictionary.TryGetValue(content[0].ToString(), out var tmpSkill) && tmpSkill.ItemType != null)
                         break;
                     else throw new SkillNotFoundException(content[0].DebugInfo);
                     break;
@@ -2027,7 +2029,7 @@ namespace Wahren.Specific
                 case "battleevent":
                     content.ThrowException(1);
                     LocalEventRoutine(0);
-                    BattleEvent.Add(content[0].ToLowerString());
+                    BattleEvent.Add(content[0].ToString());
                     break;
                 case "event":
                     content.ThrowException(1);
@@ -2035,11 +2037,11 @@ namespace Wahren.Specific
                         content.AddVariable(0, Variable_Get);
                     else
                     {
-                        var key = content[0].ToLowerString();
+                        var key = content[0].ToString();
                         if (!ScriptLoader.EventDictionary.ContainsKey(key) && key != "world_bgm" && key != "count")
                             throw new EventNotFoundException(content[0].DebugInfo);
                     }
-                    Event.Add(content[0].ToLowerString());
+                    Event.Add(content[0].ToString());
                     break;
                 case "routine":
                     content.ThrowException(1);
@@ -2047,11 +2049,11 @@ namespace Wahren.Specific
                         content.AddVariable(0, Variable_Get);
                     else
                     {
-                        var key = content[0].ToLowerString();
+                        var key = content[0].ToString();
                         if (!ScriptLoader.EventDictionary.ContainsKey(key) && key != "world_bgm" && key != "count")
                             throw new EventNotFoundException(content[0].DebugInfo);
                     }
-                    Routine.Add(content[0].ToLowerString());
+                    Routine.Add(content[0].ToString());
                     break;
                 //未だ追加しきれていない関数を調べる際にはコメントインしてください。
                 default:

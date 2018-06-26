@@ -6,15 +6,15 @@ namespace Wahren
 {
     public static partial class ScriptLoader
     {
-        internal static void Parse<T>(IEnumerable<LexicalTree_Assign> enumerable, T data) where T : ScenarioVariantData
+        internal static void Parse<T>(this IEnumerable<LexicalTree_Assign> enumerable, T data) where T : ScenarioVariantData
         {
             switch (data)
             {
                 case SpotData _1:
-                    Parse(enumerable, _1);
+                    enumerable.Parse(_1);
                     break;
                 case PowerData _2:
-                    Parse(enumerable, _2);
+                    enumerable.Parse(_2);
                     break;
                 case GenericUnitData _3:
                     Parse(_3);
@@ -22,13 +22,22 @@ namespace Wahren
                 case UnitData _4:
                     Parse(_4);
                     break;
+                case RaceData _5:
+                    enumerable.Parse(_5);
+                    break;
+                case SkillData _6:
+                    enumerable.Parse(_6);
+                    break;
+                case SkillSetData _7:
+                    enumerable.Parse(_7);
+                    break;
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, SkillData skill)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, SkillData skill)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         skill.DisplayName = InsertString(assign, skill.FilledWithNull);
@@ -46,13 +55,13 @@ namespace Wahren
                         {
                             if (i + 1 < assign.Content.Count && assign.Content[i + 1].Type == 2)
                             {
-                                skill.Icon.Add(InternFile(assign.Content[i].Content));
+                                skill.Icon.Add(Intern(assign.Content[i].Content));
                                 skill.IconAlpha.Add((byte)assign.Content[i + 1].Number);
                                 ++i;
                             }
                             else
                             {
-                                skill.Icon.Add(InternFile(assign.Content[i].Content));
+                                skill.Icon.Add(Intern(assign.Content[i].Content));
                                 skill.IconAlpha.Add(255);
                             }
                         }
@@ -78,7 +87,7 @@ namespace Wahren
                         if (assign.Content[0].Symbol1 == '@')
                         {
                             skill.Special = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -93,7 +102,7 @@ namespace Wahren
                         {
                             skill.GunDelay = null;
                             skill.GunDelayName = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -142,7 +151,7 @@ namespace Wahren
                             skill.CutinY = null;
                             skill.CutinY2 = null;
                             skill.CutinZoom = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -303,7 +312,7 @@ namespace Wahren
                         {
                             skill.Talent = null;
                             skill.TalentSkill = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -357,7 +366,7 @@ namespace Wahren
                         if (assign.Content[0].Symbol1 == '@')
                         {
                             skill.Center = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -390,7 +399,7 @@ namespace Wahren
                         if (assign.Content[0].Symbol1 == '@')
                         {
                             skill.Direct = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -451,7 +460,7 @@ namespace Wahren
                         {
                             skill.SlideStamp = null;
                             skill.SlideStampOn = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -475,7 +484,7 @@ namespace Wahren
                         if (assign.Content[0].Symbol1 == '@')
                         {
                             skill.Shake = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -492,7 +501,7 @@ namespace Wahren
                             skill.RayR = null;
                             skill.RayG = null;
                             skill.RayB = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -531,7 +540,7 @@ namespace Wahren
                         {
                             skill.AfterDeath = null;
                             skill.AfterDeathType = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -543,7 +552,7 @@ namespace Wahren
                         skill.AfterHitType = null;
                         if (assign.Content[0].Symbol1 == '@')
                         {
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -584,7 +593,7 @@ namespace Wahren
                         skill.YorozuSummonMax = null;
                         if (assign.Content[0].Symbol1 == '@')
                         {
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -593,7 +602,7 @@ namespace Wahren
                             if (assign.Content[i].Type != 0) continue;
                             try
                             {
-                                switch (assign.Content[i].Content.ToLower())
+                                switch (assign.Content[i].Content)
                                 {
                                     case "type":
                                         skill.YorozuTurn = assign.Content[i + 1].Number == 2;
@@ -696,7 +705,7 @@ namespace Wahren
                             catch
                             {
                                 Console.Error.WriteLine(i + 1);
-                                Console.Error.WriteLine(assign.File + '/' + (assign.Line + 1));
+                                Console.Error.WriteLine(assign.DebugInfo);
                             }
                         }
                         break;
@@ -705,11 +714,11 @@ namespace Wahren
                         skill.StrPercent = null;
                         if (assign.Content[0].Symbol1 == '@')
                         {
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "attack":
                                 skill.Strength = StrType.Attack;
@@ -766,7 +775,7 @@ namespace Wahren
                             skill.DamageType = (int)assign.Content[0].Number;
                             continue;
                         }
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "off":
                                 skill.DamageType = -2;
@@ -805,7 +814,7 @@ namespace Wahren
                             skill.HomingType = 0;
                             continue;
                         }
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "on":
                                 skill.HomingType = 1;
@@ -845,7 +854,7 @@ namespace Wahren
                         if (assign.Content[0].Symbol1 == '@')
                         {
                             skill.Hard2 = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -854,7 +863,7 @@ namespace Wahren
                             skill.Hard2 = (byte)assign.Content[0].Number;
                             continue;
                         }
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "on":
                                 skill.Hard2 = 1;
@@ -869,11 +878,11 @@ namespace Wahren
                         skill.OffsetOn = false;
                         if (assign.Content[0].Symbol1 == '@')
                         {
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "on":
                                 skill.OffsetOn = true;
@@ -941,7 +950,7 @@ namespace Wahren
                         {
                             skill.FollowOn = null;
                             skill.Follow = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
@@ -950,7 +959,7 @@ namespace Wahren
                             skill.FollowOn = true;
                             skill.Follow = (int)assign.Content[0].Number;
                         }
-                        else if (assign.Content[0].Content.ToLower() == "on")
+                        else if (assign.Content[0].Content == "on")
                         {
                             skill.FollowOn = true;
                             skill.Follow = null;
@@ -1040,11 +1049,11 @@ namespace Wahren
                         if (assign.Content[0].Symbol1 == '@')
                         {
                             skill.MoveType = null;
-                            skill.FilledWithNull.Add(assign.Name.ToLower());
+                            skill.FilledWithNull.Add(assign.Name);
                             continue;
                         }
                         skill.FilledWithNull.Remove(assign.Name);
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "arc":
                                 skill.MoveType = 1;
@@ -1082,7 +1091,7 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(List<LexicalTree> children, StoryData story)
+        internal static void Parse(this List<LexicalTree> children, StoryData story)
         {
             foreach (var tree in children)
             {
@@ -1092,7 +1101,7 @@ namespace Wahren
                     story.Script.Add(tree);
                     continue;
                 }
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "friend":
                         InsertStringOnlyList(assign, story.FilledWithNull, story.Friend);
@@ -1110,11 +1119,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, FieldData field)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, FieldData field)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "type":
                         if (assign.Content[0].Symbol1 == '@')
@@ -1220,11 +1229,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, ObjectData object1)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, ObjectData object1)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "land_base":
                         if (assign.Content[0].Symbol1 == '@')
@@ -1256,7 +1265,7 @@ namespace Wahren
                             object1.Type = ObjectData.ChipType.None;
                             continue;
                         }
-                        switch (assign.Content[0].Content.ToLower())
+                        switch (assign.Content[0].Content)
                         {
                             case "coll":
                                 object1.Type = ObjectData.ChipType.coll;
@@ -1349,11 +1358,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, PowerData power)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, PowerData power)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
 
                     case "name":
@@ -1408,7 +1417,7 @@ namespace Wahren
                         power.IsEvent = InsertBool(assign, power.FilledWithNull);
                         break;
                     case "bgm":
-                        power.BGM = InternFile(InsertString(assign, power.FilledWithNull));
+                        power.BGM = Intern(InsertString(assign, power.FilledWithNull));
                         break;
                     case "volume":
                         power.Volume = InsertByte(assign, power.FilledWithNull);
@@ -1517,11 +1526,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, RaceData race)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, RaceData race)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         race.DisplayName = InsertString(assign, race.FilledWithNull);
@@ -1544,11 +1553,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, SkillSetData skillset)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, SkillSetData skillset)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         skillset.DisplayName = InsertString(assign, skillset.FilledWithNull);
@@ -1565,7 +1574,7 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(GenericUnitData genericunit)
+        internal static void Parse(this GenericUnitData genericunit)
         {
             if (!genericunit.VariantData.ContainsKey("")) return;
             var removeList = new List<string>();
@@ -1596,7 +1605,7 @@ namespace Wahren
             foreach (var item in removeList)
                 genericunit.VariantData[""].Remove(item);
         }
-        internal static void Parse(UnitData unit)
+        internal static void Parse(this UnitData unit)
         {
             if (!unit.VariantData.ContainsKey("")) return;
             var removeList = new List<string>();
@@ -1611,13 +1620,13 @@ namespace Wahren
                         unit.IsTalent = InsertBool(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "bgm":
-                        unit.BGM = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
+                        unit.BGM = Intern(InsertString(keyVal.Value, unit.FilledWithNull)); removeList.Add(keyVal.Key);
                         break;
                     case "volume":
                         unit.Volume = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "picture":
-                        unit.Picture = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
+                        unit.Picture = Intern(InsertString(keyVal.Value, unit.FilledWithNull)); removeList.Add(keyVal.Key);
                         break;
                     case "picture_detail":
                         removeList.Add(keyVal.Key);
@@ -1664,7 +1673,7 @@ namespace Wahren
                         unit.PictureCenter = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "picture_back":
-                        unit.PictureBack = Intern(InsertString(keyVal.Value, unit.FilledWithNull)?.ToLower()); removeList.Add(keyVal.Key);
+                        unit.PictureBack = Intern(InsertString(keyVal.Value, unit.FilledWithNull)); removeList.Add(keyVal.Key);
                         break;
                     case "alive_per":
                         unit.AlivePercentage = InsertByte(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
@@ -1995,7 +2004,7 @@ namespace Wahren
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         unit.DisplayName = InsertString(assign, unit.FilledWithNull);
@@ -2012,7 +2021,7 @@ namespace Wahren
                                 break;
                             case "@":
                                 unit.Sex = null;
-                                unit.FilledWithNull.Add(assign.Name.ToLower());
+                                unit.FilledWithNull.Add(assign.Name);
                                 break;
                             default:
                                 unit.Sex = 0;
@@ -2038,16 +2047,16 @@ namespace Wahren
                         unit.Alpha = InsertByte(assign, unit.FilledWithNull);
                         break;
                     case "image":
-                        unit.Image = Intern(InsertString(assign, unit.FilledWithNull)?.ToLower());
+                        unit.Image = Intern(InsertString(assign, unit.FilledWithNull));
                         break;
                     case "image2":
-                        unit.Image2 = Intern(InsertString(assign, unit.FilledWithNull)?.ToLower());
+                        unit.Image2 = Intern(InsertString(assign, unit.FilledWithNull));
                         break;
                     case "tkool":
                         unit.IsTkool = InsertBool(assign, unit.FilledWithNull);
                         break;
                     case "face":
-                        unit.Face = InsertString(assign, unit.FilledWithNull)?.ToLower();
+                        unit.Face = Intern(InsertString(assign, unit.FilledWithNull));
                         break;
                     case "price":
                         unit.Price = InsertInt(assign, unit.FilledWithNull);
@@ -2073,7 +2082,7 @@ namespace Wahren
                         unit.FriendExCount = null;
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
                         {
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove("friend_ex");
@@ -2185,7 +2194,7 @@ namespace Wahren
                         unit.Skill2.Clear();
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
                         {
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove(assign.Name);
@@ -2207,7 +2216,7 @@ namespace Wahren
                         unit.Learn.Clear();
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
                         {
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove("learn");
@@ -2254,7 +2263,7 @@ namespace Wahren
                         {
                             unit.IsSatellite = null;
                             unit.Satellite = null;
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove("satellite");
@@ -2412,7 +2421,7 @@ namespace Wahren
                         {
                             unit.IsBrave = null;
                             unit.Brave = null;
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove("brave");
@@ -2453,7 +2462,7 @@ namespace Wahren
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
                         {
                             unit.AddVassal = null;
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove("add_vassal");
@@ -2475,7 +2484,7 @@ namespace Wahren
                         if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
                         {
                             unit.Politics = null;
-                            unit.FilledWithNull.Add(assign.Name.ToLower());
+                            unit.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         unit.FilledWithNull.Remove("politics");
@@ -2502,7 +2511,7 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree> enumerable, EventData eventData)
+        internal static void Parse(this IEnumerable<LexicalTree> enumerable, EventData eventData)
         {
             foreach (var item in enumerable)
             {
@@ -2512,7 +2521,7 @@ namespace Wahren
                     continue;
                 }
                 var assign = item as LexicalTree_Assign;
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "bg":
                     case "bcg":
@@ -2588,17 +2597,17 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, SpotData spot)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, SpotData spot)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         spot.DisplayName = InsertString(assign, spot.FilledWithNull);
                         break;
                     case "image":
-                        spot.Image = InsertString(assign, spot.FilledWithNull)?.ToLower();
+                        spot.Image = Intern(InsertString(assign, spot.FilledWithNull));
                         if (spot.Image != null)
                             spot.Image = String.Intern(spot.Image);
                         break;
@@ -2618,7 +2627,7 @@ namespace Wahren
                         spot.Width = spot.Height = InsertInt(assign, spot.FilledWithNull);
                         break;
                     case "map":
-                        spot.Map = InsertString(assign, spot.FilledWithNull)?.ToLower();
+                        spot.Map = Intern(InsertString(assign, spot.FilledWithNull));
                         if (spot.Map != null)
                             spot.Map = String.Intern(spot.Map);
                         break;
@@ -2632,7 +2641,7 @@ namespace Wahren
                         spot.Limit = InsertInt(assign, spot.FilledWithNull);
                         break;
                     case "bgm":
-                        spot.BGM = InsertString(assign, spot.FilledWithNull)?.ToLower();
+                        spot.BGM = Intern(InsertString(assign, spot.FilledWithNull));
                         if (spot.BGM != null)
                             spot.BGM = String.Intern(spot.BGM);
                         break;
@@ -2678,7 +2687,7 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree> enumerable, ScenarioData scenario)
+        internal static void Parse(this IEnumerable<LexicalTree> enumerable, ScenarioData scenario)
         {
             int? locate_x = null;
             int? locate_y = null;
@@ -2690,7 +2699,7 @@ namespace Wahren
                     scenario.Script.Add(item);
                     continue;
                 }
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         scenario.DisplayName = InsertString(assign, scenario.FilledWithNull);
@@ -2826,7 +2835,7 @@ namespace Wahren
                         scenario.PoliticsData.Clear();
                         if (assign.Content[0].Symbol1 == '@' || assign.Content[0].ToLowerString() == "none")
                         {
-                            scenario.FilledWithNull.Add(assign.Name.ToLower());
+                            scenario.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         scenario.FilledWithNull.Remove(assign.Name);
@@ -2842,7 +2851,7 @@ namespace Wahren
                         scenario.CampingData.Clear();
                         if (assign.Content[0].Symbol1 == '@' || assign.Content[0].ToLowerString() == "none")
                         {
-                            scenario.FilledWithNull.Add(assign.Name.ToLower());
+                            scenario.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         scenario.FilledWithNull.Remove(assign.Name);
@@ -2861,7 +2870,7 @@ namespace Wahren
                         }
                         if (assign.Content[0].Symbol1 == '@' || assign.Content[0].ToLowerString() == "none")
                         {
-                            scenario.FilledWithNull.Add(assign.Name.ToLower());
+                            scenario.FilledWithNull.Add(assign.Name);
                             break;
                         }
                         scenario.FilledWithNull.Remove(assign.Name);
@@ -2903,11 +2912,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, VoiceData voice)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, VoiceData voice)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "voice_type":
                         InsertStringOnlyList(assign, voice.FilledWithNull, voice.VoiceType);
@@ -2928,11 +2937,11 @@ namespace Wahren
                 }
             }
         }
-        internal static void Parse(IEnumerable<LexicalTree_Assign> enumerable, DungeonData answer)
+        internal static void Parse(this IEnumerable<LexicalTree_Assign> enumerable, DungeonData answer)
         {
             foreach (var assign in enumerable)
             {
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "name":
                         answer.DisplayName = InsertString(assign, answer.FilledWithNull);
@@ -3104,9 +3113,8 @@ namespace Wahren
                 int firstInt = (int)assign.Content[0].Number;
                 string firstString = assign.Content[0].ToString();
                 string firstIdentifier = assign.Content[0].ToLowerString();
-                bool onoff = firstString?.ToLower() == "on";
                 if (assign.Content[0].Symbol1 == '@') continue;
-                switch (assign.Name.ToLower())
+                switch (assign.Name)
                 {
                     case "title_name":
                         Context.TitleName = firstString;
@@ -3134,7 +3142,7 @@ namespace Wahren
                         Context.EmployRange = firstByte;
                         break;
                     case "battle_fast":
-                        Context.BattleFast = onoff;
+                        Context.BattleFast = firstString == "on";
                         break;
                     case "support_range":
                         Context.SupportRange = firstByte;
@@ -3379,13 +3387,13 @@ namespace Wahren
                         }
                         break;
                     case "talent_mode":
-                        Context.TalentMode = onoff;
+                        Context.TalentMode = firstString == "on";
                         break;
                     case "npm_play":
-                        Context.NonPlayerMode = onoff;
+                        Context.NonPlayerMode = firstString== "on";
                         break;
                     case "default_ending":
-                        Context.DefaultEnding = onoff;
+                        Context.DefaultEnding = firstString== "on";
                         break;
                     case "picture_floor":
                         if (assign.Content[0].ToLowerString() == "bottom")
@@ -3437,22 +3445,22 @@ namespace Wahren
                         Context.NoTalentAbility = firstInt;
                         break;
                     case "unit_castle_forcefire":
-                        Context.unit_castle_forcefire = onoff;
+                        Context.unit_castle_forcefire = firstString== "on";
                         break;
                     case "unit_attack_range":
                         Context.unit_attack_range = firstInt;
                         break;
                     case "unit_battle_cram":
-                        Context.unit_battle_cram = onoff;
+                        Context.unit_battle_cram = firstString== "on";
                         break;
                     case "unit_catle_cram":
-                        Context.unit_castle_cram = onoff;
+                        Context.unit_castle_cram = firstString== "on";
                         break;
                     case "unit_drain_mul":
                         Context.unit_drain_mul = firstInt;
                         break;
                     case "unit_element_heal":
-                        Context.unit_element_heal = onoff;
+                        Context.unit_element_heal = firstString== "on";
                         break;
                     case "unit_escape_range":
                         Context.unit_escape_range = firstInt;
@@ -3464,7 +3472,7 @@ namespace Wahren
                         Context.unit_hand_range = firstInt;
                         break;
                     case "unit_keep_form":
-                        Context.unit_keep_form = onoff;
+                        Context.unit_keep_form = firstString== "on";
                         break;
                     case "unit_level_max":
                         Context.unit_level_max = firstInt;
@@ -3599,7 +3607,7 @@ namespace Wahren
                         Context.arbeit_gain = firstInt;
                         break;
                     case "arbeit_player":
-                        Context.arbeit_player = onoff;
+                        Context.arbeit_player = firstString== "on";
                         break;
                     case "arbeit_price_coe":
                         Context.arbeit_price_coe = firstInt;
@@ -3631,7 +3639,7 @@ namespace Wahren
                         Context.ScenarioSelect2 = assign.Content[1].Content;
                         break;
                     case "unit_image_right":
-                        Context.UnitImageRight = onoff;
+                        Context.UnitImageRight = firstString== "on";
                         break;
                     case "font_file":
                         foreach (var item in assign.Content)
@@ -3877,7 +3885,7 @@ namespace Wahren
                             Context.Alpha_Window_scenariotext = (byte)assign.Content[2].Number;
                         break;
                     case "fullbody_detail":
-                        Context.FullBodyDetail = onoff;
+                        Context.FullBodyDetail = firstString== "on";
                         break;
                     default:
                         Context.VariantData[assign.Name] = assign.Content;

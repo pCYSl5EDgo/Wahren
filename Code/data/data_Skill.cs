@@ -7,6 +7,9 @@ namespace Wahren
     [MessagePackObject]
     public class SkillData : ScenarioVariantData
     {
+        public SkillData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
+        [SerializationConstructor]
+        public SkillData() : base("", "", "", 0) { }
         [Key(6)]
         public string DisplayName { get; set; }
         [Key(7)]
@@ -426,9 +429,5 @@ namespace Wahren
         public int? YorozuStone { get; internal set; }
         [Key(186)]
         public Dictionary<string, int> YorozuAttribute { get; } = new Dictionary<string, int>();
-
-        /*Status */
-
-        public SkillData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
     }
 }

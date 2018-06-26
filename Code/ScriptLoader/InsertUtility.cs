@@ -15,7 +15,6 @@ namespace Wahren
             }
         }
         static string Intern(string str) => str == null ? null : string.Intern(str);
-        static string InternFile(string str) => str == null ? null : string.Intern(str.ToLower());
 
         static string InsertString(LexicalTree_Assign assign, List<string> fillWithNull)
         {
@@ -80,7 +79,7 @@ namespace Wahren
                 switch (content[i].Type)
                 {
                     case 0:
-                        list.Add(Intern(content[i].ToLowerString()));
+                        list.Add(Intern(content[i].ToString()));
                         break;
                     default: throw new Exception(content[i].DebugInfo);
                 }
@@ -101,7 +100,7 @@ namespace Wahren
                 switch (content[i].Type)
                 {
                     case 0:
-                        list.Add(Intern(content[i].ToLowerString()));
+                        list.Add(Intern(content[i].ToString()));
                         break;
                     case 1:
                         if (content[i].IsSingleSymbol && content[i].Symbol1 == '@')
@@ -110,7 +109,7 @@ namespace Wahren
                         break;
                     case 2:
                         for (int j = 1; j < content[i].Number; j++)
-                            list.Add(Intern(content[i - 1].ToLowerString()));
+                            list.Add(Intern(content[i - 1].ToString()));
                         break;
                 }
             }
@@ -126,7 +125,7 @@ namespace Wahren
             fillWithNull.Remove(assign.Name);
             for (int i = 0; (i << 1) < assign.Content.Count; i++)
             {
-                dic[Intern(assign.Content[i << 1].ToLowerString())] = (int)assign.Content[(i << 1) + 1].Number;
+                dic[Intern(assign.Content[i << 1].ToString())] = (int)assign.Content[(i << 1) + 1].Number;
             }
             return;
         }
@@ -141,7 +140,7 @@ namespace Wahren
             fillWithNull.Remove(assign.Name);
             for (int i = 0; (i << 1) < assign.Content.Count; i++)
             {
-                dic[Intern(assign.Content[i << 1].ToLowerString())] = (byte)assign.Content[(i << 1) + 1].Number;
+                dic[Intern(assign.Content[i << 1].ToString())] = (byte)assign.Content[(i << 1) + 1].Number;
             }
             return;
         }
@@ -150,7 +149,7 @@ namespace Wahren
             monsters.Clear();
             if (assign.Content.Count == 1 && assign.Content[0].Symbol1 == '@')
             {
-                filledWithNull.Add(assign.Name.ToLower());
+                filledWithNull.Add(assign.Name);
                 return;
             }
             filledWithNull.Remove(assign.Name);
@@ -172,10 +171,11 @@ namespace Wahren
         {
             if (assign.Name[assign.Name.Length - 1] == '@')
             {
+                var assignName = string.Intern(assign.Name.Substring(0, assign.Name.Length - 1));
                 if (VariantData.ContainsKey(""))
-                    VariantData[""][assign.Name.Substring(0, assign.Name.Length - 1)] = assign;
+                    VariantData[""][assignName] = assign;
                 else
-                    VariantData[""] = new Dictionary<string, LexicalTree_Assign>() { { assign.Name.Substring(0, assign.Name.Length - 1), assign } };
+                    VariantData[""] = new Dictionary<string, LexicalTree_Assign>() { { assignName, assign } };
                 return;
             }
             var array = assign.Name.Split(new char[1] { '@' }, StringSplitOptions.RemoveEmptyEntries);

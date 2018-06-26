@@ -117,47 +117,5 @@ namespace Wahren.Map
                 return chips.AsSpan(y * width, width);
             }
         }
-        private static readonly (string, byte)[] empty = new(string, byte)[0];
-        public static bool TryLoad(ReadOnlySpan<byte> input, out byte width, out byte height, out (string name, byte type)[][] chips)
-        {
-            if (input.Length < 2)
-            {
-                width = height = 0;
-                chips = null;
-                return false;
-            }
-            width = input[0];
-            height = input[1];
-            chips = new(string, byte)[width * height][];
-            var tmpList = new List<(string, byte)>(4);
-            input = input.Slice(2);
-            Span<char> nameSpan = stackalloc char[256];
-            byte x = 0, y = 0;
-            while (y < height)
-            {
-                if (input.IsEmpty)
-                    return false;
-                var type = input[0];
-                input = input.Slice(1);
-                if (type == 0xff)
-                {
-                    chips[x + width * y] = tmpList.Count == 0 ? empty : tmpList.ToArray();
-                    tmpList.Clear();
-                    if (++x == width)
-                    {
-                        x = 0;
-                        ++y;
-                    }
-                    continue;
-                }
-                var endIndex = input.IndexOfAny<byte>(0xff, 0xfe);
-                if (endIndex == -1 || endIndex >= 256) return false;
-                for (int i = 0; i < endIndex; i++)
-                    nameSpan[i] = (char)input[i];
-                tmpList.Add((string.Intern(new string(nameSpan.Slice(0, endIndex))), type));
-                input = input.Slice(endIndex + 1);
-            }
-            return true;
-        }
     }
 }

@@ -32,7 +32,7 @@ namespace Wahren
 
         protected BaseData(string name, string file, int line)
         {
-            Name = name?.ToLower() ?? "";
+            Name = name ?? "";
             File = file;
             Line = line;
         }
@@ -45,7 +45,7 @@ namespace Wahren
     {
         [Key(4)]
         public string Inherit { get; set; }
-        protected InheritData(string name, string inherit, string file, int line) : base(name, file, line) { Inherit = inherit?.ToLower() ?? ""; }
+        protected InheritData(string name, string inherit, string file, int line) : base(name, file, line) { Inherit = inherit ?? ""; }
         [SerializationConstructor]
         protected InheritData() : base("", "", 0) { }
     }
@@ -378,6 +378,9 @@ namespace Wahren
     [MessagePackObject]
     public sealed class FieldData : InheritData
     {
+        [IgnoreMember]
+        private string _attribute;
+
         public FieldData(string name, string inherit, string file, int line) : base(name, inherit, file, line) { }
         [SerializationConstructor]
         public FieldData() : base("", "", "", 0) { }
@@ -386,7 +389,7 @@ namespace Wahren
         [Key(5)]
         public ChipType Type { get; set; }
         [Key(6)]
-        public string Attribute { get; set; }
+        public string Attribute { get => _attribute; set => _attribute = string.Intern(value); }
         [Key(7)]
         public byte? ColorR { get; set; }
         [Key(8)]

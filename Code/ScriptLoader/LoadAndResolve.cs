@@ -88,7 +88,7 @@ namespace Wahren
                         var movetype = new MoveTypeData(tree.Name, tree.File, tree.Line);
                         foreach (var assign in SelectAssign(tree))
                         {
-                            switch (assign.Name.ToLower())
+                            switch (assign.Name)
                             {
                                 case "name":
                                     movetype.DisplayName = InsertString(assign, movetype.FilledWithNull);
@@ -553,6 +553,15 @@ namespace Wahren
                     break;
                 case UnitData _4:
                     Resolve(_4, data2 as UnitData);
+                    break;
+                case RaceData _5:
+                    Resolve(_5, data2 as RaceData);
+                    break;
+                case SkillData _6:
+                    Resolve(_6, data2 as SkillData);
+                    break;
+                case SkillSetData _7:
+                    Resolve(_7, data2 as SkillSetData);
                     break;
             }
         }

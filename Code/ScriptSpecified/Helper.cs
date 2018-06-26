@@ -12,11 +12,11 @@ namespace Wahren.Specific
         internal static bool IsIdentifier(this List<Token> list, int index) => list[index].Type == 0 && Identifier.IsMatch(list[index].Content);
         internal static bool IsVariableOrIdentifier(this List<Token> list, int index) => list[index].Type == 0 && VariableOrIdentifier.IsMatch(list[index].Content);
         internal static bool IsIdentifierOrNumber(this List<Token> list, int index) => list[index].Type == 2 || (list[index].Type == 0 && Identifier.IsMatch(list[index].Content));
-        internal static bool IsText(this List<Token> list, int index) => list[index].Type != 2 && Text.IsMatch(list[index].ToLowerString());
+        internal static bool IsText(this List<Token> list, int index) => list[index].Type != 2 && Text.IsMatch(list[index].ToString());
 
         internal static void NotBoolIdentifier(this List<Token> list, SortedSet<string> notset, SortedSet<string> set)
         {
-            var identifierName = list[0].Content.ToLower();
+            var identifierName = list[0].Content;
             if (!notset.Contains(identifierName))
             {
                 set.Remove(identifierName);
@@ -30,7 +30,7 @@ namespace Wahren.Specific
                 if (spot.Symbol1 == '@') return;
                 else throw new Exception(spot.DebugInfo);
             if (spot.Type == 2) throw new Exception(spot.DebugInfo);
-            if (Identifier.IsMatch(spot.Content) && ScriptLoader.SpotDictionary.ContainsKey(spot.Content.ToLower())) return;
+            if (Identifier.IsMatch(spot.Content) && ScriptLoader.SpotDictionary.ContainsKey(spot.Content)) return;
             if (Variable.IsMatch(spot.Content)) return;
             throw new SpotNotFoundException(spot.DebugInfo);
         }
@@ -44,14 +44,14 @@ namespace Wahren.Specific
             var content = list[index].Content ?? "";
             if (list[index].Type != 0 || !Identifier.IsMatch(content))
                 throw new Exception(list[index].DebugInfo);
-            set.Add(content.ToLower());
+            set.Add(content);
         }
         internal static void AddIdentifierOrNumber(this List<Token> list, int index, SortedSet<string> set)
         {
             if (list.Count <= index) throw new Exception(list[0].DebugInfo);
             else if (list[index].Type == 1 && list[index].Symbol1 != '@') throw new Exception(list[index].DebugInfo);
             else if (list[index].Type == 0 && Identifier.IsMatch(list[index].Content ?? ""))
-                set.Add(list[index].Content.ToLower());
+                set.Add(list[index].Content);
             else if (list[index].Type != 2) throw new Exception(list[index].DebugInfo);
         }
         internal static void AddVariableOnly(this List<Token> list, int index, SortedSet<string> set, SortedSet<string> set2)
@@ -61,7 +61,7 @@ namespace Wahren.Specific
                 throw new Exception(list[index].DebugInfo);
             else
             {
-                var item = (list[index].Content ?? "").ToLower();
+                var item = list[index].Content ?? "";
                 if (!Variable.IsMatch(item))
                     item = '@' + item;
                 set.Add(item);
@@ -75,7 +75,7 @@ namespace Wahren.Specific
                 throw new Exception(list[index].DebugInfo);
             else
             {
-                var item = (list[index].Content ?? "").ToLower();
+                var item = list[index].Content ?? "";
                 if (!Variable.IsMatch(item))
                     set.Add('@' + item);
                 else set.Add(item);
@@ -88,7 +88,7 @@ namespace Wahren.Specific
                 throw new Exception(list[index].DebugInfo);
             else if (!Variable.IsMatch(list[index].Content ?? ""))
                 throw new Exception(list[index].DebugInfo);
-            var name = list[index].Content.ToLower();
+            var name = list[index].Content;
             set.Add(name);
             for (int i = 0; i < sets.Length; i++)
                 sets[i].Add(name);
@@ -102,9 +102,9 @@ namespace Wahren.Specific
                     throw new Exception(list[index].DebugInfo);
             }
             else if (Variable.IsMatch(list[index].Content ?? ""))
-                variable.Add(list[index].Content.ToLower());
+                variable.Add(list[index].Content);
             else if (Identifier.IsMatch(list[index].Content ?? ""))
-                identifier.Add(list[index].Content.ToLower());
+                identifier.Add(list[index].Content);
         }
         internal static void AddVariable_NotAddIdentifier(this List<Token> list, int index, SortedSet<string> variable)
         {
@@ -115,7 +115,7 @@ namespace Wahren.Specific
                     throw new Exception(list[index].DebugInfo);
             }
             else if (Variable.IsMatch(list[index].Content ?? ""))
-                variable.Add(list[index].Content.ToLower());
+                variable.Add(list[index].Content);
             else if (!Identifier.IsMatch(list[index].Content ?? ""))
                 throw new Exception(list[index].DebugInfo);
         }
@@ -123,7 +123,7 @@ namespace Wahren.Specific
         {
             if (list.Count <= index) throw new Exception(list[0].DebugInfo);
             else if (Variable.IsMatch(list[index].Content ?? ""))
-                set.Add(list[index].Content.ToLower());
+                set.Add(list[index].Content);
         }
 
         internal static void ThrowException(this List<Token> list, int min, int max)

@@ -136,6 +136,31 @@ namespace Wahren
                     return 0;
                 });
             });
+            app.Command("map", (map) =>
+            {
+                var folderArgument = map.Argument("folder", "", false);
+                map.OnExecute(() =>
+                {
+                    ScriptLoader.InitializeComponent(folderArgument.Value);
+                    if (Map.MapHelper.TryLoad(Path.Combine(Path.Combine(folderArgument.Value, "stage"), ScriptLoader.Folder.Stage_Map.First() + ".map"), out var w, out var h, out var chips))
+                    {
+                        System.Console.WriteLine(ScriptLoader.Folder.Stage_Map.First());
+                        Console.Write("Width:");
+                        Console.WriteLine(w);
+                        Console.Write("Height:");
+                        Console.WriteLine(h);
+                        var array = Map.MapHelper.ConvertToMoveTypeArray(chips);
+                        for (int i = 0; i < array.Length; i++)
+                        {
+                            if (i % w == 0) Console.WriteLine();
+                            Console.Write("[ ");
+                            Console.Write(array[i]);
+                            Console.Write(" ], ");
+                        }
+                    }
+                    return 0;
+                });
+            });
             {
                 var folderArgument = app.Argument("folder", "", false);
                 var getOnlyOption = app.Option("--getOnly", "", CommandOptionType.NoValue);
@@ -150,11 +175,11 @@ namespace Wahren
                     // Console.WriteLine(FileCreator.ScenarioChoiceFunction());
                     // Console.WriteLine(ScriptLoader.Context.TitleFunction());
                     // Console.WriteLine(FileCreator.End);
-                    for (int i = 0; i < ScriptLoader.Scenarios.Length; i++)
-                    {
-                        foreach (var spot in ScriptLoader.Scenarios[i].Spot.Values)
-                            System.Console.WriteLine(FileCreator.SpotCreator(spot));
-                    }
+                    // for (int i = 0; i < ScriptLoader.Scenarios.Length; i++)
+                    // {
+                    //     foreach (var spot in ScriptLoader.Scenarios[i].Spot.Values)
+                    //         System.Console.WriteLine(FileCreator.SpotCreator(spot));
+                    // }
                     #region GS
                     IEnumerable<string> GetOnly(int index)
                     {

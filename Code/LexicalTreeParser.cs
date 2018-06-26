@@ -89,7 +89,7 @@ namespace Wahren
             if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
             token = c.Current;
             if (token.Type == 1) throw new LexicalTreeConstructionException(token);
-            answer.Name = token.ToString().ToLower();
+            answer.Name = token.ToString();
             if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
             token = c.Current;
             if (token.Type != 1 || token.IsDoubleSymbol) throw new LexicalTreeConstructionException(token);
@@ -97,7 +97,7 @@ namespace Wahren
             {
                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                 token = c.Current;
-                answer.Inherit = token.ToString().ToLower();
+                answer.Inherit = token.ToString();
                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                 token = c.Current;
                 if (token.Type != 1 || token.IsDoubleSymbol || token.Symbol1 != '{') throw new LexicalTreeConstructionException(token);
@@ -158,7 +158,7 @@ namespace Wahren
             if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
             token = c.Current;
             if (token.Type == 1) throw new LexicalTreeConstructionException(token);
-            Block.Name = token.ToString().ToLower();
+            Block.Name = token.ToString();
             if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
             token = c.Current;
             if (token.Type != 1 || token.IsDoubleSymbol) throw new LexicalTreeConstructionException(token);
@@ -167,7 +167,7 @@ namespace Wahren
                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                 token = c.Current;
                 if (token.Type == 1) throw new LexicalTreeConstructionException(token);
-                Block.Inherit = token.ToString().ToLower();
+                Block.Inherit = token.ToString();
                 if (!c.MoveNext()) throw new LexicalTreeConstructionException(token);
                 token = c.Current;
                 if (token.Type != 1 || token.IsDoubleSymbol || token.Symbol1 != '{') throw new LexicalTreeConstructionException(token);
@@ -198,7 +198,7 @@ namespace Wahren
             {
             Top:
                 token = c.Current;
-                content = token.Content?.ToLower();
+                content = token.Content;
                 if (token.Type == 0)
                 {
                     if (c.MoveNext())
@@ -402,7 +402,7 @@ namespace Wahren
                 }
                 else
                 {
-                    var content = token.ToString().ToLower();
+                    var content = token.ToLowerString();
                     switch (content)
                     {
                         case "if":

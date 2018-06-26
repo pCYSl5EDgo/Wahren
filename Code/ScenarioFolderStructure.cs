@@ -57,9 +57,11 @@ namespace Wahren
         public List<string> Icon_Png { get; protected set; } = new List<string>();
         public List<string> Icon_Jpg { get; protected set; } = new List<string>();
         public List<string> Icon_Bmp { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Image = new HashSet<string>();
         public List<string> Image_Png { get; protected set; } = new List<string>();
         public List<string> Image_Jpg { get; protected set; } = new List<string>();
         public List<string> Image_Bmp { get; protected set; } = new List<string>();
+        public readonly HashSet<string> Picture = new HashSet<string>();
         public List<string> Picture_Png { get; protected set; } = new List<string>();
         public List<string> Picture_Jpg { get; protected set; } = new List<string>();
         public List<string> Picture_Bmp { get; protected set; } = new List<string>();
@@ -80,16 +82,29 @@ namespace Wahren
         {
             IsDebug = isDebug;
             Name = new DirectoryInfo(folderPath).Name;
+
             foreach (var folder in Directory.GetDirectories(folderPath))
             {
-                switch (new DirectoryInfo(folder).Name.ToLower())
+                void AddFilesWithoutExtension(List<string> list, string pattern, HashSet<string> group = null)
+                {
+                    var collection = Directory.GetFiles(folder, pattern, SearchOption.AllDirectories).Select(_ => string.Intern(Path.GetFileNameWithoutExtension(_)));
+                    if (group == null)
+                        list.AddRange(collection);
+                    else foreach (var item in collection)
+                        {
+                            list.Add(item);
+                            group.Add(item);
+                        }
+                }
+                switch (new DirectoryInfo(folder).Name)
                 {
                     case "script":
-                        Script_Dat.AddRange(Directory.GetFiles(folder, "*.dat", SearchOption.AllDirectories).Select(String.Intern));
-                        Script_Language.AddRange(Directory.GetFiles(folder, "language*.txt"));
+                        Script_Dat.AddRange(Directory.GetFiles(folder, "*.dat", SearchOption.AllDirectories));
+                        AddFilesWithoutExtension(Script_Language, "language*.txt");
                         //UTF8モード
                         var utf8FileInfo = new FileInfo(Path.Combine(folder, "utf8.txt"));
                         if (utf8FileInfo.Exists)
+                        {
                             using (var sr = utf8FileInfo.OpenText())
                             {
                                 encType = EncType.UTF8;
@@ -97,53 +112,42 @@ namespace Wahren
                                 if (!string.IsNullOrWhiteSpace(line) && line.Trim().ToLower() == "foreign")
                                     IsEnglishMode = true;
                             }
-                        else
+                            break;
+                        }
+                        //英文モード
+                        var englishFileInfo = new FileInfo(Path.Combine(folder, "english.txt"));
+                        if (englishFileInfo.Exists)
                         {
-                            //英文モード
-                            var englishFileInfo = new FileInfo(Path.Combine(folder, "english.txt"));
-                            if (englishFileInfo.Exists)
-                            {
-                                encType = EncType.Unicode;
+                            encType = EncType.Unicode;
+                            IsEnglishMode = true;
+                            break;
+                        }
+                        //ユニコード(UTF16)モード
+                        var unicodeFileInfo = new FileInfo(Path.Combine(folder, "unicode.txt"));
+                        if (!unicodeFileInfo.Exists) break;
+                        encType = EncType.Unicode;
+                        using (var sr = new StreamReader(unicodeFileInfo.OpenRead(), Encoding.Unicode))
+                        {
+                            var line = sr.ReadLine();
+                            if (!string.IsNullOrWhiteSpace(line) && line.Trim().ToLower() == "foreign")
                                 IsEnglishMode = true;
-                            }
-                            else
-                            {
-                                //ユニコードモード
-                                var unicodeFileInfo = new FileInfo(Path.Combine(folder, "unicode.txt"));
-                                if (unicodeFileInfo.Exists)
-                                {
-                                    encType = EncType.Unicode;
-                                    using (var sr = new StreamReader(unicodeFileInfo.OpenRead(), Encoding.Unicode))
-                                    {
-                                        var line = sr.ReadLine();
-                                        if (!string.IsNullOrWhiteSpace(line) && line.Trim().ToLower() == "foreign")
-                                            IsEnglishMode = true;
-                                    }
-                                }
-                            }
                         }
                         break;
                     case "stage":
-                        Stage_Map.AddRange(Directory.GetFiles(folder, "*.map").Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        AddFilesWithoutExtension(Stage_Map, "*.map");
                         break;
                     case "bgm":
-                        Bgm_Mid.AddRange(Directory.GetFiles(folder, "*.mid", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Bgm_Mp3.AddRange(Directory.GetFiles(folder, "*.mp3", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Bgm_Ogg.AddRange(Directory.GetFiles(folder, "*.ogg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        for (int i = 0; i < Bgm_Mid.Count; i++)
-                            Bgm.Add(Bgm_Mid[i]);
-                        for (int i = 0; i < Bgm_Mp3.Count; i++)
-                            Bgm.Add(Bgm_Mp3[i]);
-                        for (int i = 0; i < Bgm_Ogg.Count; i++)
-                            Bgm.Add(Bgm_Ogg[i]);
+                        AddFilesWithoutExtension(Bgm_Mid, "*.mid", Bgm);
+                        AddFilesWithoutExtension(Bgm_Mp3, "*.mp3", Bgm);
+                        AddFilesWithoutExtension(Bgm_Ogg, "*.ogg", Bgm);
                         break;
                     case "sound":
-                        Sound_Wav.AddRange(Directory.GetFiles(folder, "*.wav", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        AddFilesWithoutExtension(Sound_Wav, "*.wav");
                         break;
                     case "image":
-                        Image_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
-                        Image_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
-                        Image_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
+                        AddFilesWithoutExtension(Image_Bmp, "*.bmp", Image);
+                        AddFilesWithoutExtension(Image_Jpg, "*.jpg", Image);
+                        AddFilesWithoutExtension(Image_Png, "*.png", Image);
                         (byte, byte, byte, byte) ReadImageData(string filePath, Dictionary<string, (int left, int top, int right, int bottom)> dictionary)
                         {
 #if NETCOREAPP2_1
@@ -178,20 +182,20 @@ namespace Wahren
                                 ___[i] = 0x5f;
                             ___[8] = 0;
                             ReadOnlySpan<byte> endOfFile = ___;
-                            Span<char> lower = stackalloc char[256];
+                            Span<char> nameSpan = stackalloc char[256];
                             int index;
                             while (true)
                             {
                                 if (file.StartsWith(endOfFile))
                                     return (tmp[2], tmp[1], tmp[0], tmp[3]);
                                 index = file.IndexOf<byte>(0);
-                                if (index > lower.Length)
+                                if (index > nameSpan.Length)
                                     throw new IndexOutOfRangeException();
                                 for (int i = 0; i < index; i++)
-                                    lower[i] = (char)(file[i] >= 0x41 && file[i] <= 0x5a ? (file[i] + 0x20) : file[i]);
+                                    nameSpan[i] = (char)file[i];
                                 var rect = file.Slice(index + 1, 16);
 #if NETCOREAPP2_1
-                                dictionary[String.Intern(new string(lower.Slice(0, index)))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
+                                dictionary[String.Intern(new string(nameSpan.Slice(0, index)))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
 #else
                                 dictionary[String.Intern(new string(lower.Slice(0, index).ToArray()))] = (ReadInt32(rect.Slice(0, 4)), ReadInt32(rect.Slice(4, 4)), ReadInt32(rect.Slice(8, 4)), ReadInt32(rect.Slice(12, 4)));
 #endif
@@ -208,64 +212,34 @@ namespace Wahren
                             Chip2.Add(key);
                         break;
                     case "icon":
-                        Icon_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Icon_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Icon_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        for (int i = 0; i < Icon_Bmp.Count; i++)
-                            Icon.Add(Icon_Bmp[i]);
-                        for (int i = 0; i < Icon_Jpg.Count; i++)
-                            Icon.Add(Icon_Jpg[i]);
-                        for (int i = 0; i < Icon_Png.Count; i++)
-                            Icon.Add(Icon_Png[i]);
+                        AddFilesWithoutExtension(Icon_Bmp, "*.bmp", Icon);
+                        AddFilesWithoutExtension(Icon_Jpg, "*.jpg", Icon);
+                        AddFilesWithoutExtension(Icon_Png, "*.png", Icon);
                         break;
                     case "flag":
-                        Flag_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Flag_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Flag_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        for (int i = 0; i < Flag_Bmp.Count; i++)
-                            Flag.Add(Flag_Bmp[i]);
-                        for (int i = 0; i < Flag_Jpg.Count; i++)
-                            Flag.Add(Flag_Jpg[i]);
-                        for (int i = 0; i < Flag_Png.Count; i++)
-                            Flag.Add(Flag_Png[i]);
+                        AddFilesWithoutExtension(Flag_Bmp, "*.bmp", Flag);
+                        AddFilesWithoutExtension(Flag_Jpg, "*.jpg", Flag);
+                        AddFilesWithoutExtension(Flag_Png, "*.png", Flag);
                         break;
                     case "face":
-                        Face_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
-                        Face_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
-                        Face_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileName(_).ToLower()));
-                        for (int i = 0; i < Face_Bmp.Count; i++)
-                            Face.Add(Face_Bmp[i]);
-                        for (int i = 0; i < Face_Jpg.Count; i++)
-                            Face.Add(Face_Jpg[i]);
-                        for (int i = 0; i < Face_Png.Count; i++)
-                            Face.Add(Face_Png[i]);
+                        AddFilesWithoutExtension(Face_Bmp, "*.bmp", Face);
+                        AddFilesWithoutExtension(Face_Jpg, "*.jpg", Face);
+                        AddFilesWithoutExtension(Face_Png, "*.png", Face);
                         break;
                     case "picture":
-                        Picture_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Picture_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Picture_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
+                        AddFilesWithoutExtension(Picture_Bmp, "*.bmp", Picture);
+                        AddFilesWithoutExtension(Picture_Jpg, "*.jpg", Picture);
+                        AddFilesWithoutExtension(Picture_Png, "*.png", Picture);
                         break;
                     case "chip":
-                        Chip_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Chip_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Chip_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        for (int i = 0; i < Chip_Bmp.Count; i++)
-                            Chip.Add(Chip_Bmp[i]);
-                        for (int i = 0; i < Chip_Jpg.Count; i++)
-                            Chip.Add(Chip_Jpg[i]);
-                        for (int i = 0; i < Chip_Png.Count; i++)
-                            Chip.Add(Chip_Png[i]);
+                        AddFilesWithoutExtension(Chip_Bmp, "*.bmp", Chip);
+                        AddFilesWithoutExtension(Chip_Jpg, "*.jpg", Chip);
+                        AddFilesWithoutExtension(Chip_Png, "*.png", Chip);
                         break;
                     case "chip2":
-                        Chip2_Bmp.AddRange(Directory.GetFiles(folder, "*.bmp", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Chip2_Jpg.AddRange(Directory.GetFiles(folder, "*.jpg", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        Chip2_Png.AddRange(Directory.GetFiles(folder, "*.png", SearchOption.AllDirectories).Select(_ => Path.GetFileNameWithoutExtension(_).ToLower()));
-                        for (int i = 0; i < Chip2_Bmp.Count; i++)
-                            Chip2.Add(Chip2_Bmp[i]);
-                        for (int i = 0; i < Chip2_Jpg.Count; i++)
-                            Chip2.Add(Chip2_Jpg[i]);
-                        for (int i = 0; i < Chip2_Png.Count; i++)
-                            Chip2.Add(Chip2_Png[i]);
+                        AddFilesWithoutExtension(Chip2_Bmp, "*.bmp", Chip2);
+                        AddFilesWithoutExtension(Chip2_Jpg, "*.jpg", Chip2);
+                        AddFilesWithoutExtension(Chip2_Png, "*.png", Chip2);
                         break;
                 }
             }
