@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Wahren.Map
 {
-    public static class MapHelper
+    public static partial class MapHelper
     {
-        private const string COLLIDER = "____coll____";
+        private const string COLLIDER = "________";
         private static readonly (string, byte)[] empty = new(string, byte)[0];
         public static bool TryLoad(string file, out byte width, out byte height, out (string name, byte type)[][] chips)
         {
@@ -65,27 +65,132 @@ namespace Wahren.Map
             }
             return true;
         }
-        public static string[] ConvertToMoveTypeArray(this (string name, byte type)[][] array)
+        public static HashSet<string> FieldAttributeSet(this IEnumerable<FieldData> collection)
+        {
+            var answer = new HashSet<string>();
+            foreach (var item in collection)
+                answer.Add(item.Attribute);
+            return answer;
+        }
+        public static ushort[] MoveList(this List<int> validIndexes, SortedDictionary<uint, double> distances)
+        {
+            int count = validIndexes.Count;
+            var answer = new ushort[count * count];
+            Array.Fill(answer, ushort.MaxValue);
+            for (int i = 0; i < count; i++)
+                answer[i * count + i] = 0;
+            foreach (var (pair, distance) in distances)
+            {
+                var x = (ushort)(pair >> 16);
+                var y = (ushort)(pair & 0xffff);
+            }
+            return answer;
+        }
+        public static SortedDictionary<uint, double> DistanceList(this (string, int)[] array, int width, MoveTypeData moveType, out List<int> validIndexes)
+        {
+            var root2 = Math.Sqrt(2);
+            var height = array.Length / width;
+            // 2x2 => 6
+            // 4x4 => 3(width-1)*4(height) + 3(height)*4(width) + 2 * 3(width-1)*3(height-1) => (w-1)h+w(h-1)+2(w-1)(h-1)=>4wh-3w-3h+2
+            // .-.-.-.
+            // |x|x|x|
+            // .-.-.-.
+            // |x|x|x|
+            // .-.-.-.
+            // |x|x|x|
+            // .-.-.-.
+            var answer = new SortedDictionary<uint, double>();
+            validIndexes = new List<int>(array.Length);
+            var difficulties = new ulong[array.Length];
+            for (int i = 0; i < difficulties.Length; i++)
+            {
+                ref var cell1 = ref array[i];
+                if (!moveType.FieldMoveDictionary.TryGetValue(cell1.Item1, out var difficulty))
+                    difficulty = 5;
+                difficulties[i] = LeastCommonMultipleRange(10) / difficulty;
+            }
+            double GetDistance(int a, int h_a, int b, int h_b, bool isOblique)
+            {
+                var _ = difficulties[a] + difficulties[b];
+                long __ = h_b - h_a;
+                return Math.Sqrt((isOblique ? 2ul : 1ul) * _ * _ + (ulong)(__ * __));
+            }
+            void GetTuple(int index1, int index2, bool isOblique)
+            {
+                ref var cell2 = ref array[index2];
+                if (cell2.Item1 == MapHelper.COLLIDER)
+                    return;
+                answer.Add(((ushort)((index1 << 16) | index2)), GetDistance(index2, array[index1].Item2, index2, cell2.Item2, isOblique));
+            }
+            ushort j = 0;
+            ushort k = 0;
+            for (ushort i = 0; i < array.Length - 1; j++, i++)
+            {
+                ref var cell1 = ref array[i];
+                if (cell1.Item1 == MapHelper.COLLIDER)
+                    continue;
+                validIndexes.Add(i);
+                if (j == width)
+                {
+                    j = 0;
+                    ++k;
+                }
+                if (k == height - 1)
+                {
+                    GetTuple(i, i + 1, false);
+                    continue;
+                }
+                if (j == 0)
+                {
+                    GetTuple(i, i + 1, false);
+                    GetTuple(i, i + width, false);
+                    try
+                    {
+                        GetTuple(i, i + 1 + width, true);
+                    }
+                    catch
+                    {
+                        System.Console.Error.WriteLine(width);
+                        System.Console.Error.WriteLine(height);
+                        System.Console.Error.WriteLine(k);
+                        System.Console.Error.WriteLine(i);
+                        System.Console.Error.WriteLine(i + 1 + width);
+                        System.Console.Error.WriteLine(array.Length);
+                    }
+                }
+                else if (j == width - 1)
+                {
+                    GetTuple(i, i - 1 + width, true);
+                    GetTuple(i, i + width, false);
+                }
+                else
+                {
+                    GetTuple(i, i + 1, false);
+                    GetTuple(i, i - 1 + width, true);
+                    GetTuple(i, i + width, false);
+                    GetTuple(i, i + 1 + width, true);
+                }
+            }
+            if (array[array.Length - 1].Item1 != COLLIDER)
+                validIndexes.Add(array.Length - 1);
+            return answer;
+        }
+        public static (string, int)[] ConvertToFieldAttributeAndHeightArray(this (string name, byte type)[][] array)
         {
             if (array == null) throw new ArgumentNullException();
-            var answer = new string[array.Length];
+            var answer = new(string, int)[array.Length];
             for (int i = 0; i < array.Length; i++)
             {
+                ref var ans = ref answer[i];
                 ref var cell = ref array[i];
                 for (int j = 0; j < cell.Length; j++)
                 {
-                    if (!Object.ReferenceEquals(answer[i], null))
-                        break;
                     ref var chip = ref cell[j];
                     switch (chip.type)
                     {
                         case 0:
                             if (ScriptLoader.FieldDictionary.TryGetValue(chip.name, out var fieldData))
-                            {
-                                if (fieldData.Type == FieldData.ChipType.None)
-                                    answer[i] = fieldData.Attribute;
-                                else answer[i] = COLLIDER;
-                            }
+                                ans = (fieldData.Type == FieldData.ChipType.None ? fieldData.Attribute : COLLIDER, fieldData.Alt_min ?? 0);
                             else throw new Exception("index:" + i + ',' + j + "\nname:" + chip.name);
                             break;
                         case 1:
@@ -96,7 +201,7 @@ namespace Wahren.Map
                                     case ObjectData.ChipType.coll:
                                     case ObjectData.ChipType.wall:
                                     case ObjectData.ChipType.wall2:
-                                        answer[i] = COLLIDER;
+                                        ans = (COLLIDER, ans.Item2);
                                         break;
                                 }
                             }

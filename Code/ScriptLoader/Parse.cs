@@ -1411,7 +1411,7 @@ namespace Wahren
                         InsertStringOnlyList(assign, power.FilledWithNull, power.Friend);
                         break;
                     case "flag":
-                        power.FlagPath = Intern(InsertString(assign, power.FilledWithNull));
+                        power.FlagPath = InternLower(InsertString(assign, power.FilledWithNull));
                         break;
                     case "event":
                         power.IsEvent = InsertBool(assign, power.FilledWithNull);
@@ -1744,7 +1744,7 @@ namespace Wahren
                         unit.PowerDisplayName = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
                         break;
                     case "flag":
-                        unit.Flag = InsertString(keyVal.Value, unit.FilledWithNull); removeList.Add(keyVal.Key);
+                        unit.Flag = InternLower(InsertString(keyVal.Value, unit.FilledWithNull)); removeList.Add(keyVal.Key);
                         break;
                     case "staff":
                         InsertStringOnlyList(keyVal.Value, unit.FilledWithNull, unit.Staff); removeList.Add(keyVal.Key);

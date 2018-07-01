@@ -85,6 +85,17 @@ namespace Wahren
 
             foreach (var folder in Directory.GetDirectories(folderPath))
             {
+                void AddFilesWithoutExtensionLower(List<string> list, string pattern, HashSet<string> group = null)
+                {
+                    var collection = Directory.GetFiles(folder, pattern, SearchOption.AllDirectories).Select(_ => string.Intern(Path.GetFileNameWithoutExtension(_).ToLower()));
+                    if (group == null)
+                        list.AddRange(collection);
+                    else foreach (var item in collection)
+                        {
+                            list.Add(item);
+                            group.Add(item);
+                        }
+                }
                 void AddFilesWithoutExtension(List<string> list, string pattern, HashSet<string> group = null)
                 {
                     var collection = Directory.GetFiles(folder, pattern, SearchOption.AllDirectories).Select(_ => string.Intern(Path.GetFileNameWithoutExtension(_)));
@@ -217,9 +228,9 @@ namespace Wahren
                         AddFilesWithoutExtension(Icon_Png, "*.png", Icon);
                         break;
                     case "flag":
-                        AddFilesWithoutExtension(Flag_Bmp, "*.bmp", Flag);
-                        AddFilesWithoutExtension(Flag_Jpg, "*.jpg", Flag);
-                        AddFilesWithoutExtension(Flag_Png, "*.png", Flag);
+                        AddFilesWithoutExtensionLower(Flag_Bmp, "*.bmp", Flag);
+                        AddFilesWithoutExtensionLower(Flag_Jpg, "*.jpg", Flag);
+                        AddFilesWithoutExtensionLower(Flag_Png, "*.png", Flag);
                         break;
                     case "face":
                         AddFilesWithoutExtension(Face_Bmp, "*.bmp", Face);

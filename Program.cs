@@ -142,21 +142,25 @@ namespace Wahren
                 map.OnExecute(() =>
                 {
                     ScriptLoader.InitializeComponent(folderArgument.Value);
-                    if (Map.MapHelper.TryLoad(Path.Combine(Path.Combine(folderArgument.Value, "stage"), ScriptLoader.Folder.Stage_Map.First() + ".map"), out var w, out var h, out var chips))
+                    if (Map.MapHelper.TryLoad(Path.Combine(Path.Combine(folderArgument.Value, "stage"), "s25_kazeto.map"), out var w, out var h, out var chips))
                     {
-                        System.Console.WriteLine(ScriptLoader.Folder.Stage_Map.First());
-                        Console.Write("Width:");
-                        Console.WriteLine(w);
-                        Console.Write("Height:");
-                        Console.WriteLine(h);
-                        var array = Map.MapHelper.ConvertToMoveTypeArray(chips);
-                        for (int i = 0; i < array.Length; i++)
-                        {
-                            if (i % w == 0) Console.WriteLine();
-                            Console.Write("[ ");
-                            Console.Write(array[i]);
-                            Console.Write(" ], ");
-                        }
+                        // System.Console.WriteLine("s25_kazeto");
+                        // Console.Write("Width:");
+                        // Console.WriteLine(w);
+                        // Console.Write("Height:");
+                        // Console.WriteLine(h);
+                        MoveTypeData moveType = ScriptLoader.MoveTypeDictionary.Values.Last();
+                        var array = Map.MapHelper.DistanceList(Map.MapHelper.ConvertToFieldAttributeAndHeightArray(chips), w, moveType, out var valid);
+                        // for (int i = 0; i < array.Length; i++)
+                        // {
+                        //     Console.Write("(");
+                        //     Console.Write(array[i].Item1);
+                        //     Console.Write(":");
+                        //     Console.Write(array[i].Item2);
+                        //     Console.Write(":");
+                        //     Console.Write(array[i].Item3);
+                        //     Console.WriteLine("), ");
+                        // }
                     }
                     return 0;
                 });

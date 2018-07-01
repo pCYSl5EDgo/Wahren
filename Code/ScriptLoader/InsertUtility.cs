@@ -15,6 +15,7 @@ namespace Wahren
             }
         }
         static string Intern(string str) => str == null ? null : string.Intern(str);
+        static string InternLower(string str) => str == null ? null : string.Intern(str.ToLower());
 
         static string InsertString(LexicalTree_Assign assign, List<string> fillWithNull)
         {
