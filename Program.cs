@@ -9,6 +9,8 @@ using SixLabors.ImageSharp.PixelFormats;
 using Wahren.Unity;
 using Wahren.Specific;
 
+using static Farmhash.Sharp.Farmhash;
+
 namespace Wahren
 {
     static class Program
@@ -19,6 +21,38 @@ namespace Wahren
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             app = new CommandLineApplication();
             app.Name = nameof(Wahren);
+            app.Command("decode", (decode) =>
+            {
+                var folderArgument = decode.Argument("folder", "", false);
+                decode.OnExecute(() =>
+                {
+                    var sc = new ScenarioFolder(folderArgument.Value);
+                    var facePath = Path.Combine(sc.FullName, "face");
+                    var imagePath = Path.Combine(sc.FullName, "image");
+                    byte[] tmp;
+                    void Decode(List<string> list, string appendix, string path)
+                    {
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            FileInfo fileInfo = new FileInfo(Path.Combine(path, list[i] + appendix));
+                            using (var input = fileInfo.OpenRead())
+                            {
+                                var _ = new byte[input.Length];
+                                input.Read(_);
+                                PicEncoder.ImageChg.Decode(_, out tmp);
+                            }
+                            using (var output = fileInfo.OpenWrite())
+                                output.Write(tmp);
+                        }
+                    }
+                    Decode(sc.Image_Png, ".png", imagePath);
+                    Decode(sc.Face_Png, ".png", facePath);
+                    Decode(sc.Image_Bmp, ".bmp", imagePath);
+                    Decode(sc.Face_Bmp, ".bmp", facePath);
+                    Decode(sc.Image_Jpg, ".jpg", imagePath);
+                    return 0;
+                });
+            });
             app.Command("image", (image) =>
             {
                 var folderArgument = image.Argument("folder", "", false);
@@ -59,17 +93,56 @@ namespace Wahren
                     void AppendChip(string f, List<string> bmps, List<string> jpgs, List<string> pngs)
                     {
                         var chipDir = Path.Combine(destinationFolder, f);
+                        var src = Path.Combine(sc.FullName, f);
                         for (int i = 0; i < bmps.Count; i++)
-                            using (var input = Image.Load(bmps[i]))
+                            using (var input = Image.Load(Path.Combine(src, bmps[i] + ".bmp")))
                                 input.Save(Path.Combine(chipDir, bmps[i] + ".png"));
                         for (int i = 0; i < jpgs.Count; i++)
-                            using (var input = Image.Load(jpgs[i]))
+                            using (var input = Image.Load(Path.Combine(src, jpgs[i] + ".jpg")))
                                 input.Save(Path.Combine(chipDir, jpgs[i] + ".png"));
                         for (int i = 0; i < pngs.Count; i++)
-                            File.Copy(pngs[i], Path.Combine(chipDir, pngs[i] + ".png"), true);
+                            File.Copy(Path.Combine(src, pngs[i] + ".png"), Path.Combine(chipDir, pngs[i] + ".png"), true);
                     }
                     Directory.CreateDirectory(Path.Combine(destinationFolder, "chip"));
                     Directory.CreateDirectory(Path.Combine(destinationFolder, "chip2"));
+                    Directory.CreateDirectory(Path.Combine(destinationFolder, "Face"));
+                    Directory.CreateDirectory(Path.Combine(destinationFolder, "Flag"));
+                    Rgb24 faceTrans;
+                    using (var faceInput = Image.Load(Path.Combine(sc.FullName, "Face/noface.png")))
+                        faceTrans = faceInput[0, 0].Rgb;
+                    void AddFlag(string flag, string append)
+                    {
+                        using (var input = Image.Load(Path.Combine(sc.FullName, "Flag/" + flag + append)))
+                        using (var out0 = new Image<Rgba32>(32, 32))
+                        using (var out1 = new Image<Rgba32>(32, 32))
+                        {
+                            for (int j = 0; j < 64; j++)
+                                for (int k = 0; k < 32; k++)
+                                    if (j < 32)
+                                        out0[j, k] = input[j, k].Equals(Rgba32.Black) ? Rgba32.Transparent : input[j, k];
+                                    else
+                                        out1[j - 32, k] = input[j, k].Equals(Rgba32.Black) ? Rgba32.Transparent : input[j, k];
+                            out0.Save(Path.Combine(destinationFolder, "Flag/" + flag + "_0.png"));
+                            out1.Save(Path.Combine(destinationFolder, "Flag/" + flag + "_1.png"));
+                        }
+                    }
+                    void AddFace(string face)
+                    {
+                        using (var input = Image.Load(Path.Combine(sc.FullName, "Face/" + face + ".png")))
+                        {
+                            for (int j = 0; j < input.Width; j++)
+                                for (int k = 0; k < input.Height; k++)
+                                    if (input[j, k].Rgb.Equals(faceTrans))
+                                        input[j, k] = Rgba32.Transparent;
+                            input.Save(Path.Combine(destinationFolder, "Face/" + face + ".png"));
+                        }
+                    }
+                    for (int i = 0; i < sc.Flag_Bmp.Count; i++)
+                        AddFlag(sc.Flag_Bmp[i], ".bmp");
+                    for (int i = 0; i < sc.Flag_Png.Count; i++)
+                        AddFlag(sc.Flag_Bmp[i], ".png");
+                    for (int i = 0; i < sc.Face_Png.Count; i++)
+                        AddFace(sc.Face_Png[i]);
                     if (sc.ImageData1Dictionary.Count != 0)
                         ProcessChip("chip", sc.ImageData1TransparentColor, sc.ImageData1, sc.ImageData1Dictionary);
                     if (sc.ImageData2Dictionary.Count != 0)
@@ -165,11 +238,12 @@ namespace Wahren
                     return 0;
                 });
             });
+            app.Command("parse", (parse) =>
             {
-                var folderArgument = app.Argument("folder", "", false);
-                var getOnlyOption = app.Option("--getOnly", "", CommandOptionType.NoValue);
-                var setOnlyOption = app.Option("--setOnly", "", CommandOptionType.NoValue);
-                app.OnExecute(() =>
+                var folderArgument = parse.Argument("folder", "", false);
+                var getOnlyOption = parse.Option("--getOnly", "", CommandOptionType.NoValue);
+                var setOnlyOption = parse.Option("--setOnly", "", CommandOptionType.NoValue);
+                parse.OnExecute(() =>
                 {
                     var isGetOnly = getOnlyOption.HasValue();
                     var isSetOnly = setOnlyOption.HasValue();
@@ -253,7 +327,95 @@ namespace Wahren
                     #endregion
                     return 0;
                 });
-            }
+            });
+            app.Command("variable", (variable) =>
+            {
+                var folderArgument = variable.Argument("folder", "", false);
+                var output = variable.Argument("output", "", false);
+                variable.OnExecute(() =>
+                {
+                    ScriptLoader.InitializeComponent(folderArgument.Value);
+                    var scenarios = ScriptLoader.Scenarios;
+                    var variables = new HashSet<string>();
+                    var identifiers = new HashSet<string>();
+                    for (int i = 0; i < scenarios.Length; i++)
+                    {
+                        ref var sc = ref scenarios[i];
+                        foreach (var item in sc.Variable_Get)
+                            variables.Add(item);
+                        foreach (var item in sc.Variable_Set)
+                            variables.Add(item);
+                        foreach (var item in sc.Identifier_Get)
+                            identifiers.Add(item);
+                        foreach (var item in sc.Identifier_Set)
+                            identifiers.Add(item);
+                    }
+                    using (var sw = new StreamWriter(output.Value, append: false, Encoding.UTF8))
+                    {
+                        sw.Write("using System;\nusing System.Collections.Generic;\n\nnamespace Wahren\n{\n\tpublic static class Variables\n\t{\n");
+                        const string Value = "\t\tpublic static void Clear()\n\t\t{\n";
+                        var buf = new StringBuilder(64 * variables.Count).Append(Value);
+                        var reflection = new StringBuilder(32 * variables.Count).Append("\t\tpublic static ref List<ulong> GetRef(ulong name)\n\t\t{\n\t\t\tswitch(name)\n\t\t\t{\n");
+                        foreach (var item in variables)
+                        {
+                            var _ = item.Substring(1);
+                            sw.Write("\t\tpublic static List<ulong> ");
+                            sw.Write(_);
+                            sw.Write(";\n");
+                            buf.Append("\t\t\tif(")
+                            .Append(_)
+                            .Append(" != null)")
+                            .Append(_)
+                            .Append(".Clear();\n");
+                            reflection.Append("\t\t\t\tcase ").Append(Hash64(_)).Append("ul:\n\t\t\t\t\treturn ref ").Append(_).Append(";\n");
+                        }
+                        sw.Write(buf.Append("\t\t}\n").ToString());
+                        sw.Write(reflection.Append("\t\t\t\tdefault: throw new ArgumentException(name.ToString());\n\t\t\t}\n\t\t}\n").ToString());
+                        sw.Write("\t}\n\tpublic static class Identifiers\n\t{\n");
+                        var save = new StringBuilder(buf.Capacity).Append("\t\tpublic static byte[] Save()\n\t\t{\n\t\t\tvar answer = new byte[8 * ").Append(identifiers.Count).Append("];\n");
+                        var load = new StringBuilder(buf.Capacity).Append("\t\tpublic static void Load(byte[] input)\n\t\t{\n");
+                        buf.Clear().Append(Value);
+                        reflection.Clear().Append("\t\tpublic static ref long GetRef(ulong name)\n\t\t{\n\t\t\tswitch(name)\n\t\t\t{\n");
+                        var i = 0;
+                        var j = 0;
+                        foreach (var item in identifiers)
+                        {
+                            sw.Write("\t\tpublic static long ");
+                            sw.Write(item);
+                            sw.Write(";\n");
+                            buf.Append("\t\t\t")
+                            .Append(item)
+                            .Append(" = 0;\n");
+                            reflection.Append("\t\t\t\tcase ").Append(Hash64(item)).Append("ul:\n\t\t\t\t\treturn ref ").Append(item).Append(";\n");
+                            save
+                            .Append("\t\t\tanswer[").Append(8 * i).Append("] = (byte)").Append(item).Append(";\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 1).Append("] = (byte)((ulong)(").Append(item).Append(") >> 8);\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 2).Append("] = (byte)((ulong)(").Append(item).Append(") >> 16);\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 3).Append("] = (byte)((ulong)(").Append(item).Append(") >> 24);\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 4).Append("] = (byte)((ulong)(").Append(item).Append(") >> 32);\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 5).Append("] = (byte)((ulong)(").Append(item).Append(") >> 40);\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 6).Append("] = (byte)((ulong)(").Append(item).Append(") >> 48);\n")
+                            .Append("\t\t\tanswer[").Append(8 * i + 7).Append("] = (byte)((ulong)(").Append(item).Append(") >> 56);\n");
+                            load.Append("\t\t\t").Append(item).Append(" = (long)((ulong)input[")
+                            .Append(j++).Append("] + ((ulong)input[").Append(j++)
+                            .Append("] << 8) + ((ulong)input[").Append(j++)
+                            .Append("] << 16) + ((ulong)input[").Append(j++)
+                            .Append("] << 24) + ((ulong)input[").Append(j++)
+                            .Append("] << 32) + ((ulong)input[").Append(j++)
+                            .Append("] << 40) + ((ulong)input[").Append(j++)
+                            .Append("] << 48) + ((ulong)input[").Append(j++)
+                            .Append("] << 56));\n");
+                            ++i;
+                        }
+                        sw.Write(buf.Append("\t\t}\n").ToString());
+                        sw.Write(save.Append("\t\t\treturn answer;\n\t\t}\n").ToString());
+                        sw.Write(load.Append("\t\t}\n").ToString());
+                        sw.Write(reflection.Append("\t\t\t\tdefault: throw new ArgumentException(name.ToString());\n\t\t\t}\n\t\t}\n").ToString());
+                        sw.Write("\t}\n}");
+                    }
+                    return 0;
+                });
+            });
         }
         static void Main(string[] args)
         {

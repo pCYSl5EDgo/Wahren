@@ -10,6 +10,7 @@ namespace Wahren
     public class ScenarioFolder
     {
         public string Name { get; protected set; }
+        public string FullName { get; protected set; }
         private enum EncType : byte { UTF8, Unicode, Shift_JIS };
         private EncType encType = EncType.Shift_JIS;
         public bool IsShiftJis => EncType.Shift_JIS == encType;
@@ -81,7 +82,9 @@ namespace Wahren
         public ScenarioFolder(string folderPath, bool isDebug = false)
         {
             IsDebug = isDebug;
-            Name = new DirectoryInfo(folderPath).Name;
+            DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+            Name = directoryInfo.Name;
+            FullName = directoryInfo.FullName;
 
             foreach (var folder in Directory.GetDirectories(folderPath))
             {
