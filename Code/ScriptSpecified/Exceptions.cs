@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Wahren.Specific
+namespace Wahren.Analysis.Specific
 {
     [Serializable]
     public class NotFoundException : Exception

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Wahren.Map
+namespace Wahren.Analysis.Map
 {
     public sealed class Map
     {

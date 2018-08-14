@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using MessagePack;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public enum StructureDataType
     {

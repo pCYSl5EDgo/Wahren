@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Concurrent;
-using Wahren.Specific;
+using Wahren.Analysis.Specific;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public static partial class ScriptLoader
     {

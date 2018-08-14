@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using static Farmhash.Sharp.Farmhash;
 
-namespace Wahren.Unity
+namespace Wahren.Analysis.Unity
 {
     public static partial class FileCreator
     {

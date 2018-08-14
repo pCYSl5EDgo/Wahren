@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public static partial class ScriptLoader
     {

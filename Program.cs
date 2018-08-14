@@ -6,12 +6,12 @@ using System.IO;
 using Microsoft.Extensions.CommandLineUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using Wahren.Unity;
-using Wahren.Specific;
+using Wahren.Analysis.Unity;
+using Wahren.Analysis.Specific;
 
 using static Farmhash.Sharp.Farmhash;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     static class Program
     {
@@ -352,7 +352,7 @@ namespace Wahren
                     }
                     using (var sw = new StreamWriter(output.Value, append: false, Encoding.UTF8))
                     {
-                        sw.Write("using System;\nusing System.Collections.Generic;\n\nnamespace Wahren\n{\n\tpublic static class Variables\n\t{\n");
+                        sw.Write("using System;\nusing System.Collections.Generic;\n\nnamespace Wahren.Analysis\n{\n\tpublic static class Variables\n\t{\n");
                         const string Value = "\t\tpublic static void Clear()\n\t\t{\n";
                         var buf = new StringBuilder(64 * variables.Count).Append(Value);
                         var reflection = new StringBuilder(32 * variables.Count).Append("\t\tpublic static ref List<ulong> GetRef(ulong name)\n\t\t{\n\t\t\tswitch(name)\n\t\t\t{\n");

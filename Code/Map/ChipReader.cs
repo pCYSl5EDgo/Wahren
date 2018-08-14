@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Wahren.Map
+namespace Wahren.Analysis.Map
 {
     public static class DefaultChipReader
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public sealed class ScriptLoadingException : ApplicationException
     {

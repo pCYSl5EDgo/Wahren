@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Wahren.Map
+namespace Wahren.Analysis.Map
 {
     public static partial class MapHelper
     {

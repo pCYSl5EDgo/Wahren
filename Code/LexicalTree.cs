@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MessagePack;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     [MessagePackObject]
     public class LexicalTree : IName, IDebugInfo

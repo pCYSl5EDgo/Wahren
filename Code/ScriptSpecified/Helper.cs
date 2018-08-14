@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace Wahren.Specific
+namespace Wahren.Analysis.Specific
 {
     internal static class ScenarioData2Helper
     {

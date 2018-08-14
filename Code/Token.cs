@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using MessagePack;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     [MessagePackObject]
     public struct Token : IDebugInfo

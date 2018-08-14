@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MessagePack;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public interface IScript
     {

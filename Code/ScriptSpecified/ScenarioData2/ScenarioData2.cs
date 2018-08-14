@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MessagePack;
 
-namespace Wahren.Specific
+namespace Wahren.Analysis.Specific
 {
     [MessagePackObject]
     public sealed class ScenarioData2

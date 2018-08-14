@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public static partial class ScriptLoader
     {

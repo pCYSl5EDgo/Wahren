@@ -1,6 +1,6 @@
 using System;
 
-namespace Wahren.Data.ECS
+namespace Wahren.Analysis.Data.ECS
 {
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class ISharedComponentDataReferenceAttribute : Attribute

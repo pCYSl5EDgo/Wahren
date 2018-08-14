@@ -2,11 +2,11 @@ using System;
 using System.Text;
 using static Farmhash.Sharp.Farmhash;
 
-namespace Wahren.Unity
+namespace Wahren.Analysis.Unity
 {
     public static partial class FileCreator
     {
-        public static string ScenarioCreator(this Wahren.Specific.ScenarioData2 scenario)
+        public static string ScenarioCreator(this Wahren.Analysis.Specific.ScenarioData2 scenario)
         {
             var buf = new StringBuilder()
             .Append("new ScenarioData(")

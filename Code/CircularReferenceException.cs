@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     [Serializable]
     public class CircularReferenceException : Exception

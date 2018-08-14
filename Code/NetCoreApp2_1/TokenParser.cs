@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Wahren.NetCoreApp2_1
+namespace Wahren.Analysis.NetCoreApp2_1
 {
     public static class TokenParser
     {

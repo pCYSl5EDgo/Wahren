@@ -3,7 +3,7 @@ using System;
 using System.Numerics;
 using System.Globalization;
 
-namespace Wahren.NetCoreApp2_1
+namespace Wahren.Analysis.NetCoreApp2_1
 {
     public struct Token
     {

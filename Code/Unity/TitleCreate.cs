@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Wahren.Unity
+namespace Wahren.Analysis.Unity
 {
     public static partial class FileCreator
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Wahren.Unity
+namespace Wahren.Analysis.Unity
 {
     public static class StringModifier
     {

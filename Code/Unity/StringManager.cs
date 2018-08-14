@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Immutable;
 using System.Collections.Generic;
 
-namespace Wahren.Unity
+namespace Wahren.Analysis.Unity
 {
     using static Farmhash.Sharp.Farmhash;
     public static class StringManager
@@ -14,7 +14,7 @@ namespace Wahren.Unity
             var set = new Dictionary<ulong, string>();
             buf.Append(@"using System.Collections.Immutable;
 
-namespace Wahren{
+namespace Wahren.Analysis{
     public static class StringManager{
         public static readonly ImmutableDictionary<ulong, string> StringMap;
         static StringManager(){

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Wahren.Specific
+namespace Wahren.Analysis.Specific
 {
     //書き換え可能な構造体とか本当に酷いものだ
     //構文解析器を独自に実装したけれど……　もうこれ自分でも何書いてるかわかんねえな

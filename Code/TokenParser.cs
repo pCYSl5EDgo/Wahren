@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.Pipelines;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public static class TokenParser
     {
@@ -530,6 +531,8 @@ namespace Wahren
             }
             return answer;
         }
+
+
         public static IEnumerable<Token> RemoveDebugCommentWhiteSpace(this List<Token> input)
         {
             for (int i = 0; i < input.Count; i++)
@@ -547,6 +550,12 @@ namespace Wahren
                 if (input[i].Type == 0 && string.IsNullOrWhiteSpace(input[i].Content)) continue;
                 yield return input[i];
             }
+        }
+
+
+
+        static Task A(){
+            return Task.CompletedTask;
         }
     }
 }

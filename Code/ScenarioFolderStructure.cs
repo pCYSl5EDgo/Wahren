@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public class ScenarioFolder
     {

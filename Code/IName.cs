@@ -1,4 +1,4 @@
-namespace Wahren
+namespace Wahren.Analysis
 {
     public interface IName
     {

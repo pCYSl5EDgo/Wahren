@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Tasks;
-using Wahren.Specific;
+using Wahren.Analysis.Specific;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public static partial class ScriptLoader
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MessagePack;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     [MessagePackObject]
     public class GenericUnitData : CommonUnitData

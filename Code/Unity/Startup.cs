@@ -1,6 +1,6 @@
 using System;
 
-namespace Wahren.Unity
+namespace Wahren.Analysis.Unity
 {
     public static partial class FileCreator
     {
@@ -11,7 +11,7 @@ using UnityEngine.U2D;
 using System.IO;
 using UnityEditor;
 #if UNITY_EDITOR
-namespace Wahren{
+namespace Wahren.Analysis{
     public class ChooseScene : EditorWindow
     {
         const string ImageFolder = ""Assets/Image/"";

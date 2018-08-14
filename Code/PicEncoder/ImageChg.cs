@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Wahren.PicEncoder
+namespace Wahren.Analysis.PicEncoder
 {
     public static class ImageChg
     {

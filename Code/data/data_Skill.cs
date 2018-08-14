@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MessagePack;
 
-namespace Wahren
+namespace Wahren.Analysis
 {
     public enum StrType { None, Attack, Magic, AttackMagic, AttackDext, MagicDext, Fix }
     [MessagePackObject]

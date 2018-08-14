@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Wahren.Map
+namespace Wahren.Analysis.Map
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct ChipData
