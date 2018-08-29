@@ -9,6 +9,8 @@ namespace Wahren.Analysis
 {
     public static class TokenParser
     {
+        static readonly char[] array = new char[] { default(char), default(char), default(char), default(char), '/', '*', '=', '!', '>', '<', '&', '|', '+', '-' };
+
         public static async Task<List<Token>> Parse(this string file, Encoding encoding, bool englishMode)
         {
             if (englishMode) throw new NotImplementedException("英文モードは現在サポートしてません。");
@@ -48,7 +50,6 @@ namespace Wahren.Analysis
             // /+と同じ列では\nが出るまでdebugLine = true;
             bool debugLine = false;
             var buf = new StringBuilder();
-            char[] array = new char[0x0d + 1] { default(char), default(char), default(char), default(char), '/', '*', '=', '!', '>', '<', '&', '|', '+', '-' };
             var answer = new List<Token>(4096);
             string content;
             void inOneLineProcess(ReadOnlySpan<char> span)

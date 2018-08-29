@@ -58,6 +58,18 @@ namespace Wahren.Analysis
                                 tpl = new ValueTuple<string, int>(attribute.Content[0].Content, 0);
                             Attribute.TryAdd(attribute.Name, tpl);
                         }
+                        Attribute.TryAdd("poi", ("毒", 10));
+                        Attribute.TryAdd("para", ("麻痺", 10));
+                        Attribute.TryAdd("ill", ("幻覚", 10));
+                        Attribute.TryAdd("sil", ("沈黙", 10));
+                        Attribute.TryAdd("conf", ("混乱", 10));
+                        Attribute.TryAdd("stone", ("石化", 10));
+                        Attribute.TryAdd("fear", ("恐慌", 10));
+                        Attribute.TryAdd("suck", ("吸血", 10));
+                        Attribute.TryAdd("magsuck", ("魔吸", 10));
+                        Attribute.TryAdd("drain", ("ﾄﾞﾚｲﾝ", 10));
+                        Attribute.TryAdd("death", ("即死", 10));
+                        Attribute.TryAdd("wall", ("城壁", 10));
                         break;
                     case StructureDataType.Context:
                         ContextParse(SelectAssign(tree));
