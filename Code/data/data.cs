@@ -59,38 +59,6 @@ namespace Wahren.Analysis
     }
     public sealed class AttributeData : ConcurrentDictionary<string, ValueTuple<string, int>>
     {
-        public AttributeData()
-        {
-            this["poi"] = new ValueTuple<string, int>("毒", 10);
-            this["para"] = new ValueTuple<string, int>("麻痺", 10);
-            this["ill"] = new ValueTuple<string, int>("幻覚", 10);
-            this["sil"] = new ValueTuple<string, int>("沈黙", 10);
-            this["conf"] = new ValueTuple<string, int>("混乱", 10);
-            this["stone"] = new ValueTuple<string, int>("石化", 10);
-            this["fear"] = new ValueTuple<string, int>("恐慌", 10);
-            this["suck"] = new ValueTuple<string, int>("吸血", 10);
-            this["magsuck"] = new ValueTuple<string, int>("魔吸", 10);
-            this["drain"] = new ValueTuple<string, int>("ﾄﾞﾚｲﾝ", 10);
-            this["death"] = new ValueTuple<string, int>("即死", 10);
-            this["wall"] = new ValueTuple<string, int>("城壁", 10);
-        }
-        public new bool Clear()
-        {
-            base.Clear();
-            this["poi"] = new ValueTuple<string, int>("毒", 10);
-            this["para"] = new ValueTuple<string, int>("麻痺", 10);
-            this["ill"] = new ValueTuple<string, int>("幻覚", 10);
-            this["sil"] = new ValueTuple<string, int>("沈黙", 10);
-            this["conf"] = new ValueTuple<string, int>("混乱", 10);
-            this["stone"] = new ValueTuple<string, int>("石化", 10);
-            this["fear"] = new ValueTuple<string, int>("恐慌", 10);
-            this["suck"] = new ValueTuple<string, int>("吸血", 10);
-            this["magsuck"] = new ValueTuple<string, int>("魔吸", 10);
-            this["drain"] = new ValueTuple<string, int>("ﾄﾞﾚｲﾝ", 10);
-            this["death"] = new ValueTuple<string, int>("即死", 10);
-            this["wall"] = new ValueTuple<string, int>("城壁", 10);
-            return true;
-        }
     }
     public sealed class WorkspaceData : ConcurrentDictionary<string, string> { }
 

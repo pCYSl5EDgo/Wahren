@@ -1085,6 +1085,40 @@ namespace Wahren.Analysis
                     case "type":
                         skill.StatusType = InsertByte(assign, skill.FilledWithNull);
                         break;
+                    case "func":
+                        if (assign.Content[0].Symbol1 == '@')
+                        {
+                            skill.Type = SkillData.FuncType.None;
+                            skill.FilledWithNull.Add(assign.Name);
+                            continue;
+                        }
+                        skill.FilledWithNull.Remove(assign.Name);
+                        switch (assign.Content[0].Content)
+                        {
+                            case "missile":
+                                skill.Type = SkillData.FuncType.missile;
+                                break;
+                            case "sword":
+                                skill.Type = SkillData.FuncType.sword;
+                                break;
+                            case "heal":
+                                skill.Type = SkillData.FuncType.heal;
+                                break;
+                            case "summon":
+                                skill.Type = SkillData.FuncType.summon;
+                                break;
+                            case "charge":
+                                skill.Type = SkillData.FuncType.charge;
+                                break;
+                            case "status":
+                                skill.Type = SkillData.FuncType.status;
+                                break;
+                            case "none":
+                                skill.Type = SkillData.FuncType.None;
+                                break;
+                            default: throw new ScriptLoadingException(assign);
+                        }
+                        break;
                     default:
                         ScenarioVariantRoutine(assign, skill.VariantData);
                         break;
