@@ -1,0 +1,204 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <t4LibFolder>$(MSBuildProjectDirectory)\..\Wahren.AbstractSyntaxTree.TextTemplateHelper\bin\Debug\netstandard2.0</t4LibFolder>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <T4ParameterValues Include="t4LibFolder">
+      <Value>$(t4LibFolder)</Value>
+    </T4ParameterValues>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ActionKindTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ActionKindTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Formatter\UnicodeFomatterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Formatter\UnicodeFormatterHelperTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UnicodeFormatterHelperTemplate.tt</DependentUpon>
+    </None>
+    <None Include="FunctionKindTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FunctionKindTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Node\ContextNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ContextNodeTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Node\InheritableNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InheritableNodeTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Node\BlockContainerNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BlockContainerNodeTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Parser\Parser_Discard_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
+    </None>
+    <None Include="Parser\Parser_Inheritable_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Inheritable_Template.tt</DependentUpon>
+    </None>
+    <None Include="Parser\Parser_BlockContainer_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
+    </None>
+    <None Include="TokenUtilityTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TokenUtilityTextTemplate.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PooledList\Wahren.PooledList.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="ActionKindTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActionKindTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Formatter\UnicodeFomatterTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UnicodeFomatterTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Formatter\UnicodeFormatterHelperTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UnicodeFormatterHelperTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="FunctionKindTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FunctionKindTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Node\ContextNodeTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ContextNodeTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Node\InheritableNodeTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InheritableNodeTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Node\BlockContainerNodeTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BlockContainerNodeTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Parser\Parser_Discard_Template.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parser_Discard_Template.cs</LastGenOutput>
+    </None>
+    <None Update="Parser\Parser_Inheritable_Template.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parser_Inheritable_Template.cs</LastGenOutput>
+    </None>
+    <None Update="Parser\Parser_BlockContainer_Template.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
+    </None>
+    <None Update="TokenUtilityTextTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TokenUtilityTextTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ActionKindTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ActionKindTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Formatter\UnicodeFomatterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Formatter\UnicodeFormatterHelperTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UnicodeFormatterHelperTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="FunctionKindTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FunctionKindTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Node\BlockContainerNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BlockContainerNodeTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Node\ContextNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ContextNodeTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Node\InheritableNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InheritableNodeTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Node\PowerNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PowerNodeTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Node\ScenarioNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ScenarioNodeTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Parser_BlockContainer_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Parser_Discard_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Parser_Inheritable_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Inheritable_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Parser_Power_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Power_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Parser_Scenario_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="TokenUtilityTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TokenUtilityTextTemplate.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

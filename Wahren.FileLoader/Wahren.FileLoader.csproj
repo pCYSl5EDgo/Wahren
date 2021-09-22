@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    <ProjectReference Include="..\PooledList\Wahren.PooledList.csproj" />
+  </ItemGroup>
+</Project>

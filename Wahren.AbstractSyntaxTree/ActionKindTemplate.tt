@@ -1,0 +1,96 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="NetStandard" #>
+<#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
+<#@ import namespace="Wahren.AbstractSyntaxTree.TextTemplateHelper" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+namespace Wahren.AbstractSyntaxTree;
+
+public enum ActionKind : uint
+{
+<# foreach (var item in ActionInfo.Specials) { #>
+	<#= item.Escape() #>,
+<# } #>
+<#
+foreach (var item in ActionInfo.Normals) { #>
+	<#= item.Name.Escape() #>,
+<# } #>
+	None = uint.MaxValue
+}
+
+public static class ActionKindHelper
+{
+	public static ActionKind Convert(ReadOnlySpan<char> key)
+	{
+		if (key.Length < 2 || key.Length > 20)
+		{
+			return ActionKind.None;
+		}
+
+		Span<char> span = stackalloc char[key.Length < 4 ? 4 : key.Length];
+        key.CopyTo(span);
+		span.Slice(key.Length).Clear();
+        for (var i = 0; i < key.Length; ++i)
+        {
+            if (span[i] >= 'a')
+            {
+                span[i] = (char)(ushort)(span[i] - 32);
+            }
+        }
+
+        ulong key4 = System.Buffers.Binary.BinaryPrimitives.ReadUInt64LittleEndian(System.Runtime.InteropServices.MemoryMarshal.Cast<char, byte>(span));
+        span = span.Slice(4);
+		switch (span.Length)
+        {
+<#
+foreach (var item in ActionInfo.Specials.Concat(ActionInfo.Normals.Select(x => x.Name)))
+{
+	var x = item.Escape();
+	ulong key = 0UL;
+	if (item.Length >= 4)
+	{
+		key |= (ulong)(uint)item[3] - 32UL * (ulong)((ushort)item[3] >= (ushort)'a' ? 1: 0);
+		key <<= 16;
+	}
+    
+	if (item.Length >= 3)
+	{
+		key |= (ulong)(uint)item[2] - 32UL * (ulong)((ushort)item[2] >= (ushort)'a' ? 1: 0);
+		key <<= 16;
+	}
+    
+    key |= (ulong)(uint)item[1] - 32UL * (ulong)((ushort)item[1] >= (ushort)'a' ? 1: 0);
+    key <<= 16;
+    key |= (ulong)(uint)item[0] - 32UL * (ulong)((ushort)item[0] >= (ushort)'a' ? 1: 0);
+	var keyStr = "0x" + key.ToString("X16");
+	Func<int, char> pf = (int index) => {
+		return (char)(ushort)(item[index] -32 * (item[index] >= 'a' ? 1 : 0));		
+	};
+	if (item.Length <= 4)
+	{
+#>
+			case 0 when key4 == <#= keyStr #>UL: return ActionKind.<#= x #>;
+<#
+	}
+	else if (item.Length == 5)
+	{
+#>
+			case 1 when (key4 == <#= keyStr #>UL) && (span[0] == '<#= pf(4) #>'): return ActionKind.<#= x #>;
+<#
+	}
+	else
+	{
+#>
+			case <#= item.Length - 4 #> when (key4 == <#= keyStr #>UL) && span.SequenceEqual("<#for(int i = 4; i < item.Length; ++i){#><#= pf(i) #><# } #>"): return ActionKind.<#= x #>;
+<#
+	}
+}
+#>
+		}
+
+		return ActionKind.None;
+	}
+}

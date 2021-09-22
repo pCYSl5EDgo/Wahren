@@ -1,0 +1,432 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="NetStandard" #>
+<#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
+<#@ import namespace="Wahren.AbstractSyntaxTree.TextTemplateHelper" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+var array = new string[][]{
+new string[]{
+"camp",
+"_war",
+}, new string[]{
+"_spot",
+"_save",
+"_load",
+"_tool",
+"_name",
+"_help",
+"_menu",
+"bloom",
+"_war2",
+}, new string[]{
+"member",
+"_corps",
+"_spot2",
+"_merce",
+"_diplo",
+"font10",
+"font12",
+"font14",
+"font16",
+"font20",
+"discus",
+"_menu2",
+"_save2",
+"_load2",
+"_tool2",
+"_name2",
+"_help2",
+}, new string[]{
+"_status",
+"_battle",
+"_dialog",
+"_detail",
+"_diplo2",
+"_spot22",
+"_merce2",
+"_corps2",
+}, new string[]{
+"loyal_up",
+"win_gain",
+"raid_bdr",
+"trust_up",
+"raid_max",
+"raid_min",
+"raid_coe",
+"max_unit",
+"my_range",
+"gain_per",
+"btl_auto",
+"npm_play",
+"politics",
+"ring_red",
+"_message",
+"_bstatus",
+"_commenu",
+"_status2",
+"_battle2",
+"_dialog2",
+"_detail2",
+}, new string[]{
+"mode_easy",
+"mode_hard",
+"mode_luna",
+"_heromenu",
+"_scenario",
+"font_file",
+"color_red",
+"ring_blue",
+"ring_cyan",
+"world_bgm",
+"narabijun",
+"title_bgm",
+"font_text",
+"font_face",
+"actor_per",
+"wnd_alpha",
+"btl_limit",
+"fv_hp_per",
+"fv_mp_per",
+"_bstatus2",
+"_message2",
+"_commenu2",
+}, new string[]{
+"damage_max",
+"damage_min",
+"wnd_button",
+"btl_healer",
+"diplo_down",
+"loyal_down",
+"wskin_cell",
+"bgm_volume",
+"senior_bdr",
+"ring_alpha",
+"zone_alpha",
+"free_raise",
+"title_name",
+"spot_route",
+"font_title",
+"race_label",
+"force_fire",
+"quota_view",
+"roam_avoid",
+"spot_fire1",
+"spot_fire2",
+"color_blue",
+"color_cyan",
+"ring_green",
+"battle_bgm",
+"color_text",
+"color_name",
+"cavalry_ai",
+"_powerinfo",
+"_scenario2",
+"_heromenu2",
+}, new string[]{
+"mode_normal",
+"_personinfo",
+"item_window",
+"color_green",
+"color_white",
+"ring_yellow",
+"ring_purple",
+"ring_orange",
+"battle_fast",
+"unit_vanish",
+"talent_mode",
+"power_order",
+"race_suffix",
+"font_detail",
+"arbeit_turn",
+"btl_slowper",
+"zone_radius",
+"btl_minimap",
+"senior_cost",
+"sound_count",
+"btl_wingmax",
+"title_bgm_s",
+"btl_msgtime",
+"arbeit_gain",
+"fv_move_per",
+"btl_counter",
+"btl_limit_c",
+"btl_unitmax",
+"btl_standby",
+"compati_bad",
+"damage_max2",
+"damage_min2",
+"neutral_max",
+"neutral_min",
+"_powerinfo2",
+}, new string[]{
+"unit_use_coe",
+"btl_mode_coe",
+"btl_raidback",
+"employ_range",
+"movement_num",
+"fv_speed_per",
+"fv_hprec_per",
+"fv_level_per",
+"war_capacity",
+"myhelp_range",
+"merits_bonus",
+"loyal_border",
+"sound_volume",
+"support_gain",
+"title_volume",
+"diplo_frd_up",
+"diplo_sup_up",
+"world_volume",
+"picture_fade",
+"dead_penalty",
+"trust_morale",
+"leave_period",
+"skill_offset",
+"quarter_view",
+"font_balloon",
+"unicode_test",
+"foreign_test",
+"btl_semiauto",
+"color_yellow",
+"color_orange",
+"_powerselect",
+"_personinfo2",
+}, new string[]{
+"_personselect",
+"_scenariotext",
+"face_colorkey",
+"color_magenta",
+"damage_consti",
+"newpower_flag",
+"color_detail1",
+"color_detail2",
+"color_detail3",
+"picture_trans",
+"font_prologue",
+"arbeit_player",
+"skillicon_add",
+"skillicon_all",
+"unit_scream_m",
+"unit_scream_n",
+"picture_floor",
+"bold_spotpath",
+"unit_slow_per",
+"executive_bdr",
+"item_sell_per",
+"btl_minimap_w",
+"notalent_down",
+"b_sound_count",
+"btl_lineshift",
+"battle_volume",
+"event_bg_size",
+"fv_consti_mul",
+"fv_summon_mul",
+"fv_attack_per",
+"spot_capacity",
+"support_range",
+"btl_intercept",
+"_powerselect2",
+}, new string[]{
+"raise_yabo_bdr",
+"diplo_mode_itv",
+"target_way_coe",
+"caution_adjust",
+"unit_drain_mul",
+"btl_attackmode",
+"btl_battlemode",
+"btl_chargemode",
+"unit_status_hp",
+"btl_min_damage",
+"diplo_frd_down",
+"picture_center",
+"t_sound_volume",
+"b_sound_volume",
+"title_menu_top",
+"btl_castle_lot",
+"executive_cost",
+"font_text_size",
+"unit_level_max",
+"trust_down_per",
+"diplo_cost_per",
+"default_ending",
+"mode_easy_text",
+"mode_hard_text",
+"mode_luna_text",
+"unit_keep_form",
+"fullbody_speak",
+"skillicon_item",
+"bold_spotlabel",
+"font_spotlabel",
+"color_namehelp",
+"color_prologue",
+"_personselect2",
+"_scenariotext2",
+}, new string[]{
+"watching_replay",
+"unit_keep_color",
+"fullbody_detail",
+"btl_retreat_coe",
+"color_spotlabel",
+"unit_summon_min",
+"diplo_frd_peace",
+"bold_escapepath",
+"unit_view_range",
+"unit_escape_run",
+"unit_hand_range",
+"unit_suck_limit",
+"btl_blind_alpha",
+"diplo_league_up",
+"unit_poison_per",
+"btl_prepare_min",
+"btl_prepare_max",
+"unit_action_bdr",
+"unit_search_bdr",
+"unit_status_min",
+"unit_status_rec",
+"b_sound_itv_max",
+"b_sound_itv_min",
+}, new string[]{
+"loyal_escape_bdr",
+"diplo_bestfriend",
+"raise_most_power",
+"employ_price_coe",
+"arbeit_price_coe",
+"btl_gate_through",
+"unit_sword_slide",
+"btl_nocastle_bdr",
+"unit_knock_speed",
+"btl_replace_line",
+"scenario_select2",
+"arbeit_gain_lose",
+"title_menu_right",
+"title_menu_space",
+"diplo_budget_per",
+"diplo_most_power",
+"btl_breast_width",
+"vassal_price_coe",
+"training_average",
+"circle_alpha_per",
+"color_spotlabel2",
+"unit_battle_cram",
+"unit_castle_cram",
+"unit_image_right",
+"mode_normal_text",
+"skillicon_assist",
+"skillicon_leader",
+}, new string[]{
+"skillicon_special",
+"spot_escape_route",
+"unit_element_heal",
+"arbeit_vassal_coe",
+"support_trust_bdr",
+"unit_attack_range",
+"unit_escape_range",
+"arbeit_money_mini",
+"unit_charge_slide",
+"unit_summon_level",
+"unit_status_death",
+"b_sound_no_repeat",
+"support_gain_lose",
+"diplo_success_leg",
+"diplo_success_frd",
+"diplo_success_sup",
+}, new string[]{
+"neutral_member_min",
+"neutral_member_max",
+"unit_illusion_miss",
+"unit_retreat_speed",
+"unit_missile_slide",
+"diplo_frd_turndown",
+"diplo_sup_turndown",
+"trust_down_support",
+"compati_vassal_bdr",
+}, new string[]{
+"unit_confusion_miss",
+"unit_retreat_damage",
+"unit_specialuse_per",
+"unit_lifebar_height",
+}, new string[]{
+"unit_castle_forcefire",
+},
+};
+
+foreach (var t in array)
+{
+    Array.Sort(t);
+}
+#>
+#nullable enable
+// <auto-generated>
+// THIS (.cs) FILE IS GENERATED BY T4. DO NOT CHANGE IT. CHANGE THE .tt FILE INSTEAD.
+// </auto-generated>
+using System.Buffers.Binary;
+using System.Runtime.InteropServices;
+
+namespace Wahren.AbstractSyntaxTree.Node;
+
+public sealed class ContextNode : INode
+{
+    public uint Kind { get; set; }
+    public uint BracketLeft { get; set; }
+    public uint BracketRight { get; set; }
+
+    public StringSpanKeyDictionary<Pair_NullableString_NullableInt_ArrayElement> Others = new();
+<# foreach (var t in array) {
+      foreach (var item in t) { #>
+    public Pair_NullableString_NullableInt_ArrayElement? <#= item.Escape() #>;
+<# }
+} #>
+    public void Dispose()
+    {
+        Others.Dispose();
+<# foreach (var t in array) {
+      foreach (var item in t) { #>
+        <#= item.Escape() #> = null;
+<# }
+} #>
+    }
+
+    public ref Pair_NullableString_NullableInt_ArrayElement? TryGet(ReadOnlySpan<char> key, out bool success)
+    {
+        if (key.Length < 4)
+        {
+            goto FALSE;
+        }
+
+        var keyULong = BinaryPrimitives.ReadUInt64LittleEndian(MemoryMarshal.Cast<char, byte>(key));
+        var sliced = key.Slice(4);
+        switch (key.Length)
+        {
+<#
+foreach (var t in array) {
+    if (t.Length == 1) { continue; }
+    if (t[0].Length == 4) { continue; }
+#>
+            case <#= t[0].Length #>:
+                switch (keyULong)
+                {
+<#
+    foreach (var item in t) {
+        var first = item.GetKey();
+#>
+                    case 0x<#= first.ToString("X16") #>UL when sliced.SequenceEqual("<#for(int i = 4; i < item.Length; ++i){#><#=item[i]#><#}#>"): success = true; return ref <#= item #>;
+<#
+    }
+#>
+                }
+                break;
+<# }#>
+            case 4 when keyULong == 0x70006D00610063UL: success = true; return ref camp;
+            case 4 when keyULong == 0x7200610077005FUL: success = true; return ref _war;
+            case 21 when key.SequenceEqual("unit_castle_forcefire"): success = true; return ref unit_castle_forcefire;
+        }
+
+    FALSE:
+        success = false;
+        return ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+    }
+}

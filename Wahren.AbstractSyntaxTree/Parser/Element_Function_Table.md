@@ -1,0 +1,66 @@
+﻿- Parse_Element_LOYAL(Pair_NullableString_NullableIntElement element)
+  -  3 str
+  -  4 fkey
+  -  5 loyal
+  -  5 brave
+  -  6 arbeit
+  -  6 change
+  -  6 ground
+  -  9 gun_delay
+- Parse_Element_TEXT(StringElement element)
+  -  4 text
+- Parse_Element_CONSTI(IElement<List<Pair_NullableString_NullableInt>> element)
+  -  4 icon
+  -  4 wave
+  -  5 cutin
+  -  5 diplo
+  -  6 consti
+  -  6 league
+  -  6 loyals
+  -  6 merits
+  -  6 yorozu
+  - 11 enemy_power
+  - 12 leader_skill
+  - 12 assist_skill
+- Parse_Element_SEMICOLON(IElement<List<uint>> element)
+  -  4 roam
+  -  4 spot
+  -  5 power
+- Parse_Element_MEMBER(IElement<List<Pair_NullableString_NullableInt>> element)
+  -  4 add2
+  -  4 item
+  -  5 merce
+  -  5 next2
+  -  5 next3
+  -  5 sound
+  -  6 member
+  -  7 monster
+  -  9 item_hold
+  -  9 item_sale
+  -  9 just_next
+  - 12 castle_guard
+- Parse_Element_OFFSET(IElement<List<uint>> element)
+  -  5 enemy
+  -  5 staff
+  -  6 friend
+  -  6 offset
+  -  8 delskill
+  -  9 delskill2
+  - 10 voice_type
+- Parse_Element_RAY(IElement<List<Pair_NullableString_NullableInt>> element)
+  -  3 ray
+  -  4 poli
+  -  4 camp
+  -  4 home
+  -  5 multi
+  -  5 learn
+  -  5 color
+  -  5 joint
+  -  5 skill
+  -  6 skill2
+  -  6 weapon
+  -  7 weapon2
+  -  9 activenum
+  -  9 friend_ex
+- Parse_Element_DEFAULT(IElement<Pair_NullableString_NullableInt> element)
+  - ALL OTHERS

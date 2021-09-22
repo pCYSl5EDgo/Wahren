@@ -1,0 +1,11 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <Deterministic>true</Deterministic>
+        <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+        <NoWarn>CS0105</NoWarn>
+    </PropertyGroup>
+</Project>

@@ -1,0 +1,154 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+namespace Wahren.AbstractSyntaxTree;
+public static partial class TokenUtility
+{
+<#
+string[] types = new[] {
+    "int",
+};
+foreach (var type in types)
+{
+#>
+    public static bool TryParse(ref this Token token, ref DualList<char> source, out <#= type #> result)
+    {
+        if (!token.Range.IsEmpty && token.Range.OneLine)
+        {
+            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.LengthInFirstLine);
+            return <#= type #>.TryParse(span, out result);
+        }
+
+        result = default;
+        return false;
+    }
+
+<#
+}
+
+string[] idExactCases = new string[]{
+    "attribute",
+    "battle",
+    "class",
+    "context",
+    "delskill",
+    "detail",
+    "dungeon",
+    "else",
+    "event",
+    "field",
+    "fight",
+    "friend",
+    "if",
+    "movetype",
+    "multi",
+    "object",
+    "on",
+    "power",
+    "race",
+    "rif",
+    "roam",
+    "scenario",
+    "skill",
+    "skillset",
+    "sound",
+    "spot",
+    "story",
+    "unit",
+    "voice",
+    "voice_type",
+    "while",
+    "world",
+    "workspace",
+};
+
+var maxLength = 0;
+foreach (var item in idExactCases)
+{
+    if (maxLength < item.Length)
+    {
+        maxLength = item.Length;
+    }
+#>
+    public static bool Is_<#= item #>(ref this Token token, ref DualList<char> source) => Equals(ref token, ref source<# foreach (var cItem in item) {#>, '<#= cItem #>'<#}#>);
+
+<#
+    if (item.Length > 2) {
+#>
+    public static bool Is_<#= item #>_Skip2(ref this Token token, ref DualList<char> source) => EqualsSkip2(ref token, ref source<# for (var i = 2; i < item.Length; ++i) { #>, '<#= item[i] #>'<#}#>);
+
+<#
+    }
+}
+
+for (int i = 2; i < maxLength + 1; i++)
+{
+#>
+    public static bool Equals(ref this Token token, ref DualList<char> source<#for (int j = 0; j < i; ++j) {#>, char other<#= j #><#}#>)
+    {
+        const int size = <#= i #>;
+        if (token.LengthInFirstLine != size)
+        {
+            return false;
+        }
+
+        ref var start = ref token.Range.StartInclusive;
+        ref var end = ref token.Range.EndExclusive;
+        Span<char> span;
+        if (start.Line == end.Line && start.Offset + size == end.Offset)
+        {
+            span = source[start.Line].AsSpan(start.Offset, size);
+        }
+        else if (start.Line + 1 == end.Line && end.Offset == 0)
+        {
+            span = source[start.Line].AsSpan(start.Offset);
+            if (span.Length != size)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        return <#for (int j = i - 1; j > 0; --j) {#>span[<#= j #>] == other<#= j #> && <#}#>span[0] == other0;
+    }
+
+<# if (i > 2) { #>
+    public static bool EqualsSkip2(ref this Token token, ref DualList<char> source<#for (int j = 2; j < i; ++j) {#>, char other<#= j #><#}#>)
+    {
+        const int size = <#= i #>;
+        if (token.LengthInFirstLine != size)
+        {
+            return false;
+        }
+
+        ref var start = ref token.Range.StartInclusive;
+        ref var end = ref token.Range.EndExclusive;
+        Span<char> span;
+        if (start.Line == end.Line && start.Offset + size == end.Offset)
+        {
+            span = source[start.Line].AsSpan(start.Offset, size);
+        }
+        else if (start.Line + 1 == end.Line && end.Offset == 0)
+        {
+            span = source[start.Line].AsSpan(start.Offset);
+            if (span.Length != size)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        return <#for (int j = i - 1; j > 2; --j) {#>span[<#= j #>] == other<#= j #> && <#}#>span[2] == other2;
+    }
+
+<#
+    }
+}
+#>
+}

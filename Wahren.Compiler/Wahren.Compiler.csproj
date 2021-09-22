@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ConsoleAppFramework" Version="3.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PooledList\Wahren.PooledList.csproj" />
+    <ProjectReference Include="..\Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj" />
+    <ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
+    <ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
+  </ItemGroup>
+
+</Project>
