@@ -25,6 +25,14 @@ public partial struct Result : ISpanFormattable
             switch (token.Kind)
             {
                 case TokenKind.Comment:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind == TokenKind.BracketRight)
+                    {
+                        if (!Try_<#= suffix #>(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     TryCopy_<#= suffix #>(ref token.Range, ref context);
                     continue;
 <# foreach (var item in new string[] {
@@ -47,6 +55,14 @@ public partial struct Result : ISpanFormattable
 "scenario",
 }) { #>
                 case TokenKind.<#= Helper.Escape(item) #>:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_<#= suffix #>(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"<#= item #> ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -65,6 +81,14 @@ foreach (var item in new string[] {
     "detail",
 }) { #>
                 case TokenKind.<#= item #>:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_<#= suffix #>(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"<#= item #><#= chars #>{".TryCopyTo(context.Destination))
                     {
                         return false;

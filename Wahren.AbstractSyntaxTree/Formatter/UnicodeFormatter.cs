@@ -11,12 +11,7 @@ public partial struct Result : ISpanFormattable
             return string.Empty;
         }
 
-        int count = Source.Count << 1;
-        foreach (ref var item in Source)
-        {
-            count += item.Count;
-        }
-
+        int count = (int)Source.AddAllCount() + (Source.Count << 1);
         ReadOnlySpan<char> formatSpan = format;
         var isCrLf = formatSpan.Contains('r');
         var isLf = formatSpan.Contains('n');

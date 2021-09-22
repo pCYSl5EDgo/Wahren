@@ -15,9 +15,25 @@ public partial struct Result : ISpanFormattable
             switch (token.Kind)
             {
                 case TokenKind.Comment:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind == TokenKind.BracketRight)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     TryCopy_CrLf(ref token.Range, ref context);
                     continue;
                 case TokenKind.spot:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"spot ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -28,6 +44,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.unit:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"unit ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -38,6 +62,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.race:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"race ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -48,6 +80,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.@class:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"class ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -58,6 +98,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.field:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"field ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -68,6 +116,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.skill:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"skill ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -78,6 +134,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.power:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"power ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -88,6 +152,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.voice:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"voice ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -98,6 +170,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.@object:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"object ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -108,6 +188,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.dungeon:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"dungeon ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -118,6 +206,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.movetype:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"movetype ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -128,6 +224,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.skillset:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"skillset ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -138,6 +242,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.story:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"story ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -148,6 +260,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.fight:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"fight ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -158,6 +278,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.world:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"world ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -168,6 +296,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.@event:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"event ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -178,6 +314,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.scenario:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"scenario ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -188,6 +332,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.context:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"context\r\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -198,6 +350,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.workspace:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"workspace\r\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -208,6 +368,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.attribute:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"attribute\r\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -218,6 +386,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.sound:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"sound\r\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -228,6 +404,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.detail:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_CrLf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"detail\r\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11747,9 +11931,25 @@ public partial struct Result : ISpanFormattable
             switch (token.Kind)
             {
                 case TokenKind.Comment:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind == TokenKind.BracketRight)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     TryCopy_Lf(ref token.Range, ref context);
                     continue;
                 case TokenKind.spot:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"spot ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11760,6 +11960,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.unit:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"unit ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11770,6 +11978,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.race:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"race ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11780,6 +11996,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.@class:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"class ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11790,6 +12014,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.field:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"field ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11800,6 +12032,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.skill:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"skill ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11810,6 +12050,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.power:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"power ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11820,6 +12068,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.voice:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"voice ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11830,6 +12086,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.@object:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"object ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11840,6 +12104,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.dungeon:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"dungeon ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11850,6 +12122,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.movetype:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"movetype ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11860,6 +12140,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.skillset:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"skillset ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11870,6 +12158,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.story:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"story ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11880,6 +12176,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.fight:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"fight ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11890,6 +12194,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.world:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"world ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11900,6 +12212,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.@event:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"event ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11910,6 +12230,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.scenario:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"scenario ".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11920,6 +12248,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     break;
                 case TokenKind.context:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"context\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11930,6 +12266,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.workspace:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"workspace\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11940,6 +12284,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.attribute:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"attribute\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11950,6 +12302,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.sound:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"sound\n{".TryCopyTo(context.Destination))
                     {
                         return false;
@@ -11960,6 +12320,14 @@ public partial struct Result : ISpanFormattable
                     context.JustChangeLine = false;
                     goto CONTENTS;
                 case TokenKind.detail:
+                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    {
+                        if (!Try_Lf(ref context))
+                        {
+                            return false;
+                        }
+                    }
+
                     if (!"detail\n{".TryCopyTo(context.Destination))
                     {
                         return false;

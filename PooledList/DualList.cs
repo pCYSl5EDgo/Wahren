@@ -57,6 +57,17 @@ public struct DualList<T> : IDisposable, IList<List<T>>, IEquatable<DualList<T>>
 
     public ref List<T> Last() => ref count == 0 ? ref Unsafe.NullRef<List<T>>() : ref array[count - 1];
 
+    public uint AddAllCount()
+    {
+        uint answer = 0;
+        for (int i = 0; i < count; i++)
+        {
+            answer += (uint)array[i].Count;
+        }
+
+        return answer;
+    }
+
     public void Dispose()
     {
         if (array is null || array.Length == 0)
