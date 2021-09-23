@@ -105,6 +105,14 @@ public struct List<T> : IDisposable, System.Collections.Generic.IList<T>, IEquat
     }
 
     public delegate int AddConverter<TSource>(ReadOnlySpan<TSource> sourceSpan, Span<T> destinationSpan);
+    public delegate int AddConverterAssumption(int sourceSpan);
+
+    public void AddRangeConversion<TSource>(AddConverter<TSource> converter, AddConverterAssumption assumption, ReadOnlySpan<TSource> sourceSpan)
+    {
+        var max = assumption(sourceSpan.Length);
+        PrepareAddRange(max, false);
+        count += converter(sourceSpan, new(array, 0, count));
+    }
 
     public void AddRangeConversion<TSource>(AddConverter<TSource> converter, ReadOnlySpan<TSource> sourceSpan)
     {

@@ -21,15 +21,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ActionKindTemplate.tt</DependentUpon>
     </None>
+    <None Include="Formatter\BinaryFormatterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BinaryFormatterTemplate.tt</DependentUpon>
+    </None>
     <None Include="Formatter\UnicodeFomatterTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Formatter\UnicodeFormatterHelperTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UnicodeFormatterHelperTemplate.tt</DependentUpon>
     </None>
     <None Include="FunctionKindTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -80,6 +80,14 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActionKindTemplate.cs</LastGenOutput>
     </None>
+    <None Update="Formatter\BinaryFormatterContextTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BinaryFormatterContextTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Formatter\BinaryFormatterTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BinaryFormatterTemplate.cs</LastGenOutput>
+    </None>
     <None Update="Formatter\UnicodeFomatterTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UnicodeFomatterTemplate.cs</LastGenOutput>
@@ -129,6 +137,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ActionKindTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Formatter\BinaryFormatterContextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BinaryFormatterContextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Formatter\BinaryFormatterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BinaryFormatterTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Formatter\UnicodeFomatterTemplate.cs">
       <DesignTime>True</DesignTime>

@@ -15,60 +15,109 @@ using Wahren.AbstractSyntaxTree.Parser;
 
 namespace Wahren.AbstractSyntaxTree.Formatter;
 
-public class UnicodeFormatter : IFormatter<char>
+public class BinaryFormatter : IFormatter<byte>
 {
-    public void Dispose()
-    {
-    }
-
     public bool JustChangeLine;
-    private readonly string NewLine;
-    private readonly char Tab;
-    private readonly int TabCount;
 
-    private static UnicodeFormatter? _DefaultCrLf;
-    private static UnicodeFormatter? _DefaultLf;
+    private readonly List<byte> registeredBytes;
+    private readonly List<byte>.AddConverter<char> Converter;
+    private readonly List<byte>.AddConverterAssumption Assumption;
 
-    public static UnicodeFormatter GetDefault(bool isCrLf)
-    {
-        if (isCrLf)
-        {
-            return _DefaultCrLf ??= new(' ', 4, "\r\n");
-        }
-        else
-        {
-            return _DefaultLf ??= new(' ', 4, "\n");
-        }
-    }
+    private readonly uint NewLineCount;
+    private readonly uint TabOffset;
+    private readonly uint TabCount;
 
-    public UnicodeFormatter(char indentChar, int indentCount, string newLine)
-    {
-        JustChangeLine = false;
-        Tab = indentChar;
-        TabCount = indentCount;
-
-        NewLine = string.Intern(newLine);
-
-        battle_NewLine_BracketLeft_NewLine = string.Intern("battle" + newLine + "{" + newLine);
 <# foreach (var x in FormatterHelper.Pairs_NewLine) { #>
-        <#= x.name #>_NewLine = string.Intern("<#= x.content #>" + NewLine);
+    private readonly uint <#= x.name #>_NewLine_Offset;
+    private readonly uint <#= x.name #>_NewLine_Count;
+<# } #>
+<# foreach (var x in FormatterHelper.Pairs) { #>
+    private readonly uint <#= x.name #>_Offset;
+    private readonly uint <#= x.name #>_Count;
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { #>
-        <#= x.name0 #>_NewLine_<#= x.name1 #> = string.Intern("<#= x.content0 #>" + NewLine + "<#= x.content1 #>");
+    private readonly uint <#= x.name0 #>_NewLine_<#= x.name1 #>_Offset;
+    private readonly uint <#= x.name0 #>_NewLine_<#= x.name1 #>_Count;
+<# } #>
+    private readonly uint battle_NewLine_BracketLeft_NewLine_Offset;
+    private readonly uint battle_NewLine_BracketLeft_NewLine_Count;
+    private readonly uint NewLine_BracketLeft_NewLine_Offset;
+    private readonly uint NewLine_BracketLeft_NewLine_Count;
+
+    public void Dispose()
+    {
+        registeredBytes.Dispose();
+    }
+
+    public BinaryFormatter(System.Text.Encoding encoding, char indentChar, int indentCount, ReadOnlySpan<char> newLine)
+    {
+        JustChangeLine = false;
+        Converter = new(encoding.GetBytes);
+        Assumption = new(encoding.GetMaxByteCount);
+        registeredBytes = new();
+        uint accum = 0;
+
+        registeredBytes.AddRangeConversion(Converter, Assumption, newLine);
+        NewLineCount = (uint)registeredBytes.Count - accum;
+        accum = (uint)registeredBytes.Count;
+
+        {
+            Span<char> indent = stackalloc char[indentCount];
+            indent.Fill(indentChar);
+            registeredBytes.AddRangeConversion(Converter, Assumption, indent);
+            TabOffset = accum;
+            TabCount = (uint)registeredBytes.Count - accum;
+            accum = (uint)registeredBytes.Count;
+        }
+
+        var convertedNewLine = registeredBytes.AsSpan(0, NewLineCount);
+
+        registeredBytes.AddRangeConversion(Converter, Assumption, "battle");
+        registeredBytes.AddRange(convertedNewLine);
+        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
+        registeredBytes.AddRange(convertedNewLine);
+        battle_NewLine_BracketLeft_NewLine_Offset = accum;
+        battle_NewLine_BracketLeft_NewLine_Count = (uint)registeredBytes.Count - accum;
+        NewLine_BracketLeft_NewLine_Offset = battle_NewLine_BracketLeft_NewLine_Offset + 6;
+        NewLine_BracketLeft_NewLine_Count = battle_NewLine_BracketLeft_NewLine_Count - 6;
+        accum = (uint)registeredBytes.Count;
+<# foreach (var x in FormatterHelper.Pairs_NewLine) { #>
+
+        registeredBytes.AddRangeConversion(Converter, Assumption, "<#= x.content #>");
+        registeredBytes.AddRange(convertedNewLine);
+        <#= x.name #>_NewLine_Offset = accum;
+        <#= x.name #>_NewLine_Count = (uint)registeredBytes.Count - accum;
+        accum = (uint)registeredBytes.Count;
+<# } #>
+<# foreach (var x in FormatterHelper.Pairs) { #>
+
+        registeredBytes.AddRangeConversion(Converter, Assumption, "<#= x.content #>");
+        <#= x.name #>_Offset = accum;
+        <#= x.name #>_Count = (uint)registeredBytes.Count - accum;
+        accum = (uint)registeredBytes.Count;
+<# } #>
+<# foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { #>
+
+        registeredBytes.AddRangeConversion(Converter, Assumption, "<#= x.content0 #>");
+        registeredBytes.AddRange(convertedNewLine);
+        registeredBytes.AddRangeConversion(Converter, Assumption, "<#= x.content1 #>");
+        <#= x.name0 #>_NewLine_<#= x.name1 #>_Offset = accum;
+        <#= x.name0 #>_NewLine_<#= x.name1 #>_Count = (uint)registeredBytes.Count - accum;
+        accum = (uint)registeredBytes.Count;
 <# } #>
     }
 
-    public void Append_NewLine(ref List<char> destination)
+    public void Append_NewLine(ref List<byte> destination)
     {
         JustChangeLine = true;
-        destination.AddRange(NewLine);
+        destination.AddRange(registeredBytes.AsSpan(0, NewLineCount));
     }
 
-    public void Ensure_NewLine_Indent(ref List<char> destination, int indentCount)
+    public void Ensure_NewLine_Indent(ref List<byte> destination, int indentCount)
     {
         if (!JustChangeLine)
         {
-            destination.AddRange(NewLine);
+            destination.AddRange(registeredBytes.AsSpan(0, NewLineCount));
         }
 
         JustChangeLine = false;
@@ -77,12 +126,14 @@ public class UnicodeFormatter : IFormatter<char>
             return;
         }
 
-        Span<char> span = stackalloc char[indentCount * TabCount];
-        span.Fill(Tab);
-        destination.AddRange(span);
+        var span = registeredBytes.AsSpan(TabOffset, TabCount);
+        for (uint i = 0; i != indentCount; i++)
+        {
+            destination.AddRange(span);
+        }
     }
 
-    public void Append_Indent(ref List<char> destination, int indentCount)
+    public void Append_Indent(ref List<byte> destination, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -90,31 +141,33 @@ public class UnicodeFormatter : IFormatter<char>
         }
 
         JustChangeLine = false;
-        Span<char> span = stackalloc char[indentCount * TabCount];
-        span.Fill(Tab);
-        destination.AddRange(span);
+        var span = registeredBytes.AsSpan(TabOffset, TabCount);
+        for (uint i = 0; i != indentCount; i++)
+        {
+            destination.AddRange(span);
+        }
     }
 
-    public void Append_Copy(ref List<char> destination, ReadOnlySpan<char> singleLineSource)
+    public void Append_Copy(ref List<byte> destination, ReadOnlySpan<char> singleLineSource)
     {
-        destination.AddRange(singleLineSource);
+        destination.AddRangeConversion(Converter, Assumption, singleLineSource);
     }
 
-    public void Append_Copy(ref List<char> destination, ref DualList<char> source, ref Range range)
+    public void Append_Copy(ref List<byte> destination, ref DualList<char> source, ref Range range)
     {
         ref var line = ref source[range.StartInclusive.Line];
         var slice = line.AsSpan(range.StartInclusive.Offset);
         if (range.StartInclusive.Line == range.EndExclusive.Line)
         {
             slice = slice.Slice(0, (int)(range.EndExclusive.Offset - range.StartInclusive.Offset));
-            destination.AddRange(slice);
+            Append_Copy(ref destination, slice);
             return;
         }
 
         var lineIndex = range.StartInclusive.Line;
         do
         {
-            destination.AddRange(slice);
+            Append_Copy(ref destination, slice);
             Append_NewLine(ref destination);
             if (++lineIndex != range.EndExclusive.Line)
             {
@@ -128,51 +181,48 @@ public class UnicodeFormatter : IFormatter<char>
             }
 
             slice = source[lineIndex].AsSpan(0, range.EndExclusive.Offset);
-            destination.AddRange(slice);
+            Append_Copy(ref destination, slice);
             return;
         } while (true);
     }
 
-    private readonly string battle_NewLine_BracketLeft_NewLine;
-    public void Append_battle_NewLine_BracketLeft_NewLine(ref List<char> destination)
+    public void Append_battle_NewLine_BracketLeft_NewLine(ref List<byte> destination)
     {
         JustChangeLine = true;
-        destination.AddRange(battle_NewLine_BracketLeft_NewLine);
+        destination.AddRange(registeredBytes.AsSpan(battle_NewLine_BracketLeft_NewLine_Offset, battle_NewLine_BracketLeft_NewLine_Count));
     }
 
-    public void Append_NewLine_BracketLeft_NewLine(ref List<char> destination)
+    public void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination)
     {
         JustChangeLine = true;
-        destination.AddRange(battle_NewLine_BracketLeft_NewLine.AsSpan(6));
+        destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
     }
 <# foreach (var x in FormatterHelper.Pairs_NewLine) { #>
 
-    private readonly string <#= x.name #>_NewLine;
-    public void Append_<#= x.name #>_NewLine(ref List<char> destination)
+    public void Append_<#= x.name #>_NewLine(ref List<byte> destination)
     {
         JustChangeLine = true;
-        destination.AddRange(<#= x.name #>_NewLine);
+        destination.AddRange(registeredBytes.AsSpan(<#= x.name #>_NewLine_Offset, <#= x.name #>_NewLine_Count));
     }
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs) { #>
 
-    public void Append_<#= x.name #>(ref List<char> destination)
+    public void Append_<#= x.name #>(ref List<byte> destination)
     {
         JustChangeLine = false;
-        destination.AddRange("<#= x.content #>");
+        destination.AddRange(registeredBytes.AsSpan(<#= x.name #>_Offset, <#= x.name #>_Count));
     }
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { #>
 
-    private readonly string <#= x.name0 #>_NewLine_<#= x.name1 #>;
-    public void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref List<char> destination)
+    public void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref List<byte> destination)
     {
         JustChangeLine = false;
-        destination.AddRange(<#= x.name0 #>_NewLine_<#= x.name1 #>);
+        destination.AddRange(registeredBytes.AsSpan(<#= x.name0 #>_NewLine_<#= x.name1 #>_Offset, <#= x.name0 #>_NewLine_<#= x.name1 #>_Count));
     }
 <# } #>
 
-    public bool TryFormat(ref Result result, ref List<char> destination)
+    public bool TryFormat(ref Result result, ref List<byte> destination)
     {
         ref var TokenList = ref result.TokenList;
         ref var source = ref result.Source;
@@ -252,7 +302,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
 	}
 
-    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -360,7 +410,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref Token element, ref uint tokenIndex, int spaces)
     {
         if (!TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref element, ref tokenIndex, spaces))
         {
@@ -415,7 +465,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref Token element, ref uint tokenIndex, int spaces)
     {
         if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Assign)
         {
@@ -444,7 +494,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
     }
 
-    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -484,7 +534,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
     {
         if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
         {
@@ -521,7 +571,7 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
     {
         do
         {

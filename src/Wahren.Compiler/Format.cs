@@ -5,7 +5,7 @@ public partial class Program
     [Command(new string[] {
         "format",
     })]
-    public async Task<int> Format(
+    public async ValueTask<int> Format(
         [Option(0, "input folder")] string rootFolder = ".",
         [Option("switch")] bool @switch = false,
         [Option("t")] bool time = false
@@ -24,14 +24,16 @@ public partial class Program
 
         var scriptFolderPath = Path.GetRelativePath(Environment.CurrentDirectory, Path.GetFullPath(Path.Combine(contentsFolder, "script")));
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath);
-
+        var encoding = new UnicodeEncoding(false, byteOrderMark: true);
+        var encodingSjis = Encoding.GetEncoding(932);
         try
         {
-            UnicodeEncoding encoding = new UnicodeEncoding(false, byteOrderMark: true);
-            foreach (var path in Directory.EnumerateFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories))
-            {
-                ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, encoding);
-            }
+            var enumerates = Directory.EnumerateFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
+            await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token, 
+                (path, token) =>
+                {
+                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, encoding, encodingSjis, token);
+                }).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -51,7 +53,7 @@ public partial class Program
         return 0;
     }
 
-    private static void ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, UnicodeEncoding encoding)
+    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, Encoding encoding, Encoding encodingSjis, CancellationToken token)
     {
         Result result;
         byte[]? rental;
@@ -67,7 +69,7 @@ public partial class Program
             rental = ArrayPool<byte>.Shared.Rent((int)length);
             try
             {
-                var actual = RandomAccess.Read(handle, rental.AsSpan(0, (int)length), 0);
+                var actual = await RandomAccess.ReadAsync(handle, rental.AsMemory(0, (int)length), 0, token).ConfigureAwait(false);
                 if (actual == 0)
                 {
                     return;
@@ -96,6 +98,6 @@ public partial class Program
         Context context = new(0, treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, DiagnosticSeverity.Error);
         var success = Parser.Parse(ref context, ref result);
         var formatCode = result.ToString("b");
-        File.WriteAllText(path, formatCode, encoding);
+        await File.WriteAllTextAsync(path, formatCode, isUnicode ? encoding : encodingSjis, token).ConfigureAwait(false);
     }
 }

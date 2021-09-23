@@ -3,7 +3,7 @@
 using Node;
 using System;
 
-public partial struct Result : IDisposable
+public struct Result : IDisposable
 {
     public DualList<char> Source;
     public List<Token> TokenList;
@@ -29,7 +29,6 @@ public partial struct Result : IDisposable
     public nuint Id;
     public bool Success;
     public object? Data;
-    private string? toString;
 
     public Result()
     {
@@ -77,7 +76,6 @@ public partial struct Result : IDisposable
         Id = 0;
         Success = false;
         Data = null;
-        toString = null;
     }
 
     public Result(nuint id) : this()
@@ -104,7 +102,6 @@ public partial struct Result : IDisposable
         StringVariableSet.Dispose();
         Source.Dispose();
         Success = false;
-        toString = null;
         if (Data is IDisposable disposable)
         {
             disposable.Dispose();
@@ -160,5 +157,59 @@ public partial struct Result : IDisposable
         ref var token = ref TokenList[tokenIndex];
         ref var start = ref token.Range.StartInclusive;
         return Source[start.Line].AsSpan(start.Offset, token.LengthInFirstLine);
+    }
+
+    public override string ToString() => ToString("", null);
+
+    public string ToString(string? format, IFormatProvider? formatProvider = null)
+    {
+        if (Source.Count == 0 || (Source.Count == 1 && Source[0].IsEmpty))
+        {
+            return string.Empty;
+        }
+
+        ReadOnlySpan<char> formatSpan = format;
+        var isCrLf = formatSpan.Contains('r');
+        var isLf = formatSpan.Contains('n');
+        if (!isCrLf && !isLf)
+        {
+            isCrLf = Environment.NewLine == "\r\n";
+        }
+
+        List<char> list = new();
+        try
+        {
+            var isBeautify = formatSpan.Contains('b');
+            if (isBeautify)
+            {
+                Formatter.IFormatter<char> formatter = Formatter.UnicodeFormatter.GetDefault(isCrLf);
+                if (formatter.TryFormat(ref this, ref list))
+                {
+                    return new string(list.AsSpan());
+                }
+            }
+
+            list.Clear();
+            for (uint i = 0, end = (uint)Source.Count; i < end; ++i)
+            {
+                if (i != 0)
+                {
+                    if (isCrLf)
+                    {
+                        list.AddRange("\r\n");
+                    }
+                    else
+                    {
+                        list.Add('\n');
+                    }
+                }
+                list.AddRange(Source[i].AsSpan());
+            }
+            return new string(list.AsSpan());
+        }
+        finally
+        {
+            list.Dispose();
+        }
     }
 }

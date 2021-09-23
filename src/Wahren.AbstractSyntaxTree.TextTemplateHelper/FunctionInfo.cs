@@ -1,16 +1,18 @@
 ﻿namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
-public record struct FunctionInfo
+public struct FunctionInfo
 {
     public string Name;
     public int Min;
     public int Max;
+    public Dictionary<int, ArgumentInfo[]> Dictionary;
 
-    public FunctionInfo(string name, int min, int max)
+    public FunctionInfo(string name, int min, int max, Dictionary<int, ArgumentInfo[]>? dictionary = null)
     {
         Name = name;
         Min = min;
         Max = max;
+        Dictionary = dictionary ?? new();
     }
 
     public void Deconstruct(out string name, out int min, out int max)
@@ -18,6 +20,14 @@ public record struct FunctionInfo
         name = Name;
         min = Min;
         max = Max;
+    }
+
+    public void Deconstruct(out string name, out int min, out int max, out Dictionary<int, ArgumentInfo[]> dictionary)
+    {
+        name = Name;
+        min = Min;
+        max = Max;
+        dictionary = Dictionary;
     }
 
     public static readonly FunctionInfo[] FunctionInfoArray = new FunctionInfo[]

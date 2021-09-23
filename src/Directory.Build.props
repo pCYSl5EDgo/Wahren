@@ -2,7 +2,7 @@
     <PropertyGroup>
         <Authors>pCYSl5EDgo</Authors>
         <Copyright>pCYSl5EDgo</Copyright>
-        <Version>0.2.1</Version>
+        <Version>0.2.2</Version>
         <TargetFramework>net6.0</TargetFramework>
         <InvariantGlobalization>true</InvariantGlobalization>
         <Deterministic>true</Deterministic>
@@ -13,6 +13,6 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <None Include="../README.md" />
+        <None Include="../../README.md" />
     </ItemGroup>
 </Project>

@@ -1,16 +1,21 @@
-﻿namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
+﻿global using System.Collections.Generic;
+namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
 public struct ActionInfo
 {
     public string Name;
     public int Min;
     public int Max;
+    public int? EnglishCount;
+    public Dictionary<int, ArgumentInfo[]> Dictionary;
 
-    public ActionInfo(string name, int min = 0, int max = int.MaxValue)
+    public ActionInfo(string name, int min, int max, int? englishCount = null, Dictionary<int, ArgumentInfo[]>? dictionary = null)
     {
         Name = name;
         Min = min;
         Max = max;
+        EnglishCount = englishCount;
+        Dictionary = dictionary ?? new();
     }
 
     public void Deconstruct(out string name, out int min, out int max)
@@ -18,6 +23,23 @@ public struct ActionInfo
         name = Name;
         min = Min;
         max = Max;
+    }
+
+    public void Deconstruct(out string name, out int min, out int max, out int? englishCount)
+    {
+        name = Name;
+        min = Min;
+        max = Max;
+        englishCount = EnglishCount;
+    }
+
+    public void Deconstruct(out string name, out int min, out int max, out int? englishCount, out Dictionary<int, ArgumentInfo[]> dictionary)
+    {
+        name = Name;
+        min = Min;
+        max = Max;
+        englishCount = EnglishCount;
+        dictionary = Dictionary;
     }
 
     public static readonly string[] Specials = new string[]
