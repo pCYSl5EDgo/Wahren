@@ -8,7 +8,34 @@ namespace Wahren.AbstractSyntaxTree.Formatter;
 
 public class BinaryFormatter : IFormatter<byte>
 {
-    public bool JustChangeLine;
+    private static BinaryFormatter? _Default_Utf16Le_CrLf;
+    private static BinaryFormatter? _Default_Utf16Le_Lf;
+    private static BinaryFormatter? _Default_Cp932_CrLf;
+    private static BinaryFormatter? _Default_Cp932_Lf;
+
+    public static BinaryFormatter GetDefault_Utf16Le(bool isCrLf)
+    {
+        if (isCrLf)
+        {
+            return _Default_Utf16Le_CrLf ??= new(System.Text.Encoding.Unicode, ' ', 4, "\r\n");
+        }
+        else
+        {
+            return _Default_Utf16Le_Lf ??= new(System.Text.Encoding.Unicode, ' ', 4, "\n");
+        }
+    }
+
+    public static BinaryFormatter GetDefault_Cp932(bool isCrLf)
+    {
+        if (isCrLf)
+        {
+            return _Default_Cp932_CrLf ??= new(System.Text.Encoding.GetEncoding(932), ' ', 4, "\r\n");
+        }
+        else
+        {
+            return _Default_Cp932_Lf ??= new(System.Text.Encoding.GetEncoding(932), ' ', 4, "\n");
+        }
+    }
 
     private readonly List<byte> registeredBytes;
     private readonly List<byte>.AddConverter<char> Converter;
@@ -880,14 +907,13 @@ public class BinaryFormatter : IFormatter<byte>
 
     public BinaryFormatter(System.Text.Encoding encoding, char indentChar, int indentCount, ReadOnlySpan<char> newLine)
     {
-        JustChangeLine = false;
         Converter = new(encoding.GetBytes);
         Assumption = new(encoding.GetMaxByteCount);
         registeredBytes = new();
         uint accum = 0;
 
         registeredBytes.AddRangeConversion(Converter, Assumption, newLine);
-        NewLineCount = (uint)registeredBytes.Count - accum;
+        NewLineCount = (uint)registeredBytes.Count;
         accum = (uint)registeredBytes.Count;
 
         {
@@ -907,8 +933,13 @@ public class BinaryFormatter : IFormatter<byte>
         registeredBytes.AddRange(convertedNewLine);
         battle_NewLine_BracketLeft_NewLine_Offset = accum;
         battle_NewLine_BracketLeft_NewLine_Count = (uint)registeredBytes.Count - accum;
-        NewLine_BracketLeft_NewLine_Offset = battle_NewLine_BracketLeft_NewLine_Offset + 6;
-        NewLine_BracketLeft_NewLine_Count = battle_NewLine_BracketLeft_NewLine_Count - 6;
+        accum = (uint)registeredBytes.Count;
+
+        registeredBytes.AddRange(convertedNewLine);
+        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
+        registeredBytes.AddRange(convertedNewLine);
+        NewLine_BracketLeft_NewLine_Offset = accum;
+        NewLine_BracketLeft_NewLine_Count = (uint)registeredBytes.Count - accum;
         accum = (uint)registeredBytes.Count;
 
         registeredBytes.AddRangeConversion(Converter, Assumption, "{");
@@ -3054,13 +3085,13 @@ public class BinaryFormatter : IFormatter<byte>
         accum = (uint)registeredBytes.Count;
     }
 
-    public void Append_NewLine(ref List<byte> destination)
+    private void Append_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(0, NewLineCount));
     }
 
-    public void Ensure_NewLine_Indent(ref List<byte> destination, int indentCount)
+    private void Ensure_NewLine_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -3080,7 +3111,7 @@ public class BinaryFormatter : IFormatter<byte>
         }
     }
 
-    public void Append_Indent(ref List<byte> destination, int indentCount)
+    private void Append_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -3095,27 +3126,27 @@ public class BinaryFormatter : IFormatter<byte>
         }
     }
 
-    public void Append_Copy(ref List<byte> destination, ReadOnlySpan<char> singleLineSource)
+    private void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         destination.AddRangeConversion(Converter, Assumption, singleLineSource);
     }
 
-    public void Append_Copy(ref List<byte> destination, ref DualList<char> source, ref Range range)
+    private void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ref DualList<char> source, ref Range range)
     {
         ref var line = ref source[range.StartInclusive.Line];
         var slice = line.AsSpan(range.StartInclusive.Offset);
         if (range.StartInclusive.Line == range.EndExclusive.Line)
         {
             slice = slice.Slice(0, (int)(range.EndExclusive.Offset - range.StartInclusive.Offset));
-            Append_Copy(ref destination, slice);
+            Append_Copy(ref destination, ref JustChangeLine, slice);
             return;
         }
 
         var lineIndex = range.StartInclusive.Line;
         do
         {
-            Append_Copy(ref destination, slice);
-            Append_NewLine(ref destination);
+            Append_Copy(ref destination, ref JustChangeLine, slice);
+            Append_NewLine(ref destination, ref JustChangeLine);
             if (++lineIndex != range.EndExclusive.Line)
             {
                 slice = source[lineIndex].AsSpan();
@@ -3128,2568 +3159,2568 @@ public class BinaryFormatter : IFormatter<byte>
             }
 
             slice = source[lineIndex].AsSpan(0, range.EndExclusive.Offset);
-            Append_Copy(ref destination, slice);
+            Append_Copy(ref destination, ref JustChangeLine, slice);
             return;
         } while (true);
     }
 
-    public void Append_battle_NewLine_BracketLeft_NewLine(ref List<byte> destination)
+    private void Append_battle_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(battle_NewLine_BracketLeft_NewLine_Offset, battle_NewLine_BracketLeft_NewLine_Count));
     }
 
-    public void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination)
+    private void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
     }
 
-    public void Append_BracketLeft_NewLine(ref List<byte> destination)
+    private void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketLeft_NewLine_Offset, BracketLeft_NewLine_Count));
     }
 
-    public void Append_BracketRight_NewLine(ref List<byte> destination)
+    private void Append_BracketRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketRight_NewLine_Offset, BracketRight_NewLine_Count));
     }
 
-    public void Append_else_NewLine(ref List<byte> destination)
+    private void Append_else_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(else_NewLine_Offset, else_NewLine_Count));
     }
 
-    public void Append_next_ParenLeft_ParenRight_NewLine(ref List<byte> destination)
+    private void Append_next_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(next_ParenLeft_ParenRight_NewLine_Offset, next_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    public void Append_return_ParenLeft_ParenRight_NewLine(ref List<byte> destination)
+    private void Append_return_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(return_ParenLeft_ParenRight_NewLine_Offset, return_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    public void Append_continue_ParenLeft_ParenRight_NewLine(ref List<byte> destination)
+    private void Append_continue_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(continue_ParenLeft_ParenRight_NewLine_Offset, continue_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    public void Append_break_ParenLeft_ParenRight_NewLine(ref List<byte> destination)
+    private void Append_break_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(break_ParenLeft_ParenRight_NewLine_Offset, break_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    public void Append_Space_Assign(ref List<byte> destination)
+    private void Append_Space_Assign(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Assign_Offset, Space_Assign_Count));
     }
 
-    public void Append_Semicolon(ref List<byte> destination)
+    private void Append_Semicolon(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Semicolon_Offset, Semicolon_Count));
     }
 
-    public void Append_ParenLeft(ref List<byte> destination)
+    private void Append_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ParenLeft_Offset, ParenLeft_Count));
     }
 
-    public void Append_BracketLeft(ref List<byte> destination)
+    private void Append_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(BracketLeft_Offset, BracketLeft_Count));
     }
 
-    public void Append_ParenRight(ref List<byte> destination)
+    private void Append_ParenRight(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ParenRight_Offset, ParenRight_Count));
     }
 
-    public void Append_else_Space_if_ParenLeft(ref List<byte> destination)
+    private void Append_else_Space_if_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(else_Space_if_ParenLeft_Offset, else_Space_if_ParenLeft_Count));
     }
 
-    public void Append_else_Space_rif_ParenLeft(ref List<byte> destination)
+    private void Append_else_Space_rif_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(else_Space_rif_ParenLeft_Offset, else_Space_rif_ParenLeft_Count));
     }
 
-    public void Append_Comma(ref List<byte> destination)
+    private void Append_Comma(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Comma_Offset, Comma_Count));
     }
 
-    public void Append_Comma_Space(ref List<byte> destination)
+    private void Append_Comma_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Comma_Space_Offset, Comma_Space_Count));
     }
 
-    public void Append_Space_Assign_Space(ref List<byte> destination)
+    private void Append_Space_Assign_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Assign_Space_Offset, Space_Assign_Space_Count));
     }
 
-    public void Append_Space_Colon_Space(ref List<byte> destination)
+    private void Append_Space_Colon_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Colon_Space_Offset, Space_Colon_Space_Count));
     }
 
-    public void Append_Space_Mul_Space(ref List<byte> destination)
+    private void Append_Space_Mul_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Mul_Space_Offset, Space_Mul_Space_Count));
     }
 
-    public void Append_Space_Add_Space(ref List<byte> destination)
+    private void Append_Space_Add_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Add_Space_Offset, Space_Add_Space_Count));
     }
 
-    public void Append_Space_Sub_Space(ref List<byte> destination)
+    private void Append_Space_Sub_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Sub_Space_Offset, Space_Sub_Space_Count));
     }
 
-    public void Append_Space_Div_Space(ref List<byte> destination)
+    private void Append_Space_Div_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Div_Space_Offset, Space_Div_Space_Count));
     }
 
-    public void Append_Space_Percent_Space(ref List<byte> destination)
+    private void Append_Space_Percent_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Percent_Space_Offset, Space_Percent_Space_Count));
     }
 
-    public void Append_Space_And_Space(ref List<byte> destination)
+    private void Append_Space_And_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_And_Space_Offset, Space_And_Space_Count));
     }
 
-    public void Append_Space_Or_Space(ref List<byte> destination)
+    private void Append_Space_Or_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Or_Space_Offset, Space_Or_Space_Count));
     }
 
-    public void Append_Space_CompareEqual_Space(ref List<byte> destination)
+    private void Append_Space_CompareEqual_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareEqual_Space_Offset, Space_CompareEqual_Space_Count));
     }
 
-    public void Append_Space_CompareNotEqual_Space(ref List<byte> destination)
+    private void Append_Space_CompareNotEqual_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareNotEqual_Space_Offset, Space_CompareNotEqual_Space_Count));
     }
 
-    public void Append_Space_CompareGreaterThan_Space(ref List<byte> destination)
+    private void Append_Space_CompareGreaterThan_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareGreaterThan_Space_Offset, Space_CompareGreaterThan_Space_Count));
     }
 
-    public void Append_Space_CompareGreaterThanOrEqualTo_Space(ref List<byte> destination)
+    private void Append_Space_CompareGreaterThanOrEqualTo_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareGreaterThanOrEqualTo_Space_Offset, Space_CompareGreaterThanOrEqualTo_Space_Count));
     }
 
-    public void Append_Space_CompareLessThan_Space(ref List<byte> destination)
+    private void Append_Space_CompareLessThan_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareLessThan_Space_Offset, Space_CompareLessThan_Space_Count));
     }
 
-    public void Append_Space_CompareLessThanOrEqualTo_Space(ref List<byte> destination)
+    private void Append_Space_CompareLessThanOrEqualTo_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareLessThanOrEqualTo_Space_Offset, Space_CompareLessThanOrEqualTo_Space_Count));
     }
 
-    public void Append_if_Space_ParenLeft(ref List<byte> destination)
+    private void Append_if_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(if_Space_ParenLeft_Offset, if_Space_ParenLeft_Count));
     }
 
-    public void Append_rif_Space_ParenLeft(ref List<byte> destination)
+    private void Append_rif_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(rif_Space_ParenLeft_Offset, rif_Space_ParenLeft_Count));
     }
 
-    public void Append_while_Space_ParenLeft(ref List<byte> destination)
+    private void Append_while_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(while_Space_ParenLeft_Offset, while_Space_ParenLeft_Count));
     }
 
-    public void Append_spot_Space(ref List<byte> destination)
+    private void Append_spot_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spot_Space_Offset, spot_Space_Count));
     }
 
-    public void Append_unit_Space(ref List<byte> destination)
+    private void Append_unit_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unit_Space_Offset, unit_Space_Count));
     }
 
-    public void Append_race_Space(ref List<byte> destination)
+    private void Append_race_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(race_Space_Offset, race_Space_Count));
     }
 
-    public void Append_class_Space(ref List<byte> destination)
+    private void Append_class_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(class_Space_Offset, class_Space_Count));
     }
 
-    public void Append_field_Space(ref List<byte> destination)
+    private void Append_field_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(field_Space_Offset, field_Space_Count));
     }
 
-    public void Append_skill_Space(ref List<byte> destination)
+    private void Append_skill_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skill_Space_Offset, skill_Space_Count));
     }
 
-    public void Append_power_Space(ref List<byte> destination)
+    private void Append_power_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(power_Space_Offset, power_Space_Count));
     }
 
-    public void Append_voice_Space(ref List<byte> destination)
+    private void Append_voice_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(voice_Space_Offset, voice_Space_Count));
     }
 
-    public void Append_object_Space(ref List<byte> destination)
+    private void Append_object_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(object_Space_Offset, object_Space_Count));
     }
 
-    public void Append_dungeon_Space(ref List<byte> destination)
+    private void Append_dungeon_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dungeon_Space_Offset, dungeon_Space_Count));
     }
 
-    public void Append_movetype_Space(ref List<byte> destination)
+    private void Append_movetype_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(movetype_Space_Offset, movetype_Space_Count));
     }
 
-    public void Append_skillset_Space(ref List<byte> destination)
+    private void Append_skillset_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skillset_Space_Offset, skillset_Space_Count));
     }
 
-    public void Append_story_Space(ref List<byte> destination)
+    private void Append_story_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(story_Space_Offset, story_Space_Count));
     }
 
-    public void Append_fight_Space(ref List<byte> destination)
+    private void Append_fight_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fight_Space_Offset, fight_Space_Count));
     }
 
-    public void Append_world_Space(ref List<byte> destination)
+    private void Append_world_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(world_Space_Offset, world_Space_Count));
     }
 
-    public void Append_event_Space(ref List<byte> destination)
+    private void Append_event_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(event_Space_Offset, event_Space_Count));
     }
 
-    public void Append_scenario_Space(ref List<byte> destination)
+    private void Append_scenario_Space(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scenario_Space_Offset, scenario_Space_Count));
     }
 
-    public void Append_bg_ParenLeft(ref List<byte> destination)
+    private void Append_bg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(bg_ParenLeft_Offset, bg_ParenLeft_Count));
     }
 
-    public void Append_vc_ParenLeft(ref List<byte> destination)
+    private void Append_vc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(vc_ParenLeft_Offset, vc_ParenLeft_Count));
     }
 
-    public void Append_add_ParenLeft(ref List<byte> destination)
+    private void Append_add_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(add_ParenLeft_Offset, add_ParenLeft_Count));
     }
 
-    public void Append_div_ParenLeft(ref List<byte> destination)
+    private void Append_div_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(div_ParenLeft_Offset, div_ParenLeft_Count));
     }
 
-    public void Append_mod_ParenLeft(ref List<byte> destination)
+    private void Append_mod_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mod_ParenLeft_Offset, mod_ParenLeft_Count));
     }
 
-    public void Append_msg_ParenLeft(ref List<byte> destination)
+    private void Append_msg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(msg_ParenLeft_Offset, msg_ParenLeft_Count));
     }
 
-    public void Append_mul_ParenLeft(ref List<byte> destination)
+    private void Append_mul_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mul_ParenLeft_Offset, mul_ParenLeft_Count));
     }
 
-    public void Append_per_ParenLeft(ref List<byte> destination)
+    private void Append_per_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(per_ParenLeft_Offset, per_ParenLeft_Count));
     }
 
-    public void Append_set_ParenLeft(ref List<byte> destination)
+    private void Append_set_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(set_ParenLeft_Offset, set_ParenLeft_Count));
     }
 
-    public void Append_sub_ParenLeft(ref List<byte> destination)
+    private void Append_sub_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sub_ParenLeft_Offset, sub_ParenLeft_Count));
     }
 
-    public void Append_win_ParenLeft(ref List<byte> destination)
+    private void Append_win_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(win_ParenLeft_Offset, win_ParenLeft_Count));
     }
 
-    public void Append_addv_ParenLeft(ref List<byte> destination)
+    private void Append_addv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addv_ParenLeft_Offset, addv_ParenLeft_Count));
     }
 
-    public void Append_call_ParenLeft(ref List<byte> destination)
+    private void Append_call_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(call_ParenLeft_Offset, call_ParenLeft_Count));
     }
 
-    public void Append_chat_ParenLeft(ref List<byte> destination)
+    private void Append_chat_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(chat_ParenLeft_Offset, chat_ParenLeft_Count));
     }
 
-    public void Append_exit_ParenLeft(ref List<byte> destination)
+    private void Append_exit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exit_ParenLeft_Offset, exit_ParenLeft_Count));
     }
 
-    public void Append_face_ParenLeft(ref List<byte> destination)
+    private void Append_face_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(face_ParenLeft_Offset, face_ParenLeft_Count));
     }
 
-    public void Append_font_ParenLeft(ref List<byte> destination)
+    private void Append_font_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(font_ParenLeft_Offset, font_ParenLeft_Count));
     }
 
-    public void Append_msg2_ParenLeft(ref List<byte> destination)
+    private void Append_msg2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(msg2_ParenLeft_Offset, msg2_ParenLeft_Count));
     }
 
-    public void Append_play_ParenLeft(ref List<byte> destination)
+    private void Append_play_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(play_ParenLeft_Offset, play_ParenLeft_Count));
     }
 
-    public void Append_ppl1_ParenLeft(ref List<byte> destination)
+    private void Append_ppl1_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ppl1_ParenLeft_Offset, ppl1_ParenLeft_Count));
     }
 
-    public void Append_save_ParenLeft(ref List<byte> destination)
+    private void Append_save_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(save_ParenLeft_Offset, save_ParenLeft_Count));
     }
 
-    public void Append_setv_ParenLeft(ref List<byte> destination)
+    private void Append_setv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setv_ParenLeft_Offset, setv_ParenLeft_Count));
     }
 
-    public void Append_stop_ParenLeft(ref List<byte> destination)
+    private void Append_stop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stop_ParenLeft_Offset, stop_ParenLeft_Count));
     }
 
-    public void Append_subv_ParenLeft(ref List<byte> destination)
+    private void Append_subv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subv_ParenLeft_Offset, subv_ParenLeft_Count));
     }
 
-    public void Append_talk_ParenLeft(ref List<byte> destination)
+    private void Append_talk_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(talk_ParenLeft_Offset, talk_ParenLeft_Count));
     }
 
-    public void Append_wait_ParenLeft(ref List<byte> destination)
+    private void Append_wait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(wait_ParenLeft_Offset, wait_ParenLeft_Count));
     }
 
-    public void Append_zoom_ParenLeft(ref List<byte> destination)
+    private void Append_zoom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(zoom_ParenLeft_Offset, zoom_ParenLeft_Count));
     }
 
-    public void Append_chat2_ParenLeft(ref List<byte> destination)
+    private void Append_chat2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(chat2_ParenLeft_Offset, chat2_ParenLeft_Count));
     }
 
-    public void Append_citom_ParenLeft(ref List<byte> destination)
+    private void Append_citom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(citom_ParenLeft_Offset, citom_ParenLeft_Count));
     }
 
-    public void Append_clear_ParenLeft(ref List<byte> destination)
+    private void Append_clear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clear_ParenLeft_Offset, clear_ParenLeft_Count));
     }
 
-    public void Append_erase_ParenLeft(ref List<byte> destination)
+    private void Append_erase_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erase_ParenLeft_Offset, erase_ParenLeft_Count));
     }
 
-    public void Append_event_ParenLeft(ref List<byte> destination)
+    private void Append_event_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(event_ParenLeft_Offset, event_ParenLeft_Count));
     }
 
-    public void Append_face2_ParenLeft(ref List<byte> destination)
+    private void Append_face2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(face2_ParenLeft_Offset, face2_ParenLeft_Count));
     }
 
-    public void Append_focus_ParenLeft(ref List<byte> destination)
+    private void Append_focus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(focus_ParenLeft_Offset, focus_ParenLeft_Count));
     }
 
-    public void Append_fontc_ParenLeft(ref List<byte> destination)
+    private void Append_fontc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fontc_ParenLeft_Offset, fontc_ParenLeft_Count));
     }
 
-    public void Append_gread_ParenLeft(ref List<byte> destination)
+    private void Append_gread_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(gread_ParenLeft_Offset, gread_ParenLeft_Count));
     }
 
-    public void Append_image_ParenLeft(ref List<byte> destination)
+    private void Append_image_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(image_ParenLeft_Offset, image_ParenLeft_Count));
     }
 
-    public void Append_index_ParenLeft(ref List<byte> destination)
+    private void Append_index_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(index_ParenLeft_Offset, index_ParenLeft_Count));
     }
 
-    public void Append_pushv_ParenLeft(ref List<byte> destination)
+    private void Append_pushv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushv_ParenLeft_Offset, pushv_ParenLeft_Count));
     }
 
-    public void Append_setPM_ParenLeft(ref List<byte> destination)
+    private void Append_setPM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPM_ParenLeft_Offset, setPM_ParenLeft_Count));
     }
 
-    public void Append_setud_ParenLeft(ref List<byte> destination)
+    private void Append_setud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setud_ParenLeft_Offset, setud_ParenLeft_Count));
     }
 
-    public void Append_shake_ParenLeft(ref List<byte> destination)
+    private void Append_shake_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shake_ParenLeft_Offset, shake_ParenLeft_Count));
     }
 
-    public void Append_talk2_ParenLeft(ref List<byte> destination)
+    private void Append_talk2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(talk2_ParenLeft_Offset, talk2_ParenLeft_Count));
     }
 
-    public void Append_title_ParenLeft(ref List<byte> destination)
+    private void Append_title_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(title_ParenLeft_Offset, title_ParenLeft_Count));
     }
 
-    public void Append_addstr_ParenLeft(ref List<byte> destination)
+    private void Append_addstr_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addstr_ParenLeft_Offset, addstr_ParenLeft_Count));
     }
 
-    public void Append_addVar_ParenLeft(ref List<byte> destination)
+    private void Append_addVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addVar_ParenLeft_Offset, addVar_ParenLeft_Count));
     }
 
-    public void Append_choice_ParenLeft(ref List<byte> destination)
+    private void Append_choice_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choice_ParenLeft_Offset, choice_ParenLeft_Count));
     }
 
-    public void Append_dialog_ParenLeft(ref List<byte> destination)
+    private void Append_dialog_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dialog_ParenLeft_Offset, dialog_ParenLeft_Count));
     }
 
-    public void Append_fadein_ParenLeft(ref List<byte> destination)
+    private void Append_fadein_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadein_ParenLeft_Offset, fadein_ParenLeft_Count));
     }
 
-    public void Append_gwrite_ParenLeft(ref List<byte> destination)
+    private void Append_gwrite_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(gwrite_ParenLeft_Offset, gwrite_ParenLeft_Count));
     }
 
-    public void Append_locate_ParenLeft(ref List<byte> destination)
+    private void Append_locate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(locate_ParenLeft_Offset, locate_ParenLeft_Count));
     }
 
-    public void Append_playSE_ParenLeft(ref List<byte> destination)
+    private void Append_playSE_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playSE_ParenLeft_Offset, playSE_ParenLeft_Count));
     }
 
-    public void Append_scroll_ParenLeft(ref List<byte> destination)
+    private void Append_scroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scroll_ParenLeft_Offset, scroll_ParenLeft_Count));
     }
 
-    public void Append_select_ParenLeft(ref List<byte> destination)
+    private void Append_select_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(select_ParenLeft_Offset, select_ParenLeft_Count));
     }
 
-    public void Append_setbcg_ParenLeft(ref List<byte> destination)
+    private void Append_setbcg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setbcg_ParenLeft_Offset, setbcg_ParenLeft_Count));
     }
 
-    public void Append_setVar_ParenLeft(ref List<byte> destination)
+    private void Append_setVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setVar_ParenLeft_Offset, setVar_ParenLeft_Count));
     }
 
-    public void Append_shadow_ParenLeft(ref List<byte> destination)
+    private void Append_shadow_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shadow_ParenLeft_Offset, shadow_ParenLeft_Count));
     }
 
-    public void Append_subVar_ParenLeft(ref List<byte> destination)
+    private void Append_subVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subVar_ParenLeft_Offset, subVar_ParenLeft_Count));
     }
 
-    public void Append_title2_ParenLeft(ref List<byte> destination)
+    private void Append_title2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(title2_ParenLeft_Offset, title2_ParenLeft_Count));
     }
 
-    public void Append_volume_ParenLeft(ref List<byte> destination)
+    private void Append_volume_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(volume_ParenLeft_Offset, volume_ParenLeft_Count));
     }
 
-    public void Append_addCapa_ParenLeft(ref List<byte> destination)
+    private void Append_addCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addCapa_ParenLeft_Offset, addCapa_ParenLeft_Count));
     }
 
-    public void Append_addGain_ParenLeft(ref List<byte> destination)
+    private void Append_addGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addGain_ParenLeft_Offset, addGain_ParenLeft_Count));
     }
 
-    public void Append_addItem_ParenLeft(ref List<byte> destination)
+    private void Append_addItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addItem_ParenLeft_Offset, addItem_ParenLeft_Count));
     }
 
-    public void Append_addSpot_ParenLeft(ref List<byte> destination)
+    private void Append_addSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSpot_ParenLeft_Offset, addSpot_ParenLeft_Count));
     }
 
-    public void Append_addUnit_ParenLeft(ref List<byte> destination)
+    private void Append_addUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addUnit_ParenLeft_Offset, addUnit_ParenLeft_Count));
     }
 
-    public void Append_dialogF_ParenLeft(ref List<byte> destination)
+    private void Append_dialogF_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dialogF_ParenLeft_Offset, dialogF_ParenLeft_Count));
     }
 
-    public void Append_doskill_ParenLeft(ref List<byte> destination)
+    private void Append_doskill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(doskill_ParenLeft_Offset, doskill_ParenLeft_Count));
     }
 
-    public void Append_fadeout_ParenLeft(ref List<byte> destination)
+    private void Append_fadeout_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadeout_ParenLeft_Offset, fadeout_ParenLeft_Count));
     }
 
-    public void Append_levelup_ParenLeft(ref List<byte> destination)
+    private void Append_levelup_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(levelup_ParenLeft_Offset, levelup_ParenLeft_Count));
     }
 
-    public void Append_loopBGM_ParenLeft(ref List<byte> destination)
+    private void Append_loopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(loopBGM_ParenLeft_Offset, loopBGM_ParenLeft_Count));
     }
 
-    public void Append_minimap_ParenLeft(ref List<byte> destination)
+    private void Append_minimap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(minimap_ParenLeft_Offset, minimap_ParenLeft_Count));
     }
 
-    public void Append_picture_ParenLeft(ref List<byte> destination)
+    private void Append_picture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(picture_ParenLeft_Offset, picture_ParenLeft_Count));
     }
 
-    public void Append_playBGM_ParenLeft(ref List<byte> destination)
+    private void Append_playBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playBGM_ParenLeft_Offset, playBGM_ParenLeft_Count));
     }
 
-    public void Append_pushCon_ParenLeft(ref List<byte> destination)
+    private void Append_pushCon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCon_ParenLeft_Offset, pushCon_ParenLeft_Count));
     }
 
-    public void Append_pushSex_ParenLeft(ref List<byte> destination)
+    private void Append_pushSex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSex_ParenLeft_Offset, pushSex_ParenLeft_Count));
     }
 
-    public void Append_pushVar_ParenLeft(ref List<byte> destination)
+    private void Append_pushVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushVar_ParenLeft_Offset, pushVar_ParenLeft_Count));
     }
 
-    public void Append_routine_ParenLeft(ref List<byte> destination)
+    private void Append_routine_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(routine_ParenLeft_Offset, routine_ParenLeft_Count));
     }
 
-    public void Append_scroll2_ParenLeft(ref List<byte> destination)
+    private void Append_scroll2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scroll2_ParenLeft_Offset, scroll2_ParenLeft_Count));
     }
 
-    public void Append_setCapa_ParenLeft(ref List<byte> destination)
+    private void Append_setCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setCapa_ParenLeft_Offset, setCapa_ParenLeft_Count));
     }
 
-    public void Append_setDone_ParenLeft(ref List<byte> destination)
+    private void Append_setDone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDone_ParenLeft_Offset, setDone_ParenLeft_Count));
     }
 
-    public void Append_setGain_ParenLeft(ref List<byte> destination)
+    private void Append_setGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setGain_ParenLeft_Offset, setGain_ParenLeft_Count));
     }
 
-    public void Append_shuffle_ParenLeft(ref List<byte> destination)
+    private void Append_shuffle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shuffle_ParenLeft_Offset, shuffle_ParenLeft_Count));
     }
 
-    public void Append_stopBGM_ParenLeft(ref List<byte> destination)
+    private void Append_stopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stopBGM_ParenLeft_Offset, stopBGM_ParenLeft_Count));
     }
 
-    public void Append_storePM_ParenLeft(ref List<byte> destination)
+    private void Append_storePM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePM_ParenLeft_Offset, storePM_ParenLeft_Count));
     }
 
-    public void Append_storeud_ParenLeft(ref List<byte> destination)
+    private void Append_storeud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeud_ParenLeft_Offset, storeud_ParenLeft_Count));
     }
 
-    public void Append_addDiplo_ParenLeft(ref List<byte> destination)
+    private void Append_addDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addDiplo_ParenLeft_Offset, addDiplo_ParenLeft_Count));
     }
 
-    public void Append_addLevel_ParenLeft(ref List<byte> destination)
+    private void Append_addLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLevel_ParenLeft_Offset, addLevel_ParenLeft_Count));
     }
 
-    public void Append_addLimit_ParenLeft(ref List<byte> destination)
+    private void Append_addLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLimit_ParenLeft_Offset, addLimit_ParenLeft_Count));
     }
 
-    public void Append_addLoyal_ParenLeft(ref List<byte> destination)
+    private void Append_addLoyal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLoyal_ParenLeft_Offset, addLoyal_ParenLeft_Count));
     }
 
-    public void Append_addMoney_ParenLeft(ref List<byte> destination)
+    private void Append_addMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addMoney_ParenLeft_Offset, addMoney_ParenLeft_Count));
     }
 
-    public void Append_addPower_ParenLeft(ref List<byte> destination)
+    private void Append_addPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPower_ParenLeft_Offset, addPower_ParenLeft_Count));
     }
 
-    public void Append_addSkill_ParenLeft(ref List<byte> destination)
+    private void Append_addSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSkill_ParenLeft_Offset, addSkill_ParenLeft_Count));
     }
 
-    public void Append_addTroop_ParenLeft(ref List<byte> destination)
+    private void Append_addTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTroop_ParenLeft_Offset, addTroop_ParenLeft_Count));
     }
 
-    public void Append_addTrust_ParenLeft(ref List<byte> destination)
+    private void Append_addTrust_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTrust_ParenLeft_Offset, addTrust_ParenLeft_Count));
     }
 
-    public void Append_aimTroop_ParenLeft(ref List<byte> destination)
+    private void Append_aimTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(aimTroop_ParenLeft_Offset, aimTroop_ParenLeft_Count));
     }
 
-    public void Append_clearVar_ParenLeft(ref List<byte> destination)
+    private void Append_clearVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clearVar_ParenLeft_Offset, clearVar_ParenLeft_Count));
     }
 
-    public void Append_darkness_ParenLeft(ref List<byte> destination)
+    private void Append_darkness_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(darkness_ParenLeft_Offset, darkness_ParenLeft_Count));
     }
 
-    public void Append_exitItem_ParenLeft(ref List<byte> destination)
+    private void Append_exitItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exitItem_ParenLeft_Offset, exitItem_ParenLeft_Count));
     }
 
-    public void Append_hideLink_ParenLeft(ref List<byte> destination)
+    private void Append_hideLink_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideLink_ParenLeft_Offset, hideLink_ParenLeft_Count));
     }
 
-    public void Append_hideSpot_ParenLeft(ref List<byte> destination)
+    private void Append_hideSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideSpot_ParenLeft_Offset, hideSpot_ParenLeft_Count));
     }
 
-    public void Append_linkSpot_ParenLeft(ref List<byte> destination)
+    private void Append_linkSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(linkSpot_ParenLeft_Offset, linkSpot_ParenLeft_Count));
     }
 
-    public void Append_openGoal_ParenLeft(ref List<byte> destination)
+    private void Append_openGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(openGoal_ParenLeft_Offset, openGoal_ParenLeft_Count));
     }
 
-    public void Append_picture2_ParenLeft(ref List<byte> destination)
+    private void Append_picture2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(picture2_ParenLeft_Offset, picture2_ParenLeft_Count));
     }
 
-    public void Append_pushCapa_ParenLeft(ref List<byte> destination)
+    private void Append_pushCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCapa_ParenLeft_Offset, pushCapa_ParenLeft_Count));
     }
 
-    public void Append_pushGain_ParenLeft(ref List<byte> destination)
+    private void Append_pushGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushGain_ParenLeft_Offset, pushGain_ParenLeft_Count));
     }
 
-    public void Append_pushItem_ParenLeft(ref List<byte> destination)
+    private void Append_pushItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushItem_ParenLeft_Offset, pushItem_ParenLeft_Count));
     }
 
-    public void Append_pushRand_ParenLeft(ref List<byte> destination)
+    private void Append_pushRand_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRand_ParenLeft_Offset, pushRand_ParenLeft_Count));
     }
 
-    public void Append_pushRank_ParenLeft(ref List<byte> destination)
+    private void Append_pushRank_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRank_ParenLeft_Offset, pushRank_ParenLeft_Count));
     }
 
-    public void Append_pushSpot_ParenLeft(ref List<byte> destination)
+    private void Append_pushSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSpot_ParenLeft_Offset, pushSpot_ParenLeft_Count));
     }
 
-    public void Append_pushTurn_ParenLeft(ref List<byte> destination)
+    private void Append_pushTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTurn_ParenLeft_Offset, pushTurn_ParenLeft_Count));
     }
 
-    public void Append_roamUnit_ParenLeft(ref List<byte> destination)
+    private void Append_roamUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(roamUnit_ParenLeft_Offset, roamUnit_ParenLeft_Count));
     }
 
-    public void Append_setDiplo_ParenLeft(ref List<byte> destination)
+    private void Append_setDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDiplo_ParenLeft_Offset, setDiplo_ParenLeft_Count));
     }
 
-    public void Append_setLevel_ParenLeft(ref List<byte> destination)
+    private void Append_setLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLevel_ParenLeft_Offset, setLevel_ParenLeft_Count));
     }
 
-    public void Append_setLimit_ParenLeft(ref List<byte> destination)
+    private void Append_setLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLimit_ParenLeft_Offset, setLimit_ParenLeft_Count));
     }
 
-    public void Append_setMoney_ParenLeft(ref List<byte> destination)
+    private void Append_setMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setMoney_ParenLeft_Offset, setMoney_ParenLeft_Count));
     }
 
-    public void Append_setTruce_ParenLeft(ref List<byte> destination)
+    private void Append_setTruce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTruce_ParenLeft_Offset, setTruce_ParenLeft_Count));
     }
 
-    public void Append_showCamp_ParenLeft(ref List<byte> destination)
+    private void Append_showCamp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showCamp_ParenLeft_Offset, showCamp_ParenLeft_Count));
     }
 
-    public void Append_showFace_ParenLeft(ref List<byte> destination)
+    private void Append_showFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showFace_ParenLeft_Offset, showFace_ParenLeft_Count));
     }
 
-    public void Append_showPict_ParenLeft(ref List<byte> destination)
+    private void Append_showPict_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPict_ParenLeft_Offset, showPict_ParenLeft_Count));
     }
 
-    public void Append_showSpot_ParenLeft(ref List<byte> destination)
+    private void Append_showSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showSpot_ParenLeft_Offset, showSpot_ParenLeft_Count));
     }
 
-    public void Append_spotmark_ParenLeft(ref List<byte> destination)
+    private void Append_spotmark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spotmark_ParenLeft_Offset, spotmark_ParenLeft_Count));
     }
 
-    public void Append_addCastle_ParenLeft(ref List<byte> destination)
+    private void Append_addCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addCastle_ParenLeft_Offset, addCastle_ParenLeft_Count));
     }
 
-    public void Append_addFriend_ParenLeft(ref List<byte> destination)
+    private void Append_addFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addFriend_ParenLeft_Offset, addFriend_ParenLeft_Count));
     }
 
-    public void Append_addMerits_ParenLeft(ref List<byte> destination)
+    private void Append_addMerits_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addMerits_ParenLeft_Offset, addMerits_ParenLeft_Count));
     }
 
-    public void Append_addSkill2_ParenLeft(ref List<byte> destination)
+    private void Append_addSkill2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSkill2_ParenLeft_Offset, addSkill2_ParenLeft_Count));
     }
 
-    public void Append_addStatus_ParenLeft(ref List<byte> destination)
+    private void Append_addStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addStatus_ParenLeft_Offset, addStatus_ParenLeft_Count));
     }
 
-    public void Append_changeMap_ParenLeft(ref List<byte> destination)
+    private void Append_changeMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMap_ParenLeft_Offset, changeMap_ParenLeft_Count));
     }
 
-    public void Append_clickWait_ParenLeft(ref List<byte> destination)
+    private void Append_clickWait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clickWait_ParenLeft_Offset, clickWait_ParenLeft_Count));
     }
 
-    public void Append_closeGoal_ParenLeft(ref List<byte> destination)
+    private void Append_closeGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(closeGoal_ParenLeft_Offset, closeGoal_ParenLeft_Count));
     }
 
-    public void Append_ctrlTroop_ParenLeft(ref List<byte> destination)
+    private void Append_ctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ctrlTroop_ParenLeft_Offset, ctrlTroop_ParenLeft_Count));
     }
 
-    public void Append_entryItem_ParenLeft(ref List<byte> destination)
+    private void Append_entryItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(entryItem_ParenLeft_Offset, entryItem_ParenLeft_Count));
     }
 
-    public void Append_equipItem_ParenLeft(ref List<byte> destination)
+    private void Append_equipItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(equipItem_ParenLeft_Offset, equipItem_ParenLeft_Count));
     }
 
-    public void Append_eraseItem_ParenLeft(ref List<byte> destination)
+    private void Append_eraseItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseItem_ParenLeft_Offset, eraseItem_ParenLeft_Count));
     }
 
-    public void Append_eraseUnit_ParenLeft(ref List<byte> destination)
+    private void Append_eraseUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit_ParenLeft_Offset, eraseUnit_ParenLeft_Count));
     }
 
-    public void Append_formTroop_ParenLeft(ref List<byte> destination)
+    private void Append_formTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(formTroop_ParenLeft_Offset, formTroop_ParenLeft_Count));
     }
 
-    public void Append_freeTroop_ParenLeft(ref List<byte> destination)
+    private void Append_freeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(freeTroop_ParenLeft_Offset, freeTroop_ParenLeft_Count));
     }
 
-    public void Append_haltTroop_ParenLeft(ref List<byte> destination)
+    private void Append_haltTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(haltTroop_ParenLeft_Offset, haltTroop_ParenLeft_Count));
     }
 
-    public void Append_hideBlind_ParenLeft(ref List<byte> destination)
+    private void Append_hideBlind_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideBlind_ParenLeft_Offset, hideBlind_ParenLeft_Count));
     }
 
-    public void Append_hideChara_ParenLeft(ref List<byte> destination)
+    private void Append_hideChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideChara_ParenLeft_Offset, hideChara_ParenLeft_Count));
     }
 
-    public void Append_hideImage_ParenLeft(ref List<byte> destination)
+    private void Append_hideImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideImage_ParenLeft_Offset, hideImage_ParenLeft_Count));
     }
 
-    public void Append_moveTroop_ParenLeft(ref List<byte> destination)
+    private void Append_moveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(moveTroop_ParenLeft_Offset, moveTroop_ParenLeft_Count));
     }
 
-    public void Append_playWorld_ParenLeft(ref List<byte> destination)
+    private void Append_playWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playWorld_ParenLeft_Offset, playWorld_ParenLeft_Count));
     }
 
-    public void Append_pushDeath_ParenLeft(ref List<byte> destination)
+    private void Append_pushDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushDeath_ParenLeft_Offset, pushDeath_ParenLeft_Count));
     }
 
-    public void Append_pushDiplo_ParenLeft(ref List<byte> destination)
+    private void Append_pushDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushDiplo_ParenLeft_Offset, pushDiplo_ParenLeft_Count));
     }
 
-    public void Append_pushForce_ParenLeft(ref List<byte> destination)
+    private void Append_pushForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushForce_ParenLeft_Offset, pushForce_ParenLeft_Count));
     }
 
-    public void Append_pushLevel_ParenLeft(ref List<byte> destination)
+    private void Append_pushLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLevel_ParenLeft_Offset, pushLevel_ParenLeft_Count));
     }
 
-    public void Append_pushLimit_ParenLeft(ref List<byte> destination)
+    private void Append_pushLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLimit_ParenLeft_Offset, pushLimit_ParenLeft_Count));
     }
 
-    public void Append_pushLoyal_ParenLeft(ref List<byte> destination)
+    private void Append_pushLoyal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLoyal_ParenLeft_Offset, pushLoyal_ParenLeft_Count));
     }
 
-    public void Append_pushMoney_ParenLeft(ref List<byte> destination)
+    private void Append_pushMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushMoney_ParenLeft_Offset, pushMoney_ParenLeft_Count));
     }
 
-    public void Append_pushRand2_ParenLeft(ref List<byte> destination)
+    private void Append_pushRand2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRand2_ParenLeft_Offset, pushRand2_ParenLeft_Count));
     }
 
-    public void Append_pushTrain_ParenLeft(ref List<byte> destination)
+    private void Append_pushTrain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrain_ParenLeft_Offset, pushTrain_ParenLeft_Count));
     }
 
-    public void Append_pushTrust_ParenLeft(ref List<byte> destination)
+    private void Append_pushTrust_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrust_ParenLeft_Offset, pushTrust_ParenLeft_Count));
     }
 
-    public void Append_resetTime_ParenLeft(ref List<byte> destination)
+    private void Append_resetTime_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetTime_ParenLeft_Offset, resetTime_ParenLeft_Count));
     }
 
-    public void Append_resetZone_ParenLeft(ref List<byte> destination)
+    private void Append_resetZone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetZone_ParenLeft_Offset, resetZone_ParenLeft_Count));
     }
 
-    public void Append_roamUnit2_ParenLeft(ref List<byte> destination)
+    private void Append_roamUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(roamUnit2_ParenLeft_Offset, roamUnit2_ParenLeft_Count));
     }
 
-    public void Append_setArbeit_ParenLeft(ref List<byte> destination)
+    private void Append_setArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setArbeit_ParenLeft_Offset, setArbeit_ParenLeft_Count));
     }
 
-    public void Append_setCastle_ParenLeft(ref List<byte> destination)
+    private void Append_setCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setCastle_ParenLeft_Offset, setCastle_ParenLeft_Count));
     }
 
-    public void Append_setLeague_ParenLeft(ref List<byte> destination)
+    private void Append_setLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLeague_ParenLeft_Offset, setLeague_ParenLeft_Count));
     }
 
-    public void Append_setStatus_ParenLeft(ref List<byte> destination)
+    private void Append_setStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setStatus_ParenLeft_Offset, setStatus_ParenLeft_Count));
     }
 
-    public void Append_showBlind_ParenLeft(ref List<byte> destination)
+    private void Append_showBlind_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showBlind_ParenLeft_Offset, showBlind_ParenLeft_Count));
     }
 
-    public void Append_showChara_ParenLeft(ref List<byte> destination)
+    private void Append_showChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showChara_ParenLeft_Offset, showChara_ParenLeft_Count));
     }
 
-    public void Append_showImage_ParenLeft(ref List<byte> destination)
+    private void Append_showImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showImage_ParenLeft_Offset, showImage_ParenLeft_Count));
     }
 
-    public void Append_stopTroop_ParenLeft(ref List<byte> destination)
+    private void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
     }
 
-    public void Append_terminate_ParenLeft(ref List<byte> destination)
+    private void Append_terminate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(terminate_ParenLeft_Offset, terminate_ParenLeft_Count));
     }
 
-    public void Append_worldskin_ParenLeft(ref List<byte> destination)
+    private void Append_worldskin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(worldskin_ParenLeft_Offset, worldskin_ParenLeft_Count));
     }
 
-    public void Append_backScroll_ParenLeft(ref List<byte> destination)
+    private void Append_backScroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(backScroll_ParenLeft_Offset, backScroll_ParenLeft_Count));
     }
 
-    public void Append_changeRace_ParenLeft(ref List<byte> destination)
+    private void Append_changeRace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeRace_ParenLeft_Offset, changeRace_ParenLeft_Count));
     }
 
-    public void Append_endingRoll_ParenLeft(ref List<byte> destination)
+    private void Append_endingRoll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(endingRoll_ParenLeft_Offset, endingRoll_ParenLeft_Count));
     }
 
-    public void Append_erasePower_ParenLeft(ref List<byte> destination)
+    private void Append_erasePower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePower_ParenLeft_Offset, erasePower_ParenLeft_Count));
     }
 
-    public void Append_eraseSkill_ParenLeft(ref List<byte> destination)
+    private void Append_eraseSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseSkill_ParenLeft_Offset, eraseSkill_ParenLeft_Count));
     }
 
-    public void Append_eraseTroop_ParenLeft(ref List<byte> destination)
+    private void Append_eraseTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseTroop_ParenLeft_Offset, eraseTroop_ParenLeft_Count));
     }
 
-    public void Append_eraseUnit2_ParenLeft(ref List<byte> destination)
+    private void Append_eraseUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit2_ParenLeft_Offset, eraseUnit2_ParenLeft_Count));
     }
 
-    public void Append_hideEscape_ParenLeft(ref List<byte> destination)
+    private void Append_hideEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideEscape_ParenLeft_Offset, hideEscape_ParenLeft_Count));
     }
 
-    public void Append_linkEscape_ParenLeft(ref List<byte> destination)
+    private void Append_linkEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(linkEscape_ParenLeft_Offset, linkEscape_ParenLeft_Count));
     }
 
-    public void Append_playBattle_ParenLeft(ref List<byte> destination)
+    private void Append_playBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playBattle_ParenLeft_Offset, playBattle_ParenLeft_Count));
     }
 
-    public void Append_pushCastle_ParenLeft(ref List<byte> destination)
+    private void Append_pushCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCastle_ParenLeft_Offset, pushCastle_ParenLeft_Count));
     }
 
-    public void Append_pushMerits_ParenLeft(ref List<byte> destination)
+    private void Append_pushMerits_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushMerits_ParenLeft_Offset, pushMerits_ParenLeft_Count));
     }
 
-    public void Append_pushStatus_ParenLeft(ref List<byte> destination)
+    private void Append_pushStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushStatus_ParenLeft_Offset, pushStatus_ParenLeft_Count));
     }
 
-    public void Append_reloadMenu_ParenLeft(ref List<byte> destination)
+    private void Append_reloadMenu_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reloadMenu_ParenLeft_Offset, reloadMenu_ParenLeft_Count));
     }
 
-    public void Append_removeSpot_ParenLeft(ref List<byte> destination)
+    private void Append_removeSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeSpot_ParenLeft_Offset, removeSpot_ParenLeft_Count));
     }
 
-    public void Append_resetTruce_ParenLeft(ref List<byte> destination)
+    private void Append_resetTruce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetTruce_ParenLeft_Offset, resetTruce_ParenLeft_Count));
     }
 
-    public void Append_setDungeon_ParenLeft(ref List<byte> destination)
+    private void Append_setDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDungeon_ParenLeft_Offset, setDungeon_ParenLeft_Count));
     }
 
-    public void Append_shiftTroop_ParenLeft(ref List<byte> destination)
+    private void Append_shiftTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shiftTroop_ParenLeft_Offset, shiftTroop_ParenLeft_Count));
     }
 
-    public void Append_shuffleVar_ParenLeft(ref List<byte> destination)
+    private void Append_shuffleVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shuffleVar_ParenLeft_Offset, shuffleVar_ParenLeft_Count));
     }
 
-    public void Append_skillTroop_ParenLeft(ref List<byte> destination)
+    private void Append_skillTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skillTroop_ParenLeft_Offset, skillTroop_ParenLeft_Count));
     }
 
-    public void Append_sleepTroop_ParenLeft(ref List<byte> destination)
+    private void Append_sleepTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sleepTroop_ParenLeft_Offset, sleepTroop_ParenLeft_Count));
     }
 
-    public void Append_smoveTroop_ParenLeft(ref List<byte> destination)
+    private void Append_smoveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(smoveTroop_ParenLeft_Offset, smoveTroop_ParenLeft_Count));
     }
 
-    public void Append_speedTroop_ParenLeft(ref List<byte> destination)
+    private void Append_speedTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(speedTroop_ParenLeft_Offset, speedTroop_ParenLeft_Count));
     }
 
-    public void Append_storeDeath_ParenLeft(ref List<byte> destination)
+    private void Append_storeDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeDeath_ParenLeft_Offset, storeDeath_ParenLeft_Count));
     }
 
-    public void Append_storeIndex_ParenLeft(ref List<byte> destination)
+    private void Append_storeIndex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeIndex_ParenLeft_Offset, storeIndex_ParenLeft_Count));
     }
 
-    public void Append_unionPower_ParenLeft(ref List<byte> destination)
+    private void Append_unionPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unionPower_ParenLeft_Offset, unionPower_ParenLeft_Count));
     }
 
-    public void Append_activeTroop_ParenLeft(ref List<byte> destination)
+    private void Append_activeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(activeTroop_ParenLeft_Offset, activeTroop_ParenLeft_Count));
     }
 
-    public void Append_addTraining_ParenLeft(ref List<byte> destination)
+    private void Append_addTraining_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTraining_ParenLeft_Offset, addTraining_ParenLeft_Count));
     }
 
-    public void Append_battleEvent_ParenLeft(ref List<byte> destination)
+    private void Append_battleEvent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(battleEvent_ParenLeft_Offset, battleEvent_ParenLeft_Count));
     }
 
-    public void Append_changeClass_ParenLeft(ref List<byte> destination)
+    private void Append_changeClass_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeClass_ParenLeft_Offset, changeClass_ParenLeft_Count));
     }
 
-    public void Append_choiceTitle_ParenLeft(ref List<byte> destination)
+    private void Append_choiceTitle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choiceTitle_ParenLeft_Offset, choiceTitle_ParenLeft_Count));
     }
 
-    public void Append_eraseFriend_ParenLeft(ref List<byte> destination)
+    private void Append_eraseFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseFriend_ParenLeft_Offset, eraseFriend_ParenLeft_Count));
     }
 
-    public void Append_hidePicture_ParenLeft(ref List<byte> destination)
+    private void Append_hidePicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hidePicture_ParenLeft_Offset, hidePicture_ParenLeft_Count));
     }
 
-    public void Append_pushSpotPos_ParenLeft(ref List<byte> destination)
+    private void Append_pushSpotPos_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSpotPos_ParenLeft_Offset, pushSpotPos_ParenLeft_Count));
     }
 
-    public void Append_pushTrainUp_ParenLeft(ref List<byte> destination)
+    private void Append_pushTrainUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrainUp_ParenLeft_Offset, pushTrainUp_ParenLeft_Count));
     }
 
-    public void Append_removeSkill_ParenLeft(ref List<byte> destination)
+    private void Append_removeSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeSkill_ParenLeft_Offset, removeSkill_ParenLeft_Count));
     }
 
-    public void Append_removeTroop_ParenLeft(ref List<byte> destination)
+    private void Append_removeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeTroop_ParenLeft_Offset, removeTroop_ParenLeft_Count));
     }
 
-    public void Append_resetLeague_ParenLeft(ref List<byte> destination)
+    private void Append_resetLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetLeague_ParenLeft_Offset, resetLeague_ParenLeft_Count));
     }
 
-    public void Append_scrollSpeed_ParenLeft(ref List<byte> destination)
+    private void Append_scrollSpeed_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scrollSpeed_ParenLeft_Offset, scrollSpeed_ParenLeft_Count));
     }
 
-    public void Append_setTraining_ParenLeft(ref List<byte> destination)
+    private void Append_setTraining_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTraining_ParenLeft_Offset, setTraining_ParenLeft_Count));
     }
 
-    public void Append_shiftTroop2_ParenLeft(ref List<byte> destination)
+    private void Append_shiftTroop2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shiftTroop2_ParenLeft_Offset, shiftTroop2_ParenLeft_Count));
     }
 
-    public void Append_showDungeon_ParenLeft(ref List<byte> destination)
+    private void Append_showDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showDungeon_ParenLeft_Offset, showDungeon_ParenLeft_Count));
     }
 
-    public void Append_showPicture_ParenLeft(ref List<byte> destination)
+    private void Append_showPicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPicture_ParenLeft_Offset, showPicture_ParenLeft_Count));
     }
 
-    public void Append_unctrlTroop_ParenLeft(ref List<byte> destination)
+    private void Append_unctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unctrlTroop_ParenLeft_Offset, unctrlTroop_ParenLeft_Count));
     }
 
-    public void Append_addBaseLevel_ParenLeft(ref List<byte> destination)
+    private void Append_addBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addBaseLevel_ParenLeft_Offset, addBaseLevel_ParenLeft_Count));
     }
 
-    public void Append_changeCastle_ParenLeft(ref List<byte> destination)
+    private void Append_changeCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeCastle_ParenLeft_Offset, changeCastle_ParenLeft_Count));
     }
 
-    public void Append_changeMaster_ParenLeft(ref List<byte> destination)
+    private void Append_changeMaster_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMaster_ParenLeft_Offset, changeMaster_ParenLeft_Count));
     }
 
-    public void Append_changePlayer_ParenLeft(ref List<byte> destination)
+    private void Append_changePlayer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePlayer_ParenLeft_Offset, changePlayer_ParenLeft_Count));
     }
 
-    public void Append_darkness_off_ParenLeft(ref List<byte> destination)
+    private void Append_darkness_off_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(darkness_off_ParenLeft_Offset, darkness_off_ParenLeft_Count));
     }
 
-    public void Append_doGameEnding_ParenLeft(ref List<byte> destination)
+    private void Append_doGameEnding_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(doGameEnding_ParenLeft_Offset, doGameEnding_ParenLeft_Count));
     }
 
-    public void Append_hideSpotMark_ParenLeft(ref List<byte> destination)
+    private void Append_hideSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideSpotMark_ParenLeft_Offset, hideSpotMark_ParenLeft_Count));
     }
 
-    public void Append_moveTroopFix_ParenLeft(ref List<byte> destination)
+    private void Append_moveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(moveTroopFix_ParenLeft_Offset, moveTroopFix_ParenLeft_Count));
     }
 
-    public void Append_retreatTroop_ParenLeft(ref List<byte> destination)
+    private void Append_retreatTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(retreatTroop_ParenLeft_Offset, retreatTroop_ParenLeft_Count));
     }
 
-    public void Append_reverseChara_ParenLeft(ref List<byte> destination)
+    private void Append_reverseChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reverseChara_ParenLeft_Offset, reverseChara_ParenLeft_Count));
     }
 
-    public void Append_setBaseLevel_ParenLeft(ref List<byte> destination)
+    private void Append_setBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setBaseLevel_ParenLeft_Offset, setBaseLevel_ParenLeft_Count));
     }
 
-    public void Append_setGameClear_ParenLeft(ref List<byte> destination)
+    private void Append_setGameClear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setGameClear_ParenLeft_Offset, setGameClear_ParenLeft_Count));
     }
 
-    public void Append_setPowerHome_ParenLeft(ref List<byte> destination)
+    private void Append_setPowerHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPowerHome_ParenLeft_Offset, setPowerHome_ParenLeft_Count));
     }
 
-    public void Append_showPolitics_ParenLeft(ref List<byte> destination)
+    private void Append_showPolitics_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPolitics_ParenLeft_Offset, showPolitics_ParenLeft_Count));
     }
 
-    public void Append_showSpotMark_ParenLeft(ref List<byte> destination)
+    private void Append_showSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showSpotMark_ParenLeft_Offset, showSpotMark_ParenLeft_Count));
     }
 
-    public void Append_storeAllSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeAllSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllSpot_ParenLeft_Offset, storeAllSpot_ParenLeft_Count));
     }
 
-    public void Append_addPowerMerce_ParenLeft(ref List<byte> destination)
+    private void Append_addPowerMerce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerMerce_ParenLeft_Offset, addPowerMerce_ParenLeft_Count));
     }
 
-    public void Append_addPowerStaff_ParenLeft(ref List<byte> destination)
+    private void Append_addPowerStaff_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerStaff_ParenLeft_Offset, addPowerStaff_ParenLeft_Count));
     }
 
-    public void Append_addTrainingUp_ParenLeft(ref List<byte> destination)
+    private void Append_addTrainingUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTrainingUp_ParenLeft_Offset, addTrainingUp_ParenLeft_Count));
     }
 
-    public void Append_changeDungeon_ParenLeft(ref List<byte> destination)
+    private void Append_changeDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeDungeon_ParenLeft_Offset, changeDungeon_ParenLeft_Count));
     }
 
-    public void Append_pushBaseLevel_ParenLeft(ref List<byte> destination)
+    private void Append_pushBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBaseLevel_ParenLeft_Offset, pushBaseLevel_ParenLeft_Count));
     }
 
-    public void Append_setEnemyPower_ParenLeft(ref List<byte> destination)
+    private void Append_setEnemyPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setEnemyPower_ParenLeft_Offset, setEnemyPower_ParenLeft_Count));
     }
 
-    public void Append_setTrainingUp_ParenLeft(ref List<byte> destination)
+    private void Append_setTrainingUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTrainingUp_ParenLeft_Offset, setTrainingUp_ParenLeft_Count));
     }
 
-    public void Append_setWorldMusic_ParenLeft(ref List<byte> destination)
+    private void Append_setWorldMusic_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setWorldMusic_ParenLeft_Offset, setWorldMusic_ParenLeft_Count));
     }
 
-    public void Append_smoveTroopFix_ParenLeft(ref List<byte> destination)
+    private void Append_smoveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(smoveTroopFix_ParenLeft_Offset, smoveTroopFix_ParenLeft_Count));
     }
 
-    public void Append_storeAllPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeAllPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllPower_ParenLeft_Offset, storeAllPower_ParenLeft_Count));
     }
 
-    public void Append_storeComPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeComPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeComPower_ParenLeft_Offset, storeComPower_ParenLeft_Count));
     }
 
-    public void Append_storeIndexVar_ParenLeft(ref List<byte> destination)
+    private void Append_storeIndexVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeIndexVar_ParenLeft_Offset, storeIndexVar_ParenLeft_Count));
     }
 
-    public void Append_storeNextSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeNextSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNextSpot_ParenLeft_Offset, storeNextSpot_ParenLeft_Count));
     }
 
-    public void Append_storeNowPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeNowPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNowPower_ParenLeft_Offset, storeNowPower_ParenLeft_Count));
     }
 
-    public void Append_storeRectUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeRectUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRectUnit_ParenLeft_Offset, storeRectUnit_ParenLeft_Count));
     }
 
-    public void Append_storeSkillset_ParenLeft(ref List<byte> destination)
+    private void Append_storeSkillset_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSkillset_ParenLeft_Offset, storeSkillset_ParenLeft_Count));
     }
 
-    public void Append_storeTodoUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeTodoUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeTodoUnit_ParenLeft_Offset, storeTodoUnit_ParenLeft_Count));
     }
 
-    public void Append_addPowerMerce2_ParenLeft(ref List<byte> destination)
+    private void Append_addPowerMerce2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerMerce2_ParenLeft_Offset, addPowerMerce2_ParenLeft_Count));
     }
 
-    public void Append_addPowerStaff2_ParenLeft(ref List<byte> destination)
+    private void Append_addPowerStaff2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerStaff2_ParenLeft_Offset, addPowerStaff2_ParenLeft_Count));
     }
 
-    public void Append_changePowerFix_ParenLeft(ref List<byte> destination)
+    private void Append_changePowerFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerFix_ParenLeft_Offset, changePowerFix_ParenLeft_Count));
     }
 
-    public void Append_eraseUnitTroop_ParenLeft(ref List<byte> destination)
+    private void Append_eraseUnitTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnitTroop_ParenLeft_Offset, eraseUnitTroop_ParenLeft_Count));
     }
 
-    public void Append_pushBattleHome_ParenLeft(ref List<byte> destination)
+    private void Append_pushBattleHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBattleHome_ParenLeft_Offset, pushBattleHome_ParenLeft_Count));
     }
 
-    public void Append_pushBattleRect_ParenLeft(ref List<byte> destination)
+    private void Append_pushBattleRect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBattleRect_ParenLeft_Offset, pushBattleRect_ParenLeft_Count));
     }
 
-    public void Append_pushCountPower_ParenLeft(ref List<byte> destination)
+    private void Append_pushCountPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCountPower_ParenLeft_Offset, pushCountPower_ParenLeft_Count));
     }
 
-    public void Append_storeAliveUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeAliveUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAliveUnit_ParenLeft_Offset, storeAliveUnit_ParenLeft_Count));
     }
 
-    public void Append_storeAllTalent_ParenLeft(ref List<byte> destination)
+    private void Append_storeAllTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllTalent_ParenLeft_Offset, storeAllTalent_ParenLeft_Count));
     }
 
-    public void Append_changePowerFlag_ParenLeft(ref List<byte> destination)
+    private void Append_changePowerFlag_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerFlag_ParenLeft_Offset, changePowerFlag_ParenLeft_Count));
     }
 
-    public void Append_changePowerName_ParenLeft(ref List<byte> destination)
+    private void Append_changePowerName_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerName_ParenLeft_Offset, changePowerName_ParenLeft_Count));
     }
 
-    public void Append_changeSpotImage_ParenLeft(ref List<byte> destination)
+    private void Append_changeSpotImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeSpotImage_ParenLeft_Offset, changeSpotImage_ParenLeft_Count));
     }
 
-    public void Append_erasePowerMerce_ParenLeft(ref List<byte> destination)
+    private void Append_erasePowerMerce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePowerMerce_ParenLeft_Offset, erasePowerMerce_ParenLeft_Count));
     }
 
-    public void Append_erasePowerStaff_ParenLeft(ref List<byte> destination)
+    private void Append_erasePowerStaff_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePowerStaff_ParenLeft_Offset, erasePowerStaff_ParenLeft_Count));
     }
 
-    public void Append_resetEnemyPower_ParenLeft(ref List<byte> destination)
+    private void Append_resetEnemyPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetEnemyPower_ParenLeft_Offset, resetEnemyPower_ParenLeft_Count));
     }
 
-    public void Append_resetWorldMusic_ParenLeft(ref List<byte> destination)
+    private void Append_resetWorldMusic_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetWorldMusic_ParenLeft_Offset, resetWorldMusic_ParenLeft_Count));
     }
 
-    public void Append_setDungeonFloor_ParenLeft(ref List<byte> destination)
+    private void Append_setDungeonFloor_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDungeonFloor_ParenLeft_Offset, setDungeonFloor_ParenLeft_Count));
     }
 
-    public void Append_storeBattleSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeBattleSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeBattleSpot_ParenLeft_Offset, storeBattleSpot_ParenLeft_Count));
     }
 
-    public void Append_storePlayerUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storePlayerUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePlayerUnit_ParenLeft_Offset, storePlayerUnit_ParenLeft_Count));
     }
 
-    public void Append_storeRaceOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeRaceOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRaceOfUnit_ParenLeft_Offset, storeRaceOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storeSpotOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeSpotOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfUnit_ParenLeft_Offset, storeSpotOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storeUnitOfSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeUnitOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeUnitOfSpot_ParenLeft_Offset, storeUnitOfSpot_ParenLeft_Count));
     }
 
-    public void Append_storeAttackPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeAttackPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAttackPower_ParenLeft_Offset, storeAttackPower_ParenLeft_Count));
     }
 
-    public void Append_storeClassOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeClassOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeClassOfUnit_ParenLeft_Offset, storeClassOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storeNeutralSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeNeutralSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNeutralSpot_ParenLeft_Offset, storeNeutralSpot_ParenLeft_Count));
     }
 
-    public void Append_storePlayerPower_ParenLeft(ref List<byte> destination)
+    private void Append_storePlayerPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePlayerPower_ParenLeft_Offset, storePlayerPower_ParenLeft_Count));
     }
 
-    public void Append_storePowerOfSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storePowerOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfSpot_ParenLeft_Offset, storePowerOfSpot_ParenLeft_Count));
     }
 
-    public void Append_storePowerOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storePowerOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfUnit_ParenLeft_Offset, storePowerOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storeSkillOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeSkillOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSkillOfUnit_ParenLeft_Offset, storeSkillOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storeSpotOfPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeSpotOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfPower_ParenLeft_Offset, storeSpotOfPower_ParenLeft_Count));
     }
 
-    public void Append_storeTalentPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeTalentPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeTalentPower_ParenLeft_Offset, storeTalentPower_ParenLeft_Count));
     }
 
-    public void Append_storeUnitOfPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeUnitOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeUnitOfPower_ParenLeft_Offset, storeUnitOfPower_ParenLeft_Count));
     }
 
-    public void Append_clearBattleRecord_ParenLeft(ref List<byte> destination)
+    private void Append_clearBattleRecord_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clearBattleRecord_ParenLeft_Offset, clearBattleRecord_ParenLeft_Count));
     }
 
-    public void Append_storeDefensePower_ParenLeft(ref List<byte> destination)
+    private void Append_storeDefensePower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeDefensePower_ParenLeft_Offset, storeDefensePower_ParenLeft_Count));
     }
 
-    public void Append_storeLeaderOfSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeLeaderOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeLeaderOfSpot_ParenLeft_Offset, storeLeaderOfSpot_ParenLeft_Count));
     }
 
-    public void Append_storeMasterOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeMasterOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMasterOfUnit_ParenLeft_Offset, storeMasterOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storeMemberOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeMemberOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMemberOfUnit_ParenLeft_Offset, storeMemberOfUnit_ParenLeft_Count));
     }
 
-    public void Append_storePowerOfForce_ParenLeft(ref List<byte> destination)
+    private void Append_storePowerOfForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfForce_ParenLeft_Offset, storePowerOfForce_ParenLeft_Count));
     }
 
-    public void Append_storeSpotOfBattle_ParenLeft(ref List<byte> destination)
+    private void Append_storeSpotOfBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfBattle_ParenLeft_Offset, storeSpotOfBattle_ParenLeft_Count));
     }
 
-    public void Append_storeLeaderOfPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeLeaderOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeLeaderOfPower_ParenLeft_Offset, storeLeaderOfPower_ParenLeft_Count));
     }
 
-    public void Append_storeMasterOfPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeMasterOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMasterOfPower_ParenLeft_Offset, storeMasterOfPower_ParenLeft_Count));
     }
 
-    public void Append_storePowerOfAttack_ParenLeft(ref List<byte> destination)
+    private void Append_storePowerOfAttack_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfAttack_ParenLeft_Offset, storePowerOfAttack_ParenLeft_Count));
     }
 
-    public void Append_storeNonPlayerPower_ParenLeft(ref List<byte> destination)
+    private void Append_storeNonPlayerPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNonPlayerPower_ParenLeft_Offset, storeNonPlayerPower_ParenLeft_Count));
     }
 
-    public void Append_storePowerOfDefense_ParenLeft(ref List<byte> destination)
+    private void Append_storePowerOfDefense_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfDefense_ParenLeft_Offset, storePowerOfDefense_ParenLeft_Count));
     }
 
-    public void Append_storeRoamUnitOfSpot_ParenLeft(ref List<byte> destination)
+    private void Append_storeRoamUnitOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRoamUnitOfSpot_ParenLeft_Offset, storeRoamUnitOfSpot_ParenLeft_Count));
     }
 
-    public void Append_storeBaseClassOfUnit_ParenLeft(ref List<byte> destination)
+    private void Append_storeBaseClassOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeBaseClassOfUnit_ParenLeft_Offset, storeBaseClassOfUnit_ParenLeft_Count));
     }
 
-    public void Append_has_ParenLeft(ref List<byte> destination)
+    private void Append_has_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(has_ParenLeft_Offset, has_ParenLeft_Count));
     }
 
-    public void Append_yet_ParenLeft(ref List<byte> destination)
+    private void Append_yet_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(yet_ParenLeft_Offset, yet_ParenLeft_Count));
     }
 
-    public void Append_rand_ParenLeft(ref List<byte> destination)
+    private void Append_rand_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(rand_ParenLeft_Offset, rand_ParenLeft_Count));
     }
 
-    public void Append_count_ParenLeft(ref List<byte> destination)
+    private void Append_count_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(count_ParenLeft_Offset, count_ParenLeft_Count));
     }
 
-    public void Append_equal_ParenLeft(ref List<byte> destination)
+    private void Append_equal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(equal_ParenLeft_Offset, equal_ParenLeft_Count));
     }
 
-    public void Append_eqVar_ParenLeft(ref List<byte> destination)
+    private void Append_eqVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eqVar_ParenLeft_Offset, eqVar_ParenLeft_Count));
     }
 
-    public void Append_inVar_ParenLeft(ref List<byte> destination)
+    private void Append_inVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inVar_ParenLeft_Offset, inVar_ParenLeft_Count));
     }
 
-    public void Append_isMap_ParenLeft(ref List<byte> destination)
+    private void Append_isMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isMap_ParenLeft_Offset, isMap_ParenLeft_Count));
     }
 
-    public void Append_isNpc_ParenLeft(ref List<byte> destination)
+    private void Append_isNpc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNpc_ParenLeft_Offset, isNpc_ParenLeft_Count));
     }
 
-    public void Append_isNPM_ParenLeft(ref List<byte> destination)
+    private void Append_isNPM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNPM_ParenLeft_Offset, isNPM_ParenLeft_Count));
     }
 
-    public void Append_isWar_ParenLeft(ref List<byte> destination)
+    private void Append_isWar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWar_ParenLeft_Offset, isWar_ParenLeft_Count));
     }
 
-    public void Append_ptest_ParenLeft(ref List<byte> destination)
+    private void Append_ptest_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ptest_ParenLeft_Offset, ptest_ParenLeft_Count));
     }
 
-    public void Append_amount_ParenLeft(ref List<byte> destination)
+    private void Append_amount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(amount_ParenLeft_Offset, amount_ParenLeft_Count));
     }
 
-    public void Append_conVar_ParenLeft(ref List<byte> destination)
+    private void Append_conVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(conVar_ParenLeft_Offset, conVar_ParenLeft_Count));
     }
 
-    public void Append_inSpot_ParenLeft(ref List<byte> destination)
+    private void Append_inSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inSpot_ParenLeft_Offset, inSpot_ParenLeft_Count));
     }
 
-    public void Append_isDead_ParenLeft(ref List<byte> destination)
+    private void Append_isDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDead_ParenLeft_Offset, isDead_ParenLeft_Count));
     }
 
-    public void Append_isDone_ParenLeft(ref List<byte> destination)
+    private void Append_isDone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDone_ParenLeft_Offset, isDone_ParenLeft_Count));
     }
 
-    public void Append_isJoin_ParenLeft(ref List<byte> destination)
+    private void Append_isJoin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isJoin_ParenLeft_Offset, isJoin_ParenLeft_Count));
     }
 
-    public void Append_isNext_ParenLeft(ref List<byte> destination)
+    private void Append_isNext_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNext_ParenLeft_Offset, isNext_ParenLeft_Count));
     }
 
-    public void Append_reckon_ParenLeft(ref List<byte> destination)
+    private void Append_reckon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reckon_ParenLeft_Offset, reckon_ParenLeft_Count));
     }
 
-    public void Append_getLife_ParenLeft(ref List<byte> destination)
+    private void Append_getLife_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLife_ParenLeft_Offset, getLife_ParenLeft_Count));
     }
 
-    public void Append_getMode_ParenLeft(ref List<byte> destination)
+    private void Append_getMode_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getMode_ParenLeft_Offset, getMode_ParenLeft_Count));
     }
 
-    public void Append_getTime_ParenLeft(ref List<byte> destination)
+    private void Append_getTime_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getTime_ParenLeft_Offset, getTime_ParenLeft_Count));
     }
 
-    public void Append_getTurn_ParenLeft(ref List<byte> destination)
+    private void Append_getTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getTurn_ParenLeft_Offset, getTurn_ParenLeft_Count));
     }
 
-    public void Append_inPower_ParenLeft(ref List<byte> destination)
+    private void Append_inPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inPower_ParenLeft_Offset, inPower_ParenLeft_Count));
     }
 
-    public void Append_isAlive_ParenLeft(ref List<byte> destination)
+    private void Append_isAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAlive_ParenLeft_Offset, isAlive_ParenLeft_Count));
     }
 
-    public void Append_isEnemy_ParenLeft(ref List<byte> destination)
+    private void Append_isEnemy_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEnemy_ParenLeft_Offset, isEnemy_ParenLeft_Count));
     }
 
-    public void Append_isEvent_ParenLeft(ref List<byte> destination)
+    private void Append_isEvent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEvent_ParenLeft_Offset, isEvent_ParenLeft_Count));
     }
 
-    public void Append_isPeace_ParenLeft(ref List<byte> destination)
+    private void Append_isPeace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPeace_ParenLeft_Offset, isPeace_ParenLeft_Count));
     }
 
-    public void Append_isWorld_ParenLeft(ref List<byte> destination)
+    private void Append_isWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWorld_ParenLeft_Offset, isWorld_ParenLeft_Count));
     }
 
-    public void Append_countVar_ParenLeft(ref List<byte> destination)
+    private void Append_countVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countVar_ParenLeft_Offset, countVar_ParenLeft_Count));
     }
 
-    public void Append_getLimit_ParenLeft(ref List<byte> destination)
+    private void Append_getLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLimit_ParenLeft_Offset, getLimit_ParenLeft_Count));
     }
 
-    public void Append_inBattle_ParenLeft(ref List<byte> destination)
+    private void Append_inBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inBattle_ParenLeft_Offset, inBattle_ParenLeft_Count));
     }
 
-    public void Append_isActive_ParenLeft(ref List<byte> destination)
+    private void Append_isActive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isActive_ParenLeft_Offset, isActive_ParenLeft_Count));
     }
 
-    public void Append_isArbeit_ParenLeft(ref List<byte> destination)
+    private void Append_isArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isArbeit_ParenLeft_Offset, isArbeit_ParenLeft_Count));
     }
 
-    public void Append_isEnable_ParenLeft(ref List<byte> destination)
+    private void Append_isEnable_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEnable_ParenLeft_Offset, isEnable_ParenLeft_Count));
     }
 
-    public void Append_isFriend_ParenLeft(ref List<byte> destination)
+    private void Append_isFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isFriend_ParenLeft_Offset, isFriend_ParenLeft_Count));
     }
 
-    public void Append_isInvade_ParenLeft(ref List<byte> destination)
+    private void Append_isInvade_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isInvade_ParenLeft_Offset, isInvade_ParenLeft_Count));
     }
 
-    public void Append_isLeader_ParenLeft(ref List<byte> destination)
+    private void Append_isLeader_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isLeader_ParenLeft_Offset, isLeader_ParenLeft_Count));
     }
 
-    public void Append_isLeague_ParenLeft(ref List<byte> destination)
+    private void Append_isLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isLeague_ParenLeft_Offset, isLeague_ParenLeft_Count));
     }
 
-    public void Append_isMaster_ParenLeft(ref List<byte> destination)
+    private void Append_isMaster_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isMaster_ParenLeft_Offset, isMaster_ParenLeft_Count));
     }
 
-    public void Append_isPlayer_ParenLeft(ref List<byte> destination)
+    private void Append_isPlayer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayer_ParenLeft_Offset, isPlayer_ParenLeft_Count));
     }
 
-    public void Append_isPostIn_ParenLeft(ref List<byte> destination)
+    private void Append_isPostIn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPostIn_ParenLeft_Offset, isPostIn_ParenLeft_Count));
     }
 
-    public void Append_isRoamer_ParenLeft(ref List<byte> destination)
+    private void Append_isRoamer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRoamer_ParenLeft_Offset, isRoamer_ParenLeft_Count));
     }
 
-    public void Append_isSelect_ParenLeft(ref List<byte> destination)
+    private void Append_isSelect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isSelect_ParenLeft_Offset, isSelect_ParenLeft_Count));
     }
 
-    public void Append_isTalent_ParenLeft(ref List<byte> destination)
+    private void Append_isTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isTalent_ParenLeft_Offset, isTalent_ParenLeft_Count));
     }
 
-    public void Append_isVassal_ParenLeft(ref List<byte> destination)
+    private void Append_isVassal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isVassal_ParenLeft_Offset, isVassal_ParenLeft_Count));
     }
 
-    public void Append_countGain_ParenLeft(ref List<byte> destination)
+    private void Append_countGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countGain_ParenLeft_Offset, countGain_ParenLeft_Count));
     }
 
-    public void Append_countPost_ParenLeft(ref List<byte> destination)
+    private void Append_countPost_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countPost_ParenLeft_Offset, countPost_ParenLeft_Count));
     }
 
-    public void Append_countSpot_ParenLeft(ref List<byte> destination)
+    private void Append_countSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countSpot_ParenLeft_Offset, countSpot_ParenLeft_Count));
     }
 
-    public void Append_countUnit_ParenLeft(ref List<byte> destination)
+    private void Append_countUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countUnit_ParenLeft_Offset, countUnit_ParenLeft_Count));
     }
 
-    public void Append_isAllDead_ParenLeft(ref List<byte> destination)
+    private void Append_isAllDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAllDead_ParenLeft_Offset, isAllDead_ParenLeft_Count));
     }
 
-    public void Append_isAnyDead_ParenLeft(ref List<byte> destination)
+    private void Append_isAnyDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAnyDead_ParenLeft_Offset, isAnyDead_ParenLeft_Count));
     }
 
-    public void Append_isComTurn_ParenLeft(ref List<byte> destination)
+    private void Append_isComTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isComTurn_ParenLeft_Offset, isComTurn_ParenLeft_Count));
     }
 
-    public void Append_isDungeon_ParenLeft(ref List<byte> destination)
+    private void Append_isDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDungeon_ParenLeft_Offset, isDungeon_ParenLeft_Count));
     }
 
-    public void Append_isNewTurn_ParenLeft(ref List<byte> destination)
+    private void Append_isNewTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNewTurn_ParenLeft_Offset, isNewTurn_ParenLeft_Count));
     }
 
-    public void Append_isNowSpot_ParenLeft(ref List<byte> destination)
+    private void Append_isNowSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNowSpot_ParenLeft_Offset, isNowSpot_ParenLeft_Count));
     }
 
-    public void Append_istoWorld_ParenLeft(ref List<byte> destination)
+    private void Append_istoWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(istoWorld_ParenLeft_Offset, istoWorld_ParenLeft_Count));
     }
 
-    public void Append_isWhoDead_ParenLeft(ref List<byte> destination)
+    private void Append_isWhoDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWhoDead_ParenLeft_Offset, isWhoDead_ParenLeft_Count));
     }
 
-    public void Append_countForce_ParenLeft(ref List<byte> destination)
+    private void Append_countForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countForce_ParenLeft_Offset, countForce_ParenLeft_Count));
     }
 
-    public void Append_countMoney_ParenLeft(ref List<byte> destination)
+    private void Append_countMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countMoney_ParenLeft_Offset, countMoney_ParenLeft_Count));
     }
 
-    public void Append_countPower_ParenLeft(ref List<byte> destination)
+    private void Append_countPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countPower_ParenLeft_Offset, countPower_ParenLeft_Count));
     }
 
-    public void Append_countSkill_ParenLeft(ref List<byte> destination)
+    private void Append_countSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countSkill_ParenLeft_Offset, countSkill_ParenLeft_Count));
     }
 
-    public void Append_getLifePer_ParenLeft(ref List<byte> destination)
+    private void Append_getLifePer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLifePer_ParenLeft_Offset, getLifePer_ParenLeft_Count));
     }
 
-    public void Append_inRoamSpot_ParenLeft(ref List<byte> destination)
+    private void Append_inRoamSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inRoamSpot_ParenLeft_Offset, inRoamSpot_ParenLeft_Count));
     }
 
-    public void Append_isGameOver_ParenLeft(ref List<byte> destination)
+    private void Append_isGameOver_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isGameOver_ParenLeft_Offset, isGameOver_ParenLeft_Count));
     }
 
-    public void Append_isInterval_ParenLeft(ref List<byte> destination)
+    private void Append_isInterval_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isInterval_ParenLeft_Offset, isInterval_ParenLeft_Count));
     }
 
-    public void Append_isRedAlive_ParenLeft(ref List<byte> destination)
+    private void Append_isRedAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRedAlive_ParenLeft_Offset, isRedAlive_ParenLeft_Count));
     }
 
-    public void Append_isSameArmy_ParenLeft(ref List<byte> destination)
+    private void Append_isSameArmy_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isSameArmy_ParenLeft_Offset, isSameArmy_ParenLeft_Count));
     }
 
-    public void Append_isScenario_ParenLeft(ref List<byte> destination)
+    private void Append_isScenario_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isScenario_ParenLeft_Offset, isScenario_ParenLeft_Count));
     }
 
-    public void Append_isWatching_ParenLeft(ref List<byte> destination)
+    private void Append_isWatching_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWatching_ParenLeft_Offset, isWatching_ParenLeft_Count));
     }
 
-    public void Append_getDistance_ParenLeft(ref List<byte> destination)
+    private void Append_getDistance_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getDistance_ParenLeft_Offset, getDistance_ParenLeft_Count));
     }
 
-    public void Append_getRedCount_ParenLeft(ref List<byte> destination)
+    private void Append_getRedCount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getRedCount_ParenLeft_Offset, getRedCount_ParenLeft_Count));
     }
 
-    public void Append_isBlueAlive_ParenLeft(ref List<byte> destination)
+    private void Append_isBlueAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isBlueAlive_ParenLeft_Offset, isBlueAlive_ParenLeft_Count));
     }
 
-    public void Append_isGameClear_ParenLeft(ref List<byte> destination)
+    private void Append_isGameClear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isGameClear_ParenLeft_Offset, isGameClear_ParenLeft_Count));
     }
 
-    public void Append_isPlayerEnd_ParenLeft(ref List<byte> destination)
+    private void Append_isPlayerEnd_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayerEnd_ParenLeft_Offset, isPlayerEnd_ParenLeft_Count));
     }
 
-    public void Append_getBlueCount_ParenLeft(ref List<byte> destination)
+    private void Append_getBlueCount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getBlueCount_ParenLeft_Offset, getBlueCount_ParenLeft_Count));
     }
 
-    public void Append_isPlayerTurn_ParenLeft(ref List<byte> destination)
+    private void Append_isPlayerTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayerTurn_ParenLeft_Offset, isPlayerTurn_ParenLeft_Count));
     }
 
-    public void Append_isRoamLeader_ParenLeft(ref List<byte> destination)
+    private void Append_isRoamLeader_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRoamLeader_ParenLeft_Offset, isRoamLeader_ParenLeft_Count));
     }
 
-    public void Append_getClearFloor_ParenLeft(ref List<byte> destination)
+    private void Append_getClearFloor_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getClearFloor_ParenLeft_Offset, getClearFloor_ParenLeft_Count));
     }
 
-    public void Append_isWorldMusicStop_ParenLeft(ref List<byte> destination)
+    private void Append_isWorldMusicStop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWorldMusicStop_ParenLeft_Offset, isWorldMusicStop_ParenLeft_Count));
     }
 
-    public void Append_context_NewLine_BracketLeft(ref List<byte> destination)
+    private void Append_context_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(context_NewLine_BracketLeft_Offset, context_NewLine_BracketLeft_Count));
     }
 
-    public void Append_workspace_NewLine_BracketLeft(ref List<byte> destination)
+    private void Append_workspace_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(workspace_NewLine_BracketLeft_Offset, workspace_NewLine_BracketLeft_Count));
     }
 
-    public void Append_attribute_NewLine_BracketLeft(ref List<byte> destination)
+    private void Append_attribute_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(attribute_NewLine_BracketLeft_Offset, attribute_NewLine_BracketLeft_Count));
     }
 
-    public void Append_sound_NewLine_BracketLeft(ref List<byte> destination)
+    private void Append_sound_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sound_NewLine_BracketLeft_Offset, sound_NewLine_BracketLeft_Count));
     }
 
-    public void Append_detail_NewLine_BracketLeft(ref List<byte> destination)
+    private void Append_detail_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(detail_NewLine_BracketLeft_Offset, detail_NewLine_BracketLeft_Count));
@@ -5699,6 +5730,7 @@ public class BinaryFormatter : IFormatter<byte>
     {
         ref var TokenList = ref result.TokenList;
         ref var source = ref result.Source;
+        bool JustChangeLine = false;
 		for (uint tokenIndex = uint.MaxValue, tokenCount = (uint)TokenList.Count; ++tokenIndex < tokenCount;)
         {
             ref var token = ref TokenList[tokenIndex];
@@ -5707,186 +5739,186 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.Comment:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind == TokenKind.BracketRight)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.spot:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_spot_Space(ref destination);
+                    Append_spot_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.unit:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_unit_Space(ref destination);
+                    Append_unit_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.race:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_race_Space(ref destination);
+                    Append_race_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.@class:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_class_Space(ref destination);
+                    Append_class_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.field:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_field_Space(ref destination);
+                    Append_field_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.skill:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_skill_Space(ref destination);
+                    Append_skill_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.power:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_power_Space(ref destination);
+                    Append_power_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.voice:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_voice_Space(ref destination);
+                    Append_voice_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.@object:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_object_Space(ref destination);
+                    Append_object_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.dungeon:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_dungeon_Space(ref destination);
+                    Append_dungeon_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.movetype:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_movetype_Space(ref destination);
+                    Append_movetype_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.skillset:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_skillset_Space(ref destination);
+                    Append_skillset_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.story:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_story_Space(ref destination);
+                    Append_story_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.fight:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_fight_Space(ref destination);
+                    Append_fight_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.world:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_world_Space(ref destination);
+                    Append_world_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.@event:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_event_Space(ref destination);
+                    Append_event_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.scenario:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_scenario_Space(ref destination);
+                    Append_scenario_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.context:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_context_NewLine_BracketLeft(ref destination);
+                    Append_context_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.workspace:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_workspace_NewLine_BracketLeft(ref destination);
+                    Append_workspace_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.attribute:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_attribute_NewLine_BracketLeft(ref destination);
+                    Append_attribute_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.sound:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_sound_NewLine_BracketLeft(ref destination);
+                    Append_sound_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.detail:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_detail_NewLine_BracketLeft(ref destination);
+                    Append_detail_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 default:
                     return false;
@@ -5897,7 +5929,7 @@ public class BinaryFormatter : IFormatter<byte>
                 return false;
             }
 
-            Append_Copy(ref destination, result.GetSpan(tokenIndex));
+            Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
             if (TokenList[++tokenIndex].Kind == TokenKind.Colon)
             {
                 if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Super)
@@ -5905,22 +5937,22 @@ public class BinaryFormatter : IFormatter<byte>
                     return false;
                 }
 
-                Append_Space_Colon_Space(ref destination);
-                Append_Copy(ref destination, result.GetSpan(tokenIndex));
+                Append_Space_Colon_Space(ref destination, ref JustChangeLine);
+                Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
             }
             else
             {
                 --tokenIndex;
             }
 
-            Append_NewLine_BracketLeft_NewLine(ref destination);
+            Append_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
         CONTENTS:
             if (++tokenIndex >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.BracketLeft)
             {
                 return false;
             }
             
-            if (TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces: 1))
+            if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces: 1))
             {
                 continue;
             }
@@ -5931,7 +5963,7 @@ public class BinaryFormatter : IFormatter<byte>
         return true;
 	}
 
-    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -5944,14 +5976,14 @@ public class BinaryFormatter : IFormatter<byte>
             switch (token.Kind)
             {
                 case TokenKind.BracketRight:
-                    Ensure_NewLine_Indent(ref destination, spaces - 1);
-                    Append_BracketRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces - 1);
+                    Append_BracketRight_NewLine(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Comment:
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.DEFAULT:
-                    if (TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref token, ref tokenIndex, spaces))
+                    if (TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref token, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -5964,1228 +5996,1228 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.OFFSET:
                 case TokenKind.ROAM:
                 case TokenKind.TEXT:
-                    if (TryFormatElementAssignment_Not_DEFAULT(ref TokenList, ref source, ref destination, ref token, ref tokenIndex, spaces))
+                    if (TryFormatElementAssignment_Not_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref token, ref tokenIndex, spaces))
                     {
                         continue;
                     }
 
                     return false;
                 case TokenKind.rif:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_rif_Space_ParenLeft(ref destination);
-                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_rif_Space_ParenLeft(ref destination, ref JustChangeLine);
+                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
 
                     return false;
                 case TokenKind.@if:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_if_Space_ParenLeft(ref destination);
-                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_if_Space_ParenLeft(ref destination, ref JustChangeLine);
+                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
 
                     return false;
                 case TokenKind.@while:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_while_Space_ParenLeft(ref destination);
-                    if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_while_Space_ParenLeft(ref destination, ref JustChangeLine);
+                    if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         return false;
                     }
 
-                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         return false;
                     }
                     continue;
                 case TokenKind.battle:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_battle_NewLine_BracketLeft_NewLine(ref destination);
-                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_battle_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
                     return false;
                 case TokenKind.@break:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_break_ParenLeft_ParenRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_break_ParenLeft_ParenRight_NewLine(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.@continue:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_continue_ParenLeft_ParenRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_continue_ParenLeft_ParenRight_NewLine(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.next:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_next_ParenLeft_ParenRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_next_ParenLeft_ParenRight_NewLine(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.@return:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_return_ParenLeft_ParenRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_return_ParenLeft_ParenRight_NewLine(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CallAction:
                     switch ((ActionKind)token.Other)
                     {
                         case ActionKind.bg:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_bg_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_bg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.vc:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_vc_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_vc_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.add:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_add_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_add_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.div:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_div_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_div_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.mod:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_mod_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_mod_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.msg:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_msg_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_msg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.mul:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_mul_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_mul_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.per:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_per_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_per_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.set:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_set_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_set_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.sub:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_sub_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_sub_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.win:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_win_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_win_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addv:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addv_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addv_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.call:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_call_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_call_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.chat:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_chat_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_chat_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.exit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_exit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_exit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.face:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_face_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_face_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.font:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_font_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_font_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.msg2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_msg2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_msg2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.play:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_play_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_play_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.ppl1:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_ppl1_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_ppl1_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.save:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_save_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_save_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setv:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setv_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setv_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.stop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_stop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.subv:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_subv_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_subv_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.talk:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_talk_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_talk_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.wait:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_wait_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_wait_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.zoom:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_zoom_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_zoom_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.chat2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_chat2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_chat2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.citom:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_citom_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_citom_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clear:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_clear_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_clear_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.erase:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_erase_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_erase_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.@event:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_event_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_event_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.face2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_face2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_face2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.focus:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_focus_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_focus_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.fontc:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_fontc_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_fontc_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.gread:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_gread_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_gread_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.image:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_image_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_image_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.index:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_index_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_index_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushv:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushv_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushv_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setPM:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setPM_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setPM_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setud:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setud_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setud_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.shake:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_shake_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_shake_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.talk2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_talk2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_talk2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.title:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_title_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_title_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addstr:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addstr_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addstr_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.choice:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_choice_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_choice_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.dialog:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_dialog_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_dialog_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.fadein:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_fadein_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_fadein_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.gwrite:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_gwrite_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_gwrite_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.locate:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_locate_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_locate_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.playSE:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_playSE_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_playSE_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.scroll:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_scroll_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_scroll_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.select:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_select_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_select_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setbcg:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setbcg_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setbcg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.shadow:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_shadow_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_shadow_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.subVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_subVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_subVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.title2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_title2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_title2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.volume:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_volume_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_volume_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addCapa:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addCapa_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addCapa_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addGain:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addGain_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addGain_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addItem:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addItem_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addItem_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.dialogF:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_dialogF_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_dialogF_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.doskill:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_doskill_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_doskill_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.fadeout:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_fadeout_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_fadeout_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.levelup:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_levelup_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.loopBGM:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_loopBGM_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_loopBGM_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.minimap:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_minimap_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_minimap_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.picture:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_picture_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_picture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.playBGM:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_playBGM_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_playBGM_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushCon:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushCon_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushCon_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushSex:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushSex_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushSex_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.routine:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_routine_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_routine_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.scroll2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_scroll2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_scroll2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setCapa:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setCapa_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setCapa_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setDone:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setDone_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setDone_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setGain:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setGain_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setGain_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.shuffle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_shuffle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_shuffle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.stopBGM:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_stopBGM_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopBGM_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePM:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePM_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePM_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeud:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeud_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeud_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addDiplo:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addDiplo_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addDiplo_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addLevel:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addLevel_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addLevel_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addLimit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addLimit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addLimit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addLoyal:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addLoyal_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addLoyal_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addMoney:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addMoney_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addMoney_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addSkill:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addSkill_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addSkill_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addTrust:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addTrust_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addTrust_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.aimTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_aimTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_aimTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clearVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_clearVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_clearVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.darkness:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_darkness_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_darkness_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.exitItem:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_exitItem_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_exitItem_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideLink:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideLink_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideLink_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.linkSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_linkSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_linkSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.openGoal:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_openGoal_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_openGoal_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.picture2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_picture2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_picture2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushCapa:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushCapa_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushCapa_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushGain:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushGain_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushGain_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushItem:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushItem_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushItem_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushRand:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushRand_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushRand_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushRank:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushRank_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushRank_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushTurn:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushTurn_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushTurn_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.roamUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_roamUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_roamUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setDiplo:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setDiplo_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setDiplo_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setLevel:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setLevel_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setLevel_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setLimit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setLimit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setLimit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setMoney:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setMoney_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setMoney_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setTruce:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setTruce_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setTruce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showCamp:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showCamp_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showCamp_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showFace:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showFace_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showFace_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showPict:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showPict_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPict_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.spotmark:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_spotmark_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_spotmark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addCastle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addCastle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addCastle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addFriend:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addFriend_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addFriend_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addMerits:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addMerits_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addMerits_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addSkill2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addSkill2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addSkill2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addStatus:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addStatus_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addStatus_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeMap:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeMap_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeMap_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clickWait:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_clickWait_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.closeGoal:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_closeGoal_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_closeGoal_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.ctrlTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_ctrlTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_ctrlTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.entryItem:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_entryItem_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_entryItem_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.equipItem:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_equipItem_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_equipItem_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseItem:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseItem_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseItem_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.formTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_formTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_formTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.freeTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_freeTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_freeTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.haltTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_haltTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_haltTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideBlind:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideBlind_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideBlind_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideChara:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideChara_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideImage:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideImage_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideImage_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.moveTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_moveTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_moveTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.playWorld:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_playWorld_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_playWorld_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushDeath:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushDeath_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushDiplo:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushDiplo_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushDiplo_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushForce:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushForce_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushForce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushLevel:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushLevel_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushLevel_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushLimit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushLimit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushLimit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushLoyal:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushLoyal_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushLoyal_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushMoney:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushMoney_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushMoney_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushRand2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushRand2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushRand2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushTrain:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushTrain_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushTrain_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushTrust:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushTrust_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushTrust_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.resetTime:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_resetTime_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_resetTime_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.resetZone:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_resetZone_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_resetZone_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.roamUnit2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_roamUnit2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_roamUnit2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setArbeit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setArbeit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setArbeit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setCastle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setCastle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setCastle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setLeague:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setLeague_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setLeague_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setStatus:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setStatus_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setStatus_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showBlind:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showBlind_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showBlind_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showChara:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showChara_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showImage:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showImage_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showImage_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.stopTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_stopTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.terminate:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_terminate_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_terminate_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.worldskin:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_worldskin_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.backScroll:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_backScroll_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_backScroll_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeRace:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeRace_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeRace_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.endingRoll:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_endingRoll_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_endingRoll_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.erasePower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_erasePower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_erasePower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseSkill:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseSkill_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseSkill_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseUnit2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseUnit2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseUnit2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideEscape:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideEscape_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideEscape_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.linkEscape:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_linkEscape_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_linkEscape_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.playBattle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_playBattle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_playBattle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushCastle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushCastle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushCastle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushMerits:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushMerits_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushMerits_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushStatus:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushStatus_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushStatus_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.reloadMenu:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_reloadMenu_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_reloadMenu_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.removeSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_removeSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_removeSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.resetTruce:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_resetTruce_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_resetTruce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setDungeon:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setDungeon_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setDungeon_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.shiftTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_shiftTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_shiftTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.shuffleVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_shuffleVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_shuffleVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.skillTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_skillTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_skillTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.sleepTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_sleepTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_sleepTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.smoveTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_smoveTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_smoveTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.speedTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_speedTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_speedTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeDeath:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeDeath_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeIndex:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeIndex_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeIndex_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.unionPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_unionPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_unionPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.activeTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_activeTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_activeTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addTraining:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addTraining_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addTraining_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.battleEvent:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_battleEvent_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_battleEvent_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeClass:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeClass_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeClass_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.choiceTitle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_choiceTitle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_choiceTitle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseFriend:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseFriend_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseFriend_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hidePicture:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hidePicture_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hidePicture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushSpotPos:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushSpotPos_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushSpotPos_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushTrainUp:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushTrainUp_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushTrainUp_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.removeSkill:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_removeSkill_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_removeSkill_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.removeTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_removeTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_removeTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.resetLeague:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_resetLeague_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_resetLeague_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.scrollSpeed:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_scrollSpeed_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_scrollSpeed_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setTraining:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setTraining_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setTraining_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.shiftTroop2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_shiftTroop2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_shiftTroop2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showDungeon:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showDungeon_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showDungeon_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showPicture:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showPicture_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPicture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.unctrlTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_unctrlTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_unctrlTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addBaseLevel:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addBaseLevel_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addBaseLevel_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeCastle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeCastle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeCastle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeMaster:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeMaster_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeMaster_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changePlayer:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changePlayer_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changePlayer_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.darkness_off:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_darkness_off_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_darkness_off_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.doGameEnding:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_doGameEnding_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_doGameEnding_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideSpotMark:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_hideSpotMark_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.moveTroopFix:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_moveTroopFix_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_moveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.retreatTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_retreatTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_retreatTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.reverseChara:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_reverseChara_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_reverseChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setBaseLevel:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setBaseLevel_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setBaseLevel_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setGameClear:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setGameClear_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setGameClear_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setPowerHome:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setPowerHome_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showPolitics:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showPolitics_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPolitics_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showSpotMark:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_showSpotMark_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeAllSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeAllSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addPowerMerce:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addPowerMerce_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPowerMerce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addPowerStaff:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addPowerStaff_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPowerStaff_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addTrainingUp:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addTrainingUp_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addTrainingUp_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeDungeon:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeDungeon_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeDungeon_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushBaseLevel:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushBaseLevel_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushBaseLevel_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setEnemyPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setEnemyPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setEnemyPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setTrainingUp:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setTrainingUp_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setTrainingUp_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setWorldMusic:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setWorldMusic_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setWorldMusic_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.smoveTroopFix:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_smoveTroopFix_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_smoveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeAllPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeAllPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeComPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeComPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeComPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeIndexVar:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeIndexVar_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeIndexVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeNextSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeNextSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeNextSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeNowPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeNowPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeNowPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeRectUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeRectUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeRectUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeSkillset:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeSkillset_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeSkillset_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeTodoUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeTodoUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeTodoUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addPowerMerce2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addPowerMerce2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPowerMerce2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addPowerStaff2:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_addPowerStaff2_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPowerStaff2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changePowerFix:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changePowerFix_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changePowerFix_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.eraseUnitTroop:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_eraseUnitTroop_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_eraseUnitTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushBattleHome:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushBattleHome_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushBattleHome_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushBattleRect:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushBattleRect_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushBattleRect_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushCountPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_pushCountPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushCountPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAliveUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeAliveUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeAliveUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllTalent:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeAllTalent_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeAllTalent_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changePowerFlag:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changePowerFlag_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changePowerFlag_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changePowerName:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changePowerName_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changePowerName_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changeSpotImage:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_changeSpotImage_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_changeSpotImage_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.erasePowerMerce:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_erasePowerMerce_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_erasePowerMerce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.erasePowerStaff:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_erasePowerStaff_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_erasePowerStaff_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.resetEnemyPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_resetEnemyPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_resetEnemyPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.resetWorldMusic:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_resetWorldMusic_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_resetWorldMusic_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setDungeonFloor:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_setDungeonFloor_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setDungeonFloor_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeBattleSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeBattleSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeBattleSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePlayerUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePlayerUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePlayerUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeRaceOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeRaceOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeRaceOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeSpotOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeSpotOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeSpotOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeUnitOfSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeUnitOfSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeUnitOfSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAttackPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeAttackPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeAttackPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeClassOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeClassOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeClassOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeNeutralSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeNeutralSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeNeutralSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePlayerPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePlayerPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePlayerPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePowerOfSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePowerOfSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePowerOfSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePowerOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePowerOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePowerOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeSkillOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeSkillOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeSkillOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeSpotOfPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeSpotOfPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeSpotOfPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeTalentPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeTalentPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeTalentPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeUnitOfPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeUnitOfPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeUnitOfPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clearBattleRecord:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_clearBattleRecord_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_clearBattleRecord_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeDefensePower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeDefensePower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeDefensePower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeLeaderOfSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeLeaderOfSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeLeaderOfSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeMasterOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeMasterOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeMasterOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeMemberOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeMemberOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeMemberOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePowerOfForce:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePowerOfForce_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePowerOfForce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeSpotOfBattle:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeSpotOfBattle_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeSpotOfBattle_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeLeaderOfPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeLeaderOfPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeLeaderOfPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeMasterOfPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeMasterOfPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeMasterOfPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePowerOfAttack:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePowerOfAttack_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePowerOfAttack_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeNonPlayerPower:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeNonPlayerPower_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeNonPlayerPower_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storePowerOfDefense:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storePowerOfDefense_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storePowerOfDefense_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeRoamUnitOfSpot:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeRoamUnitOfSpot_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeRoamUnitOfSpot_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeBaseClassOfUnit:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_storeBaseClassOfUnit_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeBaseClassOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         default:
-                            Append_Copy(ref destination, ref source, ref token.Range);
+                            Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                             break;
                     }
 
-                    if (TryFormatCallActionArguments(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    if (TryFormatCallActionArguments(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -7195,9 +7227,9 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref Token element, ref uint tokenIndex, int spaces)
     {
-        if (!TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref element, ref tokenIndex, spaces))
+        if (!TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref element, ref tokenIndex, spaces))
         {
             return false;
         }
@@ -7215,31 +7247,31 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.Content:
                     if (token.IsFirstTokenInTheLine)
                     {
-                        Append_NewLine(ref destination);
-                        Append_Indent(ref destination, spaces + 1);
+                        Append_NewLine(ref destination, ref JustChangeLine);
+                        Append_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
 
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.Mul:
-                    Append_Space_Mul_Space(ref destination);
+                    Append_Space_Mul_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Semicolon:
                     if (token.IsFirstTokenInTheLine)
                     {
-                        Ensure_NewLine_Indent(ref destination, spaces);
+                        Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                     }
 
-                    Append_Semicolon(ref destination);
+                    Append_Semicolon(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Comma:
                     if (tokenIndex + 1 < TokenList.Count && TokenList[tokenIndex + 1].IsFirstTokenInTheLine)
                     {
-                        Append_Comma(ref destination);
+                        Append_Comma(ref destination, ref JustChangeLine);
                     }
                     else
                     {
-                        Append_Comma_Space(ref destination);
+                        Append_Comma_Space(ref destination, ref JustChangeLine);
                     }
 
                     continue;
@@ -7250,7 +7282,7 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref Token element, ref uint tokenIndex, int spaces)
     {
         if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Assign)
         {
@@ -7263,23 +7295,23 @@ public class BinaryFormatter : IFormatter<byte>
             return false;
         }
 
-        Ensure_NewLine_Indent(ref destination, spaces);
-        Append_Copy(ref destination, ref source, ref element.Range);
+        Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+        Append_Copy(ref destination, ref JustChangeLine, ref source, ref element.Range);
         if (content.IsFirstTokenInTheLine)
         {
-            Append_Space_Assign(ref destination);
-            Ensure_NewLine_Indent(ref destination, spaces + 1);
+            Append_Space_Assign(ref destination, ref JustChangeLine);
+            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces + 1);
         }
         else
         {
-            Append_Space_Assign_Space(ref destination);
+            Append_Space_Assign_Space(ref destination, ref JustChangeLine);
         }
 
-        Append_Copy(ref destination, ref source, ref content.Range);
+        Append_Copy(ref destination, ref JustChangeLine, ref source, ref content.Range);
         return true;
     }
 
-    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
+    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -7294,23 +7326,23 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.Content:
                     if (token.IsFirstTokenInTheLine)
                     {
-                        Ensure_NewLine_Indent(ref destination, spaces + 1);
+                        Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.Comma:
                     if (tokenIndex + 1 < TokenList.Count && TokenList[tokenIndex + 1].IsFirstTokenInTheLine)
                     {
-                        Append_Comma(ref destination);
+                        Append_Comma(ref destination, ref JustChangeLine);
                     }
                     else
                     {
-                        Append_Comma_Space(ref destination);
+                        Append_Comma_Space(ref destination, ref JustChangeLine);
                     }
 
                     continue;
                 case TokenKind.ParenRight:
-                    Append_ParenRight(ref destination);
+                    Append_ParenRight(ref destination, ref JustChangeLine);
                     return true;
                 default:
                     --tokenIndex;
@@ -7319,14 +7351,14 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
-        if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+        if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
             return false;
         }
 
-        if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces + 1))
+        if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
         {
             return false;
         }
@@ -7337,26 +7369,26 @@ public class BinaryFormatter : IFormatter<byte>
             return true;
         }
 
-        Append_Indent(ref destination, spaces);
+        Append_Indent(ref destination, ref JustChangeLine, spaces);
         switch (TokenList[++tokenIndex].Kind)
         {
             case TokenKind.@if:
-                Append_else_Space_if_ParenLeft(ref destination);
-                return TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces);
+                Append_else_Space_if_ParenLeft(ref destination, ref JustChangeLine);
+                return TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces);
             case TokenKind.rif:
-                Append_else_Space_rif_ParenLeft(ref destination);
-                return TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces);
+                Append_else_Space_rif_ParenLeft(ref destination, ref JustChangeLine);
+                return TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces);
             case TokenKind.BracketLeft:
-                Append_else_NewLine(ref destination);
-                Append_Indent(ref destination, spaces);
-                Append_BracketLeft_NewLine(ref destination);
-                return TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces + 1);
+                Append_else_NewLine(ref destination, ref JustChangeLine);
+                Append_Indent(ref destination, ref JustChangeLine, spaces);
+                Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+                return TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1);
             default:
                 return false;
         }
     }
 
-    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -7369,308 +7401,308 @@ public class BinaryFormatter : IFormatter<byte>
             switch (token.Kind)
             {
                 case TokenKind.BracketLeft:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_BracketLeft(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_BracketLeft(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Mul:
-                    Append_Space_Mul_Space(ref destination);
+                    Append_Space_Mul_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Add:
-                    Append_Space_Add_Space(ref destination);
+                    Append_Space_Add_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Sub:
-                    Append_Space_Sub_Space(ref destination);
+                    Append_Space_Sub_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Div:
-                    Append_Space_Div_Space(ref destination);
+                    Append_Space_Div_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Percent:
-                    Append_Space_Percent_Space(ref destination);
+                    Append_Space_Percent_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.And:
-                    Append_Space_And_Space(ref destination);
+                    Append_Space_And_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Or:
-                    Append_Space_Or_Space(ref destination);
+                    Append_Space_Or_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CompareEqual:
-                    Append_Space_CompareEqual_Space(ref destination);
+                    Append_Space_CompareEqual_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CompareNotEqual:
-                    Append_Space_CompareNotEqual_Space(ref destination);
+                    Append_Space_CompareNotEqual_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CompareGreaterThan:
-                    Append_Space_CompareGreaterThan_Space(ref destination);
+                    Append_Space_CompareGreaterThan_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CompareGreaterThanOrEqualTo:
-                    Append_Space_CompareGreaterThanOrEqualTo_Space(ref destination);
+                    Append_Space_CompareGreaterThanOrEqualTo_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CompareLessThan:
-                    Append_Space_CompareLessThan_Space(ref destination);
+                    Append_Space_CompareLessThan_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CompareLessThanOrEqualTo:
-                    Append_Space_CompareLessThanOrEqualTo_Space(ref destination);
+                    Append_Space_CompareLessThanOrEqualTo_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.ParenLeft:
-                    Append_ParenLeft(ref destination);
+                    Append_ParenLeft(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.ParenRight:
-                    Append_ParenRight(ref destination);
+                    Append_ParenRight(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Comma:
-                    Append_Comma_Space(ref destination);
+                    Append_Comma_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
                         case FunctionKind.has:
-                            Append_has_ParenLeft(ref destination);
+                            Append_has_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.yet:
-                            Append_yet_ParenLeft(ref destination);
+                            Append_yet_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.rand:
-                            Append_rand_ParenLeft(ref destination);
+                            Append_rand_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.count:
-                            Append_count_ParenLeft(ref destination);
+                            Append_count_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.equal:
-                            Append_equal_ParenLeft(ref destination);
+                            Append_equal_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.eqVar:
-                            Append_eqVar_ParenLeft(ref destination);
+                            Append_eqVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.inVar:
-                            Append_inVar_ParenLeft(ref destination);
+                            Append_inVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isMap:
-                            Append_isMap_ParenLeft(ref destination);
+                            Append_isMap_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isNpc:
-                            Append_isNpc_ParenLeft(ref destination);
+                            Append_isNpc_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isNPM:
-                            Append_isNPM_ParenLeft(ref destination);
+                            Append_isNPM_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isWar:
-                            Append_isWar_ParenLeft(ref destination);
+                            Append_isWar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.ptest:
-                            Append_ptest_ParenLeft(ref destination);
+                            Append_ptest_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.amount:
-                            Append_amount_ParenLeft(ref destination);
+                            Append_amount_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.conVar:
-                            Append_conVar_ParenLeft(ref destination);
+                            Append_conVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.inSpot:
-                            Append_inSpot_ParenLeft(ref destination);
+                            Append_inSpot_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isDead:
-                            Append_isDead_ParenLeft(ref destination);
+                            Append_isDead_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isDone:
-                            Append_isDone_ParenLeft(ref destination);
+                            Append_isDone_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isJoin:
-                            Append_isJoin_ParenLeft(ref destination);
+                            Append_isJoin_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isNext:
-                            Append_isNext_ParenLeft(ref destination);
+                            Append_isNext_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.reckon:
-                            Append_reckon_ParenLeft(ref destination);
+                            Append_reckon_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getLife:
-                            Append_getLife_ParenLeft(ref destination);
+                            Append_getLife_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getMode:
-                            Append_getMode_ParenLeft(ref destination);
+                            Append_getMode_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getTime:
-                            Append_getTime_ParenLeft(ref destination);
+                            Append_getTime_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getTurn:
-                            Append_getTurn_ParenLeft(ref destination);
+                            Append_getTurn_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.inPower:
-                            Append_inPower_ParenLeft(ref destination);
+                            Append_inPower_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isAlive:
-                            Append_isAlive_ParenLeft(ref destination);
+                            Append_isAlive_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isEnemy:
-                            Append_isEnemy_ParenLeft(ref destination);
+                            Append_isEnemy_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isEvent:
-                            Append_isEvent_ParenLeft(ref destination);
+                            Append_isEvent_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isPeace:
-                            Append_isPeace_ParenLeft(ref destination);
+                            Append_isPeace_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isWorld:
-                            Append_isWorld_ParenLeft(ref destination);
+                            Append_isWorld_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countVar:
-                            Append_countVar_ParenLeft(ref destination);
+                            Append_countVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getLimit:
-                            Append_getLimit_ParenLeft(ref destination);
+                            Append_getLimit_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.inBattle:
-                            Append_inBattle_ParenLeft(ref destination);
+                            Append_inBattle_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isActive:
-                            Append_isActive_ParenLeft(ref destination);
+                            Append_isActive_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isArbeit:
-                            Append_isArbeit_ParenLeft(ref destination);
+                            Append_isArbeit_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isEnable:
-                            Append_isEnable_ParenLeft(ref destination);
+                            Append_isEnable_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isFriend:
-                            Append_isFriend_ParenLeft(ref destination);
+                            Append_isFriend_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isInvade:
-                            Append_isInvade_ParenLeft(ref destination);
+                            Append_isInvade_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isLeader:
-                            Append_isLeader_ParenLeft(ref destination);
+                            Append_isLeader_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isLeague:
-                            Append_isLeague_ParenLeft(ref destination);
+                            Append_isLeague_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isMaster:
-                            Append_isMaster_ParenLeft(ref destination);
+                            Append_isMaster_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isPlayer:
-                            Append_isPlayer_ParenLeft(ref destination);
+                            Append_isPlayer_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isPostIn:
-                            Append_isPostIn_ParenLeft(ref destination);
+                            Append_isPostIn_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isRoamer:
-                            Append_isRoamer_ParenLeft(ref destination);
+                            Append_isRoamer_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isSelect:
-                            Append_isSelect_ParenLeft(ref destination);
+                            Append_isSelect_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isTalent:
-                            Append_isTalent_ParenLeft(ref destination);
+                            Append_isTalent_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isVassal:
-                            Append_isVassal_ParenLeft(ref destination);
+                            Append_isVassal_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countGain:
-                            Append_countGain_ParenLeft(ref destination);
+                            Append_countGain_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countPost:
-                            Append_countPost_ParenLeft(ref destination);
+                            Append_countPost_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countSpot:
-                            Append_countSpot_ParenLeft(ref destination);
+                            Append_countSpot_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countUnit:
-                            Append_countUnit_ParenLeft(ref destination);
+                            Append_countUnit_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isAllDead:
-                            Append_isAllDead_ParenLeft(ref destination);
+                            Append_isAllDead_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isAnyDead:
-                            Append_isAnyDead_ParenLeft(ref destination);
+                            Append_isAnyDead_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isComTurn:
-                            Append_isComTurn_ParenLeft(ref destination);
+                            Append_isComTurn_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isDungeon:
-                            Append_isDungeon_ParenLeft(ref destination);
+                            Append_isDungeon_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isNewTurn:
-                            Append_isNewTurn_ParenLeft(ref destination);
+                            Append_isNewTurn_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isNowSpot:
-                            Append_isNowSpot_ParenLeft(ref destination);
+                            Append_isNowSpot_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.istoWorld:
-                            Append_istoWorld_ParenLeft(ref destination);
+                            Append_istoWorld_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isWhoDead:
-                            Append_isWhoDead_ParenLeft(ref destination);
+                            Append_isWhoDead_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countForce:
-                            Append_countForce_ParenLeft(ref destination);
+                            Append_countForce_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countMoney:
-                            Append_countMoney_ParenLeft(ref destination);
+                            Append_countMoney_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countPower:
-                            Append_countPower_ParenLeft(ref destination);
+                            Append_countPower_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.countSkill:
-                            Append_countSkill_ParenLeft(ref destination);
+                            Append_countSkill_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getLifePer:
-                            Append_getLifePer_ParenLeft(ref destination);
+                            Append_getLifePer_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.inRoamSpot:
-                            Append_inRoamSpot_ParenLeft(ref destination);
+                            Append_inRoamSpot_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isGameOver:
-                            Append_isGameOver_ParenLeft(ref destination);
+                            Append_isGameOver_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isInterval:
-                            Append_isInterval_ParenLeft(ref destination);
+                            Append_isInterval_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isRedAlive:
-                            Append_isRedAlive_ParenLeft(ref destination);
+                            Append_isRedAlive_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isSameArmy:
-                            Append_isSameArmy_ParenLeft(ref destination);
+                            Append_isSameArmy_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isScenario:
-                            Append_isScenario_ParenLeft(ref destination);
+                            Append_isScenario_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isWatching:
-                            Append_isWatching_ParenLeft(ref destination);
+                            Append_isWatching_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getDistance:
-                            Append_getDistance_ParenLeft(ref destination);
+                            Append_getDistance_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getRedCount:
-                            Append_getRedCount_ParenLeft(ref destination);
+                            Append_getRedCount_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isBlueAlive:
-                            Append_isBlueAlive_ParenLeft(ref destination);
+                            Append_isBlueAlive_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isGameClear:
-                            Append_isGameClear_ParenLeft(ref destination);
+                            Append_isGameClear_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isPlayerEnd:
-                            Append_isPlayerEnd_ParenLeft(ref destination);
+                            Append_isPlayerEnd_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getBlueCount:
-                            Append_getBlueCount_ParenLeft(ref destination);
+                            Append_getBlueCount_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isPlayerTurn:
-                            Append_isPlayerTurn_ParenLeft(ref destination);
+                            Append_isPlayerTurn_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isRoamLeader:
-                            Append_isRoamLeader_ParenLeft(ref destination);
+                            Append_isRoamLeader_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.getClearFloor:
-                            Append_getClearFloor_ParenLeft(ref destination);
+                            Append_getClearFloor_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isWorldMusicStop:
-                            Append_isWorldMusicStop_ParenLeft(ref destination);
+                            Append_isWorldMusicStop_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                     }
 
                     goto default;
                 default:
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
             }
         } while (true);

@@ -78,6 +78,7 @@ public static partial class Parser
                     }
 
                     var battleStatement = new BattleStatement(currentIndex, nextStatement);
+                    tokenList[currentIndex].Kind = TokenKind.battle;
                     blockStack.Add(battleStatement);
                     var answer = Parse_Block(ref context, ref result, ref battleStatement.Statements, ref blockStack);
                     blockStack.RemoveLast();

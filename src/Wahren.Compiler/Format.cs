@@ -1,4 +1,6 @@
-﻿namespace Wahren.Compiler;
+﻿using Wahren.PooledList;
+using Wahren.AbstractSyntaxTree.Formatter;
+namespace Wahren.Compiler;
 
 public partial class Program
 {
@@ -24,15 +26,13 @@ public partial class Program
 
         var scriptFolderPath = Path.GetRelativePath(Environment.CurrentDirectory, Path.GetFullPath(Path.Combine(contentsFolder, "script")));
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath);
-        var encoding = new UnicodeEncoding(false, byteOrderMark: true);
-        var encodingSjis = Encoding.GetEncoding(932);
         try
         {
             var enumerates = Directory.EnumerateFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
             await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token, 
                 (path, token) =>
                 {
-                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, encoding, encodingSjis, token);
+                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, token);
                 }).ConfigureAwait(false);
         }
         catch (Exception e)
@@ -53,11 +53,11 @@ public partial class Program
         return 0;
     }
 
-    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, Encoding encoding, Encoding encodingSjis, CancellationToken token)
+    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, CancellationToken token)
     {
         Result result;
         byte[]? rental;
-        var handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.SequentialScan, 4096);
+        var handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.SequentialScan | FileOptions.Asynchronous, 4096);
         try
         {
             var length = RandomAccess.GetLength(handle);
@@ -96,8 +96,35 @@ public partial class Program
         }
 
         Context context = new(0, treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, DiagnosticSeverity.Error);
-        var success = Parser.Parse(ref context, ref result);
-        var formatCode = result.ToString("b");
-        await File.WriteAllTextAsync(path, formatCode, isUnicode ? encoding : encodingSjis, token).ConfigureAwait(false);
+        Parser.Parse(ref context, ref result);
+        var byteList = new List<byte>();
+        try
+        {
+            if (isUnicode)
+            {
+                byteList.Add(0xff);
+                byteList.Add(0xfe);
+                var formatter = BinaryFormatter.GetDefault_Utf16Le(true);
+                if (!formatter.TryFormat(ref result, ref byteList))
+                {
+                    return;
+                }
+            }
+            else
+            {
+                var formatter = BinaryFormatter.GetDefault_Cp932(true);
+                if (!formatter.TryFormat(ref result, ref byteList))
+                {
+                    return;
+                }
+            }
+
+            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, false);
+            stream.Write(byteList.AsSpan());
+        }
+        finally
+        {
+            byteList.Dispose();
+        }
     }
 }

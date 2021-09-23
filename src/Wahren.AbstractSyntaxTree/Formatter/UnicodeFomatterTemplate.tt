@@ -21,7 +21,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
     }
 
-    public bool JustChangeLine;
     private readonly string NewLine;
     private readonly char Tab;
     private readonly int TabCount;
@@ -43,7 +42,6 @@ public class UnicodeFormatter : IFormatter<char>
 
     public UnicodeFormatter(char indentChar, int indentCount, string newLine)
     {
-        JustChangeLine = false;
         Tab = indentChar;
         TabCount = indentCount;
 
@@ -58,13 +56,13 @@ public class UnicodeFormatter : IFormatter<char>
 <# } #>
     }
 
-    public void Append_NewLine(ref List<char> destination)
+    public void Append_NewLine(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(NewLine);
     }
 
-    public void Ensure_NewLine_Indent(ref List<char> destination, int indentCount)
+    public void Ensure_NewLine_Indent(ref List<char> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -82,7 +80,7 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange(span);
     }
 
-    public void Append_Indent(ref List<char> destination, int indentCount)
+    public void Append_Indent(ref List<char> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -95,12 +93,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange(span);
     }
 
-    public void Append_Copy(ref List<char> destination, ReadOnlySpan<char> singleLineSource)
+    public void Append_Copy(ref List<char> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         destination.AddRange(singleLineSource);
     }
 
-    public void Append_Copy(ref List<char> destination, ref DualList<char> source, ref Range range)
+    public void Append_Copy(ref List<char> destination, ref bool JustChangeLine, ref DualList<char> source, ref Range range)
     {
         ref var line = ref source[range.StartInclusive.Line];
         var slice = line.AsSpan(range.StartInclusive.Offset);
@@ -115,7 +113,7 @@ public class UnicodeFormatter : IFormatter<char>
         do
         {
             destination.AddRange(slice);
-            Append_NewLine(ref destination);
+            Append_NewLine(ref destination, ref JustChangeLine);
             if (++lineIndex != range.EndExclusive.Line)
             {
                 slice = source[lineIndex].AsSpan();
@@ -134,13 +132,13 @@ public class UnicodeFormatter : IFormatter<char>
     }
 
     private readonly string battle_NewLine_BracketLeft_NewLine;
-    public void Append_battle_NewLine_BracketLeft_NewLine(ref List<char> destination)
+    public void Append_battle_NewLine_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine_BracketLeft_NewLine);
     }
 
-    public void Append_NewLine_BracketLeft_NewLine(ref List<char> destination)
+    public void Append_NewLine_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine_BracketLeft_NewLine.AsSpan(6));
@@ -148,7 +146,7 @@ public class UnicodeFormatter : IFormatter<char>
 <# foreach (var x in FormatterHelper.Pairs_NewLine) { #>
 
     private readonly string <#= x.name #>_NewLine;
-    public void Append_<#= x.name #>_NewLine(ref List<char> destination)
+    public void Append_<#= x.name #>_NewLine(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(<#= x.name #>_NewLine);
@@ -156,7 +154,7 @@ public class UnicodeFormatter : IFormatter<char>
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs) { #>
 
-    public void Append_<#= x.name #>(ref List<char> destination)
+    public void Append_<#= x.name #>(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("<#= x.content #>");
@@ -165,7 +163,7 @@ public class UnicodeFormatter : IFormatter<char>
 <# foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { #>
 
     private readonly string <#= x.name0 #>_NewLine_<#= x.name1 #>;
-    public void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref List<char> destination)
+    public void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(<#= x.name0 #>_NewLine_<#= x.name1 #>);
@@ -176,6 +174,7 @@ public class UnicodeFormatter : IFormatter<char>
     {
         ref var TokenList = ref result.TokenList;
         ref var source = ref result.Source;
+        bool JustChangeLine = false;
 		for (uint tokenIndex = uint.MaxValue, tokenCount = (uint)TokenList.Count; ++tokenIndex < tokenCount;)
         {
             ref var token = ref TokenList[tokenIndex];
@@ -184,29 +183,29 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.Comment:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind == TokenKind.BracketRight)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
 <# foreach (var item in FormatterHelper.NameNodes) { #>
                 case TokenKind.<#= Helper.Escape(item) #>:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_<#= item #>_Space(ref destination);
+                    Append_<#= item #>_Space(ref destination, ref JustChangeLine);
                     break;
 <# } #>
 <# foreach (var item in FormatterHelper.BlockNodes) { #>
                 case TokenKind.<#= item #>:
                     if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
                     {
-                        Append_NewLine(ref destination);
+                        Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_<#= item #>_NewLine_BracketLeft(ref destination);
+                    Append_<#= item #>_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
 <# } #>
                 default:
@@ -218,7 +217,7 @@ public class UnicodeFormatter : IFormatter<char>
                 return false;
             }
 
-            Append_Copy(ref destination, result.GetSpan(tokenIndex));
+            Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
             if (TokenList[++tokenIndex].Kind == TokenKind.Colon)
             {
                 if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Super)
@@ -226,22 +225,22 @@ public class UnicodeFormatter : IFormatter<char>
                     return false;
                 }
 
-                Append_Space_Colon_Space(ref destination);
-                Append_Copy(ref destination, result.GetSpan(tokenIndex));
+                Append_Space_Colon_Space(ref destination, ref JustChangeLine);
+                Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
             }
             else
             {
                 --tokenIndex;
             }
 
-            Append_NewLine_BracketLeft_NewLine(ref destination);
+            Append_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
         CONTENTS:
             if (++tokenIndex >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.BracketLeft)
             {
                 return false;
             }
             
-            if (TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces: 1))
+            if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces: 1))
             {
                 continue;
             }
@@ -252,7 +251,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
 	}
 
-    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -265,14 +264,14 @@ public class UnicodeFormatter : IFormatter<char>
             switch (token.Kind)
             {
                 case TokenKind.BracketRight:
-                    Ensure_NewLine_Indent(ref destination, spaces - 1);
-                    Append_BracketRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces - 1);
+                    Append_BracketRight_NewLine(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Comment:
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.DEFAULT:
-                    if (TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref token, ref tokenIndex, spaces))
+                    if (TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  token, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -285,55 +284,55 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.OFFSET:
                 case TokenKind.ROAM:
                 case TokenKind.TEXT:
-                    if (TryFormatElementAssignment_Not_DEFAULT(ref TokenList, ref source, ref destination, ref token, ref tokenIndex, spaces))
+                    if (TryFormatElementAssignment_Not_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  token, ref tokenIndex, spaces))
                     {
                         continue;
                     }
 
                     return false;
                 case TokenKind.rif:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_rif_Space_ParenLeft(ref destination);
-                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_rif_Space_ParenLeft(ref destination, ref JustChangeLine);
+                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
                     {
                         continue;
                     }
 
                     return false;
                 case TokenKind.@if:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_if_Space_ParenLeft(ref destination);
-                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_if_Space_ParenLeft(ref destination, ref JustChangeLine);
+                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
                     {
                         continue;
                     }
 
                     return false;
                 case TokenKind.@while:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_while_Space_ParenLeft(ref destination);
-                    if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_while_Space_ParenLeft(ref destination, ref JustChangeLine);
+                    if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
                     {
                         return false;
                     }
 
-                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
                     {
                         return false;
                     }
                     continue;
                 case TokenKind.battle:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_battle_NewLine_BracketLeft_NewLine(ref destination);
-                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_battle_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
                     {
                         continue;
                     }
                     return false;
 <# foreach (var kind in new string[] { "break", "continue", "next", "return" }) { #>
                 case TokenKind.<#= kind.Escape() #>:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_<#= kind #>_ParenLeft_ParenRight_NewLine(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_<#= kind #>_ParenLeft_ParenRight_NewLine(ref destination, ref JustChangeLine);
                     continue;
 <# } #>
                 case TokenKind.CallAction:
@@ -341,16 +340,16 @@ public class UnicodeFormatter : IFormatter<char>
                     {
 <# foreach (var (action, _, _) in ActionInfo.Normals) { #>
                         case ActionKind.<#= action.Escape() #>:
-                            Ensure_NewLine_Indent(ref destination, spaces);
-                            Append_<#= action #>_ParenLeft(ref destination);
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_<#= action #>_ParenLeft(ref destination, ref JustChangeLine);
                             break;
 <# } #>
                         default:
-                            Append_Copy(ref destination, ref source, ref token.Range);
+                            Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                             break;
                     }
 
-                    if (TryFormatCallActionArguments(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+                    if (TryFormatCallActionArguments(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -360,9 +359,9 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref bool JustChangeLine, ref Token element, ref uint tokenIndex, int spaces)
     {
-        if (!TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref element, ref tokenIndex, spaces))
+        if (!TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  element, ref tokenIndex, spaces))
         {
             return false;
         }
@@ -380,31 +379,31 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.Content:
                     if (token.IsFirstTokenInTheLine)
                     {
-                        Append_NewLine(ref destination);
-                        Append_Indent(ref destination, spaces + 1);
+                        Append_NewLine(ref destination, ref JustChangeLine);
+                        Append_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
 
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.Mul:
-                    Append_Space_Mul_Space(ref destination);
+                    Append_Space_Mul_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Semicolon:
                     if (token.IsFirstTokenInTheLine)
                     {
-                        Ensure_NewLine_Indent(ref destination, spaces);
+                        Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                     }
 
-                    Append_Semicolon(ref destination);
+                    Append_Semicolon(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Comma:
                     if (tokenIndex + 1 < TokenList.Count && TokenList[tokenIndex + 1].IsFirstTokenInTheLine)
                     {
-                        Append_Comma(ref destination);
+                        Append_Comma(ref destination, ref JustChangeLine);
                     }
                     else
                     {
-                        Append_Comma_Space(ref destination);
+                        Append_Comma_Space(ref destination, ref JustChangeLine);
                     }
 
                     continue;
@@ -415,7 +414,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref bool JustChangeLine, ref Token element, ref uint tokenIndex, int spaces)
     {
         if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Assign)
         {
@@ -428,23 +427,23 @@ public class UnicodeFormatter : IFormatter<char>
             return false;
         }
 
-        Ensure_NewLine_Indent(ref destination, spaces);
-        Append_Copy(ref destination, ref source, ref element.Range);
+        Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+        Append_Copy(ref destination, ref JustChangeLine, ref source, ref element.Range);
         if (content.IsFirstTokenInTheLine)
         {
-            Append_Space_Assign(ref destination);
-            Ensure_NewLine_Indent(ref destination, spaces + 1);
+            Append_Space_Assign(ref destination, ref JustChangeLine);
+            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces + 1);
         }
         else
         {
-            Append_Space_Assign_Space(ref destination);
+            Append_Space_Assign_Space(ref destination, ref JustChangeLine);
         }
 
-        Append_Copy(ref destination, ref source, ref content.Range);
+        Append_Copy(ref destination, ref JustChangeLine, ref source, ref content.Range);
         return true;
     }
 
-    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -459,23 +458,23 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.Content:
                     if (token.IsFirstTokenInTheLine)
                     {
-                        Ensure_NewLine_Indent(ref destination, spaces + 1);
+                        Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.Comma:
                     if (tokenIndex + 1 < TokenList.Count && TokenList[tokenIndex + 1].IsFirstTokenInTheLine)
                     {
-                        Append_Comma(ref destination);
+                        Append_Comma(ref destination, ref JustChangeLine);
                     }
                     else
                     {
-                        Append_Comma_Space(ref destination);
+                        Append_Comma_Space(ref destination, ref JustChangeLine);
                     }
 
                     continue;
                 case TokenKind.ParenRight:
-                    Append_ParenRight(ref destination);
+                    Append_ParenRight(ref destination, ref JustChangeLine);
                     return true;
                 default:
                     --tokenIndex;
@@ -484,14 +483,14 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
-        if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref tokenIndex, spaces))
+        if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
         {
             return false;
         }
 
-        if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces + 1))
+        if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces + 1))
         {
             return false;
         }
@@ -502,26 +501,26 @@ public class UnicodeFormatter : IFormatter<char>
             return true;
         }
 
-        Append_Indent(ref destination, spaces);
+        Append_Indent(ref destination, ref JustChangeLine, spaces);
         switch (TokenList[++tokenIndex].Kind)
         {
             case TokenKind.@if:
-                Append_else_Space_if_ParenLeft(ref destination);
-                return TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces);
+                Append_else_Space_if_ParenLeft(ref destination, ref JustChangeLine);
+                return TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces);
             case TokenKind.rif:
-                Append_else_Space_rif_ParenLeft(ref destination);
-                return TryFormat_If(ref TokenList, ref source, ref destination, ref tokenIndex, spaces);
+                Append_else_Space_rif_ParenLeft(ref destination, ref JustChangeLine);
+                return TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces);
             case TokenKind.BracketLeft:
-                Append_else_NewLine(ref destination);
-                Append_Indent(ref destination, spaces);
-                Append_BracketLeft_NewLine(ref destination);
-                return TryFormat_Block(ref TokenList, ref source, ref destination, ref tokenIndex, spaces + 1);
+                Append_else_NewLine(ref destination, ref JustChangeLine);
+                Append_Indent(ref destination, ref JustChangeLine, spaces);
+                Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+                return TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces + 1);
             default:
                 return false;
         }
     }
 
-    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref uint tokenIndex, int spaces)
+    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         do
         {
@@ -534,36 +533,36 @@ public class UnicodeFormatter : IFormatter<char>
             switch (token.Kind)
             {
                 case TokenKind.BracketLeft:
-                    Ensure_NewLine_Indent(ref destination, spaces);
-                    Append_BracketLeft(ref destination);
+                    Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_BracketLeft(ref destination, ref JustChangeLine);
                     return true;
 <# foreach (var x in FormatterHelper.Operators) { #>
                 case TokenKind.<#= x.name #>:
-                    Append_Space_<#= x.name #>_Space(ref destination);
+                    Append_Space_<#= x.name #>_Space(ref destination, ref JustChangeLine);
                     continue;
 <# }#>
                 case TokenKind.ParenLeft:
-                    Append_ParenLeft(ref destination);
+                    Append_ParenLeft(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.ParenRight:
-                    Append_ParenRight(ref destination);
+                    Append_ParenRight(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.Comma:
-                    Append_Comma_Space(ref destination);
+                    Append_Comma_Space(ref destination, ref JustChangeLine);
                     continue;
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
 <# foreach (var (name, _, _) in FunctionInfo.FunctionInfoArray) { #>
                         case FunctionKind.<#= name.Escape() #>:
-                            Append_<#= name #>_ParenLeft(ref destination);
+                            Append_<#= name #>_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
 <# } #>
                     }
 
                     goto default;
                 default:
-                    Append_Copy(ref destination, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
             }
         } while (true);

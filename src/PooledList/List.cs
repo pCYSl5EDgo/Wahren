@@ -111,12 +111,12 @@ public struct List<T> : IDisposable, System.Collections.Generic.IList<T>, IEquat
     {
         var max = assumption(sourceSpan.Length);
         PrepareAddRange(max, false);
-        count += converter(sourceSpan, new(array, 0, count));
+        count += converter(sourceSpan, array.AsSpan(count));
     }
 
     public void AddRangeConversion<TSource>(AddConverter<TSource> converter, ReadOnlySpan<TSource> sourceSpan)
     {
-        count += converter(sourceSpan, new(array, 0, count));
+        count += converter(sourceSpan, array.AsSpan(count));
     }
 
     public void AddRange(ReadOnlySpan<T> span)
