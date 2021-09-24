@@ -1,6 +1,6 @@
-﻿namespace Wahren.AbstractSyntaxTree.Parser;
+﻿namespace Wahren.AbstractSyntaxTree.Node;
 
-public enum NodeKind
+public enum NodeKind : byte
 {
     Scenario,
     Event,
