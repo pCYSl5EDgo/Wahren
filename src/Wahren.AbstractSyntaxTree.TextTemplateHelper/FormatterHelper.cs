@@ -123,6 +123,7 @@ public static class FormatterHelper
         pairs_NewLine.Add(new("BracketLeft", "{"));
         pairs_NewLine.Add(new("BracketRight", "}"));
         pairs_NewLine.Add(new("else", "else"));
+        pairs_NewLine.Add(new("battle", "battle"));
         foreach (var name in new string[] {
             "next",
             "return",

@@ -8,6 +8,11 @@ namespace Wahren.AbstractSyntaxTree.Formatter;
 
 public class BinaryFormatter : IFormatter<byte>
 {
+    static BinaryFormatter()
+    {
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+    }
+
     private static BinaryFormatter? _Default_Utf16Le_CrLf;
     private static BinaryFormatter? _Default_Utf16Le_Lf;
     private static BinaryFormatter? _Default_Cp932_CrLf;
@@ -37,3065 +42,2640 @@ public class BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private readonly List<byte> registeredBytes;
+    private readonly byte[] registeredBytes;
     private readonly List<byte>.AddConverter<char> Converter;
     private readonly List<byte>.AddConverterAssumption Assumption;
 
-    private readonly uint NewLineCount;
-    private readonly uint TabOffset;
-    private readonly uint TabCount;
+    private readonly int NewLine_Offset;
+    private readonly int NewLine_Count;
+    private const int Indent_Offset = 0;
+    private readonly int Indent_Count;
 
-    private readonly uint BracketLeft_NewLine_Offset;
-    private readonly uint BracketLeft_NewLine_Count;
-    private readonly uint BracketRight_NewLine_Offset;
-    private readonly uint BracketRight_NewLine_Count;
-    private readonly uint else_NewLine_Offset;
-    private readonly uint else_NewLine_Count;
-    private readonly uint next_ParenLeft_ParenRight_NewLine_Offset;
-    private readonly uint next_ParenLeft_ParenRight_NewLine_Count;
-    private readonly uint return_ParenLeft_ParenRight_NewLine_Offset;
-    private readonly uint return_ParenLeft_ParenRight_NewLine_Count;
-    private readonly uint continue_ParenLeft_ParenRight_NewLine_Offset;
-    private readonly uint continue_ParenLeft_ParenRight_NewLine_Count;
-    private readonly uint break_ParenLeft_ParenRight_NewLine_Offset;
-    private readonly uint break_ParenLeft_ParenRight_NewLine_Count;
-    private readonly uint Space_Assign_Offset;
-    private readonly uint Space_Assign_Count;
-    private readonly uint Semicolon_Offset;
-    private readonly uint Semicolon_Count;
-    private readonly uint ParenLeft_Offset;
-    private readonly uint ParenLeft_Count;
-    private readonly uint BracketLeft_Offset;
-    private readonly uint BracketLeft_Count;
-    private readonly uint ParenRight_Offset;
-    private readonly uint ParenRight_Count;
-    private readonly uint else_Space_if_ParenLeft_Offset;
-    private readonly uint else_Space_if_ParenLeft_Count;
-    private readonly uint else_Space_rif_ParenLeft_Offset;
-    private readonly uint else_Space_rif_ParenLeft_Count;
-    private readonly uint Comma_Offset;
-    private readonly uint Comma_Count;
-    private readonly uint Comma_Space_Offset;
-    private readonly uint Comma_Space_Count;
-    private readonly uint Space_Assign_Space_Offset;
-    private readonly uint Space_Assign_Space_Count;
-    private readonly uint Space_Colon_Space_Offset;
-    private readonly uint Space_Colon_Space_Count;
-    private readonly uint Space_Mul_Space_Offset;
-    private readonly uint Space_Mul_Space_Count;
-    private readonly uint Space_Add_Space_Offset;
-    private readonly uint Space_Add_Space_Count;
-    private readonly uint Space_Sub_Space_Offset;
-    private readonly uint Space_Sub_Space_Count;
-    private readonly uint Space_Div_Space_Offset;
-    private readonly uint Space_Div_Space_Count;
-    private readonly uint Space_Percent_Space_Offset;
-    private readonly uint Space_Percent_Space_Count;
-    private readonly uint Space_And_Space_Offset;
-    private readonly uint Space_And_Space_Count;
-    private readonly uint Space_Or_Space_Offset;
-    private readonly uint Space_Or_Space_Count;
-    private readonly uint Space_CompareEqual_Space_Offset;
-    private readonly uint Space_CompareEqual_Space_Count;
-    private readonly uint Space_CompareNotEqual_Space_Offset;
-    private readonly uint Space_CompareNotEqual_Space_Count;
-    private readonly uint Space_CompareGreaterThan_Space_Offset;
-    private readonly uint Space_CompareGreaterThan_Space_Count;
-    private readonly uint Space_CompareGreaterThanOrEqualTo_Space_Offset;
-    private readonly uint Space_CompareGreaterThanOrEqualTo_Space_Count;
-    private readonly uint Space_CompareLessThan_Space_Offset;
-    private readonly uint Space_CompareLessThan_Space_Count;
-    private readonly uint Space_CompareLessThanOrEqualTo_Space_Offset;
-    private readonly uint Space_CompareLessThanOrEqualTo_Space_Count;
-    private readonly uint if_Space_ParenLeft_Offset;
-    private readonly uint if_Space_ParenLeft_Count;
-    private readonly uint rif_Space_ParenLeft_Offset;
-    private readonly uint rif_Space_ParenLeft_Count;
-    private readonly uint while_Space_ParenLeft_Offset;
-    private readonly uint while_Space_ParenLeft_Count;
-    private readonly uint spot_Space_Offset;
-    private readonly uint spot_Space_Count;
-    private readonly uint unit_Space_Offset;
-    private readonly uint unit_Space_Count;
-    private readonly uint race_Space_Offset;
-    private readonly uint race_Space_Count;
-    private readonly uint class_Space_Offset;
-    private readonly uint class_Space_Count;
-    private readonly uint field_Space_Offset;
-    private readonly uint field_Space_Count;
-    private readonly uint skill_Space_Offset;
-    private readonly uint skill_Space_Count;
-    private readonly uint power_Space_Offset;
-    private readonly uint power_Space_Count;
-    private readonly uint voice_Space_Offset;
-    private readonly uint voice_Space_Count;
-    private readonly uint object_Space_Offset;
-    private readonly uint object_Space_Count;
-    private readonly uint dungeon_Space_Offset;
-    private readonly uint dungeon_Space_Count;
-    private readonly uint movetype_Space_Offset;
-    private readonly uint movetype_Space_Count;
-    private readonly uint skillset_Space_Offset;
-    private readonly uint skillset_Space_Count;
-    private readonly uint story_Space_Offset;
-    private readonly uint story_Space_Count;
-    private readonly uint fight_Space_Offset;
-    private readonly uint fight_Space_Count;
-    private readonly uint world_Space_Offset;
-    private readonly uint world_Space_Count;
-    private readonly uint event_Space_Offset;
-    private readonly uint event_Space_Count;
-    private readonly uint scenario_Space_Offset;
-    private readonly uint scenario_Space_Count;
-    private readonly uint bg_ParenLeft_Offset;
-    private readonly uint bg_ParenLeft_Count;
-    private readonly uint vc_ParenLeft_Offset;
-    private readonly uint vc_ParenLeft_Count;
-    private readonly uint add_ParenLeft_Offset;
-    private readonly uint add_ParenLeft_Count;
-    private readonly uint div_ParenLeft_Offset;
-    private readonly uint div_ParenLeft_Count;
-    private readonly uint mod_ParenLeft_Offset;
-    private readonly uint mod_ParenLeft_Count;
-    private readonly uint msg_ParenLeft_Offset;
-    private readonly uint msg_ParenLeft_Count;
-    private readonly uint mul_ParenLeft_Offset;
-    private readonly uint mul_ParenLeft_Count;
-    private readonly uint per_ParenLeft_Offset;
-    private readonly uint per_ParenLeft_Count;
-    private readonly uint set_ParenLeft_Offset;
-    private readonly uint set_ParenLeft_Count;
-    private readonly uint sub_ParenLeft_Offset;
-    private readonly uint sub_ParenLeft_Count;
-    private readonly uint win_ParenLeft_Offset;
-    private readonly uint win_ParenLeft_Count;
-    private readonly uint addv_ParenLeft_Offset;
-    private readonly uint addv_ParenLeft_Count;
-    private readonly uint call_ParenLeft_Offset;
-    private readonly uint call_ParenLeft_Count;
-    private readonly uint chat_ParenLeft_Offset;
-    private readonly uint chat_ParenLeft_Count;
-    private readonly uint exit_ParenLeft_Offset;
-    private readonly uint exit_ParenLeft_Count;
-    private readonly uint face_ParenLeft_Offset;
-    private readonly uint face_ParenLeft_Count;
-    private readonly uint font_ParenLeft_Offset;
-    private readonly uint font_ParenLeft_Count;
-    private readonly uint msg2_ParenLeft_Offset;
-    private readonly uint msg2_ParenLeft_Count;
-    private readonly uint play_ParenLeft_Offset;
-    private readonly uint play_ParenLeft_Count;
-    private readonly uint ppl1_ParenLeft_Offset;
-    private readonly uint ppl1_ParenLeft_Count;
-    private readonly uint save_ParenLeft_Offset;
-    private readonly uint save_ParenLeft_Count;
-    private readonly uint setv_ParenLeft_Offset;
-    private readonly uint setv_ParenLeft_Count;
-    private readonly uint stop_ParenLeft_Offset;
-    private readonly uint stop_ParenLeft_Count;
-    private readonly uint subv_ParenLeft_Offset;
-    private readonly uint subv_ParenLeft_Count;
-    private readonly uint talk_ParenLeft_Offset;
-    private readonly uint talk_ParenLeft_Count;
-    private readonly uint wait_ParenLeft_Offset;
-    private readonly uint wait_ParenLeft_Count;
-    private readonly uint zoom_ParenLeft_Offset;
-    private readonly uint zoom_ParenLeft_Count;
-    private readonly uint chat2_ParenLeft_Offset;
-    private readonly uint chat2_ParenLeft_Count;
-    private readonly uint citom_ParenLeft_Offset;
-    private readonly uint citom_ParenLeft_Count;
-    private readonly uint clear_ParenLeft_Offset;
-    private readonly uint clear_ParenLeft_Count;
-    private readonly uint erase_ParenLeft_Offset;
-    private readonly uint erase_ParenLeft_Count;
-    private readonly uint event_ParenLeft_Offset;
-    private readonly uint event_ParenLeft_Count;
-    private readonly uint face2_ParenLeft_Offset;
-    private readonly uint face2_ParenLeft_Count;
-    private readonly uint focus_ParenLeft_Offset;
-    private readonly uint focus_ParenLeft_Count;
-    private readonly uint fontc_ParenLeft_Offset;
-    private readonly uint fontc_ParenLeft_Count;
-    private readonly uint gread_ParenLeft_Offset;
-    private readonly uint gread_ParenLeft_Count;
-    private readonly uint image_ParenLeft_Offset;
-    private readonly uint image_ParenLeft_Count;
-    private readonly uint index_ParenLeft_Offset;
-    private readonly uint index_ParenLeft_Count;
-    private readonly uint pushv_ParenLeft_Offset;
-    private readonly uint pushv_ParenLeft_Count;
-    private readonly uint setPM_ParenLeft_Offset;
-    private readonly uint setPM_ParenLeft_Count;
-    private readonly uint setud_ParenLeft_Offset;
-    private readonly uint setud_ParenLeft_Count;
-    private readonly uint shake_ParenLeft_Offset;
-    private readonly uint shake_ParenLeft_Count;
-    private readonly uint talk2_ParenLeft_Offset;
-    private readonly uint talk2_ParenLeft_Count;
-    private readonly uint title_ParenLeft_Offset;
-    private readonly uint title_ParenLeft_Count;
-    private readonly uint addstr_ParenLeft_Offset;
-    private readonly uint addstr_ParenLeft_Count;
-    private readonly uint addVar_ParenLeft_Offset;
-    private readonly uint addVar_ParenLeft_Count;
-    private readonly uint choice_ParenLeft_Offset;
-    private readonly uint choice_ParenLeft_Count;
-    private readonly uint dialog_ParenLeft_Offset;
-    private readonly uint dialog_ParenLeft_Count;
-    private readonly uint fadein_ParenLeft_Offset;
-    private readonly uint fadein_ParenLeft_Count;
-    private readonly uint gwrite_ParenLeft_Offset;
-    private readonly uint gwrite_ParenLeft_Count;
-    private readonly uint locate_ParenLeft_Offset;
-    private readonly uint locate_ParenLeft_Count;
-    private readonly uint playSE_ParenLeft_Offset;
-    private readonly uint playSE_ParenLeft_Count;
-    private readonly uint scroll_ParenLeft_Offset;
-    private readonly uint scroll_ParenLeft_Count;
-    private readonly uint select_ParenLeft_Offset;
-    private readonly uint select_ParenLeft_Count;
-    private readonly uint setbcg_ParenLeft_Offset;
-    private readonly uint setbcg_ParenLeft_Count;
-    private readonly uint setVar_ParenLeft_Offset;
-    private readonly uint setVar_ParenLeft_Count;
-    private readonly uint shadow_ParenLeft_Offset;
-    private readonly uint shadow_ParenLeft_Count;
-    private readonly uint subVar_ParenLeft_Offset;
-    private readonly uint subVar_ParenLeft_Count;
-    private readonly uint title2_ParenLeft_Offset;
-    private readonly uint title2_ParenLeft_Count;
-    private readonly uint volume_ParenLeft_Offset;
-    private readonly uint volume_ParenLeft_Count;
-    private readonly uint addCapa_ParenLeft_Offset;
-    private readonly uint addCapa_ParenLeft_Count;
-    private readonly uint addGain_ParenLeft_Offset;
-    private readonly uint addGain_ParenLeft_Count;
-    private readonly uint addItem_ParenLeft_Offset;
-    private readonly uint addItem_ParenLeft_Count;
-    private readonly uint addSpot_ParenLeft_Offset;
-    private readonly uint addSpot_ParenLeft_Count;
-    private readonly uint addUnit_ParenLeft_Offset;
-    private readonly uint addUnit_ParenLeft_Count;
-    private readonly uint dialogF_ParenLeft_Offset;
-    private readonly uint dialogF_ParenLeft_Count;
-    private readonly uint doskill_ParenLeft_Offset;
-    private readonly uint doskill_ParenLeft_Count;
-    private readonly uint fadeout_ParenLeft_Offset;
-    private readonly uint fadeout_ParenLeft_Count;
-    private readonly uint levelup_ParenLeft_Offset;
-    private readonly uint levelup_ParenLeft_Count;
-    private readonly uint loopBGM_ParenLeft_Offset;
-    private readonly uint loopBGM_ParenLeft_Count;
-    private readonly uint minimap_ParenLeft_Offset;
-    private readonly uint minimap_ParenLeft_Count;
-    private readonly uint picture_ParenLeft_Offset;
-    private readonly uint picture_ParenLeft_Count;
-    private readonly uint playBGM_ParenLeft_Offset;
-    private readonly uint playBGM_ParenLeft_Count;
-    private readonly uint pushCon_ParenLeft_Offset;
-    private readonly uint pushCon_ParenLeft_Count;
-    private readonly uint pushSex_ParenLeft_Offset;
-    private readonly uint pushSex_ParenLeft_Count;
-    private readonly uint pushVar_ParenLeft_Offset;
-    private readonly uint pushVar_ParenLeft_Count;
-    private readonly uint routine_ParenLeft_Offset;
-    private readonly uint routine_ParenLeft_Count;
-    private readonly uint scroll2_ParenLeft_Offset;
-    private readonly uint scroll2_ParenLeft_Count;
-    private readonly uint setCapa_ParenLeft_Offset;
-    private readonly uint setCapa_ParenLeft_Count;
-    private readonly uint setDone_ParenLeft_Offset;
-    private readonly uint setDone_ParenLeft_Count;
-    private readonly uint setGain_ParenLeft_Offset;
-    private readonly uint setGain_ParenLeft_Count;
-    private readonly uint shuffle_ParenLeft_Offset;
-    private readonly uint shuffle_ParenLeft_Count;
-    private readonly uint stopBGM_ParenLeft_Offset;
-    private readonly uint stopBGM_ParenLeft_Count;
-    private readonly uint storePM_ParenLeft_Offset;
-    private readonly uint storePM_ParenLeft_Count;
-    private readonly uint storeud_ParenLeft_Offset;
-    private readonly uint storeud_ParenLeft_Count;
-    private readonly uint addDiplo_ParenLeft_Offset;
-    private readonly uint addDiplo_ParenLeft_Count;
-    private readonly uint addLevel_ParenLeft_Offset;
-    private readonly uint addLevel_ParenLeft_Count;
-    private readonly uint addLimit_ParenLeft_Offset;
-    private readonly uint addLimit_ParenLeft_Count;
-    private readonly uint addLoyal_ParenLeft_Offset;
-    private readonly uint addLoyal_ParenLeft_Count;
-    private readonly uint addMoney_ParenLeft_Offset;
-    private readonly uint addMoney_ParenLeft_Count;
-    private readonly uint addPower_ParenLeft_Offset;
-    private readonly uint addPower_ParenLeft_Count;
-    private readonly uint addSkill_ParenLeft_Offset;
-    private readonly uint addSkill_ParenLeft_Count;
-    private readonly uint addTroop_ParenLeft_Offset;
-    private readonly uint addTroop_ParenLeft_Count;
-    private readonly uint addTrust_ParenLeft_Offset;
-    private readonly uint addTrust_ParenLeft_Count;
-    private readonly uint aimTroop_ParenLeft_Offset;
-    private readonly uint aimTroop_ParenLeft_Count;
-    private readonly uint clearVar_ParenLeft_Offset;
-    private readonly uint clearVar_ParenLeft_Count;
-    private readonly uint darkness_ParenLeft_Offset;
-    private readonly uint darkness_ParenLeft_Count;
-    private readonly uint exitItem_ParenLeft_Offset;
-    private readonly uint exitItem_ParenLeft_Count;
-    private readonly uint hideLink_ParenLeft_Offset;
-    private readonly uint hideLink_ParenLeft_Count;
-    private readonly uint hideSpot_ParenLeft_Offset;
-    private readonly uint hideSpot_ParenLeft_Count;
-    private readonly uint linkSpot_ParenLeft_Offset;
-    private readonly uint linkSpot_ParenLeft_Count;
-    private readonly uint openGoal_ParenLeft_Offset;
-    private readonly uint openGoal_ParenLeft_Count;
-    private readonly uint picture2_ParenLeft_Offset;
-    private readonly uint picture2_ParenLeft_Count;
-    private readonly uint pushCapa_ParenLeft_Offset;
-    private readonly uint pushCapa_ParenLeft_Count;
-    private readonly uint pushGain_ParenLeft_Offset;
-    private readonly uint pushGain_ParenLeft_Count;
-    private readonly uint pushItem_ParenLeft_Offset;
-    private readonly uint pushItem_ParenLeft_Count;
-    private readonly uint pushRand_ParenLeft_Offset;
-    private readonly uint pushRand_ParenLeft_Count;
-    private readonly uint pushRank_ParenLeft_Offset;
-    private readonly uint pushRank_ParenLeft_Count;
-    private readonly uint pushSpot_ParenLeft_Offset;
-    private readonly uint pushSpot_ParenLeft_Count;
-    private readonly uint pushTurn_ParenLeft_Offset;
-    private readonly uint pushTurn_ParenLeft_Count;
-    private readonly uint roamUnit_ParenLeft_Offset;
-    private readonly uint roamUnit_ParenLeft_Count;
-    private readonly uint setDiplo_ParenLeft_Offset;
-    private readonly uint setDiplo_ParenLeft_Count;
-    private readonly uint setLevel_ParenLeft_Offset;
-    private readonly uint setLevel_ParenLeft_Count;
-    private readonly uint setLimit_ParenLeft_Offset;
-    private readonly uint setLimit_ParenLeft_Count;
-    private readonly uint setMoney_ParenLeft_Offset;
-    private readonly uint setMoney_ParenLeft_Count;
-    private readonly uint setTruce_ParenLeft_Offset;
-    private readonly uint setTruce_ParenLeft_Count;
-    private readonly uint showCamp_ParenLeft_Offset;
-    private readonly uint showCamp_ParenLeft_Count;
-    private readonly uint showFace_ParenLeft_Offset;
-    private readonly uint showFace_ParenLeft_Count;
-    private readonly uint showPict_ParenLeft_Offset;
-    private readonly uint showPict_ParenLeft_Count;
-    private readonly uint showSpot_ParenLeft_Offset;
-    private readonly uint showSpot_ParenLeft_Count;
-    private readonly uint spotmark_ParenLeft_Offset;
-    private readonly uint spotmark_ParenLeft_Count;
-    private readonly uint addCastle_ParenLeft_Offset;
-    private readonly uint addCastle_ParenLeft_Count;
-    private readonly uint addFriend_ParenLeft_Offset;
-    private readonly uint addFriend_ParenLeft_Count;
-    private readonly uint addMerits_ParenLeft_Offset;
-    private readonly uint addMerits_ParenLeft_Count;
-    private readonly uint addSkill2_ParenLeft_Offset;
-    private readonly uint addSkill2_ParenLeft_Count;
-    private readonly uint addStatus_ParenLeft_Offset;
-    private readonly uint addStatus_ParenLeft_Count;
-    private readonly uint changeMap_ParenLeft_Offset;
-    private readonly uint changeMap_ParenLeft_Count;
-    private readonly uint clickWait_ParenLeft_Offset;
-    private readonly uint clickWait_ParenLeft_Count;
-    private readonly uint closeGoal_ParenLeft_Offset;
-    private readonly uint closeGoal_ParenLeft_Count;
-    private readonly uint ctrlTroop_ParenLeft_Offset;
-    private readonly uint ctrlTroop_ParenLeft_Count;
-    private readonly uint entryItem_ParenLeft_Offset;
-    private readonly uint entryItem_ParenLeft_Count;
-    private readonly uint equipItem_ParenLeft_Offset;
-    private readonly uint equipItem_ParenLeft_Count;
-    private readonly uint eraseItem_ParenLeft_Offset;
-    private readonly uint eraseItem_ParenLeft_Count;
-    private readonly uint eraseUnit_ParenLeft_Offset;
-    private readonly uint eraseUnit_ParenLeft_Count;
-    private readonly uint formTroop_ParenLeft_Offset;
-    private readonly uint formTroop_ParenLeft_Count;
-    private readonly uint freeTroop_ParenLeft_Offset;
-    private readonly uint freeTroop_ParenLeft_Count;
-    private readonly uint haltTroop_ParenLeft_Offset;
-    private readonly uint haltTroop_ParenLeft_Count;
-    private readonly uint hideBlind_ParenLeft_Offset;
-    private readonly uint hideBlind_ParenLeft_Count;
-    private readonly uint hideChara_ParenLeft_Offset;
-    private readonly uint hideChara_ParenLeft_Count;
-    private readonly uint hideImage_ParenLeft_Offset;
-    private readonly uint hideImage_ParenLeft_Count;
-    private readonly uint moveTroop_ParenLeft_Offset;
-    private readonly uint moveTroop_ParenLeft_Count;
-    private readonly uint playWorld_ParenLeft_Offset;
-    private readonly uint playWorld_ParenLeft_Count;
-    private readonly uint pushDeath_ParenLeft_Offset;
-    private readonly uint pushDeath_ParenLeft_Count;
-    private readonly uint pushDiplo_ParenLeft_Offset;
-    private readonly uint pushDiplo_ParenLeft_Count;
-    private readonly uint pushForce_ParenLeft_Offset;
-    private readonly uint pushForce_ParenLeft_Count;
-    private readonly uint pushLevel_ParenLeft_Offset;
-    private readonly uint pushLevel_ParenLeft_Count;
-    private readonly uint pushLimit_ParenLeft_Offset;
-    private readonly uint pushLimit_ParenLeft_Count;
-    private readonly uint pushLoyal_ParenLeft_Offset;
-    private readonly uint pushLoyal_ParenLeft_Count;
-    private readonly uint pushMoney_ParenLeft_Offset;
-    private readonly uint pushMoney_ParenLeft_Count;
-    private readonly uint pushRand2_ParenLeft_Offset;
-    private readonly uint pushRand2_ParenLeft_Count;
-    private readonly uint pushTrain_ParenLeft_Offset;
-    private readonly uint pushTrain_ParenLeft_Count;
-    private readonly uint pushTrust_ParenLeft_Offset;
-    private readonly uint pushTrust_ParenLeft_Count;
-    private readonly uint resetTime_ParenLeft_Offset;
-    private readonly uint resetTime_ParenLeft_Count;
-    private readonly uint resetZone_ParenLeft_Offset;
-    private readonly uint resetZone_ParenLeft_Count;
-    private readonly uint roamUnit2_ParenLeft_Offset;
-    private readonly uint roamUnit2_ParenLeft_Count;
-    private readonly uint setArbeit_ParenLeft_Offset;
-    private readonly uint setArbeit_ParenLeft_Count;
-    private readonly uint setCastle_ParenLeft_Offset;
-    private readonly uint setCastle_ParenLeft_Count;
-    private readonly uint setLeague_ParenLeft_Offset;
-    private readonly uint setLeague_ParenLeft_Count;
-    private readonly uint setStatus_ParenLeft_Offset;
-    private readonly uint setStatus_ParenLeft_Count;
-    private readonly uint showBlind_ParenLeft_Offset;
-    private readonly uint showBlind_ParenLeft_Count;
-    private readonly uint showChara_ParenLeft_Offset;
-    private readonly uint showChara_ParenLeft_Count;
-    private readonly uint showImage_ParenLeft_Offset;
-    private readonly uint showImage_ParenLeft_Count;
-    private readonly uint stopTroop_ParenLeft_Offset;
-    private readonly uint stopTroop_ParenLeft_Count;
-    private readonly uint terminate_ParenLeft_Offset;
-    private readonly uint terminate_ParenLeft_Count;
-    private readonly uint worldskin_ParenLeft_Offset;
-    private readonly uint worldskin_ParenLeft_Count;
-    private readonly uint backScroll_ParenLeft_Offset;
-    private readonly uint backScroll_ParenLeft_Count;
-    private readonly uint changeRace_ParenLeft_Offset;
-    private readonly uint changeRace_ParenLeft_Count;
-    private readonly uint endingRoll_ParenLeft_Offset;
-    private readonly uint endingRoll_ParenLeft_Count;
-    private readonly uint erasePower_ParenLeft_Offset;
-    private readonly uint erasePower_ParenLeft_Count;
-    private readonly uint eraseSkill_ParenLeft_Offset;
-    private readonly uint eraseSkill_ParenLeft_Count;
-    private readonly uint eraseTroop_ParenLeft_Offset;
-    private readonly uint eraseTroop_ParenLeft_Count;
-    private readonly uint eraseUnit2_ParenLeft_Offset;
-    private readonly uint eraseUnit2_ParenLeft_Count;
-    private readonly uint hideEscape_ParenLeft_Offset;
-    private readonly uint hideEscape_ParenLeft_Count;
-    private readonly uint linkEscape_ParenLeft_Offset;
-    private readonly uint linkEscape_ParenLeft_Count;
-    private readonly uint playBattle_ParenLeft_Offset;
-    private readonly uint playBattle_ParenLeft_Count;
-    private readonly uint pushCastle_ParenLeft_Offset;
-    private readonly uint pushCastle_ParenLeft_Count;
-    private readonly uint pushMerits_ParenLeft_Offset;
-    private readonly uint pushMerits_ParenLeft_Count;
-    private readonly uint pushStatus_ParenLeft_Offset;
-    private readonly uint pushStatus_ParenLeft_Count;
-    private readonly uint reloadMenu_ParenLeft_Offset;
-    private readonly uint reloadMenu_ParenLeft_Count;
-    private readonly uint removeSpot_ParenLeft_Offset;
-    private readonly uint removeSpot_ParenLeft_Count;
-    private readonly uint resetTruce_ParenLeft_Offset;
-    private readonly uint resetTruce_ParenLeft_Count;
-    private readonly uint setDungeon_ParenLeft_Offset;
-    private readonly uint setDungeon_ParenLeft_Count;
-    private readonly uint shiftTroop_ParenLeft_Offset;
-    private readonly uint shiftTroop_ParenLeft_Count;
-    private readonly uint shuffleVar_ParenLeft_Offset;
-    private readonly uint shuffleVar_ParenLeft_Count;
-    private readonly uint skillTroop_ParenLeft_Offset;
-    private readonly uint skillTroop_ParenLeft_Count;
-    private readonly uint sleepTroop_ParenLeft_Offset;
-    private readonly uint sleepTroop_ParenLeft_Count;
-    private readonly uint smoveTroop_ParenLeft_Offset;
-    private readonly uint smoveTroop_ParenLeft_Count;
-    private readonly uint speedTroop_ParenLeft_Offset;
-    private readonly uint speedTroop_ParenLeft_Count;
-    private readonly uint storeDeath_ParenLeft_Offset;
-    private readonly uint storeDeath_ParenLeft_Count;
-    private readonly uint storeIndex_ParenLeft_Offset;
-    private readonly uint storeIndex_ParenLeft_Count;
-    private readonly uint unionPower_ParenLeft_Offset;
-    private readonly uint unionPower_ParenLeft_Count;
-    private readonly uint activeTroop_ParenLeft_Offset;
-    private readonly uint activeTroop_ParenLeft_Count;
-    private readonly uint addTraining_ParenLeft_Offset;
-    private readonly uint addTraining_ParenLeft_Count;
-    private readonly uint battleEvent_ParenLeft_Offset;
-    private readonly uint battleEvent_ParenLeft_Count;
-    private readonly uint changeClass_ParenLeft_Offset;
-    private readonly uint changeClass_ParenLeft_Count;
-    private readonly uint choiceTitle_ParenLeft_Offset;
-    private readonly uint choiceTitle_ParenLeft_Count;
-    private readonly uint eraseFriend_ParenLeft_Offset;
-    private readonly uint eraseFriend_ParenLeft_Count;
-    private readonly uint hidePicture_ParenLeft_Offset;
-    private readonly uint hidePicture_ParenLeft_Count;
-    private readonly uint pushSpotPos_ParenLeft_Offset;
-    private readonly uint pushSpotPos_ParenLeft_Count;
-    private readonly uint pushTrainUp_ParenLeft_Offset;
-    private readonly uint pushTrainUp_ParenLeft_Count;
-    private readonly uint removeSkill_ParenLeft_Offset;
-    private readonly uint removeSkill_ParenLeft_Count;
-    private readonly uint removeTroop_ParenLeft_Offset;
-    private readonly uint removeTroop_ParenLeft_Count;
-    private readonly uint resetLeague_ParenLeft_Offset;
-    private readonly uint resetLeague_ParenLeft_Count;
-    private readonly uint scrollSpeed_ParenLeft_Offset;
-    private readonly uint scrollSpeed_ParenLeft_Count;
-    private readonly uint setTraining_ParenLeft_Offset;
-    private readonly uint setTraining_ParenLeft_Count;
-    private readonly uint shiftTroop2_ParenLeft_Offset;
-    private readonly uint shiftTroop2_ParenLeft_Count;
-    private readonly uint showDungeon_ParenLeft_Offset;
-    private readonly uint showDungeon_ParenLeft_Count;
-    private readonly uint showPicture_ParenLeft_Offset;
-    private readonly uint showPicture_ParenLeft_Count;
-    private readonly uint unctrlTroop_ParenLeft_Offset;
-    private readonly uint unctrlTroop_ParenLeft_Count;
-    private readonly uint addBaseLevel_ParenLeft_Offset;
-    private readonly uint addBaseLevel_ParenLeft_Count;
-    private readonly uint changeCastle_ParenLeft_Offset;
-    private readonly uint changeCastle_ParenLeft_Count;
-    private readonly uint changeMaster_ParenLeft_Offset;
-    private readonly uint changeMaster_ParenLeft_Count;
-    private readonly uint changePlayer_ParenLeft_Offset;
-    private readonly uint changePlayer_ParenLeft_Count;
-    private readonly uint darkness_off_ParenLeft_Offset;
-    private readonly uint darkness_off_ParenLeft_Count;
-    private readonly uint doGameEnding_ParenLeft_Offset;
-    private readonly uint doGameEnding_ParenLeft_Count;
-    private readonly uint hideSpotMark_ParenLeft_Offset;
-    private readonly uint hideSpotMark_ParenLeft_Count;
-    private readonly uint moveTroopFix_ParenLeft_Offset;
-    private readonly uint moveTroopFix_ParenLeft_Count;
-    private readonly uint retreatTroop_ParenLeft_Offset;
-    private readonly uint retreatTroop_ParenLeft_Count;
-    private readonly uint reverseChara_ParenLeft_Offset;
-    private readonly uint reverseChara_ParenLeft_Count;
-    private readonly uint setBaseLevel_ParenLeft_Offset;
-    private readonly uint setBaseLevel_ParenLeft_Count;
-    private readonly uint setGameClear_ParenLeft_Offset;
-    private readonly uint setGameClear_ParenLeft_Count;
-    private readonly uint setPowerHome_ParenLeft_Offset;
-    private readonly uint setPowerHome_ParenLeft_Count;
-    private readonly uint showPolitics_ParenLeft_Offset;
-    private readonly uint showPolitics_ParenLeft_Count;
-    private readonly uint showSpotMark_ParenLeft_Offset;
-    private readonly uint showSpotMark_ParenLeft_Count;
-    private readonly uint storeAllSpot_ParenLeft_Offset;
-    private readonly uint storeAllSpot_ParenLeft_Count;
-    private readonly uint addPowerMerce_ParenLeft_Offset;
-    private readonly uint addPowerMerce_ParenLeft_Count;
-    private readonly uint addPowerStaff_ParenLeft_Offset;
-    private readonly uint addPowerStaff_ParenLeft_Count;
-    private readonly uint addTrainingUp_ParenLeft_Offset;
-    private readonly uint addTrainingUp_ParenLeft_Count;
-    private readonly uint changeDungeon_ParenLeft_Offset;
-    private readonly uint changeDungeon_ParenLeft_Count;
-    private readonly uint pushBaseLevel_ParenLeft_Offset;
-    private readonly uint pushBaseLevel_ParenLeft_Count;
-    private readonly uint setEnemyPower_ParenLeft_Offset;
-    private readonly uint setEnemyPower_ParenLeft_Count;
-    private readonly uint setTrainingUp_ParenLeft_Offset;
-    private readonly uint setTrainingUp_ParenLeft_Count;
-    private readonly uint setWorldMusic_ParenLeft_Offset;
-    private readonly uint setWorldMusic_ParenLeft_Count;
-    private readonly uint smoveTroopFix_ParenLeft_Offset;
-    private readonly uint smoveTroopFix_ParenLeft_Count;
-    private readonly uint storeAllPower_ParenLeft_Offset;
-    private readonly uint storeAllPower_ParenLeft_Count;
-    private readonly uint storeComPower_ParenLeft_Offset;
-    private readonly uint storeComPower_ParenLeft_Count;
-    private readonly uint storeIndexVar_ParenLeft_Offset;
-    private readonly uint storeIndexVar_ParenLeft_Count;
-    private readonly uint storeNextSpot_ParenLeft_Offset;
-    private readonly uint storeNextSpot_ParenLeft_Count;
-    private readonly uint storeNowPower_ParenLeft_Offset;
-    private readonly uint storeNowPower_ParenLeft_Count;
-    private readonly uint storeRectUnit_ParenLeft_Offset;
-    private readonly uint storeRectUnit_ParenLeft_Count;
-    private readonly uint storeSkillset_ParenLeft_Offset;
-    private readonly uint storeSkillset_ParenLeft_Count;
-    private readonly uint storeTodoUnit_ParenLeft_Offset;
-    private readonly uint storeTodoUnit_ParenLeft_Count;
-    private readonly uint addPowerMerce2_ParenLeft_Offset;
-    private readonly uint addPowerMerce2_ParenLeft_Count;
-    private readonly uint addPowerStaff2_ParenLeft_Offset;
-    private readonly uint addPowerStaff2_ParenLeft_Count;
-    private readonly uint changePowerFix_ParenLeft_Offset;
-    private readonly uint changePowerFix_ParenLeft_Count;
-    private readonly uint eraseUnitTroop_ParenLeft_Offset;
-    private readonly uint eraseUnitTroop_ParenLeft_Count;
-    private readonly uint pushBattleHome_ParenLeft_Offset;
-    private readonly uint pushBattleHome_ParenLeft_Count;
-    private readonly uint pushBattleRect_ParenLeft_Offset;
-    private readonly uint pushBattleRect_ParenLeft_Count;
-    private readonly uint pushCountPower_ParenLeft_Offset;
-    private readonly uint pushCountPower_ParenLeft_Count;
-    private readonly uint storeAliveUnit_ParenLeft_Offset;
-    private readonly uint storeAliveUnit_ParenLeft_Count;
-    private readonly uint storeAllTalent_ParenLeft_Offset;
-    private readonly uint storeAllTalent_ParenLeft_Count;
-    private readonly uint changePowerFlag_ParenLeft_Offset;
-    private readonly uint changePowerFlag_ParenLeft_Count;
-    private readonly uint changePowerName_ParenLeft_Offset;
-    private readonly uint changePowerName_ParenLeft_Count;
-    private readonly uint changeSpotImage_ParenLeft_Offset;
-    private readonly uint changeSpotImage_ParenLeft_Count;
-    private readonly uint erasePowerMerce_ParenLeft_Offset;
-    private readonly uint erasePowerMerce_ParenLeft_Count;
-    private readonly uint erasePowerStaff_ParenLeft_Offset;
-    private readonly uint erasePowerStaff_ParenLeft_Count;
-    private readonly uint resetEnemyPower_ParenLeft_Offset;
-    private readonly uint resetEnemyPower_ParenLeft_Count;
-    private readonly uint resetWorldMusic_ParenLeft_Offset;
-    private readonly uint resetWorldMusic_ParenLeft_Count;
-    private readonly uint setDungeonFloor_ParenLeft_Offset;
-    private readonly uint setDungeonFloor_ParenLeft_Count;
-    private readonly uint storeBattleSpot_ParenLeft_Offset;
-    private readonly uint storeBattleSpot_ParenLeft_Count;
-    private readonly uint storePlayerUnit_ParenLeft_Offset;
-    private readonly uint storePlayerUnit_ParenLeft_Count;
-    private readonly uint storeRaceOfUnit_ParenLeft_Offset;
-    private readonly uint storeRaceOfUnit_ParenLeft_Count;
-    private readonly uint storeSpotOfUnit_ParenLeft_Offset;
-    private readonly uint storeSpotOfUnit_ParenLeft_Count;
-    private readonly uint storeUnitOfSpot_ParenLeft_Offset;
-    private readonly uint storeUnitOfSpot_ParenLeft_Count;
-    private readonly uint storeAttackPower_ParenLeft_Offset;
-    private readonly uint storeAttackPower_ParenLeft_Count;
-    private readonly uint storeClassOfUnit_ParenLeft_Offset;
-    private readonly uint storeClassOfUnit_ParenLeft_Count;
-    private readonly uint storeNeutralSpot_ParenLeft_Offset;
-    private readonly uint storeNeutralSpot_ParenLeft_Count;
-    private readonly uint storePlayerPower_ParenLeft_Offset;
-    private readonly uint storePlayerPower_ParenLeft_Count;
-    private readonly uint storePowerOfSpot_ParenLeft_Offset;
-    private readonly uint storePowerOfSpot_ParenLeft_Count;
-    private readonly uint storePowerOfUnit_ParenLeft_Offset;
-    private readonly uint storePowerOfUnit_ParenLeft_Count;
-    private readonly uint storeSkillOfUnit_ParenLeft_Offset;
-    private readonly uint storeSkillOfUnit_ParenLeft_Count;
-    private readonly uint storeSpotOfPower_ParenLeft_Offset;
-    private readonly uint storeSpotOfPower_ParenLeft_Count;
-    private readonly uint storeTalentPower_ParenLeft_Offset;
-    private readonly uint storeTalentPower_ParenLeft_Count;
-    private readonly uint storeUnitOfPower_ParenLeft_Offset;
-    private readonly uint storeUnitOfPower_ParenLeft_Count;
-    private readonly uint clearBattleRecord_ParenLeft_Offset;
-    private readonly uint clearBattleRecord_ParenLeft_Count;
-    private readonly uint storeDefensePower_ParenLeft_Offset;
-    private readonly uint storeDefensePower_ParenLeft_Count;
-    private readonly uint storeLeaderOfSpot_ParenLeft_Offset;
-    private readonly uint storeLeaderOfSpot_ParenLeft_Count;
-    private readonly uint storeMasterOfUnit_ParenLeft_Offset;
-    private readonly uint storeMasterOfUnit_ParenLeft_Count;
-    private readonly uint storeMemberOfUnit_ParenLeft_Offset;
-    private readonly uint storeMemberOfUnit_ParenLeft_Count;
-    private readonly uint storePowerOfForce_ParenLeft_Offset;
-    private readonly uint storePowerOfForce_ParenLeft_Count;
-    private readonly uint storeSpotOfBattle_ParenLeft_Offset;
-    private readonly uint storeSpotOfBattle_ParenLeft_Count;
-    private readonly uint storeLeaderOfPower_ParenLeft_Offset;
-    private readonly uint storeLeaderOfPower_ParenLeft_Count;
-    private readonly uint storeMasterOfPower_ParenLeft_Offset;
-    private readonly uint storeMasterOfPower_ParenLeft_Count;
-    private readonly uint storePowerOfAttack_ParenLeft_Offset;
-    private readonly uint storePowerOfAttack_ParenLeft_Count;
-    private readonly uint storeNonPlayerPower_ParenLeft_Offset;
-    private readonly uint storeNonPlayerPower_ParenLeft_Count;
-    private readonly uint storePowerOfDefense_ParenLeft_Offset;
-    private readonly uint storePowerOfDefense_ParenLeft_Count;
-    private readonly uint storeRoamUnitOfSpot_ParenLeft_Offset;
-    private readonly uint storeRoamUnitOfSpot_ParenLeft_Count;
-    private readonly uint storeBaseClassOfUnit_ParenLeft_Offset;
-    private readonly uint storeBaseClassOfUnit_ParenLeft_Count;
-    private readonly uint has_ParenLeft_Offset;
-    private readonly uint has_ParenLeft_Count;
-    private readonly uint yet_ParenLeft_Offset;
-    private readonly uint yet_ParenLeft_Count;
-    private readonly uint rand_ParenLeft_Offset;
-    private readonly uint rand_ParenLeft_Count;
-    private readonly uint count_ParenLeft_Offset;
-    private readonly uint count_ParenLeft_Count;
-    private readonly uint equal_ParenLeft_Offset;
-    private readonly uint equal_ParenLeft_Count;
-    private readonly uint eqVar_ParenLeft_Offset;
-    private readonly uint eqVar_ParenLeft_Count;
-    private readonly uint inVar_ParenLeft_Offset;
-    private readonly uint inVar_ParenLeft_Count;
-    private readonly uint isMap_ParenLeft_Offset;
-    private readonly uint isMap_ParenLeft_Count;
-    private readonly uint isNpc_ParenLeft_Offset;
-    private readonly uint isNpc_ParenLeft_Count;
-    private readonly uint isNPM_ParenLeft_Offset;
-    private readonly uint isNPM_ParenLeft_Count;
-    private readonly uint isWar_ParenLeft_Offset;
-    private readonly uint isWar_ParenLeft_Count;
-    private readonly uint ptest_ParenLeft_Offset;
-    private readonly uint ptest_ParenLeft_Count;
-    private readonly uint amount_ParenLeft_Offset;
-    private readonly uint amount_ParenLeft_Count;
-    private readonly uint conVar_ParenLeft_Offset;
-    private readonly uint conVar_ParenLeft_Count;
-    private readonly uint inSpot_ParenLeft_Offset;
-    private readonly uint inSpot_ParenLeft_Count;
-    private readonly uint isDead_ParenLeft_Offset;
-    private readonly uint isDead_ParenLeft_Count;
-    private readonly uint isDone_ParenLeft_Offset;
-    private readonly uint isDone_ParenLeft_Count;
-    private readonly uint isJoin_ParenLeft_Offset;
-    private readonly uint isJoin_ParenLeft_Count;
-    private readonly uint isNext_ParenLeft_Offset;
-    private readonly uint isNext_ParenLeft_Count;
-    private readonly uint reckon_ParenLeft_Offset;
-    private readonly uint reckon_ParenLeft_Count;
-    private readonly uint getLife_ParenLeft_Offset;
-    private readonly uint getLife_ParenLeft_Count;
-    private readonly uint getMode_ParenLeft_Offset;
-    private readonly uint getMode_ParenLeft_Count;
-    private readonly uint getTime_ParenLeft_Offset;
-    private readonly uint getTime_ParenLeft_Count;
-    private readonly uint getTurn_ParenLeft_Offset;
-    private readonly uint getTurn_ParenLeft_Count;
-    private readonly uint inPower_ParenLeft_Offset;
-    private readonly uint inPower_ParenLeft_Count;
-    private readonly uint isAlive_ParenLeft_Offset;
-    private readonly uint isAlive_ParenLeft_Count;
-    private readonly uint isEnemy_ParenLeft_Offset;
-    private readonly uint isEnemy_ParenLeft_Count;
-    private readonly uint isEvent_ParenLeft_Offset;
-    private readonly uint isEvent_ParenLeft_Count;
-    private readonly uint isPeace_ParenLeft_Offset;
-    private readonly uint isPeace_ParenLeft_Count;
-    private readonly uint isWorld_ParenLeft_Offset;
-    private readonly uint isWorld_ParenLeft_Count;
-    private readonly uint countVar_ParenLeft_Offset;
-    private readonly uint countVar_ParenLeft_Count;
-    private readonly uint getLimit_ParenLeft_Offset;
-    private readonly uint getLimit_ParenLeft_Count;
-    private readonly uint inBattle_ParenLeft_Offset;
-    private readonly uint inBattle_ParenLeft_Count;
-    private readonly uint isActive_ParenLeft_Offset;
-    private readonly uint isActive_ParenLeft_Count;
-    private readonly uint isArbeit_ParenLeft_Offset;
-    private readonly uint isArbeit_ParenLeft_Count;
-    private readonly uint isEnable_ParenLeft_Offset;
-    private readonly uint isEnable_ParenLeft_Count;
-    private readonly uint isFriend_ParenLeft_Offset;
-    private readonly uint isFriend_ParenLeft_Count;
-    private readonly uint isInvade_ParenLeft_Offset;
-    private readonly uint isInvade_ParenLeft_Count;
-    private readonly uint isLeader_ParenLeft_Offset;
-    private readonly uint isLeader_ParenLeft_Count;
-    private readonly uint isLeague_ParenLeft_Offset;
-    private readonly uint isLeague_ParenLeft_Count;
-    private readonly uint isMaster_ParenLeft_Offset;
-    private readonly uint isMaster_ParenLeft_Count;
-    private readonly uint isPlayer_ParenLeft_Offset;
-    private readonly uint isPlayer_ParenLeft_Count;
-    private readonly uint isPostIn_ParenLeft_Offset;
-    private readonly uint isPostIn_ParenLeft_Count;
-    private readonly uint isRoamer_ParenLeft_Offset;
-    private readonly uint isRoamer_ParenLeft_Count;
-    private readonly uint isSelect_ParenLeft_Offset;
-    private readonly uint isSelect_ParenLeft_Count;
-    private readonly uint isTalent_ParenLeft_Offset;
-    private readonly uint isTalent_ParenLeft_Count;
-    private readonly uint isVassal_ParenLeft_Offset;
-    private readonly uint isVassal_ParenLeft_Count;
-    private readonly uint countGain_ParenLeft_Offset;
-    private readonly uint countGain_ParenLeft_Count;
-    private readonly uint countPost_ParenLeft_Offset;
-    private readonly uint countPost_ParenLeft_Count;
-    private readonly uint countSpot_ParenLeft_Offset;
-    private readonly uint countSpot_ParenLeft_Count;
-    private readonly uint countUnit_ParenLeft_Offset;
-    private readonly uint countUnit_ParenLeft_Count;
-    private readonly uint isAllDead_ParenLeft_Offset;
-    private readonly uint isAllDead_ParenLeft_Count;
-    private readonly uint isAnyDead_ParenLeft_Offset;
-    private readonly uint isAnyDead_ParenLeft_Count;
-    private readonly uint isComTurn_ParenLeft_Offset;
-    private readonly uint isComTurn_ParenLeft_Count;
-    private readonly uint isDungeon_ParenLeft_Offset;
-    private readonly uint isDungeon_ParenLeft_Count;
-    private readonly uint isNewTurn_ParenLeft_Offset;
-    private readonly uint isNewTurn_ParenLeft_Count;
-    private readonly uint isNowSpot_ParenLeft_Offset;
-    private readonly uint isNowSpot_ParenLeft_Count;
-    private readonly uint istoWorld_ParenLeft_Offset;
-    private readonly uint istoWorld_ParenLeft_Count;
-    private readonly uint isWhoDead_ParenLeft_Offset;
-    private readonly uint isWhoDead_ParenLeft_Count;
-    private readonly uint countForce_ParenLeft_Offset;
-    private readonly uint countForce_ParenLeft_Count;
-    private readonly uint countMoney_ParenLeft_Offset;
-    private readonly uint countMoney_ParenLeft_Count;
-    private readonly uint countPower_ParenLeft_Offset;
-    private readonly uint countPower_ParenLeft_Count;
-    private readonly uint countSkill_ParenLeft_Offset;
-    private readonly uint countSkill_ParenLeft_Count;
-    private readonly uint getLifePer_ParenLeft_Offset;
-    private readonly uint getLifePer_ParenLeft_Count;
-    private readonly uint inRoamSpot_ParenLeft_Offset;
-    private readonly uint inRoamSpot_ParenLeft_Count;
-    private readonly uint isGameOver_ParenLeft_Offset;
-    private readonly uint isGameOver_ParenLeft_Count;
-    private readonly uint isInterval_ParenLeft_Offset;
-    private readonly uint isInterval_ParenLeft_Count;
-    private readonly uint isRedAlive_ParenLeft_Offset;
-    private readonly uint isRedAlive_ParenLeft_Count;
-    private readonly uint isSameArmy_ParenLeft_Offset;
-    private readonly uint isSameArmy_ParenLeft_Count;
-    private readonly uint isScenario_ParenLeft_Offset;
-    private readonly uint isScenario_ParenLeft_Count;
-    private readonly uint isWatching_ParenLeft_Offset;
-    private readonly uint isWatching_ParenLeft_Count;
-    private readonly uint getDistance_ParenLeft_Offset;
-    private readonly uint getDistance_ParenLeft_Count;
-    private readonly uint getRedCount_ParenLeft_Offset;
-    private readonly uint getRedCount_ParenLeft_Count;
-    private readonly uint isBlueAlive_ParenLeft_Offset;
-    private readonly uint isBlueAlive_ParenLeft_Count;
-    private readonly uint isGameClear_ParenLeft_Offset;
-    private readonly uint isGameClear_ParenLeft_Count;
-    private readonly uint isPlayerEnd_ParenLeft_Offset;
-    private readonly uint isPlayerEnd_ParenLeft_Count;
-    private readonly uint getBlueCount_ParenLeft_Offset;
-    private readonly uint getBlueCount_ParenLeft_Count;
-    private readonly uint isPlayerTurn_ParenLeft_Offset;
-    private readonly uint isPlayerTurn_ParenLeft_Count;
-    private readonly uint isRoamLeader_ParenLeft_Offset;
-    private readonly uint isRoamLeader_ParenLeft_Count;
-    private readonly uint getClearFloor_ParenLeft_Offset;
-    private readonly uint getClearFloor_ParenLeft_Count;
-    private readonly uint isWorldMusicStop_ParenLeft_Offset;
-    private readonly uint isWorldMusicStop_ParenLeft_Count;
-    private readonly uint context_NewLine_BracketLeft_Offset;
-    private readonly uint context_NewLine_BracketLeft_Count;
-    private readonly uint workspace_NewLine_BracketLeft_Offset;
-    private readonly uint workspace_NewLine_BracketLeft_Count;
-    private readonly uint attribute_NewLine_BracketLeft_Offset;
-    private readonly uint attribute_NewLine_BracketLeft_Count;
-    private readonly uint sound_NewLine_BracketLeft_Offset;
-    private readonly uint sound_NewLine_BracketLeft_Count;
-    private readonly uint detail_NewLine_BracketLeft_Offset;
-    private readonly uint detail_NewLine_BracketLeft_Count;
-    private readonly uint battle_NewLine_BracketLeft_NewLine_Offset;
-    private readonly uint battle_NewLine_BracketLeft_NewLine_Count;
-    private readonly uint NewLine_BracketLeft_NewLine_Offset;
-    private readonly uint NewLine_BracketLeft_NewLine_Count;
+    private readonly int BracketLeft_NewLine_Offset;
+    private readonly int BracketLeft_NewLine_Count;
+    private readonly int BracketRight_NewLine_Offset;
+    private readonly int BracketRight_NewLine_Count;
+    private readonly int else_NewLine_Offset;
+    private readonly int else_NewLine_Count;
+    private readonly int battle_NewLine_Offset;
+    private readonly int battle_NewLine_Count;
+    private readonly int next_ParenLeft_ParenRight_NewLine_Offset;
+    private readonly int next_ParenLeft_ParenRight_NewLine_Count;
+    private readonly int return_ParenLeft_ParenRight_NewLine_Offset;
+    private readonly int return_ParenLeft_ParenRight_NewLine_Count;
+    private readonly int continue_ParenLeft_ParenRight_NewLine_Offset;
+    private readonly int continue_ParenLeft_ParenRight_NewLine_Count;
+    private readonly int break_ParenLeft_ParenRight_NewLine_Offset;
+    private readonly int break_ParenLeft_ParenRight_NewLine_Count;
+    private readonly int Space_Assign_Offset;
+    private readonly int Space_Assign_Count;
+    private readonly int Semicolon_Offset;
+    private readonly int Semicolon_Count;
+    private readonly int ParenLeft_Offset;
+    private readonly int ParenLeft_Count;
+    private readonly int BracketLeft_Offset;
+    private readonly int BracketLeft_Count;
+    private readonly int ParenRight_Offset;
+    private readonly int ParenRight_Count;
+    private readonly int else_Space_if_ParenLeft_Offset;
+    private readonly int else_Space_if_ParenLeft_Count;
+    private readonly int else_Space_rif_ParenLeft_Offset;
+    private readonly int else_Space_rif_ParenLeft_Count;
+    private readonly int Comma_Offset;
+    private readonly int Comma_Count;
+    private readonly int Comma_Space_Offset;
+    private readonly int Comma_Space_Count;
+    private readonly int Space_Assign_Space_Offset;
+    private readonly int Space_Assign_Space_Count;
+    private readonly int Space_Colon_Space_Offset;
+    private readonly int Space_Colon_Space_Count;
+    private readonly int Space_Mul_Space_Offset;
+    private readonly int Space_Mul_Space_Count;
+    private readonly int Space_Add_Space_Offset;
+    private readonly int Space_Add_Space_Count;
+    private readonly int Space_Sub_Space_Offset;
+    private readonly int Space_Sub_Space_Count;
+    private readonly int Space_Div_Space_Offset;
+    private readonly int Space_Div_Space_Count;
+    private readonly int Space_Percent_Space_Offset;
+    private readonly int Space_Percent_Space_Count;
+    private readonly int Space_And_Space_Offset;
+    private readonly int Space_And_Space_Count;
+    private readonly int Space_Or_Space_Offset;
+    private readonly int Space_Or_Space_Count;
+    private readonly int Space_CompareEqual_Space_Offset;
+    private readonly int Space_CompareEqual_Space_Count;
+    private readonly int Space_CompareNotEqual_Space_Offset;
+    private readonly int Space_CompareNotEqual_Space_Count;
+    private readonly int Space_CompareGreaterThan_Space_Offset;
+    private readonly int Space_CompareGreaterThan_Space_Count;
+    private readonly int Space_CompareGreaterThanOrEqualTo_Space_Offset;
+    private readonly int Space_CompareGreaterThanOrEqualTo_Space_Count;
+    private readonly int Space_CompareLessThan_Space_Offset;
+    private readonly int Space_CompareLessThan_Space_Count;
+    private readonly int Space_CompareLessThanOrEqualTo_Space_Offset;
+    private readonly int Space_CompareLessThanOrEqualTo_Space_Count;
+    private readonly int if_Space_ParenLeft_Offset;
+    private readonly int if_Space_ParenLeft_Count;
+    private readonly int rif_Space_ParenLeft_Offset;
+    private readonly int rif_Space_ParenLeft_Count;
+    private readonly int while_Space_ParenLeft_Offset;
+    private readonly int while_Space_ParenLeft_Count;
+    private readonly int spot_Space_Offset;
+    private readonly int spot_Space_Count;
+    private readonly int unit_Space_Offset;
+    private readonly int unit_Space_Count;
+    private readonly int race_Space_Offset;
+    private readonly int race_Space_Count;
+    private readonly int class_Space_Offset;
+    private readonly int class_Space_Count;
+    private readonly int field_Space_Offset;
+    private readonly int field_Space_Count;
+    private readonly int skill_Space_Offset;
+    private readonly int skill_Space_Count;
+    private readonly int power_Space_Offset;
+    private readonly int power_Space_Count;
+    private readonly int voice_Space_Offset;
+    private readonly int voice_Space_Count;
+    private readonly int object_Space_Offset;
+    private readonly int object_Space_Count;
+    private readonly int dungeon_Space_Offset;
+    private readonly int dungeon_Space_Count;
+    private readonly int movetype_Space_Offset;
+    private readonly int movetype_Space_Count;
+    private readonly int skillset_Space_Offset;
+    private readonly int skillset_Space_Count;
+    private readonly int story_Space_Offset;
+    private readonly int story_Space_Count;
+    private readonly int fight_Space_Offset;
+    private readonly int fight_Space_Count;
+    private readonly int world_Space_Offset;
+    private readonly int world_Space_Count;
+    private readonly int event_Space_Offset;
+    private readonly int event_Space_Count;
+    private readonly int scenario_Space_Offset;
+    private readonly int scenario_Space_Count;
+    private readonly int bg_ParenLeft_Offset;
+    private readonly int bg_ParenLeft_Count;
+    private readonly int vc_ParenLeft_Offset;
+    private readonly int vc_ParenLeft_Count;
+    private readonly int add_ParenLeft_Offset;
+    private readonly int add_ParenLeft_Count;
+    private readonly int div_ParenLeft_Offset;
+    private readonly int div_ParenLeft_Count;
+    private readonly int mod_ParenLeft_Offset;
+    private readonly int mod_ParenLeft_Count;
+    private readonly int msg_ParenLeft_Offset;
+    private readonly int msg_ParenLeft_Count;
+    private readonly int mul_ParenLeft_Offset;
+    private readonly int mul_ParenLeft_Count;
+    private readonly int per_ParenLeft_Offset;
+    private readonly int per_ParenLeft_Count;
+    private readonly int set_ParenLeft_Offset;
+    private readonly int set_ParenLeft_Count;
+    private readonly int sub_ParenLeft_Offset;
+    private readonly int sub_ParenLeft_Count;
+    private readonly int win_ParenLeft_Offset;
+    private readonly int win_ParenLeft_Count;
+    private readonly int addv_ParenLeft_Offset;
+    private readonly int addv_ParenLeft_Count;
+    private readonly int call_ParenLeft_Offset;
+    private readonly int call_ParenLeft_Count;
+    private readonly int chat_ParenLeft_Offset;
+    private readonly int chat_ParenLeft_Count;
+    private readonly int exit_ParenLeft_Offset;
+    private readonly int exit_ParenLeft_Count;
+    private readonly int face_ParenLeft_Offset;
+    private readonly int face_ParenLeft_Count;
+    private readonly int font_ParenLeft_Offset;
+    private readonly int font_ParenLeft_Count;
+    private readonly int msg2_ParenLeft_Offset;
+    private readonly int msg2_ParenLeft_Count;
+    private readonly int play_ParenLeft_Offset;
+    private readonly int play_ParenLeft_Count;
+    private readonly int ppl1_ParenLeft_Offset;
+    private readonly int ppl1_ParenLeft_Count;
+    private readonly int save_ParenLeft_Offset;
+    private readonly int save_ParenLeft_Count;
+    private readonly int setv_ParenLeft_Offset;
+    private readonly int setv_ParenLeft_Count;
+    private readonly int stop_ParenLeft_Offset;
+    private readonly int stop_ParenLeft_Count;
+    private readonly int subv_ParenLeft_Offset;
+    private readonly int subv_ParenLeft_Count;
+    private readonly int talk_ParenLeft_Offset;
+    private readonly int talk_ParenLeft_Count;
+    private readonly int wait_ParenLeft_Offset;
+    private readonly int wait_ParenLeft_Count;
+    private readonly int zoom_ParenLeft_Offset;
+    private readonly int zoom_ParenLeft_Count;
+    private readonly int chat2_ParenLeft_Offset;
+    private readonly int chat2_ParenLeft_Count;
+    private readonly int citom_ParenLeft_Offset;
+    private readonly int citom_ParenLeft_Count;
+    private readonly int clear_ParenLeft_Offset;
+    private readonly int clear_ParenLeft_Count;
+    private readonly int erase_ParenLeft_Offset;
+    private readonly int erase_ParenLeft_Count;
+    private readonly int event_ParenLeft_Offset;
+    private readonly int event_ParenLeft_Count;
+    private readonly int face2_ParenLeft_Offset;
+    private readonly int face2_ParenLeft_Count;
+    private readonly int focus_ParenLeft_Offset;
+    private readonly int focus_ParenLeft_Count;
+    private readonly int fontc_ParenLeft_Offset;
+    private readonly int fontc_ParenLeft_Count;
+    private readonly int gread_ParenLeft_Offset;
+    private readonly int gread_ParenLeft_Count;
+    private readonly int image_ParenLeft_Offset;
+    private readonly int image_ParenLeft_Count;
+    private readonly int index_ParenLeft_Offset;
+    private readonly int index_ParenLeft_Count;
+    private readonly int pushv_ParenLeft_Offset;
+    private readonly int pushv_ParenLeft_Count;
+    private readonly int setPM_ParenLeft_Offset;
+    private readonly int setPM_ParenLeft_Count;
+    private readonly int setud_ParenLeft_Offset;
+    private readonly int setud_ParenLeft_Count;
+    private readonly int shake_ParenLeft_Offset;
+    private readonly int shake_ParenLeft_Count;
+    private readonly int talk2_ParenLeft_Offset;
+    private readonly int talk2_ParenLeft_Count;
+    private readonly int title_ParenLeft_Offset;
+    private readonly int title_ParenLeft_Count;
+    private readonly int addstr_ParenLeft_Offset;
+    private readonly int addstr_ParenLeft_Count;
+    private readonly int addVar_ParenLeft_Offset;
+    private readonly int addVar_ParenLeft_Count;
+    private readonly int choice_ParenLeft_Offset;
+    private readonly int choice_ParenLeft_Count;
+    private readonly int dialog_ParenLeft_Offset;
+    private readonly int dialog_ParenLeft_Count;
+    private readonly int fadein_ParenLeft_Offset;
+    private readonly int fadein_ParenLeft_Count;
+    private readonly int gwrite_ParenLeft_Offset;
+    private readonly int gwrite_ParenLeft_Count;
+    private readonly int locate_ParenLeft_Offset;
+    private readonly int locate_ParenLeft_Count;
+    private readonly int playSE_ParenLeft_Offset;
+    private readonly int playSE_ParenLeft_Count;
+    private readonly int scroll_ParenLeft_Offset;
+    private readonly int scroll_ParenLeft_Count;
+    private readonly int select_ParenLeft_Offset;
+    private readonly int select_ParenLeft_Count;
+    private readonly int setbcg_ParenLeft_Offset;
+    private readonly int setbcg_ParenLeft_Count;
+    private readonly int setVar_ParenLeft_Offset;
+    private readonly int setVar_ParenLeft_Count;
+    private readonly int shadow_ParenLeft_Offset;
+    private readonly int shadow_ParenLeft_Count;
+    private readonly int subVar_ParenLeft_Offset;
+    private readonly int subVar_ParenLeft_Count;
+    private readonly int title2_ParenLeft_Offset;
+    private readonly int title2_ParenLeft_Count;
+    private readonly int volume_ParenLeft_Offset;
+    private readonly int volume_ParenLeft_Count;
+    private readonly int addCapa_ParenLeft_Offset;
+    private readonly int addCapa_ParenLeft_Count;
+    private readonly int addGain_ParenLeft_Offset;
+    private readonly int addGain_ParenLeft_Count;
+    private readonly int addItem_ParenLeft_Offset;
+    private readonly int addItem_ParenLeft_Count;
+    private readonly int addSpot_ParenLeft_Offset;
+    private readonly int addSpot_ParenLeft_Count;
+    private readonly int addUnit_ParenLeft_Offset;
+    private readonly int addUnit_ParenLeft_Count;
+    private readonly int dialogF_ParenLeft_Offset;
+    private readonly int dialogF_ParenLeft_Count;
+    private readonly int doskill_ParenLeft_Offset;
+    private readonly int doskill_ParenLeft_Count;
+    private readonly int fadeout_ParenLeft_Offset;
+    private readonly int fadeout_ParenLeft_Count;
+    private readonly int levelup_ParenLeft_Offset;
+    private readonly int levelup_ParenLeft_Count;
+    private readonly int loopBGM_ParenLeft_Offset;
+    private readonly int loopBGM_ParenLeft_Count;
+    private readonly int minimap_ParenLeft_Offset;
+    private readonly int minimap_ParenLeft_Count;
+    private readonly int picture_ParenLeft_Offset;
+    private readonly int picture_ParenLeft_Count;
+    private readonly int playBGM_ParenLeft_Offset;
+    private readonly int playBGM_ParenLeft_Count;
+    private readonly int pushCon_ParenLeft_Offset;
+    private readonly int pushCon_ParenLeft_Count;
+    private readonly int pushSex_ParenLeft_Offset;
+    private readonly int pushSex_ParenLeft_Count;
+    private readonly int pushVar_ParenLeft_Offset;
+    private readonly int pushVar_ParenLeft_Count;
+    private readonly int routine_ParenLeft_Offset;
+    private readonly int routine_ParenLeft_Count;
+    private readonly int scroll2_ParenLeft_Offset;
+    private readonly int scroll2_ParenLeft_Count;
+    private readonly int setCapa_ParenLeft_Offset;
+    private readonly int setCapa_ParenLeft_Count;
+    private readonly int setDone_ParenLeft_Offset;
+    private readonly int setDone_ParenLeft_Count;
+    private readonly int setGain_ParenLeft_Offset;
+    private readonly int setGain_ParenLeft_Count;
+    private readonly int shuffle_ParenLeft_Offset;
+    private readonly int shuffle_ParenLeft_Count;
+    private readonly int stopBGM_ParenLeft_Offset;
+    private readonly int stopBGM_ParenLeft_Count;
+    private readonly int storePM_ParenLeft_Offset;
+    private readonly int storePM_ParenLeft_Count;
+    private readonly int storeud_ParenLeft_Offset;
+    private readonly int storeud_ParenLeft_Count;
+    private readonly int addDiplo_ParenLeft_Offset;
+    private readonly int addDiplo_ParenLeft_Count;
+    private readonly int addLevel_ParenLeft_Offset;
+    private readonly int addLevel_ParenLeft_Count;
+    private readonly int addLimit_ParenLeft_Offset;
+    private readonly int addLimit_ParenLeft_Count;
+    private readonly int addLoyal_ParenLeft_Offset;
+    private readonly int addLoyal_ParenLeft_Count;
+    private readonly int addMoney_ParenLeft_Offset;
+    private readonly int addMoney_ParenLeft_Count;
+    private readonly int addPower_ParenLeft_Offset;
+    private readonly int addPower_ParenLeft_Count;
+    private readonly int addSkill_ParenLeft_Offset;
+    private readonly int addSkill_ParenLeft_Count;
+    private readonly int addTroop_ParenLeft_Offset;
+    private readonly int addTroop_ParenLeft_Count;
+    private readonly int addTrust_ParenLeft_Offset;
+    private readonly int addTrust_ParenLeft_Count;
+    private readonly int aimTroop_ParenLeft_Offset;
+    private readonly int aimTroop_ParenLeft_Count;
+    private readonly int clearVar_ParenLeft_Offset;
+    private readonly int clearVar_ParenLeft_Count;
+    private readonly int darkness_ParenLeft_Offset;
+    private readonly int darkness_ParenLeft_Count;
+    private readonly int exitItem_ParenLeft_Offset;
+    private readonly int exitItem_ParenLeft_Count;
+    private readonly int hideLink_ParenLeft_Offset;
+    private readonly int hideLink_ParenLeft_Count;
+    private readonly int hideSpot_ParenLeft_Offset;
+    private readonly int hideSpot_ParenLeft_Count;
+    private readonly int linkSpot_ParenLeft_Offset;
+    private readonly int linkSpot_ParenLeft_Count;
+    private readonly int openGoal_ParenLeft_Offset;
+    private readonly int openGoal_ParenLeft_Count;
+    private readonly int picture2_ParenLeft_Offset;
+    private readonly int picture2_ParenLeft_Count;
+    private readonly int pushCapa_ParenLeft_Offset;
+    private readonly int pushCapa_ParenLeft_Count;
+    private readonly int pushGain_ParenLeft_Offset;
+    private readonly int pushGain_ParenLeft_Count;
+    private readonly int pushItem_ParenLeft_Offset;
+    private readonly int pushItem_ParenLeft_Count;
+    private readonly int pushRand_ParenLeft_Offset;
+    private readonly int pushRand_ParenLeft_Count;
+    private readonly int pushRank_ParenLeft_Offset;
+    private readonly int pushRank_ParenLeft_Count;
+    private readonly int pushSpot_ParenLeft_Offset;
+    private readonly int pushSpot_ParenLeft_Count;
+    private readonly int pushTurn_ParenLeft_Offset;
+    private readonly int pushTurn_ParenLeft_Count;
+    private readonly int roamUnit_ParenLeft_Offset;
+    private readonly int roamUnit_ParenLeft_Count;
+    private readonly int setDiplo_ParenLeft_Offset;
+    private readonly int setDiplo_ParenLeft_Count;
+    private readonly int setLevel_ParenLeft_Offset;
+    private readonly int setLevel_ParenLeft_Count;
+    private readonly int setLimit_ParenLeft_Offset;
+    private readonly int setLimit_ParenLeft_Count;
+    private readonly int setMoney_ParenLeft_Offset;
+    private readonly int setMoney_ParenLeft_Count;
+    private readonly int setTruce_ParenLeft_Offset;
+    private readonly int setTruce_ParenLeft_Count;
+    private readonly int showCamp_ParenLeft_Offset;
+    private readonly int showCamp_ParenLeft_Count;
+    private readonly int showFace_ParenLeft_Offset;
+    private readonly int showFace_ParenLeft_Count;
+    private readonly int showPict_ParenLeft_Offset;
+    private readonly int showPict_ParenLeft_Count;
+    private readonly int showSpot_ParenLeft_Offset;
+    private readonly int showSpot_ParenLeft_Count;
+    private readonly int spotmark_ParenLeft_Offset;
+    private readonly int spotmark_ParenLeft_Count;
+    private readonly int addCastle_ParenLeft_Offset;
+    private readonly int addCastle_ParenLeft_Count;
+    private readonly int addFriend_ParenLeft_Offset;
+    private readonly int addFriend_ParenLeft_Count;
+    private readonly int addMerits_ParenLeft_Offset;
+    private readonly int addMerits_ParenLeft_Count;
+    private readonly int addSkill2_ParenLeft_Offset;
+    private readonly int addSkill2_ParenLeft_Count;
+    private readonly int addStatus_ParenLeft_Offset;
+    private readonly int addStatus_ParenLeft_Count;
+    private readonly int changeMap_ParenLeft_Offset;
+    private readonly int changeMap_ParenLeft_Count;
+    private readonly int clickWait_ParenLeft_Offset;
+    private readonly int clickWait_ParenLeft_Count;
+    private readonly int closeGoal_ParenLeft_Offset;
+    private readonly int closeGoal_ParenLeft_Count;
+    private readonly int ctrlTroop_ParenLeft_Offset;
+    private readonly int ctrlTroop_ParenLeft_Count;
+    private readonly int entryItem_ParenLeft_Offset;
+    private readonly int entryItem_ParenLeft_Count;
+    private readonly int equipItem_ParenLeft_Offset;
+    private readonly int equipItem_ParenLeft_Count;
+    private readonly int eraseItem_ParenLeft_Offset;
+    private readonly int eraseItem_ParenLeft_Count;
+    private readonly int eraseUnit_ParenLeft_Offset;
+    private readonly int eraseUnit_ParenLeft_Count;
+    private readonly int formTroop_ParenLeft_Offset;
+    private readonly int formTroop_ParenLeft_Count;
+    private readonly int freeTroop_ParenLeft_Offset;
+    private readonly int freeTroop_ParenLeft_Count;
+    private readonly int haltTroop_ParenLeft_Offset;
+    private readonly int haltTroop_ParenLeft_Count;
+    private readonly int hideBlind_ParenLeft_Offset;
+    private readonly int hideBlind_ParenLeft_Count;
+    private readonly int hideChara_ParenLeft_Offset;
+    private readonly int hideChara_ParenLeft_Count;
+    private readonly int hideImage_ParenLeft_Offset;
+    private readonly int hideImage_ParenLeft_Count;
+    private readonly int moveTroop_ParenLeft_Offset;
+    private readonly int moveTroop_ParenLeft_Count;
+    private readonly int playWorld_ParenLeft_Offset;
+    private readonly int playWorld_ParenLeft_Count;
+    private readonly int pushDeath_ParenLeft_Offset;
+    private readonly int pushDeath_ParenLeft_Count;
+    private readonly int pushDiplo_ParenLeft_Offset;
+    private readonly int pushDiplo_ParenLeft_Count;
+    private readonly int pushForce_ParenLeft_Offset;
+    private readonly int pushForce_ParenLeft_Count;
+    private readonly int pushLevel_ParenLeft_Offset;
+    private readonly int pushLevel_ParenLeft_Count;
+    private readonly int pushLimit_ParenLeft_Offset;
+    private readonly int pushLimit_ParenLeft_Count;
+    private readonly int pushLoyal_ParenLeft_Offset;
+    private readonly int pushLoyal_ParenLeft_Count;
+    private readonly int pushMoney_ParenLeft_Offset;
+    private readonly int pushMoney_ParenLeft_Count;
+    private readonly int pushRand2_ParenLeft_Offset;
+    private readonly int pushRand2_ParenLeft_Count;
+    private readonly int pushTrain_ParenLeft_Offset;
+    private readonly int pushTrain_ParenLeft_Count;
+    private readonly int pushTrust_ParenLeft_Offset;
+    private readonly int pushTrust_ParenLeft_Count;
+    private readonly int resetTime_ParenLeft_Offset;
+    private readonly int resetTime_ParenLeft_Count;
+    private readonly int resetZone_ParenLeft_Offset;
+    private readonly int resetZone_ParenLeft_Count;
+    private readonly int roamUnit2_ParenLeft_Offset;
+    private readonly int roamUnit2_ParenLeft_Count;
+    private readonly int setArbeit_ParenLeft_Offset;
+    private readonly int setArbeit_ParenLeft_Count;
+    private readonly int setCastle_ParenLeft_Offset;
+    private readonly int setCastle_ParenLeft_Count;
+    private readonly int setLeague_ParenLeft_Offset;
+    private readonly int setLeague_ParenLeft_Count;
+    private readonly int setStatus_ParenLeft_Offset;
+    private readonly int setStatus_ParenLeft_Count;
+    private readonly int showBlind_ParenLeft_Offset;
+    private readonly int showBlind_ParenLeft_Count;
+    private readonly int showChara_ParenLeft_Offset;
+    private readonly int showChara_ParenLeft_Count;
+    private readonly int showImage_ParenLeft_Offset;
+    private readonly int showImage_ParenLeft_Count;
+    private readonly int stopTroop_ParenLeft_Offset;
+    private readonly int stopTroop_ParenLeft_Count;
+    private readonly int terminate_ParenLeft_Offset;
+    private readonly int terminate_ParenLeft_Count;
+    private readonly int worldskin_ParenLeft_Offset;
+    private readonly int worldskin_ParenLeft_Count;
+    private readonly int backScroll_ParenLeft_Offset;
+    private readonly int backScroll_ParenLeft_Count;
+    private readonly int changeRace_ParenLeft_Offset;
+    private readonly int changeRace_ParenLeft_Count;
+    private readonly int endingRoll_ParenLeft_Offset;
+    private readonly int endingRoll_ParenLeft_Count;
+    private readonly int erasePower_ParenLeft_Offset;
+    private readonly int erasePower_ParenLeft_Count;
+    private readonly int eraseSkill_ParenLeft_Offset;
+    private readonly int eraseSkill_ParenLeft_Count;
+    private readonly int eraseTroop_ParenLeft_Offset;
+    private readonly int eraseTroop_ParenLeft_Count;
+    private readonly int eraseUnit2_ParenLeft_Offset;
+    private readonly int eraseUnit2_ParenLeft_Count;
+    private readonly int hideEscape_ParenLeft_Offset;
+    private readonly int hideEscape_ParenLeft_Count;
+    private readonly int linkEscape_ParenLeft_Offset;
+    private readonly int linkEscape_ParenLeft_Count;
+    private readonly int playBattle_ParenLeft_Offset;
+    private readonly int playBattle_ParenLeft_Count;
+    private readonly int pushCastle_ParenLeft_Offset;
+    private readonly int pushCastle_ParenLeft_Count;
+    private readonly int pushMerits_ParenLeft_Offset;
+    private readonly int pushMerits_ParenLeft_Count;
+    private readonly int pushStatus_ParenLeft_Offset;
+    private readonly int pushStatus_ParenLeft_Count;
+    private readonly int reloadMenu_ParenLeft_Offset;
+    private readonly int reloadMenu_ParenLeft_Count;
+    private readonly int removeSpot_ParenLeft_Offset;
+    private readonly int removeSpot_ParenLeft_Count;
+    private readonly int resetTruce_ParenLeft_Offset;
+    private readonly int resetTruce_ParenLeft_Count;
+    private readonly int setDungeon_ParenLeft_Offset;
+    private readonly int setDungeon_ParenLeft_Count;
+    private readonly int shiftTroop_ParenLeft_Offset;
+    private readonly int shiftTroop_ParenLeft_Count;
+    private readonly int shuffleVar_ParenLeft_Offset;
+    private readonly int shuffleVar_ParenLeft_Count;
+    private readonly int skillTroop_ParenLeft_Offset;
+    private readonly int skillTroop_ParenLeft_Count;
+    private readonly int sleepTroop_ParenLeft_Offset;
+    private readonly int sleepTroop_ParenLeft_Count;
+    private readonly int smoveTroop_ParenLeft_Offset;
+    private readonly int smoveTroop_ParenLeft_Count;
+    private readonly int speedTroop_ParenLeft_Offset;
+    private readonly int speedTroop_ParenLeft_Count;
+    private readonly int storeDeath_ParenLeft_Offset;
+    private readonly int storeDeath_ParenLeft_Count;
+    private readonly int storeIndex_ParenLeft_Offset;
+    private readonly int storeIndex_ParenLeft_Count;
+    private readonly int unionPower_ParenLeft_Offset;
+    private readonly int unionPower_ParenLeft_Count;
+    private readonly int activeTroop_ParenLeft_Offset;
+    private readonly int activeTroop_ParenLeft_Count;
+    private readonly int addTraining_ParenLeft_Offset;
+    private readonly int addTraining_ParenLeft_Count;
+    private readonly int battleEvent_ParenLeft_Offset;
+    private readonly int battleEvent_ParenLeft_Count;
+    private readonly int changeClass_ParenLeft_Offset;
+    private readonly int changeClass_ParenLeft_Count;
+    private readonly int choiceTitle_ParenLeft_Offset;
+    private readonly int choiceTitle_ParenLeft_Count;
+    private readonly int eraseFriend_ParenLeft_Offset;
+    private readonly int eraseFriend_ParenLeft_Count;
+    private readonly int hidePicture_ParenLeft_Offset;
+    private readonly int hidePicture_ParenLeft_Count;
+    private readonly int pushSpotPos_ParenLeft_Offset;
+    private readonly int pushSpotPos_ParenLeft_Count;
+    private readonly int pushTrainUp_ParenLeft_Offset;
+    private readonly int pushTrainUp_ParenLeft_Count;
+    private readonly int removeSkill_ParenLeft_Offset;
+    private readonly int removeSkill_ParenLeft_Count;
+    private readonly int removeTroop_ParenLeft_Offset;
+    private readonly int removeTroop_ParenLeft_Count;
+    private readonly int resetLeague_ParenLeft_Offset;
+    private readonly int resetLeague_ParenLeft_Count;
+    private readonly int scrollSpeed_ParenLeft_Offset;
+    private readonly int scrollSpeed_ParenLeft_Count;
+    private readonly int setTraining_ParenLeft_Offset;
+    private readonly int setTraining_ParenLeft_Count;
+    private readonly int shiftTroop2_ParenLeft_Offset;
+    private readonly int shiftTroop2_ParenLeft_Count;
+    private readonly int showDungeon_ParenLeft_Offset;
+    private readonly int showDungeon_ParenLeft_Count;
+    private readonly int showPicture_ParenLeft_Offset;
+    private readonly int showPicture_ParenLeft_Count;
+    private readonly int unctrlTroop_ParenLeft_Offset;
+    private readonly int unctrlTroop_ParenLeft_Count;
+    private readonly int addBaseLevel_ParenLeft_Offset;
+    private readonly int addBaseLevel_ParenLeft_Count;
+    private readonly int changeCastle_ParenLeft_Offset;
+    private readonly int changeCastle_ParenLeft_Count;
+    private readonly int changeMaster_ParenLeft_Offset;
+    private readonly int changeMaster_ParenLeft_Count;
+    private readonly int changePlayer_ParenLeft_Offset;
+    private readonly int changePlayer_ParenLeft_Count;
+    private readonly int darkness_off_ParenLeft_Offset;
+    private readonly int darkness_off_ParenLeft_Count;
+    private readonly int doGameEnding_ParenLeft_Offset;
+    private readonly int doGameEnding_ParenLeft_Count;
+    private readonly int hideSpotMark_ParenLeft_Offset;
+    private readonly int hideSpotMark_ParenLeft_Count;
+    private readonly int moveTroopFix_ParenLeft_Offset;
+    private readonly int moveTroopFix_ParenLeft_Count;
+    private readonly int retreatTroop_ParenLeft_Offset;
+    private readonly int retreatTroop_ParenLeft_Count;
+    private readonly int reverseChara_ParenLeft_Offset;
+    private readonly int reverseChara_ParenLeft_Count;
+    private readonly int setBaseLevel_ParenLeft_Offset;
+    private readonly int setBaseLevel_ParenLeft_Count;
+    private readonly int setGameClear_ParenLeft_Offset;
+    private readonly int setGameClear_ParenLeft_Count;
+    private readonly int setPowerHome_ParenLeft_Offset;
+    private readonly int setPowerHome_ParenLeft_Count;
+    private readonly int showPolitics_ParenLeft_Offset;
+    private readonly int showPolitics_ParenLeft_Count;
+    private readonly int showSpotMark_ParenLeft_Offset;
+    private readonly int showSpotMark_ParenLeft_Count;
+    private readonly int storeAllSpot_ParenLeft_Offset;
+    private readonly int storeAllSpot_ParenLeft_Count;
+    private readonly int addPowerMerce_ParenLeft_Offset;
+    private readonly int addPowerMerce_ParenLeft_Count;
+    private readonly int addPowerStaff_ParenLeft_Offset;
+    private readonly int addPowerStaff_ParenLeft_Count;
+    private readonly int addTrainingUp_ParenLeft_Offset;
+    private readonly int addTrainingUp_ParenLeft_Count;
+    private readonly int changeDungeon_ParenLeft_Offset;
+    private readonly int changeDungeon_ParenLeft_Count;
+    private readonly int pushBaseLevel_ParenLeft_Offset;
+    private readonly int pushBaseLevel_ParenLeft_Count;
+    private readonly int setEnemyPower_ParenLeft_Offset;
+    private readonly int setEnemyPower_ParenLeft_Count;
+    private readonly int setTrainingUp_ParenLeft_Offset;
+    private readonly int setTrainingUp_ParenLeft_Count;
+    private readonly int setWorldMusic_ParenLeft_Offset;
+    private readonly int setWorldMusic_ParenLeft_Count;
+    private readonly int smoveTroopFix_ParenLeft_Offset;
+    private readonly int smoveTroopFix_ParenLeft_Count;
+    private readonly int storeAllPower_ParenLeft_Offset;
+    private readonly int storeAllPower_ParenLeft_Count;
+    private readonly int storeComPower_ParenLeft_Offset;
+    private readonly int storeComPower_ParenLeft_Count;
+    private readonly int storeIndexVar_ParenLeft_Offset;
+    private readonly int storeIndexVar_ParenLeft_Count;
+    private readonly int storeNextSpot_ParenLeft_Offset;
+    private readonly int storeNextSpot_ParenLeft_Count;
+    private readonly int storeNowPower_ParenLeft_Offset;
+    private readonly int storeNowPower_ParenLeft_Count;
+    private readonly int storeRectUnit_ParenLeft_Offset;
+    private readonly int storeRectUnit_ParenLeft_Count;
+    private readonly int storeSkillset_ParenLeft_Offset;
+    private readonly int storeSkillset_ParenLeft_Count;
+    private readonly int storeTodoUnit_ParenLeft_Offset;
+    private readonly int storeTodoUnit_ParenLeft_Count;
+    private readonly int addPowerMerce2_ParenLeft_Offset;
+    private readonly int addPowerMerce2_ParenLeft_Count;
+    private readonly int addPowerStaff2_ParenLeft_Offset;
+    private readonly int addPowerStaff2_ParenLeft_Count;
+    private readonly int changePowerFix_ParenLeft_Offset;
+    private readonly int changePowerFix_ParenLeft_Count;
+    private readonly int eraseUnitTroop_ParenLeft_Offset;
+    private readonly int eraseUnitTroop_ParenLeft_Count;
+    private readonly int pushBattleHome_ParenLeft_Offset;
+    private readonly int pushBattleHome_ParenLeft_Count;
+    private readonly int pushBattleRect_ParenLeft_Offset;
+    private readonly int pushBattleRect_ParenLeft_Count;
+    private readonly int pushCountPower_ParenLeft_Offset;
+    private readonly int pushCountPower_ParenLeft_Count;
+    private readonly int storeAliveUnit_ParenLeft_Offset;
+    private readonly int storeAliveUnit_ParenLeft_Count;
+    private readonly int storeAllTalent_ParenLeft_Offset;
+    private readonly int storeAllTalent_ParenLeft_Count;
+    private readonly int changePowerFlag_ParenLeft_Offset;
+    private readonly int changePowerFlag_ParenLeft_Count;
+    private readonly int changePowerName_ParenLeft_Offset;
+    private readonly int changePowerName_ParenLeft_Count;
+    private readonly int changeSpotImage_ParenLeft_Offset;
+    private readonly int changeSpotImage_ParenLeft_Count;
+    private readonly int erasePowerMerce_ParenLeft_Offset;
+    private readonly int erasePowerMerce_ParenLeft_Count;
+    private readonly int erasePowerStaff_ParenLeft_Offset;
+    private readonly int erasePowerStaff_ParenLeft_Count;
+    private readonly int resetEnemyPower_ParenLeft_Offset;
+    private readonly int resetEnemyPower_ParenLeft_Count;
+    private readonly int resetWorldMusic_ParenLeft_Offset;
+    private readonly int resetWorldMusic_ParenLeft_Count;
+    private readonly int setDungeonFloor_ParenLeft_Offset;
+    private readonly int setDungeonFloor_ParenLeft_Count;
+    private readonly int storeBattleSpot_ParenLeft_Offset;
+    private readonly int storeBattleSpot_ParenLeft_Count;
+    private readonly int storePlayerUnit_ParenLeft_Offset;
+    private readonly int storePlayerUnit_ParenLeft_Count;
+    private readonly int storeRaceOfUnit_ParenLeft_Offset;
+    private readonly int storeRaceOfUnit_ParenLeft_Count;
+    private readonly int storeSpotOfUnit_ParenLeft_Offset;
+    private readonly int storeSpotOfUnit_ParenLeft_Count;
+    private readonly int storeUnitOfSpot_ParenLeft_Offset;
+    private readonly int storeUnitOfSpot_ParenLeft_Count;
+    private readonly int storeAttackPower_ParenLeft_Offset;
+    private readonly int storeAttackPower_ParenLeft_Count;
+    private readonly int storeClassOfUnit_ParenLeft_Offset;
+    private readonly int storeClassOfUnit_ParenLeft_Count;
+    private readonly int storeNeutralSpot_ParenLeft_Offset;
+    private readonly int storeNeutralSpot_ParenLeft_Count;
+    private readonly int storePlayerPower_ParenLeft_Offset;
+    private readonly int storePlayerPower_ParenLeft_Count;
+    private readonly int storePowerOfSpot_ParenLeft_Offset;
+    private readonly int storePowerOfSpot_ParenLeft_Count;
+    private readonly int storePowerOfUnit_ParenLeft_Offset;
+    private readonly int storePowerOfUnit_ParenLeft_Count;
+    private readonly int storeSkillOfUnit_ParenLeft_Offset;
+    private readonly int storeSkillOfUnit_ParenLeft_Count;
+    private readonly int storeSpotOfPower_ParenLeft_Offset;
+    private readonly int storeSpotOfPower_ParenLeft_Count;
+    private readonly int storeTalentPower_ParenLeft_Offset;
+    private readonly int storeTalentPower_ParenLeft_Count;
+    private readonly int storeUnitOfPower_ParenLeft_Offset;
+    private readonly int storeUnitOfPower_ParenLeft_Count;
+    private readonly int clearBattleRecord_ParenLeft_Offset;
+    private readonly int clearBattleRecord_ParenLeft_Count;
+    private readonly int storeDefensePower_ParenLeft_Offset;
+    private readonly int storeDefensePower_ParenLeft_Count;
+    private readonly int storeLeaderOfSpot_ParenLeft_Offset;
+    private readonly int storeLeaderOfSpot_ParenLeft_Count;
+    private readonly int storeMasterOfUnit_ParenLeft_Offset;
+    private readonly int storeMasterOfUnit_ParenLeft_Count;
+    private readonly int storeMemberOfUnit_ParenLeft_Offset;
+    private readonly int storeMemberOfUnit_ParenLeft_Count;
+    private readonly int storePowerOfForce_ParenLeft_Offset;
+    private readonly int storePowerOfForce_ParenLeft_Count;
+    private readonly int storeSpotOfBattle_ParenLeft_Offset;
+    private readonly int storeSpotOfBattle_ParenLeft_Count;
+    private readonly int storeLeaderOfPower_ParenLeft_Offset;
+    private readonly int storeLeaderOfPower_ParenLeft_Count;
+    private readonly int storeMasterOfPower_ParenLeft_Offset;
+    private readonly int storeMasterOfPower_ParenLeft_Count;
+    private readonly int storePowerOfAttack_ParenLeft_Offset;
+    private readonly int storePowerOfAttack_ParenLeft_Count;
+    private readonly int storeNonPlayerPower_ParenLeft_Offset;
+    private readonly int storeNonPlayerPower_ParenLeft_Count;
+    private readonly int storePowerOfDefense_ParenLeft_Offset;
+    private readonly int storePowerOfDefense_ParenLeft_Count;
+    private readonly int storeRoamUnitOfSpot_ParenLeft_Offset;
+    private readonly int storeRoamUnitOfSpot_ParenLeft_Count;
+    private readonly int storeBaseClassOfUnit_ParenLeft_Offset;
+    private readonly int storeBaseClassOfUnit_ParenLeft_Count;
+    private readonly int has_ParenLeft_Offset;
+    private readonly int has_ParenLeft_Count;
+    private readonly int yet_ParenLeft_Offset;
+    private readonly int yet_ParenLeft_Count;
+    private readonly int rand_ParenLeft_Offset;
+    private readonly int rand_ParenLeft_Count;
+    private readonly int count_ParenLeft_Offset;
+    private readonly int count_ParenLeft_Count;
+    private readonly int equal_ParenLeft_Offset;
+    private readonly int equal_ParenLeft_Count;
+    private readonly int eqVar_ParenLeft_Offset;
+    private readonly int eqVar_ParenLeft_Count;
+    private readonly int inVar_ParenLeft_Offset;
+    private readonly int inVar_ParenLeft_Count;
+    private readonly int isMap_ParenLeft_Offset;
+    private readonly int isMap_ParenLeft_Count;
+    private readonly int isNpc_ParenLeft_Offset;
+    private readonly int isNpc_ParenLeft_Count;
+    private readonly int isNPM_ParenLeft_Offset;
+    private readonly int isNPM_ParenLeft_Count;
+    private readonly int isWar_ParenLeft_Offset;
+    private readonly int isWar_ParenLeft_Count;
+    private readonly int ptest_ParenLeft_Offset;
+    private readonly int ptest_ParenLeft_Count;
+    private readonly int amount_ParenLeft_Offset;
+    private readonly int amount_ParenLeft_Count;
+    private readonly int conVar_ParenLeft_Offset;
+    private readonly int conVar_ParenLeft_Count;
+    private readonly int inSpot_ParenLeft_Offset;
+    private readonly int inSpot_ParenLeft_Count;
+    private readonly int isDead_ParenLeft_Offset;
+    private readonly int isDead_ParenLeft_Count;
+    private readonly int isDone_ParenLeft_Offset;
+    private readonly int isDone_ParenLeft_Count;
+    private readonly int isJoin_ParenLeft_Offset;
+    private readonly int isJoin_ParenLeft_Count;
+    private readonly int isNext_ParenLeft_Offset;
+    private readonly int isNext_ParenLeft_Count;
+    private readonly int reckon_ParenLeft_Offset;
+    private readonly int reckon_ParenLeft_Count;
+    private readonly int getLife_ParenLeft_Offset;
+    private readonly int getLife_ParenLeft_Count;
+    private readonly int getMode_ParenLeft_Offset;
+    private readonly int getMode_ParenLeft_Count;
+    private readonly int getTime_ParenLeft_Offset;
+    private readonly int getTime_ParenLeft_Count;
+    private readonly int getTurn_ParenLeft_Offset;
+    private readonly int getTurn_ParenLeft_Count;
+    private readonly int inPower_ParenLeft_Offset;
+    private readonly int inPower_ParenLeft_Count;
+    private readonly int isAlive_ParenLeft_Offset;
+    private readonly int isAlive_ParenLeft_Count;
+    private readonly int isEnemy_ParenLeft_Offset;
+    private readonly int isEnemy_ParenLeft_Count;
+    private readonly int isEvent_ParenLeft_Offset;
+    private readonly int isEvent_ParenLeft_Count;
+    private readonly int isPeace_ParenLeft_Offset;
+    private readonly int isPeace_ParenLeft_Count;
+    private readonly int isWorld_ParenLeft_Offset;
+    private readonly int isWorld_ParenLeft_Count;
+    private readonly int countVar_ParenLeft_Offset;
+    private readonly int countVar_ParenLeft_Count;
+    private readonly int getLimit_ParenLeft_Offset;
+    private readonly int getLimit_ParenLeft_Count;
+    private readonly int inBattle_ParenLeft_Offset;
+    private readonly int inBattle_ParenLeft_Count;
+    private readonly int isActive_ParenLeft_Offset;
+    private readonly int isActive_ParenLeft_Count;
+    private readonly int isArbeit_ParenLeft_Offset;
+    private readonly int isArbeit_ParenLeft_Count;
+    private readonly int isEnable_ParenLeft_Offset;
+    private readonly int isEnable_ParenLeft_Count;
+    private readonly int isFriend_ParenLeft_Offset;
+    private readonly int isFriend_ParenLeft_Count;
+    private readonly int isInvade_ParenLeft_Offset;
+    private readonly int isInvade_ParenLeft_Count;
+    private readonly int isLeader_ParenLeft_Offset;
+    private readonly int isLeader_ParenLeft_Count;
+    private readonly int isLeague_ParenLeft_Offset;
+    private readonly int isLeague_ParenLeft_Count;
+    private readonly int isMaster_ParenLeft_Offset;
+    private readonly int isMaster_ParenLeft_Count;
+    private readonly int isPlayer_ParenLeft_Offset;
+    private readonly int isPlayer_ParenLeft_Count;
+    private readonly int isPostIn_ParenLeft_Offset;
+    private readonly int isPostIn_ParenLeft_Count;
+    private readonly int isRoamer_ParenLeft_Offset;
+    private readonly int isRoamer_ParenLeft_Count;
+    private readonly int isSelect_ParenLeft_Offset;
+    private readonly int isSelect_ParenLeft_Count;
+    private readonly int isTalent_ParenLeft_Offset;
+    private readonly int isTalent_ParenLeft_Count;
+    private readonly int isVassal_ParenLeft_Offset;
+    private readonly int isVassal_ParenLeft_Count;
+    private readonly int countGain_ParenLeft_Offset;
+    private readonly int countGain_ParenLeft_Count;
+    private readonly int countPost_ParenLeft_Offset;
+    private readonly int countPost_ParenLeft_Count;
+    private readonly int countSpot_ParenLeft_Offset;
+    private readonly int countSpot_ParenLeft_Count;
+    private readonly int countUnit_ParenLeft_Offset;
+    private readonly int countUnit_ParenLeft_Count;
+    private readonly int isAllDead_ParenLeft_Offset;
+    private readonly int isAllDead_ParenLeft_Count;
+    private readonly int isAnyDead_ParenLeft_Offset;
+    private readonly int isAnyDead_ParenLeft_Count;
+    private readonly int isComTurn_ParenLeft_Offset;
+    private readonly int isComTurn_ParenLeft_Count;
+    private readonly int isDungeon_ParenLeft_Offset;
+    private readonly int isDungeon_ParenLeft_Count;
+    private readonly int isNewTurn_ParenLeft_Offset;
+    private readonly int isNewTurn_ParenLeft_Count;
+    private readonly int isNowSpot_ParenLeft_Offset;
+    private readonly int isNowSpot_ParenLeft_Count;
+    private readonly int istoWorld_ParenLeft_Offset;
+    private readonly int istoWorld_ParenLeft_Count;
+    private readonly int isWhoDead_ParenLeft_Offset;
+    private readonly int isWhoDead_ParenLeft_Count;
+    private readonly int countForce_ParenLeft_Offset;
+    private readonly int countForce_ParenLeft_Count;
+    private readonly int countMoney_ParenLeft_Offset;
+    private readonly int countMoney_ParenLeft_Count;
+    private readonly int countPower_ParenLeft_Offset;
+    private readonly int countPower_ParenLeft_Count;
+    private readonly int countSkill_ParenLeft_Offset;
+    private readonly int countSkill_ParenLeft_Count;
+    private readonly int getLifePer_ParenLeft_Offset;
+    private readonly int getLifePer_ParenLeft_Count;
+    private readonly int inRoamSpot_ParenLeft_Offset;
+    private readonly int inRoamSpot_ParenLeft_Count;
+    private readonly int isGameOver_ParenLeft_Offset;
+    private readonly int isGameOver_ParenLeft_Count;
+    private readonly int isInterval_ParenLeft_Offset;
+    private readonly int isInterval_ParenLeft_Count;
+    private readonly int isRedAlive_ParenLeft_Offset;
+    private readonly int isRedAlive_ParenLeft_Count;
+    private readonly int isSameArmy_ParenLeft_Offset;
+    private readonly int isSameArmy_ParenLeft_Count;
+    private readonly int isScenario_ParenLeft_Offset;
+    private readonly int isScenario_ParenLeft_Count;
+    private readonly int isWatching_ParenLeft_Offset;
+    private readonly int isWatching_ParenLeft_Count;
+    private readonly int getDistance_ParenLeft_Offset;
+    private readonly int getDistance_ParenLeft_Count;
+    private readonly int getRedCount_ParenLeft_Offset;
+    private readonly int getRedCount_ParenLeft_Count;
+    private readonly int isBlueAlive_ParenLeft_Offset;
+    private readonly int isBlueAlive_ParenLeft_Count;
+    private readonly int isGameClear_ParenLeft_Offset;
+    private readonly int isGameClear_ParenLeft_Count;
+    private readonly int isPlayerEnd_ParenLeft_Offset;
+    private readonly int isPlayerEnd_ParenLeft_Count;
+    private readonly int getBlueCount_ParenLeft_Offset;
+    private readonly int getBlueCount_ParenLeft_Count;
+    private readonly int isPlayerTurn_ParenLeft_Offset;
+    private readonly int isPlayerTurn_ParenLeft_Count;
+    private readonly int isRoamLeader_ParenLeft_Offset;
+    private readonly int isRoamLeader_ParenLeft_Count;
+    private readonly int getClearFloor_ParenLeft_Offset;
+    private readonly int getClearFloor_ParenLeft_Count;
+    private readonly int isWorldMusicStop_ParenLeft_Offset;
+    private readonly int isWorldMusicStop_ParenLeft_Count;
+    private readonly int context_NewLine_BracketLeft_Offset;
+    private readonly int context_NewLine_BracketLeft_Count;
+    private readonly int workspace_NewLine_BracketLeft_Offset;
+    private readonly int workspace_NewLine_BracketLeft_Count;
+    private readonly int attribute_NewLine_BracketLeft_Offset;
+    private readonly int attribute_NewLine_BracketLeft_Count;
+    private readonly int sound_NewLine_BracketLeft_Offset;
+    private readonly int sound_NewLine_BracketLeft_Count;
+    private readonly int detail_NewLine_BracketLeft_Offset;
+    private readonly int detail_NewLine_BracketLeft_Count;
+    private readonly int NewLine_BracketLeft_NewLine_Offset;
+    private readonly int NewLine_BracketLeft_NewLine_Count;
 
-    public void Dispose()
+    public BinaryFormatter(System.Text.Encoding encoding, char indentChar, int indentCount, ReadOnlySpan<char> newLine) : this(new(encoding.GetBytes), new(encoding.GetMaxByteCount), indentChar, indentCount, newLine) {}
+    public BinaryFormatter(List<byte>.AddConverter<char> converter, List<byte>.AddConverterAssumption assumption, char indentChar, int indentCount, ReadOnlySpan<char> newLine)
     {
-        registeredBytes.Dispose();
-    }
+        Converter = converter;
+        Assumption = assumption;
+        
+        Span<byte> spanNewLine = stackalloc byte[Assumption(newLine.Length)];
+        NewLine_Count = Converter(newLine, spanNewLine);
+        spanNewLine = spanNewLine.Slice(0, NewLine_Count);
+        
+        Span<char> spanIndentSource = stackalloc char[indentCount];
+        Span<byte> spanIndent = stackalloc byte[Assumption(indentCount)];
+        spanIndentSource.Fill(indentChar);
+        Indent_Count = Converter(spanIndentSource, spanIndent);
+        spanIndent = spanIndent.Slice(0, Indent_Count);
 
-    public BinaryFormatter(System.Text.Encoding encoding, char indentChar, int indentCount, ReadOnlySpan<char> newLine)
-    {
-        Converter = new(encoding.GetBytes);
-        Assumption = new(encoding.GetMaxByteCount);
-        registeredBytes = new();
-        uint accum = 0;
+        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4053) + NewLine_Count * 13 + Indent_Count, true);
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, newLine);
-        NewLineCount = (uint)registeredBytes.Count;
-        accum = (uint)registeredBytes.Count;
+        spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
+        int accum = Indent_Count;
 
-        {
-            Span<char> indent = stackalloc char[indentCount];
-            indent.Fill(indentChar);
-            registeredBytes.AddRangeConversion(Converter, Assumption, indent);
-            TabOffset = accum;
-            TabCount = (uint)registeredBytes.Count - accum;
-            accum = (uint)registeredBytes.Count;
-        }
-
-        var convertedNewLine = registeredBytes.AsSpan(0, NewLineCount);
-
-        registeredBytes.AddRangeConversion(Converter, Assumption, "battle");
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
-        registeredBytes.AddRange(convertedNewLine);
-        battle_NewLine_BracketLeft_NewLine_Offset = accum;
-        battle_NewLine_BracketLeft_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
-
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
-        registeredBytes.AddRange(convertedNewLine);
-        NewLine_BracketLeft_NewLine_Offset = accum;
-        NewLine_BracketLeft_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
-
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
-        registeredBytes.AddRange(convertedNewLine);
         BracketLeft_NewLine_Offset = accum;
-        BracketLeft_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        BracketLeft_NewLine_Count = accum - BracketLeft_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "}");
-        registeredBytes.AddRange(convertedNewLine);
         BracketRight_NewLine_Offset = accum;
-        BracketRight_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("}", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        BracketRight_NewLine_Count = accum - BracketRight_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "else");
-        registeredBytes.AddRange(convertedNewLine);
         else_NewLine_Offset = accum;
-        else_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("else", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        else_NewLine_Count = accum - else_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "next()");
-        registeredBytes.AddRange(convertedNewLine);
+        battle_NewLine_Offset = accum;
+        accum += Converter("battle", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        battle_NewLine_Count = accum - battle_NewLine_Offset;
+
         next_ParenLeft_ParenRight_NewLine_Offset = accum;
-        next_ParenLeft_ParenRight_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("next()", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        next_ParenLeft_ParenRight_NewLine_Count = accum - next_ParenLeft_ParenRight_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "return()");
-        registeredBytes.AddRange(convertedNewLine);
         return_ParenLeft_ParenRight_NewLine_Offset = accum;
-        return_ParenLeft_ParenRight_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("return()", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        return_ParenLeft_ParenRight_NewLine_Count = accum - return_ParenLeft_ParenRight_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "continue()");
-        registeredBytes.AddRange(convertedNewLine);
         continue_ParenLeft_ParenRight_NewLine_Offset = accum;
-        continue_ParenLeft_ParenRight_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("continue()", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        continue_ParenLeft_ParenRight_NewLine_Count = accum - continue_ParenLeft_ParenRight_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "break()");
-        registeredBytes.AddRange(convertedNewLine);
         break_ParenLeft_ParenRight_NewLine_Offset = accum;
-        break_ParenLeft_ParenRight_NewLine_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("break()", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        break_ParenLeft_ParenRight_NewLine_Count = accum - break_ParenLeft_ParenRight_NewLine_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " =");
+        NewLine_Offset = BracketRight_NewLine_Offset - NewLine_Count;
+
         Space_Assign_Offset = accum;
-        Space_Assign_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Assign_Count = Converter(" =", registeredBytes.AsSpan(accum));
+        accum += Space_Assign_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, ";");
         Semicolon_Offset = accum;
-        Semicolon_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Semicolon_Count = Converter(";", registeredBytes.AsSpan(accum));
+        accum += Semicolon_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "(");
         ParenLeft_Offset = accum;
-        ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        ParenLeft_Count = Converter("(", registeredBytes.AsSpan(accum));
+        accum += ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
         BracketLeft_Offset = accum;
-        BracketLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        BracketLeft_Count = Converter("{", registeredBytes.AsSpan(accum));
+        accum += BracketLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, ")");
         ParenRight_Offset = accum;
-        ParenRight_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        ParenRight_Count = Converter(")", registeredBytes.AsSpan(accum));
+        accum += ParenRight_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "else if (");
         else_Space_if_ParenLeft_Offset = accum;
-        else_Space_if_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        else_Space_if_ParenLeft_Count = Converter("else if (", registeredBytes.AsSpan(accum));
+        accum += else_Space_if_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "else rif (");
         else_Space_rif_ParenLeft_Offset = accum;
-        else_Space_rif_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        else_Space_rif_ParenLeft_Count = Converter("else rif (", registeredBytes.AsSpan(accum));
+        accum += else_Space_rif_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, ",");
         Comma_Offset = accum;
-        Comma_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Comma_Count = Converter(",", registeredBytes.AsSpan(accum));
+        accum += Comma_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, ", ");
         Comma_Space_Offset = accum;
-        Comma_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Comma_Space_Count = Converter(", ", registeredBytes.AsSpan(accum));
+        accum += Comma_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " = ");
         Space_Assign_Space_Offset = accum;
-        Space_Assign_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Assign_Space_Count = Converter(" = ", registeredBytes.AsSpan(accum));
+        accum += Space_Assign_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " : ");
         Space_Colon_Space_Offset = accum;
-        Space_Colon_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Colon_Space_Count = Converter(" : ", registeredBytes.AsSpan(accum));
+        accum += Space_Colon_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " * ");
         Space_Mul_Space_Offset = accum;
-        Space_Mul_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Mul_Space_Count = Converter(" * ", registeredBytes.AsSpan(accum));
+        accum += Space_Mul_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " + ");
         Space_Add_Space_Offset = accum;
-        Space_Add_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Add_Space_Count = Converter(" + ", registeredBytes.AsSpan(accum));
+        accum += Space_Add_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " - ");
         Space_Sub_Space_Offset = accum;
-        Space_Sub_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Sub_Space_Count = Converter(" - ", registeredBytes.AsSpan(accum));
+        accum += Space_Sub_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " / ");
         Space_Div_Space_Offset = accum;
-        Space_Div_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Div_Space_Count = Converter(" / ", registeredBytes.AsSpan(accum));
+        accum += Space_Div_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " % ");
         Space_Percent_Space_Offset = accum;
-        Space_Percent_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Percent_Space_Count = Converter(" % ", registeredBytes.AsSpan(accum));
+        accum += Space_Percent_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " && ");
         Space_And_Space_Offset = accum;
-        Space_And_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_And_Space_Count = Converter(" && ", registeredBytes.AsSpan(accum));
+        accum += Space_And_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " || ");
         Space_Or_Space_Offset = accum;
-        Space_Or_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_Or_Space_Count = Converter(" || ", registeredBytes.AsSpan(accum));
+        accum += Space_Or_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " == ");
         Space_CompareEqual_Space_Offset = accum;
-        Space_CompareEqual_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_CompareEqual_Space_Count = Converter(" == ", registeredBytes.AsSpan(accum));
+        accum += Space_CompareEqual_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " != ");
         Space_CompareNotEqual_Space_Offset = accum;
-        Space_CompareNotEqual_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_CompareNotEqual_Space_Count = Converter(" != ", registeredBytes.AsSpan(accum));
+        accum += Space_CompareNotEqual_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " > ");
         Space_CompareGreaterThan_Space_Offset = accum;
-        Space_CompareGreaterThan_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_CompareGreaterThan_Space_Count = Converter(" > ", registeredBytes.AsSpan(accum));
+        accum += Space_CompareGreaterThan_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " >= ");
         Space_CompareGreaterThanOrEqualTo_Space_Offset = accum;
-        Space_CompareGreaterThanOrEqualTo_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_CompareGreaterThanOrEqualTo_Space_Count = Converter(" >= ", registeredBytes.AsSpan(accum));
+        accum += Space_CompareGreaterThanOrEqualTo_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " < ");
         Space_CompareLessThan_Space_Offset = accum;
-        Space_CompareLessThan_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_CompareLessThan_Space_Count = Converter(" < ", registeredBytes.AsSpan(accum));
+        accum += Space_CompareLessThan_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, " <= ");
         Space_CompareLessThanOrEqualTo_Space_Offset = accum;
-        Space_CompareLessThanOrEqualTo_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        Space_CompareLessThanOrEqualTo_Space_Count = Converter(" <= ", registeredBytes.AsSpan(accum));
+        accum += Space_CompareLessThanOrEqualTo_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "if (");
         if_Space_ParenLeft_Offset = accum;
-        if_Space_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        if_Space_ParenLeft_Count = Converter("if (", registeredBytes.AsSpan(accum));
+        accum += if_Space_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "rif (");
         rif_Space_ParenLeft_Offset = accum;
-        rif_Space_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        rif_Space_ParenLeft_Count = Converter("rif (", registeredBytes.AsSpan(accum));
+        accum += rif_Space_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "while (");
         while_Space_ParenLeft_Offset = accum;
-        while_Space_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        while_Space_ParenLeft_Count = Converter("while (", registeredBytes.AsSpan(accum));
+        accum += while_Space_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "spot ");
         spot_Space_Offset = accum;
-        spot_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        spot_Space_Count = Converter("spot ", registeredBytes.AsSpan(accum));
+        accum += spot_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "unit ");
         unit_Space_Offset = accum;
-        unit_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        unit_Space_Count = Converter("unit ", registeredBytes.AsSpan(accum));
+        accum += unit_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "race ");
         race_Space_Offset = accum;
-        race_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        race_Space_Count = Converter("race ", registeredBytes.AsSpan(accum));
+        accum += race_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "class ");
         class_Space_Offset = accum;
-        class_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        class_Space_Count = Converter("class ", registeredBytes.AsSpan(accum));
+        accum += class_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "field ");
         field_Space_Offset = accum;
-        field_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        field_Space_Count = Converter("field ", registeredBytes.AsSpan(accum));
+        accum += field_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "skill ");
         skill_Space_Offset = accum;
-        skill_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        skill_Space_Count = Converter("skill ", registeredBytes.AsSpan(accum));
+        accum += skill_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "power ");
         power_Space_Offset = accum;
-        power_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        power_Space_Count = Converter("power ", registeredBytes.AsSpan(accum));
+        accum += power_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "voice ");
         voice_Space_Offset = accum;
-        voice_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        voice_Space_Count = Converter("voice ", registeredBytes.AsSpan(accum));
+        accum += voice_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "object ");
         object_Space_Offset = accum;
-        object_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        object_Space_Count = Converter("object ", registeredBytes.AsSpan(accum));
+        accum += object_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "dungeon ");
         dungeon_Space_Offset = accum;
-        dungeon_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        dungeon_Space_Count = Converter("dungeon ", registeredBytes.AsSpan(accum));
+        accum += dungeon_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "movetype ");
         movetype_Space_Offset = accum;
-        movetype_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        movetype_Space_Count = Converter("movetype ", registeredBytes.AsSpan(accum));
+        accum += movetype_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "skillset ");
         skillset_Space_Offset = accum;
-        skillset_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        skillset_Space_Count = Converter("skillset ", registeredBytes.AsSpan(accum));
+        accum += skillset_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "story ");
         story_Space_Offset = accum;
-        story_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        story_Space_Count = Converter("story ", registeredBytes.AsSpan(accum));
+        accum += story_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "fight ");
         fight_Space_Offset = accum;
-        fight_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        fight_Space_Count = Converter("fight ", registeredBytes.AsSpan(accum));
+        accum += fight_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "world ");
         world_Space_Offset = accum;
-        world_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        world_Space_Count = Converter("world ", registeredBytes.AsSpan(accum));
+        accum += world_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "event ");
         event_Space_Offset = accum;
-        event_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        event_Space_Count = Converter("event ", registeredBytes.AsSpan(accum));
+        accum += event_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "scenario ");
         scenario_Space_Offset = accum;
-        scenario_Space_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        scenario_Space_Count = Converter("scenario ", registeredBytes.AsSpan(accum));
+        accum += scenario_Space_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "bg(");
         bg_ParenLeft_Offset = accum;
-        bg_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        bg_ParenLeft_Count = Converter("bg(", registeredBytes.AsSpan(accum));
+        accum += bg_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "vc(");
         vc_ParenLeft_Offset = accum;
-        vc_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        vc_ParenLeft_Count = Converter("vc(", registeredBytes.AsSpan(accum));
+        accum += vc_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "add(");
         add_ParenLeft_Offset = accum;
-        add_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        add_ParenLeft_Count = Converter("add(", registeredBytes.AsSpan(accum));
+        accum += add_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "div(");
         div_ParenLeft_Offset = accum;
-        div_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        div_ParenLeft_Count = Converter("div(", registeredBytes.AsSpan(accum));
+        accum += div_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "mod(");
         mod_ParenLeft_Offset = accum;
-        mod_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        mod_ParenLeft_Count = Converter("mod(", registeredBytes.AsSpan(accum));
+        accum += mod_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "msg(");
         msg_ParenLeft_Offset = accum;
-        msg_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        msg_ParenLeft_Count = Converter("msg(", registeredBytes.AsSpan(accum));
+        accum += msg_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "mul(");
         mul_ParenLeft_Offset = accum;
-        mul_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        mul_ParenLeft_Count = Converter("mul(", registeredBytes.AsSpan(accum));
+        accum += mul_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "per(");
         per_ParenLeft_Offset = accum;
-        per_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        per_ParenLeft_Count = Converter("per(", registeredBytes.AsSpan(accum));
+        accum += per_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "set(");
         set_ParenLeft_Offset = accum;
-        set_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        set_ParenLeft_Count = Converter("set(", registeredBytes.AsSpan(accum));
+        accum += set_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "sub(");
         sub_ParenLeft_Offset = accum;
-        sub_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        sub_ParenLeft_Count = Converter("sub(", registeredBytes.AsSpan(accum));
+        accum += sub_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "win(");
         win_ParenLeft_Offset = accum;
-        win_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        win_ParenLeft_Count = Converter("win(", registeredBytes.AsSpan(accum));
+        accum += win_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addv(");
         addv_ParenLeft_Offset = accum;
-        addv_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addv_ParenLeft_Count = Converter("addv(", registeredBytes.AsSpan(accum));
+        accum += addv_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "call(");
         call_ParenLeft_Offset = accum;
-        call_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        call_ParenLeft_Count = Converter("call(", registeredBytes.AsSpan(accum));
+        accum += call_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "chat(");
         chat_ParenLeft_Offset = accum;
-        chat_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        chat_ParenLeft_Count = Converter("chat(", registeredBytes.AsSpan(accum));
+        accum += chat_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "exit(");
         exit_ParenLeft_Offset = accum;
-        exit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        exit_ParenLeft_Count = Converter("exit(", registeredBytes.AsSpan(accum));
+        accum += exit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "face(");
         face_ParenLeft_Offset = accum;
-        face_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        face_ParenLeft_Count = Converter("face(", registeredBytes.AsSpan(accum));
+        accum += face_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "font(");
         font_ParenLeft_Offset = accum;
-        font_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        font_ParenLeft_Count = Converter("font(", registeredBytes.AsSpan(accum));
+        accum += font_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "msg2(");
         msg2_ParenLeft_Offset = accum;
-        msg2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        msg2_ParenLeft_Count = Converter("msg2(", registeredBytes.AsSpan(accum));
+        accum += msg2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "play(");
         play_ParenLeft_Offset = accum;
-        play_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        play_ParenLeft_Count = Converter("play(", registeredBytes.AsSpan(accum));
+        accum += play_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "ppl1(");
         ppl1_ParenLeft_Offset = accum;
-        ppl1_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        ppl1_ParenLeft_Count = Converter("ppl1(", registeredBytes.AsSpan(accum));
+        accum += ppl1_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "save(");
         save_ParenLeft_Offset = accum;
-        save_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        save_ParenLeft_Count = Converter("save(", registeredBytes.AsSpan(accum));
+        accum += save_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setv(");
         setv_ParenLeft_Offset = accum;
-        setv_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setv_ParenLeft_Count = Converter("setv(", registeredBytes.AsSpan(accum));
+        accum += setv_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "stop(");
         stop_ParenLeft_Offset = accum;
-        stop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        stop_ParenLeft_Count = Converter("stop(", registeredBytes.AsSpan(accum));
+        accum += stop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "subv(");
         subv_ParenLeft_Offset = accum;
-        subv_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        subv_ParenLeft_Count = Converter("subv(", registeredBytes.AsSpan(accum));
+        accum += subv_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "talk(");
         talk_ParenLeft_Offset = accum;
-        talk_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        talk_ParenLeft_Count = Converter("talk(", registeredBytes.AsSpan(accum));
+        accum += talk_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "wait(");
         wait_ParenLeft_Offset = accum;
-        wait_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        wait_ParenLeft_Count = Converter("wait(", registeredBytes.AsSpan(accum));
+        accum += wait_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "zoom(");
         zoom_ParenLeft_Offset = accum;
-        zoom_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        zoom_ParenLeft_Count = Converter("zoom(", registeredBytes.AsSpan(accum));
+        accum += zoom_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "chat2(");
         chat2_ParenLeft_Offset = accum;
-        chat2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        chat2_ParenLeft_Count = Converter("chat2(", registeredBytes.AsSpan(accum));
+        accum += chat2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "citom(");
         citom_ParenLeft_Offset = accum;
-        citom_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        citom_ParenLeft_Count = Converter("citom(", registeredBytes.AsSpan(accum));
+        accum += citom_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "clear(");
         clear_ParenLeft_Offset = accum;
-        clear_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        clear_ParenLeft_Count = Converter("clear(", registeredBytes.AsSpan(accum));
+        accum += clear_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "erase(");
         erase_ParenLeft_Offset = accum;
-        erase_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        erase_ParenLeft_Count = Converter("erase(", registeredBytes.AsSpan(accum));
+        accum += erase_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "event(");
         event_ParenLeft_Offset = accum;
-        event_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        event_ParenLeft_Count = Converter("event(", registeredBytes.AsSpan(accum));
+        accum += event_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "face2(");
         face2_ParenLeft_Offset = accum;
-        face2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        face2_ParenLeft_Count = Converter("face2(", registeredBytes.AsSpan(accum));
+        accum += face2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "focus(");
         focus_ParenLeft_Offset = accum;
-        focus_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        focus_ParenLeft_Count = Converter("focus(", registeredBytes.AsSpan(accum));
+        accum += focus_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "fontc(");
         fontc_ParenLeft_Offset = accum;
-        fontc_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        fontc_ParenLeft_Count = Converter("fontc(", registeredBytes.AsSpan(accum));
+        accum += fontc_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "gread(");
         gread_ParenLeft_Offset = accum;
-        gread_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        gread_ParenLeft_Count = Converter("gread(", registeredBytes.AsSpan(accum));
+        accum += gread_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "image(");
         image_ParenLeft_Offset = accum;
-        image_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        image_ParenLeft_Count = Converter("image(", registeredBytes.AsSpan(accum));
+        accum += image_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "index(");
         index_ParenLeft_Offset = accum;
-        index_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        index_ParenLeft_Count = Converter("index(", registeredBytes.AsSpan(accum));
+        accum += index_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushv(");
         pushv_ParenLeft_Offset = accum;
-        pushv_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushv_ParenLeft_Count = Converter("pushv(", registeredBytes.AsSpan(accum));
+        accum += pushv_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setPM(");
         setPM_ParenLeft_Offset = accum;
-        setPM_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setPM_ParenLeft_Count = Converter("setPM(", registeredBytes.AsSpan(accum));
+        accum += setPM_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setud(");
         setud_ParenLeft_Offset = accum;
-        setud_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setud_ParenLeft_Count = Converter("setud(", registeredBytes.AsSpan(accum));
+        accum += setud_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "shake(");
         shake_ParenLeft_Offset = accum;
-        shake_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        shake_ParenLeft_Count = Converter("shake(", registeredBytes.AsSpan(accum));
+        accum += shake_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "talk2(");
         talk2_ParenLeft_Offset = accum;
-        talk2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        talk2_ParenLeft_Count = Converter("talk2(", registeredBytes.AsSpan(accum));
+        accum += talk2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "title(");
         title_ParenLeft_Offset = accum;
-        title_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        title_ParenLeft_Count = Converter("title(", registeredBytes.AsSpan(accum));
+        accum += title_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addstr(");
         addstr_ParenLeft_Offset = accum;
-        addstr_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addstr_ParenLeft_Count = Converter("addstr(", registeredBytes.AsSpan(accum));
+        accum += addstr_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addVar(");
         addVar_ParenLeft_Offset = accum;
-        addVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addVar_ParenLeft_Count = Converter("addVar(", registeredBytes.AsSpan(accum));
+        accum += addVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "choice(");
         choice_ParenLeft_Offset = accum;
-        choice_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        choice_ParenLeft_Count = Converter("choice(", registeredBytes.AsSpan(accum));
+        accum += choice_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "dialog(");
         dialog_ParenLeft_Offset = accum;
-        dialog_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        dialog_ParenLeft_Count = Converter("dialog(", registeredBytes.AsSpan(accum));
+        accum += dialog_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "fadein(");
         fadein_ParenLeft_Offset = accum;
-        fadein_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        fadein_ParenLeft_Count = Converter("fadein(", registeredBytes.AsSpan(accum));
+        accum += fadein_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "gwrite(");
         gwrite_ParenLeft_Offset = accum;
-        gwrite_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        gwrite_ParenLeft_Count = Converter("gwrite(", registeredBytes.AsSpan(accum));
+        accum += gwrite_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "locate(");
         locate_ParenLeft_Offset = accum;
-        locate_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        locate_ParenLeft_Count = Converter("locate(", registeredBytes.AsSpan(accum));
+        accum += locate_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "playSE(");
         playSE_ParenLeft_Offset = accum;
-        playSE_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        playSE_ParenLeft_Count = Converter("playSE(", registeredBytes.AsSpan(accum));
+        accum += playSE_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "scroll(");
         scroll_ParenLeft_Offset = accum;
-        scroll_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        scroll_ParenLeft_Count = Converter("scroll(", registeredBytes.AsSpan(accum));
+        accum += scroll_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "select(");
         select_ParenLeft_Offset = accum;
-        select_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        select_ParenLeft_Count = Converter("select(", registeredBytes.AsSpan(accum));
+        accum += select_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setbcg(");
         setbcg_ParenLeft_Offset = accum;
-        setbcg_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setbcg_ParenLeft_Count = Converter("setbcg(", registeredBytes.AsSpan(accum));
+        accum += setbcg_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setVar(");
         setVar_ParenLeft_Offset = accum;
-        setVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setVar_ParenLeft_Count = Converter("setVar(", registeredBytes.AsSpan(accum));
+        accum += setVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "shadow(");
         shadow_ParenLeft_Offset = accum;
-        shadow_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        shadow_ParenLeft_Count = Converter("shadow(", registeredBytes.AsSpan(accum));
+        accum += shadow_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "subVar(");
         subVar_ParenLeft_Offset = accum;
-        subVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        subVar_ParenLeft_Count = Converter("subVar(", registeredBytes.AsSpan(accum));
+        accum += subVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "title2(");
         title2_ParenLeft_Offset = accum;
-        title2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        title2_ParenLeft_Count = Converter("title2(", registeredBytes.AsSpan(accum));
+        accum += title2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "volume(");
         volume_ParenLeft_Offset = accum;
-        volume_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        volume_ParenLeft_Count = Converter("volume(", registeredBytes.AsSpan(accum));
+        accum += volume_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addCapa(");
         addCapa_ParenLeft_Offset = accum;
-        addCapa_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addCapa_ParenLeft_Count = Converter("addCapa(", registeredBytes.AsSpan(accum));
+        accum += addCapa_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addGain(");
         addGain_ParenLeft_Offset = accum;
-        addGain_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addGain_ParenLeft_Count = Converter("addGain(", registeredBytes.AsSpan(accum));
+        accum += addGain_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addItem(");
         addItem_ParenLeft_Offset = accum;
-        addItem_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addItem_ParenLeft_Count = Converter("addItem(", registeredBytes.AsSpan(accum));
+        accum += addItem_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addSpot(");
         addSpot_ParenLeft_Offset = accum;
-        addSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addSpot_ParenLeft_Count = Converter("addSpot(", registeredBytes.AsSpan(accum));
+        accum += addSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addUnit(");
         addUnit_ParenLeft_Offset = accum;
-        addUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addUnit_ParenLeft_Count = Converter("addUnit(", registeredBytes.AsSpan(accum));
+        accum += addUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "dialogF(");
         dialogF_ParenLeft_Offset = accum;
-        dialogF_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        dialogF_ParenLeft_Count = Converter("dialogF(", registeredBytes.AsSpan(accum));
+        accum += dialogF_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "doskill(");
         doskill_ParenLeft_Offset = accum;
-        doskill_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        doskill_ParenLeft_Count = Converter("doskill(", registeredBytes.AsSpan(accum));
+        accum += doskill_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "fadeout(");
         fadeout_ParenLeft_Offset = accum;
-        fadeout_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        fadeout_ParenLeft_Count = Converter("fadeout(", registeredBytes.AsSpan(accum));
+        accum += fadeout_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "levelup(");
         levelup_ParenLeft_Offset = accum;
-        levelup_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        levelup_ParenLeft_Count = Converter("levelup(", registeredBytes.AsSpan(accum));
+        accum += levelup_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "loopBGM(");
         loopBGM_ParenLeft_Offset = accum;
-        loopBGM_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        loopBGM_ParenLeft_Count = Converter("loopBGM(", registeredBytes.AsSpan(accum));
+        accum += loopBGM_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "minimap(");
         minimap_ParenLeft_Offset = accum;
-        minimap_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        minimap_ParenLeft_Count = Converter("minimap(", registeredBytes.AsSpan(accum));
+        accum += minimap_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "picture(");
         picture_ParenLeft_Offset = accum;
-        picture_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        picture_ParenLeft_Count = Converter("picture(", registeredBytes.AsSpan(accum));
+        accum += picture_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "playBGM(");
         playBGM_ParenLeft_Offset = accum;
-        playBGM_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        playBGM_ParenLeft_Count = Converter("playBGM(", registeredBytes.AsSpan(accum));
+        accum += playBGM_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushCon(");
         pushCon_ParenLeft_Offset = accum;
-        pushCon_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushCon_ParenLeft_Count = Converter("pushCon(", registeredBytes.AsSpan(accum));
+        accum += pushCon_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushSex(");
         pushSex_ParenLeft_Offset = accum;
-        pushSex_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushSex_ParenLeft_Count = Converter("pushSex(", registeredBytes.AsSpan(accum));
+        accum += pushSex_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushVar(");
         pushVar_ParenLeft_Offset = accum;
-        pushVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushVar_ParenLeft_Count = Converter("pushVar(", registeredBytes.AsSpan(accum));
+        accum += pushVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "routine(");
         routine_ParenLeft_Offset = accum;
-        routine_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        routine_ParenLeft_Count = Converter("routine(", registeredBytes.AsSpan(accum));
+        accum += routine_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "scroll2(");
         scroll2_ParenLeft_Offset = accum;
-        scroll2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        scroll2_ParenLeft_Count = Converter("scroll2(", registeredBytes.AsSpan(accum));
+        accum += scroll2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setCapa(");
         setCapa_ParenLeft_Offset = accum;
-        setCapa_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setCapa_ParenLeft_Count = Converter("setCapa(", registeredBytes.AsSpan(accum));
+        accum += setCapa_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setDone(");
         setDone_ParenLeft_Offset = accum;
-        setDone_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setDone_ParenLeft_Count = Converter("setDone(", registeredBytes.AsSpan(accum));
+        accum += setDone_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setGain(");
         setGain_ParenLeft_Offset = accum;
-        setGain_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setGain_ParenLeft_Count = Converter("setGain(", registeredBytes.AsSpan(accum));
+        accum += setGain_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "shuffle(");
         shuffle_ParenLeft_Offset = accum;
-        shuffle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        shuffle_ParenLeft_Count = Converter("shuffle(", registeredBytes.AsSpan(accum));
+        accum += shuffle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "stopBGM(");
         stopBGM_ParenLeft_Offset = accum;
-        stopBGM_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        stopBGM_ParenLeft_Count = Converter("stopBGM(", registeredBytes.AsSpan(accum));
+        accum += stopBGM_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePM(");
         storePM_ParenLeft_Offset = accum;
-        storePM_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePM_ParenLeft_Count = Converter("storePM(", registeredBytes.AsSpan(accum));
+        accum += storePM_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeud(");
         storeud_ParenLeft_Offset = accum;
-        storeud_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeud_ParenLeft_Count = Converter("storeud(", registeredBytes.AsSpan(accum));
+        accum += storeud_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addDiplo(");
         addDiplo_ParenLeft_Offset = accum;
-        addDiplo_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addDiplo_ParenLeft_Count = Converter("addDiplo(", registeredBytes.AsSpan(accum));
+        accum += addDiplo_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addLevel(");
         addLevel_ParenLeft_Offset = accum;
-        addLevel_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addLevel_ParenLeft_Count = Converter("addLevel(", registeredBytes.AsSpan(accum));
+        accum += addLevel_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addLimit(");
         addLimit_ParenLeft_Offset = accum;
-        addLimit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addLimit_ParenLeft_Count = Converter("addLimit(", registeredBytes.AsSpan(accum));
+        accum += addLimit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addLoyal(");
         addLoyal_ParenLeft_Offset = accum;
-        addLoyal_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addLoyal_ParenLeft_Count = Converter("addLoyal(", registeredBytes.AsSpan(accum));
+        accum += addLoyal_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addMoney(");
         addMoney_ParenLeft_Offset = accum;
-        addMoney_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addMoney_ParenLeft_Count = Converter("addMoney(", registeredBytes.AsSpan(accum));
+        accum += addMoney_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addPower(");
         addPower_ParenLeft_Offset = accum;
-        addPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addPower_ParenLeft_Count = Converter("addPower(", registeredBytes.AsSpan(accum));
+        accum += addPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addSkill(");
         addSkill_ParenLeft_Offset = accum;
-        addSkill_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addSkill_ParenLeft_Count = Converter("addSkill(", registeredBytes.AsSpan(accum));
+        accum += addSkill_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addTroop(");
         addTroop_ParenLeft_Offset = accum;
-        addTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addTroop_ParenLeft_Count = Converter("addTroop(", registeredBytes.AsSpan(accum));
+        accum += addTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addTrust(");
         addTrust_ParenLeft_Offset = accum;
-        addTrust_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addTrust_ParenLeft_Count = Converter("addTrust(", registeredBytes.AsSpan(accum));
+        accum += addTrust_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "aimTroop(");
         aimTroop_ParenLeft_Offset = accum;
-        aimTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        aimTroop_ParenLeft_Count = Converter("aimTroop(", registeredBytes.AsSpan(accum));
+        accum += aimTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "clearVar(");
         clearVar_ParenLeft_Offset = accum;
-        clearVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        clearVar_ParenLeft_Count = Converter("clearVar(", registeredBytes.AsSpan(accum));
+        accum += clearVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "darkness(");
         darkness_ParenLeft_Offset = accum;
-        darkness_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        darkness_ParenLeft_Count = Converter("darkness(", registeredBytes.AsSpan(accum));
+        accum += darkness_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "exitItem(");
         exitItem_ParenLeft_Offset = accum;
-        exitItem_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        exitItem_ParenLeft_Count = Converter("exitItem(", registeredBytes.AsSpan(accum));
+        accum += exitItem_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideLink(");
         hideLink_ParenLeft_Offset = accum;
-        hideLink_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideLink_ParenLeft_Count = Converter("hideLink(", registeredBytes.AsSpan(accum));
+        accum += hideLink_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideSpot(");
         hideSpot_ParenLeft_Offset = accum;
-        hideSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideSpot_ParenLeft_Count = Converter("hideSpot(", registeredBytes.AsSpan(accum));
+        accum += hideSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "linkSpot(");
         linkSpot_ParenLeft_Offset = accum;
-        linkSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        linkSpot_ParenLeft_Count = Converter("linkSpot(", registeredBytes.AsSpan(accum));
+        accum += linkSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "openGoal(");
         openGoal_ParenLeft_Offset = accum;
-        openGoal_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        openGoal_ParenLeft_Count = Converter("openGoal(", registeredBytes.AsSpan(accum));
+        accum += openGoal_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "picture2(");
         picture2_ParenLeft_Offset = accum;
-        picture2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        picture2_ParenLeft_Count = Converter("picture2(", registeredBytes.AsSpan(accum));
+        accum += picture2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushCapa(");
         pushCapa_ParenLeft_Offset = accum;
-        pushCapa_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushCapa_ParenLeft_Count = Converter("pushCapa(", registeredBytes.AsSpan(accum));
+        accum += pushCapa_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushGain(");
         pushGain_ParenLeft_Offset = accum;
-        pushGain_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushGain_ParenLeft_Count = Converter("pushGain(", registeredBytes.AsSpan(accum));
+        accum += pushGain_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushItem(");
         pushItem_ParenLeft_Offset = accum;
-        pushItem_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushItem_ParenLeft_Count = Converter("pushItem(", registeredBytes.AsSpan(accum));
+        accum += pushItem_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushRand(");
         pushRand_ParenLeft_Offset = accum;
-        pushRand_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushRand_ParenLeft_Count = Converter("pushRand(", registeredBytes.AsSpan(accum));
+        accum += pushRand_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushRank(");
         pushRank_ParenLeft_Offset = accum;
-        pushRank_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushRank_ParenLeft_Count = Converter("pushRank(", registeredBytes.AsSpan(accum));
+        accum += pushRank_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushSpot(");
         pushSpot_ParenLeft_Offset = accum;
-        pushSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushSpot_ParenLeft_Count = Converter("pushSpot(", registeredBytes.AsSpan(accum));
+        accum += pushSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushTurn(");
         pushTurn_ParenLeft_Offset = accum;
-        pushTurn_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushTurn_ParenLeft_Count = Converter("pushTurn(", registeredBytes.AsSpan(accum));
+        accum += pushTurn_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "roamUnit(");
         roamUnit_ParenLeft_Offset = accum;
-        roamUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        roamUnit_ParenLeft_Count = Converter("roamUnit(", registeredBytes.AsSpan(accum));
+        accum += roamUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setDiplo(");
         setDiplo_ParenLeft_Offset = accum;
-        setDiplo_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setDiplo_ParenLeft_Count = Converter("setDiplo(", registeredBytes.AsSpan(accum));
+        accum += setDiplo_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setLevel(");
         setLevel_ParenLeft_Offset = accum;
-        setLevel_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setLevel_ParenLeft_Count = Converter("setLevel(", registeredBytes.AsSpan(accum));
+        accum += setLevel_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setLimit(");
         setLimit_ParenLeft_Offset = accum;
-        setLimit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setLimit_ParenLeft_Count = Converter("setLimit(", registeredBytes.AsSpan(accum));
+        accum += setLimit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setMoney(");
         setMoney_ParenLeft_Offset = accum;
-        setMoney_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setMoney_ParenLeft_Count = Converter("setMoney(", registeredBytes.AsSpan(accum));
+        accum += setMoney_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setTruce(");
         setTruce_ParenLeft_Offset = accum;
-        setTruce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setTruce_ParenLeft_Count = Converter("setTruce(", registeredBytes.AsSpan(accum));
+        accum += setTruce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showCamp(");
         showCamp_ParenLeft_Offset = accum;
-        showCamp_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showCamp_ParenLeft_Count = Converter("showCamp(", registeredBytes.AsSpan(accum));
+        accum += showCamp_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showFace(");
         showFace_ParenLeft_Offset = accum;
-        showFace_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showFace_ParenLeft_Count = Converter("showFace(", registeredBytes.AsSpan(accum));
+        accum += showFace_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showPict(");
         showPict_ParenLeft_Offset = accum;
-        showPict_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showPict_ParenLeft_Count = Converter("showPict(", registeredBytes.AsSpan(accum));
+        accum += showPict_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showSpot(");
         showSpot_ParenLeft_Offset = accum;
-        showSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showSpot_ParenLeft_Count = Converter("showSpot(", registeredBytes.AsSpan(accum));
+        accum += showSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "spotmark(");
         spotmark_ParenLeft_Offset = accum;
-        spotmark_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        spotmark_ParenLeft_Count = Converter("spotmark(", registeredBytes.AsSpan(accum));
+        accum += spotmark_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addCastle(");
         addCastle_ParenLeft_Offset = accum;
-        addCastle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addCastle_ParenLeft_Count = Converter("addCastle(", registeredBytes.AsSpan(accum));
+        accum += addCastle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addFriend(");
         addFriend_ParenLeft_Offset = accum;
-        addFriend_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addFriend_ParenLeft_Count = Converter("addFriend(", registeredBytes.AsSpan(accum));
+        accum += addFriend_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addMerits(");
         addMerits_ParenLeft_Offset = accum;
-        addMerits_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addMerits_ParenLeft_Count = Converter("addMerits(", registeredBytes.AsSpan(accum));
+        accum += addMerits_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addSkill2(");
         addSkill2_ParenLeft_Offset = accum;
-        addSkill2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addSkill2_ParenLeft_Count = Converter("addSkill2(", registeredBytes.AsSpan(accum));
+        accum += addSkill2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addStatus(");
         addStatus_ParenLeft_Offset = accum;
-        addStatus_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addStatus_ParenLeft_Count = Converter("addStatus(", registeredBytes.AsSpan(accum));
+        accum += addStatus_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeMap(");
         changeMap_ParenLeft_Offset = accum;
-        changeMap_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeMap_ParenLeft_Count = Converter("changeMap(", registeredBytes.AsSpan(accum));
+        accum += changeMap_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "clickWait(");
         clickWait_ParenLeft_Offset = accum;
-        clickWait_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        clickWait_ParenLeft_Count = Converter("clickWait(", registeredBytes.AsSpan(accum));
+        accum += clickWait_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "closeGoal(");
         closeGoal_ParenLeft_Offset = accum;
-        closeGoal_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        closeGoal_ParenLeft_Count = Converter("closeGoal(", registeredBytes.AsSpan(accum));
+        accum += closeGoal_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "ctrlTroop(");
         ctrlTroop_ParenLeft_Offset = accum;
-        ctrlTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        ctrlTroop_ParenLeft_Count = Converter("ctrlTroop(", registeredBytes.AsSpan(accum));
+        accum += ctrlTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "entryItem(");
         entryItem_ParenLeft_Offset = accum;
-        entryItem_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        entryItem_ParenLeft_Count = Converter("entryItem(", registeredBytes.AsSpan(accum));
+        accum += entryItem_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "equipItem(");
         equipItem_ParenLeft_Offset = accum;
-        equipItem_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        equipItem_ParenLeft_Count = Converter("equipItem(", registeredBytes.AsSpan(accum));
+        accum += equipItem_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseItem(");
         eraseItem_ParenLeft_Offset = accum;
-        eraseItem_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseItem_ParenLeft_Count = Converter("eraseItem(", registeredBytes.AsSpan(accum));
+        accum += eraseItem_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseUnit(");
         eraseUnit_ParenLeft_Offset = accum;
-        eraseUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseUnit_ParenLeft_Count = Converter("eraseUnit(", registeredBytes.AsSpan(accum));
+        accum += eraseUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "formTroop(");
         formTroop_ParenLeft_Offset = accum;
-        formTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        formTroop_ParenLeft_Count = Converter("formTroop(", registeredBytes.AsSpan(accum));
+        accum += formTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "freeTroop(");
         freeTroop_ParenLeft_Offset = accum;
-        freeTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        freeTroop_ParenLeft_Count = Converter("freeTroop(", registeredBytes.AsSpan(accum));
+        accum += freeTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "haltTroop(");
         haltTroop_ParenLeft_Offset = accum;
-        haltTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        haltTroop_ParenLeft_Count = Converter("haltTroop(", registeredBytes.AsSpan(accum));
+        accum += haltTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideBlind(");
         hideBlind_ParenLeft_Offset = accum;
-        hideBlind_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideBlind_ParenLeft_Count = Converter("hideBlind(", registeredBytes.AsSpan(accum));
+        accum += hideBlind_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideChara(");
         hideChara_ParenLeft_Offset = accum;
-        hideChara_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideChara_ParenLeft_Count = Converter("hideChara(", registeredBytes.AsSpan(accum));
+        accum += hideChara_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideImage(");
         hideImage_ParenLeft_Offset = accum;
-        hideImage_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideImage_ParenLeft_Count = Converter("hideImage(", registeredBytes.AsSpan(accum));
+        accum += hideImage_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "moveTroop(");
         moveTroop_ParenLeft_Offset = accum;
-        moveTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        moveTroop_ParenLeft_Count = Converter("moveTroop(", registeredBytes.AsSpan(accum));
+        accum += moveTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "playWorld(");
         playWorld_ParenLeft_Offset = accum;
-        playWorld_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        playWorld_ParenLeft_Count = Converter("playWorld(", registeredBytes.AsSpan(accum));
+        accum += playWorld_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushDeath(");
         pushDeath_ParenLeft_Offset = accum;
-        pushDeath_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushDeath_ParenLeft_Count = Converter("pushDeath(", registeredBytes.AsSpan(accum));
+        accum += pushDeath_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushDiplo(");
         pushDiplo_ParenLeft_Offset = accum;
-        pushDiplo_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushDiplo_ParenLeft_Count = Converter("pushDiplo(", registeredBytes.AsSpan(accum));
+        accum += pushDiplo_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushForce(");
         pushForce_ParenLeft_Offset = accum;
-        pushForce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushForce_ParenLeft_Count = Converter("pushForce(", registeredBytes.AsSpan(accum));
+        accum += pushForce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushLevel(");
         pushLevel_ParenLeft_Offset = accum;
-        pushLevel_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushLevel_ParenLeft_Count = Converter("pushLevel(", registeredBytes.AsSpan(accum));
+        accum += pushLevel_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushLimit(");
         pushLimit_ParenLeft_Offset = accum;
-        pushLimit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushLimit_ParenLeft_Count = Converter("pushLimit(", registeredBytes.AsSpan(accum));
+        accum += pushLimit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushLoyal(");
         pushLoyal_ParenLeft_Offset = accum;
-        pushLoyal_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushLoyal_ParenLeft_Count = Converter("pushLoyal(", registeredBytes.AsSpan(accum));
+        accum += pushLoyal_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushMoney(");
         pushMoney_ParenLeft_Offset = accum;
-        pushMoney_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushMoney_ParenLeft_Count = Converter("pushMoney(", registeredBytes.AsSpan(accum));
+        accum += pushMoney_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushRand2(");
         pushRand2_ParenLeft_Offset = accum;
-        pushRand2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushRand2_ParenLeft_Count = Converter("pushRand2(", registeredBytes.AsSpan(accum));
+        accum += pushRand2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushTrain(");
         pushTrain_ParenLeft_Offset = accum;
-        pushTrain_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushTrain_ParenLeft_Count = Converter("pushTrain(", registeredBytes.AsSpan(accum));
+        accum += pushTrain_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushTrust(");
         pushTrust_ParenLeft_Offset = accum;
-        pushTrust_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushTrust_ParenLeft_Count = Converter("pushTrust(", registeredBytes.AsSpan(accum));
+        accum += pushTrust_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "resetTime(");
         resetTime_ParenLeft_Offset = accum;
-        resetTime_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        resetTime_ParenLeft_Count = Converter("resetTime(", registeredBytes.AsSpan(accum));
+        accum += resetTime_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "resetZone(");
         resetZone_ParenLeft_Offset = accum;
-        resetZone_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        resetZone_ParenLeft_Count = Converter("resetZone(", registeredBytes.AsSpan(accum));
+        accum += resetZone_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "roamUnit2(");
         roamUnit2_ParenLeft_Offset = accum;
-        roamUnit2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        roamUnit2_ParenLeft_Count = Converter("roamUnit2(", registeredBytes.AsSpan(accum));
+        accum += roamUnit2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setArbeit(");
         setArbeit_ParenLeft_Offset = accum;
-        setArbeit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setArbeit_ParenLeft_Count = Converter("setArbeit(", registeredBytes.AsSpan(accum));
+        accum += setArbeit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setCastle(");
         setCastle_ParenLeft_Offset = accum;
-        setCastle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setCastle_ParenLeft_Count = Converter("setCastle(", registeredBytes.AsSpan(accum));
+        accum += setCastle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setLeague(");
         setLeague_ParenLeft_Offset = accum;
-        setLeague_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setLeague_ParenLeft_Count = Converter("setLeague(", registeredBytes.AsSpan(accum));
+        accum += setLeague_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setStatus(");
         setStatus_ParenLeft_Offset = accum;
-        setStatus_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setStatus_ParenLeft_Count = Converter("setStatus(", registeredBytes.AsSpan(accum));
+        accum += setStatus_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showBlind(");
         showBlind_ParenLeft_Offset = accum;
-        showBlind_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showBlind_ParenLeft_Count = Converter("showBlind(", registeredBytes.AsSpan(accum));
+        accum += showBlind_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showChara(");
         showChara_ParenLeft_Offset = accum;
-        showChara_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showChara_ParenLeft_Count = Converter("showChara(", registeredBytes.AsSpan(accum));
+        accum += showChara_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showImage(");
         showImage_ParenLeft_Offset = accum;
-        showImage_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showImage_ParenLeft_Count = Converter("showImage(", registeredBytes.AsSpan(accum));
+        accum += showImage_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "stopTroop(");
         stopTroop_ParenLeft_Offset = accum;
-        stopTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        stopTroop_ParenLeft_Count = Converter("stopTroop(", registeredBytes.AsSpan(accum));
+        accum += stopTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "terminate(");
         terminate_ParenLeft_Offset = accum;
-        terminate_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        terminate_ParenLeft_Count = Converter("terminate(", registeredBytes.AsSpan(accum));
+        accum += terminate_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "worldskin(");
         worldskin_ParenLeft_Offset = accum;
-        worldskin_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        worldskin_ParenLeft_Count = Converter("worldskin(", registeredBytes.AsSpan(accum));
+        accum += worldskin_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "backScroll(");
         backScroll_ParenLeft_Offset = accum;
-        backScroll_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        backScroll_ParenLeft_Count = Converter("backScroll(", registeredBytes.AsSpan(accum));
+        accum += backScroll_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeRace(");
         changeRace_ParenLeft_Offset = accum;
-        changeRace_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeRace_ParenLeft_Count = Converter("changeRace(", registeredBytes.AsSpan(accum));
+        accum += changeRace_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "endingRoll(");
         endingRoll_ParenLeft_Offset = accum;
-        endingRoll_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        endingRoll_ParenLeft_Count = Converter("endingRoll(", registeredBytes.AsSpan(accum));
+        accum += endingRoll_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "erasePower(");
         erasePower_ParenLeft_Offset = accum;
-        erasePower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        erasePower_ParenLeft_Count = Converter("erasePower(", registeredBytes.AsSpan(accum));
+        accum += erasePower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseSkill(");
         eraseSkill_ParenLeft_Offset = accum;
-        eraseSkill_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseSkill_ParenLeft_Count = Converter("eraseSkill(", registeredBytes.AsSpan(accum));
+        accum += eraseSkill_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseTroop(");
         eraseTroop_ParenLeft_Offset = accum;
-        eraseTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseTroop_ParenLeft_Count = Converter("eraseTroop(", registeredBytes.AsSpan(accum));
+        accum += eraseTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseUnit2(");
         eraseUnit2_ParenLeft_Offset = accum;
-        eraseUnit2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseUnit2_ParenLeft_Count = Converter("eraseUnit2(", registeredBytes.AsSpan(accum));
+        accum += eraseUnit2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideEscape(");
         hideEscape_ParenLeft_Offset = accum;
-        hideEscape_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideEscape_ParenLeft_Count = Converter("hideEscape(", registeredBytes.AsSpan(accum));
+        accum += hideEscape_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "linkEscape(");
         linkEscape_ParenLeft_Offset = accum;
-        linkEscape_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        linkEscape_ParenLeft_Count = Converter("linkEscape(", registeredBytes.AsSpan(accum));
+        accum += linkEscape_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "playBattle(");
         playBattle_ParenLeft_Offset = accum;
-        playBattle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        playBattle_ParenLeft_Count = Converter("playBattle(", registeredBytes.AsSpan(accum));
+        accum += playBattle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushCastle(");
         pushCastle_ParenLeft_Offset = accum;
-        pushCastle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushCastle_ParenLeft_Count = Converter("pushCastle(", registeredBytes.AsSpan(accum));
+        accum += pushCastle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushMerits(");
         pushMerits_ParenLeft_Offset = accum;
-        pushMerits_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushMerits_ParenLeft_Count = Converter("pushMerits(", registeredBytes.AsSpan(accum));
+        accum += pushMerits_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushStatus(");
         pushStatus_ParenLeft_Offset = accum;
-        pushStatus_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushStatus_ParenLeft_Count = Converter("pushStatus(", registeredBytes.AsSpan(accum));
+        accum += pushStatus_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "reloadMenu(");
         reloadMenu_ParenLeft_Offset = accum;
-        reloadMenu_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        reloadMenu_ParenLeft_Count = Converter("reloadMenu(", registeredBytes.AsSpan(accum));
+        accum += reloadMenu_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "removeSpot(");
         removeSpot_ParenLeft_Offset = accum;
-        removeSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        removeSpot_ParenLeft_Count = Converter("removeSpot(", registeredBytes.AsSpan(accum));
+        accum += removeSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "resetTruce(");
         resetTruce_ParenLeft_Offset = accum;
-        resetTruce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        resetTruce_ParenLeft_Count = Converter("resetTruce(", registeredBytes.AsSpan(accum));
+        accum += resetTruce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setDungeon(");
         setDungeon_ParenLeft_Offset = accum;
-        setDungeon_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setDungeon_ParenLeft_Count = Converter("setDungeon(", registeredBytes.AsSpan(accum));
+        accum += setDungeon_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "shiftTroop(");
         shiftTroop_ParenLeft_Offset = accum;
-        shiftTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        shiftTroop_ParenLeft_Count = Converter("shiftTroop(", registeredBytes.AsSpan(accum));
+        accum += shiftTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "shuffleVar(");
         shuffleVar_ParenLeft_Offset = accum;
-        shuffleVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        shuffleVar_ParenLeft_Count = Converter("shuffleVar(", registeredBytes.AsSpan(accum));
+        accum += shuffleVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "skillTroop(");
         skillTroop_ParenLeft_Offset = accum;
-        skillTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        skillTroop_ParenLeft_Count = Converter("skillTroop(", registeredBytes.AsSpan(accum));
+        accum += skillTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "sleepTroop(");
         sleepTroop_ParenLeft_Offset = accum;
-        sleepTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        sleepTroop_ParenLeft_Count = Converter("sleepTroop(", registeredBytes.AsSpan(accum));
+        accum += sleepTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "smoveTroop(");
         smoveTroop_ParenLeft_Offset = accum;
-        smoveTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        smoveTroop_ParenLeft_Count = Converter("smoveTroop(", registeredBytes.AsSpan(accum));
+        accum += smoveTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "speedTroop(");
         speedTroop_ParenLeft_Offset = accum;
-        speedTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        speedTroop_ParenLeft_Count = Converter("speedTroop(", registeredBytes.AsSpan(accum));
+        accum += speedTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeDeath(");
         storeDeath_ParenLeft_Offset = accum;
-        storeDeath_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeDeath_ParenLeft_Count = Converter("storeDeath(", registeredBytes.AsSpan(accum));
+        accum += storeDeath_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeIndex(");
         storeIndex_ParenLeft_Offset = accum;
-        storeIndex_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeIndex_ParenLeft_Count = Converter("storeIndex(", registeredBytes.AsSpan(accum));
+        accum += storeIndex_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "unionPower(");
         unionPower_ParenLeft_Offset = accum;
-        unionPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        unionPower_ParenLeft_Count = Converter("unionPower(", registeredBytes.AsSpan(accum));
+        accum += unionPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "activeTroop(");
         activeTroop_ParenLeft_Offset = accum;
-        activeTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        activeTroop_ParenLeft_Count = Converter("activeTroop(", registeredBytes.AsSpan(accum));
+        accum += activeTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addTraining(");
         addTraining_ParenLeft_Offset = accum;
-        addTraining_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addTraining_ParenLeft_Count = Converter("addTraining(", registeredBytes.AsSpan(accum));
+        accum += addTraining_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "battleEvent(");
         battleEvent_ParenLeft_Offset = accum;
-        battleEvent_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        battleEvent_ParenLeft_Count = Converter("battleEvent(", registeredBytes.AsSpan(accum));
+        accum += battleEvent_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeClass(");
         changeClass_ParenLeft_Offset = accum;
-        changeClass_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeClass_ParenLeft_Count = Converter("changeClass(", registeredBytes.AsSpan(accum));
+        accum += changeClass_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "choiceTitle(");
         choiceTitle_ParenLeft_Offset = accum;
-        choiceTitle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        choiceTitle_ParenLeft_Count = Converter("choiceTitle(", registeredBytes.AsSpan(accum));
+        accum += choiceTitle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseFriend(");
         eraseFriend_ParenLeft_Offset = accum;
-        eraseFriend_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseFriend_ParenLeft_Count = Converter("eraseFriend(", registeredBytes.AsSpan(accum));
+        accum += eraseFriend_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hidePicture(");
         hidePicture_ParenLeft_Offset = accum;
-        hidePicture_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hidePicture_ParenLeft_Count = Converter("hidePicture(", registeredBytes.AsSpan(accum));
+        accum += hidePicture_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushSpotPos(");
         pushSpotPos_ParenLeft_Offset = accum;
-        pushSpotPos_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushSpotPos_ParenLeft_Count = Converter("pushSpotPos(", registeredBytes.AsSpan(accum));
+        accum += pushSpotPos_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushTrainUp(");
         pushTrainUp_ParenLeft_Offset = accum;
-        pushTrainUp_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushTrainUp_ParenLeft_Count = Converter("pushTrainUp(", registeredBytes.AsSpan(accum));
+        accum += pushTrainUp_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "removeSkill(");
         removeSkill_ParenLeft_Offset = accum;
-        removeSkill_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        removeSkill_ParenLeft_Count = Converter("removeSkill(", registeredBytes.AsSpan(accum));
+        accum += removeSkill_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "removeTroop(");
         removeTroop_ParenLeft_Offset = accum;
-        removeTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        removeTroop_ParenLeft_Count = Converter("removeTroop(", registeredBytes.AsSpan(accum));
+        accum += removeTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "resetLeague(");
         resetLeague_ParenLeft_Offset = accum;
-        resetLeague_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        resetLeague_ParenLeft_Count = Converter("resetLeague(", registeredBytes.AsSpan(accum));
+        accum += resetLeague_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "scrollSpeed(");
         scrollSpeed_ParenLeft_Offset = accum;
-        scrollSpeed_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        scrollSpeed_ParenLeft_Count = Converter("scrollSpeed(", registeredBytes.AsSpan(accum));
+        accum += scrollSpeed_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setTraining(");
         setTraining_ParenLeft_Offset = accum;
-        setTraining_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setTraining_ParenLeft_Count = Converter("setTraining(", registeredBytes.AsSpan(accum));
+        accum += setTraining_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "shiftTroop2(");
         shiftTroop2_ParenLeft_Offset = accum;
-        shiftTroop2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        shiftTroop2_ParenLeft_Count = Converter("shiftTroop2(", registeredBytes.AsSpan(accum));
+        accum += shiftTroop2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showDungeon(");
         showDungeon_ParenLeft_Offset = accum;
-        showDungeon_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showDungeon_ParenLeft_Count = Converter("showDungeon(", registeredBytes.AsSpan(accum));
+        accum += showDungeon_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showPicture(");
         showPicture_ParenLeft_Offset = accum;
-        showPicture_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showPicture_ParenLeft_Count = Converter("showPicture(", registeredBytes.AsSpan(accum));
+        accum += showPicture_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "unctrlTroop(");
         unctrlTroop_ParenLeft_Offset = accum;
-        unctrlTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        unctrlTroop_ParenLeft_Count = Converter("unctrlTroop(", registeredBytes.AsSpan(accum));
+        accum += unctrlTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addBaseLevel(");
         addBaseLevel_ParenLeft_Offset = accum;
-        addBaseLevel_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addBaseLevel_ParenLeft_Count = Converter("addBaseLevel(", registeredBytes.AsSpan(accum));
+        accum += addBaseLevel_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeCastle(");
         changeCastle_ParenLeft_Offset = accum;
-        changeCastle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeCastle_ParenLeft_Count = Converter("changeCastle(", registeredBytes.AsSpan(accum));
+        accum += changeCastle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeMaster(");
         changeMaster_ParenLeft_Offset = accum;
-        changeMaster_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeMaster_ParenLeft_Count = Converter("changeMaster(", registeredBytes.AsSpan(accum));
+        accum += changeMaster_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changePlayer(");
         changePlayer_ParenLeft_Offset = accum;
-        changePlayer_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changePlayer_ParenLeft_Count = Converter("changePlayer(", registeredBytes.AsSpan(accum));
+        accum += changePlayer_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "darkness_off(");
         darkness_off_ParenLeft_Offset = accum;
-        darkness_off_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        darkness_off_ParenLeft_Count = Converter("darkness_off(", registeredBytes.AsSpan(accum));
+        accum += darkness_off_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "doGameEnding(");
         doGameEnding_ParenLeft_Offset = accum;
-        doGameEnding_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        doGameEnding_ParenLeft_Count = Converter("doGameEnding(", registeredBytes.AsSpan(accum));
+        accum += doGameEnding_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "hideSpotMark(");
         hideSpotMark_ParenLeft_Offset = accum;
-        hideSpotMark_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        hideSpotMark_ParenLeft_Count = Converter("hideSpotMark(", registeredBytes.AsSpan(accum));
+        accum += hideSpotMark_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "moveTroopFix(");
         moveTroopFix_ParenLeft_Offset = accum;
-        moveTroopFix_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        moveTroopFix_ParenLeft_Count = Converter("moveTroopFix(", registeredBytes.AsSpan(accum));
+        accum += moveTroopFix_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "retreatTroop(");
         retreatTroop_ParenLeft_Offset = accum;
-        retreatTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        retreatTroop_ParenLeft_Count = Converter("retreatTroop(", registeredBytes.AsSpan(accum));
+        accum += retreatTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "reverseChara(");
         reverseChara_ParenLeft_Offset = accum;
-        reverseChara_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        reverseChara_ParenLeft_Count = Converter("reverseChara(", registeredBytes.AsSpan(accum));
+        accum += reverseChara_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setBaseLevel(");
         setBaseLevel_ParenLeft_Offset = accum;
-        setBaseLevel_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setBaseLevel_ParenLeft_Count = Converter("setBaseLevel(", registeredBytes.AsSpan(accum));
+        accum += setBaseLevel_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setGameClear(");
         setGameClear_ParenLeft_Offset = accum;
-        setGameClear_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setGameClear_ParenLeft_Count = Converter("setGameClear(", registeredBytes.AsSpan(accum));
+        accum += setGameClear_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setPowerHome(");
         setPowerHome_ParenLeft_Offset = accum;
-        setPowerHome_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setPowerHome_ParenLeft_Count = Converter("setPowerHome(", registeredBytes.AsSpan(accum));
+        accum += setPowerHome_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showPolitics(");
         showPolitics_ParenLeft_Offset = accum;
-        showPolitics_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showPolitics_ParenLeft_Count = Converter("showPolitics(", registeredBytes.AsSpan(accum));
+        accum += showPolitics_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "showSpotMark(");
         showSpotMark_ParenLeft_Offset = accum;
-        showSpotMark_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        showSpotMark_ParenLeft_Count = Converter("showSpotMark(", registeredBytes.AsSpan(accum));
+        accum += showSpotMark_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeAllSpot(");
         storeAllSpot_ParenLeft_Offset = accum;
-        storeAllSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeAllSpot_ParenLeft_Count = Converter("storeAllSpot(", registeredBytes.AsSpan(accum));
+        accum += storeAllSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addPowerMerce(");
         addPowerMerce_ParenLeft_Offset = accum;
-        addPowerMerce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addPowerMerce_ParenLeft_Count = Converter("addPowerMerce(", registeredBytes.AsSpan(accum));
+        accum += addPowerMerce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addPowerStaff(");
         addPowerStaff_ParenLeft_Offset = accum;
-        addPowerStaff_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addPowerStaff_ParenLeft_Count = Converter("addPowerStaff(", registeredBytes.AsSpan(accum));
+        accum += addPowerStaff_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addTrainingUp(");
         addTrainingUp_ParenLeft_Offset = accum;
-        addTrainingUp_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addTrainingUp_ParenLeft_Count = Converter("addTrainingUp(", registeredBytes.AsSpan(accum));
+        accum += addTrainingUp_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeDungeon(");
         changeDungeon_ParenLeft_Offset = accum;
-        changeDungeon_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeDungeon_ParenLeft_Count = Converter("changeDungeon(", registeredBytes.AsSpan(accum));
+        accum += changeDungeon_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushBaseLevel(");
         pushBaseLevel_ParenLeft_Offset = accum;
-        pushBaseLevel_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushBaseLevel_ParenLeft_Count = Converter("pushBaseLevel(", registeredBytes.AsSpan(accum));
+        accum += pushBaseLevel_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setEnemyPower(");
         setEnemyPower_ParenLeft_Offset = accum;
-        setEnemyPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setEnemyPower_ParenLeft_Count = Converter("setEnemyPower(", registeredBytes.AsSpan(accum));
+        accum += setEnemyPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setTrainingUp(");
         setTrainingUp_ParenLeft_Offset = accum;
-        setTrainingUp_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setTrainingUp_ParenLeft_Count = Converter("setTrainingUp(", registeredBytes.AsSpan(accum));
+        accum += setTrainingUp_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setWorldMusic(");
         setWorldMusic_ParenLeft_Offset = accum;
-        setWorldMusic_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setWorldMusic_ParenLeft_Count = Converter("setWorldMusic(", registeredBytes.AsSpan(accum));
+        accum += setWorldMusic_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "smoveTroopFix(");
         smoveTroopFix_ParenLeft_Offset = accum;
-        smoveTroopFix_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        smoveTroopFix_ParenLeft_Count = Converter("smoveTroopFix(", registeredBytes.AsSpan(accum));
+        accum += smoveTroopFix_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeAllPower(");
         storeAllPower_ParenLeft_Offset = accum;
-        storeAllPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeAllPower_ParenLeft_Count = Converter("storeAllPower(", registeredBytes.AsSpan(accum));
+        accum += storeAllPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeComPower(");
         storeComPower_ParenLeft_Offset = accum;
-        storeComPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeComPower_ParenLeft_Count = Converter("storeComPower(", registeredBytes.AsSpan(accum));
+        accum += storeComPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeIndexVar(");
         storeIndexVar_ParenLeft_Offset = accum;
-        storeIndexVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeIndexVar_ParenLeft_Count = Converter("storeIndexVar(", registeredBytes.AsSpan(accum));
+        accum += storeIndexVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeNextSpot(");
         storeNextSpot_ParenLeft_Offset = accum;
-        storeNextSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeNextSpot_ParenLeft_Count = Converter("storeNextSpot(", registeredBytes.AsSpan(accum));
+        accum += storeNextSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeNowPower(");
         storeNowPower_ParenLeft_Offset = accum;
-        storeNowPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeNowPower_ParenLeft_Count = Converter("storeNowPower(", registeredBytes.AsSpan(accum));
+        accum += storeNowPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeRectUnit(");
         storeRectUnit_ParenLeft_Offset = accum;
-        storeRectUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeRectUnit_ParenLeft_Count = Converter("storeRectUnit(", registeredBytes.AsSpan(accum));
+        accum += storeRectUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeSkillset(");
         storeSkillset_ParenLeft_Offset = accum;
-        storeSkillset_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeSkillset_ParenLeft_Count = Converter("storeSkillset(", registeredBytes.AsSpan(accum));
+        accum += storeSkillset_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeTodoUnit(");
         storeTodoUnit_ParenLeft_Offset = accum;
-        storeTodoUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeTodoUnit_ParenLeft_Count = Converter("storeTodoUnit(", registeredBytes.AsSpan(accum));
+        accum += storeTodoUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addPowerMerce2(");
         addPowerMerce2_ParenLeft_Offset = accum;
-        addPowerMerce2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addPowerMerce2_ParenLeft_Count = Converter("addPowerMerce2(", registeredBytes.AsSpan(accum));
+        accum += addPowerMerce2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "addPowerStaff2(");
         addPowerStaff2_ParenLeft_Offset = accum;
-        addPowerStaff2_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        addPowerStaff2_ParenLeft_Count = Converter("addPowerStaff2(", registeredBytes.AsSpan(accum));
+        accum += addPowerStaff2_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changePowerFix(");
         changePowerFix_ParenLeft_Offset = accum;
-        changePowerFix_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changePowerFix_ParenLeft_Count = Converter("changePowerFix(", registeredBytes.AsSpan(accum));
+        accum += changePowerFix_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eraseUnitTroop(");
         eraseUnitTroop_ParenLeft_Offset = accum;
-        eraseUnitTroop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eraseUnitTroop_ParenLeft_Count = Converter("eraseUnitTroop(", registeredBytes.AsSpan(accum));
+        accum += eraseUnitTroop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushBattleHome(");
         pushBattleHome_ParenLeft_Offset = accum;
-        pushBattleHome_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushBattleHome_ParenLeft_Count = Converter("pushBattleHome(", registeredBytes.AsSpan(accum));
+        accum += pushBattleHome_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushBattleRect(");
         pushBattleRect_ParenLeft_Offset = accum;
-        pushBattleRect_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushBattleRect_ParenLeft_Count = Converter("pushBattleRect(", registeredBytes.AsSpan(accum));
+        accum += pushBattleRect_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "pushCountPower(");
         pushCountPower_ParenLeft_Offset = accum;
-        pushCountPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        pushCountPower_ParenLeft_Count = Converter("pushCountPower(", registeredBytes.AsSpan(accum));
+        accum += pushCountPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeAliveUnit(");
         storeAliveUnit_ParenLeft_Offset = accum;
-        storeAliveUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeAliveUnit_ParenLeft_Count = Converter("storeAliveUnit(", registeredBytes.AsSpan(accum));
+        accum += storeAliveUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeAllTalent(");
         storeAllTalent_ParenLeft_Offset = accum;
-        storeAllTalent_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeAllTalent_ParenLeft_Count = Converter("storeAllTalent(", registeredBytes.AsSpan(accum));
+        accum += storeAllTalent_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changePowerFlag(");
         changePowerFlag_ParenLeft_Offset = accum;
-        changePowerFlag_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changePowerFlag_ParenLeft_Count = Converter("changePowerFlag(", registeredBytes.AsSpan(accum));
+        accum += changePowerFlag_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changePowerName(");
         changePowerName_ParenLeft_Offset = accum;
-        changePowerName_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changePowerName_ParenLeft_Count = Converter("changePowerName(", registeredBytes.AsSpan(accum));
+        accum += changePowerName_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "changeSpotImage(");
         changeSpotImage_ParenLeft_Offset = accum;
-        changeSpotImage_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        changeSpotImage_ParenLeft_Count = Converter("changeSpotImage(", registeredBytes.AsSpan(accum));
+        accum += changeSpotImage_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "erasePowerMerce(");
         erasePowerMerce_ParenLeft_Offset = accum;
-        erasePowerMerce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        erasePowerMerce_ParenLeft_Count = Converter("erasePowerMerce(", registeredBytes.AsSpan(accum));
+        accum += erasePowerMerce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "erasePowerStaff(");
         erasePowerStaff_ParenLeft_Offset = accum;
-        erasePowerStaff_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        erasePowerStaff_ParenLeft_Count = Converter("erasePowerStaff(", registeredBytes.AsSpan(accum));
+        accum += erasePowerStaff_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "resetEnemyPower(");
         resetEnemyPower_ParenLeft_Offset = accum;
-        resetEnemyPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        resetEnemyPower_ParenLeft_Count = Converter("resetEnemyPower(", registeredBytes.AsSpan(accum));
+        accum += resetEnemyPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "resetWorldMusic(");
         resetWorldMusic_ParenLeft_Offset = accum;
-        resetWorldMusic_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        resetWorldMusic_ParenLeft_Count = Converter("resetWorldMusic(", registeredBytes.AsSpan(accum));
+        accum += resetWorldMusic_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "setDungeonFloor(");
         setDungeonFloor_ParenLeft_Offset = accum;
-        setDungeonFloor_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        setDungeonFloor_ParenLeft_Count = Converter("setDungeonFloor(", registeredBytes.AsSpan(accum));
+        accum += setDungeonFloor_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeBattleSpot(");
         storeBattleSpot_ParenLeft_Offset = accum;
-        storeBattleSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeBattleSpot_ParenLeft_Count = Converter("storeBattleSpot(", registeredBytes.AsSpan(accum));
+        accum += storeBattleSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePlayerUnit(");
         storePlayerUnit_ParenLeft_Offset = accum;
-        storePlayerUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePlayerUnit_ParenLeft_Count = Converter("storePlayerUnit(", registeredBytes.AsSpan(accum));
+        accum += storePlayerUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeRaceOfUnit(");
         storeRaceOfUnit_ParenLeft_Offset = accum;
-        storeRaceOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeRaceOfUnit_ParenLeft_Count = Converter("storeRaceOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeRaceOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeSpotOfUnit(");
         storeSpotOfUnit_ParenLeft_Offset = accum;
-        storeSpotOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeSpotOfUnit_ParenLeft_Count = Converter("storeSpotOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeSpotOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeUnitOfSpot(");
         storeUnitOfSpot_ParenLeft_Offset = accum;
-        storeUnitOfSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeUnitOfSpot_ParenLeft_Count = Converter("storeUnitOfSpot(", registeredBytes.AsSpan(accum));
+        accum += storeUnitOfSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeAttackPower(");
         storeAttackPower_ParenLeft_Offset = accum;
-        storeAttackPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeAttackPower_ParenLeft_Count = Converter("storeAttackPower(", registeredBytes.AsSpan(accum));
+        accum += storeAttackPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeClassOfUnit(");
         storeClassOfUnit_ParenLeft_Offset = accum;
-        storeClassOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeClassOfUnit_ParenLeft_Count = Converter("storeClassOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeClassOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeNeutralSpot(");
         storeNeutralSpot_ParenLeft_Offset = accum;
-        storeNeutralSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeNeutralSpot_ParenLeft_Count = Converter("storeNeutralSpot(", registeredBytes.AsSpan(accum));
+        accum += storeNeutralSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePlayerPower(");
         storePlayerPower_ParenLeft_Offset = accum;
-        storePlayerPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePlayerPower_ParenLeft_Count = Converter("storePlayerPower(", registeredBytes.AsSpan(accum));
+        accum += storePlayerPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePowerOfSpot(");
         storePowerOfSpot_ParenLeft_Offset = accum;
-        storePowerOfSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePowerOfSpot_ParenLeft_Count = Converter("storePowerOfSpot(", registeredBytes.AsSpan(accum));
+        accum += storePowerOfSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePowerOfUnit(");
         storePowerOfUnit_ParenLeft_Offset = accum;
-        storePowerOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePowerOfUnit_ParenLeft_Count = Converter("storePowerOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storePowerOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeSkillOfUnit(");
         storeSkillOfUnit_ParenLeft_Offset = accum;
-        storeSkillOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeSkillOfUnit_ParenLeft_Count = Converter("storeSkillOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeSkillOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeSpotOfPower(");
         storeSpotOfPower_ParenLeft_Offset = accum;
-        storeSpotOfPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeSpotOfPower_ParenLeft_Count = Converter("storeSpotOfPower(", registeredBytes.AsSpan(accum));
+        accum += storeSpotOfPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeTalentPower(");
         storeTalentPower_ParenLeft_Offset = accum;
-        storeTalentPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeTalentPower_ParenLeft_Count = Converter("storeTalentPower(", registeredBytes.AsSpan(accum));
+        accum += storeTalentPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeUnitOfPower(");
         storeUnitOfPower_ParenLeft_Offset = accum;
-        storeUnitOfPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeUnitOfPower_ParenLeft_Count = Converter("storeUnitOfPower(", registeredBytes.AsSpan(accum));
+        accum += storeUnitOfPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "clearBattleRecord(");
         clearBattleRecord_ParenLeft_Offset = accum;
-        clearBattleRecord_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        clearBattleRecord_ParenLeft_Count = Converter("clearBattleRecord(", registeredBytes.AsSpan(accum));
+        accum += clearBattleRecord_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeDefensePower(");
         storeDefensePower_ParenLeft_Offset = accum;
-        storeDefensePower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeDefensePower_ParenLeft_Count = Converter("storeDefensePower(", registeredBytes.AsSpan(accum));
+        accum += storeDefensePower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeLeaderOfSpot(");
         storeLeaderOfSpot_ParenLeft_Offset = accum;
-        storeLeaderOfSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeLeaderOfSpot_ParenLeft_Count = Converter("storeLeaderOfSpot(", registeredBytes.AsSpan(accum));
+        accum += storeLeaderOfSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeMasterOfUnit(");
         storeMasterOfUnit_ParenLeft_Offset = accum;
-        storeMasterOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeMasterOfUnit_ParenLeft_Count = Converter("storeMasterOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeMasterOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeMemberOfUnit(");
         storeMemberOfUnit_ParenLeft_Offset = accum;
-        storeMemberOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeMemberOfUnit_ParenLeft_Count = Converter("storeMemberOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeMemberOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePowerOfForce(");
         storePowerOfForce_ParenLeft_Offset = accum;
-        storePowerOfForce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePowerOfForce_ParenLeft_Count = Converter("storePowerOfForce(", registeredBytes.AsSpan(accum));
+        accum += storePowerOfForce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeSpotOfBattle(");
         storeSpotOfBattle_ParenLeft_Offset = accum;
-        storeSpotOfBattle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeSpotOfBattle_ParenLeft_Count = Converter("storeSpotOfBattle(", registeredBytes.AsSpan(accum));
+        accum += storeSpotOfBattle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeLeaderOfPower(");
         storeLeaderOfPower_ParenLeft_Offset = accum;
-        storeLeaderOfPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeLeaderOfPower_ParenLeft_Count = Converter("storeLeaderOfPower(", registeredBytes.AsSpan(accum));
+        accum += storeLeaderOfPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeMasterOfPower(");
         storeMasterOfPower_ParenLeft_Offset = accum;
-        storeMasterOfPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeMasterOfPower_ParenLeft_Count = Converter("storeMasterOfPower(", registeredBytes.AsSpan(accum));
+        accum += storeMasterOfPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePowerOfAttack(");
         storePowerOfAttack_ParenLeft_Offset = accum;
-        storePowerOfAttack_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePowerOfAttack_ParenLeft_Count = Converter("storePowerOfAttack(", registeredBytes.AsSpan(accum));
+        accum += storePowerOfAttack_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeNonPlayerPower(");
         storeNonPlayerPower_ParenLeft_Offset = accum;
-        storeNonPlayerPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeNonPlayerPower_ParenLeft_Count = Converter("storeNonPlayerPower(", registeredBytes.AsSpan(accum));
+        accum += storeNonPlayerPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storePowerOfDefense(");
         storePowerOfDefense_ParenLeft_Offset = accum;
-        storePowerOfDefense_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storePowerOfDefense_ParenLeft_Count = Converter("storePowerOfDefense(", registeredBytes.AsSpan(accum));
+        accum += storePowerOfDefense_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeRoamUnitOfSpot(");
         storeRoamUnitOfSpot_ParenLeft_Offset = accum;
-        storeRoamUnitOfSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeRoamUnitOfSpot_ParenLeft_Count = Converter("storeRoamUnitOfSpot(", registeredBytes.AsSpan(accum));
+        accum += storeRoamUnitOfSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "storeBaseClassOfUnit(");
         storeBaseClassOfUnit_ParenLeft_Offset = accum;
-        storeBaseClassOfUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        storeBaseClassOfUnit_ParenLeft_Count = Converter("storeBaseClassOfUnit(", registeredBytes.AsSpan(accum));
+        accum += storeBaseClassOfUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "has(");
         has_ParenLeft_Offset = accum;
-        has_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        has_ParenLeft_Count = Converter("has(", registeredBytes.AsSpan(accum));
+        accum += has_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "yet(");
         yet_ParenLeft_Offset = accum;
-        yet_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        yet_ParenLeft_Count = Converter("yet(", registeredBytes.AsSpan(accum));
+        accum += yet_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "rand(");
         rand_ParenLeft_Offset = accum;
-        rand_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        rand_ParenLeft_Count = Converter("rand(", registeredBytes.AsSpan(accum));
+        accum += rand_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "count(");
         count_ParenLeft_Offset = accum;
-        count_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        count_ParenLeft_Count = Converter("count(", registeredBytes.AsSpan(accum));
+        accum += count_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "equal(");
         equal_ParenLeft_Offset = accum;
-        equal_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        equal_ParenLeft_Count = Converter("equal(", registeredBytes.AsSpan(accum));
+        accum += equal_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "eqVar(");
         eqVar_ParenLeft_Offset = accum;
-        eqVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        eqVar_ParenLeft_Count = Converter("eqVar(", registeredBytes.AsSpan(accum));
+        accum += eqVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "inVar(");
         inVar_ParenLeft_Offset = accum;
-        inVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        inVar_ParenLeft_Count = Converter("inVar(", registeredBytes.AsSpan(accum));
+        accum += inVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isMap(");
         isMap_ParenLeft_Offset = accum;
-        isMap_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isMap_ParenLeft_Count = Converter("isMap(", registeredBytes.AsSpan(accum));
+        accum += isMap_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isNpc(");
         isNpc_ParenLeft_Offset = accum;
-        isNpc_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isNpc_ParenLeft_Count = Converter("isNpc(", registeredBytes.AsSpan(accum));
+        accum += isNpc_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isNPM(");
         isNPM_ParenLeft_Offset = accum;
-        isNPM_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isNPM_ParenLeft_Count = Converter("isNPM(", registeredBytes.AsSpan(accum));
+        accum += isNPM_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isWar(");
         isWar_ParenLeft_Offset = accum;
-        isWar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isWar_ParenLeft_Count = Converter("isWar(", registeredBytes.AsSpan(accum));
+        accum += isWar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "ptest(");
         ptest_ParenLeft_Offset = accum;
-        ptest_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        ptest_ParenLeft_Count = Converter("ptest(", registeredBytes.AsSpan(accum));
+        accum += ptest_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "amount(");
         amount_ParenLeft_Offset = accum;
-        amount_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        amount_ParenLeft_Count = Converter("amount(", registeredBytes.AsSpan(accum));
+        accum += amount_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "conVar(");
         conVar_ParenLeft_Offset = accum;
-        conVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        conVar_ParenLeft_Count = Converter("conVar(", registeredBytes.AsSpan(accum));
+        accum += conVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "inSpot(");
         inSpot_ParenLeft_Offset = accum;
-        inSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        inSpot_ParenLeft_Count = Converter("inSpot(", registeredBytes.AsSpan(accum));
+        accum += inSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isDead(");
         isDead_ParenLeft_Offset = accum;
-        isDead_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isDead_ParenLeft_Count = Converter("isDead(", registeredBytes.AsSpan(accum));
+        accum += isDead_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isDone(");
         isDone_ParenLeft_Offset = accum;
-        isDone_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isDone_ParenLeft_Count = Converter("isDone(", registeredBytes.AsSpan(accum));
+        accum += isDone_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isJoin(");
         isJoin_ParenLeft_Offset = accum;
-        isJoin_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isJoin_ParenLeft_Count = Converter("isJoin(", registeredBytes.AsSpan(accum));
+        accum += isJoin_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isNext(");
         isNext_ParenLeft_Offset = accum;
-        isNext_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isNext_ParenLeft_Count = Converter("isNext(", registeredBytes.AsSpan(accum));
+        accum += isNext_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "reckon(");
         reckon_ParenLeft_Offset = accum;
-        reckon_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        reckon_ParenLeft_Count = Converter("reckon(", registeredBytes.AsSpan(accum));
+        accum += reckon_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getLife(");
         getLife_ParenLeft_Offset = accum;
-        getLife_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getLife_ParenLeft_Count = Converter("getLife(", registeredBytes.AsSpan(accum));
+        accum += getLife_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getMode(");
         getMode_ParenLeft_Offset = accum;
-        getMode_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getMode_ParenLeft_Count = Converter("getMode(", registeredBytes.AsSpan(accum));
+        accum += getMode_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getTime(");
         getTime_ParenLeft_Offset = accum;
-        getTime_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getTime_ParenLeft_Count = Converter("getTime(", registeredBytes.AsSpan(accum));
+        accum += getTime_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getTurn(");
         getTurn_ParenLeft_Offset = accum;
-        getTurn_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getTurn_ParenLeft_Count = Converter("getTurn(", registeredBytes.AsSpan(accum));
+        accum += getTurn_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "inPower(");
         inPower_ParenLeft_Offset = accum;
-        inPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        inPower_ParenLeft_Count = Converter("inPower(", registeredBytes.AsSpan(accum));
+        accum += inPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isAlive(");
         isAlive_ParenLeft_Offset = accum;
-        isAlive_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isAlive_ParenLeft_Count = Converter("isAlive(", registeredBytes.AsSpan(accum));
+        accum += isAlive_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isEnemy(");
         isEnemy_ParenLeft_Offset = accum;
-        isEnemy_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isEnemy_ParenLeft_Count = Converter("isEnemy(", registeredBytes.AsSpan(accum));
+        accum += isEnemy_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isEvent(");
         isEvent_ParenLeft_Offset = accum;
-        isEvent_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isEvent_ParenLeft_Count = Converter("isEvent(", registeredBytes.AsSpan(accum));
+        accum += isEvent_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isPeace(");
         isPeace_ParenLeft_Offset = accum;
-        isPeace_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isPeace_ParenLeft_Count = Converter("isPeace(", registeredBytes.AsSpan(accum));
+        accum += isPeace_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isWorld(");
         isWorld_ParenLeft_Offset = accum;
-        isWorld_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isWorld_ParenLeft_Count = Converter("isWorld(", registeredBytes.AsSpan(accum));
+        accum += isWorld_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countVar(");
         countVar_ParenLeft_Offset = accum;
-        countVar_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countVar_ParenLeft_Count = Converter("countVar(", registeredBytes.AsSpan(accum));
+        accum += countVar_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getLimit(");
         getLimit_ParenLeft_Offset = accum;
-        getLimit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getLimit_ParenLeft_Count = Converter("getLimit(", registeredBytes.AsSpan(accum));
+        accum += getLimit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "inBattle(");
         inBattle_ParenLeft_Offset = accum;
-        inBattle_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        inBattle_ParenLeft_Count = Converter("inBattle(", registeredBytes.AsSpan(accum));
+        accum += inBattle_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isActive(");
         isActive_ParenLeft_Offset = accum;
-        isActive_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isActive_ParenLeft_Count = Converter("isActive(", registeredBytes.AsSpan(accum));
+        accum += isActive_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isArbeit(");
         isArbeit_ParenLeft_Offset = accum;
-        isArbeit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isArbeit_ParenLeft_Count = Converter("isArbeit(", registeredBytes.AsSpan(accum));
+        accum += isArbeit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isEnable(");
         isEnable_ParenLeft_Offset = accum;
-        isEnable_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isEnable_ParenLeft_Count = Converter("isEnable(", registeredBytes.AsSpan(accum));
+        accum += isEnable_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isFriend(");
         isFriend_ParenLeft_Offset = accum;
-        isFriend_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isFriend_ParenLeft_Count = Converter("isFriend(", registeredBytes.AsSpan(accum));
+        accum += isFriend_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isInvade(");
         isInvade_ParenLeft_Offset = accum;
-        isInvade_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isInvade_ParenLeft_Count = Converter("isInvade(", registeredBytes.AsSpan(accum));
+        accum += isInvade_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isLeader(");
         isLeader_ParenLeft_Offset = accum;
-        isLeader_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isLeader_ParenLeft_Count = Converter("isLeader(", registeredBytes.AsSpan(accum));
+        accum += isLeader_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isLeague(");
         isLeague_ParenLeft_Offset = accum;
-        isLeague_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isLeague_ParenLeft_Count = Converter("isLeague(", registeredBytes.AsSpan(accum));
+        accum += isLeague_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isMaster(");
         isMaster_ParenLeft_Offset = accum;
-        isMaster_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isMaster_ParenLeft_Count = Converter("isMaster(", registeredBytes.AsSpan(accum));
+        accum += isMaster_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isPlayer(");
         isPlayer_ParenLeft_Offset = accum;
-        isPlayer_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isPlayer_ParenLeft_Count = Converter("isPlayer(", registeredBytes.AsSpan(accum));
+        accum += isPlayer_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isPostIn(");
         isPostIn_ParenLeft_Offset = accum;
-        isPostIn_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isPostIn_ParenLeft_Count = Converter("isPostIn(", registeredBytes.AsSpan(accum));
+        accum += isPostIn_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isRoamer(");
         isRoamer_ParenLeft_Offset = accum;
-        isRoamer_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isRoamer_ParenLeft_Count = Converter("isRoamer(", registeredBytes.AsSpan(accum));
+        accum += isRoamer_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isSelect(");
         isSelect_ParenLeft_Offset = accum;
-        isSelect_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isSelect_ParenLeft_Count = Converter("isSelect(", registeredBytes.AsSpan(accum));
+        accum += isSelect_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isTalent(");
         isTalent_ParenLeft_Offset = accum;
-        isTalent_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isTalent_ParenLeft_Count = Converter("isTalent(", registeredBytes.AsSpan(accum));
+        accum += isTalent_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isVassal(");
         isVassal_ParenLeft_Offset = accum;
-        isVassal_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isVassal_ParenLeft_Count = Converter("isVassal(", registeredBytes.AsSpan(accum));
+        accum += isVassal_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countGain(");
         countGain_ParenLeft_Offset = accum;
-        countGain_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countGain_ParenLeft_Count = Converter("countGain(", registeredBytes.AsSpan(accum));
+        accum += countGain_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countPost(");
         countPost_ParenLeft_Offset = accum;
-        countPost_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countPost_ParenLeft_Count = Converter("countPost(", registeredBytes.AsSpan(accum));
+        accum += countPost_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countSpot(");
         countSpot_ParenLeft_Offset = accum;
-        countSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countSpot_ParenLeft_Count = Converter("countSpot(", registeredBytes.AsSpan(accum));
+        accum += countSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countUnit(");
         countUnit_ParenLeft_Offset = accum;
-        countUnit_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countUnit_ParenLeft_Count = Converter("countUnit(", registeredBytes.AsSpan(accum));
+        accum += countUnit_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isAllDead(");
         isAllDead_ParenLeft_Offset = accum;
-        isAllDead_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isAllDead_ParenLeft_Count = Converter("isAllDead(", registeredBytes.AsSpan(accum));
+        accum += isAllDead_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isAnyDead(");
         isAnyDead_ParenLeft_Offset = accum;
-        isAnyDead_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isAnyDead_ParenLeft_Count = Converter("isAnyDead(", registeredBytes.AsSpan(accum));
+        accum += isAnyDead_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isComTurn(");
         isComTurn_ParenLeft_Offset = accum;
-        isComTurn_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isComTurn_ParenLeft_Count = Converter("isComTurn(", registeredBytes.AsSpan(accum));
+        accum += isComTurn_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isDungeon(");
         isDungeon_ParenLeft_Offset = accum;
-        isDungeon_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isDungeon_ParenLeft_Count = Converter("isDungeon(", registeredBytes.AsSpan(accum));
+        accum += isDungeon_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isNewTurn(");
         isNewTurn_ParenLeft_Offset = accum;
-        isNewTurn_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isNewTurn_ParenLeft_Count = Converter("isNewTurn(", registeredBytes.AsSpan(accum));
+        accum += isNewTurn_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isNowSpot(");
         isNowSpot_ParenLeft_Offset = accum;
-        isNowSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isNowSpot_ParenLeft_Count = Converter("isNowSpot(", registeredBytes.AsSpan(accum));
+        accum += isNowSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "istoWorld(");
         istoWorld_ParenLeft_Offset = accum;
-        istoWorld_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        istoWorld_ParenLeft_Count = Converter("istoWorld(", registeredBytes.AsSpan(accum));
+        accum += istoWorld_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isWhoDead(");
         isWhoDead_ParenLeft_Offset = accum;
-        isWhoDead_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isWhoDead_ParenLeft_Count = Converter("isWhoDead(", registeredBytes.AsSpan(accum));
+        accum += isWhoDead_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countForce(");
         countForce_ParenLeft_Offset = accum;
-        countForce_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countForce_ParenLeft_Count = Converter("countForce(", registeredBytes.AsSpan(accum));
+        accum += countForce_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countMoney(");
         countMoney_ParenLeft_Offset = accum;
-        countMoney_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countMoney_ParenLeft_Count = Converter("countMoney(", registeredBytes.AsSpan(accum));
+        accum += countMoney_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countPower(");
         countPower_ParenLeft_Offset = accum;
-        countPower_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countPower_ParenLeft_Count = Converter("countPower(", registeredBytes.AsSpan(accum));
+        accum += countPower_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "countSkill(");
         countSkill_ParenLeft_Offset = accum;
-        countSkill_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        countSkill_ParenLeft_Count = Converter("countSkill(", registeredBytes.AsSpan(accum));
+        accum += countSkill_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getLifePer(");
         getLifePer_ParenLeft_Offset = accum;
-        getLifePer_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getLifePer_ParenLeft_Count = Converter("getLifePer(", registeredBytes.AsSpan(accum));
+        accum += getLifePer_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "inRoamSpot(");
         inRoamSpot_ParenLeft_Offset = accum;
-        inRoamSpot_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        inRoamSpot_ParenLeft_Count = Converter("inRoamSpot(", registeredBytes.AsSpan(accum));
+        accum += inRoamSpot_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isGameOver(");
         isGameOver_ParenLeft_Offset = accum;
-        isGameOver_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isGameOver_ParenLeft_Count = Converter("isGameOver(", registeredBytes.AsSpan(accum));
+        accum += isGameOver_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isInterval(");
         isInterval_ParenLeft_Offset = accum;
-        isInterval_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isInterval_ParenLeft_Count = Converter("isInterval(", registeredBytes.AsSpan(accum));
+        accum += isInterval_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isRedAlive(");
         isRedAlive_ParenLeft_Offset = accum;
-        isRedAlive_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isRedAlive_ParenLeft_Count = Converter("isRedAlive(", registeredBytes.AsSpan(accum));
+        accum += isRedAlive_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isSameArmy(");
         isSameArmy_ParenLeft_Offset = accum;
-        isSameArmy_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isSameArmy_ParenLeft_Count = Converter("isSameArmy(", registeredBytes.AsSpan(accum));
+        accum += isSameArmy_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isScenario(");
         isScenario_ParenLeft_Offset = accum;
-        isScenario_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isScenario_ParenLeft_Count = Converter("isScenario(", registeredBytes.AsSpan(accum));
+        accum += isScenario_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isWatching(");
         isWatching_ParenLeft_Offset = accum;
-        isWatching_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isWatching_ParenLeft_Count = Converter("isWatching(", registeredBytes.AsSpan(accum));
+        accum += isWatching_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getDistance(");
         getDistance_ParenLeft_Offset = accum;
-        getDistance_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getDistance_ParenLeft_Count = Converter("getDistance(", registeredBytes.AsSpan(accum));
+        accum += getDistance_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getRedCount(");
         getRedCount_ParenLeft_Offset = accum;
-        getRedCount_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getRedCount_ParenLeft_Count = Converter("getRedCount(", registeredBytes.AsSpan(accum));
+        accum += getRedCount_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isBlueAlive(");
         isBlueAlive_ParenLeft_Offset = accum;
-        isBlueAlive_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isBlueAlive_ParenLeft_Count = Converter("isBlueAlive(", registeredBytes.AsSpan(accum));
+        accum += isBlueAlive_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isGameClear(");
         isGameClear_ParenLeft_Offset = accum;
-        isGameClear_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isGameClear_ParenLeft_Count = Converter("isGameClear(", registeredBytes.AsSpan(accum));
+        accum += isGameClear_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isPlayerEnd(");
         isPlayerEnd_ParenLeft_Offset = accum;
-        isPlayerEnd_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isPlayerEnd_ParenLeft_Count = Converter("isPlayerEnd(", registeredBytes.AsSpan(accum));
+        accum += isPlayerEnd_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getBlueCount(");
         getBlueCount_ParenLeft_Offset = accum;
-        getBlueCount_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getBlueCount_ParenLeft_Count = Converter("getBlueCount(", registeredBytes.AsSpan(accum));
+        accum += getBlueCount_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isPlayerTurn(");
         isPlayerTurn_ParenLeft_Offset = accum;
-        isPlayerTurn_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isPlayerTurn_ParenLeft_Count = Converter("isPlayerTurn(", registeredBytes.AsSpan(accum));
+        accum += isPlayerTurn_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isRoamLeader(");
         isRoamLeader_ParenLeft_Offset = accum;
-        isRoamLeader_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isRoamLeader_ParenLeft_Count = Converter("isRoamLeader(", registeredBytes.AsSpan(accum));
+        accum += isRoamLeader_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "getClearFloor(");
         getClearFloor_ParenLeft_Offset = accum;
-        getClearFloor_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        getClearFloor_ParenLeft_Count = Converter("getClearFloor(", registeredBytes.AsSpan(accum));
+        accum += getClearFloor_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "isWorldMusicStop(");
         isWorldMusicStop_ParenLeft_Offset = accum;
-        isWorldMusicStop_ParenLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        isWorldMusicStop_ParenLeft_Count = Converter("isWorldMusicStop(", registeredBytes.AsSpan(accum));
+        accum += isWorldMusicStop_ParenLeft_Count;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "context");
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
         context_NewLine_BracketLeft_Offset = accum;
-        context_NewLine_BracketLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("context", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        context_NewLine_BracketLeft_Count = accum - context_NewLine_BracketLeft_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "workspace");
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
         workspace_NewLine_BracketLeft_Offset = accum;
-        workspace_NewLine_BracketLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("workspace", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        workspace_NewLine_BracketLeft_Count = accum - workspace_NewLine_BracketLeft_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "attribute");
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
         attribute_NewLine_BracketLeft_Offset = accum;
-        attribute_NewLine_BracketLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("attribute", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        attribute_NewLine_BracketLeft_Count = accum - attribute_NewLine_BracketLeft_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "sound");
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
         sound_NewLine_BracketLeft_Offset = accum;
-        sound_NewLine_BracketLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("sound", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        sound_NewLine_BracketLeft_Count = accum - sound_NewLine_BracketLeft_Offset;
 
-        registeredBytes.AddRangeConversion(Converter, Assumption, "detail");
-        registeredBytes.AddRange(convertedNewLine);
-        registeredBytes.AddRangeConversion(Converter, Assumption, "{");
         detail_NewLine_BracketLeft_Offset = accum;
-        detail_NewLine_BracketLeft_Count = (uint)registeredBytes.Count - accum;
-        accum = (uint)registeredBytes.Count;
+        accum += Converter("detail", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        detail_NewLine_BracketLeft_Count = accum - detail_NewLine_BracketLeft_Offset;
     }
 
     private void Append_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
-        destination.AddRange(registeredBytes.AsSpan(0, NewLineCount));
+        destination.AddRange(registeredBytes.AsSpan(NewLine_Offset, NewLine_Count));
     }
 
     private void Ensure_NewLine_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
-            destination.AddRange(registeredBytes.AsSpan(0, NewLineCount));
+            destination.AddRange(registeredBytes.AsSpan(NewLine_Offset, NewLine_Count));
         }
 
         JustChangeLine = false;
@@ -3104,7 +2684,7 @@ public class BinaryFormatter : IFormatter<byte>
             return;
         }
 
-        var span = registeredBytes.AsSpan(TabOffset, TabCount);
+        var span = registeredBytes.AsSpan(Indent_Offset, Indent_Count);
         for (uint i = 0; i != indentCount; i++)
         {
             destination.AddRange(span);
@@ -3119,7 +2699,7 @@ public class BinaryFormatter : IFormatter<byte>
         }
 
         JustChangeLine = false;
-        var span = registeredBytes.AsSpan(TabOffset, TabCount);
+        var span = registeredBytes.AsSpan(Indent_Offset, Indent_Count);
         for (uint i = 0; i != indentCount; i++)
         {
             destination.AddRange(span);
@@ -3164,18 +2744,6 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private void Append_battle_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = true;
-        destination.AddRange(registeredBytes.AsSpan(battle_NewLine_BracketLeft_NewLine_Offset, battle_NewLine_BracketLeft_NewLine_Count));
-    }
-
-    private void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = true;
-        destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
-    }
-
     private void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
@@ -3192,6 +2760,12 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(else_NewLine_Offset, else_NewLine_Count));
+    }
+
+    private void Append_battle_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = true;
+        destination.AddRange(registeredBytes.AsSpan(battle_NewLine_Offset, battle_NewLine_Count));
     }
 
     private void Append_next_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
@@ -5945,7 +5519,8 @@ public class BinaryFormatter : IFormatter<byte>
                 --tokenIndex;
             }
 
-            Append_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+            Append_NewLine(ref destination, ref JustChangeLine);
+            Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
         CONTENTS:
             if (++tokenIndex >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.BracketLeft)
             {
@@ -6035,7 +5610,9 @@ public class BinaryFormatter : IFormatter<byte>
                     continue;
                 case TokenKind.battle:
                     Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                    Append_battle_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+                    Append_battle_NewLine(ref destination, ref JustChangeLine);
+                    Append_Indent(ref destination, ref JustChangeLine, spaces);
+                    Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
                     if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;

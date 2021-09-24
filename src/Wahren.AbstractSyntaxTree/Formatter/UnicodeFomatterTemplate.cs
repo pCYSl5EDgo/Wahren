@@ -8,10 +8,6 @@ namespace Wahren.AbstractSyntaxTree.Formatter;
 
 public class UnicodeFormatter : IFormatter<char>
 {
-    public void Dispose()
-    {
-    }
-
     private readonly string NewLine;
     private readonly char Tab;
     private readonly int TabCount;
@@ -42,6 +38,7 @@ public class UnicodeFormatter : IFormatter<char>
         BracketLeft_NewLine = string.Intern("{" + NewLine);
         BracketRight_NewLine = string.Intern("}" + NewLine);
         else_NewLine = string.Intern("else" + NewLine);
+        battle_NewLine = string.Intern("battle" + NewLine);
         next_ParenLeft_ParenRight_NewLine = string.Intern("next()" + NewLine);
         return_ParenLeft_ParenRight_NewLine = string.Intern("return()" + NewLine);
         continue_ParenLeft_ParenRight_NewLine = string.Intern("continue()" + NewLine);
@@ -160,6 +157,13 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = true;
         destination.AddRange(else_NewLine);
+    }
+
+    private readonly string battle_NewLine;
+    public void Append_battle_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = true;
+        destination.AddRange(battle_NewLine);
     }
 
     private readonly string next_ParenLeft_ParenRight_NewLine;

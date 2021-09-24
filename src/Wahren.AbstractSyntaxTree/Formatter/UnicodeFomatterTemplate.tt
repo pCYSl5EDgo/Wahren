@@ -17,10 +17,6 @@ namespace Wahren.AbstractSyntaxTree.Formatter;
 
 public class UnicodeFormatter : IFormatter<char>
 {
-    public void Dispose()
-    {
-    }
-
     private readonly string NewLine;
     private readonly char Tab;
     private readonly int TabCount;
