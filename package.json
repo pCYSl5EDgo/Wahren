@@ -1,0 +1,22 @@
+{
+  "name": "wahren",
+  "version": "0.2.2",
+  "description": "A code analyzer of Vahren made by Nanaashi written in C#. This program is for .NET 6.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pCYSl5EDgo/Wahren.git"
+  },
+  "author": "pcysl5edgo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pCYSl5EDgo/Wahren/issues"
+  },
+  "homepage": "https://github.com/pCYSl5EDgo/Wahren#readme",
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}
