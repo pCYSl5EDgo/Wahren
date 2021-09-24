@@ -623,4 +623,29 @@ public static class ActionKindHelper
 
 		return ActionKind.None;
 	}
+
+	public static int IsValidArgumentCount(this ActionKind kind, int count)
+    {
+        if (count < 0)
+        {
+            return -1;
+        }
+
+		switch (kind)
+        {
+            case ActionKind.add: 
+            case ActionKind.div: 
+            case ActionKind.mod: 
+            case ActionKind.mul: 
+            case ActionKind.per: 
+            case ActionKind.set: 
+            case ActionKind.sub: 
+                return count == 2 ? 0 : count < 2 ? -1 : 1;
+            case ActionKind.@event: 
+                return count >= 1 ? (count <= 3 ? 0 : 1) : -1;
+            case ActionKind.routine: 
+                return count == 1 ? 0 : count < 1 ? -1 : 1;
+            default: return 0;
+        }
+	}
 }

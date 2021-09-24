@@ -584,7 +584,10 @@ public static partial class Parser
         var validated = callFunctionExpression.FunctionId.IsValidArgumentCount(callFunctionExpression.Arguments.Count);
         if (validated > 0)
         {
-            result.ErrorList.Add(new($"Too many function arguments count of '{callFunctionExpression.FunctionId}'. Exceeding arguments are just ignored.", tokenList[callFunctionExpression.TokenId].Range, DiagnosticSeverity.Warning));
+            if (context.CreateError(DiagnosticSeverity.Warning))
+            {
+                result.ErrorList.Add(new($"Too many function arguments count of '{callFunctionExpression.FunctionId}'. Exceeding arguments are just ignored.", tokenList[callFunctionExpression.TokenId].Range, DiagnosticSeverity.Warning));
+            }
         }
         else if (validated < 0)
         {

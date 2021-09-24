@@ -927,6 +927,16 @@ public class BinaryFormatter : IFormatter<byte>
         spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
         int accum = Indent_Count;
 
+        NewLine_Offset = accum;
+        NewLine_BracketLeft_NewLine_Offset = accum;
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        NewLine_BracketLeft_NewLine_Count = accum - NewLine_BracketLeft_NewLine_Offset;
+
+
         BracketLeft_NewLine_Offset = accum;
         accum += Converter("{", registeredBytes.AsSpan(accum));
         spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
@@ -974,8 +984,6 @@ public class BinaryFormatter : IFormatter<byte>
         spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
         accum += NewLine_Count;
         break_ParenLeft_ParenRight_NewLine_Count = accum - break_ParenLeft_ParenRight_NewLine_Offset;
-
-        NewLine_Offset = BracketRight_NewLine_Offset - NewLine_Count;
 
         Space_Assign_Offset = accum;
         Space_Assign_Count = Converter(" =", registeredBytes.AsSpan(accum));
@@ -2743,6 +2751,13 @@ public class BinaryFormatter : IFormatter<byte>
             return;
         } while (true);
     }
+
+    private void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = true;
+        destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
+    }
+
 
     private void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
@@ -5519,8 +5534,7 @@ public class BinaryFormatter : IFormatter<byte>
                 --tokenIndex;
             }
 
-            Append_NewLine(ref destination, ref JustChangeLine);
-            Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
+            Append_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
         CONTENTS:
             if (++tokenIndex >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.BracketLeft)
             {

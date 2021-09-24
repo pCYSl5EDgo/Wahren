@@ -175,7 +175,7 @@ public static partial class Parser
                 {
                     if (createWarning)
                     {
-                        result.ErrorList.Add(new($"Assignment to '{tokenList[currentIndex].ToString(ref source)}' in the conditional block does not behave as you expected.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                        result.ErrorList.Add(new($"Assignment to '{result.GetSpan(currentIndex)}' in the conditional block does not behave as you expected.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
                     }
                     continue;
                 }
@@ -455,8 +455,8 @@ public static partial class Parser
 
             if (tokenList.Last.IsComma(ref source))
             {
-                result.ErrorAdd_UnexpectedOperatorToken(currentIndex);
-                return false;
+                result.ErrorList.Add(new("Between ',' and ',' nothing is written.", tokenList[currentIndex].Range));
+                continue;
             }
 
             tokenList.Last.Kind = TokenKind.Content;
@@ -519,16 +519,35 @@ public static partial class Parser
             {
                 endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, arguments[1].TokenId);
             }
+            else if (context.CreateError(DiagnosticSeverity.Warning))
+            {
+                result.ErrorList.Add(new($"Too many ending roll action arguments count of '{result.GetSpan(currentIndex)}'. Exceeding arguments are just ignored.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+            }
 
             if (endingRoll is null)
             {
-                result.ErrorList.Add(new($"Invalid action '{tokenList[currentIndex].ToString(ref source)}'.", tokenList[currentIndex].Range));
+                result.ErrorList.Add(new($"Invalid action '{result.GetSpan(currentIndex)}'.", tokenList[currentIndex].Range));
             }
             else
             {
                 statements.Last.Dispose();
                 statements.RemoveLast();
                 statements.Add(endingRoll);
+            }
+        }
+        else
+        {
+            var validated = actionKind.IsValidArgumentCount(arguments.Count);
+            if (validated > 0)
+            {
+                if (context.CreateError(DiagnosticSeverity.Warning))
+                {
+                    result.ErrorList.Add(new($"Too many action arguments count of '{actionKind}'. Exceeding arguments are just ignored.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                }
+            }
+            else if (validated < 0)
+            {
+                result.ErrorList.Add(new($"Insufficient action arguments count of '{actionKind}'.", tokenList[currentIndex].Range));
             }
         }
 

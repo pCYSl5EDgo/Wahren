@@ -16,7 +16,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.EventSet))
         {
             return false;
         }
@@ -32,7 +32,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 goto FALSE;
             }
 
@@ -335,7 +335,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.ScenarioSet))
         {
             return false;
         }
@@ -354,7 +354,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 goto FALSE;
             }
 
@@ -765,7 +765,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.StorySet))
         {
             return false;
         }
@@ -780,7 +780,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 goto FALSE;
             }
 

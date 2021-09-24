@@ -2,37 +2,6 @@
 
 public static partial class TokenUtility
 {
-    public static string ToString(ref this Token token, ref DualList<char> source)
-    {
-        ref var range = ref token.Range;
-        if (range.IsEmpty)
-        {
-            return "";
-        }
-
-        var builder = PooledStringBuilder.Rent();
-        if (range.StartAndEndLineAreSame)
-        {
-            builder.Append(source[range.StartInclusive.Line].AsSpan(range.StartInclusive.Offset, range.EndExclusive.Offset - range.StartInclusive.Offset));
-            goto RETURN;
-        }
-
-        builder.Append(source[range.StartInclusive.Line].AsSpan(range.StartInclusive.Offset));
-
-        for (uint i = range.StartInclusive.Line + 1; i < range.EndExclusive.Line; i++)
-        {
-            builder.AppendLine().Append(source[i].AsSpan());
-        }
-
-        if (!range.IsEndAtLineEnd)
-        {
-            builder.AppendLine().Append(source[range.EndExclusive.Line].AsSpan(0, range.EndExclusive.Offset));
-        }
-
-    RETURN:
-        return builder.ToString();
-    }
-
     public static bool Equals(ref this Token token, ref DualList<char> source, char other)
     {
         if (!token.Range.OneLine || token.LengthInFirstLine != 1)
@@ -48,24 +17,6 @@ public static partial class TokenUtility
         ref var start = ref token.Range.StartInclusive;
         ref var end = ref token.Range.EndExclusive;
         return (start.Line == end.Line && start.Offset + other.Length == end.Offset) || (start.Line + 1 == end.Line && end.Offset == 0) && source[start.Line].AsSpan(start.Offset).SequenceEqual(other);
-    }
-
-    public static bool Equals(ref this SingleLineRange range, ref DualList<char> source, ReadOnlySpan<char> other)
-    {
-        return range.Length == other.Length && source[range.Line].AsSpan(range.Offset, range.Length).SequenceEqual(other);
-    }
-
-    public static bool EqualsIgnoreCase(ref this Token token, ref DualList<char> source, char other00, char other01)
-    {
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        if ((start.Line == end.Line && start.Offset + 1 == end.Offset) || (start.Line + 1 == end.Line && end.Offset == 0))
-        {
-            var c0 = source[start.Line][start.Offset];
-            return c0 == other00 || c0 == other01;
-        }
-
-        return false;
     }
 
     public static bool IsOperator(ref this Token token, ref DualList<char> source)

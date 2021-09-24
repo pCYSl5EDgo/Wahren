@@ -5,38 +5,39 @@ using System;
 
 public struct Result : IDisposable
 {
-    public DualList<char> Source;
-    public List<Token> TokenList;
-    public List<Error> ErrorList;
-    public DisposableList<INode> NodeList;
-    public StringSpanKeySlowSet ScenarioSet;
-    public StringSpanKeySlowSet MovetypeSet;
-    public StringSpanKeySlowSet SkillOrSkillsetSet;
-    public StringSpanKeySlowSet EventSet;
-    public StringSpanKeySlowSet RaceSet;
-    public StringSpanKeySlowSet UnitSet;
-    public StringSpanKeySlowSet ClassSet;
-    public StringSpanKeySlowSet PowerSet;
-    public StringSpanKeySlowSet SpotSet;
-    public StringSpanKeySlowSet VoiceTypeSet;
-    public StringSpanKeySlowSet NumberVariableSet;
-    public StringSpanKeySlowSet StringVariableSet;
+    public DualList<char> Source = new();
+    public List<Token> TokenList = new();
+    public List<Error> ErrorList = new();
+    public DisposableList<INode> NodeList = new();
+    public StringSpanKeySlowSet ScenarioSet = new();
+    public StringSpanKeySlowSet EventSet = new();
+    public StringSpanKeySlowSet StorySet = new();
+    public StringSpanKeySlowSet MovetypeSet = new();
+    public StringSpanKeySlowSet SkillSet = new();
+    public StringSpanKeySlowSet SkillsetSet = new();
+    public StringSpanKeySlowSet RaceSet = new();
+    public StringSpanKeySlowSet UnitSet = new();
+    public StringSpanKeySlowSet ClassSet = new();
+    public StringSpanKeySlowSet PowerSet = new();
+    public StringSpanKeySlowSet SpotSet = new();
+    public StringSpanKeySlowSet FieldSet = new();
+    public StringSpanKeySlowSet ObjectSet = new();
+    public StringSpanKeySlowSet DungeonSet = new();
+    public StringSpanKeySlowSet VoiceSet = new();
+    public StringSpanKeySlowSet VoiceTypeSet = new();
+    public StringSpanKeySlowSet NumberVariableSet = new();
+    public StringSpanKeySlowSet StringVariableSet = new();
 
-    public AttributeNode? AttributeNode;
-    public ContextNode? ContextNode;
-    public SoundNode? SoundNode;
+    public AttributeNode? AttributeNode = null;
+    public ContextNode? ContextNode = null;
+    public SoundNode? SoundNode = null;
 
-    public nuint Id;
-    public bool Success;
-    public object? Data;
+    public nuint Id = default;
+    public bool Success = default;
+    public object? Data = default;
 
     public Result()
     {
-        Source = new();
-        TokenList = new();
-        ErrorList = new();
-        NodeList = new();
-        ScenarioSet = new();
         ScenarioSet.GetOrAdd("a");
         ScenarioSet.GetOrAdd("b");
         ScenarioSet.GetOrAdd("c");
@@ -48,16 +49,6 @@ public struct Result : IDisposable
         ScenarioSet.GetOrAdd("i");
         ScenarioSet.GetOrAdd("j");
 
-        MovetypeSet = new();
-        EventSet = new();
-        PowerSet = new();
-        SpotSet = new();
-        RaceSet = new();
-        UnitSet = new();
-        ClassSet = new();
-        SkillOrSkillsetSet = new();
-
-        VoiceTypeSet = new();
         VoiceTypeSet.GetOrAdd("male");
         VoiceTypeSet.GetOrAdd("female");
         VoiceTypeSet.GetOrAdd("hold");
@@ -65,17 +56,6 @@ public struct Result : IDisposable
         VoiceTypeSet.GetOrAdd("even");
         VoiceTypeSet.GetOrAdd("push");
         VoiceTypeSet.GetOrAdd("back");
-
-        NumberVariableSet = new();
-        StringVariableSet = new();
-
-        AttributeNode = null;
-        ContextNode = null;
-        SoundNode = null;
-
-        Id = 0;
-        Success = false;
-        Data = null;
     }
 
     public Result(nuint id) : this()
@@ -89,6 +69,7 @@ public struct Result : IDisposable
         ErrorList.Dispose();
         NodeList.Dispose();
         ScenarioSet.Dispose();
+        StorySet.Dispose();
         MovetypeSet.Dispose();
         EventSet.Dispose();
         PowerSet.Dispose();
@@ -96,10 +77,15 @@ public struct Result : IDisposable
         SpotSet.Dispose();
         UnitSet.Dispose();
         ClassSet.Dispose();
-        SkillOrSkillsetSet.Dispose();
-        VoiceTypeSet.Dispose();
+        SkillSet.Dispose();
+        SkillsetSet.Dispose();
+        VoiceSet.Dispose();
+        FieldSet.Dispose();
+        ObjectSet.Dispose();
+        DungeonSet.Dispose();
         NumberVariableSet.Dispose();
         StringVariableSet.Dispose();
+        VoiceTypeSet.Dispose();
         Source.Dispose();
         Success = false;
         if (Data is IDisposable disposable)

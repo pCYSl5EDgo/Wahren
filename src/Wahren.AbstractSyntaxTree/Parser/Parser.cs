@@ -104,7 +104,7 @@ public static partial class Parser
             return true;
         }
 
-        result.ErrorList.Add(new($"Multiline comment \"/*\" needs corresponding \"*/\". But it is not found in this file.", tokenList.Last.Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+        result.ErrorList.Add(new("Multiline comment \"/*\" needs corresponding \"*/\". But it is not found in this file.", tokenList.Last.Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
         return false;
     }
 
@@ -205,14 +205,14 @@ public static partial class Parser
         return true;
     }
 
-    private static bool ParseNameAndSuperAndBracketLeft(ref Context context, ref Result result, IInheritableNode node, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
+    private static bool ParseNameAndSuperAndBracketLeft(ref Context context, ref Result result, IInheritableNode node, ref StringSpanKeySlowSet superSet, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         ref var errorList = ref result.ErrorList;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            errorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} should have name.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            errorList.Add(new($"{result.GetSpan(node.Kind)} should have name.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
             return false;
         }
 
@@ -225,7 +225,7 @@ public static partial class Parser
 
         if (!ReadUsefulToken(ref context, ref result))
         {
-            errorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} {tokenList[node.Name].ToString(ref source)} should start with '{{' but not found.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            errorList.Add(new($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{' but not found.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
             return false;
         }
 
@@ -238,22 +238,23 @@ public static partial class Parser
             }
 
             tokenList.Last.Kind = TokenKind.Super;
-            node.Super = tokenList.LastIndex;
-            if (!tokenList.Last.IsValidIdentifier(ref context, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
+            var superIndex = superSet.GetOrAdd(result.GetSpan(tokenList.LastIndex));
+            node.Super = superIndex;
+            if (context.CreateError(DiagnosticSeverity.Warning) && !tokenList.Last.IsValidIdentifier(ref context, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
             {
-                return false;
+                errorList.Add(new($"Not appropriate super name '{superSet[superIndex]}' of struct {result.GetSpan(node.Kind)} '{result.GetSpan(node.Name)}'.", tokenList.Last.Range));
             }
 
             if (!ReadUsefulToken(ref context, ref result))
             {
-                errorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} {tokenList[node.Name].ToString(ref source)} : {tokenList[node.Super.Value].ToString(ref source)} should start with '{{' but not found.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+                errorList.Add(new($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} : {superSet[superIndex]} should start with '{{' but not found.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
                 return false;
             }
         }
 
         if (!tokenList.Last.IsBracketLeft(ref source))
         {
-            errorList.Add(new($"{tokenList[node.Kind].ToString(ref source)} {tokenList[node.Name].ToString(ref source)} should start with '{{'.", tokenList.Last.Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            errorList.Add(new($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{'.", tokenList.Last.Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
             return false;
         }
 
@@ -266,7 +267,7 @@ public static partial class Parser
         ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new($"{result.TokenList[kindIndex].ToString(ref source)} needs '{{' but no token exists.", result.TokenList[kindIndex].Range));
+            result.ErrorList.Add(new($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", result.TokenList[kindIndex].Range));
             return false;
         }
 
@@ -276,7 +277,7 @@ public static partial class Parser
             return true;
         }
         
-        var text = $"{result.TokenList[kindIndex].ToString(ref source)} needs '{{' but {last.ToString(ref source)} (Line : {last.Range.StartInclusive.Line + 1}, Offset : {last.Range.StartInclusive.Offset + 1}) appears.";
+        var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Range.StartInclusive.Line + 1}, Offset : {last.Range.StartInclusive.Offset + 1}) appears.";
         result.ErrorList.Add(new(text, result.TokenList[kindIndex].Range));
         return false;
     }
@@ -286,7 +287,7 @@ public static partial class Parser
         ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new($"{result.TokenList[kindIndex].ToString(ref source)} needs '{{' but no token exists.", result.TokenList[kindIndex].Range));
+            result.ErrorList.Add(new($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", result.TokenList[kindIndex].Range));
             return false;
         }
 
@@ -296,7 +297,7 @@ public static partial class Parser
             return true;
         }
 
-        var text = $"{result.TokenList[kindIndex].ToString(ref source)} needs '{{' but {last.ToString(ref source)} (Line : {last.Range.StartInclusive.Line + 1}, Offset : {last.Range.StartInclusive.Offset + 1}) appears.";
+        var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Range.StartInclusive.Line + 1}, Offset : {last.Range.StartInclusive.Offset + 1}) appears.";
         result.ErrorList.Add(new(text, result.TokenList[kindIndex].Range));
         return false;
     }

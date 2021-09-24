@@ -61,7 +61,7 @@ public static partial class Parser
                 break;
             }
 
-            result.ErrorList.Add(new($"Line feed must be next to number value in this kind of element '{tokenList[element.ElementTokenId].ToString(ref source)}'. Neither text nor comment are allowed.", tokenList[textIndex].Range));
+            result.ErrorList.Add(new($"Line feed must be next to number value in this kind of element '{result.GetSpan(element.ElementTokenId)}'. Neither text nor comment are allowed.", tokenList[textIndex].Range));
             return false;
         }
 

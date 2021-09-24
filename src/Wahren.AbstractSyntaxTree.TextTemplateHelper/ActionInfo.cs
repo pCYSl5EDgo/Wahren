@@ -9,13 +9,15 @@ public struct ActionInfo
     public int? EnglishCount;
     public Dictionary<int, ArgumentInfo[]> Dictionary;
 
+    private static readonly Dictionary<int, ArgumentInfo[]> Empty = new();
+
     public ActionInfo(string name, int min, int max, int? englishCount = null, Dictionary<int, ArgumentInfo[]>? dictionary = null)
     {
         Name = name;
         Min = min;
         Max = max;
         EnglishCount = englishCount;
-        Dictionary = dictionary ?? new();
+        Dictionary = dictionary ?? Empty;
     }
 
     public void Deconstruct(out string name, out int min, out int max)
@@ -57,14 +59,14 @@ public struct ActionInfo
     {
         new("bg", 0, int.MaxValue),
         new("vc", 0, int.MaxValue),
-        new("add", 0, int.MaxValue),
-        new("div", 0, int.MaxValue),
-        new("mod", 0, int.MaxValue),
+        new("add", 2, 2),
+        new("div", 2, 2),
+        new("mod", 2, 2),
         new("msg", 0, int.MaxValue),
-        new("mul", 0, int.MaxValue),
-        new("per", 0, int.MaxValue),
-        new("set", 0, int.MaxValue),
-        new("sub", 0, int.MaxValue),
+        new("mul", 2, 2),
+        new("per", 2, 2),
+        new("set", 2, 2),
+        new("sub", 2, 2),
         new("win", 0, int.MaxValue),
         new("addv", 0, int.MaxValue),
         new("call", 0, int.MaxValue),
@@ -86,7 +88,7 @@ public struct ActionInfo
         new("citom", 0, int.MaxValue),
         new("clear", 0, int.MaxValue),
         new("erase", 0, int.MaxValue),
-        new("event", 0, int.MaxValue),
+        new("event", 1, 3),
         new("face2", 0, int.MaxValue),
         new("focus", 0, int.MaxValue),
         new("fontc", 0, int.MaxValue),
@@ -131,7 +133,7 @@ public struct ActionInfo
         new("pushCon", 0, int.MaxValue),
         new("pushSex", 0, int.MaxValue),
         new("pushVar", 0, int.MaxValue),
-        new("routine", 0, int.MaxValue),
+        new("routine", 1, 1),
         new("scroll2", 0, int.MaxValue),
         new("setCapa", 0, int.MaxValue),
         new("setDone", 0, int.MaxValue),

@@ -18,7 +18,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                var text = $"attribute needs '}}' but not found.";
+                var text = $"struct deail needs '}}' but not found.";
                 result.ErrorList.Add(new(text, tokenList[node.Kind].Range));
                 return false;
             }

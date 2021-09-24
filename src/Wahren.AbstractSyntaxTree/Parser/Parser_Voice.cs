@@ -9,7 +9,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.VoiceSet))
         {
             return false;
         }

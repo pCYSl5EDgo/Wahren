@@ -256,7 +256,7 @@ public static partial class Parser
 
                     goto default;
                 default:
-                    result.ErrorList.Add(new($"Structure kind or comment start is necessary. {last.ToString(ref source)}.", lastRange));
+                    result.ErrorList.Add(new($"Structure kind or comment start is necessary. {result.GetSpan(tokenList.LastIndex)}.", lastRange));
                     return false;
             }
 

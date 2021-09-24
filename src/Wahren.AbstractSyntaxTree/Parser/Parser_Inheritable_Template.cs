@@ -15,7 +15,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.SpotSet))
         {
             return false;
         }
@@ -30,7 +30,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Spot {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -270,7 +270,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.UnitSet))
         {
             return false;
         }
@@ -288,7 +288,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Unit {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -794,7 +794,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.RaceSet))
         {
             return false;
         }
@@ -809,7 +809,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Race {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -1008,7 +1008,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.ClassSet))
         {
             return false;
         }
@@ -1026,7 +1026,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Class {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -1494,7 +1494,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.FieldSet))
         {
             return false;
         }
@@ -1509,7 +1509,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Field {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -1721,7 +1721,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.SkillSet))
         {
             return false;
         }
@@ -1739,7 +1739,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Skill {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -2251,7 +2251,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.PowerSet))
         {
             return false;
         }
@@ -2269,7 +2269,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Power {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -2628,7 +2628,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.ObjectSet))
         {
             return false;
         }
@@ -2644,7 +2644,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Object {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -2914,7 +2914,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.DungeonSet))
         {
             return false;
         }
@@ -2929,7 +2929,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Dungeon {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -3172,7 +3172,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.MovetypeSet))
         {
             return false;
         }
@@ -3186,7 +3186,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Movetype {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
@@ -3341,7 +3341,7 @@ public static partial class Parser
         result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.SkillsetSet))
         {
             return false;
         }
@@ -3355,7 +3355,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                result.ErrorList.Add(new($"Skillset {tokenList[node.Name].ToString(ref source)}'s '}}' is not found.", tokenList[node.BracketLeft].Range));
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
                 return false;
             }
 
