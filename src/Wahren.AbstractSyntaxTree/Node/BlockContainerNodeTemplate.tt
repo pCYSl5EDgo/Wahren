@@ -17,7 +17,7 @@ using Element.Statement;
 foreach (string name in Helper.BlockContainers) {
     string[] array = Helper.Get(name);
 #>
-public sealed class <#= name #>Node : IInheritableNode
+public partial struct <#= name #>Node : IInheritableNode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }

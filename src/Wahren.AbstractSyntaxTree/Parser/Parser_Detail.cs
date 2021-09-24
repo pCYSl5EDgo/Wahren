@@ -13,7 +13,7 @@ public static partial class Parser
 
         ref var source = ref result.Source;
         var node = new DetailNode() { Kind = kindIndex, BracketLeft = tokenList.LastIndex };
-        result.NodeList.Add(node);
+        result.DetailNodeList.Add(node);
         do
         {
             if (!ReadUsefulToken(ref context, ref result))

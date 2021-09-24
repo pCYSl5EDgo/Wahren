@@ -922,7 +922,7 @@ public class BinaryFormatter : IFormatter<byte>
         Indent_Count = Converter(spanIndentSource, spanIndent);
         spanIndent = spanIndent.Slice(0, Indent_Count);
 
-        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4053) + NewLine_Count * 13 + Indent_Count, true);
+        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4054) + NewLine_Count * 15 + Indent_Count, true);
 
         spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
         int accum = Indent_Count;

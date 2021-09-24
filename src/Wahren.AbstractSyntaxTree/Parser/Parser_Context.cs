@@ -14,7 +14,6 @@ public static partial class Parser
         }
 
         var node = result.ContextNode = new ContextNode();
-        result.NodeList.Add(node);
         node.Kind = tokenList.LastIndex;
         do
         {

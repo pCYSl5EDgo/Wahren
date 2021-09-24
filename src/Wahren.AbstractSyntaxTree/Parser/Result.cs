@@ -8,7 +8,26 @@ public struct Result : IDisposable
     public DualList<char> Source = new();
     public List<Token> TokenList = new();
     public List<Error> ErrorList = new();
-    public DisposableList<INode> NodeList = new();
+
+    public DisposableList<ScenarioNode> ScenarioNodeList = new();
+    public DisposableList<EventNode> EventNodeList = new();
+    public DisposableList<StoryNode> StoryNodeList = new();
+    public DisposableList<MovetypeNode> MovetypeNodeList = new();
+    public DisposableList<SkillNode> SkillNodeList = new();
+    public DisposableList<SkillsetNode> SkillsetNodeList = new();
+    public DisposableList<RaceNode> RaceNodeList = new();
+    public DisposableList<UnitNode> UnitNodeList = new();
+    public DisposableList<ClassNode> ClassNodeList = new();
+    public DisposableList<PowerNode> PowerNodeList = new();
+    public DisposableList<SpotNode> SpotNodeList = new();
+    public DisposableList<FieldNode> FieldNodeList = new();
+    public DisposableList<ObjectNode> ObjectNodeList = new();
+    public DisposableList<DungeonNode> DungeonNodeList = new();
+    public DisposableList<VoiceNode> VoiceNodeList = new();
+
+    public DisposableList<DetailNode> DetailNodeList = new();
+    public DisposableList<WorkspaceNode> WorkspaceNodeList = new();
+
     public StringSpanKeySlowSet ScenarioSet = new();
     public StringSpanKeySlowSet EventSet = new();
     public StringSpanKeySlowSet StorySet = new();
@@ -31,10 +50,11 @@ public struct Result : IDisposable
     public AttributeNode? AttributeNode = null;
     public ContextNode? ContextNode = null;
     public SoundNode? SoundNode = null;
+    public readonly ISolutionResolver Resolver = FailResolver.Default;
 
     public nuint Id = default;
     public bool Success = default;
-    public object? Data = default;
+    public string? FilePath = default;
 
     public Result()
     {
@@ -63,11 +83,35 @@ public struct Result : IDisposable
         Id = id;
     }
 
+    public Result(ISolutionResolver resolver, nuint id) : this(id)
+    {
+        Resolver = resolver;
+    }
+
     public void Dispose()
     {
         TokenList.Dispose();
         ErrorList.Dispose();
-        NodeList.Dispose();
+
+        ScenarioNodeList.Dispose();
+        EventNodeList.Dispose();
+        StoryNodeList.Dispose();
+        MovetypeNodeList.Dispose();
+        SkillNodeList.Dispose();
+        SkillsetNodeList.Dispose();
+        RaceNodeList.Dispose();
+        UnitNodeList.Dispose();
+        ClassNodeList.Dispose();
+        PowerNodeList.Dispose();
+        SpotNodeList.Dispose();
+        FieldNodeList.Dispose();
+        ObjectNodeList.Dispose();
+        DungeonNodeList.Dispose();
+        VoiceNodeList.Dispose();
+
+        DetailNodeList.Dispose();
+        WorkspaceNodeList.Dispose();
+
         ScenarioSet.Dispose();
         StorySet.Dispose();
         MovetypeSet.Dispose();
@@ -88,11 +132,7 @@ public struct Result : IDisposable
         VoiceTypeSet.Dispose();
         Source.Dispose();
         Success = false;
-        if (Data is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
-        Data = null;
+        FilePath = null;
     }
 
     public void Reset()

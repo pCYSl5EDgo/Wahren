@@ -4,7 +4,7 @@
 // </auto-generated>
 namespace Wahren.AbstractSyntaxTree.Node;
 using Element.Statement;
-public sealed class EventNode : IInheritableNode
+public partial struct EventNode : IInheritableNode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
@@ -75,7 +75,7 @@ public sealed class EventNode : IInheritableNode
 		last_second.Dispose();
 	}
 }
-public sealed class ScenarioNode : IInheritableNode
+public partial struct ScenarioNode : IInheritableNode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
@@ -206,7 +206,7 @@ public sealed class ScenarioNode : IInheritableNode
 		offset.Dispose();
 	}
 }
-public sealed class StoryNode : IInheritableNode
+public partial struct StoryNode : IInheritableNode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }

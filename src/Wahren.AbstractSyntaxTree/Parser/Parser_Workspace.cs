@@ -12,8 +12,10 @@ public static partial class Parser
         }
 
         ref var source = ref result.Source;
-        var node = new WorkspaceNode() { Kind = kindIndex, BracketLeft = tokenList.LastIndex };
-        result.NodeList.Add(node);
+        result.WorkspaceNodeList.Add(new());
+        ref var node = ref result.WorkspaceNodeList.Last;
+        node.Kind = kindIndex;
+        node.BracketLeft = tokenList.LastIndex;
         do
         {
             if (!ReadUsefulToken(ref context, ref result))

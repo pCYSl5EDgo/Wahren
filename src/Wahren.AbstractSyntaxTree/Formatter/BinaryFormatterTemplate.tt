@@ -96,7 +96,7 @@ foreach (var x in FormatterHelper.Pairs) { total += x.content.Length; }
 foreach (var x in FormatterHelper.Pairs_NewLine) { total += x.content.Length; }
 foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Length + x.content1.Length; }
 #>
-        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(<#= total #>) + NewLine_Count * <#= FormatterHelper.Pairs_NewLine.Length + FormatterHelper.Pairs_NewLine_Pairs.Length #> + Indent_Count, true);
+        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(<#= total + 1 #>) + NewLine_Count * <#= 2 + FormatterHelper.Pairs_NewLine.Length + FormatterHelper.Pairs_NewLine_Pairs.Length #> + Indent_Count, true);
 
         spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
         int accum = Indent_Count;

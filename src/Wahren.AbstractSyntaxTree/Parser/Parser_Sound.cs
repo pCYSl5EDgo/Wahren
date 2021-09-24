@@ -13,7 +13,6 @@ public static partial class Parser
 
         ref var source = ref result.Source;
         var node = result.SoundNode = new SoundNode();
-        result.NodeList.Add(node);
         node.Kind = tokenList.LastIndex;
         do
         {

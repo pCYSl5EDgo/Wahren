@@ -26,7 +26,7 @@ public static partial class Helper
         "Scenario",
         "Story",
     };
-
+    
     public static bool IsAllowedUndefinedContent(string name)
     {
         switch (name)

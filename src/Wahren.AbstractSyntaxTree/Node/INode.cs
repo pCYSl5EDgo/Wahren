@@ -10,6 +10,12 @@ public interface INode : IDisposable
 
 public interface IInheritableNode : INode
 {
+    /// <summary>
+    /// SuperId
+    /// </summary>
     uint? Super { get; set; }
+    /// <summary>
+    /// TokenId
+    /// </summary>
     uint Name { get; set; }
 }

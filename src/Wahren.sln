@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Compiler", "Wahren.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.DebugPaper", "Wahren.DebugPaper\Wahren.DebugPaper.csproj", "{A3434EF6-2928-43A6-BA72-2C0577BF4843}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.ResourceFileSystem", "Wahren.ResourceFileSystem\Wahren.ResourceFileSystem.csproj", "{AB50CF6A-72DA-405D-AE89-7193C628FD64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{A3434EF6-2928-43A6-BA72-2C0577BF4843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3434EF6-2928-43A6-BA72-2C0577BF4843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3434EF6-2928-43A6-BA72-2C0577BF4843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

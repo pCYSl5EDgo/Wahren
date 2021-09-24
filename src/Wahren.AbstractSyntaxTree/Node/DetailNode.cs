@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Node;
 
-public sealed class DetailNode : INode
+public struct DetailNode : INode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }

@@ -13,7 +13,6 @@ public static partial class Parser
         }
 
         var node = result.AttributeNode = new AttributeNode();
-        result.NodeList.Add(node);
         node.Kind = kindIndex;
 
         do

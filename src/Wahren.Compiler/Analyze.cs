@@ -34,56 +34,72 @@ public partial class Program
         }
 
         var scriptFolderPath = Path.GetRelativePath(Environment.CurrentDirectory, Path.GetFullPath(Path.Combine(contentsFolder, "script")));
-        var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath);
-        PooledList.List<ValueTask<Result>> list = new();
-        PooledList.DisposableList<Result> results = new();
-        var stringBuilder = new StringBuilder(1 << 14);
+        var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
+        var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
+        var solution = new Solution();
         try
         {
-            nuint index = default;
-            foreach (var path in Directory.EnumerateFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories))
+            solution.Files.PrepareAddRange(files.Length);
+            for (nint i = 0; i < files.Length; i++)
             {
-                list.Add(ProcessEachFiles(path, ((uint)severity << 3) | (isUnicode ? 1U : 0U) | (isEnglish ? 2U : 0U) | (@switch ? 4U : 0U), index++, cancellationTokenSource.Token));
+                solution.Files.Add(new(solution, (nuint)i));
             }
 
-            for (uint i = 0; i < list.Count; i++)
+            await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, files.Length), cancellationTokenSource.Token, async (int index, CancellationToken token) =>
             {
-                var result = await list[i].ConfigureAwait(false);
-                results.Add(ref result);
-                if (result.ErrorList.IsEmpty)
+                byte[] rental;
+                int actual;
+                solution.Files[index].FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[index]);
+                var handle = File.OpenHandle(files[index], FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
+                try
                 {
-                    continue;
-                }
-
-                stringBuilder.AppendLine("\n==== " + (result.Data as string) + " ====");
-
-                for (uint j = 0; j < result.ErrorList.Count; j++)
-                {
-                    var error = result.ErrorList[j];
-                    stringBuilder.Append(error.Text);
-                    stringBuilder.Append("    Line: ");
-                    stringBuilder.Append(error.Range.StartInclusive.Line + 1);
-                    stringBuilder.Append(" Index: ");
-                    stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
-                    if (severity != PseudoDiagnosticSeverity.Error)
+                    var length = RandomAccess.GetLength(handle);
+                    if (length == 0)
                     {
-                        stringBuilder.Append(" Severity: ");
-                        stringBuilder.Append(error.Severity);
+                        return;
                     }
-                    stringBuilder.AppendLine();
-                    //if (severity == DiagnosticSeverity.Error)
-                    //{
-                    //    cancellationTokenSource.Cancel();
-                    //}
+
+                    rental = ArrayPool<byte>.Shared.Rent((int)length);
+                    try
+                    {
+                        actual = await RandomAccess.ReadAsync(handle, rental.AsMemory(0, (int)length), 0, token).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        ArrayPool<byte>.Shared.Return(rental);
+                        throw;
+                    }
                 }
+                finally
+                {
+                    handle.Dispose();
+                }
+
+                try
+                {
+                    LoadAndParse((DiagnosticSeverity)(uint)severity, @switch, isUnicode, isEnglish, ref solution.Files[index], rental.AsSpan(0, actual));
+                }
+                finally
+                {
+                    ArrayPool<byte>.Shared.Return(rental);
+                }
+            }).ConfigureAwait(false);
+
+            var diagnosticsSeverity = (DiagnosticSeverity)(uint)severity;
+            if (!CompileResultSync(solution, diagnosticsSeverity))
+            {
+                return 0;
+            }
+
+            if (!CheckSync(solution))
+            {
+                return 0;
             }
         }
         finally
         {
-            results.Dispose();
-            list.Dispose();
+            solution.Dispose();
             stopwatch?.Stop();
-            Console.WriteLine(stringBuilder.ToString());
             if (stopwatch is not null)
             {
                 var milliseconds = stopwatch.ElapsedMilliseconds;
@@ -94,50 +110,83 @@ public partial class Program
         return 0;
     }
 
-    private static async ValueTask<Result> ProcessEachFiles(string path, uint flag, nuint index, CancellationToken token)
+    private bool CheckSync(Solution solution)
     {
-        using var handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
-        var length = RandomAccess.GetLength(handle);
-        if (length == 0)
+        var success = solution.CheckExistance();
+        if (!success)
         {
-            return default;
+            foreach (var error in solution.SolutionErrorList)
+            {
+                Console.WriteLine(error.Text);
+            }
         }
 
-        var rental = ArrayPool<byte>.Shared.Rent((int)length);
-        try
+        return success;
+    }
+
+    private static bool CompileResultSync(Solution solution, DiagnosticSeverity severity)
+    {
+        var stringBuilder = new StringBuilder(1 << 14);
+        bool isSuccess = true;
+        foreach (ref var result in solution.Files)
         {
-            var actual = await RandomAccess.ReadAsync(handle, rental.AsMemory(0, (int)length), 0, token).ConfigureAwait(false);
-            Result result = new(index);
-            token.ThrowIfCancellationRequested();
-            if ((flag & 1U) == 1U)
+            if (result.ErrorList.IsEmpty)
             {
-                UnicodeHandler.Load(rental.AsSpan(0, actual), out result.Source);
-            }
-            else
-            {
-                Cp932Handler.Load(rental.AsSpan(0, actual), out result.Source);
+                continue;
             }
 
-            token.ThrowIfCancellationRequested();
-            Context context = new(index, (flag & 4U) != 0U, (flag & 2U) != 0U, (DiagnosticSeverity)(flag >> 3));
-            result.Success = Parser.Parse(ref context, ref result);
-            if (result.Success)
+            stringBuilder.AppendLine("\n==== " + (result.FilePath as string) + " ====");
+
+            for (uint j = 0; j < result.ErrorList.Count; j++)
             {
-                for (uint i = 0, end = (uint)result.ErrorList.Count; i != end; i++)
+                var error = result.ErrorList[j];
+                if (error.Severity == DiagnosticSeverity.Error)
                 {
-                    if (result.ErrorList[i].Severity == DiagnosticSeverity.Error)
-                    {
-                        result.Success = false;
-                        break;
-                    }
+                    isSuccess = false;
+                }
+
+                stringBuilder.Append(error.Text);
+                stringBuilder.Append("    Line: ");
+                stringBuilder.Append(error.Range.StartInclusive.Line + 1);
+                stringBuilder.Append(" Index: ");
+                stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
+                if (severity != 0U)
+                {
+                    stringBuilder.Append(" Severity: ");
+                    stringBuilder.Append(error.Severity);
+                }
+                stringBuilder.AppendLine();
+            }
+        }
+
+        Console.WriteLine(stringBuilder.ToString());
+        return isSuccess;
+    }
+
+    private static void LoadAndParse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isUnicode, bool isEnglish, ref Result result, Span<byte> input)
+    {
+        if (isUnicode)
+        {
+            UnicodeHandler.Load(input, out result.Source);
+        }
+        else
+        {
+            Cp932Handler.Load(input, out result.Source);
+        }
+
+        Context context = new(0, treatSlashPlusAsSingleLineComment, isEnglish, severity);
+        result.Success = Parser.Parse(ref context, ref result);
+        if (result.Success)
+        {
+            ref var errorList = ref result.ErrorList;
+            for (uint i = 0, end = (uint)errorList.Count; i != end; i++)
+            {
+                if (errorList[i].Severity == DiagnosticSeverity.Error)
+                {
+                    result.Success = false;
+                    break;
                 }
             }
-            result.Data = path;
-            return result;
-        }
-        finally
-        {
-            ArrayPool<byte>.Shared.Return(rental);
         }
     }
 }

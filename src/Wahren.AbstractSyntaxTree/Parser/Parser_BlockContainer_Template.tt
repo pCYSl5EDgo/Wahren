@@ -29,11 +29,11 @@ foreach (string name in Helper.BlockContainers) {
 #>
     private static bool Parse<#= name #>(ref Context context, ref Result result)
     {
-        var node = new <#= name #>Node();
-        result.NodeList.Add(node);
+        result.<#= name #>NodeList.Add(new());
+        ref var node = ref result.<#= name #>NodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.<#= name #>Set))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= name #>Set))
         {
             return false;
         }

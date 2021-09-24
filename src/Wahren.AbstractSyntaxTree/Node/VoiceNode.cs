@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Node;
 
-public sealed class VoiceNode
+public struct VoiceNode
     : IInheritableNode
 {
     public uint Kind { get; set; }

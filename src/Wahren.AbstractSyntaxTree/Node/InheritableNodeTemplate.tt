@@ -13,7 +13,7 @@
 // </auto-generated>
 namespace Wahren.AbstractSyntaxTree.Node;
 <# foreach (var name in Helper.Inheritables) { UsageGroup[] array = Helper.Get(name).MakeUsageGroup(); #>
-public sealed class <#= name #>Node : IInheritableNode
+public partial struct <#= name #>Node : IInheritableNode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }

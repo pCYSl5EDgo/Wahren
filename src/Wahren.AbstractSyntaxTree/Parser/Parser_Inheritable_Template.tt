@@ -26,11 +26,11 @@ public static partial class Parser
     var usageGroup = array.MakeUsageGroup(); #>
     private static bool Parse<#= name #>(ref Context context, ref Result result)
     {
-        var node = new <#= name #>Node();
-        result.NodeList.Add(node);
+        result.<#= name #>NodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.<#= name #>NodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.<#= name #>Set))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= name #>Set))
         {
             return false;
         }
@@ -58,11 +58,26 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
+<# if (name == "Skill") { #>
+            uint scenarioVariant;
+            if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
+            {
+                return false;
+            }
+            if (span.SequenceEqual("msg") || span.SequenceEqual("picture"))
+            {
+                scenarioVariant = result.UnitSet.GetOrAdd(variantSpan);
+            }
+            else
+            {
+                scenarioVariant = result.ScenarioSet.GetOrAdd(variantSpan);
+            }
+<# } else { #>
             if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
             {
                 return false;
             }
-
+<# } #>
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");

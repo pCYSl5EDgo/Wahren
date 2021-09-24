@@ -66,6 +66,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
     </None>
+    <None Include="Parser\Solution\SolutionTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SolutionTemplate.tt</DependentUpon>
+    </None>
     <None Include="TokenUtilityTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -123,6 +128,10 @@
     <None Update="Parser\Parser_BlockContainer_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
+    </None>
+    <None Update="Parser\Solution\SolutionTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SolutionTemplate.cs</LastGenOutput>
     </None>
     <None Update="TokenUtilityTextTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -212,6 +221,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Solution\SolutionTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SolutionTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="TokenUtilityTextTemplate.cs">
       <DesignTime>True</DesignTime>

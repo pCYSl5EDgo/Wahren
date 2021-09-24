@@ -12,11 +12,11 @@ public static partial class Parser
 {
     private static bool ParseEvent(ref Context context, ref Result result)
     {
-        var node = new EventNode();
-        result.NodeList.Add(node);
+        result.EventNodeList.Add(new());
+        ref var node = ref result.EventNodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.EventSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.EventSet))
         {
             return false;
         }
@@ -331,11 +331,11 @@ public static partial class Parser
     }
     private static bool ParseScenario(ref Context context, ref Result result)
     {
-        var node = new ScenarioNode();
-        result.NodeList.Add(node);
+        result.ScenarioNodeList.Add(new());
+        ref var node = ref result.ScenarioNodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.ScenarioSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ScenarioSet))
         {
             return false;
         }
@@ -761,11 +761,11 @@ public static partial class Parser
     }
     private static bool ParseStory(ref Context context, ref Result result)
     {
-        var node = new StoryNode();
-        result.NodeList.Add(node);
+        result.StoryNodeList.Add(new());
+        ref var node = ref result.StoryNodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.StorySet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.StorySet))
         {
             return false;
         }

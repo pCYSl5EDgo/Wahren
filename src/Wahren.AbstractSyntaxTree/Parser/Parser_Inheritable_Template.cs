@@ -11,11 +11,11 @@ public static partial class Parser
 {
     private static bool ParseSpot(ref Context context, ref Result result)
     {
-        var node = new SpotNode();
-        result.NodeList.Add(node);
+        result.SpotNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.SpotNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.SpotSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SpotSet))
         {
             return false;
         }
@@ -45,7 +45,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -266,11 +265,11 @@ public static partial class Parser
 
     private static bool ParseUnit(ref Context context, ref Result result)
     {
-        var node = new UnitNode();
-        result.NodeList.Add(node);
+        result.UnitNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.UnitNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.UnitSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.UnitSet))
         {
             return false;
         }
@@ -303,7 +302,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -790,11 +788,11 @@ public static partial class Parser
 
     private static bool ParseRace(ref Context context, ref Result result)
     {
-        var node = new RaceNode();
-        result.NodeList.Add(node);
+        result.RaceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.RaceNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.RaceSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.RaceSet))
         {
             return false;
         }
@@ -824,7 +822,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1004,11 +1001,11 @@ public static partial class Parser
 
     private static bool ParseClass(ref Context context, ref Result result)
     {
-        var node = new ClassNode();
-        result.NodeList.Add(node);
+        result.ClassNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.ClassNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.ClassSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ClassSet))
         {
             return false;
         }
@@ -1041,7 +1038,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1490,11 +1486,11 @@ public static partial class Parser
 
     private static bool ParseField(ref Context context, ref Result result)
     {
-        var node = new FieldNode();
-        result.NodeList.Add(node);
+        result.FieldNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.FieldNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.FieldSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.FieldSet))
         {
             return false;
         }
@@ -1524,7 +1520,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1717,11 +1712,11 @@ public static partial class Parser
 
     private static bool ParseSkill(ref Context context, ref Result result)
     {
-        var node = new SkillNode();
-        result.NodeList.Add(node);
+        result.SkillNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.SkillNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.SkillSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SkillSet))
         {
             return false;
         }
@@ -1750,11 +1745,19 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            uint scenarioVariant;
+            if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
                 return false;
             }
-
+            if (span.SequenceEqual("msg") || span.SequenceEqual("picture"))
+            {
+                scenarioVariant = result.UnitSet.GetOrAdd(variantSpan);
+            }
+            else
+            {
+                scenarioVariant = result.ScenarioSet.GetOrAdd(variantSpan);
+            }
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2247,11 +2250,11 @@ public static partial class Parser
 
     private static bool ParsePower(ref Context context, ref Result result)
     {
-        var node = new PowerNode();
-        result.NodeList.Add(node);
+        result.PowerNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.PowerNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.PowerSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.PowerSet))
         {
             return false;
         }
@@ -2284,7 +2287,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2624,11 +2626,11 @@ public static partial class Parser
 
     private static bool ParseObject(ref Context context, ref Result result)
     {
-        var node = new ObjectNode();
-        result.NodeList.Add(node);
+        result.ObjectNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.ObjectNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.ObjectSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ObjectSet))
         {
             return false;
         }
@@ -2659,7 +2661,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2910,11 +2911,11 @@ public static partial class Parser
 
     private static bool ParseDungeon(ref Context context, ref Result result)
     {
-        var node = new DungeonNode();
-        result.NodeList.Add(node);
+        result.DungeonNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.DungeonNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.DungeonSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.DungeonSet))
         {
             return false;
         }
@@ -2944,7 +2945,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -3168,11 +3168,11 @@ public static partial class Parser
 
     private static bool ParseMovetype(ref Context context, ref Result result)
     {
-        var node = new MovetypeNode();
-        result.NodeList.Add(node);
+        result.MovetypeNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.MovetypeNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.MovetypeSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.MovetypeSet))
         {
             return false;
         }
@@ -3201,7 +3201,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -3337,11 +3336,11 @@ public static partial class Parser
 
     private static bool ParseSkillset(ref Context context, ref Result result)
     {
-        var node = new SkillsetNode();
-        result.NodeList.Add(node);
+        result.SkillsetNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
+        ref var node = ref result.SkillsetNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.SkillsetSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SkillsetSet))
         {
             return false;
         }
@@ -3370,7 +3369,6 @@ public static partial class Parser
             {
                 return false;
             }
-
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");

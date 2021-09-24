@@ -5,11 +5,11 @@ public static partial class Parser
     private static bool ParseVoice(ref Context context, ref Result result)
     {
         ref var source = ref result.Source;
-        var node = new VoiceNode();
-        result.NodeList.Add(node);
         ref var tokenList = ref result.TokenList;
+        result.VoiceNodeList.Add(new());
+        ref var node = ref result.VoiceNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, node, ref result.VoiceSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.VoiceSet))
         {
             return false;
         }

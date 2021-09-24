@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Node;
 
-public sealed class WorkspaceNode
+public struct WorkspaceNode
     : INode
 {
     public uint Kind { get; set; }

@@ -134,6 +134,32 @@ public static partial class Parser
         return true;
     }
 
+    private static bool SplitElementPlain(ref this Result result, uint tokenId, out Span<char> span, out Span<char> afterAtmark)
+    {
+        span = result.GetSpan(tokenId);
+        var index = span.LastIndexOf('@');
+        ref var token = ref result.TokenList[tokenId];
+        ref var range = ref token.Range;
+        switch (index)
+        {
+            case -1:
+                afterAtmark = Span<char>.Empty;
+                break;
+            default:
+                afterAtmark = span.Slice(index + 1);
+                span = span.Slice(0, index);
+                break;
+        }
+
+        if (span.IsEmpty)
+        {
+            result.ErrorList.Add(new("Element key consists of plain key and scenario name. The length of plain key must not be zero.", range));
+            return false;
+        }
+
+        return true;
+    }
+
     private static bool SplitElement(ref this Result result, IElement element)
     {
         var span = result.GetSpan(element.ElementTokenId);
@@ -205,7 +231,8 @@ public static partial class Parser
         return true;
     }
 
-    private static bool ParseNameAndSuperAndBracketLeft(ref Context context, ref Result result, IInheritableNode node, ref StringSpanKeySlowSet superSet, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
+    private static bool ParseNameAndSuperAndBracketLeft<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
+        where T : struct, IInheritableNode
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
