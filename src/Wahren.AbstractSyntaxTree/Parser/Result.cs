@@ -52,7 +52,7 @@ public struct Result : IDisposable
     public SoundNode? SoundNode = null;
     public readonly ISolutionResolver Resolver = FailResolver.Default;
 
-    public nuint Id = default;
+    public uint Id = default;
     public bool Success = default;
     public string? FilePath = default;
 
@@ -78,12 +78,12 @@ public struct Result : IDisposable
         VoiceTypeSet.GetOrAdd("back", uint.MaxValue);
     }
 
-    public Result(nuint id) : this()
+    public Result(uint id) : this()
     {
         Id = id;
     }
 
-    public Result(ISolutionResolver resolver, nuint id) : this(id)
+    public Result(ISolutionResolver resolver, uint id) : this(id)
     {
         Resolver = resolver;
     }

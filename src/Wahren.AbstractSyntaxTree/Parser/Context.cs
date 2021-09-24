@@ -7,12 +7,10 @@ public struct Context
     public bool TreatSlashPlusAsSingleLineComment;
     public bool IsEnglishMode;
 
-    public nuint Id;
     public DiagnosticSeverity RequiredSeverity;
 
-    public Context(nuint id, bool treatSlashPlusAsSingleLineComment = false, bool isEnglishMode = false, DiagnosticSeverity requiredSeverity = DiagnosticSeverity.Warning)
+    public Context(bool treatSlashPlusAsSingleLineComment = false, bool isEnglishMode = false, DiagnosticSeverity requiredSeverity = DiagnosticSeverity.Warning)
     {
-        Id = id;
         Position = default;
 
         TreatSlashPlusAsSingleLineComment = treatSlashPlusAsSingleLineComment;

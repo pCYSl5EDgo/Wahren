@@ -40,9 +40,9 @@ public partial class Program
         try
         {
             solution.Files.PrepareAddRange(files.Length);
-            for (nint i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Length; i++)
             {
-                solution.Files.Add(new(solution, (nuint)i));
+                solution.Files.Add(new(solution, (uint)i));
             }
 
             await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, files.Length), cancellationTokenSource.Token, async (int index, CancellationToken token) =>
@@ -174,7 +174,7 @@ public partial class Program
             Cp932Handler.Load(input, out result.Source);
         }
 
-        Context context = new(0, treatSlashPlusAsSingleLineComment, isEnglish, severity);
+        Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, severity);
         result.Success = Parser.Parse(ref context, ref result);
         if (result.Success)
         {

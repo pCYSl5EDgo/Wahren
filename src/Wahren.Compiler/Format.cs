@@ -95,7 +95,7 @@ public partial class Program
             handle.Dispose();
         }
 
-        Context context = new(0, treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, DiagnosticSeverity.Error);
+        Context context = new(treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, DiagnosticSeverity.Error);
         Parser.Parse(ref context, ref result);
         var byteList = new List<byte>();
         try
