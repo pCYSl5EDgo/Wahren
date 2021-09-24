@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Buffers;
 
-namespace Wahren.PooledList;
+namespace Wahren.AbstractSyntaxTree.Parser;
+using PooledList;
 
 public struct StringSpanKeySlowSet : IDisposable
 {
-    private List<char> keys;
-    private uint[][] offset_value_pairBuckets;
-    private List<uint> eachBucketCount;
-    private List<ulong> offset_length_Pairs;
-    private uint count;
-
-    public StringSpanKeySlowSet()
-    {
-        keys = new();
-        offset_value_pairBuckets = Array.Empty<uint[]>();
-        eachBucketCount = new();
-        offset_length_Pairs = new();
-        count = 0u;
-    }
+    private List<char> keys= new();
+    private uint[][] offset_value_pairBuckets = Array.Empty<uint[]>();
+    private List<uint> eachBucketCount = new();
+    private List<ulong> offset_length_Pairs = new();
+    public DualList<uint> References = new();
+    private uint count = default;
 
     public bool TryGet(ReadOnlySpan<char> key, out uint id)
     {
@@ -48,7 +41,7 @@ public struct StringSpanKeySlowSet : IDisposable
         return false;
     }
 
-    public uint GetOrAdd(ReadOnlySpan<char> key)
+    public uint GetOrAdd(ReadOnlySpan<char> key, uint registerId)
     {
         if (key.IsEmpty)
         {
@@ -86,7 +79,9 @@ public struct StringSpanKeySlowSet : IDisposable
         {
             if (key.SequenceEqual(keys.AsSpan(bucket[i], (uint)key.Length)))
             {
-                return bucket[i + 1];
+                var id = bucket[i + 1];
+                References[id].Add(registerId);
+                return id;
             }
         }
 
@@ -112,7 +107,9 @@ public struct StringSpanKeySlowSet : IDisposable
         pair |= (uint)keys.Count;
         offset_length_Pairs.Add(pair);
         keys.AddRange(key);
-
+        var list = new List<uint>();
+        References.Add(ref list);
+        References[count].Add(registerId);
         return count++;
     }
 
@@ -152,8 +149,7 @@ public struct StringSpanKeySlowSet : IDisposable
 
         eachBucketCount.Dispose();
         offset_length_Pairs.Dispose();
-
+        References.Dispose();
         count = 0;
-
     }
 }

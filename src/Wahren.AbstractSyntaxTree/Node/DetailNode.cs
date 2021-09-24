@@ -6,7 +6,7 @@ public struct DetailNode : INode
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
 
-    public DisposableList<ScenarioVariantPair<StringElement>> StringElementList = new();
+    public DisposableList<VariantPair<StringElement>> StringElementList = new();
 
     public void Dispose()
     {

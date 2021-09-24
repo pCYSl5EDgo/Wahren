@@ -61,11 +61,11 @@ public static partial class Parser
         } while (true);
     }
 
-    private static ref ScenarioVariantPair<Pair_NullableString_NullableIntElement> Specific_Attribute_GetOrAddPair(ref Result result, ref SingleLineRange key, AttributeNode node)
+    private static ref VariantPair<Pair_NullableString_NullableIntElement> Specific_Attribute_GetOrAddPair(ref Result result, ref SingleLineRange key, AttributeNode node)
     {
         if (key.IsEmpty)
         {
-            return ref Unsafe.NullRef<ScenarioVariantPair<Pair_NullableString_NullableIntElement>>();
+            return ref Unsafe.NullRef<VariantPair<Pair_NullableString_NullableIntElement>>();
         }
 
         var span = result.Source[key.Line].AsSpan(key.Offset, key.Length);

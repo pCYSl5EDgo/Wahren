@@ -21,13 +21,13 @@ public partial struct <#= name #>Node : IInheritableNode
     public uint? Super { get; set; }
     public uint Name { get; set; }
 <# if(Helper.IsAllowedUndefinedContent(name)) { #>
-	public DisposableList<ScenarioVariantPair<Pair_NullableString_NullableIntElement>> Others = new();
+	public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> Others = new();
 <# } #>
 
 <# foreach (var (type, groups) in array) { 
 	foreach (var (usagePair, items) in groups) {
 		foreach (var item in items) { #>
-	public ScenarioVariantPair<<#= type #>> <#= item.Escape() #> = new();
+	public VariantPair<<#= type #>> <#= item.Escape() #> = new();
 <#		}
 	}
 } #>

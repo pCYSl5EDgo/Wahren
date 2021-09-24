@@ -135,8 +135,6 @@ public partial class Program
                 continue;
             }
 
-            stringBuilder.AppendLine("\n==== " + (result.FilePath as string) + " ====");
-
             for (uint j = 0; j < result.ErrorList.Count; j++)
             {
                 var error = result.ErrorList[j];
@@ -145,14 +143,16 @@ public partial class Program
                     isSuccess = false;
                 }
 
-                stringBuilder.Append(error.Text);
-                stringBuilder.Append("    Line: ");
+                stringBuilder.AppendLine(error.Text);
+                stringBuilder.Append(result.FilePath);
+                stringBuilder.Append("(");
                 stringBuilder.Append(error.Range.StartInclusive.Line + 1);
-                stringBuilder.Append(" Index: ");
+                stringBuilder.Append(", ");
                 stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
+                stringBuilder.Append(")");
                 if (severity != 0U)
                 {
-                    stringBuilder.Append(" Severity: ");
+                    stringBuilder.Append(", Severity: ");
                     stringBuilder.Append(error.Severity);
                 }
                 stringBuilder.AppendLine();

@@ -41,17 +41,7 @@ public struct Range : IEquatable<Range>
 
     public override string ToString()
     {
-        var builder = PooledStringBuilder.Rent();
-        builder.Append("Start: { Line: ");
-        builder.Append(StartInclusive.Line);
-        builder.Append(", Offset: ");
-        builder.Append(StartInclusive.Offset);
-        builder.Append(" },\nEnd: { Line: ");
-        builder.Append(EndExclusive.Line);
-        builder.Append(", Offset: ");
-        builder.Append(EndExclusive.Offset);
-        builder.Append("}");
-        return builder.ToString();
+        return $"StartLine: {StartInclusive.Line}, StartOffset: {StartInclusive.Offset}, EndLine: {EndExclusive.Line}, EndOffset: {EndExclusive.Offset}";
     }
 }
 

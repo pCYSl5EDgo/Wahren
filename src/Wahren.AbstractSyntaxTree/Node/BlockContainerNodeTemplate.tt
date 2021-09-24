@@ -27,7 +27,7 @@ public partial struct <#= name #>Node : IInheritableNode
 
     public List<IStatement> Statements = new();
 <# foreach (var item in array) { #>
-	public ScenarioVariantPair<<#= item.GetCorrespondingType() #>> <#= item.Escape() #> = new();
+	public VariantPair<<#= item.GetCorrespondingType() #>> <#= item.Escape() #> = new();
 <# } #>
 
 	public void Dispose()

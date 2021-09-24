@@ -58,24 +58,24 @@ public struct Result : IDisposable
 
     public Result()
     {
-        ScenarioSet.GetOrAdd("a");
-        ScenarioSet.GetOrAdd("b");
-        ScenarioSet.GetOrAdd("c");
-        ScenarioSet.GetOrAdd("d");
-        ScenarioSet.GetOrAdd("e");
-        ScenarioSet.GetOrAdd("f");
-        ScenarioSet.GetOrAdd("g");
-        ScenarioSet.GetOrAdd("h");
-        ScenarioSet.GetOrAdd("i");
-        ScenarioSet.GetOrAdd("j");
+        ScenarioSet.GetOrAdd("a", uint.MaxValue);
+        ScenarioSet.GetOrAdd("b", uint.MaxValue);
+        ScenarioSet.GetOrAdd("c", uint.MaxValue);
+        ScenarioSet.GetOrAdd("d", uint.MaxValue);
+        ScenarioSet.GetOrAdd("e", uint.MaxValue);
+        ScenarioSet.GetOrAdd("f", uint.MaxValue);
+        ScenarioSet.GetOrAdd("g", uint.MaxValue);
+        ScenarioSet.GetOrAdd("h", uint.MaxValue);
+        ScenarioSet.GetOrAdd("i", uint.MaxValue);
+        ScenarioSet.GetOrAdd("j", uint.MaxValue);
 
-        VoiceTypeSet.GetOrAdd("male");
-        VoiceTypeSet.GetOrAdd("female");
-        VoiceTypeSet.GetOrAdd("hold");
-        VoiceTypeSet.GetOrAdd("advance");
-        VoiceTypeSet.GetOrAdd("even");
-        VoiceTypeSet.GetOrAdd("push");
-        VoiceTypeSet.GetOrAdd("back");
+        VoiceTypeSet.GetOrAdd("male", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("female", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("hold", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("advance", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("even", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("push", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("back", uint.MaxValue);
     }
 
     public Result(nuint id) : this()
@@ -138,24 +138,24 @@ public struct Result : IDisposable
     public void Reset()
     {
         Dispose();
-        ScenarioSet.GetOrAdd("a");
-        ScenarioSet.GetOrAdd("b");
-        ScenarioSet.GetOrAdd("c");
-        ScenarioSet.GetOrAdd("d");
-        ScenarioSet.GetOrAdd("e");
-        ScenarioSet.GetOrAdd("f");
-        ScenarioSet.GetOrAdd("g");
-        ScenarioSet.GetOrAdd("h");
-        ScenarioSet.GetOrAdd("i");
-        ScenarioSet.GetOrAdd("j");
+        ScenarioSet.GetOrAdd("a", uint.MaxValue);
+        ScenarioSet.GetOrAdd("b", uint.MaxValue);
+        ScenarioSet.GetOrAdd("c", uint.MaxValue);
+        ScenarioSet.GetOrAdd("d", uint.MaxValue);
+        ScenarioSet.GetOrAdd("e", uint.MaxValue);
+        ScenarioSet.GetOrAdd("f", uint.MaxValue);
+        ScenarioSet.GetOrAdd("g", uint.MaxValue);
+        ScenarioSet.GetOrAdd("h", uint.MaxValue);
+        ScenarioSet.GetOrAdd("i", uint.MaxValue);
+        ScenarioSet.GetOrAdd("j", uint.MaxValue);
 
-        VoiceTypeSet.GetOrAdd("male");
-        VoiceTypeSet.GetOrAdd("female");
-        VoiceTypeSet.GetOrAdd("hold");
-        VoiceTypeSet.GetOrAdd("advance");
-        VoiceTypeSet.GetOrAdd("even");
-        VoiceTypeSet.GetOrAdd("push");
-        VoiceTypeSet.GetOrAdd("back");
+        VoiceTypeSet.GetOrAdd("male", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("female", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("hold", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("advance", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("even", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("push", uint.MaxValue);
+        VoiceTypeSet.GetOrAdd("back", uint.MaxValue);
     }
 
     public void UnionLast2Tokens()

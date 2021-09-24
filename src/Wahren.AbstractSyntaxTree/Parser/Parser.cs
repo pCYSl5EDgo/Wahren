@@ -120,7 +120,7 @@ public static partial class Parser
                 scenarioId = uint.MaxValue;
                 break;
             default:
-                scenarioId = result.ScenarioSet.GetOrAdd(span.Slice(index + 1));
+                scenarioId = result.ScenarioSet.GetOrAdd(span.Slice(index + 1), tokenId);
                 span = span.Slice(0, index);
                 break;
         }
@@ -177,7 +177,7 @@ public static partial class Parser
                 break;
             default:
                 elementKey.Length = (uint)index;
-                element.ElementScenarioId = result.ScenarioSet.GetOrAdd(span.Slice(index + 1));
+                element.ElementScenarioId = result.ScenarioSet.GetOrAdd(span.Slice(index + 1), element.ElementTokenId);
                 break;
         }
 
@@ -265,7 +265,7 @@ public static partial class Parser
             }
 
             tokenList.Last.Kind = TokenKind.Super;
-            var superIndex = superSet.GetOrAdd(result.GetSpan(tokenList.LastIndex));
+            var superIndex = superSet.GetOrAdd(result.GetSpan(tokenList.LastIndex), tokenList.LastIndex);
             node.Super = superIndex;
             if (context.CreateError(DiagnosticSeverity.Warning) && !tokenList.Last.IsValidIdentifier(ref context, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
             {

@@ -1,12 +1,12 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Element;
 
-public struct ScenarioVariantPair<T> : IDisposable
+public struct VariantPair<T> : IDisposable
     where T : class, IElement
 {
     public T? Value;
     public T?[]? ScenarioVariant;
 
-    public ScenarioVariantPair()
+    public VariantPair()
     {
         Value = default;
         ScenarioVariant = null;

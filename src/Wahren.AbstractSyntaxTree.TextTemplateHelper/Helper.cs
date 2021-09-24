@@ -15,7 +15,6 @@ public static partial class Helper
         "Skill",
         "Power",
         "Object",
-        "Dungeon",
         "Movetype",
         "Skillset",
     };

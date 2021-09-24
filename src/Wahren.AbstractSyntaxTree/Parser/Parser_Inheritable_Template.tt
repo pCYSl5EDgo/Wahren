@@ -64,14 +64,22 @@ public static partial class Parser
             {
                 return false;
             }
-            if (span.SequenceEqual("msg") || span.SequenceEqual("picture"))
+            if (variantSpan.IsEmpty)
             {
-                scenarioVariant = result.UnitSet.GetOrAdd(variantSpan);
+                scenarioVariant = uint.MaxValue;
             }
             else
             {
-                scenarioVariant = result.ScenarioSet.GetOrAdd(variantSpan);
+                if (span.SequenceEqual("msg") || span.SequenceEqual("picture"))
+                {
+                    scenarioVariant = result.UnitSet.GetOrAdd(variantSpan, currentIndex);
+                }
+                else
+                {
+                    scenarioVariant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex);
+                }
             }
+            
 <# } else { #>
             if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
             {

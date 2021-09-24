@@ -64,24 +64,29 @@ public sealed partial class Solution : ISolutionResolver
     public bool CheckExistance()
     {
         var success = true;
-
+        System.Text.StringBuilder? builder = null;
         foreach (ref var file in Files)
         {
             ref var set = ref file.ScenarioSet;
             for (uint i = 10, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"scenario '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"scenario '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
 <# foreach (var name in array) {
@@ -93,20 +98,25 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGet<#= name #>Node(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"<#= name.ToLowerInvariant() #> '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"<#= name.ToLowerInvariant() #> '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 <# } #>
 
-        return true;
+        return success;
     }
 }

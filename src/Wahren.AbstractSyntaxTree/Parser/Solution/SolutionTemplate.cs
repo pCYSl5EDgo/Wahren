@@ -384,24 +384,29 @@ public sealed partial class Solution : ISolutionResolver
     public bool CheckExistance()
     {
         var success = true;
-
+        System.Text.StringBuilder? builder = null;
         foreach (ref var file in Files)
         {
             ref var set = ref file.ScenarioSet;
             for (uint i = 10, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"scenario '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"scenario '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
 
@@ -411,17 +416,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetEventNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"event '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"event '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -430,17 +440,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetStoryNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"story '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"story '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -449,17 +464,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetMovetypeNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"movetype '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"movetype '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -468,17 +488,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetSkillNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"skill '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"skill '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -487,17 +512,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetSkillsetNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"skillset '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"skillset '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -506,17 +536,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetRaceNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"race '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"race '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -525,17 +560,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetUnitNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"unit '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"unit '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -544,17 +584,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetClassNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"class '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"class '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -563,17 +608,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetPowerNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"power '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"power '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -582,17 +632,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetSpotNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"spot '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"spot '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -601,17 +656,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetFieldNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"field '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"field '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -620,17 +680,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetObjectNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"object '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"object '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -639,17 +704,22 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetDungeonNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"dungeon '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
-            }
-        }
 
-        if (!success)
-        {
-            return false;
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"dungeon '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
         }
 
         foreach (ref var file in Files)
@@ -658,19 +728,24 @@ public sealed partial class Solution : ISolutionResolver
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetVoiceNode(name, out _)))
                 {
-                    success = false;
-                    SolutionErrorList.Add(new($"voice '{name}' is not found in this solution. File: {file.FilePath}"));
+                    continue;
                 }
+
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"voice '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
             }
         }
 
-        if (!success)
-        {
-            return false;
-        }
-
-        return true;
+        return success;
     }
 }

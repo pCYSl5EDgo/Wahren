@@ -1,8 +1,8 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
-public static class ScenarioVariantPairUtility
+public static class VariantPairUtility
 {
-    public static bool EqualsKey<T>(ref this ScenarioVariantPair<T> pair, ReadOnlySpan<char> span, ref Result result)
+    public static bool EqualsKey<T>(ref this VariantPair<T> pair, ReadOnlySpan<char> span, ref Result result)
         where T : class, IElement
     {
         uint element;
@@ -34,7 +34,7 @@ public static class ScenarioVariantPairUtility
         return span.SequenceEqual(result.GetSpan(element));
     }
 
-    public static ref T? EnsureGet<T>(ref this ScenarioVariantPair<T> pair, uint scenario)
+    public static ref T? EnsureGet<T>(ref this VariantPair<T> pair, uint scenario)
         where T : class, IElement
     {
         if (scenario == uint.MaxValue)
