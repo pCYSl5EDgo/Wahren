@@ -24,9 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Compiler", "Wahren.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.DebugPaper", "Wahren.DebugPaper\Wahren.DebugPaper.csproj", "{A3434EF6-2928-43A6-BA72-2C0577BF4843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.ResourceFileSystem", "Wahren.ResourceFileSystem\Wahren.ResourceFileSystem.csproj", "{AB50CF6A-72DA-405D-AE89-7193C628FD64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Server", "Wahren.Server\Wahren.Server.csproj", "{57221454-4467-48BE-8688-6B838331E690}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.Server", "Wahren.Server\Wahren.Server.csproj", "{57221454-4467-48BE-8688-6B838331E690}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.AbstractSyntaxTree.Basic", "Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj", "{09E18557-F116-41B3-B36B-C6E2CC76257E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,14 +62,14 @@ Global
 		{A3434EF6-2928-43A6-BA72-2C0577BF4843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3434EF6-2928-43A6-BA72-2C0577BF4843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3434EF6-2928-43A6-BA72-2C0577BF4843}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB50CF6A-72DA-405D-AE89-7193C628FD64}.Release|Any CPU.Build.0 = Release|Any CPU
 		{57221454-4467-48BE-8688-6B838331E690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57221454-4467-48BE-8688-6B838331E690}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57221454-4467-48BE-8688-6B838331E690}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57221454-4467-48BE-8688-6B838331E690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

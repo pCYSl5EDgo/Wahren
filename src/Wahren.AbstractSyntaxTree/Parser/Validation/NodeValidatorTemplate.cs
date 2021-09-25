@@ -172,6 +172,7 @@ public static partial class NodeValidator
 		{
 			success = false;
 		}
+		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
 		if (!ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of unit requires Number."))
 		{

@@ -385,6 +385,7 @@ public sealed partial class Solution : ISolutionResolver
     {
         var success = true;
         System.Text.StringBuilder? builder = null;
+
         foreach (ref var file in Files)
         {
             ref var set = ref file.ScenarioSet;
@@ -408,7 +409,6 @@ public sealed partial class Solution : ISolutionResolver
                 SolutionErrorList.Add(new(builder.ToString()));
             }
         }
-
 
         foreach (ref var file in Files)
         {
@@ -737,6 +737,30 @@ public sealed partial class Solution : ISolutionResolver
                 builder ??= new();
                 builder.Clear();
                 builder.Append($"voice '{name}' is not found in this solution.");
+                foreach (var tokenId in set.References[i].AsSpan())
+                {
+                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                }
+                SolutionErrorList.Add(new(builder.ToString()));
+            }
+        }
+
+        foreach (ref var file in Files)
+        {
+            ref var set = ref file.AttributeTypeSet;
+            for (uint i = 12, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (ContainsAttributeType(name))
+                {
+                    continue;
+                }
+
+                success = false;
+                builder ??= new();
+                builder.Clear();
+                builder.Append($"attribute type '{name}' is not found in this solution.");
                 foreach (var tokenId in set.References[i].AsSpan())
                 {
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;

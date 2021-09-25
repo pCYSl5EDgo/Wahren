@@ -43,7 +43,8 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet ObjectSet = new();
     public StringSpanKeySlowSet DungeonSet = new();
     public StringSpanKeySlowSet VoiceSet = new();
-    public StringSpanKeySlowSet VoiceTypeSet = new();
+
+    public StringSpanKeySlowSet AttributeTypeSet = new();
     public StringSpanKeySlowSet NumberVariableSet = new();
     public StringSpanKeySlowSet StringVariableSet = new();
 
@@ -69,13 +70,10 @@ public struct Result : IDisposable
         ScenarioSet.GetOrAdd("i", uint.MaxValue);
         ScenarioSet.GetOrAdd("j", uint.MaxValue);
 
-        VoiceTypeSet.GetOrAdd("male", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("female", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("hold", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("advance", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("even", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("push", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("back", uint.MaxValue);
+        foreach (var attribute in Enum.GetNames<AttributeTypeKind>())
+        {
+            AttributeTypeSet.GetOrAdd(attribute, uint.MaxValue);
+        }
     }
 
     public Result(uint id) : this()
@@ -127,9 +125,11 @@ public struct Result : IDisposable
         FieldSet.Dispose();
         ObjectSet.Dispose();
         DungeonSet.Dispose();
+
+        AttributeTypeSet.Dispose();
         NumberVariableSet.Dispose();
         StringVariableSet.Dispose();
-        VoiceTypeSet.Dispose();
+        
         Source.Dispose();
         Success = false;
         FilePath = null;
@@ -149,13 +149,10 @@ public struct Result : IDisposable
         ScenarioSet.GetOrAdd("i", uint.MaxValue);
         ScenarioSet.GetOrAdd("j", uint.MaxValue);
 
-        VoiceTypeSet.GetOrAdd("male", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("female", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("hold", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("advance", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("even", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("push", uint.MaxValue);
-        VoiceTypeSet.GetOrAdd("back", uint.MaxValue);
+        foreach (var attribute in Enum.GetNames<AttributeTypeKind>())
+        {
+            AttributeTypeSet.GetOrAdd(attribute, uint.MaxValue);
+        }
     }
 
     public void UnionLast2Tokens()

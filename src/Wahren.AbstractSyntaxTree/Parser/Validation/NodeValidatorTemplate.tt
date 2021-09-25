@@ -2,6 +2,8 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="NetStandard" #>
 <#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
+<#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.Basic.dll" #>
+<#@ import namespace="Wahren.AbstractSyntaxTree" #>
 <#@ import namespace="Wahren.AbstractSyntaxTree.TextTemplateHelper" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -22,41 +24,41 @@ public static partial class NodeValidator
 	{
 		bool success = true;
 <#	foreach (var element in elements) {
-		if (element.elementContentType == ElementContentType.Unknown) continue;
+		if (element.referenceKind == ReferenceKind.Unknown) continue;
 		var correspondingType = element.name.GetCorrespondingType();
-		if (correspondingType == "StringElement" || correspondingType == "StringArrayElement") continue;
 		var isSingle = correspondingType == "Pair_NullableString_NullableIntElement";
-		switch (element.elementContentType) { #>
+		switch (element.referenceKind) { #>
 <#			default: continue;#>
-<#			case ElementContentType.Scenario: #>
-<#			case ElementContentType.Event: #>
-<#			case ElementContentType.Story: #>
-<#			case ElementContentType.Movetype: #>
-<#			case ElementContentType.Skill: #>
-<#			case ElementContentType.Skillset: #>
-<#			case ElementContentType.Race: #>
-<#			case ElementContentType.Unit: #>
-<#			case ElementContentType.Class: #>
-<#			case ElementContentType.Power: #>
-<#			case ElementContentType.Spot: #>
-<#			case ElementContentType.Field: #>
-<#			case ElementContentType.Object: #>
-<#			case ElementContentType.Dungeon: #>
-<#			case ElementContentType.Voice: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.<#= element.elementContentType #>Set, ReferenceKind.<#= element.elementContentType #>);
+<#			case ReferenceKind.Scenario: #>
+<#			case ReferenceKind.Event: #>
+<#			case ReferenceKind.Story: #>
+<#			case ReferenceKind.Movetype: #>
+<#			case ReferenceKind.Skill: #>
+<#			case ReferenceKind.Skillset: #>
+<#			case ReferenceKind.Race: #>
+<#			case ReferenceKind.Unit: #>
+<#			case ReferenceKind.Class: #>
+<#			case ReferenceKind.Power: #>
+<#			case ReferenceKind.Spot: #>
+<#			case ReferenceKind.Field: #>
+<#			case ReferenceKind.Object: #>
+<#			case ReferenceKind.Dungeon: #>
+<#			case ReferenceKind.Voice: #>
+<#			case ReferenceKind.AttributeType: #>
+<#				if (correspondingType == "StringElement" || correspondingType == "StringArrayElement") continue; #>
+		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.<#= element.referenceKind #>Set, ReferenceKind.<#= element.referenceKind #>);
 <#				break;#>
-<#			case ElementContentType.VoiceType: #>
+<#			case ReferenceKind.VoiceType: #>
 <#				break;#>
-<#			case ElementContentType.AttributeType: #>
-<#				break;#>
-<#			case ElementContentType.Number: #>
-<#			case ElementContentType.Boolean: #>
-		if (!Validate<#= element.elementContentType #>(ref result, ref node.<#= element.name.Escape() #>, " '<#= element.name #>' of <#= elementName.ToLowerInvariant() #> requires <#= element.elementContentType #>."))
+<#			case ReferenceKind.Number: #>
+<#			case ReferenceKind.Boolean: #>
+<#				if (correspondingType == "StringElement" || correspondingType == "StringArrayElement") continue; #>
+		if (!Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, " '<#= element.name #>' of <#= elementName.ToLowerInvariant() #> requires <#= element.referenceKind #>."))
 		{
 			success = false;
 		}
 <#				break;#>
-<#			case ElementContentType.Special: #>
+<#			case ReferenceKind.Special: #>
 		AddReference_<#= elementName #>_<#= element.name #>(ref result, ref node.<#= element.name.Escape() #>);
 <#				break;#>
 <#		}#>
