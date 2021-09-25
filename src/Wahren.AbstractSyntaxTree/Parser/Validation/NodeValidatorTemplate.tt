@@ -49,6 +49,10 @@ public static partial class NodeValidator
 		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.<#= element.referenceKind #>Set, ReferenceKind.<#= element.referenceKind #>);
 <#				break;#>
 <#			case ReferenceKind.VoiceType: #>
+		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
+<#				break;#>
+<#			case ReferenceKind.VoiceType | ReferenceKind.Write: #>
+		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceType | ReferenceKind.Write);
 <#				break;#>
 <#			case ReferenceKind.Number: #>
 <#			case ReferenceKind.Boolean: #>

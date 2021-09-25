@@ -7,6 +7,14 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
+	public static bool AddReferenceAndValidate(this ref Result result, ref VoiceNode node)
+	{
+		bool success = true;
+		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
+		AddReference(ref result, ref node.delskill, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
+		return success;
+	}
+
 	public static bool AddReferenceAndValidate(this ref Result result, ref SpotNode node)
 	{
 		bool success = true;
@@ -331,6 +339,7 @@ public static partial class NodeValidator
 			success = false;
 		}
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
 		return success;
 	}
 

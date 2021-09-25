@@ -6,6 +6,7 @@ public static partial class Helper
 {
     public static readonly string[] Inheritables = new string[]
     {
+        nameof(ElementInfo.Voice),
         nameof(ElementInfo.Spot),
         nameof(ElementInfo.Unit),
         nameof(ElementInfo.Race),

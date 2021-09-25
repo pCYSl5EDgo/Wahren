@@ -4,9 +4,126 @@
 // </auto-generated>
 namespace Wahren.AbstractSyntaxTree.Parser;
 
+public interface ISolutionResolver
+{    ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetEventNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+    ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+
+    ref Result TryResolveDetail(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+    ref Result TryResolveUnitOrClass(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+    ref Result TryResolveSkillOrSkillset(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+}
+
+public sealed class FailResolver : ISolutionResolver
+{
+    public static readonly FailResolver Default = new();
+    public ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetEventNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+    public ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryResolveDetail(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    {
+        kind = ReferenceKind.Spot; index = 0; return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryResolveUnitOrClass(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    {
+        kind = ReferenceKind.Unit; index = 0; return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryResolveSkillOrSkillset(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    {
+        kind = ReferenceKind.Skill; index = 0; return ref Unsafe.NullRef<Result>();
+    }
+}
+
 public sealed partial class Solution : ISolutionResolver
 {
-	public ref Result TryGetScenarioNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -31,7 +148,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetEventNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetEventNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -56,7 +173,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetStoryNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -81,7 +198,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetMovetypeNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -106,7 +223,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetSkillNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -131,7 +248,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetSkillsetNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -156,7 +273,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetRaceNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -181,7 +298,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetUnitNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -206,7 +323,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetClassNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -231,7 +348,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetPowerNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -256,7 +373,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetSpotNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -281,7 +398,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetFieldNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -306,7 +423,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetObjectNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -331,7 +448,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetDungeonNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -356,7 +473,7 @@ public sealed partial class Solution : ISolutionResolver
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetVoiceNode(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -385,14 +502,16 @@ public sealed partial class Solution : ISolutionResolver
     {
         var success = true;
         System.Text.StringBuilder? builder = null;
+        var fileSpan = Files.AsSpan();
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.ScenarioSet;
             for (uint i = 10, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetScenarioNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetScenarioNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -410,13 +529,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.EventSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetEventNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetEventNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -434,13 +554,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.StorySet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetStoryNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetStoryNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -458,13 +579,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.MovetypeSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetMovetypeNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetMovetypeNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -482,13 +604,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.SkillSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetSkillNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetSkillNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -506,13 +629,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.SkillsetSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetSkillsetNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetSkillsetNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -530,13 +654,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.RaceSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetRaceNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetRaceNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -554,13 +679,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.UnitSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetUnitNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetUnitNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -578,13 +704,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.ClassSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetClassNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetClassNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -602,13 +729,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.PowerSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetPowerNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetPowerNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -626,13 +754,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.SpotSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetSpotNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetSpotNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -650,13 +779,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.FieldSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetFieldNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetFieldNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -674,13 +804,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.ObjectSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetObjectNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetObjectNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -698,13 +829,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.DungeonSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetDungeonNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetDungeonNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -722,13 +854,14 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.VoiceSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetVoiceNode(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGetVoiceNode(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -746,8 +879,9 @@ public sealed partial class Solution : ISolutionResolver
             }
         }
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.AttributeTypeSet;
             for (uint i = 12, end = set.Count; i != end ; i++)
             {

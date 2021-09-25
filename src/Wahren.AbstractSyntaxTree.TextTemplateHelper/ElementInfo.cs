@@ -37,9 +37,19 @@ public struct ElementInfo
             case nameof(Scenario): return Scenario;
             case nameof(Event): return Event;
             case nameof(Story): return Story;
+            case nameof(Voice): return Voice;
             default: return System.Array.Empty<ElementInfo>();
         }
     }
+
+    internal static readonly ElementInfo[] Voice = new ElementInfo[]
+    {
+        new("voice_type", referenceKind: ReferenceKind.VoiceType),
+        new("delskill", referenceKind: ReferenceKind.VoiceType),
+        new("spot", referenceKind: ReferenceKind.Text),
+        new("roam", referenceKind: ReferenceKind.Text),
+        new("power", referenceKind: ReferenceKind.Text),
+    };
 
     internal static readonly ElementInfo[] Workspace = System.Array.Empty<ElementInfo>();
 

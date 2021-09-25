@@ -19,6 +19,7 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 public static partial class Parser
 {
 <# foreach (var name in Helper.Inheritables) {
+    bool noScenario = !ElementInfo.IsAllScenarioVariant(name);
     ElementInfo[] array = ElementInfo.Get(name);
     var len1 = array.Where(x => x.name.Length == 1).ToArray();
     var len2 = array.Where(x => x.name.Length == 2).ToArray();
@@ -61,10 +62,10 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-<# if (ElementInfo.IsAllScenarioVariant(name)) { #>
-            if (!result.SplitElement(currentIndex, out var span, out variant))
-<# } else { #>
+<# if (noScenario) { #>
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
+<# } else { #>
+            if (!result.SplitElement(currentIndex, out var span, out variant))
 <# } #>
             {
                 return false;
@@ -91,8 +92,11 @@ public static partial class Parser
 <#  if (len1.Length != 0) { #>
                     switch (span[0])
                     {
-<#      foreach (var item in len1) { #>
-                        case '<#= item.name[0] #>': pair_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+<#      foreach (var item in len1) {
+            var trailer = item.name.GetCorrespondingTrailer(); #>
+                        case '<#= item.name[0] #>':
+                            pair_<#= trailer #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (noScenario) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>);
+                            goto <#= trailer #>;
 <#      } #>
                     }
 <#  }
@@ -108,8 +112,11 @@ public static partial class Parser
 <#  if (len2.Length != 0) { #>
                     switch ((uint)key)
                     {
-<#      foreach (var item in len2) { #>
-                        case 0x<#= item.name.GetKey().ToString("X8") #>U: pair_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+<#      foreach (var item in len2) {
+            var trailer = item.name.GetCorrespondingTrailer(); #>
+                        case 0x<#= item.name.GetKey().ToString("X8") #>U:
+                            pair_<#= trailer #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (noScenario) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>);
+                            goto <#= trailer #>;
 <#      } #>
                     }
 <#  }if(Helper.IsAllowedUndefinedContent(name)) { #>
@@ -123,8 +130,11 @@ public static partial class Parser
 <#  if (len3.Length != 0) { #>
                     switch (key)
                     {
-<#      foreach (var item in len3) { #>
-                        case 0x<#= item.name.GetKey().ToString("X12") #>UL: pair_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+<#      foreach (var item in len3) {
+            var trailer = item.name.GetCorrespondingTrailer(); #>
+                        case 0x<#= item.name.GetKey().ToString("X12") #>UL:
+                            pair_<#= trailer #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (noScenario) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>);
+                            goto <#= trailer #>;
 <#      } #>
                     }
 <#  }
@@ -144,19 +154,28 @@ public static partial class Parser
                 case <#= len - 4 #>:
                     switch (key)
                     {
-<#      foreach (var (item, key, rest) in items) { #>
-                        case 0x<#= key #>UL<# if (len == 5) { #> when span[0] == '<#= rest[0] #>'<# } else if (len != 4) { #> when span.SequenceEqual("<#= rest #>")<# } #>: pair_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+<#      foreach (var (item, key, rest) in items) {
+            var trailer = item.name.GetCorrespondingTrailer(); #>
+                        case 0x<#= key #>UL<# if (len == 5) { #> when span[0] == '<#= rest[0] #>'<# } else if (len != 4) { #> when span.SequenceEqual("<#= rest #>")<# } #>:
+                            pair_<#= trailer #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (noScenario) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>);
+                            goto <#= trailer #>;
 <#      } #>
                     }
                     goto default;
 <#  } #>
                 default:
                     span = MemoryMarshal.Cast<byte, char>(byteSpan);
-                    goto <# if(Helper.IsAllowedUndefinedContent(name)) { #>DEFAULT_OTHERS<# } else { #>DISCARD<# } #>;
+<#  if(Helper.IsAllowedUndefinedContent(name)) { #>
+                    goto DEFAULT_OTHERS;
+<#  } else { #>
+                    goto DISCARD;
+<#  } #>
             }
 
 <#  foreach (var (type, outers) in usageGroup) {
-        foreach (var ((trailer, func), _) in outers) { #>
+        foreach (var (x, _) in outers) {
+            var (trailer, func) = x;
+            if (trailer == "ROAM" && name == "Voice") { func = "Parse_Voice_ROAM_EnglishMode"; }#>
         <#= trailer #>:
             if (pair_<#= trailer #> is null)
             {

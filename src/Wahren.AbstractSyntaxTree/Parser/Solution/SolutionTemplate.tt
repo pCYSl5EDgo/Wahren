@@ -34,10 +34,47 @@ var array = new string[]{
 };
 #>
 
+public interface ISolutionResolver
+{<# foreach (var name in array) { #>
+    ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+<# } #>
+
+    ref Result TryResolveDetail(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+    ref Result TryResolveUnitOrClass(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+    ref Result TryResolveSkillOrSkillset(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+}
+
+public sealed class FailResolver : ISolutionResolver
+{
+    public static readonly FailResolver Default = new();
+<# foreach (var name in array) { #>
+    public ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+<# } #>
+
+    public ref Result TryResolveDetail(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    {
+        kind = ReferenceKind.Spot; index = 0; return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryResolveUnitOrClass(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    {
+        kind = ReferenceKind.Unit; index = 0; return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryResolveSkillOrSkillset(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    {
+        kind = ReferenceKind.Skill; index = 0; return ref Unsafe.NullRef<Result>();
+    }
+}
+
 public sealed partial class Solution : ISolutionResolver
 {<# foreach (var name in array) { #>
 
-	public ref Result TryGet<#= name #>Node(ReadOnlySpan<char> name, out uint index)
+	public ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         foreach (ref var file in Files)
         {
@@ -67,15 +104,17 @@ public sealed partial class Solution : ISolutionResolver
     {
         var success = true;
         System.Text.StringBuilder? builder = null;
+        var fileSpan = Files.AsSpan();
 <# foreach (var name in array) { #>
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.<#= name #>Set;
             for (uint i = <#= name == "Scenario" ? 10 : 0 #>, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGet<#= name #>Node(name, out _)))
+                if (!Unsafe.IsNullRef(ref TryGet<#= name #>Node(fileIndex, name, out _)))
                 {
                     continue;
                 }
@@ -94,8 +133,9 @@ public sealed partial class Solution : ISolutionResolver
         }
 <# } #>
 
-        foreach (ref var file in Files)
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
+            ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.AttributeTypeSet;
             for (uint i = <#= Enum.GetNames(typeof(AttributeTypeKind)).Length #>, end = set.Count; i != end ; i++)
             {

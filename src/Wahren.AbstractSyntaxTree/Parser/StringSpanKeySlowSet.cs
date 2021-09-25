@@ -41,6 +41,75 @@ public struct StringSpanKeySlowSet : IDisposable
         return false;
     }
 
+    public void InitialAdd(ReadOnlySpan<char> key)
+    {
+        if (key.IsEmpty)
+        {
+            return;
+        }
+
+        uint lengthIndex = (uint)key.Length - 1U;
+        if (key.Length > offset_value_pairBuckets.Length)
+        {
+            var newArray = ArrayPool<uint[]>.Shared.Rent(key.Length);
+            if (offset_value_pairBuckets.Length != 0)
+            {
+                offset_value_pairBuckets.CopyTo(newArray.AsSpan());
+                Array.Clear(offset_value_pairBuckets);
+                ArrayPool<uint[]>.Shared.Return(offset_value_pairBuckets);
+            }
+
+            newArray.AsSpan(offset_value_pairBuckets.Length).Fill(Array.Empty<uint>());
+            (newArray[lengthIndex] = ArrayPool<uint>.Shared.Rent(16)).AsSpan().Clear();
+            offset_value_pairBuckets = newArray;
+        }
+
+        if (key.Length > eachBucketCount.Count)
+        {
+            var tmp = ArrayPool<uint>.Shared.Rent(key.Length - eachBucketCount.Count);
+            Array.Clear(tmp);
+            eachBucketCount.AddRange(tmp.AsSpan());
+            ArrayPool<uint>.Shared.Return(tmp);
+        }
+
+        ref var countInBucket = ref eachBucketCount[lengthIndex];
+        ref uint[] bucket = ref offset_value_pairBuckets[lengthIndex];
+
+        for (uint i = 0; i < countInBucket; i += 2)
+        {
+            if (key.SequenceEqual(keys.AsSpan(bucket[i], (uint)key.Length)))
+            {
+                return;
+            }
+        }
+
+        var currentBucketLength = bucket.Length;
+        countInBucket += 2;
+        if (countInBucket > currentBucketLength)
+        {
+            var newArray = ArrayPool<uint>.Shared.Rent((int)countInBucket);
+            if (currentBucketLength != 0)
+            {
+                bucket.CopyTo(newArray.AsSpan());
+                ArrayPool<uint>.Shared.Return(bucket);
+            }
+
+            newArray.AsSpan(currentBucketLength).Clear();
+            bucket = newArray;
+        }
+
+        bucket[countInBucket - 2] = (uint)keys.Count;
+        bucket[countInBucket - 1] = count;
+        ulong pair = (uint)key.Length;
+        pair <<= 32;
+        pair |= (uint)keys.Count;
+        offset_length_Pairs.Add(pair);
+        keys.AddRange(key);
+        var list = new List<uint>();
+        References.Add(ref list);
+        count++;
+    }
+
     public uint GetOrAdd(ReadOnlySpan<char> key, uint registerId)
     {
         if (key.IsEmpty)

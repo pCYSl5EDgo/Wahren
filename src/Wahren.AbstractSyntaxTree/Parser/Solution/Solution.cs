@@ -11,17 +11,17 @@ public sealed partial class Solution : IDisposable
         SolutionErrorList.Dispose();
     }
 
-    public ref Result TryResolveDetail(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    public ref Result TryResolveDetail(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
     {
         throw new NotImplementedException();
     }
 
-    public ref Result TryResolveSkillOrSkillset(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    public ref Result TryResolveSkillOrSkillset(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
     {
         throw new NotImplementedException();
     }
 
-    public ref Result TryResolveUnitOrClass(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
+    public ref Result TryResolveUnitOrClass(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
     {
         throw new NotImplementedException();
     }

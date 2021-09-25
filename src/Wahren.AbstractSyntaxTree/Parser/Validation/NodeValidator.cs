@@ -247,4 +247,8 @@ public static partial class NodeValidator
 
         return success;
     }
+
+    private static void AddReference(ref Result result, ref VariantPair<StringArrayElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
+    {
+    }
 }

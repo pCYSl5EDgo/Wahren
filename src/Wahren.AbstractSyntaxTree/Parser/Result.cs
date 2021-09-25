@@ -45,8 +45,12 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet VoiceSet = new();
 
     public StringSpanKeySlowSet AttributeTypeSet = new();
-    public StringSpanKeySlowSet NumberVariableSet = new();
-    public StringSpanKeySlowSet StringVariableSet = new();
+    public StringSpanKeySlowSet VoiceTypeWriterSet = new();
+    public StringSpanKeySlowSet VoiceTypeReaderSet = new();
+    public StringSpanKeySlowSet NumberVariableWriterSet = new();
+    public StringSpanKeySlowSet NumberVariableReaderSet = new();
+    public StringSpanKeySlowSet StringVariableWriterSet = new();
+    public StringSpanKeySlowSet StringVariableReaderSet = new();
 
     public AttributeNode? AttributeNode = null;
     public ContextNode? ContextNode = null;
@@ -59,20 +63,20 @@ public struct Result : IDisposable
 
     public Result()
     {
-        ScenarioSet.GetOrAdd("a", uint.MaxValue);
-        ScenarioSet.GetOrAdd("b", uint.MaxValue);
-        ScenarioSet.GetOrAdd("c", uint.MaxValue);
-        ScenarioSet.GetOrAdd("d", uint.MaxValue);
-        ScenarioSet.GetOrAdd("e", uint.MaxValue);
-        ScenarioSet.GetOrAdd("f", uint.MaxValue);
-        ScenarioSet.GetOrAdd("g", uint.MaxValue);
-        ScenarioSet.GetOrAdd("h", uint.MaxValue);
-        ScenarioSet.GetOrAdd("i", uint.MaxValue);
-        ScenarioSet.GetOrAdd("j", uint.MaxValue);
+        ScenarioSet.InitialAdd("a");
+        ScenarioSet.InitialAdd("b");
+        ScenarioSet.InitialAdd("c");
+        ScenarioSet.InitialAdd("d");
+        ScenarioSet.InitialAdd("e");
+        ScenarioSet.InitialAdd("f");
+        ScenarioSet.InitialAdd("g");
+        ScenarioSet.InitialAdd("h");
+        ScenarioSet.InitialAdd("i");
+        ScenarioSet.InitialAdd("j");
 
         foreach (var attribute in Enum.GetNames<AttributeTypeKind>())
         {
-            AttributeTypeSet.GetOrAdd(attribute, uint.MaxValue);
+            AttributeTypeSet.InitialAdd(attribute);
         }
     }
 
@@ -127,8 +131,13 @@ public struct Result : IDisposable
         DungeonSet.Dispose();
 
         AttributeTypeSet.Dispose();
-        NumberVariableSet.Dispose();
-        StringVariableSet.Dispose();
+        VoiceTypeWriterSet.Dispose();
+        VoiceTypeReaderSet.Dispose();
+
+        NumberVariableWriterSet.Dispose();
+        StringVariableWriterSet.Dispose();
+        NumberVariableReaderSet.Dispose();
+        StringVariableReaderSet.Dispose();
         
         Source.Dispose();
         Success = false;
@@ -138,20 +147,20 @@ public struct Result : IDisposable
     public void Reset()
     {
         Dispose();
-        ScenarioSet.GetOrAdd("a", uint.MaxValue);
-        ScenarioSet.GetOrAdd("b", uint.MaxValue);
-        ScenarioSet.GetOrAdd("c", uint.MaxValue);
-        ScenarioSet.GetOrAdd("d", uint.MaxValue);
-        ScenarioSet.GetOrAdd("e", uint.MaxValue);
-        ScenarioSet.GetOrAdd("f", uint.MaxValue);
-        ScenarioSet.GetOrAdd("g", uint.MaxValue);
-        ScenarioSet.GetOrAdd("h", uint.MaxValue);
-        ScenarioSet.GetOrAdd("i", uint.MaxValue);
-        ScenarioSet.GetOrAdd("j", uint.MaxValue);
+        ScenarioSet.InitialAdd("a");
+        ScenarioSet.InitialAdd("b");
+        ScenarioSet.InitialAdd("c");
+        ScenarioSet.InitialAdd("d");
+        ScenarioSet.InitialAdd("e");
+        ScenarioSet.InitialAdd("f");
+        ScenarioSet.InitialAdd("g");
+        ScenarioSet.InitialAdd("h");
+        ScenarioSet.InitialAdd("i");
+        ScenarioSet.InitialAdd("j");
 
         foreach (var attribute in Enum.GetNames<AttributeTypeKind>())
         {
-            AttributeTypeSet.GetOrAdd(attribute, uint.MaxValue);
+            AttributeTypeSet.InitialAdd(attribute);
         }
     }
 
