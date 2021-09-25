@@ -7,9 +7,9 @@ public struct Pair_NullableString_NullableInt
     /// </summary>
     public uint Text;
     public int Number;
+    public ReferenceKind ReferenceKind;
     public uint ReferenceId;
     public bool HasText;
     public bool HasNumber;
     public bool HasReference;
-    public ReferenceKind ReferenceKind;
 }

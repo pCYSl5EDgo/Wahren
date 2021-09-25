@@ -35,8 +35,24 @@ public static partial class NodeValidator
     {
         if (pair.Value is not null && pair.Value.HasValue)
         {
-            foreach (ref var value in pair.Value.Value)
+            ref var list = ref pair.Value.Value;
+            if (!list.IsEmpty)
             {
+                ref var value = ref list[0];
+                value.ReferenceKind = kind;
+                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                value.HasReference = true;
+            }
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                ref var prev = ref list[i - 1];
+                ref var value = ref list[i];
+                if (value.Text == prev.Text)
+                {
+                    continue;
+                }
+
                 value.ReferenceKind = kind;
                 value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
                 value.HasReference = true;
@@ -55,8 +71,28 @@ public static partial class NodeValidator
                 continue;
             }
 
-            foreach (ref var value in item.Value)
+            ref var list = ref item.Value;
+            if (list.IsEmpty)
             {
+                continue;
+            }
+
+            {
+                ref var value = ref list[0];
+                value.ReferenceKind = kind;
+                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                value.HasReference = true;
+            }
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                ref var prev = ref list[i - 1];
+                ref var value = ref list[i];
+                if (value.Text == prev.Text)
+                {
+                    continue;
+                }
+
                 value.ReferenceKind = kind;
                 value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
                 value.HasReference = true;
@@ -250,5 +286,70 @@ public static partial class NodeValidator
 
     private static void AddReference(ref Result result, ref VariantPair<StringArrayElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
     {
+        if (pair.Value is not null && pair.Value.HasValue)
+        {
+            ref var list = ref pair.Value.Value;
+            if (!list.IsEmpty)
+            {
+                ref var value = ref list[0];
+                value.ReferenceKind = kind;
+                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                value.HasReference = true;
+            }
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                ref var prev = ref list[i - 1];
+                ref var value = ref list[i];
+                if (value.Text == prev.Text)
+                {
+                    continue;
+                }
+
+                value.ReferenceKind = kind;
+                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                value.HasReference = true;
+            }
+        }
+
+        if (pair.ScenarioVariant is null)
+        {
+            return;
+        }
+
+        foreach (var item in pair.ScenarioVariant)
+        {
+            if (item is null || !item.HasValue)
+            {
+                continue;
+            }
+
+            ref var list = ref item.Value;
+            if (list.IsEmpty)
+            {
+                continue;
+            }
+
+            {
+                ref var value = ref list[0];
+                value.ReferenceKind = kind;
+                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                value.HasReference = true;
+            }
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                ref var prev = ref list[i - 1];
+                ref var value = ref list[i];
+                if (value.Text == prev.Text)
+                {
+                    continue;
+                }
+
+                value.ReferenceKind = kind;
+                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                value.HasReference = true;
+            }
+        }
     }
 }

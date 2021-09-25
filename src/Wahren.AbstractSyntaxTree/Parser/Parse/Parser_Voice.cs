@@ -5,7 +5,7 @@ public static partial class Parser
     /// <summary>
     /// Already read '='.
     /// </summary>
-    private static bool Parse_Voice_ROAM_EnglishMode(ref Context context, ref Result result, IElement<List<uint>> element)
+    private static bool Parse_Voice_ROAM_EnglishMode(ref Context context, ref Result result, StringArrayElement element)
     {
         if (!context.IsEnglishMode)
         {
@@ -23,7 +23,7 @@ public static partial class Parser
 
         tokenList.Last.Kind = TokenKind.Content;
         element.HasValue = true;
-        element.Value.Add(tokenList.LastIndex);
+        element.Value.Add(new(tokenList.LastIndex));
 
         do
         {
@@ -35,7 +35,7 @@ public static partial class Parser
 
             if (tokenList.Last.IsSemicolon(ref source))
             {
-                if (element.Value.Count == 1 && tokenList[element.Value[0]].IsAtmark(ref source))
+                if (element.Value.Count == 1 && tokenList[element.Value[0].Text].IsAtmark(ref source))
                 {
                     element.Value.Clear();
                     element.HasValue = false;
@@ -53,7 +53,7 @@ public static partial class Parser
                 }
 
                 tokenList.Last.Kind = TokenKind.Content;
-                element.Value.Add(tokenList.LastIndex);
+                element.Value.Add(new(tokenList.LastIndex));
             }
             else
             {

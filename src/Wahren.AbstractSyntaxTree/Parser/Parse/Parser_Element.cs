@@ -461,7 +461,7 @@ public static partial class Parser
     /// Already read '='. Already split.
     /// element: [ voice_type, delskill, delskill2, friend, enemy, staff, offset ]
     /// </summary>
-    private static bool Parse_Element_OFFSET(ref Context context, ref Result result, IElement<List<uint>> element)
+    private static bool Parse_Element_OFFSET(ref Context context, ref Result result, StringArrayElement element)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -474,7 +474,7 @@ public static partial class Parser
 
         tokenList.Last.Kind = TokenKind.Content;
         element.HasValue = true;
-        element.Value.Add(tokenList.LastIndex);
+        element.Value.Add(new(tokenList.LastIndex));
 
         do
         {
@@ -503,11 +503,11 @@ public static partial class Parser
             }
 
             tokenList.Last.Kind = TokenKind.Content;
-            element.Value.Add(tokenList.LastIndex);
+            element.Value.Add(new(tokenList.LastIndex));
         } while (true);
 
     TRUE:
-        if (element.Value.Count == 1 && tokenList[element.Value[0]].IsAtmark(ref source))
+        if (element.Value.Count == 1 && tokenList[element.Value[0].Text].IsAtmark(ref source))
         {
             element.Value.Clear();
             element.HasValue = false;
@@ -520,7 +520,7 @@ public static partial class Parser
     /// Already read '='. Already split.
     /// element: [ roam, power, spot ]
     /// </summary>
-    private static bool Parse_Element_ROAM(ref Context context, ref Result result, IElement<List<uint>> element)
+    private static bool Parse_Element_ROAM(ref Context context, ref Result result, StringArrayElement element)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -533,7 +533,7 @@ public static partial class Parser
 
         tokenList.Last.Kind = TokenKind.Content;
         element.HasValue = true;
-        element.Value.Add(tokenList.LastIndex);
+        element.Value.Add(new(tokenList.LastIndex));
 
         do
         {
@@ -562,7 +562,7 @@ public static partial class Parser
                 }
 
                 tokenList.Last.Kind = TokenKind.Content;
-                element.Value.Add(tokenList.LastIndex);
+                element.Value.Add(new(tokenList.LastIndex));
             }
             else
             {
@@ -571,7 +571,7 @@ public static partial class Parser
         } while (true);
 
     TRUE:
-        if (element.Value.Count == 1 && tokenList[element.Value[0]].IsAtmark(ref source))
+        if (element.Value.Count == 1 && tokenList[element.Value[0].Text].IsAtmark(ref source))
         {
             element.Value.Clear();
             element.HasValue = false;
