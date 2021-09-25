@@ -26,9 +26,9 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
-            ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
-            ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-            ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -348,12 +348,12 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
-            ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
-            ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-            ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-            ref var element_TEXT = ref Unsafe.NullRef<StringElement?>();
-            ref var element_ROAM = ref Unsafe.NullRef<StringArrayElement?>();
-            ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var element_TEXT = ref Unsafe.NullRef<StringElement?>();
+        ref var element_ROAM = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -781,8 +781,8 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
-            ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
-            ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ulong key = 0UL;
         do
         {
