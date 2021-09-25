@@ -36,6 +36,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>FunctionKindTemplate.tt</DependentUpon>
     </None>
+    <None Include="Node\AttributeNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AttributeNodeTemplate.tt</DependentUpon>
+    </None>
     <None Include="Node\ContextNodeTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -111,6 +116,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FunctionKindTemplate.cs</LastGenOutput>
     </None>
+    <None Update="Node\AttributeNodeTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AttributeNodeTemplate.cs</LastGenOutput>
+    </None>
     <None Update="Node\ContextNodeTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ContextNodeTemplate.cs</LastGenOutput>
@@ -181,6 +190,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FunctionKindTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Node\AttributeNodeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AttributeNodeTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Node\BlockContainerNodeTemplate.cs">
       <DesignTime>True</DesignTime>
