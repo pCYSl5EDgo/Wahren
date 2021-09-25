@@ -243,7 +243,8 @@ public static partial class Parser
                     goto FALSE;
                 case 'v' when next == 'o' && last.Is_voice_Skip2(ref source):
                     last.Kind = TokenKind.voice;
-                    if (ParseVoice(ref context, ref result))
+                    success &= ParseVoice(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
