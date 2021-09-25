@@ -104,7 +104,7 @@ public static partial class Helper
             case "change":
             case "ground":
             case "gun_delay":
-                return "LOYAL";
+                return nameof(Trailer.LOYAL);
             case "enemy":
             case "staff":
             case "friend":
@@ -112,7 +112,7 @@ public static partial class Helper
             case "delskill":
             case "delskill2":
             case "voice_type":
-                return "OFFSET";
+                return nameof(Trailer.OFFSET);
             case "ray":
             case "poli":
             case "camp":
@@ -127,7 +127,7 @@ public static partial class Helper
             case "weapon2":
             case "activenum":
             case "friend_ex":
-                return "RAY";
+                return nameof(Trailer.RAY);
             case "add2":
             case "item":
             case "merce":
@@ -140,11 +140,11 @@ public static partial class Helper
             case "item_sale":
             case "just_next":
             case "castle_guard":
-                return "MEMBER";
+                return nameof(Trailer.MEMBER);
             case "roam":
             case "spot":
             case "power":
-                return "ROAM";
+                return nameof(Trailer.ROAM);
             case "icon":
             case "wave":
             case "cutin":
@@ -157,11 +157,11 @@ public static partial class Helper
             case "enemy_power":
             case "leader_skill":
             case "assist_skill":
-                return "CONSTI";
+                return nameof(Trailer.CONSTI);
             case "text":
-                return "TEXT";
+                return nameof(Trailer.TEXT);
             default:
-                return "DEFAULT";
+                return nameof(Trailer.DEFAULT);
         }
     }
 

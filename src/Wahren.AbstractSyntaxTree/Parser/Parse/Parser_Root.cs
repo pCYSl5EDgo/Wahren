@@ -12,11 +12,13 @@ public static partial class Parser
             source[0].RemoveAt(0);
         }
 
+        bool success = true;
+        bool canContinue;
         do
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                return true;
+                return success;
             }
 
             ref var last = ref tokenList.Last;
@@ -61,7 +63,8 @@ public static partial class Parser
                             goto FALSE;
                         case 'l' when last.Is_class_Skip2(ref source):
                             last.Kind = TokenKind.@class;
-                            if (ParseClass(ref context, ref result))
+                            success &= ParseClass(ref context, ref result, out canContinue);
+                            if (canContinue)
                             {
                                 continue;
                             }
@@ -83,7 +86,8 @@ public static partial class Parser
                             goto FALSE;
                         case 'u' when last.Is_dungeon_Skip2(ref source):
                             last.Kind = TokenKind.dungeon;
-                            if (ParseDungeon(ref context, ref result))
+                            success &= ParseDungeon(ref context, ref result, out canContinue);
+                            if (canContinue)
                             {
                                 continue;
                             }
@@ -94,7 +98,8 @@ public static partial class Parser
                     goto default;
                 case 'e' when next == 'v' && last.Is_event_Skip2(ref source):
                     last.Kind = TokenKind.@event;
-                    if (ParseEvent(ref context, ref result))
+                    success &= ParseEvent(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
@@ -104,7 +109,8 @@ public static partial class Parser
                     if (last.Is_field_Skip2(ref source))
                     {
                         last.Kind = TokenKind.field;
-                        if (ParseField(ref context, ref result))
+                        success &= ParseField(ref context, ref result, out canContinue);
+                        if (canContinue)
                         {
                             continue;
                         }
@@ -114,7 +120,8 @@ public static partial class Parser
                     else if (last.Is_fight_Skip2(ref source))
                     {
                         last.Kind = TokenKind.fight;
-                        if (ParseEvent(ref context, ref result))
+                        success &= ParseEvent(ref context, ref result, out canContinue);
+                        if (canContinue)
                         {
                             continue;
                         }
@@ -125,7 +132,8 @@ public static partial class Parser
                     goto default;
                 case 'm' when next == 'o' && last.Is_movetype_Skip2(ref source):
                     last.Kind = TokenKind.movetype;
-                    if (ParseMovetype(ref context, ref result))
+                    success &= ParseMovetype(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
@@ -133,7 +141,8 @@ public static partial class Parser
                     goto FALSE;
                 case 'o' when next == 'b' && last.Is_object_Skip2(ref source):
                     last.Kind = TokenKind.@object;
-                    if (ParseObject(ref context, ref result))
+                    success &= ParseObject(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
@@ -141,7 +150,8 @@ public static partial class Parser
                     goto FALSE;
                 case 'p' when next == 'o' && last.Is_power_Skip2(ref source):
                     last.Kind = TokenKind.power;
-                    if (ParsePower(ref context, ref result))
+                    success &= ParsePower(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
@@ -149,7 +159,8 @@ public static partial class Parser
                     goto FALSE;
                 case 'r' when next == 'a' && last.Is_race_Skip2(ref source):
                     last.Kind = TokenKind.race;
-                    if (ParseRace(ref context, ref result))
+                    success &= ParseRace(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
@@ -160,7 +171,8 @@ public static partial class Parser
                     {
                         case 'c' when last.Is_scenario_Skip2(ref source):
                             last.Kind = TokenKind.scenario;
-                            if (ParseScenario(ref context, ref result))
+                            success &= ParseScenario(ref context, ref result, out canContinue);
+                            if (canContinue)
                             {
                                 continue;
                             }
@@ -170,7 +182,8 @@ public static partial class Parser
                             if (last.Is_skill_Skip2(ref source))
                             {
                                 last.Kind = TokenKind.skill;
-                                if (ParseSkill(ref context, ref result))
+                                success &= ParseSkill(ref context, ref result, out canContinue);
+                                if (canContinue)
                                 {
                                     continue;
                                 }
@@ -180,7 +193,8 @@ public static partial class Parser
                             else if (last.Is_skillset_Skip2(ref source))
                             {
                                 last.Kind = TokenKind.skillset;
-                                if (ParseSkillset(ref context, ref result))
+                                success &= ParseSkillset(ref context, ref result, out canContinue);
+                                if (canContinue)
                                 {
                                     continue;
                                 }
@@ -199,7 +213,8 @@ public static partial class Parser
                             goto FALSE;
                         case 'p' when last.Is_spot_Skip2(ref source):
                             last.Kind = TokenKind.spot;
-                            if (ParseSpot(ref context, ref result))
+                            success &= ParseSpot(ref context, ref result, out canContinue);
+                            if (canContinue)
                             {
                                 continue;
                             }
@@ -207,7 +222,8 @@ public static partial class Parser
                             goto FALSE;
                         case 't' when last.Is_story_Skip2(ref source):
                             last.Kind = TokenKind.story;
-                            if (ParseStory(ref context, ref result))
+                            success &= ParseStory(ref context, ref result, out canContinue);
+                            if (canContinue)
                             {
                                 continue;
                             }
@@ -218,7 +234,8 @@ public static partial class Parser
                     goto default;
                 case 'u' when next == 'n' && last.Is_unit_Skip2(ref source):
                     last.Kind = TokenKind.unit;
-                    if (ParseUnit(ref context, ref result))
+                    success &= ParseUnit(ref context, ref result, out canContinue);
+                    if (canContinue)
                     {
                         continue;
                     }
@@ -246,7 +263,8 @@ public static partial class Parser
                     else if (last.Is_world_Skip2(ref source))
                     {
                         last.Kind = TokenKind.world;
-                        if (ParseEvent(ref context, ref result))
+                        success &= ParseEvent(ref context, ref result, out canContinue);
+                        if (canContinue)
                         {
                             continue;
                         }

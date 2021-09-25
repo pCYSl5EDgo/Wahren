@@ -9,12 +9,13 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
 {
-    private static bool ParseSpot(ref Context context, ref Result result)
+    private static bool ParseSpot(ref Context context, ref Result result, out bool canContinue)
     {
         result.SpotNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SpotNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SpotSet))
         {
             return false;
@@ -24,8 +25,9 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
-        ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ulong key = 0UL;
         do
         {
@@ -38,7 +40,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -100,15 +103,16 @@ public static partial class Parser
                     {
                         case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
                         case 0x006E006900610067UL: pair_DEFAULT = ref node.gain.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650074UL: pair_TEXT = ref node.text.EnsureGet(variant); goto TEXT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
                         case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(variant); goto DEFAULT;
+                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(variant); goto MEMBER;
                         case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant); goto DEFAULT;
                         case 0x0069006D0069006CUL when span[0] == 't': pair_DEFAULT = ref node.limit.EnsureGet(variant); goto DEFAULT;
-                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(variant); goto MEMBER;
                     }
                     goto default;
                 case 2:
@@ -185,38 +189,6 @@ public static partial class Parser
             {
                 return false;
             }
-        CONSTI:
-            if (pair_CONSTI is null)
-            {
-                pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = variant;
-                pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    pair_CONSTI.ElementKeyRange.Line = start.Line;
-                    pair_CONSTI.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_CONSTI(ref context, ref result, pair_CONSTI))
-                {
-                   continue;
-                }
-
-                return false;
-            }
-
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-                
-            if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
         MEMBER:
             if (pair_MEMBER is null)
             {
@@ -249,6 +221,70 @@ public static partial class Parser
             {
                 return false;
             }
+        CONSTI:
+            if (pair_CONSTI is null)
+            {
+                pair_CONSTI = new(currentIndex);
+                pair_CONSTI.ElementScenarioId = variant;
+                pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_CONSTI.ElementKeyRange.Line = start.Line;
+                    pair_CONSTI.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_CONSTI(ref context, ref result, pair_CONSTI))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        TEXT:
+            if (pair_TEXT is null)
+            {
+                pair_TEXT = new(currentIndex);
+                pair_TEXT.ElementScenarioId = variant;
+                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_TEXT.ElementKeyRange.Line = start.Line;
+                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
         DISCARD:
             if (Parse_Discard(ref context, ref result, currentIndex, span, key))
             {
@@ -265,12 +301,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseUnit(ref Context context, ref Result result)
+    private static bool ParseUnit(ref Context context, ref Result result, out bool canContinue)
     {
         result.UnitNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.UnitNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.UnitSet))
         {
             return false;
@@ -285,6 +322,7 @@ public static partial class Parser
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ulong key = 0UL;
         do
         {
@@ -297,7 +335,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -380,6 +419,7 @@ public static partial class Parser
                         case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(variant); goto MEMBER;
                         case 0x006E0069006F006AUL: pair_DEFAULT = ref node.join.EnsureGet(variant); goto DEFAULT;
                         case 0x0064006100650064UL: pair_DEFAULT = ref node.dead.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650074UL: pair_TEXT = ref node.text.EnsureGet(variant); goto TEXT;
                     }
                     goto default;
                 case 1:
@@ -774,6 +814,38 @@ public static partial class Parser
             {
                 return false;
             }
+        TEXT:
+            if (pair_TEXT is null)
+            {
+                pair_TEXT = new(currentIndex);
+                pair_TEXT.ElementScenarioId = variant;
+                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_TEXT.ElementKeyRange.Line = start.Line;
+                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
         DISCARD:
             if (Parse_Discard(ref context, ref result, currentIndex, span, key))
             {
@@ -790,12 +862,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseRace(ref Context context, ref Result result)
+    private static bool ParseRace(ref Context context, ref Result result, out bool canContinue)
     {
         result.RaceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.RaceNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.RaceSet))
         {
             return false;
@@ -819,7 +892,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -1005,12 +1079,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseClass(ref Context context, ref Result result)
+    private static bool ParseClass(ref Context context, ref Result result, out bool canContinue)
     {
         result.ClassNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ClassNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ClassSet))
         {
             return false;
@@ -1025,6 +1100,7 @@ public static partial class Parser
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ulong key = 0UL;
         do
         {
@@ -1037,7 +1113,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -1102,9 +1179,9 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
                         case 0x00740073006F0063UL: pair_DEFAULT = ref node.cost.EnsureGet(variant); goto DEFAULT;
                         case 0x0065006300610066UL: pair_DEFAULT = ref node.face.EnsureGet(variant); goto DEFAULT;
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
                         case 0x0065006300610072UL: pair_DEFAULT = ref node.race.EnsureGet(variant); goto DEFAULT;
                         case 0x0074007800650064UL: pair_DEFAULT = ref node.dext.EnsureGet(variant); goto DEFAULT;
                         case 0x00650076006F006DUL: pair_DEFAULT = ref node.move.EnsureGet(variant); goto DEFAULT;
@@ -1113,6 +1190,7 @@ public static partial class Parser
                         case 0x007000550070006DUL: pair_DEFAULT = ref node.mpUp.EnsureGet(variant); goto DEFAULT;
                         case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(variant); goto LOYAL;
                         case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(variant); goto MEMBER;
+                        case 0x0074007800650074UL: pair_TEXT = ref node.text.EnsureGet(variant); goto TEXT;
                     }
                     goto default;
                 case 1:
@@ -1151,9 +1229,9 @@ public static partial class Parser
                         case 0x00650076006F006DUL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.moveUp.EnsureGet(variant); goto DEFAULT;
                         case 0x006E006100680063UL when span.SequenceEqual("ge"): pair_LOYAL = ref node.change.EnsureGet(variant); goto LOYAL;
                         case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(variant); goto OFFSET;
+                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(variant); goto CONSTI;
                         case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
                         case 0x006C0069006B0073UL when span.SequenceEqual("l2"): pair_RAY = ref node.skill2.EnsureGet(variant); goto RAY;
-                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(variant); goto CONSTI;
                         case 0x0064006E00610068UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.handle.EnsureGet(variant); goto DEFAULT;
                         case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(variant); goto CONSTI;
                     }
@@ -1476,6 +1554,38 @@ public static partial class Parser
             {
                 return false;
             }
+        TEXT:
+            if (pair_TEXT is null)
+            {
+                pair_TEXT = new(currentIndex);
+                pair_TEXT.ElementScenarioId = variant;
+                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_TEXT.ElementKeyRange.Line = start.Line;
+                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
         DISCARD:
             if (Parse_Discard(ref context, ref result, currentIndex, span, key))
             {
@@ -1492,12 +1602,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseField(ref Context context, ref Result result)
+    private static bool ParseField(ref Context context, ref Result result, out bool canContinue)
     {
         result.FieldNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.FieldNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.FieldSet))
         {
             return false;
@@ -1521,7 +1632,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -1720,12 +1832,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkill(ref Context context, ref Result result)
+    private static bool ParseSkill(ref Context context, ref Result result, out bool canContinue)
     {
         result.SkillNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SkillSet))
         {
             return false;
@@ -1752,7 +1865,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -2251,12 +2365,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParsePower(ref Context context, ref Result result)
+    private static bool ParsePower(ref Context context, ref Result result, out bool canContinue)
     {
         result.PowerNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.PowerNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.PowerSet))
         {
             return false;
@@ -2283,7 +2398,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -2397,7 +2513,6 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x006D0065006E0065UL when span.SequenceEqual("y_power"): pair_CONSTI = ref node.enemy_power.EnsureGet(variant); goto CONSTI;
-                        case 0x0069007200610074UL when span.SequenceEqual("ning_up"): pair_DEFAULT = ref node.tarining_up.EnsureGet(variant); goto DEFAULT;
                         case 0x0065007300610062UL when span.SequenceEqual("_merits"): pair_DEFAULT = ref node.base_merits.EnsureGet(variant); goto DEFAULT;
                         case 0x0069006100720074UL when span.SequenceEqual("ning_up"): pair_DEFAULT = ref node.training_up.EnsureGet(variant); goto DEFAULT;
                     }
@@ -2629,12 +2744,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseObject(ref Context context, ref Result result)
+    private static bool ParseObject(ref Context context, ref Result result, out bool canContinue)
     {
         result.ObjectNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ObjectNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ObjectSet))
         {
             return false;
@@ -2659,7 +2775,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -2916,12 +3033,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseDungeon(ref Context context, ref Result result)
+    private static bool ParseDungeon(ref Context context, ref Result result, out bool canContinue)
     {
         result.DungeonNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.DungeonNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.DungeonSet))
         {
             return false;
@@ -2945,7 +3063,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -3175,12 +3294,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseMovetype(ref Context context, ref Result result)
+    private static bool ParseMovetype(ref Context context, ref Result result, out bool canContinue)
     {
         result.MovetypeNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.MovetypeNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.MovetypeSet))
         {
             return false;
@@ -3203,7 +3323,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -3345,12 +3466,13 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkillset(ref Context context, ref Result result)
+    private static bool ParseSkillset(ref Context context, ref Result result, out bool canContinue)
     {
         result.SkillsetNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillsetNodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SkillsetSet))
         {
             return false;
@@ -3373,7 +3495,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;

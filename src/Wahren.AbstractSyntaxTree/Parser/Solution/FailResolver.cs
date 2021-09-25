@@ -79,18 +79,18 @@ public sealed class FailResolver : ISolutionResolver
         index = 0; return ref Unsafe.NullRef<Result>();
     }
 
-    public ref Result TryResolveDetail(ReadOnlySpan<char> name, out NodeKind kind, out uint index)
+    public ref Result TryResolveDetail(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
     {
-        kind = NodeKind.Scenario; index = 0; return ref Unsafe.NullRef<Result>();
+        kind = ReferenceKind.Scenario; index = 0; return ref Unsafe.NullRef<Result>();
     }
 
-    public ref Result TryResolveSkillOrSkillset(ReadOnlySpan<char> name, out NodeKind kind, out uint index)
+    public ref Result TryResolveSkillOrSkillset(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
     {
-        kind = NodeKind.Skill; index = 0; return ref Unsafe.NullRef<Result>();
+        kind = ReferenceKind.Skill; index = 0; return ref Unsafe.NullRef<Result>();
     }
 
-    public ref Result TryResolveUnitOrClass(ReadOnlySpan<char> name, out NodeKind kind, out uint index)
+    public ref Result TryResolveUnitOrClass(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)
     {
-        kind = NodeKind.Unit; index = 0; return ref Unsafe.NullRef<Result>();
+        kind = ReferenceKind.Unit; index = 0; return ref Unsafe.NullRef<Result>();
     }
 }

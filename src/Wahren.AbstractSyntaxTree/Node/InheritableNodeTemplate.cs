@@ -32,10 +32,11 @@ public partial struct SpotNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> no_home = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> no_raise = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle_lot = new();
-	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu = new();
-	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> monster = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> merce = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> monster = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu = new();
+	public VariantPair<StringElement> text = new();
 
 	public void Dispose()
 	{
@@ -60,10 +61,11 @@ public partial struct SpotNode : IInheritableNode
 		no_home.Dispose();
 		no_raise.Dispose();
 		castle_lot.Dispose();
-		yorozu.Dispose();
-		monster.Dispose();
 		merce.Dispose();
+		monster.Dispose();
 		member.Dispose();
+		yorozu.Dispose();
+		text.Dispose();
 	}
 }
 public partial struct UnitNode : IInheritableNode
@@ -236,6 +238,7 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> multi = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> home = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> activenum = new();
+	public VariantPair<StringElement> text = new();
 
 	public void Dispose()
 	{
@@ -401,6 +404,7 @@ public partial struct UnitNode : IInheritableNode
 		multi.Dispose();
 		home.Dispose();
 		activenum.Dispose();
+		text.Dispose();
 	}
 }
 public partial struct RaceNode : IInheritableNode
@@ -446,9 +450,9 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> sex = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> exp = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> help = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> cost = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> face = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> race = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> tkool = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> image = new();
@@ -563,6 +567,7 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<StringArrayElement> friend = new();
 	public VariantPair<StringArrayElement> delskill = new();
 	public VariantPair<StringArrayElement> delskill2 = new();
+	public VariantPair<StringElement> text = new();
 
 	public void Dispose()
 	{
@@ -578,9 +583,9 @@ public partial struct ClassNode : IInheritableNode
 		sex.Dispose();
 		exp.Dispose();
 		help.Dispose();
+		name.Dispose();
 		cost.Dispose();
 		face.Dispose();
-		name.Dispose();
 		race.Dispose();
 		tkool.Dispose();
 		image.Dispose();
@@ -695,6 +700,7 @@ public partial struct ClassNode : IInheritableNode
 		friend.Dispose();
 		delskill.Dispose();
 		delskill2.Dispose();
+		text.Dispose();
 	}
 }
 public partial struct FieldNode : IInheritableNode
@@ -1067,7 +1073,6 @@ public partial struct PowerNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> money = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> fix = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> training_average = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> tarining_up = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> base_merits = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> base_loyal = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> head = new();
@@ -1115,7 +1120,6 @@ public partial struct PowerNode : IInheritableNode
 		money.Dispose();
 		fix.Dispose();
 		training_average.Dispose();
-		tarining_up.Dispose();
 		base_merits.Dispose();
 		base_loyal.Dispose();
 		head.Dispose();

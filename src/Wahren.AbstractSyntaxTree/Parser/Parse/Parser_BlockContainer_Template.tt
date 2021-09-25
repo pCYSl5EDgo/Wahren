@@ -27,12 +27,13 @@ foreach (string name in Helper.BlockContainers) {
     var len3 = array.Where(x => x.name.Length == 3).ToArray();
     var usageGroup = array.MakeUsageGroup();
 #>
-    private static bool Parse<#= name #>(ref Context context, ref Result result)
+    private static bool Parse<#= name #>(ref Context context, ref Result result, out bool canContinue)
     {
         result.<#= name #>NodeList.Add(new());
         ref var node = ref result.<#= name #>NodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= name #>Set))
         {
             return false;
@@ -61,7 +62,8 @@ foreach (string name in Helper.BlockContainers) {
             {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             if (!ReadToken(ref context, ref result))

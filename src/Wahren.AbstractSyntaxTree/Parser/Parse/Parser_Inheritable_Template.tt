@@ -24,12 +24,13 @@ public static partial class Parser
     var len2 = array.Where(x => x.name.Length == 2).ToArray();
     var len3 = array.Where(x => x.name.Length == 3).ToArray();
     var usageGroup = array.MakeUsageGroup(); #>
-    private static bool Parse<#= name #>(ref Context context, ref Result result)
+    private static bool Parse<#= name #>(ref Context context, ref Result result, out bool canContinue)
     {
         result.<#= name #>NodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.<#= name #>NodeList.Last;
         node.Kind = tokenList.LastIndex;
+        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= name #>Set))
         {
             return false;
@@ -55,7 +56,8 @@ public static partial class Parser
             if (tokenList.Last.IsBracketRight(ref source))
             {
                 node.BracketRight = tokenList.LastIndex;
-                return true;
+                canContinue = true;
+                return result.AddReferenceAndValidate(ref node);
             }
 
             var currentIndex = tokenList.LastIndex;

@@ -152,6 +152,7 @@ public static partial class Parser
         }
 
         ref var source = ref result.Source;
+        element.HasValue = true;
         element.Value.HasText = true;
         element.Value.Text = tokenList.LastIndex;
         tokenList.Last.Kind = TokenKind.Content;
@@ -180,7 +181,7 @@ public static partial class Parser
                 }
             }
 
-            return true;
+            goto TRUE;
         }
 
         do
@@ -194,11 +195,19 @@ public static partial class Parser
             if (processingLine != tokenList.Last.Range.StartInclusive.Line)
             {
                 CancelTokenReadback(ref context, ref result);
-                return true;
+                goto TRUE;
             }
 
             result.UnionLast2Tokens();
         } while (true);
+
+    TRUE:
+        if (tokenList[element.Value.Text].IsAtmark(ref source))
+        {
+            element.HasValue = false;
+        }
+
+        return true;
     }
 
     /// <summary>

@@ -51,17 +51,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>BlockContainerNodeTemplate.tt</DependentUpon>
     </None>
-    <None Include="Parser\Parser_Discard_Template.cs">
+    <None Include="Parser\Parse\Parser_Discard_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
     </None>
-    <None Include="Parser\Parser_Inheritable_Template.cs">
+    <None Include="Parser\Parse\Parser_Inheritable_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Inheritable_Template.tt</DependentUpon>
     </None>
-    <None Include="Parser\Parser_BlockContainer_Template.cs">
+    <None Include="Parser\Parse\Parser_BlockContainer_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
@@ -70,6 +70,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SolutionTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Parser\Validation\NodeValidatorTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NodeValidatorTemplate.tt</DependentUpon>
     </None>
     <None Include="TokenUtilityTextTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -117,21 +122,25 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BlockContainerNodeTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Parser_Discard_Template.tt">
+    <None Update="Parser\Parse\Parser_Discard_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_Discard_Template.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Parser_Inheritable_Template.tt">
+    <None Update="Parser\Parse\Parser_Inheritable_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_Inheritable_Template.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Parser_BlockContainer_Template.tt">
+    <None Update="Parser\Parse\Parser_BlockContainer_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
     </None>
     <None Update="Parser\Solution\SolutionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SolutionTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Parser\Validation\NodeValidatorTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NodeValidatorTemplate.cs</LastGenOutput>
     </None>
     <None Update="TokenUtilityTextTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -197,17 +206,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ScenarioNodeTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Parser_BlockContainer_Template.cs">
+    <Compile Update="Parser\Parse\Parser_BlockContainer_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Parser_Discard_Template.cs">
+    <Compile Update="Parser\Parse\Parser_Discard_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Parser_Inheritable_Template.cs">
+    <Compile Update="Parser\Parse\Parser_Inheritable_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Inheritable_Template.tt</DependentUpon>
@@ -226,6 +235,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SolutionTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Validation\NodeValidator.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NodeValidator.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Validation\NodeValidatorTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NodeValidatorTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="TokenUtilityTextTemplate.cs">
       <DesignTime>True</DesignTime>

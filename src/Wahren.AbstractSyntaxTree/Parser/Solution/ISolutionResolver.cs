@@ -18,7 +18,7 @@ public interface ISolutionResolver
     ref Result TryGetDungeonNode(ReadOnlySpan<char> name, out uint index);
     ref Result TryGetVoiceNode(ReadOnlySpan<char> name, out uint index);
 
-    ref Result TryResolveDetail(ReadOnlySpan<char> name, out NodeKind kind, out uint index);
-    ref Result TryResolveUnitOrClass(ReadOnlySpan<char> name, out NodeKind kind, out uint index);
-    ref Result TryResolveSkillOrSkillset(ReadOnlySpan<char> name, out NodeKind kind, out uint index);
+    ref Result TryResolveDetail(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+    ref Result TryResolveUnitOrClass(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
+    ref Result TryResolveSkillOrSkillset(ReadOnlySpan<char> name, out ReferenceKind kind, out uint index);
 }

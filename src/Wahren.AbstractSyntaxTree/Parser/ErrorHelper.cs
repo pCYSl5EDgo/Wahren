@@ -7,18 +7,9 @@ public static class ErrorHelper
         result.ErrorList.Add(new("Multiple assignment can cause serious error.", result.TokenList[elementId].Range, DiagnosticSeverity.Warning, ErrorCode.Syntax, callerFilePath, callerLineNumber));
     }
 
-    public static void ErrorAdd_UnexpectedEndOfFile(ref this Result result, uint tokenId, string? text = null, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+    public static void ErrorAdd_UnexpectedEndOfFile(ref this Result result, uint tokenId, ReadOnlySpan<char> text = default, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
     {
-        if (string.IsNullOrEmpty(text))
-        {
-            text = $"Unexpected End Of File. Last Token: {result.GetSpan(result.TokenList.LastIndex)}";
-        }
-        else
-        {
-            text = $"Unexpected End Of File. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}";
-        }
-
-        result.ErrorList.Add(new(text, result.TokenList[tokenId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
+        result.ErrorList.Add(new($"Unexpected End Of File. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}", result.TokenList[tokenId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
     }
 
     public static void ErrorAdd_UnexpectedOperatorToken(ref this Result result, uint elementId, string? text = null, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
@@ -77,13 +68,18 @@ public static class ErrorHelper
         result.ErrorList.Add(new(text, result.TokenList[nameId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
     }
 
-    public static void ErrorAdd_NumberIsExpected(ref this Result result, uint elementId, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+    public static void ErrorAdd_NumberIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
     {
-        result.ErrorList.Add(new($"Number text is expected but actually \"{result.GetSpan(result.TokenList.LastIndex)}\"", result.TokenList[elementId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
+        result.ErrorList.Add(new($"Number text is expected but actually \"{result.GetSpan(tokenId)}\".{postText}", result.TokenList[tokenId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
     }
 
-    public static void ErrorAdd_CommaIsExpected(ref this Result result, uint elementId, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+    public static void ErrorAdd_BooleanIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
     {
-        result.ErrorList.Add(new($"',' is expected but actually \"{result.GetSpan(result.TokenList.LastIndex)}\"", result.TokenList[elementId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
+        result.ErrorList.Add(new($"Boolean text is expected but actually \"{result.GetSpan(tokenId)}\".{postText}", result.TokenList[tokenId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
+    }
+
+    public static void ErrorAdd_CommaIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+    {
+        result.ErrorList.Add(new($"',' is expected but actually \"{result.GetSpan(tokenId)}\".{postText}", result.TokenList[tokenId].Range, InternalCSharpFilePath: callerFilePath, InternalCSharpLineNumber: callerLineNumber));
     }
 }
