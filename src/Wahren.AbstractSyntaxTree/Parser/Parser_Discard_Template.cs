@@ -13,19 +13,19 @@ public static partial class Parser
 			case 0:
 				switch (element4)
 				{
-					case 0x0000007200740073UL: goto LOYAL; // str
-					case 0x0000007900610072UL: goto RAY; // ray
-					case 0x00790065006B0066UL: goto LOYAL; // fkey
-					case 0x0074007800650074UL: goto TEXT; // text
-					case 0x006E006F00630069UL: goto CONSTI; // icon
-					case 0x0065007600610077UL: goto CONSTI; // wave
-					case 0x006D0061006F0072UL: goto ROAM; // roam
-					case 0x0074006F00700073UL: goto ROAM; // spot
-					case 0x0032006400640061UL: goto MEMBER; // add2
-					case 0x006D006500740069UL: goto MEMBER; // item
-					case 0x0069006C006F0070UL: goto RAY; // poli
-					case 0x0070006D00610063UL: goto RAY; // camp
-					case 0x0065006D006F0068UL: goto RAY; // home
+					case 0x0000007200740073UL: goto LOYAL; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0000007900610072UL: goto RAY; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x00790065006B0066UL: goto LOYAL; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0074007800650074UL: goto TEXT; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x006E006F00630069UL: goto CONSTI; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0065007600610077UL: goto CONSTI; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x006D0061006F0072UL: goto ROAM; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0074006F00700073UL: goto ROAM; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0032006400640061UL: goto MEMBER; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x006D006500740069UL: goto MEMBER; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0069006C006F0070UL: goto RAY; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0070006D00610063UL: goto RAY; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
+					case 0x0065006D006F0068UL: goto RAY; // Wahren.AbstractSyntaxTree.TextTemplateHelper.ElementInfo
 				}
 				goto default;
 			case 1:

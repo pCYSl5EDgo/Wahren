@@ -22,6 +22,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
             ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -95,9 +96,9 @@ public static partial class Parser
                 goto FALSE;
             }
 
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
-                goto FALSE;
+                return false;
             }
 
             var byteSpan = MemoryMarshal.Cast<char, byte>(span);
@@ -108,8 +109,8 @@ public static partial class Parser
                 case 1:
                     switch (span[0])
                     {
-                        case 'w': element_DEFAULT = ref node.w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'h': element_DEFAULT = ref node.h.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 'w': element_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
+                        case 'h': element_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
                     }
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
                     span = Span<char>.Empty;
@@ -118,7 +119,7 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
                     switch ((uint)key)
                     {
-                        case 0x00670062U: element_DEFAULT = ref node.bg.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00670062U: element_DEFAULT = ref node.bg.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -126,9 +127,9 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x006700630062UL: element_DEFAULT = ref node.bcg.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D00670062UL: element_DEFAULT = ref node.bgm.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00700061006DUL: element_DEFAULT = ref node.map.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006700630062UL: element_DEFAULT = ref node.bcg.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D00670062UL: element_DEFAULT = ref node.bgm.EnsureGet(variant); goto DEFAULT;
+                        case 0x00700061006DUL: element_DEFAULT = ref node.map.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -141,68 +142,68 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL when span.SequenceEqual(""): element_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0065007A00690073UL when span.SequenceEqual(""): element_DEFAULT = ref node.size.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0065006D0061006EUL when span.SequenceEqual(""): element_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0065007A00690073UL when span.SequenceEqual(""): element_DEFAULT = ref node.size.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 1:
                     switch (key)
                     {
-                        case 0x006E0069006C0062UL when span[0] == 'd': element_DEFAULT = ref node.blind.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006F006C006F0063UL when span[0] == 'r': element_RAY = ref node.color.EnsureGet(scenarioVariant); goto RAY;                            
-                        case 0x0063006F006C0062UL when span[0] == 'k': element_DEFAULT = ref node.block.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0069006D0069006CUL when span[0] == 't': element_DEFAULT = ref node.limit.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006C007400690074UL when span[0] == 'e': element_DEFAULT = ref node.title.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x006E0069006C0062UL when span[0] == 'd': element_DEFAULT = ref node.blind.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006F006C006F0063UL when span[0] == 'r': element_RAY = ref node.color.EnsureGet(variant); goto RAY;                            
+                        case 0x0063006F006C0062UL when span[0] == 'k': element_DEFAULT = ref node.block.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0069006D0069006CUL when span[0] == 't': element_DEFAULT = ref node.limit.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006C007400690074UL when span[0] == 'e': element_DEFAULT = ref node.title.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 2:
                     switch (key)
                     {
-                        case 0x0074007300610063UL when span.SequenceEqual("le"): element_DEFAULT = ref node.castle.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0074006E00650063UL when span.SequenceEqual("er"): element_DEFAULT = ref node.center.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006C006100740069UL when span.SequenceEqual("ic"): element_DEFAULT = ref node.italic.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0064006E00610068UL when span.SequenceEqual("le"): element_DEFAULT = ref node.handle.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): element_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;                            
-                        case 0x006F006300650073UL when span.SequenceEqual("nd"): element_DEFAULT = ref node.second.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): element_DEFAULT = ref node.volume.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0074007300610063UL when span.SequenceEqual("le"): element_DEFAULT = ref node.castle.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0074006E00650063UL when span.SequenceEqual("er"): element_DEFAULT = ref node.center.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006C006100740069UL when span.SequenceEqual("ic"): element_DEFAULT = ref node.italic.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0064006E00610068UL when span.SequenceEqual("le"): element_DEFAULT = ref node.handle.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): element_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;                            
+                        case 0x006F006300650073UL when span.SequenceEqual("nd"): element_DEFAULT = ref node.second.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): element_DEFAULT = ref node.volume.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 3:
                     switch (key)
                     {
-                        case 0x0066005F00670062UL when span.SequenceEqual("ade"): element_DEFAULT = ref node.bg_fade.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0066005F00670062UL when span.SequenceEqual("ade"): element_DEFAULT = ref node.bg_fade.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 4:
                     switch (key)
                     {
-                        case 0x0070007300690064UL when span.SequenceEqual("erse"): element_DEFAULT = ref node.disperse.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0070007300690064UL when span.SequenceEqual("erse"): element_DEFAULT = ref node.disperse.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 5:
                     switch (key)
                     {
-                        case 0x006B007200610064UL when span.SequenceEqual("_fade"): element_DEFAULT = ref node.dark_fade.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x006B007200610064UL when span.SequenceEqual("_fade"): element_DEFAULT = ref node.dark_fade.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 6:
                     switch (key)
                     {
-                        case 0x006B007200610064UL when span.SequenceEqual("_alpha"): element_DEFAULT = ref node.dark_alpha.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x006B007200610064UL when span.SequenceEqual("_alpha"): element_DEFAULT = ref node.dark_alpha.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 7:
                     switch (key)
                     {
-                        case 0x0069005F00670062UL when span.SequenceEqual("nterval"): element_DEFAULT = ref node.bg_interval.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006B007200610064UL when span.SequenceEqual("_fade_e"): element_DEFAULT = ref node.dark_fade_e.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x007400730061006CUL when span.SequenceEqual("_second"): element_DEFAULT = ref node.last_second.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0069005F00670062UL when span.SequenceEqual("nterval"): element_DEFAULT = ref node.bg_interval.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006B007200610064UL when span.SequenceEqual("_fade_e"): element_DEFAULT = ref node.dark_fade_e.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x007400730061006CUL when span.SequenceEqual("_second"): element_DEFAULT = ref node.last_second.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 9:
                     switch (key)
                     {
-                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): element_DEFAULT = ref node.castle_battle.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): element_DEFAULT = ref node.castle_battle.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
             }
@@ -225,7 +226,7 @@ public static partial class Parser
             if (element_DEFAULT is null)
             {
                 element_DEFAULT = new(currentIndex);
-                element_DEFAULT.ElementScenarioId = scenarioVariant;
+                element_DEFAULT.ElementScenarioId = variant;
                 element_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -259,7 +260,7 @@ public static partial class Parser
             if (element_RAY is null)
             {
                 element_RAY = new(currentIndex);
-                element_RAY.ElementScenarioId = scenarioVariant;
+                element_RAY.ElementScenarioId = variant;
                 element_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -293,7 +294,7 @@ public static partial class Parser
             if (element_MEMBER is null)
             {
                 element_MEMBER = new(currentIndex);
-                element_MEMBER.ElementScenarioId = scenarioVariant;
+                element_MEMBER.ElementScenarioId = variant;
                 element_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -341,6 +342,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
             ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -389,9 +391,9 @@ public static partial class Parser
                 goto FALSE;
             }
 
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
-                goto FALSE;
+                return false;
             }
 
             var byteSpan = MemoryMarshal.Cast<char, byte>(span);
@@ -411,7 +413,7 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x00700061006DUL: element_DEFAULT = ref node.map.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00700061006DUL: element_DEFAULT = ref node.map.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -424,113 +426,113 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL when span.SequenceEqual(""): element_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0070006C00650068UL when span.SequenceEqual(""): element_DEFAULT = ref node.help.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0065006E006F007AUL when span.SequenceEqual(""): element_DEFAULT = ref node.zone.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0069006C006F0070UL when span.SequenceEqual(""): element_RAY = ref node.poli.EnsureGet(scenarioVariant); goto RAY;                            
-                        case 0x0070006D00610063UL when span.SequenceEqual(""): element_RAY = ref node.camp.EnsureGet(scenarioVariant); goto RAY;                            
-                        case 0x006D006500740069UL when span.SequenceEqual(""): element_MEMBER = ref node.item.EnsureGet(scenarioVariant); goto MEMBER;                            
-                        case 0x0074007800650074UL when span.SequenceEqual(""): element_TEXT = ref node.text.EnsureGet(scenarioVariant); goto TEXT;                            
-                        case 0x006D0061006F0072UL when span.SequenceEqual(""): element_ROAM = ref node.roam.EnsureGet(scenarioVariant); goto ROAM;                            
-                        case 0x0074006F00700073UL when span.SequenceEqual(""): element_ROAM = ref node.spot.EnsureGet(scenarioVariant); goto ROAM;                            
+                        case 0x0065006D0061006EUL when span.SequenceEqual(""): element_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0070006C00650068UL when span.SequenceEqual(""): element_DEFAULT = ref node.help.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0065006E006F007AUL when span.SequenceEqual(""): element_DEFAULT = ref node.zone.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0069006C006F0070UL when span.SequenceEqual(""): element_RAY = ref node.poli.EnsureGet(variant); goto RAY;                            
+                        case 0x0070006D00610063UL when span.SequenceEqual(""): element_RAY = ref node.camp.EnsureGet(variant); goto RAY;                            
+                        case 0x006D006500740069UL when span.SequenceEqual(""): element_MEMBER = ref node.item.EnsureGet(variant); goto MEMBER;                            
+                        case 0x0074007800650074UL when span.SequenceEqual(""): element_TEXT = ref node.text.EnsureGet(variant); goto TEXT;                            
+                        case 0x006D0061006F0072UL when span.SequenceEqual(""): element_ROAM = ref node.roam.EnsureGet(variant); goto ROAM;                            
+                        case 0x0074006F00700073UL when span.SequenceEqual(""): element_ROAM = ref node.spot.EnsureGet(variant); goto ROAM;                            
                     }
                     break;
                 case 1:
                     switch (key)
                     {
-                        case 0x006E0069006C0062UL when span[0] == 'd': element_DEFAULT = ref node.blind.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006C0072006F0077UL when span[0] == 'd': element_DEFAULT = ref node.world.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0068006700690066UL when span[0] == 't': element_DEFAULT = ref node.fight.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0074007200610070UL when span[0] == 'y': element_DEFAULT = ref node.party.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '0': element_DEFAULT = ref node.item0.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '1': element_DEFAULT = ref node.item1.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '2': element_DEFAULT = ref node.item2.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '3': element_DEFAULT = ref node.item3.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '4': element_DEFAULT = ref node.item4.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '5': element_DEFAULT = ref node.item5.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span[0] == '6': element_DEFAULT = ref node.item6.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0074006C0075006DUL when span[0] == 'i': element_RAY = ref node.multi.EnsureGet(scenarioVariant); goto RAY;                            
-                        case 0x00650077006F0070UL when span[0] == 'r': element_ROAM = ref node.power.EnsureGet(scenarioVariant); goto ROAM;                            
+                        case 0x006E0069006C0062UL when span[0] == 'd': element_DEFAULT = ref node.blind.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006C0072006F0077UL when span[0] == 'd': element_DEFAULT = ref node.world.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0068006700690066UL when span[0] == 't': element_DEFAULT = ref node.fight.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0074007200610070UL when span[0] == 'y': element_DEFAULT = ref node.party.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '0': element_DEFAULT = ref node.item0.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '1': element_DEFAULT = ref node.item1.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '2': element_DEFAULT = ref node.item2.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '3': element_DEFAULT = ref node.item3.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '4': element_DEFAULT = ref node.item4.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '5': element_DEFAULT = ref node.item5.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span[0] == '6': element_DEFAULT = ref node.item6.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0074006C0075006DUL when span[0] == 'i': element_RAY = ref node.multi.EnsureGet(variant); goto RAY;                            
+                        case 0x00650077006F0070UL when span[0] == 'r': element_ROAM = ref node.power.EnsureGet(variant); goto ROAM;                            
                     }
                     break;
                 case 2:
                     switch (key)
                     {
-                        case 0x0072005F00730077UL when span.SequenceEqual("ed"): element_DEFAULT = ref node.ws_red.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0063007300690064UL when span.SequenceEqual("us"): element_DEFAULT = ref node.discus.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x00620061006E0065UL when span.SequenceEqual("le"): element_DEFAULT = ref node.enable.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006F007A006F006EUL when span.SequenceEqual("ne"): element_DEFAULT = ref node.nozone.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x007300660066006FUL when span.SequenceEqual("et"): element_OFFSET = ref node.offset.EnsureGet(scenarioVariant); goto OFFSET;                            
+                        case 0x0072005F00730077UL when span.SequenceEqual("ed"): element_DEFAULT = ref node.ws_red.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0063007300690064UL when span.SequenceEqual("us"): element_DEFAULT = ref node.discus.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x00620061006E0065UL when span.SequenceEqual("le"): element_DEFAULT = ref node.enable.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006F007A006F006EUL when span.SequenceEqual("ne"): element_DEFAULT = ref node.nozone.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x007300660066006FUL when span.SequenceEqual("et"): element_OFFSET = ref node.offset.EnsureGet(variant); goto OFFSET;                            
                     }
                     break;
                 case 3:
                     switch (key)
                     {
-                        case 0x0062005F00730077UL when span.SequenceEqual("lue"): element_DEFAULT = ref node.ws_blue.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x00740072006F0073UL when span.SequenceEqual("key"): element_DEFAULT = ref node.sortkey.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0062005F00730077UL when span.SequenceEqual("lue"): element_DEFAULT = ref node.ws_blue.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x00740072006F0073UL when span.SequenceEqual("key"): element_DEFAULT = ref node.sortkey.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 4:
                     switch (key)
                     {
-                        case 0x0067005F00730077UL when span.SequenceEqual("reen"): element_DEFAULT = ref node.ws_green.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0061005F00730077UL when span.SequenceEqual("lpha"): element_DEFAULT = ref node.ws_alpha.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006C005F00730077UL when span.SequenceEqual("ight"): element_DEFAULT = ref node.ws_light.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x005F00780061006DUL when span.SequenceEqual("unit"): element_DEFAULT = ref node.max_unit.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x00610063006F006CUL when span.SequenceEqual("te_x"): element_DEFAULT = ref node.locate_x.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x00610063006F006CUL when span.SequenceEqual("te_y"): element_DEFAULT = ref node.locate_y.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): element_DEFAULT = ref node.politics.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006E006900610067UL when span.SequenceEqual("_per"): element_DEFAULT = ref node.gain_per.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0072005F0079006DUL when span.SequenceEqual("ange"): element_DEFAULT = ref node.my_range.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0067005F00730077UL when span.SequenceEqual("reen"): element_DEFAULT = ref node.ws_green.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0061005F00730077UL when span.SequenceEqual("lpha"): element_DEFAULT = ref node.ws_alpha.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006C005F00730077UL when span.SequenceEqual("ight"): element_DEFAULT = ref node.ws_light.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x005F00780061006DUL when span.SequenceEqual("unit"): element_DEFAULT = ref node.max_unit.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x00610063006F006CUL when span.SequenceEqual("te_x"): element_DEFAULT = ref node.locate_x.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x00610063006F006CUL when span.SequenceEqual("te_y"): element_DEFAULT = ref node.locate_y.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): element_DEFAULT = ref node.politics.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006E006900610067UL when span.SequenceEqual("_per"): element_DEFAULT = ref node.gain_per.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0072005F0079006DUL when span.SequenceEqual("ange"): element_DEFAULT = ref node.my_range.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 5:
                     switch (key)
                     {
-                        case 0x0065007600610073UL when span.SequenceEqual("_name"): element_DEFAULT = ref node.save_name.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006F007400630061UL when span.SequenceEqual("r_per"): element_DEFAULT = ref node.actor_per.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span.SequenceEqual("_sale"): element_MEMBER = ref node.item_sale.EnsureGet(scenarioVariant); goto MEMBER;                            
-                        case 0x006D006500740069UL when span.SequenceEqual("_hold"): element_MEMBER = ref node.item_hold.EnsureGet(scenarioVariant); goto MEMBER;                            
+                        case 0x0065007600610073UL when span.SequenceEqual("_name"): element_DEFAULT = ref node.save_name.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006F007400630061UL when span.SequenceEqual("r_per"): element_DEFAULT = ref node.actor_per.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span.SequenceEqual("_sale"): element_MEMBER = ref node.item_sale.EnsureGet(variant); goto MEMBER;                            
+                        case 0x006D006500740069UL when span.SequenceEqual("_hold"): element_MEMBER = ref node.item_hold.EnsureGet(variant); goto MEMBER;                            
                     }
                     break;
                 case 6:
                     switch (key)
                     {
-                        case 0x0069006700650062UL when span.SequenceEqual("n_text"): element_DEFAULT = ref node.begin_text.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0065007300610062UL when span.SequenceEqual("_level"): element_DEFAULT = ref node.base_level.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006D006500740069UL when span.SequenceEqual("_limit"): element_DEFAULT = ref node.item_limit.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0069006700650062UL when span.SequenceEqual("n_text"): element_DEFAULT = ref node.begin_text.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0065007300610062UL when span.SequenceEqual("_level"): element_DEFAULT = ref node.base_level.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006D006500740069UL when span.SequenceEqual("_limit"): element_DEFAULT = ref node.item_limit.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 7:
                     switch (key)
                     {
-                        case 0x0069006100720074UL when span.SequenceEqual("ning_up"): element_DEFAULT = ref node.training_up.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x00650077006F0070UL when span.SequenceEqual("r_order"): element_DEFAULT = ref node.power_order.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0061005F006F006EUL when span.SequenceEqual("utosave"): element_DEFAULT = ref node.no_autosave.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0069006100720074UL when span.SequenceEqual("ning_up"): element_DEFAULT = ref node.training_up.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x00650077006F0070UL when span.SequenceEqual("r_order"): element_DEFAULT = ref node.power_order.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0061005F006F006EUL when span.SequenceEqual("utosave"): element_DEFAULT = ref node.no_autosave.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 8:
                     switch (key)
                     {
-                        case 0x005F007200610077UL when span.SequenceEqual("capacity"): element_DEFAULT = ref node.war_capacity.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x006500680079006DUL when span.SequenceEqual("lp_range"): element_DEFAULT = ref node.myhelp_range.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x005F007200610077UL when span.SequenceEqual("capacity"): element_DEFAULT = ref node.war_capacity.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006500680079006DUL when span.SequenceEqual("lp_range"): element_DEFAULT = ref node.myhelp_range.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 9:
                     switch (key)
                     {
-                        case 0x00620061006E0065UL when span.SequenceEqual("le_select"): element_DEFAULT = ref node.enable_select.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0074006F00700073UL when span.SequenceEqual("_capacity"): element_DEFAULT = ref node.spot_capacity.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0070007000750073UL when span.SequenceEqual("ort_range"): element_DEFAULT = ref node.support_range.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0073006E006F006DUL when span.SequenceEqual("ter_level"): element_DEFAULT = ref node.monster_level.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x00620061006E0065UL when span.SequenceEqual("le_talent"): element_DEFAULT = ref node.enable_talent.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x00620061006E0065UL when span.SequenceEqual("le_select"): element_DEFAULT = ref node.enable_select.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0074006F00700073UL when span.SequenceEqual("_capacity"): element_DEFAULT = ref node.spot_capacity.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0070007000750073UL when span.SequenceEqual("ort_range"): element_DEFAULT = ref node.support_range.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0073006E006F006DUL when span.SequenceEqual("ter_level"): element_DEFAULT = ref node.monster_level.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x00620061006E0065UL when span.SequenceEqual("le_talent"): element_DEFAULT = ref node.enable_talent.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 10:
                     switch (key)
                     {
-                        case 0x006C005F00730077UL when span.SequenceEqual("ight_range"): element_DEFAULT = ref node.ws_light_range.EnsureGet(scenarioVariant); goto DEFAULT;                            
-                        case 0x0061006600650064UL when span.SequenceEqual("ult_ending"): element_DEFAULT = ref node.default_ending.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x006C005F00730077UL when span.SequenceEqual("ight_range"): element_DEFAULT = ref node.ws_light_range.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0061006600650064UL when span.SequenceEqual("ult_ending"): element_DEFAULT = ref node.default_ending.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
             }
@@ -553,7 +555,7 @@ public static partial class Parser
             if (element_DEFAULT is null)
             {
                 element_DEFAULT = new(currentIndex);
-                element_DEFAULT.ElementScenarioId = scenarioVariant;
+                element_DEFAULT.ElementScenarioId = variant;
                 element_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -587,7 +589,7 @@ public static partial class Parser
             if (element_RAY is null)
             {
                 element_RAY = new(currentIndex);
-                element_RAY.ElementScenarioId = scenarioVariant;
+                element_RAY.ElementScenarioId = variant;
                 element_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -621,7 +623,7 @@ public static partial class Parser
             if (element_MEMBER is null)
             {
                 element_MEMBER = new(currentIndex);
-                element_MEMBER.ElementScenarioId = scenarioVariant;
+                element_MEMBER.ElementScenarioId = variant;
                 element_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -655,7 +657,7 @@ public static partial class Parser
             if (element_TEXT is null)
             {
                 element_TEXT = new(currentIndex);
-                element_TEXT.ElementScenarioId = scenarioVariant;
+                element_TEXT.ElementScenarioId = variant;
                 element_TEXT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -689,7 +691,7 @@ public static partial class Parser
             if (element_ROAM is null)
             {
                 element_ROAM = new(currentIndex);
-                element_ROAM.ElementScenarioId = scenarioVariant;
+                element_ROAM.ElementScenarioId = variant;
                 element_ROAM.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -723,7 +725,7 @@ public static partial class Parser
             if (element_OFFSET is null)
             {
                 element_OFFSET = new(currentIndex);
-                element_OFFSET.ElementScenarioId = scenarioVariant;
+                element_OFFSET.ElementScenarioId = variant;
                 element_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -771,6 +773,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
             ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
@@ -815,9 +818,9 @@ public static partial class Parser
                 goto FALSE;
             }
 
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
-                goto FALSE;
+                return false;
             }
 
             var byteSpan = MemoryMarshal.Cast<char, byte>(span);
@@ -846,13 +849,13 @@ public static partial class Parser
                 case 1:
                     switch (key)
                     {
-                        case 0x0068006700690066UL when span[0] == 't': element_DEFAULT = ref node.fight.EnsureGet(scenarioVariant); goto DEFAULT;                            
+                        case 0x0068006700690066UL when span[0] == 't': element_DEFAULT = ref node.fight.EnsureGet(variant); goto DEFAULT;                            
                     }
                     break;
                 case 2:
                     switch (key)
                     {
-                        case 0x0065006900720066UL when span.SequenceEqual("nd"): element_OFFSET = ref node.friend.EnsureGet(scenarioVariant); goto OFFSET;                            
+                        case 0x0065006900720066UL when span.SequenceEqual("nd"): element_OFFSET = ref node.friend.EnsureGet(variant); goto OFFSET;                            
                     }
                     break;
             }
@@ -875,7 +878,7 @@ public static partial class Parser
             if (element_OFFSET is null)
             {
                 element_OFFSET = new(currentIndex);
-                element_OFFSET.ElementScenarioId = scenarioVariant;
+                element_OFFSET.ElementScenarioId = variant;
                 element_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -909,7 +912,7 @@ public static partial class Parser
             if (element_DEFAULT is null)
             {
                 element_DEFAULT = new(currentIndex);
-                element_DEFAULT.ElementScenarioId = scenarioVariant;
+                element_DEFAULT.ElementScenarioId = variant;
                 element_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;

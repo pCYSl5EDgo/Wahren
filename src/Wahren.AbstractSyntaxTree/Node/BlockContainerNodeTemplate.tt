@@ -15,7 +15,7 @@ namespace Wahren.AbstractSyntaxTree.Node;
 using Element.Statement;
 <#
 foreach (string name in Helper.BlockContainers) {
-    string[] array = Helper.Get(name);
+    ElementInfo[] array = ElementInfo.Get(name);
 #>
 public partial struct <#= name #>Node : IInheritableNode
 {
@@ -27,14 +27,14 @@ public partial struct <#= name #>Node : IInheritableNode
 
     public List<IStatement> Statements = new();
 <# foreach (var item in array) { #>
-	public VariantPair<<#= item.GetCorrespondingType() #>> <#= item.Escape() #> = new();
+	public VariantPair<<#= item.name.GetCorrespondingType() #>> <#= item.name.Escape() #> = new();
 <# } #>
 
 	public void Dispose()
 	{
 		Statements.Dispose();
 <# foreach (var item in array) { #>
-		<#= item.Escape() #>.Dispose();
+		<#= item.name.Escape() #>.Dispose();
 <# } #>
 	}
 }

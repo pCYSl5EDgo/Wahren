@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System;
 
 namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
@@ -7,59 +6,38 @@ public static partial class Helper
 {
     public static readonly string[] Inheritables = new string[]
     {
-        "Spot",
-        "Unit",
-        "Race",
-        "Class",
-        "Field",
-        "Skill",
-        "Power",
-        "Object",
-        "Movetype",
-        "Skillset",
+        nameof(ElementInfo.Spot),
+        nameof(ElementInfo.Unit),
+        nameof(ElementInfo.Race),
+        nameof(ElementInfo.Class),
+        nameof(ElementInfo.Field),
+        nameof(ElementInfo.Skill),
+        nameof(ElementInfo.Power),
+        nameof(ElementInfo.Object),
+        nameof(ElementInfo.Dungeon),
+        nameof(ElementInfo.Movetype),
+        nameof(ElementInfo.Skillset),
     };
 
     public static readonly string[] BlockContainers = new string[]
     {
-        "Event",
-        "Scenario",
-        "Story",
+        nameof(ElementInfo.Event),
+        nameof(ElementInfo.Scenario),
+        nameof(ElementInfo.Story),
     };
-    
+
     public static bool IsAllowedUndefinedContent(string name)
     {
         switch (name)
         {
-            case "Power":
-            case "Workspace":
+            case nameof(ElementInfo.Power):
+            case nameof(ElementInfo.Workspace):
                 return true;
             default: return false;
         }
     }
 
-    public static string[] Get(string name)
-    {
-        switch (name)
-        {
-            case "Power": return Power;
-            case "Class": return Class;
-            case "Dungeon": return Dungeon;
-            case "Field": return Field;
-            case "Movetype": return Movetype;
-            case "Object": return Object;
-            case "Race": return Race;
-            case "Skill": return Skill;
-            case "Skillset": return Skillset;
-            case "Spot": return Spot;
-            case "Unit": return Unit;
-            case "Scenario": return Scenario;
-            case "Event": return Event;
-            case "Story": return Story;
-            default: return Array.Empty<string>();
-        }
-    }
-
-    public static void Deconstruct(this IGrouping<UsagePair, string> group, out UsagePair pair, out IEnumerable<string> names)
+    public static void Deconstruct(this IGrouping<UsagePair, ElementInfo> group, out UsagePair pair, out IEnumerable<ElementInfo> names)
     {
         pair = group.Key;
         names = group;
@@ -98,20 +76,20 @@ public static partial class Helper
         }
     }
 
-    public static SwitchGroupOuter[] MakeGroup(this string[] elements)
+    public static SwitchGroupOuter[] MakeGroup(this ElementInfo[] elements)
     {
         return elements.GroupBy(
-            x => x.Length,
-            item => new SwitchGroupInner(item, item.GetKey().ToString("X16"), item.Length > 4 ? item.Substring(4) : ""),
+            x => x.name.Length,
+            item => new SwitchGroupInner(item, item.name.GetKey().ToString("X16"), item.name.Length > 4 ? item.name.Substring(4) : ""),
             (len, items) => new SwitchGroupOuter(len, items)).OrderBy(x => x.len).ToArray();
     }
 
-    public static UsageGroup[] MakeUsageGroup(this string[] elements)
+    public static UsageGroup[] MakeUsageGroup(this ElementInfo[] elements)
     {
         return elements.GroupBy(
-           x => x.GetCorrespondingType(),
+           x => x.name.GetCorrespondingType(),
            x => x,
-           (type, xs) => new UsageGroup(type, xs.GroupBy(x => new UsagePair(x.GetCorrespondingTrailer(), x.GetCorrespondingParserFunction())).ToArray())).ToArray();
+           (type, xs) => new UsageGroup(type, xs.GroupBy(x => new UsagePair(x.name.GetCorrespondingTrailer(), x.name.GetCorrespondingParserFunction())).ToArray())).ToArray();
     }
 
     public static string GetCorrespondingTrailer(this string element)

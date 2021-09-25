@@ -21,10 +21,10 @@ public static partial class Parser
 {
 <#
 foreach (string name in Helper.BlockContainers) {
-    string[] array = Helper.Get(name);
-    var len1 = array.Where(x => x.Length == 1).ToArray();
-    var len2 = array.Where(x => x.Length == 2).ToArray();
-    var len3 = array.Where(x => x.Length == 3).ToArray();
+    ElementInfo[] array = ElementInfo.Get(name);
+    var len1 = array.Where(x => x.name.Length == 1).ToArray();
+    var len2 = array.Where(x => x.name.Length == 2).ToArray();
+    var len3 = array.Where(x => x.name.Length == 3).ToArray();
     var usageGroup = array.MakeUsageGroup();
 #>
     private static bool Parse<#= name #>(ref Context context, ref Result result)
@@ -39,6 +39,7 @@ foreach (string name in Helper.BlockContainers) {
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
 <#  foreach (var (type, outers) in usageGroup) {
@@ -115,9 +116,13 @@ foreach (string name in Helper.BlockContainers) {
                 goto FALSE;
             }
 
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+<# if (ElementInfo.IsAllScenarioVariant(name)) { #>
+            if (!result.SplitElement(currentIndex, out var span, out variant))
+<# } else { #>
+            if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
+<# } #>
             {
-                goto FALSE;
+                return false;
             }
 
             var byteSpan = MemoryMarshal.Cast<char, byte>(span);
@@ -130,7 +135,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch (span[0])
                     {
 <#      foreach (var item in len1) { #>
-                        case '<#= item[0] #>': element_<#= item.GetCorrespondingTrailer() #> = ref node.<#= item.Escape() #>.EnsureGet(scenarioVariant); goto <#= item.GetCorrespondingTrailer() #>;
+                        case '<#= item.name[0] #>': element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
 <#      } #>
                     }
 <#  } #>
@@ -143,7 +148,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch ((uint)key)
                     {
 <#      foreach (var item in len2) { #>
-                        case 0x<#= item.GetKey().ToString("X8") #>U: element_<#= item.GetCorrespondingTrailer() #> = ref node.<#= item.Escape() #>.EnsureGet(scenarioVariant); goto <#= item.GetCorrespondingTrailer() #>;
+                        case 0x<#= item.name.GetKey().ToString("X8") #>U: element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
 <#      } #>
                     }
 <#  } #>
@@ -155,7 +160,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch (key)
                     {
 <#      foreach (var item in len3) { #>
-                        case 0x<#= item.GetKey().ToString("X12") #>UL: element_<#= item.GetCorrespondingTrailer() #> = ref node.<#= item.Escape() #>.EnsureGet(scenarioVariant); goto <#= item.GetCorrespondingTrailer() #>;
+                        case 0x<#= item.name.GetKey().ToString("X12") #>UL: element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
 <#      } #>
                     }
 <#  } #>
@@ -172,7 +177,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch (key)
                     {
 <#  foreach (var (element, key, rest) in items) { #>
-                        case 0x<#= key #>UL<# if (element.Length == 5) { #> when span[0] == '<#= rest[0] #>'<# } else { #> when span.SequenceEqual("<#= rest #>")<# } #>: element_<#= element.GetCorrespondingTrailer() #> = ref node.<#= element.Escape() #>.EnsureGet(scenarioVariant); goto <#= element.GetCorrespondingTrailer() #>;                            
+                        case 0x<#= key #>UL<# if (element.name.Length == 5) { #> when span[0] == '<#= rest[0] #>'<# } else { #> when span.SequenceEqual("<#= rest #>")<# } #>: element_<#= element.name.GetCorrespondingTrailer() #> = ref node.<#= element.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= element.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= element.name.GetCorrespondingTrailer() #>;                            
 <#  } #>
                     }
                     break;
@@ -199,7 +204,7 @@ foreach (string name in Helper.BlockContainers) {
             if (element_<#= trailer #> is null)
             {
                 element_<#= trailer #> = new(currentIndex);
-                element_<#= trailer #>.ElementScenarioId = scenarioVariant;
+                element_<#= trailer #>.ElementScenarioId = variant;
                 element_<#= trailer #>.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;

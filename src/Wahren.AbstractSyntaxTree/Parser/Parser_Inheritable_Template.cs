@@ -21,6 +21,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -41,10 +42,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -65,10 +67,10 @@ public static partial class Parser
                 case 1:
                     switch (span[0])
                     {
-                        case 'x': pair_DEFAULT = ref node.x.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'y': pair_DEFAULT = ref node.y.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 'x': pair_DEFAULT = ref node.x.EnsureGet(variant); goto DEFAULT;
+                        case 'y': pair_DEFAULT = ref node.y.EnsureGet(variant); goto DEFAULT;
+                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
+                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
                     }
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
                     span = Span<char>.Empty;
@@ -81,9 +83,9 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x006700690062UL: pair_DEFAULT = ref node.big.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00700061006DUL: pair_DEFAULT = ref node.map.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006700690062UL: pair_DEFAULT = ref node.big.EnsureGet(variant); goto DEFAULT;
+                        case 0x00700061006DUL: pair_DEFAULT = ref node.map.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -96,54 +98,54 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006E006900610067UL: pair_DEFAULT = ref node.gain.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
+                        case 0x006E006900610067UL: pair_DEFAULT = ref node.gain.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006D0069006CUL when span[0] == 't': pair_DEFAULT = ref node.limit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(scenarioVariant); goto MEMBER;
+                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006D0069006CUL when span[0] == 't': pair_DEFAULT = ref node.limit.EnsureGet(variant); goto DEFAULT;
+                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(variant); goto MEMBER;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007300610063UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.castle.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
+                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(variant); goto CONSTI;
+                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007300610063UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.castle.EnsureGet(variant); goto DEFAULT;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x0073006E006F006DUL when span.SequenceEqual("ter"): pair_MEMBER = ref node.monster.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0067006E00750064UL when span.SequenceEqual("eon"): pair_DEFAULT = ref node.dungeon.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0068005F006F006EUL when span.SequenceEqual("ome"): pair_DEFAULT = ref node.no_home.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0073006E006F006DUL when span.SequenceEqual("ter"): pair_MEMBER = ref node.monster.EnsureGet(variant); goto MEMBER;
+                        case 0x0067006E00750064UL when span.SequenceEqual("eon"): pair_DEFAULT = ref node.dungeon.EnsureGet(variant); goto DEFAULT;
+                        case 0x0068005F006F006EUL when span.SequenceEqual("ome"): pair_DEFAULT = ref node.no_home.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 4:
                     switch (key)
                     {
-                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): pair_DEFAULT = ref node.politics.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007000610063UL when span.SequenceEqual("city"): pair_DEFAULT = ref node.capacity.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072005F006F006EUL when span.SequenceEqual("aise"): pair_DEFAULT = ref node.no_raise.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): pair_DEFAULT = ref node.politics.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007000610063UL when span.SequenceEqual("city"): pair_DEFAULT = ref node.capacity.EnsureGet(variant); goto DEFAULT;
+                        case 0x0072005F006F006EUL when span.SequenceEqual("aise"): pair_DEFAULT = ref node.no_raise.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 6:
                     switch (key)
                     {
-                        case 0x0074007300610063UL when span.SequenceEqual("le_lot"): pair_DEFAULT = ref node.castle_lot.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074007300610063UL when span.SequenceEqual("le_lot"): pair_DEFAULT = ref node.castle_lot.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 9:
                     switch (key)
                     {
-                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): pair_DEFAULT = ref node.castle_battle.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): pair_DEFAULT = ref node.castle_battle.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -155,7 +157,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -187,7 +189,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -219,7 +221,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -275,6 +277,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_LOYAL = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -298,10 +301,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -322,9 +326,9 @@ public static partial class Parser
                 case 1:
                     switch (span[0])
                     {
-                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
+                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
+                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(variant); goto DEFAULT;
                     }
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
                     span = Span<char>.Empty;
@@ -333,8 +337,8 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
                     switch ((uint)key)
                     {
-                        case 0x00700068U: pair_DEFAULT = ref node.hp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006DU: pair_DEFAULT = ref node.mp.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00700068U: pair_DEFAULT = ref node.hp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070006DU: pair_DEFAULT = ref node.mp.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -342,11 +346,11 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x007800650073UL: pair_DEFAULT = ref node.sex.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007000780065UL: pair_DEFAULT = ref node.exp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007800690066UL: pair_DEFAULT = ref node.fix.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400650072UL: pair_DEFAULT = ref node.red.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x007800650073UL: pair_DEFAULT = ref node.sex.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(variant); goto DEFAULT;
+                        case 0x007000780065UL: pair_DEFAULT = ref node.exp.EnsureGet(variant); goto DEFAULT;
+                        case 0x007800690066UL: pair_DEFAULT = ref node.fix.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400650072UL: pair_DEFAULT = ref node.red.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -359,218 +363,218 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006300610072UL: pair_DEFAULT = ref node.race.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006300610066UL: pair_DEFAULT = ref node.face.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740073006F0063UL: pair_DEFAULT = ref node.cost.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL: pair_DEFAULT = ref node.dext.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL: pair_DEFAULT = ref node.move.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006E0069006CUL: pair_DEFAULT = ref node.line.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070005500700068UL: pair_DEFAULT = ref node.hpUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007000550070006DUL: pair_DEFAULT = ref node.mpUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x006F006200610079UL: pair_DEFAULT = ref node.yabo.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006C0066UL: pair_DEFAULT = ref node.flag.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D006F0068UL: pair_RAY = ref node.home.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x006E0069006F006AUL: pair_DEFAULT = ref node.join.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006100650064UL: pair_DEFAULT = ref node.dead.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006300610072UL: pair_DEFAULT = ref node.race.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006300610066UL: pair_DEFAULT = ref node.face.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740073006F0063UL: pair_DEFAULT = ref node.cost.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL: pair_DEFAULT = ref node.dext.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL: pair_DEFAULT = ref node.move.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006E0069006CUL: pair_DEFAULT = ref node.line.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070005500700068UL: pair_DEFAULT = ref node.hpUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x007000550070006DUL: pair_DEFAULT = ref node.mpUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(variant); goto LOYAL;
+                        case 0x006F006200610079UL: pair_DEFAULT = ref node.yabo.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006C0066UL: pair_DEFAULT = ref node.flag.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D006F0068UL: pair_RAY = ref node.home.EnsureGet(variant); goto RAY;
+                        case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(variant); goto MEMBER;
+                        case 0x006E0069006F006AUL: pair_DEFAULT = ref node.join.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006100650064UL: pair_DEFAULT = ref node.dead.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x00730061006C0063UL when span[0] == 's': pair_DEFAULT = ref node.@class.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F006F006B0074UL when span[0] == 'l': pair_DEFAULT = ref node.tkool.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006900720070UL when span[0] == 'e': pair_DEFAULT = ref node.price.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x006500760065006CUL when span[0] == 'l': pair_DEFAULT = ref node.level.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span[0] == 'c': pair_DEFAULT = ref node.magic.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span[0] == 'd': pair_DEFAULT = ref node.speed.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span[0] == 'c': pair_DEFAULT = ref node.hprec.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span[0] == 'c': pair_DEFAULT = ref node.mprec.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C0069006B0073UL when span[0] == 'l': pair_RAY = ref node.skill.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x007200610065006CUL when span[0] == 'n': pair_RAY = ref node.learn.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0074006C0075006DUL when span[0] == 'i': pair_RAY = ref node.multi.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0061004D00700068UL when span[0] == 'x': pair_DEFAULT = ref node.hpMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061004D0070006DUL when span[0] == 'x': pair_DEFAULT = ref node.mpMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650073006F006BUL when span[0] == 'n': pair_DEFAULT = ref node.kosen.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0076006100720062UL when span[0] == 'e': pair_LOYAL = ref node.brave.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x00670069006C0061UL when span[0] == 'n': pair_DEFAULT = ref node.align.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D0065006E0065UL when span[0] == 'y': pair_OFFSET = ref node.enemy.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x00610079006F006CUL when span[0] == 'l': pair_LOYAL = ref node.loyal.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x0066006100740073UL when span[0] == 'f': pair_OFFSET = ref node.staff.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x006F007400630061UL when span[0] == 'r': pair_DEFAULT = ref node.actor.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006500720062UL when span[0] == 'k': pair_DEFAULT = ref node.@break.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00730061006C0063UL when span[0] == 's': pair_DEFAULT = ref node.@class.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant); goto DEFAULT;
+                        case 0x006F006F006B0074UL when span[0] == 'l': pair_DEFAULT = ref node.tkool.EnsureGet(variant); goto DEFAULT;
+                        case 0x0063006900720070UL when span[0] == 'e': pair_DEFAULT = ref node.price.EnsureGet(variant); goto DEFAULT;
+                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(variant); goto MEMBER;
+                        case 0x006500760065006CUL when span[0] == 'l': pair_DEFAULT = ref node.level.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span[0] == 'c': pair_DEFAULT = ref node.magic.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span[0] == 'd': pair_DEFAULT = ref node.speed.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span[0] == 'c': pair_DEFAULT = ref node.hprec.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span[0] == 'c': pair_DEFAULT = ref node.mprec.EnsureGet(variant); goto DEFAULT;
+                        case 0x006C0069006B0073UL when span[0] == 'l': pair_RAY = ref node.skill.EnsureGet(variant); goto RAY;
+                        case 0x007200610065006CUL when span[0] == 'n': pair_RAY = ref node.learn.EnsureGet(variant); goto RAY;
+                        case 0x0074006C0075006DUL when span[0] == 'i': pair_RAY = ref node.multi.EnsureGet(variant); goto RAY;
+                        case 0x0061004D00700068UL when span[0] == 'x': pair_DEFAULT = ref node.hpMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061004D0070006DUL when span[0] == 'x': pair_DEFAULT = ref node.mpMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650073006F006BUL when span[0] == 'n': pair_DEFAULT = ref node.kosen.EnsureGet(variant); goto DEFAULT;
+                        case 0x0076006100720062UL when span[0] == 'e': pair_LOYAL = ref node.brave.EnsureGet(variant); goto LOYAL;
+                        case 0x00670069006C0061UL when span[0] == 'n': pair_DEFAULT = ref node.align.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D0065006E0065UL when span[0] == 'y': pair_OFFSET = ref node.enemy.EnsureGet(variant); goto OFFSET;
+                        case 0x00610079006F006CUL when span[0] == 'l': pair_LOYAL = ref node.loyal.EnsureGet(variant); goto LOYAL;
+                        case 0x0066006100740073UL when span[0] == 'f': pair_OFFSET = ref node.staff.EnsureGet(variant); goto OFFSET;
+                        case 0x006F007400630061UL when span[0] == 'r': pair_DEFAULT = ref node.actor.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006500720062UL when span[0] == 'k': pair_DEFAULT = ref node.@break.EnsureGet(variant); goto DEFAULT;
+                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0065006C00610074UL when span.SequenceEqual("nt"): pair_DEFAULT = ref node.talent.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006400610072UL when span.SequenceEqual("us"): pair_DEFAULT = ref node.radius.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007300610068UL when span.SequenceEqual("xp"): pair_DEFAULT = ref node.hasexp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck"): pair_DEFAULT = ref node.attack.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("ef"): pair_DEFAULT = ref node.magdef.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C0069006B0073UL when span.SequenceEqual("l2"): pair_RAY = ref node.skill2.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0074007800650064UL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.dextUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.moveUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00620061006E0065UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.enable.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006200720061UL when span.SequenceEqual("it"): pair_LOYAL = ref node.arbeit.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x0065007200630073UL when span.SequenceEqual("am"): pair_DEFAULT = ref node.scream.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E00610068UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.handle.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007400630061UL when span.SequenceEqual("ve"): pair_DEFAULT = ref node.active.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(scenarioVariant); goto CONSTI;
+                        case 0x0065006C00610074UL when span.SequenceEqual("nt"): pair_DEFAULT = ref node.talent.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006400610072UL when span.SequenceEqual("us"): pair_DEFAULT = ref node.radius.EnsureGet(variant); goto DEFAULT;
+                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007300610068UL when span.SequenceEqual("xp"): pair_DEFAULT = ref node.hasexp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(variant); goto OFFSET;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck"): pair_DEFAULT = ref node.attack.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("ef"): pair_DEFAULT = ref node.magdef.EnsureGet(variant); goto DEFAULT;
+                        case 0x006C0069006B0073UL when span.SequenceEqual("l2"): pair_RAY = ref node.skill2.EnsureGet(variant); goto RAY;
+                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(variant); goto CONSTI;
+                        case 0x0074007800650064UL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.dextUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.moveUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x00620061006E0065UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.enable.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006200720061UL when span.SequenceEqual("it"): pair_LOYAL = ref node.arbeit.EnsureGet(variant); goto LOYAL;
+                        case 0x0065007200630073UL when span.SequenceEqual("am"): pair_DEFAULT = ref node.scream.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006E00610068UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.handle.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069007400630061UL when span.SequenceEqual("ve"): pair_DEFAULT = ref node.active.EnsureGet(variant); goto DEFAULT;
+                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(variant); goto CONSTI;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x0061006500740073UL when span.SequenceEqual("lth"): pair_DEFAULT = ref node.stealth.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure"): pair_DEFAULT = ref node.picture.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006E00690066UL when span.SequenceEqual("nce"): pair_DEFAULT = ref node.finance.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900640065006DUL when span.SequenceEqual("cal"): pair_DEFAULT = ref node.medical.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nse"): pair_DEFAULT = ref node.defense.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F007000780065UL when span.SequenceEqual("mul"): pair_DEFAULT = ref node.exp_mul.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F007000780065UL when span.SequenceEqual("max"): pair_DEFAULT = ref node.exp_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.magicUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span.SequenceEqual("dUp"): pair_DEFAULT = ref node.speedUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.hprecUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.mprecUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.dextMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.moveMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740072006F0073UL when span.SequenceEqual("key"): pair_DEFAULT = ref node.sortkey.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072007400650072UL when span.SequenceEqual("eat"): pair_DEFAULT = ref node.retreat.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0061006500740073UL when span.SequenceEqual("lth"): pair_DEFAULT = ref node.stealth.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure"): pair_DEFAULT = ref node.picture.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006E00690066UL when span.SequenceEqual("nce"): pair_DEFAULT = ref node.finance.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900640065006DUL when span.SequenceEqual("cal"): pair_DEFAULT = ref node.medical.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nse"): pair_DEFAULT = ref node.defense.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F007000780065UL when span.SequenceEqual("mul"): pair_DEFAULT = ref node.exp_mul.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F007000780065UL when span.SequenceEqual("max"): pair_DEFAULT = ref node.exp_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.magicUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span.SequenceEqual("dUp"): pair_DEFAULT = ref node.speedUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.hprecUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.mprecUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.dextMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.moveMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740072006F0073UL when span.SequenceEqual("key"): pair_DEFAULT = ref node.sortkey.EnsureGet(variant); goto DEFAULT;
+                        case 0x0072007400650072UL when span.SequenceEqual("eat"): pair_DEFAULT = ref node.retreat.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 4:
                     switch (key)
                     {
-                        case 0x006C006100650068UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.heal_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.dext_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.move_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0073006C00650064UL when span.SequenceEqual("kill"): pair_OFFSET = ref node.delskill.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006B005F006F006EUL when span.SequenceEqual("nock"): pair_DEFAULT = ref node.no_knock.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063005F006F006EUL when span.SequenceEqual("over"): pair_DEFAULT = ref node.no_cover.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ckUp"): pair_DEFAULT = ref node.attackUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("efUp"): pair_DEFAULT = ref node.magdefUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.magicMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span.SequenceEqual("dMax"): pair_DEFAULT = ref node.speedMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.hprecMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.mprecMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): pair_DEFAULT = ref node.politics.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006C006100650068UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.heal_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.dext_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.move_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0073006C00650064UL when span.SequenceEqual("kill"): pair_OFFSET = ref node.delskill.EnsureGet(variant); goto OFFSET;
+                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(variant); goto DEFAULT;
+                        case 0x006B005F006F006EUL when span.SequenceEqual("nock"): pair_DEFAULT = ref node.no_knock.EnsureGet(variant); goto DEFAULT;
+                        case 0x0063005F006F006EUL when span.SequenceEqual("over"): pair_DEFAULT = ref node.no_cover.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ckUp"): pair_DEFAULT = ref node.attackUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("efUp"): pair_DEFAULT = ref node.magdefUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.magicMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span.SequenceEqual("dMax"): pair_DEFAULT = ref node.speedMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.hprecMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.mprecMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): pair_DEFAULT = ref node.politics.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 5:
                     switch (key)
                     {
-                        case 0x00760069006C0061UL when span.SequenceEqual("e_per"): pair_DEFAULT = ref node.alive_per.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D00610073UL when span.SequenceEqual("_call"): pair_DEFAULT = ref node.same_call.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.magic_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span.SequenceEqual("d_max"): pair_DEFAULT = ref node.speed_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.hprec_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.mprec_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0073006C00650064UL when span.SequenceEqual("kill2"): pair_OFFSET = ref node.delskill2.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x0065007400610073UL when span.SequenceEqual("llite"): pair_DEFAULT = ref node.satellite.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0077006500690076UL when span.SequenceEqual("_unit"): pair_DEFAULT = ref node.view_unit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500760065006CUL when span.SequenceEqual("l_max"): pair_DEFAULT = ref node.level_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nseUp"): pair_DEFAULT = ref node.defenseUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ckMax"): pair_DEFAULT = ref node.attackMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("efMax"): pair_DEFAULT = ref node.magdefMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C007000690064UL when span.SequenceEqual("omacy"): pair_DEFAULT = ref node.diplomacy.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065005F006F006EUL when span.SequenceEqual("scape"): pair_DEFAULT = ref node.no_escape.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006200750073UL when span.SequenceEqual("image"): pair_DEFAULT = ref node.sub_image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007400630061UL when span.SequenceEqual("venum"): pair_RAY = ref node.activenum.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x006B006E00610072UL when span.SequenceEqual("_text"): pair_DEFAULT = ref node.rank_text.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007000650065006BUL when span.SequenceEqual("_form"): pair_DEFAULT = ref node.keep_form.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00760069006C0061UL when span.SequenceEqual("e_per"): pair_DEFAULT = ref node.alive_per.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D00610073UL when span.SequenceEqual("_call"): pair_DEFAULT = ref node.same_call.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.magic_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span.SequenceEqual("d_max"): pair_DEFAULT = ref node.speed_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.hprec_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.mprec_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0073006C00650064UL when span.SequenceEqual("kill2"): pair_OFFSET = ref node.delskill2.EnsureGet(variant); goto OFFSET;
+                        case 0x0065007400610073UL when span.SequenceEqual("llite"): pair_DEFAULT = ref node.satellite.EnsureGet(variant); goto DEFAULT;
+                        case 0x0077006500690076UL when span.SequenceEqual("_unit"): pair_DEFAULT = ref node.view_unit.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500760065006CUL when span.SequenceEqual("l_max"): pair_DEFAULT = ref node.level_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nseUp"): pair_DEFAULT = ref node.defenseUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ckMax"): pair_DEFAULT = ref node.attackMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("efMax"): pair_DEFAULT = ref node.magdefMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x006C007000690064UL when span.SequenceEqual("omacy"): pair_DEFAULT = ref node.diplomacy.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065005F006F006EUL when span.SequenceEqual("scape"): pair_DEFAULT = ref node.no_escape.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F006200750073UL when span.SequenceEqual("image"): pair_DEFAULT = ref node.sub_image.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069007400630061UL when span.SequenceEqual("venum"): pair_RAY = ref node.activenum.EnsureGet(variant); goto RAY;
+                        case 0x006B006E00610072UL when span.SequenceEqual("_text"): pair_DEFAULT = ref node.rank_text.EnsureGet(variant); goto DEFAULT;
+                        case 0x007000650065006BUL when span.SequenceEqual("_form"): pair_DEFAULT = ref node.keep_form.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 6:
                     switch (key)
                     {
-                        case 0x0064006100650064UL when span.SequenceEqual("_event"): pair_DEFAULT = ref node.dead_event.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F006F00720074UL when span.SequenceEqual("p_sort"): pair_DEFAULT = ref node.troop_sort.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072005F006F006EUL when span.SequenceEqual("egular"): pair_DEFAULT = ref node.no_regular.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006D00750073UL when span.SequenceEqual("on_max"): pair_DEFAULT = ref node.summon_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck_max"): pair_DEFAULT = ref node.attack_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("ef_max"): pair_DEFAULT = ref node.magdef_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0073006100650062UL when span.SequenceEqual("t_unit"): pair_DEFAULT = ref node.beast_unit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006300730065UL when span.SequenceEqual("pe_run"): pair_DEFAULT = ref node.escape_run.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E00610068UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.hand_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006B00610077UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.wake_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0077006500690076UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.view_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nseMax"): pair_DEFAULT = ref node.defenseMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650077006F0070UL when span.SequenceEqual("r_name"): pair_DEFAULT = ref node.power_name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00620061006E0065UL when span.SequenceEqual("le_max"): pair_DEFAULT = ref node.enable_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006400640061UL when span.SequenceEqual("vassal"): pair_DEFAULT = ref node.add_vassal.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00630069006F0076UL when span.SequenceEqual("e_type"): pair_OFFSET = ref node.voice_type.EnsureGet(scenarioVariant); goto OFFSET;
+                        case 0x0064006100650064UL when span.SequenceEqual("_event"): pair_DEFAULT = ref node.dead_event.EnsureGet(variant); goto DEFAULT;
+                        case 0x006F006F00720074UL when span.SequenceEqual("p_sort"): pair_DEFAULT = ref node.troop_sort.EnsureGet(variant); goto DEFAULT;
+                        case 0x0072005F006F006EUL when span.SequenceEqual("egular"): pair_DEFAULT = ref node.no_regular.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D006D00750073UL when span.SequenceEqual("on_max"): pair_DEFAULT = ref node.summon_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck_max"): pair_DEFAULT = ref node.attack_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("ef_max"): pair_DEFAULT = ref node.magdef_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0073006100650062UL when span.SequenceEqual("t_unit"): pair_DEFAULT = ref node.beast_unit.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006300730065UL when span.SequenceEqual("pe_run"): pair_DEFAULT = ref node.escape_run.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006E00610068UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.hand_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006B00610077UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.wake_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0077006500690076UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.view_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nseMax"): pair_DEFAULT = ref node.defenseMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650077006F0070UL when span.SequenceEqual("r_name"): pair_DEFAULT = ref node.power_name.EnsureGet(variant); goto DEFAULT;
+                        case 0x00620061006E0065UL when span.SequenceEqual("le_max"): pair_DEFAULT = ref node.enable_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F006400640061UL when span.SequenceEqual("vassal"): pair_DEFAULT = ref node.add_vassal.EnsureGet(variant); goto DEFAULT;
+                        case 0x00630069006F0076UL when span.SequenceEqual("e_type"): pair_OFFSET = ref node.voice_type.EnsureGet(variant); goto OFFSET;
                     }
                     goto default;
                 case 7:
                     switch (key)
                     {
-                        case 0x0065006D00610073UL when span.SequenceEqual("_friend"): pair_DEFAULT = ref node.same_friend.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nse_max"): pair_DEFAULT = ref node.defense_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074005F006F006EUL when span.SequenceEqual("raining"): pair_DEFAULT = ref node.no_training.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740069006F006EUL when span.SequenceEqual("em_unit"): pair_DEFAULT = ref node.noitem_unit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740073006F006CUL when span.SequenceEqual("_corpse"): pair_DEFAULT = ref node.lost_corpse.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00630072006F0066UL when span.SequenceEqual("e_voice"): pair_DEFAULT = ref node.force_voice.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D00610073UL when span.SequenceEqual("_friend"): pair_DEFAULT = ref node.same_friend.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nse_max"): pair_DEFAULT = ref node.defense_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074005F006F006EUL when span.SequenceEqual("raining"): pair_DEFAULT = ref node.no_training.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740069006F006EUL when span.SequenceEqual("em_unit"): pair_DEFAULT = ref node.noitem_unit.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740073006F006CUL when span.SequenceEqual("_corpse"): pair_DEFAULT = ref node.lost_corpse.EnsureGet(variant); goto DEFAULT;
+                        case 0x00630072006F0066UL when span.SequenceEqual("e_voice"): pair_DEFAULT = ref node.force_voice.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 8:
                     switch (key)
                     {
-                        case 0x0069006400610072UL when span.SequenceEqual("us_press"): pair_DEFAULT = ref node.radius_press.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_menu"): pair_DEFAULT = ref node.picture_menu.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_back"): pair_DEFAULT = ref node.picture_back.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006D00750073UL when span.SequenceEqual("on_level"): pair_DEFAULT = ref node.summon_level.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400610065006CUL when span.SequenceEqual("er_skill"): pair_CONSTI = ref node.leader_skill.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0069007300730061UL when span.SequenceEqual("st_skill"): pair_CONSTI = ref node.assist_skill.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x006D0065006C0065UL when span.SequenceEqual("ent_lost"): pair_DEFAULT = ref node.element_lost.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck_range"): pair_DEFAULT = ref node.attack_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006300730065UL when span.SequenceEqual("pe_range"): pair_DEFAULT = ref node.escape_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007300610063UL when span.SequenceEqual("le_guard"): pair_MEMBER = ref node.castle_guard.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0061006500720062UL when span.SequenceEqual("st_width"): pair_DEFAULT = ref node.breast_width.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0069006400610072UL when span.SequenceEqual("us_press"): pair_DEFAULT = ref node.radius_press.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_menu"): pair_DEFAULT = ref node.picture_menu.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_back"): pair_DEFAULT = ref node.picture_back.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D006D00750073UL when span.SequenceEqual("on_level"): pair_DEFAULT = ref node.summon_level.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400610065006CUL when span.SequenceEqual("er_skill"): pair_CONSTI = ref node.leader_skill.EnsureGet(variant); goto CONSTI;
+                        case 0x0069007300730061UL when span.SequenceEqual("st_skill"): pair_CONSTI = ref node.assist_skill.EnsureGet(variant); goto CONSTI;
+                        case 0x006D0065006C0065UL when span.SequenceEqual("ent_lost"): pair_DEFAULT = ref node.element_lost.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck_range"): pair_DEFAULT = ref node.attack_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006300730065UL when span.SequenceEqual("pe_range"): pair_DEFAULT = ref node.escape_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007300610063UL when span.SequenceEqual("le_guard"): pair_MEMBER = ref node.castle_guard.EnsureGet(variant); goto MEMBER;
+                        case 0x0061006500720062UL when span.SequenceEqual("st_width"): pair_DEFAULT = ref node.breast_width.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 9:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure@cutin"): pair_DEFAULT = ref node.picture_atmark_cutin.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_floor"): pair_DEFAULT = ref node.picture_floor.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift"): pair_DEFAULT = ref node.picture_shift.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007600610063UL when span.SequenceEqual("lry_range"): pair_DEFAULT = ref node.cavalry_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00620061006E0065UL when span.SequenceEqual("le_select"): pair_DEFAULT = ref node.enable_select.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650072006F006EUL when span.SequenceEqual("move_unit"): pair_DEFAULT = ref node.noremove_unit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D0065006F006EUL when span.SequenceEqual("ploy_unit"): pair_DEFAULT = ref node.noemploy_unit.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure@cutin"): pair_DEFAULT = ref node.picture_atmark_cutin.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_floor"): pair_DEFAULT = ref node.picture_floor.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift"): pair_DEFAULT = ref node.picture_shift.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007600610063UL when span.SequenceEqual("lry_range"): pair_DEFAULT = ref node.cavalry_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x00620061006E0065UL when span.SequenceEqual("le_select"): pair_DEFAULT = ref node.enable_select.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650072006F006EUL when span.SequenceEqual("move_unit"): pair_DEFAULT = ref node.noremove_unit.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D0065006F006EUL when span.SequenceEqual("ploy_unit"): pair_DEFAULT = ref node.noemploy_unit.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 10:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_detail"): pair_DEFAULT = ref node.picture_detail.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_center"): pair_DEFAULT = ref node.picture_center.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006200750073UL when span.SequenceEqual("image_even"): pair_DEFAULT = ref node.sub_image_even.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_detail"): pair_DEFAULT = ref node.picture_detail.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_center"): pair_DEFAULT = ref node.picture_center.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F006200750073UL when span.SequenceEqual("image_even"): pair_DEFAULT = ref node.sub_image_even.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 11:
                     switch (key)
                     {
-                        case 0x0065006200720061UL when span.SequenceEqual("it_capacity"): pair_DEFAULT = ref node.arbeit_capacity.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006200720061UL when span.SequenceEqual("it_capacity"): pair_DEFAULT = ref node.arbeit_capacity.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 12:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift_up"): pair_DEFAULT = ref node.picture_shift_up.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift_up"): pair_DEFAULT = ref node.picture_shift_up.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -582,7 +586,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -614,7 +618,7 @@ public static partial class Parser
             if (pair_LOYAL is null)
             {
                 pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = scenarioVariant;
+                pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -646,7 +650,7 @@ public static partial class Parser
             if (pair_OFFSET is null)
             {
                 pair_OFFSET = new(currentIndex);
-                pair_OFFSET.ElementScenarioId = scenarioVariant;
+                pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -678,7 +682,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -710,7 +714,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -742,7 +746,7 @@ public static partial class Parser
             if (pair_RAY is null)
             {
                 pair_RAY = new(currentIndex);
-                pair_RAY.ElementScenarioId = scenarioVariant;
+                pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -798,6 +802,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_LOYAL = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -818,10 +823,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -860,26 +866,26 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x00670069006C0061UL when span[0] == 'n': pair_DEFAULT = ref node.align.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0076006100720062UL when span[0] == 'e': pair_LOYAL = ref node.brave.EnsureGet(scenarioVariant); goto LOYAL;
+                        case 0x00670069006C0061UL when span[0] == 'n': pair_DEFAULT = ref node.align.EnsureGet(variant); goto DEFAULT;
+                        case 0x0076006100720062UL when span[0] == 'e': pair_LOYAL = ref node.brave.EnsureGet(variant); goto LOYAL;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(scenarioVariant); goto CONSTI;
+                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(variant); goto CONSTI;
                     }
                     goto default;
                 case 4:
                     switch (key)
                     {
-                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -891,7 +897,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -923,7 +929,7 @@ public static partial class Parser
             if (pair_LOYAL is null)
             {
                 pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = scenarioVariant;
+                pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -955,7 +961,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1011,6 +1017,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_LOYAL = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -1034,10 +1041,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1058,9 +1066,9 @@ public static partial class Parser
                 case 1:
                     switch (span[0])
                     {
-                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(variant); goto DEFAULT;
+                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
+                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
                     }
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
                     span = Span<char>.Empty;
@@ -1069,8 +1077,8 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
                     switch ((uint)key)
                     {
-                        case 0x00700068U: pair_DEFAULT = ref node.hp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006DU: pair_DEFAULT = ref node.mp.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00700068U: pair_DEFAULT = ref node.hp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070006DU: pair_DEFAULT = ref node.mp.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -1078,9 +1086,9 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x007800650073UL: pair_DEFAULT = ref node.sex.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007000780065UL: pair_DEFAULT = ref node.exp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400650072UL: pair_DEFAULT = ref node.red.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x007800650073UL: pair_DEFAULT = ref node.sex.EnsureGet(variant); goto DEFAULT;
+                        case 0x007000780065UL: pair_DEFAULT = ref node.exp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400650072UL: pair_DEFAULT = ref node.red.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -1093,182 +1101,182 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740073006F0063UL: pair_DEFAULT = ref node.cost.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006300610066UL: pair_DEFAULT = ref node.face.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006300610072UL: pair_DEFAULT = ref node.race.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL: pair_DEFAULT = ref node.dext.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL: pair_DEFAULT = ref node.move.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006E0069006CUL: pair_DEFAULT = ref node.line.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070005500700068UL: pair_DEFAULT = ref node.hpUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007000550070006DUL: pair_DEFAULT = ref node.mpUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(scenarioVariant); goto MEMBER;
+                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740073006F0063UL: pair_DEFAULT = ref node.cost.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006300610066UL: pair_DEFAULT = ref node.face.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006300610072UL: pair_DEFAULT = ref node.race.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL: pair_DEFAULT = ref node.dext.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL: pair_DEFAULT = ref node.move.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006E0069006CUL: pair_DEFAULT = ref node.line.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070005500700068UL: pair_DEFAULT = ref node.hpUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x007000550070006DUL: pair_DEFAULT = ref node.mpUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(variant); goto LOYAL;
+                        case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(variant); goto MEMBER;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x006F006F006B0074UL when span[0] == 'l': pair_DEFAULT = ref node.tkool.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006500720062UL when span[0] == 'k': pair_DEFAULT = ref node.@break.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006900720070UL when span[0] == 'e': pair_DEFAULT = ref node.price.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500760065006CUL when span[0] == 'l': pair_DEFAULT = ref node.level.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span[0] == 'c': pair_DEFAULT = ref node.magic.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span[0] == 'd': pair_DEFAULT = ref node.speed.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span[0] == 'c': pair_DEFAULT = ref node.hprec.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span[0] == 'c': pair_DEFAULT = ref node.mprec.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061004D00700068UL when span[0] == 'x': pair_DEFAULT = ref node.hpMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061004D0070006DUL when span[0] == 'x': pair_DEFAULT = ref node.mpMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0076006100720062UL when span[0] == 'e': pair_LOYAL = ref node.brave.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x0074006C0075006DUL when span[0] == 'i': pair_RAY = ref node.multi.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x006C0069006B0073UL when span[0] == 'l': pair_RAY = ref node.skill.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x007200610065006CUL when span[0] == 'n': pair_RAY = ref node.learn.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006F006F006B0074UL when span[0] == 'l': pair_DEFAULT = ref node.tkool.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006500720062UL when span[0] == 'k': pair_DEFAULT = ref node.@break.EnsureGet(variant); goto DEFAULT;
+                        case 0x0063006900720070UL when span[0] == 'e': pair_DEFAULT = ref node.price.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500760065006CUL when span[0] == 'l': pair_DEFAULT = ref node.level.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span[0] == 'c': pair_DEFAULT = ref node.magic.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span[0] == 'd': pair_DEFAULT = ref node.speed.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span[0] == 'c': pair_DEFAULT = ref node.hprec.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span[0] == 'c': pair_DEFAULT = ref node.mprec.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061004D00700068UL when span[0] == 'x': pair_DEFAULT = ref node.hpMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061004D0070006DUL when span[0] == 'x': pair_DEFAULT = ref node.mpMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0076006100720062UL when span[0] == 'e': pair_LOYAL = ref node.brave.EnsureGet(variant); goto LOYAL;
+                        case 0x0074006C0075006DUL when span[0] == 'i': pair_RAY = ref node.multi.EnsureGet(variant); goto RAY;
+                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(variant); goto MEMBER;
+                        case 0x006C0069006B0073UL when span[0] == 'l': pair_RAY = ref node.skill.EnsureGet(variant); goto RAY;
+                        case 0x007200610065006CUL when span[0] == 'n': pair_RAY = ref node.learn.EnsureGet(variant); goto RAY;
+                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x00670061006D0069UL when span.SequenceEqual("e2"): pair_DEFAULT = ref node.image2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200630073UL when span.SequenceEqual("am"): pair_DEFAULT = ref node.scream.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007300610068UL when span.SequenceEqual("xp"): pair_DEFAULT = ref node.hasexp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00710069006E0075UL when span.SequenceEqual("ue"): pair_DEFAULT = ref node.unique.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006400610072UL when span.SequenceEqual("us"): pair_DEFAULT = ref node.radius.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck"): pair_DEFAULT = ref node.attack.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("ef"): pair_DEFAULT = ref node.magdef.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.dextUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.moveUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006E006100680063UL when span.SequenceEqual("ge"): pair_LOYAL = ref node.change.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x006C0069006B0073UL when span.SequenceEqual("l2"): pair_RAY = ref node.skill2.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0064006E00610068UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.handle.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(scenarioVariant); goto CONSTI;
+                        case 0x00670061006D0069UL when span.SequenceEqual("e2"): pair_DEFAULT = ref node.image2.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200630073UL when span.SequenceEqual("am"): pair_DEFAULT = ref node.scream.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007300610068UL when span.SequenceEqual("xp"): pair_DEFAULT = ref node.hasexp.EnsureGet(variant); goto DEFAULT;
+                        case 0x00710069006E0075UL when span.SequenceEqual("ue"): pair_DEFAULT = ref node.unique.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006400610072UL when span.SequenceEqual("us"): pair_DEFAULT = ref node.radius.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck"): pair_DEFAULT = ref node.attack.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("ef"): pair_DEFAULT = ref node.magdef.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.dextUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("Up"): pair_DEFAULT = ref node.moveUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006E006100680063UL when span.SequenceEqual("ge"): pair_LOYAL = ref node.change.EnsureGet(variant); goto LOYAL;
+                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(variant); goto OFFSET;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
+                        case 0x006C0069006B0073UL when span.SequenceEqual("l2"): pair_RAY = ref node.skill2.EnsureGet(variant); goto RAY;
+                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(variant); goto CONSTI;
+                        case 0x0064006E00610068UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.handle.EnsureGet(variant); goto DEFAULT;
+                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(variant); goto CONSTI;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x0061006500740073UL when span.SequenceEqual("lth"): pair_DEFAULT = ref node.stealth.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900640065006DUL when span.SequenceEqual("cal"): pair_DEFAULT = ref node.medical.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure"): pair_DEFAULT = ref node.picture.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nse"): pair_DEFAULT = ref node.defense.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F007000780065UL when span.SequenceEqual("mul"): pair_DEFAULT = ref node.exp_mul.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F007000780065UL when span.SequenceEqual("max"): pair_DEFAULT = ref node.exp_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.magicUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span.SequenceEqual("dUp"): pair_DEFAULT = ref node.speedUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.hprecUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.mprecUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.dextMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.moveMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740072006F0073UL when span.SequenceEqual("key"): pair_DEFAULT = ref node.sortkey.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0061006500740073UL when span.SequenceEqual("lth"): pair_DEFAULT = ref node.stealth.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900640065006DUL when span.SequenceEqual("cal"): pair_DEFAULT = ref node.medical.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure"): pair_DEFAULT = ref node.picture.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nse"): pair_DEFAULT = ref node.defense.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F007000780065UL when span.SequenceEqual("mul"): pair_DEFAULT = ref node.exp_mul.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F007000780065UL when span.SequenceEqual("max"): pair_DEFAULT = ref node.exp_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.magicUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span.SequenceEqual("dUp"): pair_DEFAULT = ref node.speedUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.hprecUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span.SequenceEqual("cUp"): pair_DEFAULT = ref node.mprecUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.dextMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("Max"): pair_DEFAULT = ref node.moveMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740072006F0073UL when span.SequenceEqual("key"): pair_DEFAULT = ref node.sortkey.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 4:
                     switch (key)
                     {
-                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): pair_DEFAULT = ref node.politics.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D00610073UL when span.SequenceEqual("_sex"): pair_DEFAULT = ref node.same_sex.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C006100650068UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.heal_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650064UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.dext_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.move_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006B005F006F006EUL when span.SequenceEqual("nock"): pair_DEFAULT = ref node.no_knock.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063005F006F006EUL when span.SequenceEqual("over"): pair_DEFAULT = ref node.no_cover.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ckUp"): pair_DEFAULT = ref node.attackUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("efUp"): pair_DEFAULT = ref node.magdefUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.magicMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span.SequenceEqual("dMax"): pair_DEFAULT = ref node.speedMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.hprecMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.mprecMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0073006C00650064UL when span.SequenceEqual("kill"): pair_OFFSET = ref node.delskill.EnsureGet(scenarioVariant); goto OFFSET;
+                        case 0x0069006C006F0070UL when span.SequenceEqual("tics"): pair_DEFAULT = ref node.politics.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D00610073UL when span.SequenceEqual("_sex"): pair_DEFAULT = ref node.same_sex.EnsureGet(variant); goto DEFAULT;
+                        case 0x006C006100650068UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.heal_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650064UL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.dext_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("_max"): pair_DEFAULT = ref node.move_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(variant); goto DEFAULT;
+                        case 0x006B005F006F006EUL when span.SequenceEqual("nock"): pair_DEFAULT = ref node.no_knock.EnsureGet(variant); goto DEFAULT;
+                        case 0x0063005F006F006EUL when span.SequenceEqual("over"): pair_DEFAULT = ref node.no_cover.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ckUp"): pair_DEFAULT = ref node.attackUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("efUp"): pair_DEFAULT = ref node.magdefUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.magicMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span.SequenceEqual("dMax"): pair_DEFAULT = ref node.speedMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.hprecMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span.SequenceEqual("cMax"): pair_DEFAULT = ref node.mprecMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0073006C00650064UL when span.SequenceEqual("kill"): pair_OFFSET = ref node.delskill.EnsureGet(variant); goto OFFSET;
                     }
                     goto default;
                 case 5:
                     switch (key)
                     {
-                        case 0x007000650065006BUL when span.SequenceEqual("_form"): pair_DEFAULT = ref node.keep_form.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D00610073UL when span.SequenceEqual("_call"): pair_DEFAULT = ref node.same_call.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006900670061006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.magic_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span.SequenceEqual("d_max"): pair_DEFAULT = ref node.speed_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200700068UL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.hprec_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500720070006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.mprec_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007400610073UL when span.SequenceEqual("llite"): pair_DEFAULT = ref node.satellite.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0077006500690076UL when span.SequenceEqual("_unit"): pair_DEFAULT = ref node.view_unit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006500760065006CUL when span.SequenceEqual("l_max"): pair_DEFAULT = ref node.level_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nseUp"): pair_DEFAULT = ref node.defenseUp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ckMax"): pair_DEFAULT = ref node.attackMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("efMax"): pair_DEFAULT = ref node.magdefMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500720066UL when span.SequenceEqual("_move"): pair_DEFAULT = ref node.free_move.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006900720066UL when span.SequenceEqual("nd_ex"): pair_RAY = ref node.friend_ex.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0073006C00650064UL when span.SequenceEqual("kill2"): pair_OFFSET = ref node.delskill2.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x005F006200750073UL when span.SequenceEqual("image"): pair_DEFAULT = ref node.sub_image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006B006E00610072UL when span.SequenceEqual("_text"): pair_DEFAULT = ref node.rank_text.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x007000650065006BUL when span.SequenceEqual("_form"): pair_DEFAULT = ref node.keep_form.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D00610073UL when span.SequenceEqual("_call"): pair_DEFAULT = ref node.same_call.EnsureGet(variant); goto DEFAULT;
+                        case 0x006900670061006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.magic_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500700073UL when span.SequenceEqual("d_max"): pair_DEFAULT = ref node.speed_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007200700068UL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.hprec_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500720070006DUL when span.SequenceEqual("c_max"): pair_DEFAULT = ref node.mprec_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007400610073UL when span.SequenceEqual("llite"): pair_DEFAULT = ref node.satellite.EnsureGet(variant); goto DEFAULT;
+                        case 0x0077006500690076UL when span.SequenceEqual("_unit"): pair_DEFAULT = ref node.view_unit.EnsureGet(variant); goto DEFAULT;
+                        case 0x006500760065006CUL when span.SequenceEqual("l_max"): pair_DEFAULT = ref node.level_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nseUp"): pair_DEFAULT = ref node.defenseUp.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ckMax"): pair_DEFAULT = ref node.attackMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("efMax"): pair_DEFAULT = ref node.magdefMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006500720066UL when span.SequenceEqual("_move"): pair_DEFAULT = ref node.free_move.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006900720066UL when span.SequenceEqual("nd_ex"): pair_RAY = ref node.friend_ex.EnsureGet(variant); goto RAY;
+                        case 0x0073006C00650064UL when span.SequenceEqual("kill2"): pair_OFFSET = ref node.delskill2.EnsureGet(variant); goto OFFSET;
+                        case 0x005F006200750073UL when span.SequenceEqual("image"): pair_DEFAULT = ref node.sub_image.EnsureGet(variant); goto DEFAULT;
+                        case 0x006B006E00610072UL when span.SequenceEqual("_text"): pair_DEFAULT = ref node.rank_text.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 6:
                     switch (key)
                     {
-                        case 0x0072005F006F006EUL when span.SequenceEqual("egular"): pair_DEFAULT = ref node.no_regular.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F006F00720074UL when span.SequenceEqual("p_sort"): pair_DEFAULT = ref node.troop_sort.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006D00750073UL when span.SequenceEqual("on_max"): pair_DEFAULT = ref node.summon_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck_max"): pair_DEFAULT = ref node.attack_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006400670061006DUL when span.SequenceEqual("ef_max"): pair_DEFAULT = ref node.magdef_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0073006100650062UL when span.SequenceEqual("t_unit"): pair_DEFAULT = ref node.beast_unit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006300730065UL when span.SequenceEqual("pe_run"): pair_DEFAULT = ref node.escape_run.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E00610068UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.hand_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006B00610077UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.wake_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0077006500690076UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.view_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nseMax"): pair_DEFAULT = ref node.defenseMax.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006100650064UL when span.SequenceEqual("_event"): pair_DEFAULT = ref node.dead_event.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006400640061UL when span.SequenceEqual("vassal"): pair_DEFAULT = ref node.add_vassal.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006200750073UL when span.SequenceEqual("image2"): pair_DEFAULT = ref node.sub_image2.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0072005F006F006EUL when span.SequenceEqual("egular"): pair_DEFAULT = ref node.no_regular.EnsureGet(variant); goto DEFAULT;
+                        case 0x006F006F00720074UL when span.SequenceEqual("p_sort"): pair_DEFAULT = ref node.troop_sort.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D006D00750073UL when span.SequenceEqual("on_max"): pair_DEFAULT = ref node.summon_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck_max"): pair_DEFAULT = ref node.attack_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x006400670061006DUL when span.SequenceEqual("ef_max"): pair_DEFAULT = ref node.magdef_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x0073006100650062UL when span.SequenceEqual("t_unit"): pair_DEFAULT = ref node.beast_unit.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006300730065UL when span.SequenceEqual("pe_run"): pair_DEFAULT = ref node.escape_run.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006E00610068UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.hand_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006B00610077UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.wake_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0077006500690076UL when span.SequenceEqual("_range"): pair_DEFAULT = ref node.view_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nseMax"): pair_DEFAULT = ref node.defenseMax.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006100650064UL when span.SequenceEqual("_event"): pair_DEFAULT = ref node.dead_event.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F006400640061UL when span.SequenceEqual("vassal"): pair_DEFAULT = ref node.add_vassal.EnsureGet(variant); goto DEFAULT;
+                        case 0x005F006200750073UL when span.SequenceEqual("image2"): pair_DEFAULT = ref node.sub_image2.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 7:
                     switch (key)
                     {
-                        case 0x0065006D00610073UL when span.SequenceEqual("_friend"): pair_DEFAULT = ref node.same_friend.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006600650064UL when span.SequenceEqual("nse_max"): pair_DEFAULT = ref node.defense_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00740073006F006CUL when span.SequenceEqual("_corpse"): pair_DEFAULT = ref node.lost_corpse.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00630072006F0066UL when span.SequenceEqual("e_voice"): pair_DEFAULT = ref node.force_voice.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074005F006F006EUL when span.SequenceEqual("raining"): pair_DEFAULT = ref node.no_training.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D00610073UL when span.SequenceEqual("_friend"): pair_DEFAULT = ref node.same_friend.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006600650064UL when span.SequenceEqual("nse_max"): pair_DEFAULT = ref node.defense_max.EnsureGet(variant); goto DEFAULT;
+                        case 0x00740073006F006CUL when span.SequenceEqual("_corpse"): pair_DEFAULT = ref node.lost_corpse.EnsureGet(variant); goto DEFAULT;
+                        case 0x00630072006F0066UL when span.SequenceEqual("e_voice"): pair_DEFAULT = ref node.force_voice.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074005F006F006EUL when span.SequenceEqual("raining"): pair_DEFAULT = ref node.no_training.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 8:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_menu"): pair_DEFAULT = ref node.picture_menu.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006400610072UL when span.SequenceEqual("us_press"): pair_DEFAULT = ref node.radius_press.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006D00750073UL when span.SequenceEqual("on_level"): pair_DEFAULT = ref node.summon_level.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D0065006C0065UL when span.SequenceEqual("ent_lost"): pair_DEFAULT = ref node.element_lost.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck_range"): pair_DEFAULT = ref node.attack_range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061006300730065UL when span.SequenceEqual("pe_range"): pair_DEFAULT = ref node.escape_range.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_menu"): pair_DEFAULT = ref node.picture_menu.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006400610072UL when span.SequenceEqual("us_press"): pair_DEFAULT = ref node.radius_press.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D006D00750073UL when span.SequenceEqual("on_level"): pair_DEFAULT = ref node.summon_level.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D0065006C0065UL when span.SequenceEqual("ent_lost"): pair_DEFAULT = ref node.element_lost.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck_range"): pair_DEFAULT = ref node.attack_range.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061006300730065UL when span.SequenceEqual("pe_range"): pair_DEFAULT = ref node.escape_range.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 9:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure@cutin"): pair_DEFAULT = ref node.picture_atmark_cutin.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_floor"): pair_DEFAULT = ref node.picture_floor.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift"): pair_DEFAULT = ref node.picture_shift.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007600610063UL when span.SequenceEqual("lry_range"): pair_DEFAULT = ref node.cavalry_range.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure@cutin"): pair_DEFAULT = ref node.picture_atmark_cutin.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_floor"): pair_DEFAULT = ref node.picture_floor.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift"): pair_DEFAULT = ref node.picture_shift.EnsureGet(variant); goto DEFAULT;
+                        case 0x0061007600610063UL when span.SequenceEqual("lry_range"): pair_DEFAULT = ref node.cavalry_range.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 10:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_detail"): pair_DEFAULT = ref node.picture_detail.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_detail"): pair_DEFAULT = ref node.picture_detail.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 12:
                     switch (key)
                     {
-                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift_up"): pair_DEFAULT = ref node.picture_shift_up.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure_shift_up"): pair_DEFAULT = ref node.picture_shift_up.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -1280,7 +1288,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1312,7 +1320,7 @@ public static partial class Parser
             if (pair_LOYAL is null)
             {
                 pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = scenarioVariant;
+                pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1344,7 +1352,7 @@ public static partial class Parser
             if (pair_RAY is null)
             {
                 pair_RAY = new(currentIndex);
-                pair_RAY.ElementScenarioId = scenarioVariant;
+                pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1376,7 +1384,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1408,7 +1416,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1440,7 +1448,7 @@ public static partial class Parser
             if (pair_OFFSET is null)
             {
                 pair_OFFSET = new(currentIndex);
-                pair_OFFSET.ElementScenarioId = scenarioVariant;
+                pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1496,6 +1504,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -1516,10 +1525,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1545,7 +1555,7 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
                     switch ((uint)key)
                     {
-                        case 0x00640069U: pair_DEFAULT = ref node.id.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00640069U: pair_DEFAULT = ref node.id.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -1553,7 +1563,7 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x0074006C0061UL: pair_DEFAULT = ref node.alt.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074006C0061UL: pair_DEFAULT = ref node.alt.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -1566,31 +1576,31 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065007000790074UL: pair_DEFAULT = ref node.type.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072007400740061UL: pair_DEFAULT = ref node.attr.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006700640065UL: pair_DEFAULT = ref node.edge.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0032006400640061UL: pair_MEMBER = ref node.add2.EnsureGet(scenarioVariant); goto MEMBER;
+                        case 0x0065007000790074UL: pair_DEFAULT = ref node.type.EnsureGet(variant); goto DEFAULT;
+                        case 0x0072007400740061UL: pair_DEFAULT = ref node.attr.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006700640065UL: pair_DEFAULT = ref node.edge.EnsureGet(variant); goto DEFAULT;
+                        case 0x0032006400640061UL: pair_MEMBER = ref node.add2.EnsureGet(variant); goto MEMBER;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x006F006C006F0063UL when span[0] == 'r': pair_RAY = ref node.color.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x006E0069006F006AUL when span[0] == 't': pair_RAY = ref node.joint.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006F006C006F0063UL when span[0] == 'r': pair_RAY = ref node.color.EnsureGet(variant); goto RAY;
+                        case 0x006E0069006F006AUL when span[0] == 't': pair_RAY = ref node.joint.EnsureGet(variant); goto RAY;
+                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x006F006F006D0073UL when span.SequenceEqual("th"): pair_DEFAULT = ref node.smooth.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
+                        case 0x006F006F006D0073UL when span.SequenceEqual("th"): pair_DEFAULT = ref node.smooth.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x005F0074006C0061UL when span.SequenceEqual("max"): pair_DEFAULT = ref node.alt_max.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x005F0074006C0061UL when span.SequenceEqual("max"): pair_DEFAULT = ref node.alt_max.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -1602,7 +1612,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1634,7 +1644,7 @@ public static partial class Parser
             if (pair_RAY is null)
             {
                 pair_RAY = new(currentIndex);
-                pair_RAY.ElementScenarioId = scenarioVariant;
+                pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1666,7 +1676,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -1722,6 +1732,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_LOYAL = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -1745,27 +1756,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            uint scenarioVariant;
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
                 return false;
             }
-            if (variantSpan.IsEmpty)
-            {
-                scenarioVariant = uint.MaxValue;
-            }
-            else
-            {
-                if (span.SequenceEqual("msg") || span.SequenceEqual("picture"))
-                {
-                    scenarioVariant = result.UnitSet.GetOrAdd(variantSpan, currentIndex);
-                }
-                else
-                {
-                    scenarioVariant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex);
-                }
-            }
-            
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1786,9 +1781,9 @@ public static partial class Parser
                 case 1:
                     switch (span[0])
                     {
-                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
                     span = Span<char>.Empty;
@@ -1797,7 +1792,7 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
                     switch ((uint)key)
                     {
-                        case 0x0070006DU: pair_DEFAULT = ref node.mp.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0070006DU: pair_DEFAULT = ref node.mp.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -1805,12 +1800,12 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x00670073006DUL: pair_DEFAULT = ref node.msg.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007900610072UL: pair_RAY = ref node.ray.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x007200740073UL: pair_LOYAL = ref node.str.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x006400640061UL: pair_DEFAULT = ref node.add.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006F0062UL: pair_DEFAULT = ref node.bom.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007200610066UL: pair_DEFAULT = ref node.far.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00670073006DUL: pair_DEFAULT = ref node.msg.EnsureGet(variant = result.UnitSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007900610072UL: pair_RAY = ref node.ray.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto RAY;
+                        case 0x007200740073UL: pair_LOYAL = ref node.str.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto LOYAL;
+                        case 0x006400640061UL: pair_DEFAULT = ref node.add.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006F0062UL: pair_DEFAULT = ref node.bom.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007200610066UL: pair_DEFAULT = ref node.far.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -1823,224 +1818,224 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0063006E00750066UL: pair_DEFAULT = ref node.func.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006E006F00630069UL: pair_CONSTI = ref node.icon.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007000790074UL: pair_DEFAULT = ref node.type.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0030003600330064UL: pair_DEFAULT = ref node.d360.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072007400740061UL: pair_DEFAULT = ref node.attr.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0032006400640061UL: pair_MEMBER = ref node.add2.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0064007200610068UL: pair_DEFAULT = ref node.hard.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007600610077UL: pair_CONSTI = ref node.wave.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0065006D00690074UL: pair_DEFAULT = ref node.time.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0068007300750072UL: pair_DEFAULT = ref node.rush.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400780065006EUL: pair_DEFAULT = ref node.next.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0063006E00750066UL: pair_DEFAULT = ref node.func.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006E006F00630069UL: pair_CONSTI = ref node.icon.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto CONSTI;
+                        case 0x00790065006B0066UL: pair_LOYAL = ref node.fkey.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto LOYAL;
+                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065007000790074UL: pair_DEFAULT = ref node.type.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0030003600330064UL: pair_DEFAULT = ref node.d360.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0072007400740061UL: pair_DEFAULT = ref node.attr.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0032006400640061UL: pair_MEMBER = ref node.add2.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                        case 0x0064007200610068UL: pair_DEFAULT = ref node.hard.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065007600610077UL: pair_CONSTI = ref node.wave.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto CONSTI;
+                        case 0x0065006D00690074UL: pair_DEFAULT = ref node.time.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0068007300750072UL: pair_DEFAULT = ref node.rush.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400780065006EUL: pair_DEFAULT = ref node.next.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x0061006C00650064UL when span[0] == 'y': pair_DEFAULT = ref node.delay.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006E0075006F0073UL when span[0] == 'd': pair_MEMBER = ref node.sound.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0069007400750063UL when span[0] == 'n': pair_CONSTI = ref node.cutin.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F006C006F0063UL when span[0] == 'r': pair_RAY = ref node.color.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D0069006E0061UL when span[0] == 'e': pair_DEFAULT = ref node.anime.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00640069006C0073UL when span[0] == 'e': pair_DEFAULT = ref node.slide.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006B006100680073UL when span[0] == 'e': pair_DEFAULT = ref node.shake.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00730061006C0066UL when span[0] == 'h': pair_DEFAULT = ref node.flash.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064007200610068UL when span[0] == '2': pair_DEFAULT = ref node.hard2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006F006E006BUL when span[0] == 'k': pair_DEFAULT = ref node.knock.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0067006E00610072UL when span[0] == 'e': pair_DEFAULT = ref node.range.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006500680063UL when span[0] == 'k': pair_DEFAULT = ref node.check.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006500700073UL when span[0] == 'd': pair_DEFAULT = ref node.speed.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400780065006EUL when span[0] == '2': pair_MEMBER = ref node.next2.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x007400780065006EUL when span[0] == '3': pair_MEMBER = ref node.next3.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x007400780065006EUL when span[0] == '4': pair_DEFAULT = ref node.next4.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006900720070UL when span[0] == 'e': pair_DEFAULT = ref node.price.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0061006C00650064UL when span[0] == 'y': pair_DEFAULT = ref node.delay.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006E0075006F0073UL when span[0] == 'd': pair_MEMBER = ref node.sound.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                        case 0x0069007400750063UL when span[0] == 'n': pair_CONSTI = ref node.cutin.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto CONSTI;
+                        case 0x0075006C00610076UL when span[0] == 'e': pair_DEFAULT = ref node.value.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006F006C006F0063UL when span[0] == 'r': pair_RAY = ref node.color.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto RAY;
+                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D0069006E0061UL when span[0] == 'e': pair_DEFAULT = ref node.anime.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00640069006C0073UL when span[0] == 'e': pair_DEFAULT = ref node.slide.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006B006100680073UL when span[0] == 'e': pair_DEFAULT = ref node.shake.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00730061006C0066UL when span[0] == 'h': pair_DEFAULT = ref node.flash.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0064007200610068UL when span[0] == '2': pair_DEFAULT = ref node.hard2.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0063006F006E006BUL when span[0] == 'k': pair_DEFAULT = ref node.knock.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0067006E00610072UL when span[0] == 'e': pair_DEFAULT = ref node.range.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0063006500680063UL when span[0] == 'k': pair_DEFAULT = ref node.check.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065006500700073UL when span[0] == 'd': pair_DEFAULT = ref node.speed.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400780065006EUL when span[0] == '2': pair_MEMBER = ref node.next2.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                        case 0x007400780065006EUL when span[0] == '3': pair_MEMBER = ref node.next3.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                        case 0x007400780065006EUL when span[0] == '4': pair_DEFAULT = ref node.next4.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0063006900720070UL when span[0] == 'e': pair_DEFAULT = ref node.price.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0067006900720062UL when span.SequenceEqual("ht"): pair_DEFAULT = ref node.bright.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006C00610074UL when span.SequenceEqual("nt"): pair_DEFAULT = ref node.talent.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006E00650063UL when span.SequenceEqual("er"): pair_DEFAULT = ref node.center.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0075006F00720067UL when span.SequenceEqual("nd"): pair_LOYAL = ref node.ground.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x00610074006F0072UL when span.SequenceEqual("te"): pair_DEFAULT = ref node.rotate.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007200690064UL when span.SequenceEqual("ct"): pair_DEFAULT = ref node.direct.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0061006D00610064UL when span.SequenceEqual("ge"): pair_DEFAULT = ref node.damage.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006D006F0068UL when span.SequenceEqual("ng"): pair_DEFAULT = ref node.homing.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00680065006E006FUL when span.SequenceEqual("it"): pair_DEFAULT = ref node.onehit.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007300660066006FUL when span.SequenceEqual("et"): pair_OFFSET = ref node.offset.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x006700690072006FUL when span.SequenceEqual("in"): pair_DEFAULT = ref node.origin.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0067006900650068UL when span.SequenceEqual("ht"): pair_DEFAULT = ref node.height.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C006C006F0066UL when span.SequenceEqual("ow"): pair_DEFAULT = ref node.follow.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(scenarioVariant); goto OFFSET;
+                        case 0x0067006900720062UL when span.SequenceEqual("ht"): pair_DEFAULT = ref node.bright.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065006C00610074UL when span.SequenceEqual("nt"): pair_DEFAULT = ref node.talent.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0074006E00650063UL when span.SequenceEqual("er"): pair_DEFAULT = ref node.center.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0075006F00720067UL when span.SequenceEqual("nd"): pair_LOYAL = ref node.ground.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto LOYAL;
+                        case 0x00610074006F0072UL when span.SequenceEqual("te"): pair_DEFAULT = ref node.rotate.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065007200690064UL when span.SequenceEqual("ct"): pair_DEFAULT = ref node.direct.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006F0072006F0079UL when span.SequenceEqual("zu"): pair_CONSTI = ref node.yorozu.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto CONSTI;
+                        case 0x0061006D00610064UL when span.SequenceEqual("ge"): pair_DEFAULT = ref node.damage.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069006D006F0068UL when span.SequenceEqual("ng"): pair_DEFAULT = ref node.homing.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00680065006E006FUL when span.SequenceEqual("it"): pair_DEFAULT = ref node.onehit.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007300660066006FUL when span.SequenceEqual("et"): pair_OFFSET = ref node.offset.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto OFFSET;
+                        case 0x006700690072006FUL when span.SequenceEqual("in"): pair_DEFAULT = ref node.origin.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0067006900650068UL when span.SequenceEqual("ht"): pair_DEFAULT = ref node.height.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006C006C006F0066UL when span.SequenceEqual("ow"): pair_DEFAULT = ref node.follow.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto OFFSET;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x00740072006F0073UL when span.SequenceEqual("key"): pair_DEFAULT = ref node.sortkey.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006500700073UL when span.SequenceEqual("ial"): pair_DEFAULT = ref node.special.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006300690070UL when span.SequenceEqual("ure"): pair_DEFAULT = ref node.picture.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F007000780065UL when span.SequenceEqual("per"): pair_DEFAULT = ref node.exp_per.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006400640061UL when span.SequenceEqual("all"): pair_DEFAULT = ref node.add_all.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006400640061UL when span.SequenceEqual("per"): pair_DEFAULT = ref node.add_per.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0066006C006C0061UL when span.SequenceEqual("unc"): pair_DEFAULT = ref node.allfunc.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006D006F0068UL when span.SequenceEqual("ng2"): pair_DEFAULT = ref node.homing2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00770072006F0066UL when span.SequenceEqual("ard"): pair_DEFAULT = ref node.forward.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00740072006F0073UL when span.SequenceEqual("key"): pair_DEFAULT = ref node.sortkey.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0063006500700073UL when span.SequenceEqual("ial"): pair_DEFAULT = ref node.special.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0074006300690070UL when span.SequenceEqual("ure"): pair_DEFAULT = ref node.picture.EnsureGet(variant = result.UnitSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x005F007000780065UL when span.SequenceEqual("per"): pair_DEFAULT = ref node.exp_per.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x005F006400640061UL when span.SequenceEqual("all"): pair_DEFAULT = ref node.add_all.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x005F006400640061UL when span.SequenceEqual("per"): pair_DEFAULT = ref node.add_per.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0066006C006C0061UL when span.SequenceEqual("unc"): pair_DEFAULT = ref node.allfunc.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069006D006F0068UL when span.SequenceEqual("ng2"): pair_DEFAULT = ref node.homing2.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00770072006F0066UL when span.SequenceEqual("ard"): pair_DEFAULT = ref node.forward.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 4:
                     switch (key)
                     {
-                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0030003600330064UL when span.SequenceEqual("_adj"): pair_DEFAULT = ref node.d360_adj.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_w"): pair_DEFAULT = ref node.resize_w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_h"): pair_DEFAULT = ref node.resize_h.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_x"): pair_DEFAULT = ref node.resize_x.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_y"): pair_DEFAULT = ref node.resize_y.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_a"): pair_DEFAULT = ref node.resize_a.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_s"): pair_DEFAULT = ref node.resize_s.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0077006F006C0073UL when span.SequenceEqual("_per"): pair_DEFAULT = ref node.slow_per.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007400660061UL when span.SequenceEqual("rhit"): pair_DEFAULT = ref node.afterhit.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00650076006F006DUL when span.SequenceEqual("type"): pair_DEFAULT = ref node.movetype.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0030003600330064UL when span.SequenceEqual("_adj"): pair_DEFAULT = ref node.d360_adj.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_w"): pair_DEFAULT = ref node.resize_w.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_h"): pair_DEFAULT = ref node.resize_h.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_x"): pair_DEFAULT = ref node.resize_x.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_y"): pair_DEFAULT = ref node.resize_y.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_a"): pair_DEFAULT = ref node.resize_a.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_s"): pair_DEFAULT = ref node.resize_s.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0077006F006C0073UL when span.SequenceEqual("_per"): pair_DEFAULT = ref node.slow_per.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065007400660061UL when span.SequenceEqual("rhit"): pair_DEFAULT = ref node.afterhit.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 5:
                     switch (key)
                     {
-                        case 0x00630072006F0066UL when span.SequenceEqual("e_ray"): pair_DEFAULT = ref node.force_ray.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F006E00750067UL when span.SequenceEqual("delay"): pair_LOYAL = ref node.gun_delay.EnsureGet(scenarioVariant); goto LOYAL;
-                        case 0x0065006400690068UL when span.SequenceEqual("_help"): pair_DEFAULT = ref node.hide_help.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00680070006C0061UL when span.SequenceEqual("a_tip"): pair_DEFAULT = ref node.alpha_tip.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0077006F006C0073UL when span.SequenceEqual("_time"): pair_DEFAULT = ref node.slow_time.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006900610077UL when span.SequenceEqual("_time"): pair_DEFAULT = ref node.wait_time.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C006C006F0063UL when span.SequenceEqual("ision"): pair_DEFAULT = ref node.collision.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x005F007200740073UL when span.SequenceEqual("ratio"): pair_DEFAULT = ref node.str_ratio.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0061007400740061UL when span.SequenceEqual("ck_us"): pair_DEFAULT = ref node.attack_us.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0067006E00610072UL when span.SequenceEqual("e_min"): pair_DEFAULT = ref node.range_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400780065006EUL when span.SequenceEqual("_last"): pair_DEFAULT = ref node.next_last.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400730075006AUL when span.SequenceEqual("_next"): pair_MEMBER = ref node.just_next.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0072006900610070UL when span.SequenceEqual("_next"): pair_DEFAULT = ref node.pair_next.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006500740069UL when span.SequenceEqual("_type"): pair_DEFAULT = ref node.item_type.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006500740069UL when span.SequenceEqual("_sort"): pair_DEFAULT = ref node.item_sort.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00630072006F0066UL when span.SequenceEqual("e_ray"): pair_DEFAULT = ref node.force_ray.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x005F006E00750067UL when span.SequenceEqual("delay"): pair_LOYAL = ref node.gun_delay.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto LOYAL;
+                        case 0x0065006400690068UL when span.SequenceEqual("_help"): pair_DEFAULT = ref node.hide_help.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00680070006C0061UL when span.SequenceEqual("a_tip"): pair_DEFAULT = ref node.alpha_tip.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0077006F006C0073UL when span.SequenceEqual("_time"): pair_DEFAULT = ref node.slow_time.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0074006900610077UL when span.SequenceEqual("_time"): pair_DEFAULT = ref node.wait_time.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006C006C006F0063UL when span.SequenceEqual("ision"): pair_DEFAULT = ref node.collision.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x005F007200740073UL when span.SequenceEqual("ratio"): pair_DEFAULT = ref node.str_ratio.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0061007400740061UL when span.SequenceEqual("ck_us"): pair_DEFAULT = ref node.attack_us.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0067006E00610072UL when span.SequenceEqual("e_min"): pair_DEFAULT = ref node.range_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400780065006EUL when span.SequenceEqual("_last"): pair_DEFAULT = ref node.next_last.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400730075006AUL when span.SequenceEqual("_next"): pair_MEMBER = ref node.just_next.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                        case 0x0072006900610070UL when span.SequenceEqual("_next"): pair_DEFAULT = ref node.pair_next.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006500740069UL when span.SequenceEqual("_type"): pair_DEFAULT = ref node.item_type.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006500740069UL when span.SequenceEqual("_sort"): pair_DEFAULT = ref node.item_sort.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 6:
                     switch (key)
                     {
-                        case 0x00680070006C0061UL when span.SequenceEqual("a_butt"): pair_DEFAULT = ref node.alpha_butt.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00630072006F0066UL when span.SequenceEqual("e_fire"): pair_DEFAULT = ref node.force_fire.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006900610077UL when span.SequenceEqual("_time2"): pair_DEFAULT = ref node.wait_time2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007400660061UL when span.SequenceEqual("rdeath"): pair_DEFAULT = ref node.afterdeath.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400780065006EUL when span.SequenceEqual("_order"): pair_DEFAULT = ref node.next_order.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400780065006EUL when span.SequenceEqual("_first"): pair_DEFAULT = ref node.next_first.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x00680070006C0061UL when span.SequenceEqual("a_butt"): pair_DEFAULT = ref node.alpha_butt.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00630072006F0066UL when span.SequenceEqual("e_fire"): pair_DEFAULT = ref node.force_fire.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0074006900610077UL when span.SequenceEqual("_time2"): pair_DEFAULT = ref node.wait_time2.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065007400660061UL when span.SequenceEqual("rdeath"): pair_DEFAULT = ref node.afterdeath.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400780065006EUL when span.SequenceEqual("_order"): pair_DEFAULT = ref node.next_order.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400780065006EUL when span.SequenceEqual("_first"): pair_DEFAULT = ref node.next_first.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 7:
                     switch (key)
                     {
-                        case 0x0063006900750071UL when span.SequenceEqual("kreload"): pair_DEFAULT = ref node.quickreload.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00640069006C0073UL when span.SequenceEqual("e_speed"): pair_DEFAULT = ref node.slide_speed.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00640069006C0073UL when span.SequenceEqual("e_delay"): pair_DEFAULT = ref node.slide_delay.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00640069006C0073UL when span.SequenceEqual("e_stamp"): pair_DEFAULT = ref node.slide_stamp.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00730061006C0066UL when span.SequenceEqual("h_anime"): pair_DEFAULT = ref node.flash_anime.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00730061006C0066UL when span.SequenceEqual("h_image"): pair_DEFAULT = ref node.flash_image.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007300660066006FUL when span.SequenceEqual("et_attr"): pair_DEFAULT = ref node.offset_attr.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006F006E006BUL when span.SequenceEqual("k_speed"): pair_DEFAULT = ref node.knock_speed.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0063006F006E006BUL when span.SequenceEqual("k_power"): pair_DEFAULT = ref node.knock_power.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0068007300750072UL when span.SequenceEqual("_degree"): pair_DEFAULT = ref node.rush_degree.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006F00720064UL when span.SequenceEqual("_degree"): pair_DEFAULT = ref node.drop_degree.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006E0069006F006AUL when span.SequenceEqual("t_skill"): pair_DEFAULT = ref node.joint_skill.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E00650073UL when span.SequenceEqual("_target"): pair_DEFAULT = ref node.send_target.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006500740069UL when span.SequenceEqual("_nosell"): pair_DEFAULT = ref node.item_nosell.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0063006900750071UL when span.SequenceEqual("kreload"): pair_DEFAULT = ref node.quickreload.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00640069006C0073UL when span.SequenceEqual("e_speed"): pair_DEFAULT = ref node.slide_speed.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00640069006C0073UL when span.SequenceEqual("e_delay"): pair_DEFAULT = ref node.slide_delay.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00640069006C0073UL when span.SequenceEqual("e_stamp"): pair_DEFAULT = ref node.slide_stamp.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00730061006C0066UL when span.SequenceEqual("h_anime"): pair_DEFAULT = ref node.flash_anime.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00730061006C0066UL when span.SequenceEqual("h_image"): pair_DEFAULT = ref node.flash_image.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007300660066006FUL when span.SequenceEqual("et_attr"): pair_DEFAULT = ref node.offset_attr.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0063006F006E006BUL when span.SequenceEqual("k_speed"): pair_DEFAULT = ref node.knock_speed.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0063006F006E006BUL when span.SequenceEqual("k_power"): pair_DEFAULT = ref node.knock_power.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0068007300750072UL when span.SequenceEqual("_degree"): pair_DEFAULT = ref node.rush_degree.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0070006F00720064UL when span.SequenceEqual("_degree"): pair_DEFAULT = ref node.drop_degree.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006E0069006F006AUL when span.SequenceEqual("t_skill"): pair_DEFAULT = ref node.joint_skill.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0064006E00650073UL when span.SequenceEqual("_target"): pair_DEFAULT = ref node.send_target.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006500740069UL when span.SequenceEqual("_nosell"): pair_DEFAULT = ref node.item_nosell.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 8:
                     switch (key)
                     {
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_start"): pair_DEFAULT = ref node.resize_start.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_w_max"): pair_DEFAULT = ref node.resize_w_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_w_min"): pair_DEFAULT = ref node.resize_w_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_h_min"): pair_DEFAULT = ref node.resize_h_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_h_max"): pair_DEFAULT = ref node.resize_h_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_x_max"): pair_DEFAULT = ref node.resize_x_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_x_min"): pair_DEFAULT = ref node.resize_x_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_y_min"): pair_DEFAULT = ref node.resize_y_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_y_max"): pair_DEFAULT = ref node.resize_y_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_a_max"): pair_DEFAULT = ref node.resize_a_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_s_max"): pair_DEFAULT = ref node.resize_s_max.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_a_min"): pair_DEFAULT = ref node.resize_a_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_s_min"): pair_DEFAULT = ref node.resize_s_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E00610072UL when span.SequenceEqual("om_space"): pair_DEFAULT = ref node.random_space.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072006100740073UL when span.SequenceEqual("t_degree"): pair_DEFAULT = ref node.start_degree.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006F00720064UL when span.SequenceEqual("_degree2"): pair_DEFAULT = ref node.drop_degree2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006D006D00750073UL when span.SequenceEqual("on_level"): pair_DEFAULT = ref node.summon_level.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_start"): pair_DEFAULT = ref node.resize_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_w_max"): pair_DEFAULT = ref node.resize_w_max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_w_min"): pair_DEFAULT = ref node.resize_w_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_h_min"): pair_DEFAULT = ref node.resize_h_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_h_max"): pair_DEFAULT = ref node.resize_h_max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_x_max"): pair_DEFAULT = ref node.resize_x_max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_x_min"): pair_DEFAULT = ref node.resize_x_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_y_min"): pair_DEFAULT = ref node.resize_y_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_y_max"): pair_DEFAULT = ref node.resize_y_max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_a_max"): pair_DEFAULT = ref node.resize_a_max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_s_max"): pair_DEFAULT = ref node.resize_s_max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_a_min"): pair_DEFAULT = ref node.resize_a_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_s_min"): pair_DEFAULT = ref node.resize_s_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0064006E00610072UL when span.SequenceEqual("om_space"): pair_DEFAULT = ref node.random_space.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0072006100740073UL when span.SequenceEqual("t_degree"): pair_DEFAULT = ref node.start_degree.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0070006F00720064UL when span.SequenceEqual("_degree2"): pair_DEFAULT = ref node.drop_degree2.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006D00750073UL when span.SequenceEqual("on_level"): pair_DEFAULT = ref node.summon_level.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 9:
                     switch (key)
                     {
-                        case 0x0068007300750072UL when span.SequenceEqual("_interval"): pair_DEFAULT = ref node.rush_interval.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400780065006EUL when span.SequenceEqual("_interval"): pair_DEFAULT = ref node.next_interval.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0068007300750072UL when span.SequenceEqual("_interval"): pair_DEFAULT = ref node.rush_interval.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007400780065006EUL when span.SequenceEqual("_interval"): pair_DEFAULT = ref node.next_interval.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 10:
                     switch (key)
                     {
-                        case 0x006D0069006E0061UL when span.SequenceEqual("e_interval"): pair_DEFAULT = ref node.anime_interval.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_reverse"): pair_DEFAULT = ref node.resize_reverse.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_w_start"): pair_DEFAULT = ref node.resize_w_start.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_h_start"): pair_DEFAULT = ref node.resize_h_start.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_x_start"): pair_DEFAULT = ref node.resize_x_start.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_y_start"): pair_DEFAULT = ref node.resize_y_start.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_a_start"): pair_DEFAULT = ref node.resize_a_start.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_s_start"): pair_DEFAULT = ref node.resize_s_start.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006D0069006E0061UL when span.SequenceEqual("e_interval"): pair_DEFAULT = ref node.anime_interval.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_reverse"): pair_DEFAULT = ref node.resize_reverse.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_w_start"): pair_DEFAULT = ref node.resize_w_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_h_start"): pair_DEFAULT = ref node.resize_h_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_x_start"): pair_DEFAULT = ref node.resize_x_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_y_start"): pair_DEFAULT = ref node.resize_y_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_a_start"): pair_DEFAULT = ref node.resize_a_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_s_start"): pair_DEFAULT = ref node.resize_s_start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 11:
                     switch (key)
                     {
-                        case 0x0069007300650072UL when span.SequenceEqual("ze_interval"): pair_DEFAULT = ref node.resize_interval.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0069007300650072UL when span.SequenceEqual("ze_interval"): pair_DEFAULT = ref node.resize_interval.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 12:
                     switch (key)
                     {
-                        case 0x0064006E00610072UL when span.SequenceEqual("om_space_min"): pair_DEFAULT = ref node.random_space_min.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072006100740073UL when span.SequenceEqual("t_degree_fix"): pair_DEFAULT = ref node.start_degree_fix.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0064006E00610072UL when span.SequenceEqual("om_space_min"): pair_DEFAULT = ref node.random_space_min.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0072006100740073UL when span.SequenceEqual("t_degree_fix"): pair_DEFAULT = ref node.start_degree_fix.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 13:
                     switch (key)
                     {
-                        case 0x0072006100740073UL when span.SequenceEqual("t_degree_type"): pair_DEFAULT = ref node.start_degree_type.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E00650073UL when span.SequenceEqual("_image_degree"): pair_DEFAULT = ref node.send_image_degree.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0072006100740073UL when span.SequenceEqual("t_degree_type"): pair_DEFAULT = ref node.start_degree_type.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0064006E00650073UL when span.SequenceEqual("_image_degree"): pair_DEFAULT = ref node.send_image_degree.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 14:
                     switch (key)
                     {
-                        case 0x0068007300750072UL when span.SequenceEqual("_random_degree"): pair_DEFAULT = ref node.rush_random_degree.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0068007300750072UL when span.SequenceEqual("_random_degree"): pair_DEFAULT = ref node.rush_random_degree.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 15:
                     switch (key)
                     {
-                        case 0x0061006D00610064UL when span.SequenceEqual("ge_range_adjust"): pair_DEFAULT = ref node.damage_range_adjust.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0072006100740073UL when span.SequenceEqual("t_random_degree"): pair_DEFAULT = ref node.start_random_degree.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0061006D00610064UL when span.SequenceEqual("ge_range_adjust"): pair_DEFAULT = ref node.damage_range_adjust.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0072006100740073UL when span.SequenceEqual("t_random_degree"): pair_DEFAULT = ref node.start_random_degree.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 case 17:
                     switch (key)
                     {
-                        case 0x0072006100740073UL when span.SequenceEqual("t_degree_turnunit"): pair_DEFAULT = ref node.start_degree_turnunit.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0072006100740073UL when span.SequenceEqual("t_degree_turnunit"): pair_DEFAULT = ref node.start_degree_turnunit.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -2052,7 +2047,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2084,7 +2079,7 @@ public static partial class Parser
             if (pair_LOYAL is null)
             {
                 pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = scenarioVariant;
+                pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2116,7 +2111,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2148,7 +2143,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2180,7 +2175,7 @@ public static partial class Parser
             if (pair_RAY is null)
             {
                 pair_RAY = new(currentIndex);
-                pair_RAY.ElementScenarioId = scenarioVariant;
+                pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2212,7 +2207,7 @@ public static partial class Parser
             if (pair_OFFSET is null)
             {
                 pair_OFFSET = new(currentIndex);
-                pair_OFFSET.ElementScenarioId = scenarioVariant;
+                pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2268,6 +2263,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -2291,10 +2287,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2321,8 +2318,8 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007800690066UL: pair_DEFAULT = ref node.fix.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(variant); goto DEFAULT;
+                        case 0x007800690066UL: pair_DEFAULT = ref node.fix.EnsureGet(variant); goto DEFAULT;
                     }
                     goto DEFAULT_OTHERS;
             }
@@ -2334,89 +2331,89 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006C0066UL: pair_DEFAULT = ref node.flag.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006D006F0068UL: pair_RAY = ref node.home.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x0064006100650068UL: pair_DEFAULT = ref node.head.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0066006600690064UL: pair_DEFAULT = ref node.diff.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006F006200610079UL: pair_DEFAULT = ref node.yabo.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074007800650074UL: pair_TEXT = ref node.text.EnsureGet(scenarioVariant); goto TEXT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006C0066UL: pair_DEFAULT = ref node.flag.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006D006F0068UL: pair_RAY = ref node.home.EnsureGet(variant); goto RAY;
+                        case 0x0064006100650068UL: pair_DEFAULT = ref node.head.EnsureGet(variant); goto DEFAULT;
+                        case 0x0066006600690064UL: pair_DEFAULT = ref node.diff.EnsureGet(variant); goto DEFAULT;
+                        case 0x006F006200610079UL: pair_DEFAULT = ref node.yabo.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074007800650074UL: pair_TEXT = ref node.text.EnsureGet(variant); goto TEXT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x006E006500760065UL when span[0] == 't': pair_DEFAULT = ref node.@event.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065006E006F006DUL when span[0] == 'y': pair_DEFAULT = ref node.money.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006C007000690064UL when span[0] == 'o': pair_CONSTI = ref node.diplo.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0066006100740073UL when span[0] == 'f': pair_OFFSET = ref node.staff.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0064006100650068UL when span[0] == '2': pair_DEFAULT = ref node.head2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006100650068UL when span[0] == '3': pair_DEFAULT = ref node.head3.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006100650068UL when span[0] == '4': pair_DEFAULT = ref node.head4.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006100650068UL when span[0] == '5': pair_DEFAULT = ref node.head5.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006100650068UL when span[0] == '6': pair_DEFAULT = ref node.head6.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00650073006F006BUL when span[0] == 'n': pair_DEFAULT = ref node.kosen.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006E006500760065UL when span[0] == 't': pair_DEFAULT = ref node.@event.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065006E006F006DUL when span[0] == 'y': pair_DEFAULT = ref node.money.EnsureGet(variant); goto DEFAULT;
+                        case 0x006C007000690064UL when span[0] == 'o': pair_CONSTI = ref node.diplo.EnsureGet(variant); goto CONSTI;
+                        case 0x0066006100740073UL when span[0] == 'f': pair_OFFSET = ref node.staff.EnsureGet(variant); goto OFFSET;
+                        case 0x006300720065006DUL when span[0] == 'e': pair_MEMBER = ref node.merce.EnsureGet(variant); goto MEMBER;
+                        case 0x0064006100650068UL when span[0] == '2': pair_DEFAULT = ref node.head2.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006100650068UL when span[0] == '3': pair_DEFAULT = ref node.head3.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006100650068UL when span[0] == '4': pair_DEFAULT = ref node.head4.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006100650068UL when span[0] == '5': pair_DEFAULT = ref node.head5.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006100650068UL when span[0] == '6': pair_DEFAULT = ref node.head6.EnsureGet(variant); goto DEFAULT;
+                        case 0x00650073006F006BUL when span[0] == 'n': pair_DEFAULT = ref node.kosen.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x007400730061006DUL when span.SequenceEqual("er"): pair_DEFAULT = ref node.master.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006700610065006CUL when span.SequenceEqual("ue"): pair_CONSTI = ref node.league.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x006900720065006DUL when span.SequenceEqual("ts"): pair_CONSTI = ref node.merits.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x00610079006F006CUL when span.SequenceEqual("ls"): pair_CONSTI = ref node.loyals.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(scenarioVariant); goto OFFSET;
-                        case 0x00620061006E0065UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.enable.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x007400730061006DUL when span.SequenceEqual("er"): pair_DEFAULT = ref node.master.EnsureGet(variant); goto DEFAULT;
+                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(variant); goto DEFAULT;
+                        case 0x006700610065006CUL when span.SequenceEqual("ue"): pair_CONSTI = ref node.league.EnsureGet(variant); goto CONSTI;
+                        case 0x006900720065006DUL when span.SequenceEqual("ts"): pair_CONSTI = ref node.merits.EnsureGet(variant); goto CONSTI;
+                        case 0x00610079006F006CUL when span.SequenceEqual("ls"): pair_CONSTI = ref node.loyals.EnsureGet(variant); goto CONSTI;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
+                        case 0x0065006900720066UL when span.SequenceEqual("nd"): pair_OFFSET = ref node.friend.EnsureGet(variant); goto OFFSET;
+                        case 0x00620061006E0065UL when span.SequenceEqual("le"): pair_DEFAULT = ref node.enable.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x007400730061006DUL when span.SequenceEqual("er2"): pair_DEFAULT = ref node.master2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400730061006DUL when span.SequenceEqual("er3"): pair_DEFAULT = ref node.master3.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400730061006DUL when span.SequenceEqual("er4"): pair_DEFAULT = ref node.master4.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400730061006DUL when span.SequenceEqual("er5"): pair_DEFAULT = ref node.master5.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x007400730061006DUL when span.SequenceEqual("er6"): pair_DEFAULT = ref node.master6.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x007400730061006DUL when span.SequenceEqual("er2"): pair_DEFAULT = ref node.master2.EnsureGet(variant); goto DEFAULT;
+                        case 0x007400730061006DUL when span.SequenceEqual("er3"): pair_DEFAULT = ref node.master3.EnsureGet(variant); goto DEFAULT;
+                        case 0x007400730061006DUL when span.SequenceEqual("er4"): pair_DEFAULT = ref node.master4.EnsureGet(variant); goto DEFAULT;
+                        case 0x007400730061006DUL when span.SequenceEqual("er5"): pair_DEFAULT = ref node.master5.EnsureGet(variant); goto DEFAULT;
+                        case 0x007400730061006DUL when span.SequenceEqual("er6"): pair_DEFAULT = ref node.master6.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 5:
                     switch (key)
                     {
-                        case 0x006C007000690064UL when span.SequenceEqual("omacy"): pair_DEFAULT = ref node.diplomacy.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006C007000690064UL when span.SequenceEqual("omacy"): pair_DEFAULT = ref node.diplomacy.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 6:
                     switch (key)
                     {
-                        case 0x0065006500720066UL when span.SequenceEqual("_raise"): pair_DEFAULT = ref node.free_raise.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007300610062UL when span.SequenceEqual("_loyal"): pair_DEFAULT = ref node.base_loyal.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006500720066UL when span.SequenceEqual("_raise"): pair_DEFAULT = ref node.free_raise.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007300610062UL when span.SequenceEqual("_loyal"): pair_DEFAULT = ref node.base_loyal.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 7:
                     switch (key)
                     {
-                        case 0x006D0065006E0065UL when span.SequenceEqual("y_power"): pair_CONSTI = ref node.enemy_power.EnsureGet(scenarioVariant); goto CONSTI;
-                        case 0x0069007200610074UL when span.SequenceEqual("ning_up"): pair_DEFAULT = ref node.tarining_up.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0065007300610062UL when span.SequenceEqual("_merits"): pair_DEFAULT = ref node.base_merits.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006100720074UL when span.SequenceEqual("ning_up"): pair_DEFAULT = ref node.training_up.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006D0065006E0065UL when span.SequenceEqual("y_power"): pair_CONSTI = ref node.enemy_power.EnsureGet(variant); goto CONSTI;
+                        case 0x0069007200610074UL when span.SequenceEqual("ning_up"): pair_DEFAULT = ref node.tarining_up.EnsureGet(variant); goto DEFAULT;
+                        case 0x0065007300610062UL when span.SequenceEqual("_merits"): pair_DEFAULT = ref node.base_merits.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006100720074UL when span.SequenceEqual("ning_up"): pair_DEFAULT = ref node.training_up.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 9:
                     switch (key)
                     {
-                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): pair_DEFAULT = ref node.castle_battle.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00620061006E0065UL when span.SequenceEqual("le_select"): pair_DEFAULT = ref node.enable_select.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00620061006E0065UL when span.SequenceEqual("le_talent"): pair_DEFAULT = ref node.enable_talent.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): pair_DEFAULT = ref node.castle_battle.EnsureGet(variant); goto DEFAULT;
+                        case 0x00620061006E0065UL when span.SequenceEqual("le_select"): pair_DEFAULT = ref node.enable_select.EnsureGet(variant); goto DEFAULT;
+                        case 0x00620061006E0065UL when span.SequenceEqual("le_talent"): pair_DEFAULT = ref node.enable_talent.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 12:
                     switch (key)
                     {
-                        case 0x0069006100720074UL when span.SequenceEqual("ning_average"): pair_DEFAULT = ref node.training_average.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0069006100720074UL when span.SequenceEqual("ning_average"): pair_DEFAULT = ref node.training_average.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -2428,7 +2425,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2460,7 +2457,7 @@ public static partial class Parser
             if (pair_RAY is null)
             {
                 pair_RAY = new(currentIndex);
-                pair_RAY.ElementScenarioId = scenarioVariant;
+                pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2492,7 +2489,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2524,7 +2521,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2556,7 +2553,7 @@ public static partial class Parser
             if (pair_OFFSET is null)
             {
                 pair_OFFSET = new(currentIndex);
-                pair_OFFSET.ElementScenarioId = scenarioVariant;
+                pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2588,7 +2585,7 @@ public static partial class Parser
             if (pair_TEXT is null)
             {
                 pair_TEXT = new(currentIndex);
-                pair_TEXT.ElementScenarioId = scenarioVariant;
+                pair_TEXT.ElementScenarioId = variant;
                 pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2621,13 +2618,13 @@ public static partial class Parser
             {
                 if (other.EqualsKey(span, ref result))
                 {
-                    pair_DEFAULT = ref other.EnsureGet(scenarioVariant);
+                    pair_DEFAULT = ref other.EnsureGet(variant);
                     goto DEFAULT;
                 }
             }
 
             node.Others.Add(new());
-            pair_DEFAULT = ref node.Others.Last.EnsureGet(scenarioVariant);
+            pair_DEFAULT = ref node.Others.Last.EnsureGet(variant);
             goto DEFAULT;
         } while (true);
     }
@@ -2644,6 +2641,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -2665,10 +2663,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2689,9 +2688,9 @@ public static partial class Parser
                 case 1:
                     switch (span[0])
                     {
-                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 'w': pair_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
+                        case 'h': pair_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
+                        case 'a': pair_DEFAULT = ref node.a.EnsureGet(variant); goto DEFAULT;
                     }
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
                     span = Span<char>.Empty;
@@ -2704,7 +2703,7 @@ public static partial class Parser
                     key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
                     switch (key)
                     {
-                        case 0x006B006C0062UL: pair_DEFAULT = ref node.blk.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006B006C0062UL: pair_DEFAULT = ref node.blk.EnsureGet(variant); goto DEFAULT;
                     }
                     span = Span<char>.Empty;
                     goto DISCARD;
@@ -2717,55 +2716,55 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065007000790074UL: pair_DEFAULT = ref node.type.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065007000790074UL: pair_DEFAULT = ref node.type.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 1:
                     switch (key)
                     {
-                        case 0x006C0069006B0073UL when span[0] == 'l': pair_RAY = ref node.skill.EnsureGet(scenarioVariant); goto RAY;
-                        case 0x006E006F00720066UL when span[0] == 't': pair_DEFAULT = ref node.front.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0074006400690077UL when span[0] == 'h': pair_DEFAULT = ref node.width.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00680070006C0061UL when span[0] == 'a': pair_DEFAULT = ref node.alpha.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x006C0069006B0073UL when span[0] == 'l': pair_RAY = ref node.skill.EnsureGet(variant); goto RAY;
+                        case 0x006E006F00720066UL when span[0] == 't': pair_DEFAULT = ref node.front.EnsureGet(variant); goto DEFAULT;
+                        case 0x0074006400690077UL when span[0] == 'h': pair_DEFAULT = ref node.width.EnsureGet(variant); goto DEFAULT;
+                        case 0x00680070006C0061UL when span[0] == 'a': pair_DEFAULT = ref node.alpha.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span[0] == 'e': pair_DEFAULT = ref node.image.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0067006900650068UL when span.SequenceEqual("ht"): pair_DEFAULT = ref node.height.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0069006400610072UL when span.SequenceEqual("us"): pair_DEFAULT = ref node.radius.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span.SequenceEqual("e2"): pair_DEFAULT = ref node.image2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
-                        case 0x0075006F00720067UL when span.SequenceEqual("nd"): pair_LOYAL = ref node.ground.EnsureGet(scenarioVariant); goto LOYAL;
+                        case 0x0067006900650068UL when span.SequenceEqual("ht"): pair_DEFAULT = ref node.height.EnsureGet(variant); goto DEFAULT;
+                        case 0x0069006400610072UL when span.SequenceEqual("us"): pair_DEFAULT = ref node.radius.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span.SequenceEqual("e2"): pair_DEFAULT = ref node.image2.EnsureGet(variant); goto DEFAULT;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
+                        case 0x0075006F00720067UL when span.SequenceEqual("nd"): pair_LOYAL = ref node.ground.EnsureGet(variant); goto LOYAL;
                     }
                     goto default;
                 case 3:
                     switch (key)
                     {
-                        case 0x0073005F006F006EUL when span.SequenceEqual("top"): pair_DEFAULT = ref node.no_stop.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0073005F006F006EUL when span.SequenceEqual("top"): pair_DEFAULT = ref node.no_stop.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 4:
                     switch (key)
                     {
-                        case 0x0077005F006F006EUL when span.SequenceEqual("all2"): pair_DEFAULT = ref node.no_wall2.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span.SequenceEqual("e2_w"): pair_DEFAULT = ref node.image2_w.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span.SequenceEqual("e2_h"): pair_DEFAULT = ref node.image2_h.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x00670061006D0069UL when span.SequenceEqual("e2_a"): pair_DEFAULT = ref node.image2_a.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0077005F006F006EUL when span.SequenceEqual("all2"): pair_DEFAULT = ref node.no_wall2.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span.SequenceEqual("e2_w"): pair_DEFAULT = ref node.image2_w.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span.SequenceEqual("e2_h"): pair_DEFAULT = ref node.image2_h.EnsureGet(variant); goto DEFAULT;
+                        case 0x00670061006D0069UL when span.SequenceEqual("e2_a"): pair_DEFAULT = ref node.image2_a.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 5:
                     switch (key)
                     {
-                        case 0x0061006500720062UL when span.SequenceEqual("kfire"): pair_DEFAULT = ref node.breakfire.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0064006E0061006CUL when span.SequenceEqual("_base"): pair_DEFAULT = ref node.land_base.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0061006500720062UL when span.SequenceEqual("kfire"): pair_DEFAULT = ref node.breakfire.EnsureGet(variant); goto DEFAULT;
+                        case 0x0064006E0061006CUL when span.SequenceEqual("_base"): pair_DEFAULT = ref node.land_base.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 6:
                     switch (key)
                     {
-                        case 0x0061005F006F006EUL when span.SequenceEqual("rc_hit"): pair_DEFAULT = ref node.no_arc_hit.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0061005F006F006EUL when span.SequenceEqual("rc_hit"): pair_DEFAULT = ref node.no_arc_hit.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 default:
@@ -2777,7 +2776,7 @@ public static partial class Parser
             if (pair_RAY is null)
             {
                 pair_RAY = new(currentIndex);
-                pair_RAY.ElementScenarioId = scenarioVariant;
+                pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2809,7 +2808,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2841,7 +2840,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2873,7 +2872,7 @@ public static partial class Parser
             if (pair_LOYAL is null)
             {
                 pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = scenarioVariant;
+                pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -2917,6 +2916,265 @@ public static partial class Parser
         } while (true);
     }
 
+    private static bool ParseDungeon(ref Context context, ref Result result)
+    {
+        result.DungeonNodeList.Add(new());
+        ref var tokenList = ref result.TokenList;
+        ref var node = ref result.DungeonNodeList.Last;
+        node.Kind = tokenList.LastIndex;
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.DungeonSet))
+        {
+            return false;
+        }
+
+        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
+        ref var source = ref result.Source;
+        ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ulong key = 0UL;
+        do
+        {
+            if (!ReadUsefulToken(ref context, ref result))
+            {
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
+                return false;
+            }
+
+            if (tokenList.Last.IsBracketRight(ref source))
+            {
+                node.BracketRight = tokenList.LastIndex;
+                return true;
+            }
+
+            var currentIndex = tokenList.LastIndex;
+            if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
+            {
+                return false;
+            }
+
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
+                return false;
+            }
+            
+            if (!tokenList.Last.IsAssign(ref source))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
+                return false;
+            }
+
+            var byteSpan = MemoryMarshal.Cast<char, byte>(span);
+            var originalLength = span.Length;
+            switch (originalLength)
+            {
+                case 0: return false;
+                case 1:
+                    key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
+                    span = Span<char>.Empty;
+                    goto DISCARD;
+                case 2:
+                    key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
+                    span = Span<char>.Empty;
+                    goto DISCARD;
+                case 3:
+                    key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
+                    switch (key)
+                    {
+                        case 0x00780061006DUL: pair_DEFAULT = ref node.max.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D00670062UL: pair_DEFAULT = ref node.bgm.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x00700061006DUL: pair_DEFAULT = ref node.map.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0078006F0062UL: pair_DEFAULT = ref node.box.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x007900610072UL: pair_RAY = ref node.ray.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto RAY;
+                    }
+                    span = Span<char>.Empty;
+                    goto DISCARD;
+            }
+
+            key = BinaryPrimitives.ReadUInt64LittleEndian(byteSpan);
+            span = span.Slice(4);
+            switch (span.Length)
+            {
+                case 0:
+                    switch (key)
+                    {
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006E00650070006FUL: pair_DEFAULT = ref node.open.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006C006C00610077UL: pair_DEFAULT = ref node.wall.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006C0061006F0067UL: pair_DEFAULT = ref node.goal.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006500740069UL: pair_MEMBER = ref node.item.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                        case 0x0065006D006F0068UL: pair_RAY = ref node.home.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto RAY;
+                    }
+                    goto default;
+                case 1:
+                    switch (key)
+                    {
+                        case 0x0069006D0069006CUL when span[0] == 't': pair_DEFAULT = ref node.limit.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006E0069006C0062UL when span[0] == 'd': pair_DEFAULT = ref node.blind.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006F006C006F0063UL when span[0] == 'r': pair_RAY = ref node.color.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto RAY;
+                        case 0x006F006F006C0066UL when span[0] == 'r': pair_DEFAULT = ref node.floor.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0072006100740073UL when span[0] == 't': pair_DEFAULT = ref node.start.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                    }
+                    goto default;
+                case 2:
+                    switch (key)
+                    {
+                        case 0x0066006500720070UL when span.SequenceEqual("ix"): pair_DEFAULT = ref node.prefix.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0066006600750073UL when span.SequenceEqual("ix"): pair_DEFAULT = ref node.suffix.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): pair_DEFAULT = ref node.volume.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                    }
+                    goto default;
+                case 3:
+                    switch (key)
+                    {
+                        case 0x0073006E006F006DUL when span.SequenceEqual("ter"): pair_MEMBER = ref node.monster.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto MEMBER;
+                    }
+                    goto default;
+                case 4:
+                    switch (key)
+                    {
+                        case 0x006D006500740069UL when span.SequenceEqual("_num"): pair_DEFAULT = ref node.item_num.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                    }
+                    goto default;
+                case 5:
+                    switch (key)
+                    {
+                        case 0x0061005F0076006CUL when span.SequenceEqual("djust"): pair_DEFAULT = ref node.lv_adjust.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x006D006500740069UL when span.SequenceEqual("_text"): pair_DEFAULT = ref node.item_text.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                    }
+                    goto default;
+                case 6:
+                    switch (key)
+                    {
+                        case 0x00650076006F006DUL when span.SequenceEqual("_speed"): pair_DEFAULT = ref node.move_speed.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                        case 0x0065007300610062UL when span.SequenceEqual("_level"): pair_DEFAULT = ref node.base_level.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                    }
+                    goto default;
+                case 7:
+                    switch (key)
+                    {
+                        case 0x0073006E006F006DUL when span.SequenceEqual("ter_num"): pair_DEFAULT = ref node.monster_num.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex)); goto DEFAULT;
+                    }
+                    goto default;
+                default:
+                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
+                    goto DISCARD;
+            }
+
+        DEFAULT:
+            if (pair_DEFAULT is null)
+            {
+                pair_DEFAULT = new(currentIndex);
+                pair_DEFAULT.ElementScenarioId = variant;
+                pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_DEFAULT.ElementKeyRange.Line = start.Line;
+                    pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_DEFAULT(ref context, ref result, pair_DEFAULT))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        RAY:
+            if (pair_RAY is null)
+            {
+                pair_RAY = new(currentIndex);
+                pair_RAY.ElementScenarioId = variant;
+                pair_RAY.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_RAY.ElementKeyRange.Line = start.Line;
+                    pair_RAY.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_RAY(ref context, ref result, pair_RAY))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_RAY(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        MEMBER:
+            if (pair_MEMBER is null)
+            {
+                pair_MEMBER = new(currentIndex);
+                pair_MEMBER.ElementScenarioId = variant;
+                pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_MEMBER.ElementKeyRange.Line = start.Line;
+                    pair_MEMBER.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_MEMBER(ref context, ref result, pair_MEMBER))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        DISCARD:
+            if (Parse_Discard(ref context, ref result, currentIndex, span, key))
+            {
+                if (createErrorWarning)
+                {
+                    result.WarningAdd_UnexpectedElementName(node.Kind, currentIndex);
+                }
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        } while (true);
+    }
+
     private static bool ParseMovetype(ref Context context, ref Result result)
     {
         result.MovetypeNodeList.Add(new());
@@ -2929,6 +3187,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -2948,10 +3207,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2990,14 +3250,14 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
+                        case 0x0070006C00650068UL: pair_DEFAULT = ref node.help.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(scenarioVariant); goto CONSTI;
+                        case 0x0073006E006F0063UL when span.SequenceEqual("ti"): pair_CONSTI = ref node.consti.EnsureGet(variant); goto CONSTI;
                     }
                     goto default;
                 default:
@@ -3009,7 +3269,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -3041,7 +3301,7 @@ public static partial class Parser
             if (pair_CONSTI is null)
             {
                 pair_CONSTI = new(currentIndex);
-                pair_CONSTI.ElementScenarioId = scenarioVariant;
+                pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -3097,6 +3357,7 @@ public static partial class Parser
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -3116,10 +3377,11 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out var scenarioVariant))
+            if (!result.SplitElement(currentIndex, out var span, out variant))
             {
                 return false;
             }
+
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
@@ -3158,14 +3420,14 @@ public static partial class Parser
                 case 0:
                     switch (key)
                     {
-                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(scenarioVariant); goto DEFAULT;
-                        case 0x006B006300610062UL: pair_DEFAULT = ref node.back.EnsureGet(scenarioVariant); goto DEFAULT;
+                        case 0x0065006D0061006EUL: pair_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;
+                        case 0x006B006300610062UL: pair_DEFAULT = ref node.back.EnsureGet(variant); goto DEFAULT;
                     }
                     goto default;
                 case 2:
                     switch (key)
                     {
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(scenarioVariant); goto MEMBER;
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): pair_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;
                     }
                     goto default;
                 default:
@@ -3177,7 +3439,7 @@ public static partial class Parser
             if (pair_DEFAULT is null)
             {
                 pair_DEFAULT = new(currentIndex);
-                pair_DEFAULT.ElementScenarioId = scenarioVariant;
+                pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
@@ -3209,7 +3471,7 @@ public static partial class Parser
             if (pair_MEMBER is null)
             {
                 pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = scenarioVariant;
+                pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;

@@ -2,6 +2,6 @@
 
 namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
-public record struct UsageGroup(string Type, IGrouping<UsagePair, string>[] Groups)
+public record struct UsageGroup(string Type, IGrouping<UsagePair, ElementInfo>[] Groups)
 {
 }
