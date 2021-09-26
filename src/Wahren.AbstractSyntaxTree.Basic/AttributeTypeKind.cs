@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree;
+﻿namespace Wahren;
 
 public enum AttributeTypeKind
 {

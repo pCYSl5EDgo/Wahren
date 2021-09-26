@@ -352,4 +352,56 @@ public static partial class NodeValidator
             }
         }
     }
+
+    private static bool SpecialTreatment_unit_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> sex)
+    {
+        static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+            if (span.IsEmpty || span.SequenceEqual("neuter"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("male"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("female"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                result.ErrorList.Add(new("'sex' of struct unit must be 'neuter', 'male' or 'female'.", result.TokenList[value.Text].Range));
+                return false;
+            }
+
+            value.HasReference = true;
+            value.ReferenceKind = ReferenceKind.Special;
+            return true;
+        }
+
+        bool success = true;
+        if (sex.Value is { HasValue: true, Value.HasText: true })
+        {
+            success &= Validate(ref result, ref sex.Value.Value);
+        }
+
+        if (sex.ScenarioVariant is null || sex.ScenarioVariant.Length == 0)
+        {
+            return success;
+        }
+
+        foreach (ref var item in sex.ScenarioVariant.AsSpan())
+        {
+            if (item is null || !item.HasValue || !item.Value.HasText)
+            {
+                continue;
+            }
+
+            success &= Validate(ref result, ref item.Value);
+        }
+
+        return success;
+    }
 }
