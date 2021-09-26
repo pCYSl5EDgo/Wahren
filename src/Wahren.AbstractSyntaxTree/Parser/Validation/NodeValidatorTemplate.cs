@@ -38,7 +38,7 @@ public static partial class NodeValidator
 		return success;
 	}
 
-    public static bool AddReferenceAndValidate(this ref Result result, ref UnitNode node, DiagnosticSeverity severity)
+	public static bool AddReferenceAndValidate(this ref Result result, ref UnitNode node, DiagnosticSeverity severity)
 	{
 		bool success = true;
 		success &= ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of unit requires Number.");
@@ -311,7 +311,6 @@ public static partial class NodeValidator
 		success &= ValidateNumber(ref result, ref node.color, " 'color' of field requires Number.");
 		AddReference(ref result, ref node.id, ref result.FieldIdReaderSet, ReferenceKind.FieldId);
 		success &= ValidateBoolean(ref result, ref node.edge, " 'edge' of field requires Boolean.");
-		AddReference(ref result, ref node.member, ref result.ObjectSet, ReferenceKind.Object);
 		success &= ValidateNumber(ref result, ref node.alt, " 'alt' of field requires Number.");
 		success &= ValidateNumber(ref result, ref node.alt_max, " 'alt_max' of field requires Number.");
 		return success;

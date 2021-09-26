@@ -107,12 +107,18 @@ public sealed partial class Solution : ISolutionResolver
         System.Text.StringBuilder? builder = null;
         var fileSpan = Files.AsSpan();
 <# foreach (var name in array) { #>
+<#  var offset = 0;
+    switch (name){
+        case "Scenario":
+            offset = 10;
+            break;
+    }#>
 
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.<#= name #>Set;
-            for (uint i = <#= name == "Scenario" ? 10 : 0 #>, end = set.Count; i != end ; i++)
+            for (uint i = <#= offset #>, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
                 if (!Unsafe.IsNullRef(ref TryGet<#= name #>Node(fileIndex, name, out _)))

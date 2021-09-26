@@ -131,7 +131,7 @@ public struct ElementInfo
         new("joint"),
         new("image"),
         new("add2"),
-        new("member", referenceKind: ReferenceKind.Object),
+        new("member"),
         new("alt", referenceKind: ReferenceKind.Number),
         new("alt_max", referenceKind: ReferenceKind.Number),
         new("smooth"),
