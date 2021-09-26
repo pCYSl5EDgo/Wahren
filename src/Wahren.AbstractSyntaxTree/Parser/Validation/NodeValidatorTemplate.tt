@@ -45,25 +45,13 @@ public static partial class NodeValidator
 <#			case ReferenceKind.Dungeon: #>
 <#			case ReferenceKind.Voice: #>
 <#			case ReferenceKind.AttributeType: #>
+<#			case ReferenceKind.VoiceTypeReader: #>
+<#			case ReferenceKind.VoiceTypeWriter: #>
+<#			case ReferenceKind.FieldAttributeTypeReader: #>
+<#			case ReferenceKind.FieldAttributeTypeWriter: #>
+<#			case ReferenceKind.FieldIdReader: #>
+<#			case ReferenceKind.FieldIdWriter: #>
 		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.<#= element.referenceKind #>Set, ReferenceKind.<#= element.referenceKind #>);
-<#				break;#>
-<#			case ReferenceKind.VoiceType: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
-<#				break;#>
-<#			case ReferenceKind.VoiceType | ReferenceKind.Write: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceType | ReferenceKind.Write);
-<#				break;#>
-<#			case ReferenceKind.FieldAttributeType: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeType);
-<#				break;#>
-<#			case ReferenceKind.FieldAttributeType | ReferenceKind.Write: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeType | ReferenceKind.Write);
-<#				break;#>
-<#			case ReferenceKind.FieldId: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.FieldIdReaderSet, ReferenceKind.FieldId);
-<#				break;#>
-<#			case ReferenceKind.FieldId | ReferenceKind.Write: #>
-		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.FieldIdWriterSet, ReferenceKind.FieldId | ReferenceKind.Write);
 <#				break;#>
 <#			case ReferenceKind.Number: #>
 <#			case ReferenceKind.Boolean: #>

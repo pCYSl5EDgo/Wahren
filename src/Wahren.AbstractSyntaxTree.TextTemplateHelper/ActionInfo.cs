@@ -6,35 +6,22 @@ public struct ActionInfo
     public string Name;
     public int Min;
     public int Max;
-    public int? EnglishCount;
-    public Dictionary<int, ArgumentInfo[]> Dictionary = new();
+    public ReferenceKind[] ReferenceKinds;
 
-    private static readonly Dictionary<int, ArgumentInfo[]> Empty = new();
-
-    public ActionInfo(string name, int min, int max, int? englishCount = null)
+    public ActionInfo(string name, int min, int max)
     {
         Name = name;
         Min = min;
         Max = max;
-        EnglishCount = englishCount;
+        ReferenceKinds = System.Array.Empty<ReferenceKind>();
     }
 
-    public ActionInfo(string name, int min, int max, ArgumentInfo argument0)
+    public ActionInfo(string name, int min, int max, params ReferenceKind[] referenceKinds)
     {
         Name = name;
         Min = min;
         Max = max;
-        EnglishCount = null;
-        Dictionary.Add(1, new[] { argument0 });
-    }
-
-    public ActionInfo(string name, int min, int max, ArgumentInfo argument0, ArgumentInfo argument1)
-    {
-        Name = name;
-        Min = min;
-        Max = max;
-        EnglishCount = null;
-        Dictionary.Add(2, new[] { argument0, argument1 });
+        ReferenceKinds = referenceKinds;
     }
 
     public void Deconstruct(out string name, out int min, out int max)
@@ -42,23 +29,6 @@ public struct ActionInfo
         name = Name;
         min = Min;
         max = Max;
-    }
-
-    public void Deconstruct(out string name, out int min, out int max, out int? englishCount)
-    {
-        name = Name;
-        min = Min;
-        max = Max;
-        englishCount = EnglishCount;
-    }
-
-    public void Deconstruct(out string name, out int min, out int max, out int? englishCount, out Dictionary<int, ArgumentInfo[]> dictionary)
-    {
-        name = Name;
-        min = Min;
-        max = Max;
-        englishCount = EnglishCount;
-        dictionary = Dictionary;
     }
 
     public static readonly string[] Specials = new string[]
@@ -76,17 +46,17 @@ public struct ActionInfo
     {
         new("bg", 0, int.MaxValue),
         new("vc", 0, int.MaxValue),
-        new("add", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
-        new("div", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
-        new("mod", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("add", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
+        new("div", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
+        new("mod", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
         new("msg", 0, int.MaxValue),
-        new("mul", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
-        new("per", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
-        new("set", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
-        new("sub", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("mul", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
+        new("per", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
+        new("set", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
+        new("sub", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableReader | ReferenceKind.Number),
         new("win", 0, int.MaxValue),
-        new("addv", 2, 2),
-        new("call", 1, 1),
+        new("addv", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text | ReferenceKind.StringVariableReader),
+        new("call", 1, 1, ReferenceKind.Event),
         new("chat", 0, int.MaxValue),
         new("exit", 0, int.MaxValue),
         new("face", 0, int.MaxValue),
@@ -95,35 +65,35 @@ public struct ActionInfo
         new("play", 0, int.MaxValue),
         new("ppl1", 0, int.MaxValue),
         new("save", 0, int.MaxValue),
-        new("setv", 2, 2),
+        new("setv", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text | ReferenceKind.StringVariableReader),
         new("stop", 0, int.MaxValue),
-        new("subv", 2, 2),
+        new("subv", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text | ReferenceKind.StringVariableReader),
         new("talk", 0, int.MaxValue),
         new("wait", 0, int.MaxValue),
         new("zoom", 0, int.MaxValue),
         new("chat2", 0, int.MaxValue),
         new("citom", 0, int.MaxValue),
-        new("clear", 1, 1),
+        new("clear", 1, 1, ReferenceKind.StringVariableWriter),
         new("erase", 0, int.MaxValue),
         new("event", 1, 3),
         new("face2", 0, int.MaxValue),
         new("focus", 0, int.MaxValue),
         new("fontc", 0, int.MaxValue),
-        new("gread", 0, int.MaxValue),
+        new("gread", 2, 3, ReferenceKind.GlobalVariableReader | ReferenceKind.StringVariableReader, ReferenceKind.NumberVariableWriter, ReferenceKind.StringVariableWriter),
         new("image", 0, int.MaxValue),
         new("index", 0, int.MaxValue),
-        new("pushv", 0, int.MaxValue),
+        new("pushv", 2, 3),
         new("setPM", 0, int.MaxValue),
         new("setud", 0, int.MaxValue),
         new("shake", 0, int.MaxValue),
         new("talk2", 0, int.MaxValue),
         new("title", 0, int.MaxValue),
-        new("addstr", 0, int.MaxValue),
-        new("addVar", 0, int.MaxValue),
+        new("addstr", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text),
+        new("addVar", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text | ReferenceKind.StringVariableReader),
         new("choice", 0, int.MaxValue),
         new("dialog", 0, int.MaxValue),
         new("fadein", 0, int.MaxValue),
-        new("gwrite", 0, int.MaxValue),
+        new("gwrite", 2, 3, ReferenceKind.GlobalVariableWriter | ReferenceKind.StringVariableWriter, ReferenceKind.NumberVariableReader, ReferenceKind.StringVariableReader),
         new("locate", 0, int.MaxValue),
         new("playSE", 0, int.MaxValue),
         new("scroll", 0, int.MaxValue),
@@ -147,9 +117,9 @@ public struct ActionInfo
         new("minimap", 0, int.MaxValue),
         new("picture", 0, int.MaxValue),
         new("playBGM", 0, int.MaxValue),
-        new("pushCon", 0, int.MaxValue),
-        new("pushSex", 0, int.MaxValue),
-        new("pushVar", 0, int.MaxValue),
+        new("pushCon", 3, 3, ReferenceKind.StringVariableReader | ReferenceKind.Spot, ReferenceKind.StringVariableReader | ReferenceKind.Unit | ReferenceKind.Class, ReferenceKind.NumberVariableWriter),
+        new("pushSex", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
+        new("pushVar", 2, 2, ReferenceKind.StringVariableReader, ReferenceKind.NumberVariableWriter),
         new("routine", 1, 1),
         new("scroll2", 0, int.MaxValue),
         new("setCapa", 2, 2),
@@ -177,13 +147,13 @@ public struct ActionInfo
         new("linkSpot", 0, int.MaxValue),
         new("openGoal", 0, int.MaxValue),
         new("picture2", 0, int.MaxValue),
-        new("pushCapa", 0, int.MaxValue),
-        new("pushGain", 0, int.MaxValue),
+        new("pushCapa", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Spot, ReferenceKind.NumberVariableWriter),
+        new("pushGain", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power | ReferenceKind.Spot, ReferenceKind.NumberVariableWriter),
         new("pushItem", 0, int.MaxValue),
-        new("pushRand", 0, int.MaxValue),
-        new("pushRank", 0, int.MaxValue),
-        new("pushSpot", 0, int.MaxValue),
-        new("pushTurn", 1, 1),
+        new("pushRand", 1, 1, ReferenceKind.NumberVariableWriter),
+        new("pushRank", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
+        new("pushSpot", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power, ReferenceKind.NumberVariableWriter),
+        new("pushTurn", 1, 1, ReferenceKind.NumberVariableWriter),
         new("roamUnit", 0, int.MaxValue),
         new("setDiplo", 0, int.MaxValue),
         new("setLevel", 0, int.MaxValue),
@@ -217,15 +187,15 @@ public struct ActionInfo
         new("moveTroop", 0, int.MaxValue),
         new("playWorld", 0, int.MaxValue),
         new("pushDeath", 0, int.MaxValue),
-        new("pushDiplo", 0, int.MaxValue),
-        new("pushForce", 0, int.MaxValue),
-        new("pushLevel", 0, int.MaxValue),
+        new("pushDiplo", 3, 3, ReferenceKind.StringVariableReader | ReferenceKind.Power, ReferenceKind.StringVariableReader | ReferenceKind.Power, ReferenceKind.NumberVariableWriter),
+        new("pushForce", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
+        new("pushLevel", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
         new("pushLimit", 0, int.MaxValue),
-        new("pushLoyal", 0, int.MaxValue),
-        new("pushMoney", 0, int.MaxValue),
-        new("pushRand2", 0, int.MaxValue),
-        new("pushTrain", 0, int.MaxValue),
-        new("pushTrust", 0, int.MaxValue),
+        new("pushLoyal", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
+        new("pushMoney", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
+        new("pushRand2", 1, 1, ReferenceKind.NumberVariableWriter),
+        new("pushTrain", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power, ReferenceKind.NumberVariableWriter),
+        new("pushTrust", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
         new("resetTime", 0, int.MaxValue),
         new("resetZone", 0, int.MaxValue),
         new("roamUnit2", 0, int.MaxValue),
@@ -249,8 +219,8 @@ public struct ActionInfo
         new("hideEscape", 0, int.MaxValue),
         new("linkEscape", 0, int.MaxValue),
         new("playBattle", 0, int.MaxValue),
-        new("pushCastle", 0, int.MaxValue),
-        new("pushMerits", 0, int.MaxValue),
+        new("pushCastle", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Spot, ReferenceKind.NumberVariableWriter),
+        new("pushMerits", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Unit, ReferenceKind.NumberVariableWriter),
         new("pushStatus", 0, int.MaxValue),
         new("reloadMenu", 0, int.MaxValue),
         new("removeSpot", 0, int.MaxValue),
@@ -272,8 +242,8 @@ public struct ActionInfo
         new("choiceTitle", 0, int.MaxValue),
         new("eraseFriend", 0, int.MaxValue),
         new("hidePicture", 0, int.MaxValue),
-        new("pushSpotPos", 0, int.MaxValue),
-        new("pushTrainUp", 0, int.MaxValue),
+        new("pushSpotPos", 3, 3, ReferenceKind.StringVariableReader | ReferenceKind.Spot, ReferenceKind.NumberVariableWriter, ReferenceKind.NumberVariableWriter),
+        new("pushTrainUp", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power, ReferenceKind.NumberVariableWriter),
         new("removeSkill", 0, int.MaxValue),
         new("removeTroop", 0, int.MaxValue),
         new("resetLeague", 0, int.MaxValue),
@@ -303,7 +273,7 @@ public struct ActionInfo
         new("addPowerStaff", 0, int.MaxValue),
         new("addTrainingUp", 0, int.MaxValue),
         new("changeDungeon", 0, int.MaxValue),
-        new("pushBaseLevel", 0, int.MaxValue),
+        new("pushBaseLevel", 2, 2, ReferenceKind.StringVariableReader | ReferenceKind.Power, ReferenceKind.NumberVariableWriter),
         new("setEnemyPower", 0, int.MaxValue),
         new("setTrainingUp", 0, int.MaxValue),
         new("setWorldMusic", 0, int.MaxValue),
@@ -322,7 +292,7 @@ public struct ActionInfo
         new("eraseUnitTroop", 0, int.MaxValue),
         new("pushBattleHome", 0, int.MaxValue),
         new("pushBattleRect", 0, int.MaxValue),
-        new("pushCountPower", 0, int.MaxValue),
+        new("pushCountPower", 1, 1, ReferenceKind.NumberVariableWriter),
         new("storeAliveUnit", 0, int.MaxValue),
         new("storeAllTalent", 0, int.MaxValue),
         new("changePowerFlag", 0, int.MaxValue),

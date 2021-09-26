@@ -44,8 +44,8 @@ public struct ElementInfo
 
     internal static readonly ElementInfo[] Voice = new ElementInfo[]
     {
-        new("voice_type", referenceKind: ReferenceKind.VoiceType),
-        new("delskill", referenceKind: ReferenceKind.VoiceType),
+        new("voice_type", referenceKind: ReferenceKind.VoiceTypeReader),
+        new("delskill", referenceKind: ReferenceKind.VoiceTypeReader),
         new("spot", referenceKind: ReferenceKind.Text),
         new("roam", referenceKind: ReferenceKind.Text),
         new("power", referenceKind: ReferenceKind.Text),
@@ -124,9 +124,9 @@ public struct ElementInfo
     internal static readonly ElementInfo[] Field = new ElementInfo[]
     {
         new("type"),
-        new("attr", referenceKind: ReferenceKind.FieldAttributeType | ReferenceKind.Write),
+        new("attr", referenceKind: ReferenceKind.FieldAttributeTypeWriter),
         new("color", referenceKind: ReferenceKind.Number),
-        new("id", referenceKind: ReferenceKind.FieldId),
+        new("id", referenceKind: ReferenceKind.FieldIdWriter),
         new("edge", referenceKind: ReferenceKind.Boolean),
         new("joint"),
         new("image"),
@@ -141,7 +141,7 @@ public struct ElementInfo
     {
         new("name", referenceKind: ReferenceKind.Text),
         new("help", referenceKind: ReferenceKind.Text),
-        new("consti", referenceKind: ReferenceKind.FieldAttributeType),
+        new("consti", referenceKind: ReferenceKind.FieldAttributeTypeReader),
     };
 
     internal static readonly ElementInfo[] Object = new ElementInfo[]
@@ -492,7 +492,7 @@ public struct ElementInfo
         new("friend"),
         new("merce", referenceKind: ReferenceKind.Unit | ReferenceKind.Class),
         new("consti", referenceKind: ReferenceKind.AttributeType),
-        new("multi", referenceKind: ReferenceKind.Special),
+        new("multi", referenceKind: ReferenceKind.Status),
         new("lost_corpse", referenceKind: ReferenceKind.Number),
         new("add_vassal", referenceKind: ReferenceKind.Special),
         new("value", referenceKind: ReferenceKind.Number),
@@ -540,7 +540,7 @@ public struct ElementInfo
         new("join", referenceKind: ReferenceKind.Text),
         new("dead", referenceKind: ReferenceKind.Text),
         new("retreat", referenceKind: ReferenceKind.Text),
-        new("voice_type", referenceKind: ReferenceKind.VoiceType),
+        new("voice_type", referenceKind: ReferenceKind.VoiceTypeWriter),
     }));
 
     internal static readonly ElementInfo[] Class = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(UnitFallthroughClass, new ElementInfo[]

@@ -10,8 +10,8 @@ public static partial class NodeValidator
 	public static bool AddReferenceAndValidate(this ref Result result, ref VoiceNode node, DiagnosticSeverity severity)
 	{
 		bool success = true;
-		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
-		AddReference(ref result, ref node.delskill, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
+		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
+		AddReference(ref result, ref node.delskill, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
 		return success;
 	}
 
@@ -146,7 +146,6 @@ public static partial class NodeValidator
 		success &= SpecialTreatment_unit_politics(ref result, ref node.politics, severity);
 		success &= ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of unit requires Boolean.");
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		success &= SpecialTreatment_unit_multi(ref result, ref node.multi, severity);
 		success &= ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of unit requires Number.");
 		success &= SpecialTreatment_unit_add_vassal(ref result, ref node.add_vassal, severity);
 		success &= ValidateNumber(ref result, ref node.value, " 'value' of unit requires Number.");
@@ -173,7 +172,7 @@ public static partial class NodeValidator
 		success &= ValidateBoolean(ref result, ref node.noitem_unit, " 'noitem_unit' of unit requires Boolean.");
 		success &= SpecialTreatment_unit_arbeit(ref result, ref node.arbeit, severity);
 		success &= ValidateNumber(ref result, ref node.arbeit_capacity, " 'arbeit_capacity' of unit requires Number.");
-		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceType);
+		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
 		return success;
 	}
 
@@ -295,7 +294,6 @@ public static partial class NodeValidator
 		success &= SpecialTreatment_class_politics(ref result, ref node.politics, severity);
 		success &= ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of class requires Boolean.");
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		success &= SpecialTreatment_class_multi(ref result, ref node.multi, severity);
 		success &= ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of class requires Number.");
 		success &= SpecialTreatment_class_add_vassal(ref result, ref node.add_vassal, severity);
 		success &= ValidateNumber(ref result, ref node.value, " 'value' of class requires Number.");
@@ -307,9 +305,9 @@ public static partial class NodeValidator
 	public static bool AddReferenceAndValidate(this ref Result result, ref FieldNode node, DiagnosticSeverity severity)
 	{
 		bool success = true;
-		AddReference(ref result, ref node.attr, ref result.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeType | ReferenceKind.Write);
+		AddReference(ref result, ref node.attr, ref result.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeTypeWriter);
 		success &= ValidateNumber(ref result, ref node.color, " 'color' of field requires Number.");
-		AddReference(ref result, ref node.id, ref result.FieldIdReaderSet, ReferenceKind.FieldId);
+		AddReference(ref result, ref node.id, ref result.FieldIdWriterSet, ReferenceKind.FieldIdWriter);
 		success &= ValidateBoolean(ref result, ref node.edge, " 'edge' of field requires Boolean.");
 		success &= ValidateNumber(ref result, ref node.alt, " 'alt' of field requires Number.");
 		success &= ValidateNumber(ref result, ref node.alt_max, " 'alt_max' of field requires Number.");
@@ -409,7 +407,7 @@ public static partial class NodeValidator
 	public static bool AddReferenceAndValidate(this ref Result result, ref MovetypeNode node, DiagnosticSeverity severity)
 	{
 		bool success = true;
-		AddReference(ref result, ref node.consti, ref result.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeType);
+		AddReference(ref result, ref node.consti, ref result.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeTypeReader);
 		return success;
 	}
 
