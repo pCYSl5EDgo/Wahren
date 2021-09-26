@@ -45,7 +45,6 @@ public static partial class NodeValidator
 <#			case ReferenceKind.Dungeon: #>
 <#			case ReferenceKind.Voice: #>
 <#			case ReferenceKind.AttributeType: #>
-<#				if (correspondingType == "StringElement" || correspondingType == "StringArrayElement") continue; #>
 		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.<#= element.referenceKind #>Set, ReferenceKind.<#= element.referenceKind #>);
 <#				break;#>
 <#			case ReferenceKind.VoiceType: #>
@@ -56,14 +55,10 @@ public static partial class NodeValidator
 <#				break;#>
 <#			case ReferenceKind.Number: #>
 <#			case ReferenceKind.Boolean: #>
-<#				if (correspondingType == "StringElement" || correspondingType == "StringArrayElement") continue; #>
-		if (!Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, " '<#= element.name #>' of <#= elementName.ToLowerInvariant() #> requires <#= element.referenceKind #>."))
-		{
-			success = false;
-		}
+		success &= Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, " '<#= element.name #>' of <#= elementName.ToLowerInvariant() #> requires <#= element.referenceKind #>.");
 <#				break;#>
 <#			case ReferenceKind.Special: #>
-		AddReference_<#= elementName #>_<#= element.name #>(ref result, ref node.<#= element.name.Escape() #>);
+		success &= SpecialTreatment_<#= elementName.ToLowerInvariant() #>_<#= element.name #>(ref result, ref node.<#= element.name.Escape() #>);
 <#				break;#>
 <#		}#>
 <#	}#>
