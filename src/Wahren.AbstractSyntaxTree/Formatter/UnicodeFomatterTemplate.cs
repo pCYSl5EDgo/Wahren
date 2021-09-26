@@ -1184,6 +1184,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("spotmark(");
     }
 
+    public void Append_showParty_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showParty(");
+    }
+
     public void Append_addCastle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3524,6 +3530,10 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.spotmark:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_spotmark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showParty:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showParty_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addCastle:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

@@ -424,7 +424,6 @@ public static partial class NodeValidator
 		success &= ValidateBoolean(ref result, ref node.disperse, " 'disperse' of event requires Boolean.");
 		success &= ValidateNumber(ref result, ref node.w, " 'w' of event requires Number.");
 		success &= ValidateNumber(ref result, ref node.h, " 'h' of event requires Number.");
-		success &= SpecialTreatment_event_handle(ref result, ref node.handle, severity);
 		return success;
 	}
 

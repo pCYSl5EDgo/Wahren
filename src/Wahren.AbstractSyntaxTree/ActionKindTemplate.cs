@@ -134,6 +134,7 @@ public enum ActionKind : uint
 	showPict,
 	showSpot,
 	spotmark,
+	showParty,
 	addCastle,
 	addFriend,
 	addMerits,
@@ -456,6 +457,7 @@ public static class ActionKindHelper
 			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PICT"): return ActionKind.showPict;
 			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("SPOT"): return ActionKind.showSpot;
 			case 4 when (key4 == 0x0054004F00500053UL) && span.SequenceEqual("MARK"): return ActionKind.spotmark;
+			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PARTY"): return ActionKind.showParty;
 			case 5 when (key4 == 0x0043004400440041UL) && span.SequenceEqual("ASTLE"): return ActionKind.addCastle;
 			case 5 when (key4 == 0x0046004400440041UL) && span.SequenceEqual("RIEND"): return ActionKind.addFriend;
 			case 5 when (key4 == 0x004D004400440041UL) && span.SequenceEqual("ERITS"): return ActionKind.addMerits;
@@ -637,56 +639,145 @@ public static class ActionKindHelper
 
 		switch (kind)
         {
-            case ActionKind.add: 
-            case ActionKind.div: 
-            case ActionKind.mod: 
-            case ActionKind.mul: 
-            case ActionKind.per: 
-            case ActionKind.set: 
-            case ActionKind.sub: 
-            case ActionKind.addv: 
-            case ActionKind.setv: 
-            case ActionKind.subv: 
-            case ActionKind.addstr: 
-            case ActionKind.addVar: 
-            case ActionKind.pushSex: 
-            case ActionKind.pushVar: 
-            case ActionKind.setCapa: 
-            case ActionKind.setGain: 
-            case ActionKind.pushCapa: 
-            case ActionKind.pushGain: 
-            case ActionKind.pushRank: 
-            case ActionKind.pushSpot: 
-            case ActionKind.pushForce: 
-            case ActionKind.pushLevel: 
-            case ActionKind.pushLoyal: 
-            case ActionKind.pushMoney: 
-            case ActionKind.pushTrain: 
-            case ActionKind.pushTrust: 
-            case ActionKind.pushCastle: 
-            case ActionKind.pushMerits: 
-            case ActionKind.pushTrainUp: 
-            case ActionKind.pushBaseLevel: 
-                return count == 2 ? 0 : count < 2 ? -1 : 1;
-            case ActionKind.gread: 
-            case ActionKind.pushv: 
-            case ActionKind.gwrite: 
-                return count >= 2 ? (count <= 3 ? 0 : 1) : -1;
-            case ActionKind.call: 
-            case ActionKind.clear: 
-            case ActionKind.routine: 
-            case ActionKind.shuffle: 
-            case ActionKind.pushRand: 
-            case ActionKind.pushTurn: 
-            case ActionKind.pushRand2: 
-            case ActionKind.pushCountPower: 
+            case ActionKind.bg:
+            case ActionKind.locate:
+            case ActionKind.scroll:
+            case ActionKind.resetLeague:
+            case ActionKind.showSpotMark:
+                return count >= 1 ? (count <= 2 ? 0 : 1) : -1;
+            case ActionKind.call:
+            case ActionKind.zoom:
+            case ActionKind.clear:
+            case ActionKind.dialog:
+            case ActionKind.playSE:
+            case ActionKind.volume:
+            case ActionKind.routine:
+            case ActionKind.scroll2:
+            case ActionKind.shuffle:
+            case ActionKind.hideSpot:
+            case ActionKind.pushRand:
+            case ActionKind.pushTurn:
+            case ActionKind.showParty:
+            case ActionKind.hideChara:
+            case ActionKind.pushLimit:
+            case ActionKind.pushRand2:
+            case ActionKind.reloadMenu:
+            case ActionKind.battleEvent:
+            case ActionKind.scrollSpeed:
+            case ActionKind.showDungeon:
+            case ActionKind.reverseChara:
+            case ActionKind.showPolitics:
+            case ActionKind.storeAllSpot:
+            case ActionKind.storeAllPower:
+            case ActionKind.storeComPower:
+            case ActionKind.storeNowPower:
+            case ActionKind.pushCountPower:
+            case ActionKind.storeAllTalent:
+            case ActionKind.storeBattleSpot:
+            case ActionKind.storePlayerUnit:
+            case ActionKind.storeAttackPower:
+            case ActionKind.storeNeutralSpot:
+            case ActionKind.storePlayerPower:
+            case ActionKind.storeDefensePower:
+            case ActionKind.storeSpotOfBattle:
+            case ActionKind.storePowerOfAttack:
+            case ActionKind.storeNonPlayerPower:
+            case ActionKind.storePowerOfDefense:
                 return count == 1 ? 0 : count < 1 ? -1 : 1;
-            case ActionKind.@event: 
+            case ActionKind.@event:
                 return count >= 1 ? (count <= 3 ? 0 : 1) : -1;
-            case ActionKind.pushCon: 
-            case ActionKind.pushDiplo: 
-            case ActionKind.pushSpotPos: 
+            case ActionKind.image:
+                return count >= 1 ? (count <= 5 ? 0 : 1) : -1;
+            case ActionKind.loopBGM:
+                return count >= 1 ? 0 : -1;
+            case ActionKind.add:
+            case ActionKind.div:
+            case ActionKind.mod:
+            case ActionKind.mul:
+            case ActionKind.per:
+            case ActionKind.set:
+            case ActionKind.sub:
+            case ActionKind.addv:
+            case ActionKind.setv:
+            case ActionKind.subv:
+            case ActionKind.setPM:
+            case ActionKind.setud:
+            case ActionKind.title:
+            case ActionKind.addstr:
+            case ActionKind.addVar:
+            case ActionKind.select:
+            case ActionKind.title2:
+            case ActionKind.dialogF:
+            case ActionKind.pushSex:
+            case ActionKind.pushVar:
+            case ActionKind.setCapa:
+            case ActionKind.setGain:
+            case ActionKind.storePM:
+            case ActionKind.storeud:
+            case ActionKind.hideLink:
+            case ActionKind.pushCapa:
+            case ActionKind.pushGain:
+            case ActionKind.pushItem:
+            case ActionKind.pushRank:
+            case ActionKind.pushSpot:
+            case ActionKind.pushForce:
+            case ActionKind.pushLevel:
+            case ActionKind.pushLoyal:
+            case ActionKind.pushMoney:
+            case ActionKind.pushTrain:
+            case ActionKind.pushTrust:
+            case ActionKind.pushCastle:
+            case ActionKind.pushMerits:
+            case ActionKind.pushTrainUp:
+            case ActionKind.pushBaseLevel:
+            case ActionKind.storeNextSpot:
+            case ActionKind.storeSkillset:
+            case ActionKind.storeTodoUnit:
+            case ActionKind.pushBattleHome:
+            case ActionKind.pushBattleRect:
+            case ActionKind.storeAliveUnit:
+            case ActionKind.storeRaceOfUnit:
+            case ActionKind.storeSpotOfUnit:
+            case ActionKind.storeUnitOfSpot:
+            case ActionKind.storeClassOfUnit:
+            case ActionKind.storePowerOfSpot:
+            case ActionKind.storePowerOfUnit:
+            case ActionKind.storeSkillOfUnit:
+            case ActionKind.storeSpotOfPower:
+            case ActionKind.storeTalentPower:
+            case ActionKind.storeUnitOfPower:
+            case ActionKind.storeLeaderOfSpot:
+            case ActionKind.storeMasterOfUnit:
+            case ActionKind.storeMemberOfUnit:
+            case ActionKind.storePowerOfForce:
+            case ActionKind.storeLeaderOfPower:
+            case ActionKind.storeMasterOfPower:
+            case ActionKind.storeRoamUnitOfSpot:
+            case ActionKind.storeBaseClassOfUnit:
+                return count == 2 ? 0 : count < 2 ? -1 : 1;
+            case ActionKind.gread:
+            case ActionKind.pushv:
+            case ActionKind.gwrite:
+            case ActionKind.setLeague:
+                return count >= 2 ? (count <= 3 ? 0 : 1) : -1;
+            case ActionKind.choice:
+                return count >= 2 ? 0 : -1;
+            case ActionKind.linkSpot:
+            case ActionKind.linkEscape:
+                return count >= 2 ? (count <= 4 ? 0 : 1) : -1;
+            case ActionKind.face:
+            case ActionKind.picture:
+            case ActionKind.showChara:
+                return count >= 3 ? (count <= 5 ? 0 : 1) : -1;
+            case ActionKind.index:
+            case ActionKind.pushCon:
+            case ActionKind.pushDiplo:
+            case ActionKind.pushStatus:
+            case ActionKind.pushSpotPos:
                 return count == 3 ? 0 : count < 3 ? -1 : 1;
+            case ActionKind.doskill:
+            case ActionKind.storeRectUnit:
+                return count == 5 ? 0 : count < 5 ? -1 : 1;
             default: return 0;
         }
 	}

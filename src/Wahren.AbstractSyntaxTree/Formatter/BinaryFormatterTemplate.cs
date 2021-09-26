@@ -397,6 +397,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int showSpot_ParenLeft_Count;
     private readonly int spotmark_ParenLeft_Offset;
     private readonly int spotmark_ParenLeft_Count;
+    private readonly int showParty_ParenLeft_Offset;
+    private readonly int showParty_ParenLeft_Count;
     private readonly int addCastle_ParenLeft_Offset;
     private readonly int addCastle_ParenLeft_Count;
     private readonly int addFriend_ParenLeft_Offset;
@@ -922,7 +924,7 @@ public class BinaryFormatter : IFormatter<byte>
         Indent_Count = Converter(spanIndentSource, spanIndent);
         spanIndent = spanIndent.Slice(0, Indent_Count);
 
-        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4054) + NewLine_Count * 15 + Indent_Count, true);
+        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4064) + NewLine_Count * 15 + Indent_Count, true);
 
         spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
         int accum = Indent_Count;
@@ -1644,6 +1646,10 @@ public class BinaryFormatter : IFormatter<byte>
         spotmark_ParenLeft_Offset = accum;
         spotmark_ParenLeft_Count = Converter("spotmark(", registeredBytes.AsSpan(accum));
         accum += spotmark_ParenLeft_Count;
+
+        showParty_ParenLeft_Offset = accum;
+        showParty_ParenLeft_Count = Converter("showParty(", registeredBytes.AsSpan(accum));
+        accum += showParty_ParenLeft_Count;
 
         addCastle_ParenLeft_Offset = accum;
         addCastle_ParenLeft_Count = Converter("addCastle(", registeredBytes.AsSpan(accum));
@@ -3795,6 +3801,12 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spotmark_ParenLeft_Offset, spotmark_ParenLeft_Count));
+    }
+
+    private void Append_showParty_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showParty_ParenLeft_Offset, showParty_ParenLeft_Count));
     }
 
     private void Append_addCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -6134,6 +6146,10 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.spotmark:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_spotmark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showParty:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showParty_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addCastle:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

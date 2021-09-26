@@ -127,7 +127,7 @@ foreach ((int min, IEnumerable<(int, IEnumerable<string>)> groupEnumerable) in A
         for (var index = 0; index < itemArray.Length; ++index)
         {
 #>
-            case ActionKind.<#= itemArray[index].Escape() #>: 
+            case ActionKind.<#= itemArray[index].Escape() #>:
 <#
         }
 
