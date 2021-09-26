@@ -7,17 +7,34 @@ public struct ActionInfo
     public int Min;
     public int Max;
     public int? EnglishCount;
-    public Dictionary<int, ArgumentInfo[]> Dictionary;
+    public Dictionary<int, ArgumentInfo[]> Dictionary = new();
 
     private static readonly Dictionary<int, ArgumentInfo[]> Empty = new();
 
-    public ActionInfo(string name, int min, int max, int? englishCount = null, Dictionary<int, ArgumentInfo[]>? dictionary = null)
+    public ActionInfo(string name, int min, int max, int? englishCount = null)
     {
         Name = name;
         Min = min;
         Max = max;
         EnglishCount = englishCount;
-        Dictionary = dictionary ?? Empty;
+    }
+
+    public ActionInfo(string name, int min, int max, ArgumentInfo argument0)
+    {
+        Name = name;
+        Min = min;
+        Max = max;
+        EnglishCount = null;
+        Dictionary.Add(1, new[] { argument0 });
+    }
+
+    public ActionInfo(string name, int min, int max, ArgumentInfo argument0, ArgumentInfo argument1)
+    {
+        Name = name;
+        Min = min;
+        Max = max;
+        EnglishCount = null;
+        Dictionary.Add(2, new[] { argument0, argument1 });
     }
 
     public void Deconstruct(out string name, out int min, out int max)
@@ -59,17 +76,17 @@ public struct ActionInfo
     {
         new("bg", 0, int.MaxValue),
         new("vc", 0, int.MaxValue),
-        new("add", 2, 2),
-        new("div", 2, 2),
-        new("mod", 2, 2),
+        new("add", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("div", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("mod", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
         new("msg", 0, int.MaxValue),
-        new("mul", 2, 2),
-        new("per", 2, 2),
-        new("set", 2, 2),
-        new("sub", 2, 2),
+        new("mul", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("per", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("set", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
+        new("sub", 2, 2, new(ReferenceKind.NumberVariable | ReferenceKind.Write), new(ReferenceKind.NumberVariable | ReferenceKind.Number)),
         new("win", 0, int.MaxValue),
-        new("addv", 0, int.MaxValue),
-        new("call", 0, int.MaxValue),
+        new("addv", 2, 2),
+        new("call", 1, 1),
         new("chat", 0, int.MaxValue),
         new("exit", 0, int.MaxValue),
         new("face", 0, int.MaxValue),
@@ -78,15 +95,15 @@ public struct ActionInfo
         new("play", 0, int.MaxValue),
         new("ppl1", 0, int.MaxValue),
         new("save", 0, int.MaxValue),
-        new("setv", 0, int.MaxValue),
+        new("setv", 2, 2),
         new("stop", 0, int.MaxValue),
-        new("subv", 0, int.MaxValue),
+        new("subv", 2, 2),
         new("talk", 0, int.MaxValue),
         new("wait", 0, int.MaxValue),
         new("zoom", 0, int.MaxValue),
         new("chat2", 0, int.MaxValue),
         new("citom", 0, int.MaxValue),
-        new("clear", 0, int.MaxValue),
+        new("clear", 1, 1),
         new("erase", 0, int.MaxValue),
         new("event", 1, 3),
         new("face2", 0, int.MaxValue),
@@ -135,10 +152,10 @@ public struct ActionInfo
         new("pushVar", 0, int.MaxValue),
         new("routine", 1, 1),
         new("scroll2", 0, int.MaxValue),
-        new("setCapa", 0, int.MaxValue),
+        new("setCapa", 2, 2),
         new("setDone", 0, int.MaxValue),
-        new("setGain", 0, int.MaxValue),
-        new("shuffle", 0, int.MaxValue),
+        new("setGain", 2, 2),
+        new("shuffle", 1, 1),
         new("stopBGM", 0, int.MaxValue),
         new("storePM", 0, int.MaxValue),
         new("storeud", 0, int.MaxValue),
@@ -166,7 +183,7 @@ public struct ActionInfo
         new("pushRand", 0, int.MaxValue),
         new("pushRank", 0, int.MaxValue),
         new("pushSpot", 0, int.MaxValue),
-        new("pushTurn", 0, int.MaxValue),
+        new("pushTurn", 1, 1),
         new("roamUnit", 0, int.MaxValue),
         new("setDiplo", 0, int.MaxValue),
         new("setLevel", 0, int.MaxValue),

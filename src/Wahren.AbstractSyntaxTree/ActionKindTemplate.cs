@@ -644,11 +644,20 @@ public static class ActionKindHelper
             case ActionKind.per: 
             case ActionKind.set: 
             case ActionKind.sub: 
+            case ActionKind.addv: 
+            case ActionKind.setv: 
+            case ActionKind.subv: 
+            case ActionKind.setCapa: 
+            case ActionKind.setGain: 
                 return count == 2 ? 0 : count < 2 ? -1 : 1;
+            case ActionKind.call: 
+            case ActionKind.clear: 
+            case ActionKind.routine: 
+            case ActionKind.shuffle: 
+            case ActionKind.pushTurn: 
+                return count == 1 ? 0 : count < 1 ? -1 : 1;
             case ActionKind.@event: 
                 return count >= 1 ? (count <= 3 ? 0 : 1) : -1;
-            case ActionKind.routine: 
-                return count == 1 ? 0 : count < 1 ? -1 : 1;
             default: return 0;
         }
 	}
