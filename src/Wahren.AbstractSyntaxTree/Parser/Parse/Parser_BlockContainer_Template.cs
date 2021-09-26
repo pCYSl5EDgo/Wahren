@@ -44,7 +44,7 @@ public static partial class Parser
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node);
+                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
             }
 
             if (!ReadToken(ref context, ref result))
@@ -369,7 +369,7 @@ public static partial class Parser
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node);
+                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
             }
 
             if (!ReadToken(ref context, ref result))
@@ -798,7 +798,7 @@ public static partial class Parser
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node);
+                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
             }
 
             if (!ReadToken(ref context, ref result))

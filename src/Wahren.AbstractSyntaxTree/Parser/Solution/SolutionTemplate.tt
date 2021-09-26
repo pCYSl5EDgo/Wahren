@@ -3,6 +3,7 @@
 <#@ assembly name="NetStandard" #>
 <#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
 <#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.Basic.dll" #>
+<#@ import namespace="Wahren" #>
 <#@ import namespace="Wahren.AbstractSyntaxTree" #>
 <#@ import namespace="Wahren.AbstractSyntaxTree.TextTemplateHelper" #>
 <#@ import namespace="System.Linq" #>

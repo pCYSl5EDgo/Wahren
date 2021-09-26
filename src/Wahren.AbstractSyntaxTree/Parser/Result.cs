@@ -45,6 +45,10 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet VoiceSet = new();
 
     public StringSpanKeySlowSet AttributeTypeSet = new();
+    public StringSpanKeySlowSet FieldAttributeTypeWriterSet = new();
+    public StringSpanKeySlowSet FieldAttributeTypeReaderSet = new();
+    public StringSpanKeySlowSet FieldIdWriterSet = new();
+    public StringSpanKeySlowSet FieldIdReaderSet = new();
     public StringSpanKeySlowSet VoiceTypeWriterSet = new();
     public StringSpanKeySlowSet VoiceTypeReaderSet = new();
     public StringSpanKeySlowSet NumberVariableWriterSet = new();
@@ -131,6 +135,10 @@ public struct Result : IDisposable
         DungeonSet.Dispose();
 
         AttributeTypeSet.Dispose();
+        FieldAttributeTypeWriterSet.Dispose();
+        FieldAttributeTypeReaderSet.Dispose();
+        FieldIdWriterSet.Dispose();
+        FieldIdReaderSet.Dispose();
         VoiceTypeWriterSet.Dispose();
         VoiceTypeReaderSet.Dispose();
 
