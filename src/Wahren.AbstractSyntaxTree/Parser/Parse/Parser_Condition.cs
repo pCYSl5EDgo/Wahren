@@ -22,6 +22,18 @@ public static partial class Parser
             var condition = ExpressionParseInParen(ref context, ref result, ref expressionList, 0, statementTokenId, statementKind, GetCompleteBoolean);
             if (expressionList.IsEmpty && condition is not null)
             {
+                if (!ReadToken(ref context, ref result))
+                {
+                    result.ErrorAdd_UnexpectedEndOfFile(statementTokenId, "'{' of while statement is not found.");
+                    return null;
+                }
+
+                if (!result.TokenList.Last.IsBracketLeft(ref source))
+                {
+                    CancelTokenReadback(ref context, ref result);
+                    result.ErrorList.Add(new("'{' of while/if/rif statement is not found.", result.TokenList[statementTokenId].Range));
+                }
+                
                 return condition;
             }
 
@@ -30,7 +42,15 @@ public static partial class Parser
                 result.ErrorList.Add(new("Condition Parse Failed.", tokenList[statementTokenId].Range));
             }
 
-            return null;
+            do
+            {
+                if (!ReadToken(ref context, ref result))
+                {
+                    result.ErrorAdd_UnexpectedEndOfFile(statementTokenId, "'{' of while/if/rif statement is not found.");
+                    return null;
+                }
+            } while (!tokenList.Last.IsBracketLeft(ref source));
+            return condition;
         }
         finally
         {
@@ -169,11 +189,13 @@ public static partial class Parser
                         case '*': tokenList.Last.Kind = TokenKind.Mul; calculatorOperator = NumberCalculatorOperator.Mul; goto CALC_OPERATOR;
                         case '/': tokenList.Last.Kind = TokenKind.Div; calculatorOperator = NumberCalculatorOperator.Div; goto CALC_OPERATOR;
                         case '%': tokenList.Last.Kind = TokenKind.Percent; calculatorOperator = NumberCalculatorOperator.Percent; goto CALC_OPERATOR;
-                        case '{': tokenList.Last.Kind = TokenKind.BracketLeft; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
                         case '}': tokenList.Last.Kind = TokenKind.BracketRight; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
                         case ':': tokenList.Last.Kind = TokenKind.Colon; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
                         case ';': tokenList.Last.Kind = TokenKind.Semicolon; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
                         case ',': tokenList.Last.Kind = TokenKind.Comma; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
+                        case '{':
+                            CancelTokenReadback(ref context, ref result);
+                            return null;
                     }
                     break;
                 case 2:
@@ -199,7 +221,7 @@ public static partial class Parser
                             if (span[0] == '&')
                             {
                                 tokenList.Last.Kind = TokenKind.And;
-                                if (AddOperatorReduce(ref result, ref expressionList, expressionListStartIndex, currentIndex, isOrExpression: false))
+                                if (AddOperatorReduce(ref context, ref result, ref expressionList, expressionListStartIndex, currentIndex, isOrExpression: false))
                                 {
                                     continue;
                                 }
@@ -216,7 +238,7 @@ public static partial class Parser
                             if (span[0] == '|')
                             {
                                 tokenList.Last.Kind = TokenKind.Or;
-                                if (AddOperatorReduce(ref result, ref expressionList, expressionListStartIndex, currentIndex, isOrExpression: true))
+                                if (AddOperatorReduce(ref context, ref result, ref expressionList, expressionListStartIndex, currentIndex, isOrExpression: true))
                                 {
                                     continue;
                                 }
@@ -353,7 +375,7 @@ public static partial class Parser
 
             continue;
         COMPARE_OPERATOR:
-            if (AddOperatorReduce(ref result, ref expressionList, expressionListStartIndex, currentIndex, comparerOperator))
+            if (AddOperatorReduce(ref context, ref result, ref expressionList, expressionListStartIndex, currentIndex, comparerOperator))
             {
                 continue;
             }
@@ -364,7 +386,7 @@ public static partial class Parser
             }
 
         CALC_OPERATOR:
-            if (AddOperatorReduce(ref result, ref expressionList, expressionListStartIndex, currentIndex, calculatorOperator))
+            if (AddOperatorReduce(ref context, ref result, ref expressionList, expressionListStartIndex, currentIndex, calculatorOperator))
             {
                 continue;
             }
@@ -376,7 +398,7 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool AddOperatorReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, bool isOrExpression)
+    private static bool AddOperatorReduce(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, bool isOrExpression)
     {
         var left = GetCompleteBoolean(ref result, ref expressionList, expressionListStartIndex, isOrExpression);
         if (left is null)
@@ -388,7 +410,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddOperatorReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberCalculatorOperator op)
+    private static bool AddOperatorReduce(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberCalculatorOperator op)
     {
         var left = GetCompleteNumber(ref result, ref expressionList, expressionListStartIndex, op <= NumberCalculatorOperator.Sub);
         if (left is null)
@@ -400,12 +422,31 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddOperatorReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberComparerOperator op)
+    private static bool AddOperatorReduce(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberComparerOperator op)
     {
         var left = GetCompleteNumber(ref result, ref expressionList, expressionListStartIndex, true);
         if (left is null)
         {
             return false;
+        }
+
+        if ((op == NumberComparerOperator.Equal || op == NumberComparerOperator.NotEqual) && left is IdentifierExpression identifier)
+        {
+            var span = result.GetSpan(identifier.TokenId);
+            if (span.Length != 0 && span[0] == '@')
+            {
+                if (!ExpressionParseString(ref context, ref result, currentIndex, out var right))
+                {
+                    result.ErrorList.Add(new("Expression Parsing Error. String is expected as the right argument of string equlity comparer.", result.TokenList.Last.Range));
+                    return false;
+                }
+
+                expressionList.Add(new StringEqualityComparerExpression(currentIndex, (EqualityComparerOperator)(int)op, new StringExpression(identifier.TokenId))
+                {
+                    Right = right,
+                });
+                return true;
+            }
         }
 
         expressionList.Add(new NumberComparerExpression(currentIndex, op, left));
@@ -469,7 +510,12 @@ public static partial class Parser
             goto TRUE;
         }
 
-        if (expressionList.Last is NumberComparerExpression comparer && comparer.Right is null && comparer.Left is IdentifierExpression identifier)
+        if (expressionList.Last is StringEqualityComparerExpression stringComparer && stringComparer.Right is null)
+        {
+            stringComparer.Right = expression;
+            return true;
+        }
+        else if (expressionList.Last is NumberComparerExpression comparer && comparer.Right is null && comparer.Left is IdentifierExpression identifier)
         {
             EqualityComparerOperator op;
             switch (comparer.Operator)

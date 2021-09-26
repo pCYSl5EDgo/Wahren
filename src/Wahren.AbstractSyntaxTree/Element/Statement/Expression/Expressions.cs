@@ -19,6 +19,7 @@ public sealed record class StringVariableExpression(uint TokenId) : IReturnStrin
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+    public uint ReferenceId = uint.MaxValue;
 }
 
 public sealed record class IdentifierExpression(uint TokenId) : ISingleTermExpression
@@ -26,6 +27,7 @@ public sealed record class IdentifierExpression(uint TokenId) : ISingleTermExpre
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+    public uint ReferenceId = uint.MaxValue;
 }
 
 public enum LogicOperator

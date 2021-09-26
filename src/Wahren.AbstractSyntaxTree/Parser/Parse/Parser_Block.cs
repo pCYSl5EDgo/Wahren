@@ -329,18 +329,6 @@ public static partial class Parser
             return false;
         }
 
-        if (!ReadToken(ref context, ref result))
-        {
-            result.ErrorAdd_UnexpectedEndOfFile(currentIndex, "'{' of while statement is not found.");
-            return false;
-        }
-
-        if (!result.TokenList.Last.IsBracketLeft(ref result.Source))
-        {
-            CancelTokenReadback(ref context, ref result);
-            result.ErrorList.Add(new("'{' of while statement is not found.", result.TokenList[currentIndex].Range));
-        }
-
         var statement = new WhileStatement(currentIndex, condition);
         statements.Add(statement);
         blockStack.Add(statement);
@@ -356,18 +344,6 @@ public static partial class Parser
         if (condition is null)
         {
             return false;
-        }
-
-        if (!ReadToken(ref context, ref result))
-        {
-            result.ErrorAdd_UnexpectedEndOfFile(currentIndex, isRepeatIf ? "'{' of rif statement is not found." : "'{' of if statement is not found.");
-            return false;
-        }
-
-        if (!result.TokenList.Last.IsBracketLeft(ref result.Source))
-        {
-            CancelTokenReadback(ref context, ref result);
-            result.ErrorList.Add(new("'{' of (r)if statement is not found.", result.TokenList[currentIndex].Range));
         }
 
         var statement = new IfStatement(currentIndex, condition, isRepeatIf);
