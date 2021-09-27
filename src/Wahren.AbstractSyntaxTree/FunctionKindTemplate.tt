@@ -69,10 +69,8 @@ foreach (var (len, items) in FunctionInfo.FunctionInfoArray.GroupBy(x => x.Name.
         key |= (ulong)(uint)item[0] - 32UL * (ulong)((ushort)item[0] >= (ushort)'a' ? 1: 0);
 #>
             case <#= item.Length - 5 #> when (key4 == 0x<#= key.ToString("X16") #>UL) && span.SequenceEqual("<#for(int i = 4; i < item.Length; ++i){#><#= (char)(ushort)(item[i] -32 * (item[i] >= 'a' ? 1 : 0)) #><#}#>"): return FunctionKind.<#= item #>;
-<#
-    }
-}
-#>
+<#  }
+} #>
         }
 
         return FunctionKind.None;
@@ -100,46 +98,26 @@ foreach ((int min, IEnumerable<(int, IEnumerable<string>)> groupEnumerable) in F
         )
     )))
 {
-    foreach (var (max, items) in groupEnumerable)
-    {
-        if (min == 0 && max == int.MaxValue) break;
+    foreach (var (max, items) in groupEnumerable) {
+        if (min == 0 && max == int.MaxValue) continue;
         var itemArray = items.ToArray();
-        for (var index = 0; index < itemArray.Length; ++index)
-        {
-#>
+        for (var index = 0; index < itemArray.Length; ++index) { #>
             case FunctionKind.<#= itemArray[index] #>: 
-<#
-        }
-
-        var item = itemArray[itemArray.Length - 1];
-        if (min == max)
-        {
-
-#>
+<#      }
+        var item = itemArray[itemArray.Length - 1]; #>
+<#      if (min == max && min == 0) { #>
+                return count == <#= min #> ? 0 : 1;
+<#      } else if (min == max) { #>
                 return count == <#= min #> ? 0 : count < <#= min #> ? -1 : 1;
-<#
-        }
-        else if (max == int.MaxValue)
-        {
-#>
+<#      } else if (max == int.MaxValue) { #>
                 return count >= <#= min #> ? 0 : -1;
-<#
-        }
-        else if (min == 0)
-        {
-#>
+<#      } else if (min == 0) { #>
                 return count <= <#= max #> ? 0 : 1;
-<#
-        }
-        else
-        {
-#>
+<#      } else { #>
                 return count >= <#= min #> ? (count <= <#= max #> ? 0 : 1) : -1;
-<#
-        }
+<#      }
     }
-}
-#>
+} #>
             default: return 0;
         }
     }

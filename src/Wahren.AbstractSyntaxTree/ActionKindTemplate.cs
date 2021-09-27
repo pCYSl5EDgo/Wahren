@@ -13,12 +13,47 @@ public enum ActionKind : uint
 	@return,
 	@break,
 	@continue,
-	bg,
 	vc,
+	play,
+	ppl1,
+	citom,
+	setbcg,
+	levelup,
+	showCamp,
+	pushDeath,
+	clickWait,
+	stopTroop,
+	worldskin,
+	storeDeath,
+	darkness_off,
+	doGameEnding,
+	setPowerHome,
+	msg,
+	msg2,
+	talk,
+	talk2,
+	chat,
+	chat2,
+	dialog,
+	dialogF,
+	image,
+	image2,
+	showImage,
+	hideImage,
+	face,
+	face2,
+	showFace,
+	hideFace,
+	picture,
+	picture2,
+	showPict,
+	showPicture,
+	hidePicture,
+	stop,
+	bg,
 	add,
 	div,
 	mod,
-	msg,
 	mul,
 	per,
 	set,
@@ -26,48 +61,36 @@ public enum ActionKind : uint
 	win,
 	addv,
 	call,
-	chat,
 	exit,
-	face,
 	font,
-	msg2,
-	play,
-	ppl1,
 	save,
 	setv,
-	stop,
 	subv,
-	talk,
 	wait,
 	zoom,
-	chat2,
-	citom,
 	clear,
 	erase,
 	@event,
-	face2,
 	focus,
 	fontc,
 	gread,
-	image,
 	index,
+	storeIndex,
+	storeIndexVar,
 	pushv,
 	setPM,
 	setud,
 	shake,
-	talk2,
 	title,
 	addstr,
 	addVar,
 	choice,
-	dialog,
 	fadein,
 	gwrite,
 	locate,
 	playSE,
 	scroll,
 	select,
-	setbcg,
 	setVar,
 	shadow,
 	subVar,
@@ -78,13 +101,10 @@ public enum ActionKind : uint
 	addItem,
 	addSpot,
 	addUnit,
-	dialogF,
 	doskill,
 	fadeout,
-	levelup,
 	loopBGM,
 	minimap,
-	picture,
 	playBGM,
 	pushCon,
 	pushSex,
@@ -115,7 +135,6 @@ public enum ActionKind : uint
 	hideSpot,
 	linkSpot,
 	openGoal,
-	picture2,
 	pushCapa,
 	pushGain,
 	pushItem,
@@ -124,16 +143,17 @@ public enum ActionKind : uint
 	pushSpot,
 	pushTurn,
 	roamUnit,
+	roamUnit2,
 	setDiplo,
 	setLevel,
 	setLimit,
 	setMoney,
 	setTruce,
-	showCamp,
-	showFace,
-	showPict,
 	showSpot,
 	spotmark,
+	hideSpotMark,
+	showSpotMark,
+	hideEscape,
 	showParty,
 	addCastle,
 	addFriend,
@@ -141,7 +161,6 @@ public enum ActionKind : uint
 	addSkill2,
 	addStatus,
 	changeMap,
-	clickWait,
 	closeGoal,
 	ctrlTroop,
 	entryItem,
@@ -153,10 +172,8 @@ public enum ActionKind : uint
 	haltTroop,
 	hideBlind,
 	hideChara,
-	hideImage,
 	moveTroop,
 	playWorld,
-	pushDeath,
 	pushDiplo,
 	pushForce,
 	pushLevel,
@@ -168,25 +185,20 @@ public enum ActionKind : uint
 	pushTrust,
 	resetTime,
 	resetZone,
-	roamUnit2,
 	setArbeit,
 	setCastle,
 	setLeague,
 	setStatus,
 	showBlind,
 	showChara,
-	showImage,
-	stopTroop,
 	terminate,
-	worldskin,
 	backScroll,
 	changeRace,
 	endingRoll,
 	erasePower,
 	eraseSkill,
-	eraseTroop,
 	eraseUnit2,
-	hideEscape,
+	eraseTroop,
 	linkEscape,
 	playBattle,
 	pushCastle,
@@ -202,8 +214,6 @@ public enum ActionKind : uint
 	sleepTroop,
 	smoveTroop,
 	speedTroop,
-	storeDeath,
-	storeIndex,
 	unionPower,
 	activeTroop,
 	addTraining,
@@ -211,7 +221,6 @@ public enum ActionKind : uint
 	changeClass,
 	choiceTitle,
 	eraseFriend,
-	hidePicture,
 	pushSpotPos,
 	pushTrainUp,
 	removeSkill,
@@ -221,23 +230,17 @@ public enum ActionKind : uint
 	setTraining,
 	shiftTroop2,
 	showDungeon,
-	showPicture,
 	unctrlTroop,
 	addBaseLevel,
 	changeCastle,
 	changeMaster,
 	changePlayer,
-	darkness_off,
-	doGameEnding,
-	hideSpotMark,
 	moveTroopFix,
 	retreatTroop,
 	reverseChara,
 	setBaseLevel,
 	setGameClear,
-	setPowerHome,
 	showPolitics,
-	showSpotMark,
 	storeAllSpot,
 	addPowerMerce,
 	addPowerStaff,
@@ -250,7 +253,6 @@ public enum ActionKind : uint
 	smoveTroopFix,
 	storeAllPower,
 	storeComPower,
-	storeIndexVar,
 	storeNextSpot,
 	storeNowPower,
 	storeRectUnit,
@@ -336,12 +338,47 @@ public static class ActionKindHelper
 			case 2 when (key4 == 0x0055005400450052UL) && span.SequenceEqual("RN"): return ActionKind.@return;
 			case 1 when (key4 == 0x0041004500520042UL) && (span[0] == 'K'): return ActionKind.@break;
 			case 4 when (key4 == 0x0054004E004F0043UL) && span.SequenceEqual("INUE"): return ActionKind.@continue;
-			case 0 when key4 == 0x0000000000470042UL: return ActionKind.bg;
 			case 0 when key4 == 0x0000000000430056UL: return ActionKind.vc;
+			case 0 when key4 == 0x00590041004C0050UL: return ActionKind.play;
+			case 0 when key4 == 0x0031004C00500050UL: return ActionKind.ppl1;
+			case 1 when (key4 == 0x004F005400490043UL) && (span[0] == 'M'): return ActionKind.citom;
+			case 2 when (key4 == 0x0042005400450053UL) && span.SequenceEqual("CG"): return ActionKind.setbcg;
+			case 3 when (key4 == 0x004500560045004CUL) && span.SequenceEqual("LUP"): return ActionKind.levelup;
+			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("CAMP"): return ActionKind.showCamp;
+			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DEATH"): return ActionKind.pushDeath;
+			case 5 when (key4 == 0x00430049004C0043UL) && span.SequenceEqual("KWAIT"): return ActionKind.clickWait;
+			case 5 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("TROOP"): return ActionKind.stopTroop;
+			case 5 when (key4 == 0x004C0052004F0057UL) && span.SequenceEqual("DSKIN"): return ActionKind.worldskin;
+			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EDEATH"): return ActionKind.storeDeath;
+			case 8 when (key4 == 0x004B005200410044UL) && span.SequenceEqual("NESS_OFF"): return ActionKind.darkness_off;
+			case 8 when (key4 == 0x00410047004F0044UL) && span.SequenceEqual("MEENDING"): return ActionKind.doGameEnding;
+			case 8 when (key4 == 0x0050005400450053UL) && span.SequenceEqual("OWERHOME"): return ActionKind.setPowerHome;
+			case 0 when key4 == 0x000000470053004DUL: return ActionKind.msg;
+			case 0 when key4 == 0x003200470053004DUL: return ActionKind.msg2;
+			case 0 when key4 == 0x004B004C00410054UL: return ActionKind.talk;
+			case 1 when (key4 == 0x004B004C00410054UL) && (span[0] == '2'): return ActionKind.talk2;
+			case 0 when key4 == 0x0054004100480043UL: return ActionKind.chat;
+			case 1 when (key4 == 0x0054004100480043UL) && (span[0] == '2'): return ActionKind.chat2;
+			case 2 when (key4 == 0x004C004100490044UL) && span.SequenceEqual("OG"): return ActionKind.dialog;
+			case 3 when (key4 == 0x004C004100490044UL) && span.SequenceEqual("OGF"): return ActionKind.dialogF;
+			case 1 when (key4 == 0x00470041004D0049UL) && (span[0] == 'E'): return ActionKind.image;
+			case 2 when (key4 == 0x00470041004D0049UL) && span.SequenceEqual("E2"): return ActionKind.image2;
+			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("IMAGE"): return ActionKind.showImage;
+			case 5 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("IMAGE"): return ActionKind.hideImage;
+			case 0 when key4 == 0x0045004300410046UL: return ActionKind.face;
+			case 1 when (key4 == 0x0045004300410046UL) && (span[0] == '2'): return ActionKind.face2;
+			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("FACE"): return ActionKind.showFace;
+			case 4 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("FACE"): return ActionKind.hideFace;
+			case 3 when (key4 == 0x0054004300490050UL) && span.SequenceEqual("URE"): return ActionKind.picture;
+			case 4 when (key4 == 0x0054004300490050UL) && span.SequenceEqual("URE2"): return ActionKind.picture2;
+			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PICT"): return ActionKind.showPict;
+			case 7 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PICTURE"): return ActionKind.showPicture;
+			case 7 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("PICTURE"): return ActionKind.hidePicture;
+			case 0 when key4 == 0x0050004F00540053UL: return ActionKind.stop;
+			case 0 when key4 == 0x0000000000470042UL: return ActionKind.bg;
 			case 0 when key4 == 0x0000004400440041UL: return ActionKind.add;
 			case 0 when key4 == 0x0000005600490044UL: return ActionKind.div;
 			case 0 when key4 == 0x00000044004F004DUL: return ActionKind.mod;
-			case 0 when key4 == 0x000000470053004DUL: return ActionKind.msg;
 			case 0 when key4 == 0x0000004C0055004DUL: return ActionKind.mul;
 			case 0 when key4 == 0x0000005200450050UL: return ActionKind.per;
 			case 0 when key4 == 0x0000005400450053UL: return ActionKind.set;
@@ -349,48 +386,36 @@ public static class ActionKindHelper
 			case 0 when key4 == 0x0000004E00490057UL: return ActionKind.win;
 			case 0 when key4 == 0x0056004400440041UL: return ActionKind.addv;
 			case 0 when key4 == 0x004C004C00410043UL: return ActionKind.call;
-			case 0 when key4 == 0x0054004100480043UL: return ActionKind.chat;
 			case 0 when key4 == 0x0054004900580045UL: return ActionKind.exit;
-			case 0 when key4 == 0x0045004300410046UL: return ActionKind.face;
 			case 0 when key4 == 0x0054004E004F0046UL: return ActionKind.font;
-			case 0 when key4 == 0x003200470053004DUL: return ActionKind.msg2;
-			case 0 when key4 == 0x00590041004C0050UL: return ActionKind.play;
-			case 0 when key4 == 0x0031004C00500050UL: return ActionKind.ppl1;
 			case 0 when key4 == 0x0045005600410053UL: return ActionKind.save;
 			case 0 when key4 == 0x0056005400450053UL: return ActionKind.setv;
-			case 0 when key4 == 0x0050004F00540053UL: return ActionKind.stop;
 			case 0 when key4 == 0x0056004200550053UL: return ActionKind.subv;
-			case 0 when key4 == 0x004B004C00410054UL: return ActionKind.talk;
 			case 0 when key4 == 0x0054004900410057UL: return ActionKind.wait;
 			case 0 when key4 == 0x004D004F004F005AUL: return ActionKind.zoom;
-			case 1 when (key4 == 0x0054004100480043UL) && (span[0] == '2'): return ActionKind.chat2;
-			case 1 when (key4 == 0x004F005400490043UL) && (span[0] == 'M'): return ActionKind.citom;
 			case 1 when (key4 == 0x00410045004C0043UL) && (span[0] == 'R'): return ActionKind.clear;
 			case 1 when (key4 == 0x0053004100520045UL) && (span[0] == 'E'): return ActionKind.erase;
 			case 1 when (key4 == 0x004E004500560045UL) && (span[0] == 'T'): return ActionKind.@event;
-			case 1 when (key4 == 0x0045004300410046UL) && (span[0] == '2'): return ActionKind.face2;
 			case 1 when (key4 == 0x00550043004F0046UL) && (span[0] == 'S'): return ActionKind.focus;
 			case 1 when (key4 == 0x0054004E004F0046UL) && (span[0] == 'C'): return ActionKind.fontc;
 			case 1 when (key4 == 0x0041004500520047UL) && (span[0] == 'D'): return ActionKind.gread;
-			case 1 when (key4 == 0x00470041004D0049UL) && (span[0] == 'E'): return ActionKind.image;
 			case 1 when (key4 == 0x00450044004E0049UL) && (span[0] == 'X'): return ActionKind.index;
+			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EINDEX"): return ActionKind.storeIndex;
+			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EINDEXVAR"): return ActionKind.storeIndexVar;
 			case 1 when (key4 == 0x0048005300550050UL) && (span[0] == 'V'): return ActionKind.pushv;
 			case 1 when (key4 == 0x0050005400450053UL) && (span[0] == 'M'): return ActionKind.setPM;
 			case 1 when (key4 == 0x0055005400450053UL) && (span[0] == 'D'): return ActionKind.setud;
 			case 1 when (key4 == 0x004B004100480053UL) && (span[0] == 'E'): return ActionKind.shake;
-			case 1 when (key4 == 0x004B004C00410054UL) && (span[0] == '2'): return ActionKind.talk2;
 			case 1 when (key4 == 0x004C005400490054UL) && (span[0] == 'E'): return ActionKind.title;
 			case 2 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("TR"): return ActionKind.addstr;
 			case 2 when (key4 == 0x0056004400440041UL) && span.SequenceEqual("AR"): return ActionKind.addVar;
 			case 2 when (key4 == 0x0049004F00480043UL) && span.SequenceEqual("CE"): return ActionKind.choice;
-			case 2 when (key4 == 0x004C004100490044UL) && span.SequenceEqual("OG"): return ActionKind.dialog;
 			case 2 when (key4 == 0x0045004400410046UL) && span.SequenceEqual("IN"): return ActionKind.fadein;
 			case 2 when (key4 == 0x0049005200570047UL) && span.SequenceEqual("TE"): return ActionKind.gwrite;
 			case 2 when (key4 == 0x00410043004F004CUL) && span.SequenceEqual("TE"): return ActionKind.locate;
 			case 2 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("SE"): return ActionKind.playSE;
 			case 2 when (key4 == 0x004F005200430053UL) && span.SequenceEqual("LL"): return ActionKind.scroll;
 			case 2 when (key4 == 0x0045004C00450053UL) && span.SequenceEqual("CT"): return ActionKind.select;
-			case 2 when (key4 == 0x0042005400450053UL) && span.SequenceEqual("CG"): return ActionKind.setbcg;
 			case 2 when (key4 == 0x0056005400450053UL) && span.SequenceEqual("AR"): return ActionKind.setVar;
 			case 2 when (key4 == 0x0044004100480053UL) && span.SequenceEqual("OW"): return ActionKind.shadow;
 			case 2 when (key4 == 0x0056004200550053UL) && span.SequenceEqual("AR"): return ActionKind.subVar;
@@ -401,13 +426,10 @@ public static class ActionKindHelper
 			case 3 when (key4 == 0x0049004400440041UL) && span.SequenceEqual("TEM"): return ActionKind.addItem;
 			case 3 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("POT"): return ActionKind.addSpot;
 			case 3 when (key4 == 0x0055004400440041UL) && span.SequenceEqual("NIT"): return ActionKind.addUnit;
-			case 3 when (key4 == 0x004C004100490044UL) && span.SequenceEqual("OGF"): return ActionKind.dialogF;
 			case 3 when (key4 == 0x004B0053004F0044UL) && span.SequenceEqual("ILL"): return ActionKind.doskill;
 			case 3 when (key4 == 0x0045004400410046UL) && span.SequenceEqual("OUT"): return ActionKind.fadeout;
-			case 3 when (key4 == 0x004500560045004CUL) && span.SequenceEqual("LUP"): return ActionKind.levelup;
 			case 3 when (key4 == 0x0050004F004F004CUL) && span.SequenceEqual("BGM"): return ActionKind.loopBGM;
 			case 3 when (key4 == 0x0049004E0049004DUL) && span.SequenceEqual("MAP"): return ActionKind.minimap;
-			case 3 when (key4 == 0x0054004300490050UL) && span.SequenceEqual("URE"): return ActionKind.picture;
 			case 3 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("BGM"): return ActionKind.playBGM;
 			case 3 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("CON"): return ActionKind.pushCon;
 			case 3 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("SEX"): return ActionKind.pushSex;
@@ -438,7 +460,6 @@ public static class ActionKindHelper
 			case 4 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("SPOT"): return ActionKind.hideSpot;
 			case 4 when (key4 == 0x004B004E0049004CUL) && span.SequenceEqual("SPOT"): return ActionKind.linkSpot;
 			case 4 when (key4 == 0x004E00450050004FUL) && span.SequenceEqual("GOAL"): return ActionKind.openGoal;
-			case 4 when (key4 == 0x0054004300490050UL) && span.SequenceEqual("URE2"): return ActionKind.picture2;
 			case 4 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("CAPA"): return ActionKind.pushCapa;
 			case 4 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("GAIN"): return ActionKind.pushGain;
 			case 4 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("ITEM"): return ActionKind.pushItem;
@@ -447,16 +468,17 @@ public static class ActionKindHelper
 			case 4 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("SPOT"): return ActionKind.pushSpot;
 			case 4 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("TURN"): return ActionKind.pushTurn;
 			case 4 when (key4 == 0x004D0041004F0052UL) && span.SequenceEqual("UNIT"): return ActionKind.roamUnit;
+			case 5 when (key4 == 0x004D0041004F0052UL) && span.SequenceEqual("UNIT2"): return ActionKind.roamUnit2;
 			case 4 when (key4 == 0x0044005400450053UL) && span.SequenceEqual("IPLO"): return ActionKind.setDiplo;
 			case 4 when (key4 == 0x004C005400450053UL) && span.SequenceEqual("EVEL"): return ActionKind.setLevel;
 			case 4 when (key4 == 0x004C005400450053UL) && span.SequenceEqual("IMIT"): return ActionKind.setLimit;
 			case 4 when (key4 == 0x004D005400450053UL) && span.SequenceEqual("ONEY"): return ActionKind.setMoney;
 			case 4 when (key4 == 0x0054005400450053UL) && span.SequenceEqual("RUCE"): return ActionKind.setTruce;
-			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("CAMP"): return ActionKind.showCamp;
-			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("FACE"): return ActionKind.showFace;
-			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PICT"): return ActionKind.showPict;
 			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("SPOT"): return ActionKind.showSpot;
 			case 4 when (key4 == 0x0054004F00500053UL) && span.SequenceEqual("MARK"): return ActionKind.spotmark;
+			case 8 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.hideSpotMark;
+			case 8 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.showSpotMark;
+			case 6 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("ESCAPE"): return ActionKind.hideEscape;
 			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PARTY"): return ActionKind.showParty;
 			case 5 when (key4 == 0x0043004400440041UL) && span.SequenceEqual("ASTLE"): return ActionKind.addCastle;
 			case 5 when (key4 == 0x0046004400440041UL) && span.SequenceEqual("RIEND"): return ActionKind.addFriend;
@@ -464,7 +486,6 @@ public static class ActionKindHelper
 			case 5 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("KILL2"): return ActionKind.addSkill2;
 			case 5 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("TATUS"): return ActionKind.addStatus;
 			case 5 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEMAP"): return ActionKind.changeMap;
-			case 5 when (key4 == 0x00430049004C0043UL) && span.SequenceEqual("KWAIT"): return ActionKind.clickWait;
 			case 5 when (key4 == 0x0053004F004C0043UL) && span.SequenceEqual("EGOAL"): return ActionKind.closeGoal;
 			case 5 when (key4 == 0x004C005200540043UL) && span.SequenceEqual("TROOP"): return ActionKind.ctrlTroop;
 			case 5 when (key4 == 0x00520054004E0045UL) && span.SequenceEqual("YITEM"): return ActionKind.entryItem;
@@ -476,10 +497,8 @@ public static class ActionKindHelper
 			case 5 when (key4 == 0x0054004C00410048UL) && span.SequenceEqual("TROOP"): return ActionKind.haltTroop;
 			case 5 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("BLIND"): return ActionKind.hideBlind;
 			case 5 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("CHARA"): return ActionKind.hideChara;
-			case 5 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("IMAGE"): return ActionKind.hideImage;
 			case 5 when (key4 == 0x00450056004F004DUL) && span.SequenceEqual("TROOP"): return ActionKind.moveTroop;
 			case 5 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("WORLD"): return ActionKind.playWorld;
-			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DEATH"): return ActionKind.pushDeath;
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DIPLO"): return ActionKind.pushDiplo;
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("FORCE"): return ActionKind.pushForce;
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("LEVEL"): return ActionKind.pushLevel;
@@ -491,25 +510,20 @@ public static class ActionKindHelper
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("TRUST"): return ActionKind.pushTrust;
 			case 5 when (key4 == 0x0045005300450052UL) && span.SequenceEqual("TTIME"): return ActionKind.resetTime;
 			case 5 when (key4 == 0x0045005300450052UL) && span.SequenceEqual("TZONE"): return ActionKind.resetZone;
-			case 5 when (key4 == 0x004D0041004F0052UL) && span.SequenceEqual("UNIT2"): return ActionKind.roamUnit2;
 			case 5 when (key4 == 0x0041005400450053UL) && span.SequenceEqual("RBEIT"): return ActionKind.setArbeit;
 			case 5 when (key4 == 0x0043005400450053UL) && span.SequenceEqual("ASTLE"): return ActionKind.setCastle;
 			case 5 when (key4 == 0x004C005400450053UL) && span.SequenceEqual("EAGUE"): return ActionKind.setLeague;
 			case 5 when (key4 == 0x0053005400450053UL) && span.SequenceEqual("TATUS"): return ActionKind.setStatus;
 			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("BLIND"): return ActionKind.showBlind;
 			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("CHARA"): return ActionKind.showChara;
-			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("IMAGE"): return ActionKind.showImage;
-			case 5 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("TROOP"): return ActionKind.stopTroop;
 			case 5 when (key4 == 0x004D005200450054UL) && span.SequenceEqual("INATE"): return ActionKind.terminate;
-			case 5 when (key4 == 0x004C0052004F0057UL) && span.SequenceEqual("DSKIN"): return ActionKind.worldskin;
 			case 6 when (key4 == 0x004B004300410042UL) && span.SequenceEqual("SCROLL"): return ActionKind.backScroll;
 			case 6 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GERACE"): return ActionKind.changeRace;
 			case 6 when (key4 == 0x00490044004E0045UL) && span.SequenceEqual("NGROLL"): return ActionKind.endingRoll;
 			case 6 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("EPOWER"): return ActionKind.erasePower;
 			case 6 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("ESKILL"): return ActionKind.eraseSkill;
-			case 6 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("ETROOP"): return ActionKind.eraseTroop;
 			case 6 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("EUNIT2"): return ActionKind.eraseUnit2;
-			case 6 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("ESCAPE"): return ActionKind.hideEscape;
+			case 6 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("ETROOP"): return ActionKind.eraseTroop;
 			case 6 when (key4 == 0x004B004E0049004CUL) && span.SequenceEqual("ESCAPE"): return ActionKind.linkEscape;
 			case 6 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("BATTLE"): return ActionKind.playBattle;
 			case 6 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("CASTLE"): return ActionKind.pushCastle;
@@ -525,8 +539,6 @@ public static class ActionKindHelper
 			case 6 when (key4 == 0x00450045004C0053UL) && span.SequenceEqual("PTROOP"): return ActionKind.sleepTroop;
 			case 6 when (key4 == 0x0056004F004D0053UL) && span.SequenceEqual("ETROOP"): return ActionKind.smoveTroop;
 			case 6 when (key4 == 0x0045004500500053UL) && span.SequenceEqual("DTROOP"): return ActionKind.speedTroop;
-			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EDEATH"): return ActionKind.storeDeath;
-			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EINDEX"): return ActionKind.storeIndex;
 			case 6 when (key4 == 0x004F0049004E0055UL) && span.SequenceEqual("NPOWER"): return ActionKind.unionPower;
 			case 7 when (key4 == 0x0049005400430041UL) && span.SequenceEqual("VETROOP"): return ActionKind.activeTroop;
 			case 7 when (key4 == 0x0054004400440041UL) && span.SequenceEqual("RAINING"): return ActionKind.addTraining;
@@ -534,7 +546,6 @@ public static class ActionKindHelper
 			case 7 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GECLASS"): return ActionKind.changeClass;
 			case 7 when (key4 == 0x0049004F00480043UL) && span.SequenceEqual("CETITLE"): return ActionKind.choiceTitle;
 			case 7 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("EFRIEND"): return ActionKind.eraseFriend;
-			case 7 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("PICTURE"): return ActionKind.hidePicture;
 			case 7 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("SPOTPOS"): return ActionKind.pushSpotPos;
 			case 7 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("TRAINUP"): return ActionKind.pushTrainUp;
 			case 7 when (key4 == 0x004F004D00450052UL) && span.SequenceEqual("VESKILL"): return ActionKind.removeSkill;
@@ -544,23 +555,17 @@ public static class ActionKindHelper
 			case 7 when (key4 == 0x0054005400450053UL) && span.SequenceEqual("RAINING"): return ActionKind.setTraining;
 			case 7 when (key4 == 0x0046004900480053UL) && span.SequenceEqual("TTROOP2"): return ActionKind.shiftTroop2;
 			case 7 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("DUNGEON"): return ActionKind.showDungeon;
-			case 7 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PICTURE"): return ActionKind.showPicture;
 			case 7 when (key4 == 0x00540043004E0055UL) && span.SequenceEqual("RLTROOP"): return ActionKind.unctrlTroop;
 			case 8 when (key4 == 0x0042004400440041UL) && span.SequenceEqual("ASELEVEL"): return ActionKind.addBaseLevel;
 			case 8 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GECASTLE"): return ActionKind.changeCastle;
 			case 8 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEMASTER"): return ActionKind.changeMaster;
 			case 8 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEPLAYER"): return ActionKind.changePlayer;
-			case 8 when (key4 == 0x004B005200410044UL) && span.SequenceEqual("NESS_OFF"): return ActionKind.darkness_off;
-			case 8 when (key4 == 0x00410047004F0044UL) && span.SequenceEqual("MEENDING"): return ActionKind.doGameEnding;
-			case 8 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.hideSpotMark;
 			case 8 when (key4 == 0x00450056004F004DUL) && span.SequenceEqual("TROOPFIX"): return ActionKind.moveTroopFix;
 			case 8 when (key4 == 0x0052005400450052UL) && span.SequenceEqual("EATTROOP"): return ActionKind.retreatTroop;
 			case 8 when (key4 == 0x0045005600450052UL) && span.SequenceEqual("RSECHARA"): return ActionKind.reverseChara;
 			case 8 when (key4 == 0x0042005400450053UL) && span.SequenceEqual("ASELEVEL"): return ActionKind.setBaseLevel;
 			case 8 when (key4 == 0x0047005400450053UL) && span.SequenceEqual("AMECLEAR"): return ActionKind.setGameClear;
-			case 8 when (key4 == 0x0050005400450053UL) && span.SequenceEqual("OWERHOME"): return ActionKind.setPowerHome;
 			case 8 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("POLITICS"): return ActionKind.showPolitics;
-			case 8 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.showSpotMark;
 			case 8 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EALLSPOT"): return ActionKind.storeAllSpot;
 			case 9 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERMERCE"): return ActionKind.addPowerMerce;
 			case 9 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERSTAFF"): return ActionKind.addPowerStaff;
@@ -573,7 +578,6 @@ public static class ActionKindHelper
 			case 9 when (key4 == 0x0056004F004D0053UL) && span.SequenceEqual("ETROOPFIX"): return ActionKind.smoveTroopFix;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EALLPOWER"): return ActionKind.storeAllPower;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ECOMPOWER"): return ActionKind.storeComPower;
-			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EINDEXVAR"): return ActionKind.storeIndexVar;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ENEXTSPOT"): return ActionKind.storeNextSpot;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ENOWPOWER"): return ActionKind.storeNowPower;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ERECTUNIT"): return ActionKind.storeRectUnit;
@@ -639,40 +643,136 @@ public static class ActionKindHelper
 
 		switch (kind)
         {
+            case ActionKind.stop:
+            case ActionKind.win:
+            case ActionKind.save:
+            case ActionKind.erase:
+            case ActionKind.minimap:
+            case ActionKind.stopBGM:
+            case ActionKind.openGoal:
+            case ActionKind.hideSpotMark:
+            case ActionKind.closeGoal:
+            case ActionKind.hideBlind:
+            case ActionKind.playWorld:
+            case ActionKind.resetTime:
+            case ActionKind.resetZone:
+            case ActionKind.showBlind:
+            case ActionKind.terminate:
+            case ActionKind.backScroll:
+            case ActionKind.playBattle:
+            case ActionKind.setWorldMusic:
+            case ActionKind.resetWorldMusic:
+            case ActionKind.clearBattleRecord:
+                return count != 0 ? 1 : 0;
+            case ActionKind.exit:
+            case ActionKind.wait:
+            case ActionKind.focus:
+            case ActionKind.shake:
+            case ActionKind.fadein:
+            case ActionKind.fadeout:
+            case ActionKind.playBGM:
+            case ActionKind.reloadMenu:
+            case ActionKind.choiceTitle:
+            case ActionKind.changePlayer:
+            case ActionKind.setGameClear:
+                return count > 1 ? 1 : 0;
+            case ActionKind.font:
+            case ActionKind.fontc:
+                return count > 3 ? 1 : 0;
+            case ActionKind.shadow:
+                return count > 6 ? 1 : 0;
+            case ActionKind.darkness:
+                return count > 4 ? 1 : 0;
+            case ActionKind.spotmark:
+                return count > 2 ? 1 : 0;
+            case ActionKind.msg:
+            case ActionKind.msg2:
+            case ActionKind.talk:
+            case ActionKind.talk2:
+            case ActionKind.chat:
+            case ActionKind.chat2:
+            case ActionKind.@event:
+            case ActionKind.changeMaster:
+                return count >= 1 ? (count > 3 ? 1 : 0) : -1;
+            case ActionKind.dialog:
+            case ActionKind.dialogF:
+            case ActionKind.hideImage:
+            case ActionKind.hideFace:
+            case ActionKind.hidePicture:
             case ActionKind.bg:
             case ActionKind.locate:
             case ActionKind.scroll:
-            case ActionKind.resetLeague:
+            case ActionKind.addSpot:
             case ActionKind.showSpotMark:
-                return count >= 1 ? (count <= 2 ? 0 : 1) : -1;
+            case ActionKind.resetTruce:
+            case ActionKind.resetLeague:
+            case ActionKind.resetEnemyPower:
+                return count >= 1 ? (count > 2 ? 1 : 0) : -1;
+            case ActionKind.image:
+            case ActionKind.image2:
+            case ActionKind.showImage:
+            case ActionKind.face:
+            case ActionKind.face2:
+            case ActionKind.showFace:
+            case ActionKind.picture:
+            case ActionKind.picture2:
+            case ActionKind.showPict:
+            case ActionKind.showPicture:
+                return count >= 1 ? (count > 5 ? 1 : 0) : -1;
             case ActionKind.call:
             case ActionKind.zoom:
             case ActionKind.clear:
-            case ActionKind.dialog:
             case ActionKind.playSE:
             case ActionKind.volume:
+            case ActionKind.addItem:
             case ActionKind.routine:
             case ActionKind.scroll2:
             case ActionKind.shuffle:
+            case ActionKind.addLimit:
+            case ActionKind.addPower:
+            case ActionKind.clearVar:
+            case ActionKind.exitItem:
             case ActionKind.hideSpot:
             case ActionKind.pushRand:
             case ActionKind.pushTurn:
+            case ActionKind.roamUnit:
+            case ActionKind.roamUnit2:
+            case ActionKind.setLimit:
+            case ActionKind.showSpot:
             case ActionKind.showParty:
+            case ActionKind.ctrlTroop:
+            case ActionKind.entryItem:
+            case ActionKind.eraseItem:
+            case ActionKind.eraseUnit:
+            case ActionKind.freeTroop:
+            case ActionKind.haltTroop:
             case ActionKind.hideChara:
             case ActionKind.pushLimit:
             case ActionKind.pushRand2:
-            case ActionKind.reloadMenu:
+            case ActionKind.endingRoll:
+            case ActionKind.erasePower:
+            case ActionKind.eraseTroop:
+            case ActionKind.removeSpot:
+            case ActionKind.shuffleVar:
+            case ActionKind.sleepTroop:
+            case ActionKind.activeTroop:
             case ActionKind.battleEvent:
+            case ActionKind.removeTroop:
             case ActionKind.scrollSpeed:
             case ActionKind.showDungeon:
+            case ActionKind.unctrlTroop:
+            case ActionKind.retreatTroop:
             case ActionKind.reverseChara:
             case ActionKind.showPolitics:
             case ActionKind.storeAllSpot:
             case ActionKind.storeAllPower:
             case ActionKind.storeComPower:
             case ActionKind.storeNowPower:
+            case ActionKind.eraseUnitTroop:
             case ActionKind.pushCountPower:
             case ActionKind.storeAllTalent:
+            case ActionKind.erasePowerMerce:
+            case ActionKind.erasePowerStaff:
             case ActionKind.storeBattleSpot:
             case ActionKind.storePlayerUnit:
             case ActionKind.storeAttackPower:
@@ -683,13 +783,11 @@ public static class ActionKindHelper
             case ActionKind.storePowerOfAttack:
             case ActionKind.storeNonPlayerPower:
             case ActionKind.storePowerOfDefense:
-                return count == 1 ? 0 : count < 1 ? -1 : 1;
-            case ActionKind.@event:
-                return count >= 1 ? (count <= 3 ? 0 : 1) : -1;
-            case ActionKind.image:
-                return count >= 1 ? (count <= 5 ? 0 : 1) : -1;
+                return count != 1 ? (1 - ((count < 1 ? 1 : 0) << 1)) : 0;
             case ActionKind.loopBGM:
-                return count >= 1 ? 0 : -1;
+            case ActionKind.eraseSkill:
+            case ActionKind.eraseFriend:
+                return -(count < 1 ? 1 : 0);
             case ActionKind.add:
             case ActionKind.div:
             case ActionKind.mod:
@@ -706,36 +804,73 @@ public static class ActionKindHelper
             case ActionKind.addstr:
             case ActionKind.addVar:
             case ActionKind.select:
+            case ActionKind.setVar:
+            case ActionKind.subVar:
             case ActionKind.title2:
-            case ActionKind.dialogF:
+            case ActionKind.addCapa:
+            case ActionKind.addGain:
             case ActionKind.pushSex:
             case ActionKind.pushVar:
             case ActionKind.setCapa:
+            case ActionKind.setDone:
             case ActionKind.setGain:
             case ActionKind.storePM:
             case ActionKind.storeud:
+            case ActionKind.addLevel:
+            case ActionKind.addLoyal:
+            case ActionKind.addMoney:
+            case ActionKind.addTrust:
             case ActionKind.hideLink:
             case ActionKind.pushCapa:
             case ActionKind.pushGain:
             case ActionKind.pushItem:
             case ActionKind.pushRank:
             case ActionKind.pushSpot:
+            case ActionKind.setLevel:
+            case ActionKind.setMoney:
+            case ActionKind.hideEscape:
+            case ActionKind.addCastle:
+            case ActionKind.addMerits:
+            case ActionKind.changeMap:
+            case ActionKind.formTroop:
             case ActionKind.pushForce:
             case ActionKind.pushLevel:
             case ActionKind.pushLoyal:
             case ActionKind.pushMoney:
             case ActionKind.pushTrain:
             case ActionKind.pushTrust:
+            case ActionKind.setCastle:
+            case ActionKind.changeRace:
             case ActionKind.pushCastle:
             case ActionKind.pushMerits:
+            case ActionKind.setDungeon:
+            case ActionKind.smoveTroop:
+            case ActionKind.speedTroop:
+            case ActionKind.unionPower:
+            case ActionKind.addTraining:
+            case ActionKind.changeClass:
             case ActionKind.pushTrainUp:
+            case ActionKind.removeSkill:
+            case ActionKind.setTraining:
+            case ActionKind.addBaseLevel:
+            case ActionKind.changeCastle:
+            case ActionKind.setBaseLevel:
+            case ActionKind.addTrainingUp:
+            case ActionKind.changeDungeon:
             case ActionKind.pushBaseLevel:
+            case ActionKind.setTrainingUp:
+            case ActionKind.smoveTroopFix:
             case ActionKind.storeNextSpot:
             case ActionKind.storeSkillset:
             case ActionKind.storeTodoUnit:
+            case ActionKind.changePowerFix:
             case ActionKind.pushBattleHome:
             case ActionKind.pushBattleRect:
             case ActionKind.storeAliveUnit:
+            case ActionKind.changePowerFlag:
+            case ActionKind.changePowerName:
+            case ActionKind.changeSpotImage:
+            case ActionKind.setDungeonFloor:
             case ActionKind.storeRaceOfUnit:
             case ActionKind.storeSpotOfUnit:
             case ActionKind.storeUnitOfSpot:
@@ -754,30 +889,56 @@ public static class ActionKindHelper
             case ActionKind.storeMasterOfPower:
             case ActionKind.storeRoamUnitOfSpot:
             case ActionKind.storeBaseClassOfUnit:
-                return count == 2 ? 0 : count < 2 ? -1 : 1;
+                return count != 2 ? (1 - ((count < 2 ? 1 : 0) << 1)) : 0;
             case ActionKind.gread:
             case ActionKind.pushv:
             case ActionKind.gwrite:
+            case ActionKind.addUnit:
+            case ActionKind.addDiplo:
+            case ActionKind.aimTroop:
+            case ActionKind.setDiplo:
+            case ActionKind.setTruce:
+            case ActionKind.equipItem:
             case ActionKind.setLeague:
-                return count >= 2 ? (count <= 3 ? 0 : 1) : -1;
+                return count >= 2 ? (count > 3 ? 1 : 0) : -1;
             case ActionKind.choice:
-                return count >= 2 ? 0 : -1;
+            case ActionKind.addSkill:
+            case ActionKind.addFriend:
+            case ActionKind.addSkill2:
+            case ActionKind.eraseUnit2:
+            case ActionKind.addPowerMerce:
+            case ActionKind.addPowerStaff:
+            case ActionKind.addPowerMerce2:
+            case ActionKind.addPowerStaff2:
+                return -(count < 2 ? 1 : 0);
             case ActionKind.linkSpot:
+            case ActionKind.moveTroop:
             case ActionKind.linkEscape:
-                return count >= 2 ? (count <= 4 ? 0 : 1) : -1;
-            case ActionKind.face:
-            case ActionKind.picture:
-            case ActionKind.showChara:
-                return count >= 3 ? (count <= 5 ? 0 : 1) : -1;
+            case ActionKind.moveTroopFix:
+                return count >= 2 ? (count > 4 ? 1 : 0) : -1;
             case ActionKind.index:
+            case ActionKind.storeIndex:
+            case ActionKind.storeIndexVar:
             case ActionKind.pushCon:
+            case ActionKind.addStatus:
             case ActionKind.pushDiplo:
+            case ActionKind.setArbeit:
+            case ActionKind.setStatus:
             case ActionKind.pushStatus:
+            case ActionKind.skillTroop:
             case ActionKind.pushSpotPos:
-                return count == 3 ? 0 : count < 3 ? -1 : 1;
+            case ActionKind.setEnemyPower:
+                return count != 3 ? (1 - ((count < 3 ? 1 : 0) << 1)) : 0;
+            case ActionKind.showChara:
+                return count >= 3 ? (count > 5 ? 1 : 0) : -1;
+            case ActionKind.shiftTroop:
+                return count >= 3 ? (count > 4 ? 1 : 0) : -1;
             case ActionKind.doskill:
+            case ActionKind.addTroop:
             case ActionKind.storeRectUnit:
-                return count == 5 ? 0 : count < 5 ? -1 : 1;
+                return count != 5 ? (1 - ((count < 5 ? 1 : 0) << 1)) : 0;
+            case ActionKind.shiftTroop2:
+                return count != 4 ? (1 - ((count < 4 ? 1 : 0) << 1)) : 0;
             default: return 0;
         }
 	}

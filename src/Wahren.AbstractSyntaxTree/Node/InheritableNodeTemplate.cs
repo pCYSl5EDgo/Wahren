@@ -196,7 +196,6 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> active = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> handle = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> red = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> sub_image = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> rank_text = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> no_training = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> force_voice = new();
@@ -209,6 +208,7 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> exp_max = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> line = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> image = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> sub_image = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> politics = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> element_lost = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> lost_corpse = new();
@@ -365,7 +365,6 @@ public partial struct UnitNode : IInheritableNode
 		active.Dispose();
 		handle.Dispose();
 		red.Dispose();
-		sub_image.Dispose();
 		rank_text.Dispose();
 		no_training.Dispose();
 		force_voice.Dispose();
@@ -378,6 +377,7 @@ public partial struct UnitNode : IInheritableNode
 		exp_max.Dispose();
 		line.Dispose();
 		image.Dispose();
+		sub_image.Dispose();
 		politics.Dispose();
 		element_lost.Dispose();
 		lost_corpse.Dispose();
@@ -564,7 +564,6 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> active = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> handle = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> red = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> sub_image = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> rank_text = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> no_training = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> force_voice = new();
@@ -577,6 +576,7 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> exp_max = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> line = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> image = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> sub_image = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> politics = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> element_lost = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> lost_corpse = new();
@@ -585,9 +585,9 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> @break = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> scream = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> image2 = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> sub_image2 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> unique = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> same_sex = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> sub_image2 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> brave = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> fkey = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> change = new();
@@ -706,7 +706,6 @@ public partial struct ClassNode : IInheritableNode
 		active.Dispose();
 		handle.Dispose();
 		red.Dispose();
-		sub_image.Dispose();
 		rank_text.Dispose();
 		no_training.Dispose();
 		force_voice.Dispose();
@@ -719,6 +718,7 @@ public partial struct ClassNode : IInheritableNode
 		exp_max.Dispose();
 		line.Dispose();
 		image.Dispose();
+		sub_image.Dispose();
 		politics.Dispose();
 		element_lost.Dispose();
 		lost_corpse.Dispose();
@@ -727,9 +727,9 @@ public partial struct ClassNode : IInheritableNode
 		@break.Dispose();
 		scream.Dispose();
 		image2.Dispose();
+		sub_image2.Dispose();
 		unique.Dispose();
 		same_sex.Dispose();
-		sub_image2.Dispose();
 		brave.Dispose();
 		fkey.Dispose();
 		change.Dispose();

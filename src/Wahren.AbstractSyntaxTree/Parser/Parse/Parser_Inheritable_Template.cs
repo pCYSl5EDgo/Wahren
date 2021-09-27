@@ -999,9 +999,6 @@ public static partial class Parser
                         case 0x0069007400630061UL when span.SequenceEqual("venum"):
                             pair_RAY = ref node.activenum.EnsureGet(variant);
                             goto RAY;
-                        case 0x005F006200750073UL when span.SequenceEqual("image"):
-                            pair_DEFAULT = ref node.sub_image.EnsureGet(variant);
-                            goto DEFAULT;
                         case 0x006B006E00610072UL when span.SequenceEqual("_text"):
                             pair_DEFAULT = ref node.rank_text.EnsureGet(variant);
                             goto DEFAULT;
@@ -1010,6 +1007,9 @@ public static partial class Parser
                             goto DEFAULT;
                         case 0x006500760065006CUL when span.SequenceEqual("l_max"):
                             pair_DEFAULT = ref node.level_max.EnsureGet(variant);
+                            goto DEFAULT;
+                        case 0x005F006200750073UL when span.SequenceEqual("image"):
+                            pair_DEFAULT = ref node.sub_image.EnsureGet(variant);
                             goto DEFAULT;
                         case 0x0073006C00650064UL when span.SequenceEqual("kill2"):
                             pair_OFFSET = ref node.delskill2.EnsureGet(variant);
@@ -2074,9 +2074,6 @@ public static partial class Parser
                         case 0x0069007400630061UL when span.SequenceEqual("venum"):
                             pair_RAY = ref node.activenum.EnsureGet(variant);
                             goto RAY;
-                        case 0x005F006200750073UL when span.SequenceEqual("image"):
-                            pair_DEFAULT = ref node.sub_image.EnsureGet(variant);
-                            goto DEFAULT;
                         case 0x006B006E00610072UL when span.SequenceEqual("_text"):
                             pair_DEFAULT = ref node.rank_text.EnsureGet(variant);
                             goto DEFAULT;
@@ -2085,6 +2082,9 @@ public static partial class Parser
                             goto DEFAULT;
                         case 0x006500760065006CUL when span.SequenceEqual("l_max"):
                             pair_DEFAULT = ref node.level_max.EnsureGet(variant);
+                            goto DEFAULT;
+                        case 0x005F006200750073UL when span.SequenceEqual("image"):
+                            pair_DEFAULT = ref node.sub_image.EnsureGet(variant);
                             goto DEFAULT;
                         case 0x0073006C00650064UL when span.SequenceEqual("kill2"):
                             pair_OFFSET = ref node.delskill2.EnsureGet(variant);

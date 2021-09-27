@@ -132,6 +132,7 @@ public static partial class NodeValidator
 		success &= ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of unit requires Boolean 'on' or Number.");
 		success &= ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of unit requires Number.");
 		success &= ValidateNumber(ref result, ref node.medical, " 'medical' of unit requires Number.");
+		success &= ValidateNumber(ref result, ref node.activenum, " 'activenum' of unit requires Number.");
 		success &= ValidateBoolean(ref result, ref node.handle, " 'handle' of unit requires Boolean.");
 		success &= ValidateBoolean(ref result, ref node.red, " 'red' of unit requires Boolean.");
 		success &= ValidateBoolean(ref result, ref node.no_training, " 'no_training' of unit requires Boolean.");
@@ -153,6 +154,7 @@ public static partial class NodeValidator
 		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
 		success &= ValidateBoolean(ref result, ref node.talent, " 'talent' of unit requires Boolean.");
 		AddReference(ref result, ref node.@class, ref result.ClassSet, ReferenceKind.Class);
+		success &= ValidateNumber(ref result, ref node.volume, " 'volume' of unit requires Number.");
 		success &= ValidateNumber(ref result, ref node.alive_per, " 'alive_per' of unit requires Number.");
 		success &= ValidateNumber(ref result, ref node.level, " 'level' of unit requires Number.");
 		success &= ValidateNumber(ref result, ref node.yabo, " 'yabo' of unit requires Number.");
@@ -280,6 +282,7 @@ public static partial class NodeValidator
 		success &= ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of class requires Boolean 'on' or Number.");
 		success &= ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of class requires Number.");
 		success &= ValidateNumber(ref result, ref node.medical, " 'medical' of class requires Number.");
+		success &= ValidateNumber(ref result, ref node.activenum, " 'activenum' of class requires Number.");
 		success &= ValidateBoolean(ref result, ref node.handle, " 'handle' of class requires Boolean.");
 		success &= ValidateBoolean(ref result, ref node.red, " 'red' of class requires Boolean.");
 		success &= ValidateBoolean(ref result, ref node.no_training, " 'no_training' of class requires Boolean.");
@@ -299,6 +302,9 @@ public static partial class NodeValidator
 		success &= ValidateNumber(ref result, ref node.value, " 'value' of class requires Number.");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
+		success &= ValidateBoolean(ref result, ref node.unique, " 'unique' of class requires Boolean.");
+		success &= ValidateBoolean(ref result, ref node.same_sex, " 'same_sex' of class requires Boolean.");
+		AddReference(ref result, ref node.change, ref result.ClassSet, ReferenceKind.Class);
 		return success;
 	}
 
@@ -365,11 +371,23 @@ public static partial class NodeValidator
 	public static bool AddReferenceAndValidate(this ref Result result, ref PowerNode node, DiagnosticSeverity severity)
 	{
 		bool success = true;
+		success &= ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of power requires Boolean.");
+		success &= ValidateBoolean(ref result, ref node.@event, " 'event' of power requires Boolean.");
 		AddReference(ref result, ref node.master, ref result.UnitSet, ReferenceKind.Unit);
+		success &= ValidateNumber(ref result, ref node.volume, " 'volume' of power requires Number.");
+		success &= ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of power requires Boolean.");
+		success &= ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of power requires Boolean.");
+		success &= ValidateBoolean(ref result, ref node.free_raise, " 'free_raise' of power requires Boolean.");
 		success &= ValidateNumber(ref result, ref node.money, " 'money' of power requires Number.");
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.diplo, ref result.PowerSet, ReferenceKind.Power);
+		AddReference(ref result, ref node.league, ref result.PowerSet, ReferenceKind.Power);
+		AddReference(ref result, ref node.enemy_power, ref result.PowerSet, ReferenceKind.Power);
 		success &= ValidateNumber(ref result, ref node.training_average, " 'training_average' of power requires Number.");
+		success &= ValidateNumber(ref result, ref node.base_merits, " 'base_merits' of power requires Number.");
+		AddReference(ref result, ref node.merits, ref result.UnitSet, ReferenceKind.Unit);
 		success &= ValidateNumber(ref result, ref node.base_loyal, " 'base_loyal' of power requires Number.");
+		AddReference(ref result, ref node.loyals, ref result.UnitSet, ReferenceKind.Unit);
 		success &= ValidateNumber(ref result, ref node.yabo, " 'yabo' of power requires Number.");
 		success &= ValidateNumber(ref result, ref node.kosen, " 'kosen' of power requires Number.");
 		AddReference(ref result, ref node.member, ref result.SpotSet, ReferenceKind.Spot);
@@ -399,8 +417,11 @@ public static partial class NodeValidator
 	public static bool AddReferenceAndValidate(this ref Result result, ref DungeonNode node, DiagnosticSeverity severity)
 	{
 		bool success = true;
+		success &= ValidateNumber(ref result, ref node.max, " 'max' of dungeon requires Number.");
 		success &= ValidateNumber(ref result, ref node.move_speed, " 'move_speed' of dungeon requires Number.");
+		success &= ValidateNumber(ref result, ref node.lv_adjust, " 'lv_adjust' of dungeon requires Number.");
 		success &= ValidateNumber(ref result, ref node.limit, " 'limit' of dungeon requires Number.");
+		success &= ValidateNumber(ref result, ref node.color, " 'color' of dungeon requires Number.");
 		return success;
 	}
 

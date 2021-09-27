@@ -458,16 +458,232 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("scenario ");
     }
 
-    public void Append_bg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("bg(");
-    }
-
     public void Append_vc_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("vc(");
+    }
+
+    public void Append_play_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("play(");
+    }
+
+    public void Append_ppl1_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("ppl1(");
+    }
+
+    public void Append_citom_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("citom(");
+    }
+
+    public void Append_setbcg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("setbcg(");
+    }
+
+    public void Append_levelup_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("levelup(");
+    }
+
+    public void Append_showCamp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showCamp(");
+    }
+
+    public void Append_pushDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("pushDeath(");
+    }
+
+    public void Append_clickWait_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("clickWait(");
+    }
+
+    public void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("stopTroop(");
+    }
+
+    public void Append_worldskin_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("worldskin(");
+    }
+
+    public void Append_storeDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("storeDeath(");
+    }
+
+    public void Append_darkness_off_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("darkness_off(");
+    }
+
+    public void Append_doGameEnding_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("doGameEnding(");
+    }
+
+    public void Append_setPowerHome_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("setPowerHome(");
+    }
+
+    public void Append_msg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("msg(");
+    }
+
+    public void Append_msg2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("msg2(");
+    }
+
+    public void Append_talk_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("talk(");
+    }
+
+    public void Append_talk2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("talk2(");
+    }
+
+    public void Append_chat_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("chat(");
+    }
+
+    public void Append_chat2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("chat2(");
+    }
+
+    public void Append_dialog_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("dialog(");
+    }
+
+    public void Append_dialogF_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("dialogF(");
+    }
+
+    public void Append_image_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("image(");
+    }
+
+    public void Append_image2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("image2(");
+    }
+
+    public void Append_showImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showImage(");
+    }
+
+    public void Append_hideImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("hideImage(");
+    }
+
+    public void Append_face_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("face(");
+    }
+
+    public void Append_face2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("face2(");
+    }
+
+    public void Append_showFace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showFace(");
+    }
+
+    public void Append_hideFace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("hideFace(");
+    }
+
+    public void Append_picture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("picture(");
+    }
+
+    public void Append_picture2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("picture2(");
+    }
+
+    public void Append_showPict_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showPict(");
+    }
+
+    public void Append_showPicture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showPicture(");
+    }
+
+    public void Append_hidePicture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("hidePicture(");
+    }
+
+    public void Append_stop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("stop(");
+    }
+
+    public void Append_bg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("bg(");
     }
 
     public void Append_add_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -486,12 +702,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("mod(");
-    }
-
-    public void Append_msg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("msg(");
     }
 
     public void Append_mul_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -536,46 +746,16 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("call(");
     }
 
-    public void Append_chat_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("chat(");
-    }
-
     public void Append_exit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("exit(");
     }
 
-    public void Append_face_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("face(");
-    }
-
     public void Append_font_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("font(");
-    }
-
-    public void Append_msg2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("msg2(");
-    }
-
-    public void Append_play_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("play(");
-    }
-
-    public void Append_ppl1_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("ppl1(");
     }
 
     public void Append_save_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -590,22 +770,10 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("setv(");
     }
 
-    public void Append_stop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("stop(");
-    }
-
     public void Append_subv_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("subv(");
-    }
-
-    public void Append_talk_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("talk(");
     }
 
     public void Append_wait_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -618,18 +786,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("zoom(");
-    }
-
-    public void Append_chat2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("chat2(");
-    }
-
-    public void Append_citom_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("citom(");
     }
 
     public void Append_clear_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -650,12 +806,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("event(");
     }
 
-    public void Append_face2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("face2(");
-    }
-
     public void Append_focus_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -674,16 +824,22 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("gread(");
     }
 
-    public void Append_image_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("image(");
-    }
-
     public void Append_index_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("index(");
+    }
+
+    public void Append_storeIndex_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("storeIndex(");
+    }
+
+    public void Append_storeIndexVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("storeIndexVar(");
     }
 
     public void Append_pushv_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -710,12 +866,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("shake(");
     }
 
-    public void Append_talk2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("talk2(");
-    }
-
     public void Append_title_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -738,12 +888,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("choice(");
-    }
-
-    public void Append_dialog_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("dialog(");
     }
 
     public void Append_fadein_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -780,12 +924,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("select(");
-    }
-
-    public void Append_setbcg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("setbcg(");
     }
 
     public void Append_setVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -848,12 +986,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("addUnit(");
     }
 
-    public void Append_dialogF_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("dialogF(");
-    }
-
     public void Append_doskill_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -866,12 +998,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("fadeout(");
     }
 
-    public void Append_levelup_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("levelup(");
-    }
-
     public void Append_loopBGM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -882,12 +1008,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("minimap(");
-    }
-
-    public void Append_picture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("picture(");
     }
 
     public void Append_playBGM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1070,12 +1190,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("openGoal(");
     }
 
-    public void Append_picture2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("picture2(");
-    }
-
     public void Append_pushCapa_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1124,6 +1238,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("roamUnit(");
     }
 
+    public void Append_roamUnit2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("roamUnit2(");
+    }
+
     public void Append_setDiplo_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1154,24 +1274,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("setTruce(");
     }
 
-    public void Append_showCamp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("showCamp(");
-    }
-
-    public void Append_showFace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("showFace(");
-    }
-
-    public void Append_showPict_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("showPict(");
-    }
-
     public void Append_showSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1182,6 +1284,24 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("spotmark(");
+    }
+
+    public void Append_hideSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("hideSpotMark(");
+    }
+
+    public void Append_showSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("showSpotMark(");
+    }
+
+    public void Append_hideEscape_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("hideEscape(");
     }
 
     public void Append_showParty_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1224,12 +1344,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("changeMap(");
-    }
-
-    public void Append_clickWait_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("clickWait(");
     }
 
     public void Append_closeGoal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1298,12 +1412,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("hideChara(");
     }
 
-    public void Append_hideImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("hideImage(");
-    }
-
     public void Append_moveTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1314,12 +1422,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("playWorld(");
-    }
-
-    public void Append_pushDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("pushDeath(");
     }
 
     public void Append_pushDiplo_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1388,12 +1490,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("resetZone(");
     }
 
-    public void Append_roamUnit2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("roamUnit2(");
-    }
-
     public void Append_setArbeit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1430,28 +1526,10 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("showChara(");
     }
 
-    public void Append_showImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("showImage(");
-    }
-
-    public void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("stopTroop(");
-    }
-
     public void Append_terminate_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("terminate(");
-    }
-
-    public void Append_worldskin_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("worldskin(");
     }
 
     public void Append_backScroll_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1484,22 +1562,16 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("eraseSkill(");
     }
 
-    public void Append_eraseTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("eraseTroop(");
-    }
-
     public void Append_eraseUnit2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseUnit2(");
     }
 
-    public void Append_hideEscape_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    public void Append_eraseTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
-        destination.AddRange("hideEscape(");
+        destination.AddRange("eraseTroop(");
     }
 
     public void Append_linkEscape_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1592,18 +1664,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("speedTroop(");
     }
 
-    public void Append_storeDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("storeDeath(");
-    }
-
-    public void Append_storeIndex_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("storeIndex(");
-    }
-
     public void Append_unionPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1644,12 +1704,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("eraseFriend(");
-    }
-
-    public void Append_hidePicture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("hidePicture(");
     }
 
     public void Append_pushSpotPos_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1706,12 +1760,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("showDungeon(");
     }
 
-    public void Append_showPicture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("showPicture(");
-    }
-
     public void Append_unctrlTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1740,24 +1788,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("changePlayer(");
-    }
-
-    public void Append_darkness_off_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("darkness_off(");
-    }
-
-    public void Append_doGameEnding_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("doGameEnding(");
-    }
-
-    public void Append_hideSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("hideSpotMark(");
     }
 
     public void Append_moveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1790,22 +1820,10 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("setGameClear(");
     }
 
-    public void Append_setPowerHome_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("setPowerHome(");
-    }
-
     public void Append_showPolitics_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showPolitics(");
-    }
-
-    public void Append_showSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("showSpotMark(");
     }
 
     public void Append_storeAllSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1878,12 +1896,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("storeComPower(");
-    }
-
-    public void Append_storeIndexVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("storeIndexVar(");
     }
 
     public void Append_storeNextSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -2192,10 +2204,34 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("storeBaseClassOfUnit(");
     }
 
+    public void Append_isSelect_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("isSelect(");
+    }
+
+    public void Append_isWhoDead_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("isWhoDead(");
+    }
+
+    public void Append_isGameOver_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("isGameOver(");
+    }
+
     public void Append_has_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("has(");
+    }
+
+    public void Append_inVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("inVar(");
     }
 
     public void Append_yet_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -2216,6 +2252,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("count(");
     }
 
+    public void Append_amount_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("amount(");
+    }
+
     public void Append_equal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -2226,12 +2268,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("eqVar(");
-    }
-
-    public void Append_inVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("inVar(");
     }
 
     public void Append_isMap_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -2262,12 +2298,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("ptest(");
-    }
-
-    public void Append_amount_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("amount(");
     }
 
     public void Append_conVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -2456,12 +2486,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("isRoamer(");
     }
 
-    public void Append_isSelect_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("isSelect(");
-    }
-
     public void Append_isTalent_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -2540,12 +2564,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("istoWorld(");
     }
 
-    public void Append_isWhoDead_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("isWhoDead(");
-    }
-
     public void Append_countForce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -2580,12 +2598,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("inRoamSpot(");
-    }
-
-    public void Append_isGameOver_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("isGameOver(");
     }
 
     public void Append_isInterval_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -3047,13 +3059,157 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.CallAction:
                     switch ((ActionKind)token.Other)
                     {
-                        case ActionKind.bg:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_bg_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.vc:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_vc_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.play:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_play_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.ppl1:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_ppl1_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.citom:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_citom_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.setbcg:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setbcg_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.levelup:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showCamp:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showCamp_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.pushDeath:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.clickWait:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stopTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.worldskin:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeDeath:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.darkness_off:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_darkness_off_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.doGameEnding:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_doGameEnding_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.setPowerHome:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.msg:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_msg_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.msg2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_msg2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.talk:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_talk_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.talk2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_talk2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.chat:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_chat_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.chat2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_chat2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.dialog:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_dialog_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.dialogF:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_dialogF_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.image:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_image_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.image2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_image2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showImage:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showImage_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideImage:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideImage_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.face:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_face_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.face2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_face2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showFace:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showFace_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideFace:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideFace_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.picture:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_picture_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.picture2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_picture2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showPict:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPict_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showPicture:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPicture_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hidePicture:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hidePicture_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.bg:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_bg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.add:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3066,10 +3222,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.mod:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_mod_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.msg:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_msg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.mul:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3099,33 +3251,13 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_call_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.chat:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_chat_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.exit:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_exit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.face:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_face_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.font:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_font_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.msg2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_msg2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.play:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_play_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.ppl1:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_ppl1_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.save:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3135,17 +3267,9 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setv_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.stop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.subv:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_subv_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.talk:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_talk_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.wait:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3154,14 +3278,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.zoom:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_zoom_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.chat2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_chat2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.citom:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_citom_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clear:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3175,10 +3291,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_event_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.face2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_face2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.focus:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_focus_ParenLeft(ref destination, ref JustChangeLine);
@@ -3191,13 +3303,17 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_gread_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.image:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_image_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.index:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_index_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeIndex:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeIndex_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeIndexVar:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeIndexVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushv:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3215,10 +3331,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_shake_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.talk2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_talk2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.title:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_title_ParenLeft(ref destination, ref JustChangeLine);
@@ -3234,10 +3346,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.choice:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_choice_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.dialog:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_dialog_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.fadein:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3262,10 +3370,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.select:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_select_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.setbcg:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_setbcg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setVar:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3307,10 +3411,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.dialogF:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_dialogF_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.doskill:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_doskill_ParenLeft(ref destination, ref JustChangeLine);
@@ -3319,10 +3419,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_fadeout_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.levelup:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.loopBGM:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_loopBGM_ParenLeft(ref destination, ref JustChangeLine);
@@ -3330,10 +3426,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.minimap:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_minimap_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.picture:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_picture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.playBGM:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3455,10 +3547,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_openGoal_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.picture2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_picture2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.pushCapa:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_pushCapa_ParenLeft(ref destination, ref JustChangeLine);
@@ -3491,6 +3579,10 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_roamUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.roamUnit2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_roamUnit2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.setDiplo:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setDiplo_ParenLeft(ref destination, ref JustChangeLine);
@@ -3511,18 +3603,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setTruce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.showCamp:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showCamp_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.showFace:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showFace_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.showPict:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showPict_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.showSpot:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showSpot_ParenLeft(ref destination, ref JustChangeLine);
@@ -3530,6 +3610,18 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.spotmark:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_spotmark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideSpotMark:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showSpotMark:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showSpotMark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideEscape:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideEscape_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showParty:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3558,10 +3650,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.changeMap:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_changeMap_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.clickWait:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.closeGoal:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3607,10 +3695,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_hideChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.hideImage:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideImage_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.moveTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_moveTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -3618,10 +3702,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.playWorld:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_playWorld_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.pushDeath:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushDiplo:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3667,10 +3747,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_resetZone_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.roamUnit2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_roamUnit2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.setArbeit:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setArbeit_ParenLeft(ref destination, ref JustChangeLine);
@@ -3695,21 +3771,9 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.showImage:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showImage_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.stopTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.terminate:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_terminate_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.worldskin:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.backScroll:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3731,17 +3795,13 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_eraseSkill_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.eraseTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_eraseTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.eraseUnit2:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_eraseUnit2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.hideEscape:
+                        case ActionKind.eraseTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideEscape_ParenLeft(ref destination, ref JustChangeLine);
+                            Append_eraseTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.linkEscape:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3803,14 +3863,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_speedTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.storeDeath:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.storeIndex:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeIndex_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.unionPower:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_unionPower_ParenLeft(ref destination, ref JustChangeLine);
@@ -3838,10 +3890,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.eraseFriend:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_eraseFriend_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.hidePicture:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hidePicture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushSpotPos:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3879,10 +3927,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showDungeon_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.showPicture:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showPicture_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.unctrlTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_unctrlTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -3902,18 +3946,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.changePlayer:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_changePlayer_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.darkness_off:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_darkness_off_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.doGameEnding:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_doGameEnding_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.hideSpotMark:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.moveTroopFix:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3935,17 +3967,9 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setGameClear_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.setPowerHome:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.showPolitics:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showPolitics_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.showSpotMark:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllSpot:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3994,10 +4018,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.storeComPower:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_storeComPower_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.storeIndexVar:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeIndexVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeNextSpot:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -4446,8 +4466,20 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
+                        case FunctionKind.isSelect:
+                            Append_isSelect_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
+                        case FunctionKind.isWhoDead:
+                            Append_isWhoDead_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
+                        case FunctionKind.isGameOver:
+                            Append_isGameOver_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
                         case FunctionKind.has:
                             Append_has_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
+                        case FunctionKind.inVar:
+                            Append_inVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.yet:
                             Append_yet_ParenLeft(ref destination, ref JustChangeLine);
@@ -4458,14 +4490,14 @@ public class UnicodeFormatter : IFormatter<char>
                         case FunctionKind.count:
                             Append_count_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
+                        case FunctionKind.amount:
+                            Append_amount_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
                         case FunctionKind.equal:
                             Append_equal_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.eqVar:
                             Append_eqVar_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
-                        case FunctionKind.inVar:
-                            Append_inVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isMap:
                             Append_isMap_ParenLeft(ref destination, ref JustChangeLine);
@@ -4481,9 +4513,6 @@ public class UnicodeFormatter : IFormatter<char>
                             continue;
                         case FunctionKind.ptest:
                             Append_ptest_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
-                        case FunctionKind.amount:
-                            Append_amount_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.conVar:
                             Append_conVar_ParenLeft(ref destination, ref JustChangeLine);
@@ -4578,9 +4607,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case FunctionKind.isRoamer:
                             Append_isRoamer_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
-                        case FunctionKind.isSelect:
-                            Append_isSelect_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
                         case FunctionKind.isTalent:
                             Append_isTalent_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
@@ -4620,9 +4646,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case FunctionKind.istoWorld:
                             Append_istoWorld_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
-                        case FunctionKind.isWhoDead:
-                            Append_isWhoDead_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
                         case FunctionKind.countForce:
                             Append_countForce_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
@@ -4640,9 +4663,6 @@ public class UnicodeFormatter : IFormatter<char>
                             continue;
                         case FunctionKind.inRoamSpot:
                             Append_inRoamSpot_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
-                        case FunctionKind.isGameOver:
-                            Append_isGameOver_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isInterval:
                             Append_isInterval_ParenLeft(ref destination, ref JustChangeLine);

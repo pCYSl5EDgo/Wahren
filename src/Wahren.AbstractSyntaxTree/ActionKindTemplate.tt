@@ -122,41 +122,26 @@ foreach ((int min, IEnumerable<(int, IEnumerable<string>)> groupEnumerable) in A
 {
     foreach (var (max, items) in groupEnumerable)
     {
-        if (min == 0 && max == int.MaxValue) break;
+        if (min == 0 && max == int.MaxValue) continue;
         var itemArray = items.ToArray();
-        for (var index = 0; index < itemArray.Length; ++index)
-        {
+        for (var index = 0; index < itemArray.Length; ++index) {
 #>
             case ActionKind.<#= itemArray[index].Escape() #>:
 <#
         }
 
-        var item = itemArray[itemArray.Length - 1];
-        if (min == max)
-        {
-
-#>
-                return count == <#= min #> ? 0 : count < <#= min #> ? -1 : 1;
-<#
-        }
-        else if (max == int.MaxValue)
-        {
-#>
-                return count >= <#= min #> ? 0 : -1;
-<#
-        }
-        else if (min == 0)
-        {
-#>
-                return count <= <#= max #> ? 0 : 1;
-<#
-        }
-        else
-        {
-#>
-                return count >= <#= min #> ? (count <= <#= max #> ? 0 : 1) : -1;
-<#
-        }
+                var item = itemArray[itemArray.Length - 1]; #>
+<#      if (min == max && min == 0) { #>
+                return count != <#= min #> ? 1 : 0;
+<#      } else if (min == max) { #>
+                return count != <#= min #> ? (1 - ((count < <#= min #> ? 1 : 0) << 1)) : 0;
+<#      } else if (max == int.MaxValue) { #>
+                return -(count < <#= min #> ? 1 : 0);
+<#      } else if (min == 0) { #>
+                return count > <#= max #> ? 1 : 0;
+<#      } else { #>
+                return count >= <#= min #> ? (count > <#= max #> ? 1 : 0) : -1;
+<#      }
     }
 }
 #>

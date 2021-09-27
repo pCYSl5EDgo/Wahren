@@ -155,18 +155,88 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int event_Space_Count;
     private readonly int scenario_Space_Offset;
     private readonly int scenario_Space_Count;
-    private readonly int bg_ParenLeft_Offset;
-    private readonly int bg_ParenLeft_Count;
     private readonly int vc_ParenLeft_Offset;
     private readonly int vc_ParenLeft_Count;
+    private readonly int play_ParenLeft_Offset;
+    private readonly int play_ParenLeft_Count;
+    private readonly int ppl1_ParenLeft_Offset;
+    private readonly int ppl1_ParenLeft_Count;
+    private readonly int citom_ParenLeft_Offset;
+    private readonly int citom_ParenLeft_Count;
+    private readonly int setbcg_ParenLeft_Offset;
+    private readonly int setbcg_ParenLeft_Count;
+    private readonly int levelup_ParenLeft_Offset;
+    private readonly int levelup_ParenLeft_Count;
+    private readonly int showCamp_ParenLeft_Offset;
+    private readonly int showCamp_ParenLeft_Count;
+    private readonly int pushDeath_ParenLeft_Offset;
+    private readonly int pushDeath_ParenLeft_Count;
+    private readonly int clickWait_ParenLeft_Offset;
+    private readonly int clickWait_ParenLeft_Count;
+    private readonly int stopTroop_ParenLeft_Offset;
+    private readonly int stopTroop_ParenLeft_Count;
+    private readonly int worldskin_ParenLeft_Offset;
+    private readonly int worldskin_ParenLeft_Count;
+    private readonly int storeDeath_ParenLeft_Offset;
+    private readonly int storeDeath_ParenLeft_Count;
+    private readonly int darkness_off_ParenLeft_Offset;
+    private readonly int darkness_off_ParenLeft_Count;
+    private readonly int doGameEnding_ParenLeft_Offset;
+    private readonly int doGameEnding_ParenLeft_Count;
+    private readonly int setPowerHome_ParenLeft_Offset;
+    private readonly int setPowerHome_ParenLeft_Count;
+    private readonly int msg_ParenLeft_Offset;
+    private readonly int msg_ParenLeft_Count;
+    private readonly int msg2_ParenLeft_Offset;
+    private readonly int msg2_ParenLeft_Count;
+    private readonly int talk_ParenLeft_Offset;
+    private readonly int talk_ParenLeft_Count;
+    private readonly int talk2_ParenLeft_Offset;
+    private readonly int talk2_ParenLeft_Count;
+    private readonly int chat_ParenLeft_Offset;
+    private readonly int chat_ParenLeft_Count;
+    private readonly int chat2_ParenLeft_Offset;
+    private readonly int chat2_ParenLeft_Count;
+    private readonly int dialog_ParenLeft_Offset;
+    private readonly int dialog_ParenLeft_Count;
+    private readonly int dialogF_ParenLeft_Offset;
+    private readonly int dialogF_ParenLeft_Count;
+    private readonly int image_ParenLeft_Offset;
+    private readonly int image_ParenLeft_Count;
+    private readonly int image2_ParenLeft_Offset;
+    private readonly int image2_ParenLeft_Count;
+    private readonly int showImage_ParenLeft_Offset;
+    private readonly int showImage_ParenLeft_Count;
+    private readonly int hideImage_ParenLeft_Offset;
+    private readonly int hideImage_ParenLeft_Count;
+    private readonly int face_ParenLeft_Offset;
+    private readonly int face_ParenLeft_Count;
+    private readonly int face2_ParenLeft_Offset;
+    private readonly int face2_ParenLeft_Count;
+    private readonly int showFace_ParenLeft_Offset;
+    private readonly int showFace_ParenLeft_Count;
+    private readonly int hideFace_ParenLeft_Offset;
+    private readonly int hideFace_ParenLeft_Count;
+    private readonly int picture_ParenLeft_Offset;
+    private readonly int picture_ParenLeft_Count;
+    private readonly int picture2_ParenLeft_Offset;
+    private readonly int picture2_ParenLeft_Count;
+    private readonly int showPict_ParenLeft_Offset;
+    private readonly int showPict_ParenLeft_Count;
+    private readonly int showPicture_ParenLeft_Offset;
+    private readonly int showPicture_ParenLeft_Count;
+    private readonly int hidePicture_ParenLeft_Offset;
+    private readonly int hidePicture_ParenLeft_Count;
+    private readonly int stop_ParenLeft_Offset;
+    private readonly int stop_ParenLeft_Count;
+    private readonly int bg_ParenLeft_Offset;
+    private readonly int bg_ParenLeft_Count;
     private readonly int add_ParenLeft_Offset;
     private readonly int add_ParenLeft_Count;
     private readonly int div_ParenLeft_Offset;
     private readonly int div_ParenLeft_Count;
     private readonly int mod_ParenLeft_Offset;
     private readonly int mod_ParenLeft_Count;
-    private readonly int msg_ParenLeft_Offset;
-    private readonly int msg_ParenLeft_Count;
     private readonly int mul_ParenLeft_Offset;
     private readonly int mul_ParenLeft_Count;
     private readonly int per_ParenLeft_Offset;
@@ -181,56 +251,38 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int addv_ParenLeft_Count;
     private readonly int call_ParenLeft_Offset;
     private readonly int call_ParenLeft_Count;
-    private readonly int chat_ParenLeft_Offset;
-    private readonly int chat_ParenLeft_Count;
     private readonly int exit_ParenLeft_Offset;
     private readonly int exit_ParenLeft_Count;
-    private readonly int face_ParenLeft_Offset;
-    private readonly int face_ParenLeft_Count;
     private readonly int font_ParenLeft_Offset;
     private readonly int font_ParenLeft_Count;
-    private readonly int msg2_ParenLeft_Offset;
-    private readonly int msg2_ParenLeft_Count;
-    private readonly int play_ParenLeft_Offset;
-    private readonly int play_ParenLeft_Count;
-    private readonly int ppl1_ParenLeft_Offset;
-    private readonly int ppl1_ParenLeft_Count;
     private readonly int save_ParenLeft_Offset;
     private readonly int save_ParenLeft_Count;
     private readonly int setv_ParenLeft_Offset;
     private readonly int setv_ParenLeft_Count;
-    private readonly int stop_ParenLeft_Offset;
-    private readonly int stop_ParenLeft_Count;
     private readonly int subv_ParenLeft_Offset;
     private readonly int subv_ParenLeft_Count;
-    private readonly int talk_ParenLeft_Offset;
-    private readonly int talk_ParenLeft_Count;
     private readonly int wait_ParenLeft_Offset;
     private readonly int wait_ParenLeft_Count;
     private readonly int zoom_ParenLeft_Offset;
     private readonly int zoom_ParenLeft_Count;
-    private readonly int chat2_ParenLeft_Offset;
-    private readonly int chat2_ParenLeft_Count;
-    private readonly int citom_ParenLeft_Offset;
-    private readonly int citom_ParenLeft_Count;
     private readonly int clear_ParenLeft_Offset;
     private readonly int clear_ParenLeft_Count;
     private readonly int erase_ParenLeft_Offset;
     private readonly int erase_ParenLeft_Count;
     private readonly int event_ParenLeft_Offset;
     private readonly int event_ParenLeft_Count;
-    private readonly int face2_ParenLeft_Offset;
-    private readonly int face2_ParenLeft_Count;
     private readonly int focus_ParenLeft_Offset;
     private readonly int focus_ParenLeft_Count;
     private readonly int fontc_ParenLeft_Offset;
     private readonly int fontc_ParenLeft_Count;
     private readonly int gread_ParenLeft_Offset;
     private readonly int gread_ParenLeft_Count;
-    private readonly int image_ParenLeft_Offset;
-    private readonly int image_ParenLeft_Count;
     private readonly int index_ParenLeft_Offset;
     private readonly int index_ParenLeft_Count;
+    private readonly int storeIndex_ParenLeft_Offset;
+    private readonly int storeIndex_ParenLeft_Count;
+    private readonly int storeIndexVar_ParenLeft_Offset;
+    private readonly int storeIndexVar_ParenLeft_Count;
     private readonly int pushv_ParenLeft_Offset;
     private readonly int pushv_ParenLeft_Count;
     private readonly int setPM_ParenLeft_Offset;
@@ -239,8 +291,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int setud_ParenLeft_Count;
     private readonly int shake_ParenLeft_Offset;
     private readonly int shake_ParenLeft_Count;
-    private readonly int talk2_ParenLeft_Offset;
-    private readonly int talk2_ParenLeft_Count;
     private readonly int title_ParenLeft_Offset;
     private readonly int title_ParenLeft_Count;
     private readonly int addstr_ParenLeft_Offset;
@@ -249,8 +299,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int addVar_ParenLeft_Count;
     private readonly int choice_ParenLeft_Offset;
     private readonly int choice_ParenLeft_Count;
-    private readonly int dialog_ParenLeft_Offset;
-    private readonly int dialog_ParenLeft_Count;
     private readonly int fadein_ParenLeft_Offset;
     private readonly int fadein_ParenLeft_Count;
     private readonly int gwrite_ParenLeft_Offset;
@@ -263,8 +311,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int scroll_ParenLeft_Count;
     private readonly int select_ParenLeft_Offset;
     private readonly int select_ParenLeft_Count;
-    private readonly int setbcg_ParenLeft_Offset;
-    private readonly int setbcg_ParenLeft_Count;
     private readonly int setVar_ParenLeft_Offset;
     private readonly int setVar_ParenLeft_Count;
     private readonly int shadow_ParenLeft_Offset;
@@ -285,20 +331,14 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int addSpot_ParenLeft_Count;
     private readonly int addUnit_ParenLeft_Offset;
     private readonly int addUnit_ParenLeft_Count;
-    private readonly int dialogF_ParenLeft_Offset;
-    private readonly int dialogF_ParenLeft_Count;
     private readonly int doskill_ParenLeft_Offset;
     private readonly int doskill_ParenLeft_Count;
     private readonly int fadeout_ParenLeft_Offset;
     private readonly int fadeout_ParenLeft_Count;
-    private readonly int levelup_ParenLeft_Offset;
-    private readonly int levelup_ParenLeft_Count;
     private readonly int loopBGM_ParenLeft_Offset;
     private readonly int loopBGM_ParenLeft_Count;
     private readonly int minimap_ParenLeft_Offset;
     private readonly int minimap_ParenLeft_Count;
-    private readonly int picture_ParenLeft_Offset;
-    private readonly int picture_ParenLeft_Count;
     private readonly int playBGM_ParenLeft_Offset;
     private readonly int playBGM_ParenLeft_Count;
     private readonly int pushCon_ParenLeft_Offset;
@@ -359,8 +399,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int linkSpot_ParenLeft_Count;
     private readonly int openGoal_ParenLeft_Offset;
     private readonly int openGoal_ParenLeft_Count;
-    private readonly int picture2_ParenLeft_Offset;
-    private readonly int picture2_ParenLeft_Count;
     private readonly int pushCapa_ParenLeft_Offset;
     private readonly int pushCapa_ParenLeft_Count;
     private readonly int pushGain_ParenLeft_Offset;
@@ -377,6 +415,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int pushTurn_ParenLeft_Count;
     private readonly int roamUnit_ParenLeft_Offset;
     private readonly int roamUnit_ParenLeft_Count;
+    private readonly int roamUnit2_ParenLeft_Offset;
+    private readonly int roamUnit2_ParenLeft_Count;
     private readonly int setDiplo_ParenLeft_Offset;
     private readonly int setDiplo_ParenLeft_Count;
     private readonly int setLevel_ParenLeft_Offset;
@@ -387,16 +427,16 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int setMoney_ParenLeft_Count;
     private readonly int setTruce_ParenLeft_Offset;
     private readonly int setTruce_ParenLeft_Count;
-    private readonly int showCamp_ParenLeft_Offset;
-    private readonly int showCamp_ParenLeft_Count;
-    private readonly int showFace_ParenLeft_Offset;
-    private readonly int showFace_ParenLeft_Count;
-    private readonly int showPict_ParenLeft_Offset;
-    private readonly int showPict_ParenLeft_Count;
     private readonly int showSpot_ParenLeft_Offset;
     private readonly int showSpot_ParenLeft_Count;
     private readonly int spotmark_ParenLeft_Offset;
     private readonly int spotmark_ParenLeft_Count;
+    private readonly int hideSpotMark_ParenLeft_Offset;
+    private readonly int hideSpotMark_ParenLeft_Count;
+    private readonly int showSpotMark_ParenLeft_Offset;
+    private readonly int showSpotMark_ParenLeft_Count;
+    private readonly int hideEscape_ParenLeft_Offset;
+    private readonly int hideEscape_ParenLeft_Count;
     private readonly int showParty_ParenLeft_Offset;
     private readonly int showParty_ParenLeft_Count;
     private readonly int addCastle_ParenLeft_Offset;
@@ -411,8 +451,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int addStatus_ParenLeft_Count;
     private readonly int changeMap_ParenLeft_Offset;
     private readonly int changeMap_ParenLeft_Count;
-    private readonly int clickWait_ParenLeft_Offset;
-    private readonly int clickWait_ParenLeft_Count;
     private readonly int closeGoal_ParenLeft_Offset;
     private readonly int closeGoal_ParenLeft_Count;
     private readonly int ctrlTroop_ParenLeft_Offset;
@@ -435,14 +473,10 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int hideBlind_ParenLeft_Count;
     private readonly int hideChara_ParenLeft_Offset;
     private readonly int hideChara_ParenLeft_Count;
-    private readonly int hideImage_ParenLeft_Offset;
-    private readonly int hideImage_ParenLeft_Count;
     private readonly int moveTroop_ParenLeft_Offset;
     private readonly int moveTroop_ParenLeft_Count;
     private readonly int playWorld_ParenLeft_Offset;
     private readonly int playWorld_ParenLeft_Count;
-    private readonly int pushDeath_ParenLeft_Offset;
-    private readonly int pushDeath_ParenLeft_Count;
     private readonly int pushDiplo_ParenLeft_Offset;
     private readonly int pushDiplo_ParenLeft_Count;
     private readonly int pushForce_ParenLeft_Offset;
@@ -465,8 +499,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int resetTime_ParenLeft_Count;
     private readonly int resetZone_ParenLeft_Offset;
     private readonly int resetZone_ParenLeft_Count;
-    private readonly int roamUnit2_ParenLeft_Offset;
-    private readonly int roamUnit2_ParenLeft_Count;
     private readonly int setArbeit_ParenLeft_Offset;
     private readonly int setArbeit_ParenLeft_Count;
     private readonly int setCastle_ParenLeft_Offset;
@@ -479,14 +511,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int showBlind_ParenLeft_Count;
     private readonly int showChara_ParenLeft_Offset;
     private readonly int showChara_ParenLeft_Count;
-    private readonly int showImage_ParenLeft_Offset;
-    private readonly int showImage_ParenLeft_Count;
-    private readonly int stopTroop_ParenLeft_Offset;
-    private readonly int stopTroop_ParenLeft_Count;
     private readonly int terminate_ParenLeft_Offset;
     private readonly int terminate_ParenLeft_Count;
-    private readonly int worldskin_ParenLeft_Offset;
-    private readonly int worldskin_ParenLeft_Count;
     private readonly int backScroll_ParenLeft_Offset;
     private readonly int backScroll_ParenLeft_Count;
     private readonly int changeRace_ParenLeft_Offset;
@@ -497,12 +523,10 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int erasePower_ParenLeft_Count;
     private readonly int eraseSkill_ParenLeft_Offset;
     private readonly int eraseSkill_ParenLeft_Count;
-    private readonly int eraseTroop_ParenLeft_Offset;
-    private readonly int eraseTroop_ParenLeft_Count;
     private readonly int eraseUnit2_ParenLeft_Offset;
     private readonly int eraseUnit2_ParenLeft_Count;
-    private readonly int hideEscape_ParenLeft_Offset;
-    private readonly int hideEscape_ParenLeft_Count;
+    private readonly int eraseTroop_ParenLeft_Offset;
+    private readonly int eraseTroop_ParenLeft_Count;
     private readonly int linkEscape_ParenLeft_Offset;
     private readonly int linkEscape_ParenLeft_Count;
     private readonly int playBattle_ParenLeft_Offset;
@@ -533,10 +557,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int smoveTroop_ParenLeft_Count;
     private readonly int speedTroop_ParenLeft_Offset;
     private readonly int speedTroop_ParenLeft_Count;
-    private readonly int storeDeath_ParenLeft_Offset;
-    private readonly int storeDeath_ParenLeft_Count;
-    private readonly int storeIndex_ParenLeft_Offset;
-    private readonly int storeIndex_ParenLeft_Count;
     private readonly int unionPower_ParenLeft_Offset;
     private readonly int unionPower_ParenLeft_Count;
     private readonly int activeTroop_ParenLeft_Offset;
@@ -551,8 +571,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int choiceTitle_ParenLeft_Count;
     private readonly int eraseFriend_ParenLeft_Offset;
     private readonly int eraseFriend_ParenLeft_Count;
-    private readonly int hidePicture_ParenLeft_Offset;
-    private readonly int hidePicture_ParenLeft_Count;
     private readonly int pushSpotPos_ParenLeft_Offset;
     private readonly int pushSpotPos_ParenLeft_Count;
     private readonly int pushTrainUp_ParenLeft_Offset;
@@ -571,8 +589,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int shiftTroop2_ParenLeft_Count;
     private readonly int showDungeon_ParenLeft_Offset;
     private readonly int showDungeon_ParenLeft_Count;
-    private readonly int showPicture_ParenLeft_Offset;
-    private readonly int showPicture_ParenLeft_Count;
     private readonly int unctrlTroop_ParenLeft_Offset;
     private readonly int unctrlTroop_ParenLeft_Count;
     private readonly int addBaseLevel_ParenLeft_Offset;
@@ -583,12 +599,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int changeMaster_ParenLeft_Count;
     private readonly int changePlayer_ParenLeft_Offset;
     private readonly int changePlayer_ParenLeft_Count;
-    private readonly int darkness_off_ParenLeft_Offset;
-    private readonly int darkness_off_ParenLeft_Count;
-    private readonly int doGameEnding_ParenLeft_Offset;
-    private readonly int doGameEnding_ParenLeft_Count;
-    private readonly int hideSpotMark_ParenLeft_Offset;
-    private readonly int hideSpotMark_ParenLeft_Count;
     private readonly int moveTroopFix_ParenLeft_Offset;
     private readonly int moveTroopFix_ParenLeft_Count;
     private readonly int retreatTroop_ParenLeft_Offset;
@@ -599,12 +609,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int setBaseLevel_ParenLeft_Count;
     private readonly int setGameClear_ParenLeft_Offset;
     private readonly int setGameClear_ParenLeft_Count;
-    private readonly int setPowerHome_ParenLeft_Offset;
-    private readonly int setPowerHome_ParenLeft_Count;
     private readonly int showPolitics_ParenLeft_Offset;
     private readonly int showPolitics_ParenLeft_Count;
-    private readonly int showSpotMark_ParenLeft_Offset;
-    private readonly int showSpotMark_ParenLeft_Count;
     private readonly int storeAllSpot_ParenLeft_Offset;
     private readonly int storeAllSpot_ParenLeft_Count;
     private readonly int addPowerMerce_ParenLeft_Offset;
@@ -629,8 +635,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int storeAllPower_ParenLeft_Count;
     private readonly int storeComPower_ParenLeft_Offset;
     private readonly int storeComPower_ParenLeft_Count;
-    private readonly int storeIndexVar_ParenLeft_Offset;
-    private readonly int storeIndexVar_ParenLeft_Count;
     private readonly int storeNextSpot_ParenLeft_Offset;
     private readonly int storeNextSpot_ParenLeft_Count;
     private readonly int storeNowPower_ParenLeft_Offset;
@@ -733,20 +737,28 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int storeRoamUnitOfSpot_ParenLeft_Count;
     private readonly int storeBaseClassOfUnit_ParenLeft_Offset;
     private readonly int storeBaseClassOfUnit_ParenLeft_Count;
+    private readonly int isSelect_ParenLeft_Offset;
+    private readonly int isSelect_ParenLeft_Count;
+    private readonly int isWhoDead_ParenLeft_Offset;
+    private readonly int isWhoDead_ParenLeft_Count;
+    private readonly int isGameOver_ParenLeft_Offset;
+    private readonly int isGameOver_ParenLeft_Count;
     private readonly int has_ParenLeft_Offset;
     private readonly int has_ParenLeft_Count;
+    private readonly int inVar_ParenLeft_Offset;
+    private readonly int inVar_ParenLeft_Count;
     private readonly int yet_ParenLeft_Offset;
     private readonly int yet_ParenLeft_Count;
     private readonly int rand_ParenLeft_Offset;
     private readonly int rand_ParenLeft_Count;
     private readonly int count_ParenLeft_Offset;
     private readonly int count_ParenLeft_Count;
+    private readonly int amount_ParenLeft_Offset;
+    private readonly int amount_ParenLeft_Count;
     private readonly int equal_ParenLeft_Offset;
     private readonly int equal_ParenLeft_Count;
     private readonly int eqVar_ParenLeft_Offset;
     private readonly int eqVar_ParenLeft_Count;
-    private readonly int inVar_ParenLeft_Offset;
-    private readonly int inVar_ParenLeft_Count;
     private readonly int isMap_ParenLeft_Offset;
     private readonly int isMap_ParenLeft_Count;
     private readonly int isNpc_ParenLeft_Offset;
@@ -757,8 +769,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int isWar_ParenLeft_Count;
     private readonly int ptest_ParenLeft_Offset;
     private readonly int ptest_ParenLeft_Count;
-    private readonly int amount_ParenLeft_Offset;
-    private readonly int amount_ParenLeft_Count;
     private readonly int conVar_ParenLeft_Offset;
     private readonly int conVar_ParenLeft_Count;
     private readonly int inSpot_ParenLeft_Offset;
@@ -821,8 +831,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int isPostIn_ParenLeft_Count;
     private readonly int isRoamer_ParenLeft_Offset;
     private readonly int isRoamer_ParenLeft_Count;
-    private readonly int isSelect_ParenLeft_Offset;
-    private readonly int isSelect_ParenLeft_Count;
     private readonly int isTalent_ParenLeft_Offset;
     private readonly int isTalent_ParenLeft_Count;
     private readonly int isVassal_ParenLeft_Offset;
@@ -849,8 +857,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int isNowSpot_ParenLeft_Count;
     private readonly int istoWorld_ParenLeft_Offset;
     private readonly int istoWorld_ParenLeft_Count;
-    private readonly int isWhoDead_ParenLeft_Offset;
-    private readonly int isWhoDead_ParenLeft_Count;
     private readonly int countForce_ParenLeft_Offset;
     private readonly int countForce_ParenLeft_Count;
     private readonly int countMoney_ParenLeft_Offset;
@@ -863,8 +869,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int getLifePer_ParenLeft_Count;
     private readonly int inRoamSpot_ParenLeft_Offset;
     private readonly int inRoamSpot_ParenLeft_Count;
-    private readonly int isGameOver_ParenLeft_Offset;
-    private readonly int isGameOver_ParenLeft_Count;
     private readonly int isInterval_ParenLeft_Offset;
     private readonly int isInterval_ParenLeft_Count;
     private readonly int isRedAlive_ParenLeft_Offset;
@@ -924,7 +928,7 @@ public class BinaryFormatter : IFormatter<byte>
         Indent_Count = Converter(spanIndentSource, spanIndent);
         spanIndent = spanIndent.Slice(0, Indent_Count);
 
-        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4064) + NewLine_Count * 15 + Indent_Count, true);
+        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4080) + NewLine_Count * 15 + Indent_Count, true);
 
         spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
         int accum = Indent_Count;
@@ -1163,13 +1167,157 @@ public class BinaryFormatter : IFormatter<byte>
         scenario_Space_Count = Converter("scenario ", registeredBytes.AsSpan(accum));
         accum += scenario_Space_Count;
 
-        bg_ParenLeft_Offset = accum;
-        bg_ParenLeft_Count = Converter("bg(", registeredBytes.AsSpan(accum));
-        accum += bg_ParenLeft_Count;
-
         vc_ParenLeft_Offset = accum;
         vc_ParenLeft_Count = Converter("vc(", registeredBytes.AsSpan(accum));
         accum += vc_ParenLeft_Count;
+
+        play_ParenLeft_Offset = accum;
+        play_ParenLeft_Count = Converter("play(", registeredBytes.AsSpan(accum));
+        accum += play_ParenLeft_Count;
+
+        ppl1_ParenLeft_Offset = accum;
+        ppl1_ParenLeft_Count = Converter("ppl1(", registeredBytes.AsSpan(accum));
+        accum += ppl1_ParenLeft_Count;
+
+        citom_ParenLeft_Offset = accum;
+        citom_ParenLeft_Count = Converter("citom(", registeredBytes.AsSpan(accum));
+        accum += citom_ParenLeft_Count;
+
+        setbcg_ParenLeft_Offset = accum;
+        setbcg_ParenLeft_Count = Converter("setbcg(", registeredBytes.AsSpan(accum));
+        accum += setbcg_ParenLeft_Count;
+
+        levelup_ParenLeft_Offset = accum;
+        levelup_ParenLeft_Count = Converter("levelup(", registeredBytes.AsSpan(accum));
+        accum += levelup_ParenLeft_Count;
+
+        showCamp_ParenLeft_Offset = accum;
+        showCamp_ParenLeft_Count = Converter("showCamp(", registeredBytes.AsSpan(accum));
+        accum += showCamp_ParenLeft_Count;
+
+        pushDeath_ParenLeft_Offset = accum;
+        pushDeath_ParenLeft_Count = Converter("pushDeath(", registeredBytes.AsSpan(accum));
+        accum += pushDeath_ParenLeft_Count;
+
+        clickWait_ParenLeft_Offset = accum;
+        clickWait_ParenLeft_Count = Converter("clickWait(", registeredBytes.AsSpan(accum));
+        accum += clickWait_ParenLeft_Count;
+
+        stopTroop_ParenLeft_Offset = accum;
+        stopTroop_ParenLeft_Count = Converter("stopTroop(", registeredBytes.AsSpan(accum));
+        accum += stopTroop_ParenLeft_Count;
+
+        worldskin_ParenLeft_Offset = accum;
+        worldskin_ParenLeft_Count = Converter("worldskin(", registeredBytes.AsSpan(accum));
+        accum += worldskin_ParenLeft_Count;
+
+        storeDeath_ParenLeft_Offset = accum;
+        storeDeath_ParenLeft_Count = Converter("storeDeath(", registeredBytes.AsSpan(accum));
+        accum += storeDeath_ParenLeft_Count;
+
+        darkness_off_ParenLeft_Offset = accum;
+        darkness_off_ParenLeft_Count = Converter("darkness_off(", registeredBytes.AsSpan(accum));
+        accum += darkness_off_ParenLeft_Count;
+
+        doGameEnding_ParenLeft_Offset = accum;
+        doGameEnding_ParenLeft_Count = Converter("doGameEnding(", registeredBytes.AsSpan(accum));
+        accum += doGameEnding_ParenLeft_Count;
+
+        setPowerHome_ParenLeft_Offset = accum;
+        setPowerHome_ParenLeft_Count = Converter("setPowerHome(", registeredBytes.AsSpan(accum));
+        accum += setPowerHome_ParenLeft_Count;
+
+        msg_ParenLeft_Offset = accum;
+        msg_ParenLeft_Count = Converter("msg(", registeredBytes.AsSpan(accum));
+        accum += msg_ParenLeft_Count;
+
+        msg2_ParenLeft_Offset = accum;
+        msg2_ParenLeft_Count = Converter("msg2(", registeredBytes.AsSpan(accum));
+        accum += msg2_ParenLeft_Count;
+
+        talk_ParenLeft_Offset = accum;
+        talk_ParenLeft_Count = Converter("talk(", registeredBytes.AsSpan(accum));
+        accum += talk_ParenLeft_Count;
+
+        talk2_ParenLeft_Offset = accum;
+        talk2_ParenLeft_Count = Converter("talk2(", registeredBytes.AsSpan(accum));
+        accum += talk2_ParenLeft_Count;
+
+        chat_ParenLeft_Offset = accum;
+        chat_ParenLeft_Count = Converter("chat(", registeredBytes.AsSpan(accum));
+        accum += chat_ParenLeft_Count;
+
+        chat2_ParenLeft_Offset = accum;
+        chat2_ParenLeft_Count = Converter("chat2(", registeredBytes.AsSpan(accum));
+        accum += chat2_ParenLeft_Count;
+
+        dialog_ParenLeft_Offset = accum;
+        dialog_ParenLeft_Count = Converter("dialog(", registeredBytes.AsSpan(accum));
+        accum += dialog_ParenLeft_Count;
+
+        dialogF_ParenLeft_Offset = accum;
+        dialogF_ParenLeft_Count = Converter("dialogF(", registeredBytes.AsSpan(accum));
+        accum += dialogF_ParenLeft_Count;
+
+        image_ParenLeft_Offset = accum;
+        image_ParenLeft_Count = Converter("image(", registeredBytes.AsSpan(accum));
+        accum += image_ParenLeft_Count;
+
+        image2_ParenLeft_Offset = accum;
+        image2_ParenLeft_Count = Converter("image2(", registeredBytes.AsSpan(accum));
+        accum += image2_ParenLeft_Count;
+
+        showImage_ParenLeft_Offset = accum;
+        showImage_ParenLeft_Count = Converter("showImage(", registeredBytes.AsSpan(accum));
+        accum += showImage_ParenLeft_Count;
+
+        hideImage_ParenLeft_Offset = accum;
+        hideImage_ParenLeft_Count = Converter("hideImage(", registeredBytes.AsSpan(accum));
+        accum += hideImage_ParenLeft_Count;
+
+        face_ParenLeft_Offset = accum;
+        face_ParenLeft_Count = Converter("face(", registeredBytes.AsSpan(accum));
+        accum += face_ParenLeft_Count;
+
+        face2_ParenLeft_Offset = accum;
+        face2_ParenLeft_Count = Converter("face2(", registeredBytes.AsSpan(accum));
+        accum += face2_ParenLeft_Count;
+
+        showFace_ParenLeft_Offset = accum;
+        showFace_ParenLeft_Count = Converter("showFace(", registeredBytes.AsSpan(accum));
+        accum += showFace_ParenLeft_Count;
+
+        hideFace_ParenLeft_Offset = accum;
+        hideFace_ParenLeft_Count = Converter("hideFace(", registeredBytes.AsSpan(accum));
+        accum += hideFace_ParenLeft_Count;
+
+        picture_ParenLeft_Offset = accum;
+        picture_ParenLeft_Count = Converter("picture(", registeredBytes.AsSpan(accum));
+        accum += picture_ParenLeft_Count;
+
+        picture2_ParenLeft_Offset = accum;
+        picture2_ParenLeft_Count = Converter("picture2(", registeredBytes.AsSpan(accum));
+        accum += picture2_ParenLeft_Count;
+
+        showPict_ParenLeft_Offset = accum;
+        showPict_ParenLeft_Count = Converter("showPict(", registeredBytes.AsSpan(accum));
+        accum += showPict_ParenLeft_Count;
+
+        showPicture_ParenLeft_Offset = accum;
+        showPicture_ParenLeft_Count = Converter("showPicture(", registeredBytes.AsSpan(accum));
+        accum += showPicture_ParenLeft_Count;
+
+        hidePicture_ParenLeft_Offset = accum;
+        hidePicture_ParenLeft_Count = Converter("hidePicture(", registeredBytes.AsSpan(accum));
+        accum += hidePicture_ParenLeft_Count;
+
+        stop_ParenLeft_Offset = accum;
+        stop_ParenLeft_Count = Converter("stop(", registeredBytes.AsSpan(accum));
+        accum += stop_ParenLeft_Count;
+
+        bg_ParenLeft_Offset = accum;
+        bg_ParenLeft_Count = Converter("bg(", registeredBytes.AsSpan(accum));
+        accum += bg_ParenLeft_Count;
 
         add_ParenLeft_Offset = accum;
         add_ParenLeft_Count = Converter("add(", registeredBytes.AsSpan(accum));
@@ -1182,10 +1330,6 @@ public class BinaryFormatter : IFormatter<byte>
         mod_ParenLeft_Offset = accum;
         mod_ParenLeft_Count = Converter("mod(", registeredBytes.AsSpan(accum));
         accum += mod_ParenLeft_Count;
-
-        msg_ParenLeft_Offset = accum;
-        msg_ParenLeft_Count = Converter("msg(", registeredBytes.AsSpan(accum));
-        accum += msg_ParenLeft_Count;
 
         mul_ParenLeft_Offset = accum;
         mul_ParenLeft_Count = Converter("mul(", registeredBytes.AsSpan(accum));
@@ -1215,33 +1359,13 @@ public class BinaryFormatter : IFormatter<byte>
         call_ParenLeft_Count = Converter("call(", registeredBytes.AsSpan(accum));
         accum += call_ParenLeft_Count;
 
-        chat_ParenLeft_Offset = accum;
-        chat_ParenLeft_Count = Converter("chat(", registeredBytes.AsSpan(accum));
-        accum += chat_ParenLeft_Count;
-
         exit_ParenLeft_Offset = accum;
         exit_ParenLeft_Count = Converter("exit(", registeredBytes.AsSpan(accum));
         accum += exit_ParenLeft_Count;
 
-        face_ParenLeft_Offset = accum;
-        face_ParenLeft_Count = Converter("face(", registeredBytes.AsSpan(accum));
-        accum += face_ParenLeft_Count;
-
         font_ParenLeft_Offset = accum;
         font_ParenLeft_Count = Converter("font(", registeredBytes.AsSpan(accum));
         accum += font_ParenLeft_Count;
-
-        msg2_ParenLeft_Offset = accum;
-        msg2_ParenLeft_Count = Converter("msg2(", registeredBytes.AsSpan(accum));
-        accum += msg2_ParenLeft_Count;
-
-        play_ParenLeft_Offset = accum;
-        play_ParenLeft_Count = Converter("play(", registeredBytes.AsSpan(accum));
-        accum += play_ParenLeft_Count;
-
-        ppl1_ParenLeft_Offset = accum;
-        ppl1_ParenLeft_Count = Converter("ppl1(", registeredBytes.AsSpan(accum));
-        accum += ppl1_ParenLeft_Count;
 
         save_ParenLeft_Offset = accum;
         save_ParenLeft_Count = Converter("save(", registeredBytes.AsSpan(accum));
@@ -1251,17 +1375,9 @@ public class BinaryFormatter : IFormatter<byte>
         setv_ParenLeft_Count = Converter("setv(", registeredBytes.AsSpan(accum));
         accum += setv_ParenLeft_Count;
 
-        stop_ParenLeft_Offset = accum;
-        stop_ParenLeft_Count = Converter("stop(", registeredBytes.AsSpan(accum));
-        accum += stop_ParenLeft_Count;
-
         subv_ParenLeft_Offset = accum;
         subv_ParenLeft_Count = Converter("subv(", registeredBytes.AsSpan(accum));
         accum += subv_ParenLeft_Count;
-
-        talk_ParenLeft_Offset = accum;
-        talk_ParenLeft_Count = Converter("talk(", registeredBytes.AsSpan(accum));
-        accum += talk_ParenLeft_Count;
 
         wait_ParenLeft_Offset = accum;
         wait_ParenLeft_Count = Converter("wait(", registeredBytes.AsSpan(accum));
@@ -1270,14 +1386,6 @@ public class BinaryFormatter : IFormatter<byte>
         zoom_ParenLeft_Offset = accum;
         zoom_ParenLeft_Count = Converter("zoom(", registeredBytes.AsSpan(accum));
         accum += zoom_ParenLeft_Count;
-
-        chat2_ParenLeft_Offset = accum;
-        chat2_ParenLeft_Count = Converter("chat2(", registeredBytes.AsSpan(accum));
-        accum += chat2_ParenLeft_Count;
-
-        citom_ParenLeft_Offset = accum;
-        citom_ParenLeft_Count = Converter("citom(", registeredBytes.AsSpan(accum));
-        accum += citom_ParenLeft_Count;
 
         clear_ParenLeft_Offset = accum;
         clear_ParenLeft_Count = Converter("clear(", registeredBytes.AsSpan(accum));
@@ -1291,10 +1399,6 @@ public class BinaryFormatter : IFormatter<byte>
         event_ParenLeft_Count = Converter("event(", registeredBytes.AsSpan(accum));
         accum += event_ParenLeft_Count;
 
-        face2_ParenLeft_Offset = accum;
-        face2_ParenLeft_Count = Converter("face2(", registeredBytes.AsSpan(accum));
-        accum += face2_ParenLeft_Count;
-
         focus_ParenLeft_Offset = accum;
         focus_ParenLeft_Count = Converter("focus(", registeredBytes.AsSpan(accum));
         accum += focus_ParenLeft_Count;
@@ -1307,13 +1411,17 @@ public class BinaryFormatter : IFormatter<byte>
         gread_ParenLeft_Count = Converter("gread(", registeredBytes.AsSpan(accum));
         accum += gread_ParenLeft_Count;
 
-        image_ParenLeft_Offset = accum;
-        image_ParenLeft_Count = Converter("image(", registeredBytes.AsSpan(accum));
-        accum += image_ParenLeft_Count;
-
         index_ParenLeft_Offset = accum;
         index_ParenLeft_Count = Converter("index(", registeredBytes.AsSpan(accum));
         accum += index_ParenLeft_Count;
+
+        storeIndex_ParenLeft_Offset = accum;
+        storeIndex_ParenLeft_Count = Converter("storeIndex(", registeredBytes.AsSpan(accum));
+        accum += storeIndex_ParenLeft_Count;
+
+        storeIndexVar_ParenLeft_Offset = accum;
+        storeIndexVar_ParenLeft_Count = Converter("storeIndexVar(", registeredBytes.AsSpan(accum));
+        accum += storeIndexVar_ParenLeft_Count;
 
         pushv_ParenLeft_Offset = accum;
         pushv_ParenLeft_Count = Converter("pushv(", registeredBytes.AsSpan(accum));
@@ -1331,10 +1439,6 @@ public class BinaryFormatter : IFormatter<byte>
         shake_ParenLeft_Count = Converter("shake(", registeredBytes.AsSpan(accum));
         accum += shake_ParenLeft_Count;
 
-        talk2_ParenLeft_Offset = accum;
-        talk2_ParenLeft_Count = Converter("talk2(", registeredBytes.AsSpan(accum));
-        accum += talk2_ParenLeft_Count;
-
         title_ParenLeft_Offset = accum;
         title_ParenLeft_Count = Converter("title(", registeredBytes.AsSpan(accum));
         accum += title_ParenLeft_Count;
@@ -1350,10 +1454,6 @@ public class BinaryFormatter : IFormatter<byte>
         choice_ParenLeft_Offset = accum;
         choice_ParenLeft_Count = Converter("choice(", registeredBytes.AsSpan(accum));
         accum += choice_ParenLeft_Count;
-
-        dialog_ParenLeft_Offset = accum;
-        dialog_ParenLeft_Count = Converter("dialog(", registeredBytes.AsSpan(accum));
-        accum += dialog_ParenLeft_Count;
 
         fadein_ParenLeft_Offset = accum;
         fadein_ParenLeft_Count = Converter("fadein(", registeredBytes.AsSpan(accum));
@@ -1378,10 +1478,6 @@ public class BinaryFormatter : IFormatter<byte>
         select_ParenLeft_Offset = accum;
         select_ParenLeft_Count = Converter("select(", registeredBytes.AsSpan(accum));
         accum += select_ParenLeft_Count;
-
-        setbcg_ParenLeft_Offset = accum;
-        setbcg_ParenLeft_Count = Converter("setbcg(", registeredBytes.AsSpan(accum));
-        accum += setbcg_ParenLeft_Count;
 
         setVar_ParenLeft_Offset = accum;
         setVar_ParenLeft_Count = Converter("setVar(", registeredBytes.AsSpan(accum));
@@ -1423,10 +1519,6 @@ public class BinaryFormatter : IFormatter<byte>
         addUnit_ParenLeft_Count = Converter("addUnit(", registeredBytes.AsSpan(accum));
         accum += addUnit_ParenLeft_Count;
 
-        dialogF_ParenLeft_Offset = accum;
-        dialogF_ParenLeft_Count = Converter("dialogF(", registeredBytes.AsSpan(accum));
-        accum += dialogF_ParenLeft_Count;
-
         doskill_ParenLeft_Offset = accum;
         doskill_ParenLeft_Count = Converter("doskill(", registeredBytes.AsSpan(accum));
         accum += doskill_ParenLeft_Count;
@@ -1435,10 +1527,6 @@ public class BinaryFormatter : IFormatter<byte>
         fadeout_ParenLeft_Count = Converter("fadeout(", registeredBytes.AsSpan(accum));
         accum += fadeout_ParenLeft_Count;
 
-        levelup_ParenLeft_Offset = accum;
-        levelup_ParenLeft_Count = Converter("levelup(", registeredBytes.AsSpan(accum));
-        accum += levelup_ParenLeft_Count;
-
         loopBGM_ParenLeft_Offset = accum;
         loopBGM_ParenLeft_Count = Converter("loopBGM(", registeredBytes.AsSpan(accum));
         accum += loopBGM_ParenLeft_Count;
@@ -1446,10 +1534,6 @@ public class BinaryFormatter : IFormatter<byte>
         minimap_ParenLeft_Offset = accum;
         minimap_ParenLeft_Count = Converter("minimap(", registeredBytes.AsSpan(accum));
         accum += minimap_ParenLeft_Count;
-
-        picture_ParenLeft_Offset = accum;
-        picture_ParenLeft_Count = Converter("picture(", registeredBytes.AsSpan(accum));
-        accum += picture_ParenLeft_Count;
 
         playBGM_ParenLeft_Offset = accum;
         playBGM_ParenLeft_Count = Converter("playBGM(", registeredBytes.AsSpan(accum));
@@ -1571,10 +1655,6 @@ public class BinaryFormatter : IFormatter<byte>
         openGoal_ParenLeft_Count = Converter("openGoal(", registeredBytes.AsSpan(accum));
         accum += openGoal_ParenLeft_Count;
 
-        picture2_ParenLeft_Offset = accum;
-        picture2_ParenLeft_Count = Converter("picture2(", registeredBytes.AsSpan(accum));
-        accum += picture2_ParenLeft_Count;
-
         pushCapa_ParenLeft_Offset = accum;
         pushCapa_ParenLeft_Count = Converter("pushCapa(", registeredBytes.AsSpan(accum));
         accum += pushCapa_ParenLeft_Count;
@@ -1607,6 +1687,10 @@ public class BinaryFormatter : IFormatter<byte>
         roamUnit_ParenLeft_Count = Converter("roamUnit(", registeredBytes.AsSpan(accum));
         accum += roamUnit_ParenLeft_Count;
 
+        roamUnit2_ParenLeft_Offset = accum;
+        roamUnit2_ParenLeft_Count = Converter("roamUnit2(", registeredBytes.AsSpan(accum));
+        accum += roamUnit2_ParenLeft_Count;
+
         setDiplo_ParenLeft_Offset = accum;
         setDiplo_ParenLeft_Count = Converter("setDiplo(", registeredBytes.AsSpan(accum));
         accum += setDiplo_ParenLeft_Count;
@@ -1627,18 +1711,6 @@ public class BinaryFormatter : IFormatter<byte>
         setTruce_ParenLeft_Count = Converter("setTruce(", registeredBytes.AsSpan(accum));
         accum += setTruce_ParenLeft_Count;
 
-        showCamp_ParenLeft_Offset = accum;
-        showCamp_ParenLeft_Count = Converter("showCamp(", registeredBytes.AsSpan(accum));
-        accum += showCamp_ParenLeft_Count;
-
-        showFace_ParenLeft_Offset = accum;
-        showFace_ParenLeft_Count = Converter("showFace(", registeredBytes.AsSpan(accum));
-        accum += showFace_ParenLeft_Count;
-
-        showPict_ParenLeft_Offset = accum;
-        showPict_ParenLeft_Count = Converter("showPict(", registeredBytes.AsSpan(accum));
-        accum += showPict_ParenLeft_Count;
-
         showSpot_ParenLeft_Offset = accum;
         showSpot_ParenLeft_Count = Converter("showSpot(", registeredBytes.AsSpan(accum));
         accum += showSpot_ParenLeft_Count;
@@ -1646,6 +1718,18 @@ public class BinaryFormatter : IFormatter<byte>
         spotmark_ParenLeft_Offset = accum;
         spotmark_ParenLeft_Count = Converter("spotmark(", registeredBytes.AsSpan(accum));
         accum += spotmark_ParenLeft_Count;
+
+        hideSpotMark_ParenLeft_Offset = accum;
+        hideSpotMark_ParenLeft_Count = Converter("hideSpotMark(", registeredBytes.AsSpan(accum));
+        accum += hideSpotMark_ParenLeft_Count;
+
+        showSpotMark_ParenLeft_Offset = accum;
+        showSpotMark_ParenLeft_Count = Converter("showSpotMark(", registeredBytes.AsSpan(accum));
+        accum += showSpotMark_ParenLeft_Count;
+
+        hideEscape_ParenLeft_Offset = accum;
+        hideEscape_ParenLeft_Count = Converter("hideEscape(", registeredBytes.AsSpan(accum));
+        accum += hideEscape_ParenLeft_Count;
 
         showParty_ParenLeft_Offset = accum;
         showParty_ParenLeft_Count = Converter("showParty(", registeredBytes.AsSpan(accum));
@@ -1674,10 +1758,6 @@ public class BinaryFormatter : IFormatter<byte>
         changeMap_ParenLeft_Offset = accum;
         changeMap_ParenLeft_Count = Converter("changeMap(", registeredBytes.AsSpan(accum));
         accum += changeMap_ParenLeft_Count;
-
-        clickWait_ParenLeft_Offset = accum;
-        clickWait_ParenLeft_Count = Converter("clickWait(", registeredBytes.AsSpan(accum));
-        accum += clickWait_ParenLeft_Count;
 
         closeGoal_ParenLeft_Offset = accum;
         closeGoal_ParenLeft_Count = Converter("closeGoal(", registeredBytes.AsSpan(accum));
@@ -1723,10 +1803,6 @@ public class BinaryFormatter : IFormatter<byte>
         hideChara_ParenLeft_Count = Converter("hideChara(", registeredBytes.AsSpan(accum));
         accum += hideChara_ParenLeft_Count;
 
-        hideImage_ParenLeft_Offset = accum;
-        hideImage_ParenLeft_Count = Converter("hideImage(", registeredBytes.AsSpan(accum));
-        accum += hideImage_ParenLeft_Count;
-
         moveTroop_ParenLeft_Offset = accum;
         moveTroop_ParenLeft_Count = Converter("moveTroop(", registeredBytes.AsSpan(accum));
         accum += moveTroop_ParenLeft_Count;
@@ -1734,10 +1810,6 @@ public class BinaryFormatter : IFormatter<byte>
         playWorld_ParenLeft_Offset = accum;
         playWorld_ParenLeft_Count = Converter("playWorld(", registeredBytes.AsSpan(accum));
         accum += playWorld_ParenLeft_Count;
-
-        pushDeath_ParenLeft_Offset = accum;
-        pushDeath_ParenLeft_Count = Converter("pushDeath(", registeredBytes.AsSpan(accum));
-        accum += pushDeath_ParenLeft_Count;
 
         pushDiplo_ParenLeft_Offset = accum;
         pushDiplo_ParenLeft_Count = Converter("pushDiplo(", registeredBytes.AsSpan(accum));
@@ -1783,10 +1855,6 @@ public class BinaryFormatter : IFormatter<byte>
         resetZone_ParenLeft_Count = Converter("resetZone(", registeredBytes.AsSpan(accum));
         accum += resetZone_ParenLeft_Count;
 
-        roamUnit2_ParenLeft_Offset = accum;
-        roamUnit2_ParenLeft_Count = Converter("roamUnit2(", registeredBytes.AsSpan(accum));
-        accum += roamUnit2_ParenLeft_Count;
-
         setArbeit_ParenLeft_Offset = accum;
         setArbeit_ParenLeft_Count = Converter("setArbeit(", registeredBytes.AsSpan(accum));
         accum += setArbeit_ParenLeft_Count;
@@ -1811,21 +1879,9 @@ public class BinaryFormatter : IFormatter<byte>
         showChara_ParenLeft_Count = Converter("showChara(", registeredBytes.AsSpan(accum));
         accum += showChara_ParenLeft_Count;
 
-        showImage_ParenLeft_Offset = accum;
-        showImage_ParenLeft_Count = Converter("showImage(", registeredBytes.AsSpan(accum));
-        accum += showImage_ParenLeft_Count;
-
-        stopTroop_ParenLeft_Offset = accum;
-        stopTroop_ParenLeft_Count = Converter("stopTroop(", registeredBytes.AsSpan(accum));
-        accum += stopTroop_ParenLeft_Count;
-
         terminate_ParenLeft_Offset = accum;
         terminate_ParenLeft_Count = Converter("terminate(", registeredBytes.AsSpan(accum));
         accum += terminate_ParenLeft_Count;
-
-        worldskin_ParenLeft_Offset = accum;
-        worldskin_ParenLeft_Count = Converter("worldskin(", registeredBytes.AsSpan(accum));
-        accum += worldskin_ParenLeft_Count;
 
         backScroll_ParenLeft_Offset = accum;
         backScroll_ParenLeft_Count = Converter("backScroll(", registeredBytes.AsSpan(accum));
@@ -1847,17 +1903,13 @@ public class BinaryFormatter : IFormatter<byte>
         eraseSkill_ParenLeft_Count = Converter("eraseSkill(", registeredBytes.AsSpan(accum));
         accum += eraseSkill_ParenLeft_Count;
 
-        eraseTroop_ParenLeft_Offset = accum;
-        eraseTroop_ParenLeft_Count = Converter("eraseTroop(", registeredBytes.AsSpan(accum));
-        accum += eraseTroop_ParenLeft_Count;
-
         eraseUnit2_ParenLeft_Offset = accum;
         eraseUnit2_ParenLeft_Count = Converter("eraseUnit2(", registeredBytes.AsSpan(accum));
         accum += eraseUnit2_ParenLeft_Count;
 
-        hideEscape_ParenLeft_Offset = accum;
-        hideEscape_ParenLeft_Count = Converter("hideEscape(", registeredBytes.AsSpan(accum));
-        accum += hideEscape_ParenLeft_Count;
+        eraseTroop_ParenLeft_Offset = accum;
+        eraseTroop_ParenLeft_Count = Converter("eraseTroop(", registeredBytes.AsSpan(accum));
+        accum += eraseTroop_ParenLeft_Count;
 
         linkEscape_ParenLeft_Offset = accum;
         linkEscape_ParenLeft_Count = Converter("linkEscape(", registeredBytes.AsSpan(accum));
@@ -1919,14 +1971,6 @@ public class BinaryFormatter : IFormatter<byte>
         speedTroop_ParenLeft_Count = Converter("speedTroop(", registeredBytes.AsSpan(accum));
         accum += speedTroop_ParenLeft_Count;
 
-        storeDeath_ParenLeft_Offset = accum;
-        storeDeath_ParenLeft_Count = Converter("storeDeath(", registeredBytes.AsSpan(accum));
-        accum += storeDeath_ParenLeft_Count;
-
-        storeIndex_ParenLeft_Offset = accum;
-        storeIndex_ParenLeft_Count = Converter("storeIndex(", registeredBytes.AsSpan(accum));
-        accum += storeIndex_ParenLeft_Count;
-
         unionPower_ParenLeft_Offset = accum;
         unionPower_ParenLeft_Count = Converter("unionPower(", registeredBytes.AsSpan(accum));
         accum += unionPower_ParenLeft_Count;
@@ -1954,10 +1998,6 @@ public class BinaryFormatter : IFormatter<byte>
         eraseFriend_ParenLeft_Offset = accum;
         eraseFriend_ParenLeft_Count = Converter("eraseFriend(", registeredBytes.AsSpan(accum));
         accum += eraseFriend_ParenLeft_Count;
-
-        hidePicture_ParenLeft_Offset = accum;
-        hidePicture_ParenLeft_Count = Converter("hidePicture(", registeredBytes.AsSpan(accum));
-        accum += hidePicture_ParenLeft_Count;
 
         pushSpotPos_ParenLeft_Offset = accum;
         pushSpotPos_ParenLeft_Count = Converter("pushSpotPos(", registeredBytes.AsSpan(accum));
@@ -1995,10 +2035,6 @@ public class BinaryFormatter : IFormatter<byte>
         showDungeon_ParenLeft_Count = Converter("showDungeon(", registeredBytes.AsSpan(accum));
         accum += showDungeon_ParenLeft_Count;
 
-        showPicture_ParenLeft_Offset = accum;
-        showPicture_ParenLeft_Count = Converter("showPicture(", registeredBytes.AsSpan(accum));
-        accum += showPicture_ParenLeft_Count;
-
         unctrlTroop_ParenLeft_Offset = accum;
         unctrlTroop_ParenLeft_Count = Converter("unctrlTroop(", registeredBytes.AsSpan(accum));
         accum += unctrlTroop_ParenLeft_Count;
@@ -2018,18 +2054,6 @@ public class BinaryFormatter : IFormatter<byte>
         changePlayer_ParenLeft_Offset = accum;
         changePlayer_ParenLeft_Count = Converter("changePlayer(", registeredBytes.AsSpan(accum));
         accum += changePlayer_ParenLeft_Count;
-
-        darkness_off_ParenLeft_Offset = accum;
-        darkness_off_ParenLeft_Count = Converter("darkness_off(", registeredBytes.AsSpan(accum));
-        accum += darkness_off_ParenLeft_Count;
-
-        doGameEnding_ParenLeft_Offset = accum;
-        doGameEnding_ParenLeft_Count = Converter("doGameEnding(", registeredBytes.AsSpan(accum));
-        accum += doGameEnding_ParenLeft_Count;
-
-        hideSpotMark_ParenLeft_Offset = accum;
-        hideSpotMark_ParenLeft_Count = Converter("hideSpotMark(", registeredBytes.AsSpan(accum));
-        accum += hideSpotMark_ParenLeft_Count;
 
         moveTroopFix_ParenLeft_Offset = accum;
         moveTroopFix_ParenLeft_Count = Converter("moveTroopFix(", registeredBytes.AsSpan(accum));
@@ -2051,17 +2075,9 @@ public class BinaryFormatter : IFormatter<byte>
         setGameClear_ParenLeft_Count = Converter("setGameClear(", registeredBytes.AsSpan(accum));
         accum += setGameClear_ParenLeft_Count;
 
-        setPowerHome_ParenLeft_Offset = accum;
-        setPowerHome_ParenLeft_Count = Converter("setPowerHome(", registeredBytes.AsSpan(accum));
-        accum += setPowerHome_ParenLeft_Count;
-
         showPolitics_ParenLeft_Offset = accum;
         showPolitics_ParenLeft_Count = Converter("showPolitics(", registeredBytes.AsSpan(accum));
         accum += showPolitics_ParenLeft_Count;
-
-        showSpotMark_ParenLeft_Offset = accum;
-        showSpotMark_ParenLeft_Count = Converter("showSpotMark(", registeredBytes.AsSpan(accum));
-        accum += showSpotMark_ParenLeft_Count;
 
         storeAllSpot_ParenLeft_Offset = accum;
         storeAllSpot_ParenLeft_Count = Converter("storeAllSpot(", registeredBytes.AsSpan(accum));
@@ -2110,10 +2126,6 @@ public class BinaryFormatter : IFormatter<byte>
         storeComPower_ParenLeft_Offset = accum;
         storeComPower_ParenLeft_Count = Converter("storeComPower(", registeredBytes.AsSpan(accum));
         accum += storeComPower_ParenLeft_Count;
-
-        storeIndexVar_ParenLeft_Offset = accum;
-        storeIndexVar_ParenLeft_Count = Converter("storeIndexVar(", registeredBytes.AsSpan(accum));
-        accum += storeIndexVar_ParenLeft_Count;
 
         storeNextSpot_ParenLeft_Offset = accum;
         storeNextSpot_ParenLeft_Count = Converter("storeNextSpot(", registeredBytes.AsSpan(accum));
@@ -2319,9 +2331,25 @@ public class BinaryFormatter : IFormatter<byte>
         storeBaseClassOfUnit_ParenLeft_Count = Converter("storeBaseClassOfUnit(", registeredBytes.AsSpan(accum));
         accum += storeBaseClassOfUnit_ParenLeft_Count;
 
+        isSelect_ParenLeft_Offset = accum;
+        isSelect_ParenLeft_Count = Converter("isSelect(", registeredBytes.AsSpan(accum));
+        accum += isSelect_ParenLeft_Count;
+
+        isWhoDead_ParenLeft_Offset = accum;
+        isWhoDead_ParenLeft_Count = Converter("isWhoDead(", registeredBytes.AsSpan(accum));
+        accum += isWhoDead_ParenLeft_Count;
+
+        isGameOver_ParenLeft_Offset = accum;
+        isGameOver_ParenLeft_Count = Converter("isGameOver(", registeredBytes.AsSpan(accum));
+        accum += isGameOver_ParenLeft_Count;
+
         has_ParenLeft_Offset = accum;
         has_ParenLeft_Count = Converter("has(", registeredBytes.AsSpan(accum));
         accum += has_ParenLeft_Count;
+
+        inVar_ParenLeft_Offset = accum;
+        inVar_ParenLeft_Count = Converter("inVar(", registeredBytes.AsSpan(accum));
+        accum += inVar_ParenLeft_Count;
 
         yet_ParenLeft_Offset = accum;
         yet_ParenLeft_Count = Converter("yet(", registeredBytes.AsSpan(accum));
@@ -2335,6 +2363,10 @@ public class BinaryFormatter : IFormatter<byte>
         count_ParenLeft_Count = Converter("count(", registeredBytes.AsSpan(accum));
         accum += count_ParenLeft_Count;
 
+        amount_ParenLeft_Offset = accum;
+        amount_ParenLeft_Count = Converter("amount(", registeredBytes.AsSpan(accum));
+        accum += amount_ParenLeft_Count;
+
         equal_ParenLeft_Offset = accum;
         equal_ParenLeft_Count = Converter("equal(", registeredBytes.AsSpan(accum));
         accum += equal_ParenLeft_Count;
@@ -2342,10 +2374,6 @@ public class BinaryFormatter : IFormatter<byte>
         eqVar_ParenLeft_Offset = accum;
         eqVar_ParenLeft_Count = Converter("eqVar(", registeredBytes.AsSpan(accum));
         accum += eqVar_ParenLeft_Count;
-
-        inVar_ParenLeft_Offset = accum;
-        inVar_ParenLeft_Count = Converter("inVar(", registeredBytes.AsSpan(accum));
-        accum += inVar_ParenLeft_Count;
 
         isMap_ParenLeft_Offset = accum;
         isMap_ParenLeft_Count = Converter("isMap(", registeredBytes.AsSpan(accum));
@@ -2366,10 +2394,6 @@ public class BinaryFormatter : IFormatter<byte>
         ptest_ParenLeft_Offset = accum;
         ptest_ParenLeft_Count = Converter("ptest(", registeredBytes.AsSpan(accum));
         accum += ptest_ParenLeft_Count;
-
-        amount_ParenLeft_Offset = accum;
-        amount_ParenLeft_Count = Converter("amount(", registeredBytes.AsSpan(accum));
-        accum += amount_ParenLeft_Count;
 
         conVar_ParenLeft_Offset = accum;
         conVar_ParenLeft_Count = Converter("conVar(", registeredBytes.AsSpan(accum));
@@ -2495,10 +2519,6 @@ public class BinaryFormatter : IFormatter<byte>
         isRoamer_ParenLeft_Count = Converter("isRoamer(", registeredBytes.AsSpan(accum));
         accum += isRoamer_ParenLeft_Count;
 
-        isSelect_ParenLeft_Offset = accum;
-        isSelect_ParenLeft_Count = Converter("isSelect(", registeredBytes.AsSpan(accum));
-        accum += isSelect_ParenLeft_Count;
-
         isTalent_ParenLeft_Offset = accum;
         isTalent_ParenLeft_Count = Converter("isTalent(", registeredBytes.AsSpan(accum));
         accum += isTalent_ParenLeft_Count;
@@ -2551,10 +2571,6 @@ public class BinaryFormatter : IFormatter<byte>
         istoWorld_ParenLeft_Count = Converter("istoWorld(", registeredBytes.AsSpan(accum));
         accum += istoWorld_ParenLeft_Count;
 
-        isWhoDead_ParenLeft_Offset = accum;
-        isWhoDead_ParenLeft_Count = Converter("isWhoDead(", registeredBytes.AsSpan(accum));
-        accum += isWhoDead_ParenLeft_Count;
-
         countForce_ParenLeft_Offset = accum;
         countForce_ParenLeft_Count = Converter("countForce(", registeredBytes.AsSpan(accum));
         accum += countForce_ParenLeft_Count;
@@ -2578,10 +2594,6 @@ public class BinaryFormatter : IFormatter<byte>
         inRoamSpot_ParenLeft_Offset = accum;
         inRoamSpot_ParenLeft_Count = Converter("inRoamSpot(", registeredBytes.AsSpan(accum));
         accum += inRoamSpot_ParenLeft_Count;
-
-        isGameOver_ParenLeft_Offset = accum;
-        isGameOver_ParenLeft_Count = Converter("isGameOver(", registeredBytes.AsSpan(accum));
-        accum += isGameOver_ParenLeft_Count;
 
         isInterval_ParenLeft_Offset = accum;
         isInterval_ParenLeft_Count = Converter("isInterval(", registeredBytes.AsSpan(accum));
@@ -3077,16 +3089,232 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(scenario_Space_Offset, scenario_Space_Count));
     }
 
-    private void Append_bg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(bg_ParenLeft_Offset, bg_ParenLeft_Count));
-    }
-
     private void Append_vc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(vc_ParenLeft_Offset, vc_ParenLeft_Count));
+    }
+
+    private void Append_play_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(play_ParenLeft_Offset, play_ParenLeft_Count));
+    }
+
+    private void Append_ppl1_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(ppl1_ParenLeft_Offset, ppl1_ParenLeft_Count));
+    }
+
+    private void Append_citom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(citom_ParenLeft_Offset, citom_ParenLeft_Count));
+    }
+
+    private void Append_setbcg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(setbcg_ParenLeft_Offset, setbcg_ParenLeft_Count));
+    }
+
+    private void Append_levelup_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(levelup_ParenLeft_Offset, levelup_ParenLeft_Count));
+    }
+
+    private void Append_showCamp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showCamp_ParenLeft_Offset, showCamp_ParenLeft_Count));
+    }
+
+    private void Append_pushDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(pushDeath_ParenLeft_Offset, pushDeath_ParenLeft_Count));
+    }
+
+    private void Append_clickWait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(clickWait_ParenLeft_Offset, clickWait_ParenLeft_Count));
+    }
+
+    private void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
+    }
+
+    private void Append_worldskin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(worldskin_ParenLeft_Offset, worldskin_ParenLeft_Count));
+    }
+
+    private void Append_storeDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(storeDeath_ParenLeft_Offset, storeDeath_ParenLeft_Count));
+    }
+
+    private void Append_darkness_off_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(darkness_off_ParenLeft_Offset, darkness_off_ParenLeft_Count));
+    }
+
+    private void Append_doGameEnding_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(doGameEnding_ParenLeft_Offset, doGameEnding_ParenLeft_Count));
+    }
+
+    private void Append_setPowerHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(setPowerHome_ParenLeft_Offset, setPowerHome_ParenLeft_Count));
+    }
+
+    private void Append_msg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(msg_ParenLeft_Offset, msg_ParenLeft_Count));
+    }
+
+    private void Append_msg2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(msg2_ParenLeft_Offset, msg2_ParenLeft_Count));
+    }
+
+    private void Append_talk_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(talk_ParenLeft_Offset, talk_ParenLeft_Count));
+    }
+
+    private void Append_talk2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(talk2_ParenLeft_Offset, talk2_ParenLeft_Count));
+    }
+
+    private void Append_chat_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(chat_ParenLeft_Offset, chat_ParenLeft_Count));
+    }
+
+    private void Append_chat2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(chat2_ParenLeft_Offset, chat2_ParenLeft_Count));
+    }
+
+    private void Append_dialog_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(dialog_ParenLeft_Offset, dialog_ParenLeft_Count));
+    }
+
+    private void Append_dialogF_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(dialogF_ParenLeft_Offset, dialogF_ParenLeft_Count));
+    }
+
+    private void Append_image_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(image_ParenLeft_Offset, image_ParenLeft_Count));
+    }
+
+    private void Append_image2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(image2_ParenLeft_Offset, image2_ParenLeft_Count));
+    }
+
+    private void Append_showImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showImage_ParenLeft_Offset, showImage_ParenLeft_Count));
+    }
+
+    private void Append_hideImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(hideImage_ParenLeft_Offset, hideImage_ParenLeft_Count));
+    }
+
+    private void Append_face_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(face_ParenLeft_Offset, face_ParenLeft_Count));
+    }
+
+    private void Append_face2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(face2_ParenLeft_Offset, face2_ParenLeft_Count));
+    }
+
+    private void Append_showFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showFace_ParenLeft_Offset, showFace_ParenLeft_Count));
+    }
+
+    private void Append_hideFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(hideFace_ParenLeft_Offset, hideFace_ParenLeft_Count));
+    }
+
+    private void Append_picture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(picture_ParenLeft_Offset, picture_ParenLeft_Count));
+    }
+
+    private void Append_picture2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(picture2_ParenLeft_Offset, picture2_ParenLeft_Count));
+    }
+
+    private void Append_showPict_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showPict_ParenLeft_Offset, showPict_ParenLeft_Count));
+    }
+
+    private void Append_showPicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showPicture_ParenLeft_Offset, showPicture_ParenLeft_Count));
+    }
+
+    private void Append_hidePicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(hidePicture_ParenLeft_Offset, hidePicture_ParenLeft_Count));
+    }
+
+    private void Append_stop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(stop_ParenLeft_Offset, stop_ParenLeft_Count));
+    }
+
+    private void Append_bg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(bg_ParenLeft_Offset, bg_ParenLeft_Count));
     }
 
     private void Append_add_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3105,12 +3333,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mod_ParenLeft_Offset, mod_ParenLeft_Count));
-    }
-
-    private void Append_msg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(msg_ParenLeft_Offset, msg_ParenLeft_Count));
     }
 
     private void Append_mul_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3155,46 +3377,16 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(call_ParenLeft_Offset, call_ParenLeft_Count));
     }
 
-    private void Append_chat_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(chat_ParenLeft_Offset, chat_ParenLeft_Count));
-    }
-
     private void Append_exit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exit_ParenLeft_Offset, exit_ParenLeft_Count));
     }
 
-    private void Append_face_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(face_ParenLeft_Offset, face_ParenLeft_Count));
-    }
-
     private void Append_font_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(font_ParenLeft_Offset, font_ParenLeft_Count));
-    }
-
-    private void Append_msg2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(msg2_ParenLeft_Offset, msg2_ParenLeft_Count));
-    }
-
-    private void Append_play_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(play_ParenLeft_Offset, play_ParenLeft_Count));
-    }
-
-    private void Append_ppl1_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(ppl1_ParenLeft_Offset, ppl1_ParenLeft_Count));
     }
 
     private void Append_save_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3209,22 +3401,10 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(setv_ParenLeft_Offset, setv_ParenLeft_Count));
     }
 
-    private void Append_stop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(stop_ParenLeft_Offset, stop_ParenLeft_Count));
-    }
-
     private void Append_subv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subv_ParenLeft_Offset, subv_ParenLeft_Count));
-    }
-
-    private void Append_talk_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(talk_ParenLeft_Offset, talk_ParenLeft_Count));
     }
 
     private void Append_wait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3237,18 +3417,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(zoom_ParenLeft_Offset, zoom_ParenLeft_Count));
-    }
-
-    private void Append_chat2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(chat2_ParenLeft_Offset, chat2_ParenLeft_Count));
-    }
-
-    private void Append_citom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(citom_ParenLeft_Offset, citom_ParenLeft_Count));
     }
 
     private void Append_clear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3269,12 +3437,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(event_ParenLeft_Offset, event_ParenLeft_Count));
     }
 
-    private void Append_face2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(face2_ParenLeft_Offset, face2_ParenLeft_Count));
-    }
-
     private void Append_focus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3293,16 +3455,22 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(gread_ParenLeft_Offset, gread_ParenLeft_Count));
     }
 
-    private void Append_image_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(image_ParenLeft_Offset, image_ParenLeft_Count));
-    }
-
     private void Append_index_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(index_ParenLeft_Offset, index_ParenLeft_Count));
+    }
+
+    private void Append_storeIndex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(storeIndex_ParenLeft_Offset, storeIndex_ParenLeft_Count));
+    }
+
+    private void Append_storeIndexVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(storeIndexVar_ParenLeft_Offset, storeIndexVar_ParenLeft_Count));
     }
 
     private void Append_pushv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3329,12 +3497,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(shake_ParenLeft_Offset, shake_ParenLeft_Count));
     }
 
-    private void Append_talk2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(talk2_ParenLeft_Offset, talk2_ParenLeft_Count));
-    }
-
     private void Append_title_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3357,12 +3519,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choice_ParenLeft_Offset, choice_ParenLeft_Count));
-    }
-
-    private void Append_dialog_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(dialog_ParenLeft_Offset, dialog_ParenLeft_Count));
     }
 
     private void Append_fadein_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3399,12 +3555,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(select_ParenLeft_Offset, select_ParenLeft_Count));
-    }
-
-    private void Append_setbcg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(setbcg_ParenLeft_Offset, setbcg_ParenLeft_Count));
     }
 
     private void Append_setVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3467,12 +3617,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(addUnit_ParenLeft_Offset, addUnit_ParenLeft_Count));
     }
 
-    private void Append_dialogF_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(dialogF_ParenLeft_Offset, dialogF_ParenLeft_Count));
-    }
-
     private void Append_doskill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3485,12 +3629,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(fadeout_ParenLeft_Offset, fadeout_ParenLeft_Count));
     }
 
-    private void Append_levelup_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(levelup_ParenLeft_Offset, levelup_ParenLeft_Count));
-    }
-
     private void Append_loopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3501,12 +3639,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(minimap_ParenLeft_Offset, minimap_ParenLeft_Count));
-    }
-
-    private void Append_picture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(picture_ParenLeft_Offset, picture_ParenLeft_Count));
     }
 
     private void Append_playBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3689,12 +3821,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(openGoal_ParenLeft_Offset, openGoal_ParenLeft_Count));
     }
 
-    private void Append_picture2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(picture2_ParenLeft_Offset, picture2_ParenLeft_Count));
-    }
-
     private void Append_pushCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3743,6 +3869,12 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(roamUnit_ParenLeft_Offset, roamUnit_ParenLeft_Count));
     }
 
+    private void Append_roamUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(roamUnit2_ParenLeft_Offset, roamUnit2_ParenLeft_Count));
+    }
+
     private void Append_setDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3773,24 +3905,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(setTruce_ParenLeft_Offset, setTruce_ParenLeft_Count));
     }
 
-    private void Append_showCamp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(showCamp_ParenLeft_Offset, showCamp_ParenLeft_Count));
-    }
-
-    private void Append_showFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(showFace_ParenLeft_Offset, showFace_ParenLeft_Count));
-    }
-
-    private void Append_showPict_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(showPict_ParenLeft_Offset, showPict_ParenLeft_Count));
-    }
-
     private void Append_showSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3801,6 +3915,24 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spotmark_ParenLeft_Offset, spotmark_ParenLeft_Count));
+    }
+
+    private void Append_hideSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(hideSpotMark_ParenLeft_Offset, hideSpotMark_ParenLeft_Count));
+    }
+
+    private void Append_showSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(showSpotMark_ParenLeft_Offset, showSpotMark_ParenLeft_Count));
+    }
+
+    private void Append_hideEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(hideEscape_ParenLeft_Offset, hideEscape_ParenLeft_Count));
     }
 
     private void Append_showParty_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3843,12 +3975,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMap_ParenLeft_Offset, changeMap_ParenLeft_Count));
-    }
-
-    private void Append_clickWait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(clickWait_ParenLeft_Offset, clickWait_ParenLeft_Count));
     }
 
     private void Append_closeGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3917,12 +4043,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(hideChara_ParenLeft_Offset, hideChara_ParenLeft_Count));
     }
 
-    private void Append_hideImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(hideImage_ParenLeft_Offset, hideImage_ParenLeft_Count));
-    }
-
     private void Append_moveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3933,12 +4053,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playWorld_ParenLeft_Offset, playWorld_ParenLeft_Count));
-    }
-
-    private void Append_pushDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(pushDeath_ParenLeft_Offset, pushDeath_ParenLeft_Count));
     }
 
     private void Append_pushDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4007,12 +4121,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(resetZone_ParenLeft_Offset, resetZone_ParenLeft_Count));
     }
 
-    private void Append_roamUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(roamUnit2_ParenLeft_Offset, roamUnit2_ParenLeft_Count));
-    }
-
     private void Append_setArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4049,28 +4157,10 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(showChara_ParenLeft_Offset, showChara_ParenLeft_Count));
     }
 
-    private void Append_showImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(showImage_ParenLeft_Offset, showImage_ParenLeft_Count));
-    }
-
-    private void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
-    }
-
     private void Append_terminate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(terminate_ParenLeft_Offset, terminate_ParenLeft_Count));
-    }
-
-    private void Append_worldskin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(worldskin_ParenLeft_Offset, worldskin_ParenLeft_Count));
     }
 
     private void Append_backScroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4103,22 +4193,16 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(eraseSkill_ParenLeft_Offset, eraseSkill_ParenLeft_Count));
     }
 
-    private void Append_eraseTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(eraseTroop_ParenLeft_Offset, eraseTroop_ParenLeft_Count));
-    }
-
     private void Append_eraseUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit2_ParenLeft_Offset, eraseUnit2_ParenLeft_Count));
     }
 
-    private void Append_hideEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private void Append_eraseTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(hideEscape_ParenLeft_Offset, hideEscape_ParenLeft_Count));
+        destination.AddRange(registeredBytes.AsSpan(eraseTroop_ParenLeft_Offset, eraseTroop_ParenLeft_Count));
     }
 
     private void Append_linkEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4211,18 +4295,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(speedTroop_ParenLeft_Offset, speedTroop_ParenLeft_Count));
     }
 
-    private void Append_storeDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(storeDeath_ParenLeft_Offset, storeDeath_ParenLeft_Count));
-    }
-
-    private void Append_storeIndex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(storeIndex_ParenLeft_Offset, storeIndex_ParenLeft_Count));
-    }
-
     private void Append_unionPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4263,12 +4335,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseFriend_ParenLeft_Offset, eraseFriend_ParenLeft_Count));
-    }
-
-    private void Append_hidePicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(hidePicture_ParenLeft_Offset, hidePicture_ParenLeft_Count));
     }
 
     private void Append_pushSpotPos_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4325,12 +4391,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(showDungeon_ParenLeft_Offset, showDungeon_ParenLeft_Count));
     }
 
-    private void Append_showPicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(showPicture_ParenLeft_Offset, showPicture_ParenLeft_Count));
-    }
-
     private void Append_unctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4359,24 +4419,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePlayer_ParenLeft_Offset, changePlayer_ParenLeft_Count));
-    }
-
-    private void Append_darkness_off_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(darkness_off_ParenLeft_Offset, darkness_off_ParenLeft_Count));
-    }
-
-    private void Append_doGameEnding_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(doGameEnding_ParenLeft_Offset, doGameEnding_ParenLeft_Count));
-    }
-
-    private void Append_hideSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(hideSpotMark_ParenLeft_Offset, hideSpotMark_ParenLeft_Count));
     }
 
     private void Append_moveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4409,22 +4451,10 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(setGameClear_ParenLeft_Offset, setGameClear_ParenLeft_Count));
     }
 
-    private void Append_setPowerHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(setPowerHome_ParenLeft_Offset, setPowerHome_ParenLeft_Count));
-    }
-
     private void Append_showPolitics_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPolitics_ParenLeft_Offset, showPolitics_ParenLeft_Count));
-    }
-
-    private void Append_showSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(showSpotMark_ParenLeft_Offset, showSpotMark_ParenLeft_Count));
     }
 
     private void Append_storeAllSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4497,12 +4527,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeComPower_ParenLeft_Offset, storeComPower_ParenLeft_Count));
-    }
-
-    private void Append_storeIndexVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(storeIndexVar_ParenLeft_Offset, storeIndexVar_ParenLeft_Count));
     }
 
     private void Append_storeNextSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4811,10 +4835,34 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(storeBaseClassOfUnit_ParenLeft_Offset, storeBaseClassOfUnit_ParenLeft_Count));
     }
 
+    private void Append_isSelect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(isSelect_ParenLeft_Offset, isSelect_ParenLeft_Count));
+    }
+
+    private void Append_isWhoDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(isWhoDead_ParenLeft_Offset, isWhoDead_ParenLeft_Count));
+    }
+
+    private void Append_isGameOver_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(isGameOver_ParenLeft_Offset, isGameOver_ParenLeft_Count));
+    }
+
     private void Append_has_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(has_ParenLeft_Offset, has_ParenLeft_Count));
+    }
+
+    private void Append_inVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(inVar_ParenLeft_Offset, inVar_ParenLeft_Count));
     }
 
     private void Append_yet_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4835,6 +4883,12 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(count_ParenLeft_Offset, count_ParenLeft_Count));
     }
 
+    private void Append_amount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(amount_ParenLeft_Offset, amount_ParenLeft_Count));
+    }
+
     private void Append_equal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4845,12 +4899,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eqVar_ParenLeft_Offset, eqVar_ParenLeft_Count));
-    }
-
-    private void Append_inVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(inVar_ParenLeft_Offset, inVar_ParenLeft_Count));
     }
 
     private void Append_isMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4881,12 +4929,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ptest_ParenLeft_Offset, ptest_ParenLeft_Count));
-    }
-
-    private void Append_amount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(amount_ParenLeft_Offset, amount_ParenLeft_Count));
     }
 
     private void Append_conVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -5075,12 +5117,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(isRoamer_ParenLeft_Offset, isRoamer_ParenLeft_Count));
     }
 
-    private void Append_isSelect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(isSelect_ParenLeft_Offset, isSelect_ParenLeft_Count));
-    }
-
     private void Append_isTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -5159,12 +5195,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(istoWorld_ParenLeft_Offset, istoWorld_ParenLeft_Count));
     }
 
-    private void Append_isWhoDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(isWhoDead_ParenLeft_Offset, isWhoDead_ParenLeft_Count));
-    }
-
     private void Append_countForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -5199,12 +5229,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inRoamSpot_ParenLeft_Offset, inRoamSpot_ParenLeft_Count));
-    }
-
-    private void Append_isGameOver_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(isGameOver_ParenLeft_Offset, isGameOver_ParenLeft_Count));
     }
 
     private void Append_isInterval_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -5663,13 +5687,157 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.CallAction:
                     switch ((ActionKind)token.Other)
                     {
-                        case ActionKind.bg:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_bg_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.vc:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_vc_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.play:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_play_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.ppl1:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_ppl1_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.citom:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_citom_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.setbcg:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setbcg_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.levelup:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showCamp:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showCamp_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.pushDeath:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.clickWait:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stopTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.worldskin:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeDeath:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.darkness_off:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_darkness_off_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.doGameEnding:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_doGameEnding_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.setPowerHome:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.msg:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_msg_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.msg2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_msg2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.talk:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_talk_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.talk2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_talk2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.chat:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_chat_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.chat2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_chat2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.dialog:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_dialog_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.dialogF:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_dialogF_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.image:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_image_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.image2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_image2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showImage:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showImage_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideImage:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideImage_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.face:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_face_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.face2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_face2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showFace:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showFace_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideFace:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideFace_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.picture:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_picture_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.picture2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_picture2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showPict:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPict_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showPicture:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showPicture_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hidePicture:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hidePicture_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.bg:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_bg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.add:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5682,10 +5850,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.mod:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_mod_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.msg:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_msg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.mul:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5715,33 +5879,13 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_call_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.chat:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_chat_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.exit:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_exit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.face:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_face_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.font:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_font_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.msg2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_msg2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.play:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_play_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.ppl1:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_ppl1_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.save:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5751,17 +5895,9 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setv_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.stop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.subv:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_subv_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.talk:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_talk_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.wait:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5770,14 +5906,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.zoom:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_zoom_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.chat2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_chat2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.citom:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_citom_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clear:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5791,10 +5919,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_event_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.face2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_face2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.focus:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_focus_ParenLeft(ref destination, ref JustChangeLine);
@@ -5807,13 +5931,17 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_gread_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.image:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_image_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.index:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_index_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeIndex:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeIndex_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeIndexVar:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeIndexVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushv:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5831,10 +5959,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_shake_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.talk2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_talk2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.title:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_title_ParenLeft(ref destination, ref JustChangeLine);
@@ -5850,10 +5974,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.choice:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_choice_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.dialog:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_dialog_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.fadein:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5878,10 +5998,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.select:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_select_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.setbcg:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_setbcg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setVar:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -5923,10 +6039,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.dialogF:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_dialogF_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.doskill:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_doskill_ParenLeft(ref destination, ref JustChangeLine);
@@ -5935,10 +6047,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_fadeout_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.levelup:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.loopBGM:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_loopBGM_ParenLeft(ref destination, ref JustChangeLine);
@@ -5946,10 +6054,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.minimap:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_minimap_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.picture:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_picture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.playBGM:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6071,10 +6175,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_openGoal_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.picture2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_picture2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.pushCapa:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_pushCapa_ParenLeft(ref destination, ref JustChangeLine);
@@ -6107,6 +6207,10 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_roamUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.roamUnit2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_roamUnit2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.setDiplo:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setDiplo_ParenLeft(ref destination, ref JustChangeLine);
@@ -6127,18 +6231,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setTruce_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.showCamp:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showCamp_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.showFace:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showFace_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.showPict:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showPict_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.showSpot:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showSpot_ParenLeft(ref destination, ref JustChangeLine);
@@ -6146,6 +6238,18 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.spotmark:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_spotmark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideSpotMark:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.showSpotMark:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_showSpotMark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideEscape:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideEscape_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.showParty:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6174,10 +6278,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.changeMap:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_changeMap_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.clickWait:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.closeGoal:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6223,10 +6323,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_hideChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.hideImage:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideImage_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.moveTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_moveTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -6234,10 +6330,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.playWorld:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_playWorld_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.pushDeath:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushDiplo:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6283,10 +6375,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_resetZone_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.roamUnit2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_roamUnit2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.setArbeit:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setArbeit_ParenLeft(ref destination, ref JustChangeLine);
@@ -6311,21 +6399,9 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showChara_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.showImage:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showImage_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.stopTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.terminate:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_terminate_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.worldskin:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.backScroll:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6347,17 +6423,13 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_eraseSkill_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.eraseTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_eraseTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.eraseUnit2:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_eraseUnit2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.hideEscape:
+                        case ActionKind.eraseTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideEscape_ParenLeft(ref destination, ref JustChangeLine);
+                            Append_eraseTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.linkEscape:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6419,14 +6491,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_speedTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.storeDeath:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.storeIndex:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeIndex_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.unionPower:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_unionPower_ParenLeft(ref destination, ref JustChangeLine);
@@ -6454,10 +6518,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.eraseFriend:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_eraseFriend_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.hidePicture:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hidePicture_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.pushSpotPos:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6495,10 +6555,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showDungeon_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.showPicture:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showPicture_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.unctrlTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_unctrlTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -6518,18 +6574,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.changePlayer:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_changePlayer_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.darkness_off:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_darkness_off_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.doGameEnding:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_doGameEnding_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.hideSpotMark:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.moveTroopFix:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6551,17 +6595,9 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setGameClear_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.setPowerHome:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.showPolitics:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showPolitics_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.showSpotMark:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_showSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllSpot:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6610,10 +6646,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.storeComPower:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_storeComPower_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.storeIndexVar:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeIndexVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeNextSpot:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -7062,8 +7094,20 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
+                        case FunctionKind.isSelect:
+                            Append_isSelect_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
+                        case FunctionKind.isWhoDead:
+                            Append_isWhoDead_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
+                        case FunctionKind.isGameOver:
+                            Append_isGameOver_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
                         case FunctionKind.has:
                             Append_has_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
+                        case FunctionKind.inVar:
+                            Append_inVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.yet:
                             Append_yet_ParenLeft(ref destination, ref JustChangeLine);
@@ -7074,14 +7118,14 @@ public class BinaryFormatter : IFormatter<byte>
                         case FunctionKind.count:
                             Append_count_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
+                        case FunctionKind.amount:
+                            Append_amount_ParenLeft(ref destination, ref JustChangeLine);
+                            continue;
                         case FunctionKind.equal:
                             Append_equal_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.eqVar:
                             Append_eqVar_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
-                        case FunctionKind.inVar:
-                            Append_inVar_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isMap:
                             Append_isMap_ParenLeft(ref destination, ref JustChangeLine);
@@ -7097,9 +7141,6 @@ public class BinaryFormatter : IFormatter<byte>
                             continue;
                         case FunctionKind.ptest:
                             Append_ptest_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
-                        case FunctionKind.amount:
-                            Append_amount_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.conVar:
                             Append_conVar_ParenLeft(ref destination, ref JustChangeLine);
@@ -7194,9 +7235,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case FunctionKind.isRoamer:
                             Append_isRoamer_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
-                        case FunctionKind.isSelect:
-                            Append_isSelect_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
                         case FunctionKind.isTalent:
                             Append_isTalent_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
@@ -7236,9 +7274,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case FunctionKind.istoWorld:
                             Append_istoWorld_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
-                        case FunctionKind.isWhoDead:
-                            Append_isWhoDead_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
                         case FunctionKind.countForce:
                             Append_countForce_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
@@ -7256,9 +7291,6 @@ public class BinaryFormatter : IFormatter<byte>
                             continue;
                         case FunctionKind.inRoamSpot:
                             Append_inRoamSpot_ParenLeft(ref destination, ref JustChangeLine);
-                            continue;
-                        case FunctionKind.isGameOver:
-                            Append_isGameOver_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
                         case FunctionKind.isInterval:
                             Append_isInterval_ParenLeft(ref destination, ref JustChangeLine);
