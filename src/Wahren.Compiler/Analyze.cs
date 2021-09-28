@@ -197,6 +197,7 @@ public partial class Program
 
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, severity);
         result.Success = Parser.Parse(ref context, ref result);
+        NodeValidator.AddReferenceAndValidate(ref context, ref result);
         if (result.Success)
         {
             ref var errorList = ref result.ErrorList;

@@ -164,8 +164,8 @@ public static partial class Parser
                     goto default;
 <#  } #>
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
 <#  if(Helper.IsAllowedUndefinedContent(name)) { #>
+                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     goto DISCARD;

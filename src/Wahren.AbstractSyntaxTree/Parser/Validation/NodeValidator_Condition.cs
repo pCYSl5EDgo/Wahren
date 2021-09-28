@@ -1,8 +1,49 @@
 namespace Wahren.AbstractSyntaxTree.Parser;
+using Element.Statement;
 using Element.Statement.Expression;
 
 public static partial class NodeValidator
 {
+    private static void AddReferenceAndValidate(ref Context context, ref Result result, IStatement statement)
+    {
+        switch (statement)
+        {
+            case CallActionStatement call:
+                if (ArgumentCountValidation(ref context, ref result, call.Kind, call.Arguments.Count, call.TokenId))
+                {
+                    AddReferenceAndValidate(ref context, ref result, call);
+                }
+                break;
+            case WhileStatement @while:
+                AddReferenceAndValidate(ref context, ref result, @while.Condition);
+                foreach (ref var item in @while.Statements.AsSpan())
+                {
+                    AddReferenceAndValidate(ref context, ref result, item);
+                }
+                break;
+            case IfStatement @if:
+                AddReferenceAndValidate(ref context, ref result, @if.Condition);
+                foreach (ref var item in @if.Statements.AsSpan())
+                {
+                    AddReferenceAndValidate(ref context, ref result, item);
+                }
+                if (@if.HasElseStatement)
+                {
+                    foreach (ref var item in @if.ElseStatements.AsSpan())
+                    {
+                        AddReferenceAndValidate(ref context, ref result, item);
+                    }
+                }
+                break;
+            case BattleStatement battle:
+                foreach (ref var item in battle.Statements.AsSpan())
+                {
+                    AddReferenceAndValidate(ref context, ref result, item);
+                }
+                break;
+        }
+    }
+
     private static void AddReferenceAndValidate(ref Context context, ref Result result, IReturnBooleanExpression? expression)
     {
         switch (expression)
@@ -10,8 +51,11 @@ public static partial class NodeValidator
             case IdentifierExpression identifier:
                 identifier.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(identifier.TokenId), identifier.TokenId);
                 break;
-            case CallFunctionExpression callFunction:
-                AddReferenceAndValidate(ref context, ref result, callFunction);
+            case CallFunctionExpression call:
+                if (ArgumentCountValidation(ref context, ref result, call.Kind, call.Arguments.Count, call.TokenId))
+                {
+                    AddReferenceAndValidate(ref context, ref result, call);
+                }
                 break;
             case LogicOperatorExpression logic:
                 AddReferenceAndValidate(ref context, ref result, logic.Left);

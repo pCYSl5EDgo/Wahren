@@ -1211,6 +1211,7 @@ public partial struct ObjectNode : IInheritableNode
     public uint Name { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> skill = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> color = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> front = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> width = new();
@@ -1237,6 +1238,7 @@ public partial struct ObjectNode : IInheritableNode
 	public void Dispose()
 	{
 		skill.Dispose();
+		color.Dispose();
 		member.Dispose();
 		front.Dispose();
 		width.Dispose();

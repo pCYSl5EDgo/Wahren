@@ -49,6 +49,7 @@ public struct ActionInfo
     private const ReferenceKind SPowUni = SPow | ReferenceKind.Unit;
     private const ReferenceKind SSki = ReferenceKind.StringVariableReader | ReferenceKind.Skill;
     private const ReferenceKind SSpo = ReferenceKind.StringVariableReader | ReferenceKind.Spot;
+    private const ReferenceKind SSpoUni = ReferenceKind.StringVariableReader | ReferenceKind.Spot | ReferenceKind.Unit;
     private const ReferenceKind SFriendship = ReferenceKind.StringVariableReader | ReferenceKind.Race | ReferenceKind.Class | ReferenceKind.Unit;
 
     public static readonly ActionInfo[] Normals = new ActionInfo[]
@@ -101,7 +102,7 @@ public struct ActionInfo
         new("win", 0, 0),
         new("addv", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("call", 1, 1, ReferenceKind.Event),
-        new("exit", 0, 1),
+        new("exit", 0, 1, ReferenceKind.Number | ReferenceKind.Boolean),
         new("font", 0, 3, ReferenceKind.font, ReferenceKind.Number, ReferenceKind.Number),
         new("save", 0, 0),
         new("setv", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
@@ -120,12 +121,12 @@ public struct ActionInfo
         new("pushv", 2, 3),
         new("setPM", 2, 2, SUni, SFriendship),
         new("setud", 2, 2, ReferenceKind.GlobalStringVariableReader, ReferenceKind.StringVariableWriter),
-        new("shake", 0, 1),
+        new("shake", 0, 1, NumReader),
         new("title", 2, 2, ReferenceKind.Text, NumReader),
         new("addstr", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text),
         new("addVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("choice", 2, int.MaxValue, ReferenceKind.StringVariableWriter, ReferenceKind.Text),
-        new("fadein", 0, 1),
+        new("fadein", 0, 1, NumReader),
         new("gwrite", 2, 3, ReferenceKind.GlobalVariableWriter | ReferenceKind.StringVariableWriter, ReferenceKind.NumberVariableReader, ReferenceKind.StringVariableReader),
         new("locate", 1, 2),
         new("playSE", 1, 1, ReferenceKind.se),

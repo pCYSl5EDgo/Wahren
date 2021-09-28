@@ -744,6 +744,77 @@ public static partial class NodeValidator
         return success;
     }
 
+    private static bool SpecialTreatment_power_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    {
+        static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+            if (span.SequenceEqual("off"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("home"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("hold"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("warlike"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("freeze"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 5;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorList.Add(new("'fix' of struct power must be 'off', 'on', 'home', 'hold', 'warlike', 'freeze'.", result.TokenList[value.Text].Range));
+                return false;
+            }
+
+            return true;
+        }
+
+        bool success = true;
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            success &= Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.ScenarioVariant is not null)
+        {
+            foreach (var item in pair.ScenarioVariant)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    success &= Validate(ref result, ref item.Value);
+                }
+            }
+        }
+
+        return success;
+    }
+
     private static bool SpecialTreatment_unit_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
@@ -797,6 +868,138 @@ public static partial class NodeValidator
         return success;
     }
 
+    private static bool SpecialTreatment_scenario_power_order(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    {
+        static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+            if (span.SequenceEqual("normal"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("test"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("dash"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorList.Add(new("'power_order' of struct scenario must be 'normal', 'test' or 'dash'.", result.TokenList[value.Text].Range));
+                return false;
+            }
+
+            return true;
+        }
+
+        bool success = true;
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            success &= Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.ScenarioVariant is not null)
+        {
+            foreach (var item in pair.ScenarioVariant)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    success &= Validate(ref result, ref item.Value);
+                }
+            }
+        }
+
+        return success;
+    }
+
+    private static bool SpecialTreatment_unit_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_active(ref result, ref pair, "unit");
+    private static bool SpecialTreatment_class_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_active(ref result, ref pair, "class");
+    private static bool SpecialTreatment_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
+    {
+        static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
+        {
+            var span = result.GetSpan(value.Text);
+            if (span.SequenceEqual("never"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("rect"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("range"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("time"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("troop"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("never2"))
+            {
+                value.ReferenceId = 6;
+            }
+            else if (span.SequenceEqual("rect2"))
+            {
+                value.ReferenceId = 7;
+            }
+            else if (span.SequenceEqual("range2"))
+            {
+                value.ReferenceId = 8;
+            }
+            else if (span.SequenceEqual("time2"))
+            {
+                value.ReferenceId = 9;
+            }
+            else if (span.SequenceEqual("troop2"))
+            {
+                value.ReferenceId = 10;
+            }
+            else
+            {
+                value.ReferenceId = 0;
+                result.ErrorList.Add(new($"'active' of struct {kind} must be 'never', 'rect', 'range', 'time', 'troop', 'never2', 'rect2', 'range2', 'time2', or 'troop2'.", result.TokenList[value.Text].Range));
+            }
+
+            value.HasReference = true;
+            value.ReferenceKind = ReferenceKind.Special;
+            return true;
+        }
+
+        bool success = true;
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            success &= Validate(ref result, ref pair.Value.Value, kind);
+        }
+
+        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        {
+            return success;
+        }
+
+        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        {
+            if (item is { HasValue: true, Value.HasText: true })
+            {
+                success &= Validate(ref result, ref item.Value, kind);
+            }
+        }
+
+        return success;
+    }
 
     private static bool SpecialTreatment_unit_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "unit");
     private static bool SpecialTreatment_class_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "class");
@@ -1132,7 +1335,7 @@ public static partial class NodeValidator
 
         return success;
     }
-
+    
     private static bool SpecialTreatment_spot_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
@@ -1173,45 +1376,109 @@ public static partial class NodeValidator
 
     private static bool AddReferenceAndValidate_Action_msg(ref Context context, ref Result result, CallActionStatement statement)
     {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_msg2(ref Context context, ref Result result, CallActionStatement statement)
     {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+            
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_talk(ref Context context, ref Result result, CallActionStatement statement)
     {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+            
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_talk2(ref Context context, ref Result result, CallActionStatement statement)
     {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+            
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_chat(ref Context context, ref Result result, CallActionStatement statement)
     {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+            
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_chat2(ref Context context, ref Result result, CallActionStatement statement)
     {
-        return true;
-    }
+        if (context.IsEnglishMode)
+        {
 
-    private static bool AddReferenceAndValidate_Action_changeMaster(ref Context context, ref Result result, CallActionStatement statement)
-    {
+        }
+        else
+        {
+            
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_dialog(ref Context context, ref Result result, CallActionStatement statement)
     {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+            
+        }
         return true;
     }
 
     private static bool AddReferenceAndValidate_Action_dialogF(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        if (context.IsEnglishMode)
+        {
+
+        }
+        else
+        {
+            
+        }
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_changeMaster(ref Context context, ref Result result, CallActionStatement statement)
     {
         return true;
     }
@@ -1247,16 +1514,6 @@ public static partial class NodeValidator
     }
 
     private static bool AddReferenceAndValidate_Action_exit(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_shake(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_fadein(ref Context context, ref Result result, CallActionStatement statement)
     {
         return true;
     }

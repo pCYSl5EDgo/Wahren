@@ -5442,7 +5442,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.exit:
-                AddReferenceAndValidate_Action_exit(ref context, ref result, statement);
+                
                 break;
             case ActionKind.wait:
                 if (!argument.IsNumber)
@@ -5477,10 +5477,22 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.shake:
-                AddReferenceAndValidate_Action_shake(ref context, ref result, statement);
+                if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.fadein:
-                AddReferenceAndValidate_Action_fadein(ref context, ref result, statement);
+                if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.fadeout:
                 if (!argument.IsNumber)

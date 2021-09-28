@@ -7,510 +7,589 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
-	public static bool AddReferenceAndValidate(this ref Result result, ref VoiceNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result)
 	{
-		bool success = true;
+		foreach (ref var node in result.VoiceNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.SpotNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.UnitNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.RaceNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.ClassNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.FieldNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.SkillNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.PowerNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.ObjectNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.DungeonNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.MovetypeNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.SkillsetNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.EventNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.ScenarioNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+		foreach (ref var node in result.StoryNodeList.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, ref node);
+		}
+	}
+
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref VoiceNode node)
+	{
 		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
 		AddReference(ref result, ref node.delskill, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref SpotNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SpotNode node)
 	{
-		bool success = true;
-		success &= ValidateNumber(ref result, ref node.value, " 'value' of spot requires Number.");
-		success &= SpecialTreatment_spot_politics(ref result, ref node.politics, severity);
+		ValidateNumber(ref result, ref node.value, " 'value' of spot requires Number.");
+		SpecialTreatment_spot_politics(ref result, ref node.politics, context.RequiredSeverity);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
-		success &= ValidateNumber(ref result, ref node.x, " 'x' of spot requires Number.");
-		success &= ValidateNumber(ref result, ref node.y, " 'y' of spot requires Number.");
-		success &= ValidateNumber(ref result, ref node.w, " 'w' of spot requires Number.");
-		success &= ValidateNumber(ref result, ref node.h, " 'h' of spot requires Number.");
+		ValidateNumber(ref result, ref node.x, " 'x' of spot requires Number.");
+		ValidateNumber(ref result, ref node.y, " 'y' of spot requires Number.");
+		ValidateNumber(ref result, ref node.w, " 'w' of spot requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of spot requires Number.");
 		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
-		success &= ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of spot requires Boolean.");
+		ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of spot requires Boolean.");
 		AddReference(ref result, ref node.yorozu, ref result.ClassSet, ReferenceKind.Class);
-		success &= ValidateNumber(ref result, ref node.limit, " 'limit' of spot requires Number.");
+		ValidateNumber(ref result, ref node.limit, " 'limit' of spot requires Number.");
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		success &= ValidateNumber(ref result, ref node.volume, " 'volume' of spot requires Number.");
-		success &= ValidateNumber(ref result, ref node.gain, " 'gain' of spot requires Number.");
-		success &= ValidateNumber(ref result, ref node.castle, " 'castle' of spot requires Number.");
-		success &= ValidateNumber(ref result, ref node.capacity, " 'capacity' of spot requires Number.");
+		ValidateNumber(ref result, ref node.volume, " 'volume' of spot requires Number.");
+		ValidateNumber(ref result, ref node.gain, " 'gain' of spot requires Number.");
+		ValidateNumber(ref result, ref node.castle, " 'castle' of spot requires Number.");
+		ValidateNumber(ref result, ref node.capacity, " 'capacity' of spot requires Number.");
 		AddReference(ref result, ref node.dungeon, ref result.DungeonSet, ReferenceKind.Dungeon);
-		success &= ValidateBoolean(ref result, ref node.no_home, " 'no_home' of spot requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.no_raise, " 'no_raise' of spot requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.castle_lot, " 'castle_lot' of spot requires Number.");
-		return success;
+		ValidateBoolean(ref result, ref node.no_home, " 'no_home' of spot requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_raise, " 'no_raise' of spot requires Boolean.");
+		ValidateNumber(ref result, ref node.castle_lot, " 'castle_lot' of spot requires Number.");
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref UnitNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref UnitNode node)
 	{
-		bool success = true;
-		success &= ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.stealth, " 'stealth' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.free_move, " 'free_move' of unit requires Number.");
-		success &= SpecialTreatment_unit_sex(ref result, ref node.sex, severity);
-		success &= ValidateNumber(ref result, ref node.a, " 'a' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.h, " 'h' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.w, " 'w' of unit requires Number.");
-		success &= ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of unit requires Boolean.");
-		success &= SpecialTreatment_unit_yorozu(ref result, ref node.yorozu, severity);
-		success &= ValidateNumber(ref result, ref node.radius, " 'radius' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.radius_press, " 'radius_press' of unit requires Number.");
-		success &= ValidateBoolean(ref result, ref node.no_escape, " 'no_escape' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.no_regular, " 'no_regular' of unit requires Boolean.");
-		success &= ValidateBooleanNumber(ref result, ref node.no_knock, " 'no_knock' of unit requires Boolean 'on' or Number.");
-		success &= ValidateBoolean(ref result, ref node.no_cover, " 'no_cover' of unit requires Boolean.");
+		ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of unit requires Number.");
+		ValidateNumber(ref result, ref node.stealth, " 'stealth' of unit requires Number.");
+		ValidateNumber(ref result, ref node.free_move, " 'free_move' of unit requires Number.");
+		SpecialTreatment_unit_sex(ref result, ref node.sex, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.a, " 'a' of unit requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of unit requires Number.");
+		ValidateNumber(ref result, ref node.w, " 'w' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of unit requires Boolean.");
+		SpecialTreatment_unit_yorozu(ref result, ref node.yorozu, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.radius, " 'radius' of unit requires Number.");
+		ValidateNumber(ref result, ref node.radius_press, " 'radius_press' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.no_escape, " 'no_escape' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_regular, " 'no_regular' of unit requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.no_knock, " 'no_knock' of unit requires Boolean 'on' or Number.");
+		ValidateBoolean(ref result, ref node.no_cover, " 'no_cover' of unit requires Boolean.");
 		AddReference(ref result, ref node.dead_event, ref result.EventSet, ReferenceKind.Event);
-		success &= ValidateBoolean(ref result, ref node.beast_unit, " 'beast_unit' of unit requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.summon_max, " 'summon_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.summon_level, " 'summon_level' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.escape_range, " 'escape_range' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.escape_run, " 'escape_run' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.hand_range, " 'hand_range' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.wake_range, " 'wake_range' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.view_range, " 'view_range' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.cavalry_range, " 'cavalry_range' of unit requires Number.");
-		success &= ValidateBoolean(ref result, ref node.view_unit, " 'view_unit' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.force_view_unit, " 'force_view_unit' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.force_blind_unit, " 'force_blind_unit' of unit requires Boolean.");
-		success &= ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of unit requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of unit requires Number.");
-		success &= ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of unit requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.hp, " 'hp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mp, " 'mp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.attack, " 'attack' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.defense, " 'defense' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magic, " 'magic' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdef, " 'magdef' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.speed, " 'speed' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.dext, " 'dext' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.move, " 'move' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprec, " 'hprec' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprec, " 'mprec' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.heal_max, " 'heal_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.attack_max, " 'attack_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.defense_max, " 'defense_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magic_max, " 'magic_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdef_max, " 'magdef_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.speed_max, " 'speed_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.dext_max, " 'dext_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.move_max, " 'move_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprec_max, " 'hprec_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprec_max, " 'mprec_max' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.beast_unit, " 'beast_unit' of unit requires Boolean.");
+		ValidateNumber(ref result, ref node.summon_max, " 'summon_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.summon_level, " 'summon_level' of unit requires Number.");
+		ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of unit requires Number.");
+		ValidateNumber(ref result, ref node.escape_range, " 'escape_range' of unit requires Number.");
+		ValidateNumber(ref result, ref node.escape_run, " 'escape_run' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hand_range, " 'hand_range' of unit requires Number.");
+		ValidateNumber(ref result, ref node.wake_range, " 'wake_range' of unit requires Number.");
+		ValidateNumber(ref result, ref node.view_range, " 'view_range' of unit requires Number.");
+		ValidateNumber(ref result, ref node.cavalry_range, " 'cavalry_range' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.view_unit, " 'view_unit' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_view_unit, " 'force_view_unit' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_blind_unit, " 'force_blind_unit' of unit requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of unit requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of unit requires Number.");
+		ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of unit requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.hp, " 'hp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mp, " 'mp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.attack, " 'attack' of unit requires Number.");
+		ValidateNumber(ref result, ref node.defense, " 'defense' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magic, " 'magic' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magdef, " 'magdef' of unit requires Number.");
+		ValidateNumber(ref result, ref node.speed, " 'speed' of unit requires Number.");
+		ValidateNumber(ref result, ref node.dext, " 'dext' of unit requires Number.");
+		ValidateNumber(ref result, ref node.move, " 'move' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hprec, " 'hprec' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mprec, " 'mprec' of unit requires Number.");
+		ValidateNumber(ref result, ref node.heal_max, " 'heal_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.attack_max, " 'attack_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.defense_max, " 'defense_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magic_max, " 'magic_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magdef_max, " 'magdef_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.speed_max, " 'speed_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.dext_max, " 'dext_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.move_max, " 'move_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hprec_max, " 'hprec_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mprec_max, " 'mprec_max' of unit requires Number.");
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
-		success &= ValidateNumber(ref result, ref node.hpUp, " 'hpUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mpUp, " 'mpUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.attackUp, " 'attackUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.defenseUp, " 'defenseUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magicUp, " 'magicUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdefUp, " 'magdefUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.speedUp, " 'speedUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.dextUp, " 'dextUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.moveUp, " 'moveUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprecUp, " 'hprecUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprecUp, " 'mprecUp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.hpMax, " 'hpMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mpMax, " 'mpMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.attackMax, " 'attackMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.defenseMax, " 'defenseMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magicMax, " 'magicMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdefMax, " 'magdefMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.speedMax, " 'speedMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.dextMax, " 'dextMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.moveMax, " 'moveMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprecMax, " 'hprecMax' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprecMax, " 'mprecMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hpUp, " 'hpUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mpUp, " 'mpUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.attackUp, " 'attackUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.defenseUp, " 'defenseUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magicUp, " 'magicUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magdefUp, " 'magdefUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.speedUp, " 'speedUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.dextUp, " 'dextUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.moveUp, " 'moveUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hprecUp, " 'hprecUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mprecUp, " 'mprecUp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hpMax, " 'hpMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mpMax, " 'mpMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.attackMax, " 'attackMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.defenseMax, " 'defenseMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magicMax, " 'magicMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.magdefMax, " 'magdefMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.speedMax, " 'speedMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.dextMax, " 'dextMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.moveMax, " 'moveMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hprecMax, " 'hprecMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.mprecMax, " 'mprecMax' of unit requires Number.");
 		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
-		success &= ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of unit requires Number.");
+		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of unit requires Number.");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		success &= SpecialTreatment_unit_picture_detail(ref result, ref node.picture_detail, severity);
-		success &= ValidateNumber(ref result, ref node.picture_menu, " 'picture_menu' of unit requires Number.");
-		success &= SpecialTreatment_unit_picture_floor(ref result, ref node.picture_floor, severity);
-		success &= ValidateNumber(ref result, ref node.picture_shift, " 'picture_shift' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.picture_shift_up, " 'picture_shift_up' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.picture_center, " 'picture_center' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.price, " 'price' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.cost, " 'cost' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.finance, " 'finance' of unit requires Number.");
-		success &= ValidateBoolean(ref result, ref node.tkool, " 'tkool' of unit requires Boolean.");
-		success &= ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of unit requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.medical, " 'medical' of unit requires Number.");
-		success &= ValidateBoolean(ref result, ref node.handle, " 'handle' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.red, " 'red' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.no_training, " 'no_training' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of unit requires Boolean.");
+		SpecialTreatment_unit_picture_detail(ref result, ref node.picture_detail, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.picture_menu, " 'picture_menu' of unit requires Number.");
+		SpecialTreatment_unit_picture_floor(ref result, ref node.picture_floor, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.picture_shift, " 'picture_shift' of unit requires Number.");
+		ValidateNumber(ref result, ref node.picture_shift_up, " 'picture_shift_up' of unit requires Number.");
+		ValidateNumber(ref result, ref node.picture_center, " 'picture_center' of unit requires Number.");
+		ValidateNumber(ref result, ref node.price, " 'price' of unit requires Number.");
+		ValidateNumber(ref result, ref node.cost, " 'cost' of unit requires Number.");
+		ValidateNumber(ref result, ref node.finance, " 'finance' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.tkool, " 'tkool' of unit requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of unit requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of unit requires Number.");
+		ValidateNumber(ref result, ref node.medical, " 'medical' of unit requires Number.");
+		SpecialTreatment_unit_active(ref result, ref node.active, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.handle, " 'handle' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.red, " 'red' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_training, " 'no_training' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of unit requires Boolean.");
 		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
-		success &= ValidateBoolean(ref result, ref node.same_friend, " 'same_friend' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.same_call, " 'same_call' of unit requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.level_max, " 'level_max' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp, " 'exp' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp_mul, " 'exp_mul' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp_max, " 'exp_max' of unit requires Number.");
-		success &= SpecialTreatment_unit_line(ref result, ref node.line, severity);
+		ValidateBoolean(ref result, ref node.same_friend, " 'same_friend' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.same_call, " 'same_call' of unit requires Boolean.");
+		ValidateNumber(ref result, ref node.level_max, " 'level_max' of unit requires Number.");
+		ValidateNumber(ref result, ref node.exp, " 'exp' of unit requires Number.");
+		ValidateNumber(ref result, ref node.exp_mul, " 'exp_mul' of unit requires Number.");
+		ValidateNumber(ref result, ref node.exp_max, " 'exp_max' of unit requires Number.");
+		SpecialTreatment_unit_line(ref result, ref node.line, context.RequiredSeverity);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
-		success &= SpecialTreatment_unit_politics(ref result, ref node.politics, severity);
-		success &= ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of unit requires Boolean.");
+		SpecialTreatment_unit_politics(ref result, ref node.politics, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of unit requires Boolean.");
 		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		success &= ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of unit requires Number.");
-		success &= SpecialTreatment_unit_add_vassal(ref result, ref node.add_vassal, severity);
-		success &= ValidateNumber(ref result, ref node.value, " 'value' of unit requires Number.");
+		ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of unit requires Number.");
+		SpecialTreatment_unit_add_vassal(ref result, ref node.add_vassal, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.value, " 'value' of unit requires Number.");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
-		success &= ValidateBoolean(ref result, ref node.talent, " 'talent' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.talent, " 'talent' of unit requires Boolean.");
 		AddReference(ref result, ref node.@class, ref result.ClassSet, ReferenceKind.Class);
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		success &= ValidateNumber(ref result, ref node.volume, " 'volume' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.alive_per, " 'alive_per' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.level, " 'level' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.yabo, " 'yabo' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.kosen, " 'kosen' of unit requires Number.");
-		success &= ValidateNumber(ref result, ref node.align, " 'align' of unit requires Number.");
+		ValidateNumber(ref result, ref node.volume, " 'volume' of unit requires Number.");
+		ValidateNumber(ref result, ref node.alive_per, " 'alive_per' of unit requires Number.");
+		ValidateNumber(ref result, ref node.level, " 'level' of unit requires Number.");
+		ValidateNumber(ref result, ref node.yabo, " 'yabo' of unit requires Number.");
+		ValidateNumber(ref result, ref node.kosen, " 'kosen' of unit requires Number.");
+		ValidateNumber(ref result, ref node.align, " 'align' of unit requires Number.");
 		AddReference(ref result, ref node.loyal, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.enemy, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
-		success &= ValidateBoolean(ref result, ref node.diplomacy, " 'diplomacy' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.actor, " 'actor' of unit requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.enable, " 'enable' of unit requires Number.");
-		success &= ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of unit requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.enable_max, " 'enable_max' of unit requires Number.");
-		success &= SpecialTreatment_unit_fix(ref result, ref node.fix, severity);
+		ValidateBoolean(ref result, ref node.diplomacy, " 'diplomacy' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.actor, " 'actor' of unit requires Boolean.");
+		ValidateNumber(ref result, ref node.enable, " 'enable' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of unit requires Boolean.");
+		ValidateNumber(ref result, ref node.enable_max, " 'enable_max' of unit requires Number.");
+		SpecialTreatment_unit_fix(ref result, ref node.fix, context.RequiredSeverity);
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
-		success &= ValidateBoolean(ref result, ref node.noremove_unit, " 'noremove_unit' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.noemploy_unit, " 'noemploy_unit' of unit requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.noitem_unit, " 'noitem_unit' of unit requires Boolean.");
-		success &= SpecialTreatment_unit_arbeit(ref result, ref node.arbeit, severity);
-		success &= ValidateNumber(ref result, ref node.arbeit_capacity, " 'arbeit_capacity' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.noremove_unit, " 'noremove_unit' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.noemploy_unit, " 'noemploy_unit' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.noitem_unit, " 'noitem_unit' of unit requires Boolean.");
+		SpecialTreatment_unit_arbeit(ref result, ref node.arbeit, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.arbeit_capacity, " 'arbeit_capacity' of unit requires Number.");
 		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref RaceNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref RaceNode node)
 	{
-		bool success = true;
-		success &= ValidateNumber(ref result, ref node.align, " 'align' of race requires Number.");
-		success &= ValidateNumber(ref result, ref node.brave, " 'brave' of race requires Number.");
+		ValidateNumber(ref result, ref node.align, " 'align' of race requires Number.");
+		ValidateNumber(ref result, ref node.brave, " 'brave' of race requires Number.");
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref ClassNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ClassNode node)
 	{
-		bool success = true;
-		success &= ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.stealth, " 'stealth' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.free_move, " 'free_move' of class requires Number.");
-		success &= SpecialTreatment_class_sex(ref result, ref node.sex, severity);
-		success &= ValidateNumber(ref result, ref node.a, " 'a' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.h, " 'h' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.w, " 'w' of class requires Number.");
-		success &= ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of class requires Boolean.");
-		success &= SpecialTreatment_class_yorozu(ref result, ref node.yorozu, severity);
-		success &= ValidateNumber(ref result, ref node.radius, " 'radius' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.radius_press, " 'radius_press' of class requires Number.");
-		success &= ValidateBoolean(ref result, ref node.no_escape, " 'no_escape' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.no_regular, " 'no_regular' of class requires Boolean.");
-		success &= ValidateBooleanNumber(ref result, ref node.no_knock, " 'no_knock' of class requires Boolean 'on' or Number.");
-		success &= ValidateBoolean(ref result, ref node.no_cover, " 'no_cover' of class requires Boolean.");
+		ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of class requires Number.");
+		ValidateNumber(ref result, ref node.stealth, " 'stealth' of class requires Number.");
+		ValidateNumber(ref result, ref node.free_move, " 'free_move' of class requires Number.");
+		SpecialTreatment_class_sex(ref result, ref node.sex, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.a, " 'a' of class requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of class requires Number.");
+		ValidateNumber(ref result, ref node.w, " 'w' of class requires Number.");
+		ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of class requires Boolean.");
+		SpecialTreatment_class_yorozu(ref result, ref node.yorozu, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.radius, " 'radius' of class requires Number.");
+		ValidateNumber(ref result, ref node.radius_press, " 'radius_press' of class requires Number.");
+		ValidateBoolean(ref result, ref node.no_escape, " 'no_escape' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_regular, " 'no_regular' of class requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.no_knock, " 'no_knock' of class requires Boolean 'on' or Number.");
+		ValidateBoolean(ref result, ref node.no_cover, " 'no_cover' of class requires Boolean.");
 		AddReference(ref result, ref node.dead_event, ref result.EventSet, ReferenceKind.Event);
-		success &= ValidateBoolean(ref result, ref node.beast_unit, " 'beast_unit' of class requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.summon_max, " 'summon_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.summon_level, " 'summon_level' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.escape_range, " 'escape_range' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.escape_run, " 'escape_run' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.hand_range, " 'hand_range' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.wake_range, " 'wake_range' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.view_range, " 'view_range' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.cavalry_range, " 'cavalry_range' of class requires Number.");
-		success &= ValidateBoolean(ref result, ref node.view_unit, " 'view_unit' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.force_view_unit, " 'force_view_unit' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.force_blind_unit, " 'force_blind_unit' of class requires Boolean.");
-		success &= ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of class requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of class requires Number.");
-		success &= ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of class requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.hp, " 'hp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mp, " 'mp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.attack, " 'attack' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.defense, " 'defense' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magic, " 'magic' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdef, " 'magdef' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.speed, " 'speed' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.dext, " 'dext' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.move, " 'move' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprec, " 'hprec' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprec, " 'mprec' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.heal_max, " 'heal_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.attack_max, " 'attack_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.defense_max, " 'defense_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magic_max, " 'magic_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdef_max, " 'magdef_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.speed_max, " 'speed_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.dext_max, " 'dext_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.move_max, " 'move_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprec_max, " 'hprec_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprec_max, " 'mprec_max' of class requires Number.");
+		ValidateBoolean(ref result, ref node.beast_unit, " 'beast_unit' of class requires Boolean.");
+		ValidateNumber(ref result, ref node.summon_max, " 'summon_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.summon_level, " 'summon_level' of class requires Number.");
+		ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of class requires Number.");
+		ValidateNumber(ref result, ref node.escape_range, " 'escape_range' of class requires Number.");
+		ValidateNumber(ref result, ref node.escape_run, " 'escape_run' of class requires Number.");
+		ValidateNumber(ref result, ref node.hand_range, " 'hand_range' of class requires Number.");
+		ValidateNumber(ref result, ref node.wake_range, " 'wake_range' of class requires Number.");
+		ValidateNumber(ref result, ref node.view_range, " 'view_range' of class requires Number.");
+		ValidateNumber(ref result, ref node.cavalry_range, " 'cavalry_range' of class requires Number.");
+		ValidateBoolean(ref result, ref node.view_unit, " 'view_unit' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_view_unit, " 'force_view_unit' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_blind_unit, " 'force_blind_unit' of class requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of class requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of class requires Number.");
+		ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of class requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.hp, " 'hp' of class requires Number.");
+		ValidateNumber(ref result, ref node.mp, " 'mp' of class requires Number.");
+		ValidateNumber(ref result, ref node.attack, " 'attack' of class requires Number.");
+		ValidateNumber(ref result, ref node.defense, " 'defense' of class requires Number.");
+		ValidateNumber(ref result, ref node.magic, " 'magic' of class requires Number.");
+		ValidateNumber(ref result, ref node.magdef, " 'magdef' of class requires Number.");
+		ValidateNumber(ref result, ref node.speed, " 'speed' of class requires Number.");
+		ValidateNumber(ref result, ref node.dext, " 'dext' of class requires Number.");
+		ValidateNumber(ref result, ref node.move, " 'move' of class requires Number.");
+		ValidateNumber(ref result, ref node.hprec, " 'hprec' of class requires Number.");
+		ValidateNumber(ref result, ref node.mprec, " 'mprec' of class requires Number.");
+		ValidateNumber(ref result, ref node.heal_max, " 'heal_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.attack_max, " 'attack_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.defense_max, " 'defense_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.magic_max, " 'magic_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.magdef_max, " 'magdef_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.speed_max, " 'speed_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.dext_max, " 'dext_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.move_max, " 'move_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.hprec_max, " 'hprec_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.mprec_max, " 'mprec_max' of class requires Number.");
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
-		success &= ValidateNumber(ref result, ref node.hpUp, " 'hpUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mpUp, " 'mpUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.attackUp, " 'attackUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.defenseUp, " 'defenseUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magicUp, " 'magicUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdefUp, " 'magdefUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.speedUp, " 'speedUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.dextUp, " 'dextUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.moveUp, " 'moveUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprecUp, " 'hprecUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprecUp, " 'mprecUp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.hpMax, " 'hpMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mpMax, " 'mpMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.attackMax, " 'attackMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.defenseMax, " 'defenseMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magicMax, " 'magicMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.magdefMax, " 'magdefMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.speedMax, " 'speedMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.dextMax, " 'dextMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.moveMax, " 'moveMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.hprecMax, " 'hprecMax' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.mprecMax, " 'mprecMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.hpUp, " 'hpUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.mpUp, " 'mpUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.attackUp, " 'attackUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.defenseUp, " 'defenseUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.magicUp, " 'magicUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.magdefUp, " 'magdefUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.speedUp, " 'speedUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.dextUp, " 'dextUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.moveUp, " 'moveUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.hprecUp, " 'hprecUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.mprecUp, " 'mprecUp' of class requires Number.");
+		ValidateNumber(ref result, ref node.hpMax, " 'hpMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.mpMax, " 'mpMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.attackMax, " 'attackMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.defenseMax, " 'defenseMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.magicMax, " 'magicMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.magdefMax, " 'magdefMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.speedMax, " 'speedMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.dextMax, " 'dextMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.moveMax, " 'moveMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.hprecMax, " 'hprecMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.mprecMax, " 'mprecMax' of class requires Number.");
 		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
-		success &= ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of class requires Number.");
+		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of class requires Number.");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		success &= SpecialTreatment_class_picture_detail(ref result, ref node.picture_detail, severity);
-		success &= ValidateNumber(ref result, ref node.picture_menu, " 'picture_menu' of class requires Number.");
-		success &= SpecialTreatment_class_picture_floor(ref result, ref node.picture_floor, severity);
-		success &= ValidateNumber(ref result, ref node.picture_shift, " 'picture_shift' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.picture_shift_up, " 'picture_shift_up' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.picture_center, " 'picture_center' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.price, " 'price' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.cost, " 'cost' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.finance, " 'finance' of class requires Number.");
-		success &= ValidateBoolean(ref result, ref node.tkool, " 'tkool' of class requires Boolean.");
-		success &= ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of class requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.medical, " 'medical' of class requires Number.");
-		success &= ValidateBoolean(ref result, ref node.handle, " 'handle' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.red, " 'red' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.no_training, " 'no_training' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of class requires Boolean.");
+		SpecialTreatment_class_picture_detail(ref result, ref node.picture_detail, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.picture_menu, " 'picture_menu' of class requires Number.");
+		SpecialTreatment_class_picture_floor(ref result, ref node.picture_floor, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.picture_shift, " 'picture_shift' of class requires Number.");
+		ValidateNumber(ref result, ref node.picture_shift_up, " 'picture_shift_up' of class requires Number.");
+		ValidateNumber(ref result, ref node.picture_center, " 'picture_center' of class requires Number.");
+		ValidateNumber(ref result, ref node.price, " 'price' of class requires Number.");
+		ValidateNumber(ref result, ref node.cost, " 'cost' of class requires Number.");
+		ValidateNumber(ref result, ref node.finance, " 'finance' of class requires Number.");
+		ValidateBoolean(ref result, ref node.tkool, " 'tkool' of class requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of class requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of class requires Number.");
+		ValidateNumber(ref result, ref node.medical, " 'medical' of class requires Number.");
+		SpecialTreatment_class_active(ref result, ref node.active, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.handle, " 'handle' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.red, " 'red' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_training, " 'no_training' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of class requires Boolean.");
 		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
-		success &= ValidateBoolean(ref result, ref node.same_friend, " 'same_friend' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.same_call, " 'same_call' of class requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.level_max, " 'level_max' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp, " 'exp' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp_mul, " 'exp_mul' of class requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp_max, " 'exp_max' of class requires Number.");
-		success &= SpecialTreatment_class_line(ref result, ref node.line, severity);
+		ValidateBoolean(ref result, ref node.same_friend, " 'same_friend' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.same_call, " 'same_call' of class requires Boolean.");
+		ValidateNumber(ref result, ref node.level_max, " 'level_max' of class requires Number.");
+		ValidateNumber(ref result, ref node.exp, " 'exp' of class requires Number.");
+		ValidateNumber(ref result, ref node.exp_mul, " 'exp_mul' of class requires Number.");
+		ValidateNumber(ref result, ref node.exp_max, " 'exp_max' of class requires Number.");
+		SpecialTreatment_class_line(ref result, ref node.line, context.RequiredSeverity);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
-		success &= SpecialTreatment_class_politics(ref result, ref node.politics, severity);
-		success &= ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of class requires Boolean.");
+		SpecialTreatment_class_politics(ref result, ref node.politics, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of class requires Boolean.");
 		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		success &= ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of class requires Number.");
-		success &= SpecialTreatment_class_add_vassal(ref result, ref node.add_vassal, severity);
-		success &= ValidateNumber(ref result, ref node.value, " 'value' of class requires Number.");
+		ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of class requires Number.");
+		SpecialTreatment_class_add_vassal(ref result, ref node.add_vassal, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.value, " 'value' of class requires Number.");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.image2, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image2, ref result.imagedataSet, ReferenceKind.imagedata);
-		success &= ValidateBoolean(ref result, ref node.unique, " 'unique' of class requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.same_sex, " 'same_sex' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.unique, " 'unique' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.same_sex, " 'same_sex' of class requires Boolean.");
 		AddReference(ref result, ref node.change, ref result.ClassSet, ReferenceKind.Class);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref FieldNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref FieldNode node)
 	{
-		bool success = true;
 		AddReference(ref result, ref node.attr, ref result.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeTypeWriter);
-		success &= ValidateNumber(ref result, ref node.color, " 'color' of field requires Number.");
+		ValidateNumber(ref result, ref node.color, " 'color' of field requires Number.");
 		AddReference(ref result, ref node.id, ref result.FieldIdWriterSet, ReferenceKind.FieldIdWriter);
-		success &= ValidateBoolean(ref result, ref node.edge, " 'edge' of field requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.alt, " 'alt' of field requires Number.");
-		success &= ValidateNumber(ref result, ref node.alt_max, " 'alt_max' of field requires Number.");
-		return success;
+		ValidateBoolean(ref result, ref node.edge, " 'edge' of field requires Boolean.");
+		ValidateNumber(ref result, ref node.alt, " 'alt' of field requires Number.");
+		ValidateNumber(ref result, ref node.alt_max, " 'alt_max' of field requires Number.");
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref SkillNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillNode node)
 	{
-		bool success = true;
-		success &= ValidateBoolean(ref result, ref node.force_ray, " 'force_ray' of skill requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.bright, " 'bright' of skill requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_ray, " 'force_ray' of skill requires Boolean.");
+		ValidateBoolean(ref result, ref node.bright, " 'bright' of skill requires Boolean.");
 		AddReference(ref result, ref node.icon, ref result.imagedataSet, ReferenceKind.imagedata);
-		success &= ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of skill requires Number.");
-		success &= ValidateBooleanNumber(ref result, ref node.special, " 'special' of skill requires Boolean 'on' or Number.");
-		success &= ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.color, " 'color' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.w, " 'w' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.h, " 'h' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.a, " 'a' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.mp, " 'mp' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.anime, " 'anime' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.anime_interval, " 'anime_interval' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_interval, " 'resize_interval' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_start, " 'resize_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_reverse, " 'resize_reverse' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_w, " 'resize_w' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_w_start, " 'resize_w_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_w_max, " 'resize_w_max' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_w_min, " 'resize_w_min' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_h_min, " 'resize_h_min' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_h_max, " 'resize_h_max' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_h_start, " 'resize_h_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_h, " 'resize_h' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_x, " 'resize_x' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_x_start, " 'resize_x_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_x_max, " 'resize_x_max' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_x_min, " 'resize_x_min' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_y_min, " 'resize_y_min' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_y_max, " 'resize_y_max' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_y_start, " 'resize_y_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_y, " 'resize_y' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_a, " 'resize_a' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_s, " 'resize_s' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_a_start, " 'resize_a_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_s_start, " 'resize_s_start' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_a_max, " 'resize_a_max' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_s_max, " 'resize_s_max' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_a_min, " 'resize_a_min' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.resize_s_min, " 'resize_s_min' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.start_degree, " 'start_degree' of skill requires Number.");
-		success &= ValidateNumber(ref result, ref node.start_random_degree, " 'start_random_degree' of skill requires Number.");
-		return success;
+		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of skill requires Number.");
+		ValidateBooleanNumber(ref result, ref node.special, " 'special' of skill requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
+		ValidateNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Number.");
+		ValidateNumber(ref result, ref node.color, " 'color' of skill requires Number.");
+		ValidateNumber(ref result, ref node.w, " 'w' of skill requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of skill requires Number.");
+		ValidateNumber(ref result, ref node.a, " 'a' of skill requires Number.");
+		ValidateNumber(ref result, ref node.mp, " 'mp' of skill requires Number.");
+		ValidateNumber(ref result, ref node.anime, " 'anime' of skill requires Number.");
+		ValidateNumber(ref result, ref node.anime_interval, " 'anime_interval' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_interval, " 'resize_interval' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_start, " 'resize_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_reverse, " 'resize_reverse' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_w, " 'resize_w' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_w_start, " 'resize_w_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_w_max, " 'resize_w_max' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_w_min, " 'resize_w_min' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_h_min, " 'resize_h_min' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_h_max, " 'resize_h_max' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_h_start, " 'resize_h_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_h, " 'resize_h' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_x, " 'resize_x' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_x_start, " 'resize_x_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_x_max, " 'resize_x_max' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_x_min, " 'resize_x_min' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_y_min, " 'resize_y_min' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_y_max, " 'resize_y_max' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_y_start, " 'resize_y_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_y, " 'resize_y' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_a, " 'resize_a' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_s, " 'resize_s' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_a_start, " 'resize_a_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_s_start, " 'resize_s_start' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_a_max, " 'resize_a_max' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_s_max, " 'resize_s_max' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_a_min, " 'resize_a_min' of skill requires Number.");
+		ValidateNumber(ref result, ref node.resize_s_min, " 'resize_s_min' of skill requires Number.");
+		ValidateNumber(ref result, ref node.start_degree, " 'start_degree' of skill requires Number.");
+		ValidateNumber(ref result, ref node.start_random_degree, " 'start_random_degree' of skill requires Number.");
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref PowerNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref PowerNode node)
 	{
-		bool success = true;
-		success &= ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of power requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.@event, " 'event' of power requires Boolean.");
+		ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of power requires Boolean.");
+		ValidateBoolean(ref result, ref node.@event, " 'event' of power requires Boolean.");
 		AddReference(ref result, ref node.master, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		success &= ValidateNumber(ref result, ref node.volume, " 'volume' of power requires Number.");
-		success &= ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of power requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of power requires Boolean.");
-		success &= ValidateBoolean(ref result, ref node.free_raise, " 'free_raise' of power requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.money, " 'money' of power requires Number.");
+		ValidateNumber(ref result, ref node.volume, " 'volume' of power requires Number.");
+		ValidateBoolean(ref result, ref node.diplomacy, " 'diplomacy' of power requires Boolean.");
+		ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of power requires Boolean.");
+		ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of power requires Boolean.");
+		ValidateBoolean(ref result, ref node.free_raise, " 'free_raise' of power requires Boolean.");
+		ValidateNumber(ref result, ref node.money, " 'money' of power requires Number.");
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
+		SpecialTreatment_power_fix(ref result, ref node.fix, context.RequiredSeverity);
 		AddReference(ref result, ref node.diplo, ref result.PowerSet, ReferenceKind.Power);
 		AddReference(ref result, ref node.league, ref result.PowerSet, ReferenceKind.Power);
 		AddReference(ref result, ref node.enemy_power, ref result.PowerSet, ReferenceKind.Power);
-		success &= ValidateNumber(ref result, ref node.training_average, " 'training_average' of power requires Number.");
-		success &= ValidateNumber(ref result, ref node.base_merits, " 'base_merits' of power requires Number.");
+		ValidateNumber(ref result, ref node.training_average, " 'training_average' of power requires Number.");
+		ValidateNumber(ref result, ref node.base_merits, " 'base_merits' of power requires Number.");
 		AddReference(ref result, ref node.merits, ref result.UnitSet, ReferenceKind.Unit);
-		success &= ValidateNumber(ref result, ref node.base_loyal, " 'base_loyal' of power requires Number.");
+		ValidateNumber(ref result, ref node.base_loyal, " 'base_loyal' of power requires Number.");
 		AddReference(ref result, ref node.loyals, ref result.UnitSet, ReferenceKind.Unit);
-		success &= ValidateNumber(ref result, ref node.yabo, " 'yabo' of power requires Number.");
-		success &= ValidateNumber(ref result, ref node.kosen, " 'kosen' of power requires Number.");
+		ValidateNumber(ref result, ref node.yabo, " 'yabo' of power requires Number.");
+		ValidateNumber(ref result, ref node.kosen, " 'kosen' of power requires Number.");
 		AddReference(ref result, ref node.member, ref result.SpotSet, ReferenceKind.Spot);
-		success &= ValidateNumber(ref result, ref node.training_up, " 'training_up' of power requires Number.");
-		return success;
+		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
+		ValidateNumber(ref result, ref node.training_up, " 'training_up' of power requires Number.");
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref ObjectNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ObjectNode node)
 	{
-		bool success = true;
-		success &= ValidateBooleanNumber(ref result, ref node.land_base, " 'land_base' of object requires Boolean 'on' or Number.");
-		success &= ValidateBoolean(ref result, ref node.no_stop, " 'no_stop' of object requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.no_wall2, " 'no_wall2' of object requires Number.");
-		success &= ValidateBoolean(ref result, ref node.no_arc_hit, " 'no_arc_hit' of object requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.radius, " 'radius' of object requires Number.");
-		success &= ValidateBoolean(ref result, ref node.blk, " 'blk' of object requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.w, " 'w' of object requires Number.");
-		success &= ValidateNumber(ref result, ref node.h, " 'h' of object requires Number.");
-		success &= ValidateNumber(ref result, ref node.a, " 'a' of object requires Number.");
+		ValidateNumber(ref result, ref node.width, " 'width' of object requires Number.");
+		ValidateNumber(ref result, ref node.height, " 'height' of object requires Number.");
+		ValidateNumber(ref result, ref node.alpha, " 'alpha' of object requires Number.");
+		ValidateNumber(ref result, ref node.color, " 'color' of object requires Number.");
+		ValidateBooleanNumber(ref result, ref node.land_base, " 'land_base' of object requires Boolean 'on' or Number.");
+		ValidateBoolean(ref result, ref node.no_stop, " 'no_stop' of object requires Boolean.");
+		ValidateNumber(ref result, ref node.no_wall2, " 'no_wall2' of object requires Number.");
+		ValidateBoolean(ref result, ref node.no_arc_hit, " 'no_arc_hit' of object requires Boolean.");
+		ValidateNumber(ref result, ref node.radius, " 'radius' of object requires Number.");
+		ValidateBoolean(ref result, ref node.blk, " 'blk' of object requires Boolean.");
+		ValidateNumber(ref result, ref node.w, " 'w' of object requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of object requires Number.");
+		ValidateNumber(ref result, ref node.a, " 'a' of object requires Number.");
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.image2, ref result.imagedataSet, ReferenceKind.imagedata);
-		success &= ValidateNumber(ref result, ref node.image2_w, " 'image2_w' of object requires Number.");
-		success &= ValidateNumber(ref result, ref node.image2_h, " 'image2_h' of object requires Number.");
-		success &= ValidateNumber(ref result, ref node.image2_a, " 'image2_a' of object requires Number.");
-		success &= ValidateBoolean(ref result, ref node.ground, " 'ground' of object requires Boolean.");
-		return success;
+		ValidateNumber(ref result, ref node.image2_w, " 'image2_w' of object requires Number.");
+		ValidateNumber(ref result, ref node.image2_h, " 'image2_h' of object requires Number.");
+		ValidateNumber(ref result, ref node.image2_a, " 'image2_a' of object requires Number.");
+		ValidateBoolean(ref result, ref node.ground, " 'ground' of object requires Boolean.");
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref DungeonNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref DungeonNode node)
 	{
-		bool success = true;
-		success &= ValidateNumber(ref result, ref node.max, " 'max' of dungeon requires Number.");
-		success &= ValidateNumber(ref result, ref node.move_speed, " 'move_speed' of dungeon requires Number.");
-		success &= ValidateNumber(ref result, ref node.lv_adjust, " 'lv_adjust' of dungeon requires Number.");
-		success &= ValidateNumber(ref result, ref node.limit, " 'limit' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.max, " 'max' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.move_speed, " 'move_speed' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.lv_adjust, " 'lv_adjust' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.limit, " 'limit' of dungeon requires Number.");
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		success &= ValidateNumber(ref result, ref node.base_level, " 'base_level' of dungeon requires Number.");
-		success &= ValidateNumber(ref result, ref node.color, " 'color' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.volume, " 'volume' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.base_level, " 'base_level' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.color, " 'color' of dungeon requires Number.");
 		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref MovetypeNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref MovetypeNode node)
 	{
-		bool success = true;
 		AddReference(ref result, ref node.consti, ref result.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeTypeReader);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref SkillsetNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillsetNode node)
 	{
-		bool success = true;
 		AddReference(ref result, ref node.back, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.member, ref result.SkillSet, ReferenceKind.Skill);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref EventNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref EventNode node)
 	{
-		bool success = true;
-		success &= ValidateBoolean(ref result, ref node.disperse, " 'disperse' of event requires Boolean.");
-		success &= ValidateNumber(ref result, ref node.w, " 'w' of event requires Number.");
-		success &= ValidateNumber(ref result, ref node.h, " 'h' of event requires Number.");
+		foreach (var statement in node.Statements.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, statement);
+		}
+
+		ValidateBoolean(ref result, ref node.disperse, " 'disperse' of event requires Boolean.");
+		ValidateNumber(ref result, ref node.w, " 'w' of event requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of event requires Number.");
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
 		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
-		return success;
+		ValidateNumber(ref result, ref node.color, " 'color' of event requires Number.");
+		ValidateNumber(ref result, ref node.limit, " 'limit' of event requires Number.");
+		ValidateNumber(ref result, ref node.volume, " 'volume' of event requires Number.");
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref ScenarioNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ScenarioNode node)
 	{
-		bool success = true;
-		success &= ValidateNumber(ref result, ref node.ws_red, " 'ws_red' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.ws_blue, " 'ws_blue' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.ws_green, " 'ws_green' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.ws_alpha, " 'ws_alpha' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.ws_light, " 'ws_light' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.ws_light_range, " 'ws_light_range' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.max_unit, " 'max_unit' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.locate_x, " 'locate_x' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.locate_y, " 'locate_y' of scenario requires Number.");
+		foreach (var statement in node.Statements.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, statement);
+		}
+
+		ValidateNumber(ref result, ref node.ws_red, " 'ws_red' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_blue, " 'ws_blue' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_green, " 'ws_green' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_alpha, " 'ws_alpha' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_light, " 'ws_light' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_light_range, " 'ws_light_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.max_unit, " 'max_unit' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.locate_x, " 'locate_x' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.locate_y, " 'locate_y' of scenario requires Number.");
 		AddReference(ref result, ref node.world, ref result.EventSet, ReferenceKind.Event);
 		AddReference(ref result, ref node.fight, ref result.EventSet, ReferenceKind.Event);
 		AddReference(ref result, ref node.politics, ref result.EventSet, ReferenceKind.Event);
-		success &= ValidateNumber(ref result, ref node.war_capacity, " 'war_capacity' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.spot_capacity, " 'spot_capacity' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.gain_per, " 'gain_per' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.support_range, " 'support_range' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.my_range, " 'my_range' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.myhelp_range, " 'myhelp_range' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.base_level, " 'base_level' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.monster_level, " 'monster_level' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.training_up, " 'training_up' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.actor_per, " 'actor_per' of scenario requires Number.");
-		success &= ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.war_capacity, " 'war_capacity' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.spot_capacity, " 'spot_capacity' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.gain_per, " 'gain_per' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.support_range, " 'support_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.my_range, " 'my_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.myhelp_range, " 'myhelp_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.base_level, " 'base_level' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.monster_level, " 'monster_level' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.training_up, " 'training_up' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.actor_per, " 'actor_per' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of scenario requires Number.");
+		ValidateBoolean(ref result, ref node.default_ending, " 'default_ending' of scenario requires Boolean.");
+		SpecialTreatment_scenario_power_order(ref result, ref node.power_order, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.enable, " 'enable' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.party, " 'party' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_autosave, " 'no_autosave' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.nozone, " 'nozone' of scenario requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.item0, " 'item0' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item1, " 'item1' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item2, " 'item2' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item3, " 'item3' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item4, " 'item4' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item5, " 'item5' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item6, " 'item6' of scenario requires Boolean 'on' or Number.");
+		ValidateBoolean(ref result, ref node.item_limit, " 'item_limit' of scenario requires Boolean.");
+		AddReference(ref result, ref node.item_sale, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.item_hold, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.roam, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.spot, ref result.SpotSet, ReferenceKind.Spot);
 		AddReference(ref result, ref node.power, ref result.PowerSet, ReferenceKind.Power);
-		return success;
 	}
 
-	public static bool AddReferenceAndValidate(this ref Result result, ref StoryNode node, DiagnosticSeverity severity)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref StoryNode node)
 	{
-		bool success = true;
+		foreach (var statement in node.Statements.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, statement);
+		}
+
 		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
-		success &= ValidateBoolean(ref result, ref node.fight, " 'fight' of story requires Boolean.");
-		return success;
+		ValidateBoolean(ref result, ref node.fight, " 'fight' of story requires Boolean.");
 	}
 }

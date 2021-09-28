@@ -119,7 +119,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -399,7 +398,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -1199,7 +1197,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -1554,7 +1551,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -2241,7 +2237,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -2623,7 +2618,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -3356,7 +3350,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -4152,6 +4145,9 @@ public static partial class Parser
                         case 0x00680070006C0061UL when span[0] == 'a':
                             pair_DEFAULT = ref node.alpha.EnsureGet(variant);
                             goto DEFAULT;
+                        case 0x006F006C006F0063UL when span[0] == 'r':
+                            pair_RAY = ref node.color.EnsureGet(variant);
+                            goto RAY;
                         case 0x00670061006D0069UL when span[0] == 'e':
                             pair_DEFAULT = ref node.image.EnsureGet(variant);
                             goto DEFAULT;
@@ -4222,7 +4218,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -4567,7 +4562,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -4777,7 +4771,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
@@ -4955,7 +4948,6 @@ public static partial class Parser
                     }
                     goto default;
                 default:
-                    span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DISCARD;
             }
 
