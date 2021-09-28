@@ -1,7 +1,4 @@
-﻿using System;
-using System.Buffers;
-
-namespace Wahren.AbstractSyntaxTree.Parser;
+﻿namespace Wahren.AbstractSyntaxTree.Parser;
 using PooledList;
 
 public struct StringSpanKeySlowSet : IDisposable

@@ -63,7 +63,7 @@ foreach (string name in Helper.BlockContainers) {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             if (!ReadToken(ref context, ref result))

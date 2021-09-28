@@ -125,8 +125,17 @@ public sealed partial class Solution : ISolutionResolver
 {
 	public ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Scenario.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.ScenarioNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -139,6 +148,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Scenario.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -150,8 +160,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetEventNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Event.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.EventNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -164,6 +183,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Event.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -175,8 +195,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Story.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.StoryNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -189,6 +218,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Story.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -200,8 +230,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Movetype.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.MovetypeNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -214,6 +253,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Movetype.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -225,8 +265,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Skill.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.SkillNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -239,6 +288,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Skill.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -250,8 +300,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Skillset.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.SkillsetNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -264,6 +323,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Skillset.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -275,8 +335,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Race.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.RaceNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -289,6 +358,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Race.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -300,8 +370,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Unit.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.UnitNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -314,6 +393,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Unit.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -325,8 +405,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Class.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.ClassNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -339,6 +428,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Class.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -350,8 +440,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Power.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.PowerNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -364,6 +463,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Power.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -375,8 +475,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Spot.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.SpotNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -389,6 +498,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Spot.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -400,8 +510,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Field.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.FieldNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -414,6 +533,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Field.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -425,8 +545,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Object.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.ObjectNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -439,6 +568,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Object.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -450,8 +580,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Dungeon.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.DungeonNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -464,6 +603,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Dungeon.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }
@@ -475,8 +615,17 @@ public sealed partial class Solution : ISolutionResolver
 
 	public ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        foreach (ref var file in Files)
+        ref var pair = ref Voice.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
         {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
             ref var list = ref file.VoiceNodeList;
             uint end = (uint)list.Count;
             if (end == 0)
@@ -489,6 +638,7 @@ public sealed partial class Solution : ISolutionResolver
                 ref var node = ref list[index];
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
+                    Voice.TryRegisterTrack(name, ((uint)i, index), queryFileId);
                     return ref file;
                 }
             }

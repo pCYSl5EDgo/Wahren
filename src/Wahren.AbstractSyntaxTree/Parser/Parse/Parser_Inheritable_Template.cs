@@ -39,7 +39,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -235,7 +235,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -582,7 +582,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -1474,7 +1474,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -1705,7 +1705,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -2516,7 +2516,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -2773,7 +2773,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -3602,7 +3602,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -4067,7 +4067,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -4401,7 +4401,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -4713,7 +4713,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
@@ -4891,7 +4891,7 @@ public static partial class Parser
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
-                return result.AddReferenceAndValidate(ref node, context.RequiredSeverity);
+                return true;
             }
 
             var currentIndex = tokenList.LastIndex;
