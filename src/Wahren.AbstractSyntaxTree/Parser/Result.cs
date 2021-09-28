@@ -51,12 +51,30 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet FieldIdReaderSet = new();
     public StringSpanKeySlowSet VoiceTypeWriterSet = new();
     public StringSpanKeySlowSet VoiceTypeReaderSet = new();
+    public StringSpanKeySlowSet ClassTypeWriterSet = new();
+    public StringSpanKeySlowSet ClassTypeReaderSet = new();
+
+    public StringSpanKeySlowSet mapSet = new();
+    public StringSpanKeySlowSet bgmSet = new();
+    public StringSpanKeySlowSet imagedataSet = new();
+    public StringSpanKeySlowSet faceSet = new();
+    public StringSpanKeySlowSet seSet = new();
+    public StringSpanKeySlowSet pictureSet = new();
+    public StringSpanKeySlowSet image_fileSet = new();
+    public StringSpanKeySlowSet flagSet = new();
+    public StringSpanKeySlowSet fontSet = new();
+
     public StringSpanKeySlowSet NumberVariableWriterSet = new();
     public StringSpanKeySlowSet NumberVariableReaderSet = new();
     public StringSpanKeySlowSet StringVariableWriterSet = new();
     public StringSpanKeySlowSet StringVariableReaderSet = new();
+    public StringSpanKeySlowSet GlobalVariableWriterSet = new();
+    public StringSpanKeySlowSet GlobalVariableReaderSet = new();
+    public StringSpanKeySlowSet GlobalStringVariableWriterSet = new();
+    public StringSpanKeySlowSet GlobalStringVariableReaderSet = new();
 
     public AttributeNode? AttributeNode = null;
+
     public ContextNode? ContextNode = null;
     public SoundNode? SoundNode = null;
     public readonly ISolutionResolver Resolver = FailResolver.Default;
@@ -66,6 +84,16 @@ public struct Result : IDisposable
     public string? FilePath = default;
 
     public Result()
+    {
+        Initialize();
+    }
+
+    public Result(uint id) : this()
+    {
+        Id = id;
+    }
+
+    private void Initialize()
     {
         ScenarioSet.InitialAdd("a");
         ScenarioSet.InitialAdd("b");
@@ -82,11 +110,6 @@ public struct Result : IDisposable
         {
             AttributeTypeSet.InitialAdd(attribute);
         }
-    }
-
-    public Result(uint id) : this()
-    {
-        Id = id;
     }
 
     public Result(ISolutionResolver resolver, uint id) : this(id)
@@ -141,12 +164,28 @@ public struct Result : IDisposable
         FieldIdReaderSet.Dispose();
         VoiceTypeWriterSet.Dispose();
         VoiceTypeReaderSet.Dispose();
+        ClassTypeWriterSet.Dispose();
+        ClassTypeReaderSet.Dispose();
 
         NumberVariableWriterSet.Dispose();
         StringVariableWriterSet.Dispose();
         NumberVariableReaderSet.Dispose();
         StringVariableReaderSet.Dispose();
-        
+        GlobalVariableWriterSet.Dispose();
+        GlobalVariableReaderSet.Dispose();
+        GlobalStringVariableWriterSet.Dispose();
+        GlobalStringVariableReaderSet.Dispose();
+
+        mapSet.Dispose();
+        bgmSet.Dispose();
+        imagedataSet.Dispose();
+        faceSet.Dispose();
+        seSet.Dispose();
+        pictureSet.Dispose();
+        image_fileSet.Dispose();
+        flagSet.Dispose();
+        fontSet.Dispose();
+
         Source.Dispose();
         Success = false;
         FilePath = null;
@@ -155,21 +194,7 @@ public struct Result : IDisposable
     public void Reset()
     {
         Dispose();
-        ScenarioSet.InitialAdd("a");
-        ScenarioSet.InitialAdd("b");
-        ScenarioSet.InitialAdd("c");
-        ScenarioSet.InitialAdd("d");
-        ScenarioSet.InitialAdd("e");
-        ScenarioSet.InitialAdd("f");
-        ScenarioSet.InitialAdd("g");
-        ScenarioSet.InitialAdd("h");
-        ScenarioSet.InitialAdd("i");
-        ScenarioSet.InitialAdd("j");
-
-        foreach (var attribute in Enum.GetNames<AttributeTypeKind>())
-        {
-            AttributeTypeSet.InitialAdd(attribute);
-        }
+        Initialize();
     }
 
     public void UnionLast2Tokens()
@@ -222,7 +247,7 @@ public struct Result : IDisposable
             var isBeautify = formatSpan.Contains('b');
             if (isBeautify)
             {
-                Formatter.IFormatter<char> formatter = Formatter.UnicodeFormatter.GetDefault(isCrLf);
+                var formatter = Formatter.UnicodeFormatter.GetDefault(isCrLf);
                 if (formatter.TryFormat(ref this, ref list))
                 {
                     return new string(list.AsSpan());

@@ -29,28 +29,39 @@ public static partial class NodeValidator
 		var isSingle = correspondingType == "Pair_NullableString_NullableIntElement";
 		switch (element.referenceKind) { #>
 <#			default: continue;#>
-<#			case ReferenceKind.Scenario: #>
-<#			case ReferenceKind.Event: #>
-<#			case ReferenceKind.Story: #>
-<#			case ReferenceKind.Movetype: #>
-<#			case ReferenceKind.Skill: #>
-<#			case ReferenceKind.Skillset: #>
-<#			case ReferenceKind.Race: #>
-<#			case ReferenceKind.Unit: #>
-<#			case ReferenceKind.Class: #>
-<#			case ReferenceKind.Power: #>
-<#			case ReferenceKind.Spot: #>
-<#			case ReferenceKind.Field: #>
-<#			case ReferenceKind.Object: #>
-<#			case ReferenceKind.Dungeon: #>
-<#			case ReferenceKind.Voice: #>
-<#			case ReferenceKind.AttributeType: #>
-<#			case ReferenceKind.VoiceTypeReader: #>
-<#			case ReferenceKind.VoiceTypeWriter: #>
-<#			case ReferenceKind.FieldAttributeTypeReader: #>
-<#			case ReferenceKind.FieldAttributeTypeWriter: #>
-<#			case ReferenceKind.FieldIdReader: #>
-<#			case ReferenceKind.FieldIdWriter: #>
+<#			case ReferenceKind.Scenario					: #>
+<#			case ReferenceKind.Event					: #>
+<#			case ReferenceKind.Story					: #>
+<#			case ReferenceKind.Movetype					: #>
+<#			case ReferenceKind.Skill					: #>
+<#			case ReferenceKind.Skillset					: #>
+<#			case ReferenceKind.Race						: #>
+<#			case ReferenceKind.Unit						: #>
+<#			case ReferenceKind.Class					: #>
+<#			case ReferenceKind.Power					: #>
+<#			case ReferenceKind.Spot						: #>
+<#			case ReferenceKind.Field					: #>
+<#			case ReferenceKind.Object					: #>
+<#			case ReferenceKind.Dungeon					: #>
+<#			case ReferenceKind.Voice					: #>
+<#			case ReferenceKind.AttributeType			: #>
+<#			case ReferenceKind.VoiceTypeReader			: #>
+<#			case ReferenceKind.VoiceTypeWriter			: #>
+<#			case ReferenceKind.FieldAttributeTypeReader	: #>
+<#			case ReferenceKind.FieldAttributeTypeWriter	: #>
+<#			case ReferenceKind.FieldIdReader			: #>
+<#			case ReferenceKind.FieldIdWriter			: #>
+<#			case ReferenceKind.ClassTypeReader			: #>
+<#			case ReferenceKind.ClassTypeWriter			: #>
+<#			case ReferenceKind.map						: #>
+<#			case ReferenceKind.bgm						: #>
+<#			case ReferenceKind.imagedata				: #>
+<#			case ReferenceKind.face						: #>
+<#			case ReferenceKind.se						: #>
+<#			case ReferenceKind.picture					: #>
+<#			case ReferenceKind.image_file				: #>
+<#			case ReferenceKind.flag						: #>
+<#			case ReferenceKind.font						: #>
 		AddReference(ref result, ref node.<#= element.name.Escape() #>, ref result.<#= element.referenceKind #>Set, ReferenceKind.<#= element.referenceKind #>);
 <#				break;#>
 <#			case ReferenceKind.Number: #>

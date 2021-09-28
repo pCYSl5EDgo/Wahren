@@ -4,12 +4,12 @@ public sealed record class CallActionStatement(uint TokenId, ActionKind Kind) : 
 {
     public uint ParenRightTokenId;
 
-    public List<Argument> ArgumentTokenIds = new();
+    public List<Argument> Arguments = new();
 
     public string DisplayName => "action call";
 
     public void Dispose()
     {
-        ArgumentTokenIds.Dispose();
+        Arguments.Dispose();
     }
 }

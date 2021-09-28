@@ -12,6 +12,18 @@ namespace Wahren.Compiler;
 
 public partial class Program
 {
+    public async ValueTask<int> Run(
+        [Option(0, "input folder")] string rootFolder = ".",
+        [Option("s")] PseudoDiagnosticSeverity severity = PseudoDiagnosticSeverity.Error,
+        [Option("t")] bool time = true
+    )
+    {
+        var result = await Analyze(rootFolder, false, severity, time);
+        Console.WriteLine("Press Enter Key...");
+        Console.ReadLine();
+        return result;
+    }
+
     [Command(new string[] {
         "analyze",
     })]
@@ -26,14 +38,23 @@ public partial class Program
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
 
         var debugPaper = await GetDebugPaper(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
-        var contentsFolder = debugPaper.Folder ?? DetectContentsFolder(rootFolder);
+        string? contentsFolder;
+        if (debugPaper.Folder is null)
+        {
+            contentsFolder = DetectContentsFolder(rootFolder);
+        }
+        else
+        {
+            contentsFolder = Path.Combine(rootFolder, debugPaper.Folder);
+        }
+
         if (contentsFolder is null)
         {
             Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
             return 1;
         }
 
-        var scriptFolderPath = Path.GetRelativePath(Environment.CurrentDirectory, Path.GetFullPath(Path.Combine(contentsFolder, "script")));
+        var scriptFolderPath = Path.Combine(contentsFolder, "script");
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
         var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
         var solution = new Solution();

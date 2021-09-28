@@ -410,7 +410,7 @@ public static partial class Parser
         statements.Add(statement);
 
         Argument argument = new();
-        ref var arguments = ref statement.ArgumentTokenIds;
+        ref var arguments = ref statement.Arguments;
         do
         {
             if (!ReadToken(ref context, ref result))
@@ -480,59 +480,46 @@ public static partial class Parser
         } while (true);
 
     TRUE:
-        if (actionKind == ActionKind.None)
+        if (actionKind != ActionKind.None)
         {
-            var endingRoll = default(CallEndingRollActionStatement);
-            if (arguments.IsEmpty)
-            {
-                endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, uint.MaxValue, uint.MaxValue);
-                if (endingRoll is null)
-                {
-                    result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}).", tokenList[currentIndex].Range));
-                }
-            }
-            else if (arguments.Count == 1)
-            {
-                endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, uint.MaxValue);
-                if (endingRoll is null)
-                {
-                    result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}).", tokenList[currentIndex].Range));
-                }
-            }
-            else if (arguments.Count == 2)
-            {
-                endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, arguments[1].TokenId);
-                if (endingRoll is null)
-                {
-                    result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}, {result.GetSpan(arguments[1].TokenId)}).", tokenList[currentIndex].Range));
-                }
-            }
-            else
-            {
-                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}) or too many ending roll action arguments count of '{result.GetSpan(currentIndex)}'. Exceeding arguments are just ignored.", tokenList[currentIndex].Range));
-            }
+            return true;
+        }
 
-            if (endingRoll is not null)
+        var endingRoll = default(CallEndingRollActionStatement);
+        if (arguments.IsEmpty)
+        {
+            endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, uint.MaxValue, uint.MaxValue);
+            if (endingRoll is null)
             {
-                statements.Last.Dispose();
-                statements.RemoveLast();
-                statements.Add(endingRoll);
+                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}).", tokenList[currentIndex].Range));
+            }
+        }
+        else if (arguments.Count == 1)
+        {
+            endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, uint.MaxValue);
+            if (endingRoll is null)
+            {
+                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}).", tokenList[currentIndex].Range));
+            }
+        }
+        else if (arguments.Count == 2)
+        {
+            endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, arguments[1].TokenId);
+            if (endingRoll is null)
+            {
+                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}, {result.GetSpan(arguments[1].TokenId)}).", tokenList[currentIndex].Range));
             }
         }
         else
         {
-            var validated = actionKind.IsValidArgumentCount(arguments.Count);
-            if (validated > 0)
-            {
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.ErrorList.Add(new($"Too many action arguments count of '{actionKind}'. Exceeding arguments are just ignored.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
-                }
-            }
-            else if (validated < 0)
-            {
-                result.ErrorList.Add(new($"Insufficient action arguments count of '{actionKind}'.", tokenList[currentIndex].Range));
-            }
+            result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}) or too many ending roll action arguments count of '{result.GetSpan(currentIndex)}'. Exceeding arguments are just ignored.", tokenList[currentIndex].Range));
+        }
+
+        if (endingRoll is not null)
+        {
+            statements.Last.Dispose();
+            statements.RemoveLast();
+            statements.Add(endingRoll);
         }
 
         return true;

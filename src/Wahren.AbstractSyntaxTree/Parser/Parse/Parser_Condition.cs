@@ -626,21 +626,8 @@ public static partial class Parser
             result.ErrorList.Add(new("Function argument must be number, identifier, string variable, 1-word-length text.", tokenList.Last.Range));
             return false;
         } while (true);
-
-        var validated = callFunctionExpression.FunctionId.IsValidArgumentCount(callFunctionExpression.Arguments.Count);
-        if (validated > 0)
-        {
-            if (context.CreateError(DiagnosticSeverity.Warning))
-            {
-                result.ErrorList.Add(new($"Too many function arguments count of '{callFunctionExpression.FunctionId}'. Exceeding arguments are just ignored.", tokenList[callFunctionExpression.TokenId].Range, DiagnosticSeverity.Warning));
-            }
-        }
-        else if (validated < 0)
-        {
-            result.ErrorList.Add(new($"Insufficient function arguments count of '{callFunctionExpression.FunctionId}'.", tokenList[callFunctionExpression.TokenId].Range));
-        }
-
-        if (callFunctionExpression.FunctionId == FunctionKind.isInterval && statementKind != ConditionStatementKind.Rif)
+        
+        if (callFunctionExpression.Kind == FunctionKind.isInterval && statementKind != ConditionStatementKind.Rif)
         {
             result.ErrorList.Add(new("'isInterval' can only be called inside of 'rif' condition expression.", tokenList[callFunctionExpression.TokenId].Range));
         }

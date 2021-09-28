@@ -1,4 +1,8 @@
-﻿namespace Wahren.AbstractSyntaxTree.Parser;
+﻿using Wahren.AbstractSyntaxTree.Element;
+using Wahren.AbstractSyntaxTree.Element.Statement;
+using Wahren.AbstractSyntaxTree.Element.Statement.Expression;
+
+namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
@@ -396,6 +400,102 @@ public static partial class NodeValidator
         return success;
     }
 
+    private static bool IsStatus(ReadOnlySpan<char> span, out uint referenceId)
+    {
+        // hp 0
+        // mp 1
+        // dext 7
+        // move 8
+        // magic 4
+        // speed 6
+        // hprec 9
+        // mprec a
+        // attack 2
+        // magdef 5
+        // defense 3
+        switch (span.Length)
+        {
+            case 2 when span[1] == 'p':
+                switch (span[0])
+                {
+                    case 'h':
+                        referenceId = 0;
+                        return true;
+                    case 'm':
+                        referenceId = 1;
+                        return true;
+                }
+                goto default;
+            case 4 when span.SequenceEqual("dext"):
+                referenceId = 7;
+                return true;
+            case 4 when span.SequenceEqual("move"):
+                referenceId = 8;
+                return true;
+            case 5 when span.Slice(1).SequenceEqual("prec"):
+                switch (span[0])
+                {
+                    case 'h':
+                        referenceId = 9;
+                        return true;
+                    case 'm':
+                        referenceId = 10;
+                        return true;
+                }
+                goto default;
+            case 5 when span.SequenceEqual("magic"):
+                referenceId = 4;
+                return true;
+            case 5 when span.SequenceEqual("speed"):
+                referenceId = 6;
+                return true;
+            case 6 when span.SequenceEqual("attack"):
+                referenceId = 2;
+                return true;
+            case 6 when span.SequenceEqual("magdef"):
+                referenceId = 5;
+                return true;
+            case 7 when span.SequenceEqual("defense"):
+                referenceId = 3;
+                return true;
+            default:
+                referenceId = 0;
+                return false;
+        }
+    }
+
+    private static bool IsBoolean(ReadOnlySpan<char> span, out uint referenceId)
+    {
+        switch (span.Length)
+        {
+            case 2 when span.SequenceEqual("on"):
+                referenceId = 1;
+                return true;
+            case 3 when span.SequenceEqual("off"):
+                referenceId = 0;
+                return true;
+            default:
+                referenceId = 0;
+                return false;
+        }
+    }
+
+    private static bool IsRedBlue(ReadOnlySpan<char> span, out uint referenceId)
+    {
+        switch (span.Length)
+        {
+            case 3 when span.SequenceEqual("red"):
+                referenceId = 0;
+                return true;
+            case 4 when span.SequenceEqual("blue"):
+                referenceId = 1;
+                return true;
+            default:
+                referenceId = 0;
+                return false;
+        }
+    }
+
     private static bool SpecialTreatment_unit_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_unit_class_sex(ref result, ref pair, "unit", severity);
     private static bool SpecialTreatment_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_unit_class_sex(ref result, ref pair, "class", severity);
     private static bool SpecialTreatment_unit_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
@@ -594,21 +694,27 @@ public static partial class NodeValidator
             {
                 value.HasReference = true;
                 value.ReferenceKind = ReferenceKind.Special;
-                value.ReferenceId = 0;
+                value.ReferenceId = 1;
             }
             else if (span.SequenceEqual("power"))
             {
                 value.HasReference = true;
                 value.ReferenceKind = ReferenceKind.Special;
-                value.ReferenceId = 1;
+                value.ReferenceId = 2;
             }
             else if (span.SequenceEqual("fix"))
             {
                 value.HasReference = true;
                 value.ReferenceKind = ReferenceKind.Special;
-                value.ReferenceId = 2;
+                value.ReferenceId = 3;
             }
-            else
+            else if (span.SequenceEqual("off"))
+            {
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                value.ReferenceId = 0;
+            }
+            else if (!value.HasNumber)
             {
                 value.HasReference = false;
                 result.ErrorList.Add(new("'arbeit' of struct unit must be 'on', 'power' or 'fix'.", result.TokenList[value.Text].Range));
@@ -691,6 +797,68 @@ public static partial class NodeValidator
         return success;
     }
 
+
+    private static bool SpecialTreatment_unit_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "unit");
+    private static bool SpecialTreatment_class_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "class");
+    private static bool SpecialTreatment_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
+    {
+        static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
+        {
+            var span = result.GetSpan(value.Text);
+            if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on1"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("on2"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("on3"))
+            {
+                value.ReferenceId = 4;
+            }
+            else
+            {
+                value.ReferenceId = 0;
+                result.ErrorList.Add(new($"'picture_detail' of struct {kind} must be 'off', 'on', 'on1', 'on2', or 'on3'.", result.TokenList[value.Text].Range));
+            }
+
+            value.HasReference = true;
+            value.ReferenceKind = ReferenceKind.Special;
+            return true;
+        }
+
+        bool success = true;
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            success &= Validate(ref result, ref pair.Value.Value, kind);
+        }
+
+        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        {
+            return success;
+        }
+
+        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        {
+            if (item is { HasValue: true, Value.HasText: true })
+            {
+                success &= Validate(ref result, ref item.Value, kind);
+            }
+        }
+
+        return success;
+    }
+
+
     private static bool SpecialTreatment_unit_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_add_vassal(ref result, ref pair, "unit");
     private static bool SpecialTreatment_class_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_add_vassal(ref result, ref pair, "class");
     private static bool SpecialTreatment_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
@@ -705,6 +873,10 @@ public static partial class NodeValidator
             else if (span.SequenceEqual("roam"))
             {
                 value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
             }
             else
             {
@@ -763,138 +935,24 @@ public static partial class NodeValidator
                 }
 
                 var text = result.GetSpan(item.Text);
-                switch (text.Length)
+                if (IsStatus(text, out uint index))
                 {
-                    case 2 when text[1] == 'p':
-                        if (text[0] == 'h')
-                        {
-                            const int id = 0;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'hp'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                            break;
-                        }
-                        else if (text[0] == 'm')
-                        {
-                            const int id = 1;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'hp'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                            break;
-                        }
-                        else
-                        {
-                            goto default;
-                        }
-                    case 4 when text.SequenceEqual("dext"):
-                        {
-                            const int id = 2;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'dext'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 4 when text.SequenceEqual("move"):
-                        {
-                            const int id = 3;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'move'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 5 when text.SequenceEqual("magic"):
-                        {
-                            const int id = 4;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'magic'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 5 when text.SequenceEqual("speed"):
-                        {
-                            const int id = 5;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'speed'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 5 when text.SequenceEqual("hprec"):
-                        {
-                            const int id = 6;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'hprec'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 5 when text.SequenceEqual("mprec"):
-                        {
-                            const int id = 7;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'mprec'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 6 when text.SequenceEqual("attack"):
-                        {
-                            const int id = 8;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'attack'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 6 when text.SequenceEqual("magdef"):
-                        {
-                            const int id = 9;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'magdef'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    case 7 when text.SequenceEqual("defense"):
-                        {
-                            const int id = 10;
-                            if (statuses[id] != -1)
-                            {
-                                result.ErrorList.Add(new($"'multi' of struct {kind} already have 'defense'.", result.TokenList[item.Text].Range));
-                                success = false;
-                            }
-                            statuses[id] = i;
-                        }
-                        break;
-                    default:
-                        result.ErrorList.Add(new($"'{text}' is not valid value. 'multi' of struct {kind} must be one of the 11 status text('hp', 'mp', 'attack', 'defense', 'magic', 'magdef', 'speed', 'dext', 'move', 'hprec', 'mprec').", result.TokenList[item.Text].Range));
+                    if (statuses[(int)index] == -1)
+                    {
+                        statuses[(int)index] = i;
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"'multi' of struct {kind} already have '{text}'.", result.TokenList[item.Text].Range));
                         success = false;
                         break;
+                    }
+                }
+                else
+                {
+                    result.ErrorList.Add(new($"'{text}' is not valid value. 'multi' of struct {kind} must be one of the 11 status text('hp', 'mp', 'attack', 'defense', 'magic', 'magdef', 'speed', 'dext', 'move', 'hprec', 'mprec').", result.TokenList[item.Text].Range));
+                    success = false;
+                    break;
                 }
             }
 
@@ -931,16 +989,16 @@ public static partial class NodeValidator
             switch (span.Length)
             {
                 case 2 when span.SequenceEqual("on"):
-                    value.ReferenceId = 0;
-                    break;
-                case 3 when span.SequenceEqual("fix"):
                     value.ReferenceId = 1;
                     break;
-                case 5 when span.SequenceEqual("erase"):
+                case 3 when span.SequenceEqual("fix"):
                     value.ReferenceId = 2;
                     break;
-                case 6 when span.SequenceEqual("unique"):
+                case 5 when span.SequenceEqual("erase"):
                     value.ReferenceId = 3;
+                    break;
+                case 6 when span.SequenceEqual("unique"):
+                    value.ReferenceId = 4;
                     break;
                 default:
                     result.ErrorList.Add(new($"'politics' of struct {kind} must be 'on', 'fix', 'erase' or 'unique'.", result.TokenList[value.Text].Range));
@@ -1082,7 +1140,7 @@ public static partial class NodeValidator
             var span = result.GetSpan(value.Text);
             if (!span.SequenceEqual("on"))
             {
-                result.ErrorList.Add(new($"'politics' of struct spot must be 'top', 'msg', 'base' or 'bottom'.", result.TokenList[value.Text].Range));
+                result.ErrorList.Add(new($"'politics' of struct spot must be 'on'.", result.TokenList[value.Text].Range));
                 return false;
             }
 
@@ -1111,5 +1169,195 @@ public static partial class NodeValidator
         }
 
         return success;
+    }
+
+    private static bool AddReferenceAndValidate_Action_msg(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_msg2(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_talk(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_talk2(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_chat(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_chat2(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_changeMaster(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_dialog(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_dialogF(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_locate(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_scroll(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_resetTruce(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_resetLeague(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_changePowerFix(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_changePowerName(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_exit(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_shake(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_fadein(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_choiceTitle(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_pushv(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_addUnit(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_addDiplo(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_aimTroop(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_addTroop(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_setDiplo(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_setTruce(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_equipItem(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_setLeague(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_skillTroop(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_moveTroop(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_moveTroopFix(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_eraseUnit2(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Action_doskill(ref Context context, ref Result result, CallActionStatement statement)
+    {
+        return true;
+    }
+
+    private static bool AddReferenceAndValidate_Function_isPostIn(ref Context context, ref Result result, CallFunctionExpression statement)
+    {
+        return true;
+    }
+     
+    private static bool AddReferenceAndValidate_Function_getDistance(ref Context context, ref Result result, CallFunctionExpression statement)
+    {
+        return true;
+    }
+     
+    private static bool AddReferenceAndValidate_Function_isNext(ref Context context, ref Result result, CallFunctionExpression statement)
+    {
+        return true;
+    }
+     
+    private static bool AddReferenceAndValidate_Function_isJoin(ref Context context, ref Result result, CallFunctionExpression statement)
+    {
+        return true;
+    }
+     
+    private static bool AddReferenceAndValidate_Function_getClearFloor(ref Context context, ref Result result, CallFunctionExpression statement)
+    {
+        return true;
     }
 }

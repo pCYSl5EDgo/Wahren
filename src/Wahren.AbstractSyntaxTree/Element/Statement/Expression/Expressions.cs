@@ -144,7 +144,7 @@ public sealed record class NumberCalculatorOperatorExpression(uint TokenId, Numb
     public void IncrementParenCount() => parenCount++;
 }
 
-public sealed record class CallFunctionExpression(uint TokenId, FunctionKind FunctionId)
+public sealed record class CallFunctionExpression(uint TokenId, FunctionKind Kind)
     : ISingleTermExpression
 {
     public List<Argument> Arguments = new();
