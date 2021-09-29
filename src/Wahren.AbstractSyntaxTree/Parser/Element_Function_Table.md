@@ -22,7 +22,7 @@
   - 11 enemy_power
   - 12 leader_skill
   - 12 assist_skill
-- Parse_Element_SEMICOLON(IElement<List<uint>> element)
+- Parse_Element_ROAM(IElement<List<uint>> element)
   -  4 roam
   -  4 spot
   -  5 power
