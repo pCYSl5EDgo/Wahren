@@ -20,9 +20,9 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
-    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallActionStatement statement)
+    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallActionStatement call)
     {
-        var arguments = statement.Arguments.AsSpan();
+        var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
         {
             return;
@@ -30,7 +30,7 @@ public static partial class NodeValidator
 
         ref var argument = ref arguments[0];
         ReadOnlySpan<char> span;
-        switch (statement.Kind)
+        switch (call.Kind)
         {
 <# foreach (((int min, int max), IEnumerable<(string, ReferenceKind[][])> groupEnumerable) in ActionInfo.Normals.GroupBy(
         item => (item.Min, item.Max),
@@ -44,7 +44,7 @@ public static partial class NodeValidator
             case ActionKind.<#= name.Escape() #>:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action '<#= name #>'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action '<#= name #>'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
 <#      } #>
@@ -74,7 +74,7 @@ public static partial class NodeValidator
 <#          } #>
 <#          array = arrayArray[0]; #>
 <#          if (array.Length == 0) { #>
-                AddReferenceAndValidate_Action_<#= name #>(ref context, ref result, statement);
+                AddReferenceAndValidate_Action_<#= name #>(ref context, ref result, call);
 <#          } else if (min == max) { #>
 <#              for (int i = 0; i < array.Length; ++i) { var reference = array[i]; #>
                 <#= reference.ProcessArgument(i, name, 4) #>

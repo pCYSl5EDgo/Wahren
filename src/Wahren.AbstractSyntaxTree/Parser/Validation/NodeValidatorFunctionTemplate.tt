@@ -19,9 +19,9 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
-    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallFunctionExpression statement)
+    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallFunctionExpression call)
     {
-        var arguments = statement.Arguments.AsSpan();
+        var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
         {
             return;
@@ -29,9 +29,9 @@ public static partial class NodeValidator
 
         ref var argument = ref arguments[0];
         ReadOnlySpan<char> span;
-        switch (statement.Kind)
+        switch (call.Kind)
         {
-<# foreach (((int min, int max), IEnumerable<(string, ReferenceKind[])> groupEnumerable) in FunctionInfo.FunctionInfoArray.GroupBy(
+<# foreach (((int min, int max), IEnumerable<(string, ReferenceKind[][])> groupEnumerable) in FunctionInfo.Normals.GroupBy(
         item => (item.Min, item.Max),
         item => (item.Name, item.KindArray),
         (key, values) => (key, values)
@@ -39,19 +39,41 @@ public static partial class NodeValidator
 ) { #>
 <#  if (min == max && min == 0) { continue; } #>
 <#  if (min == 0 && max == int.MaxValue) { #>
-<#      foreach ((string name, ReferenceKind[] array) in groupEnumerable) { #>
+<#      foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable) { #>
             case FunctionKind.<#= name.Escape() #>:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action '<#= name #>'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action '<#= name #>'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
 <#      } #>
-<#  } else { #>
-<#      foreach ((string name, ReferenceKind[] array) in groupEnumerable) { #>
+<#  } #>
+<#  else { #>
+<#      foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable) { #>
             case FunctionKind.<#= name.Escape() #>:
+<#          ReferenceKind[] array; #>
+<#          if (arrayArray.Length == 0) { #>
+                // skip <#= name #>
+                break;
+<#              continue; #>
+<#          } #>
+<#          if (arrayArray.Length > 1) { #>
+                switch (arguments.Length)
+                {
+<#              for (int j = min; j <= max; ++j) { #>
+<#                  array = arrayArray[j - min]; #>
+                    case <#= j #>:
+<#                  for (int i = 0; i < j; ++i) { #>
+<#                      var reference = array[i]; #>
+                        <#= reference.ProcessArgument(i, name, 6) #><#                  } #>break;
+<#              } #>
+                }
+                break;
+<#              continue; #>
+<#          } #>
+<#          array = arrayArray[0]; #>
 <#          if (array.Length == 0) { #>
-                AddReferenceAndValidate_Function_<#= name #>(ref context, ref result, statement);
+                AddReferenceAndValidate_Function_<#= name #>(ref context, ref result, call);
 <#          } else if (min == max) { #>
 <#              for (int i = 0; i < array.Length; ++i) { var reference = array[i]; #>
                 <#= reference.ProcessArgument(i, name, 4) #>
@@ -118,7 +140,7 @@ public static partial class NodeValidator
 		switch (kind)
         {
 <#
-foreach (((int min, int max), string[] itemArray) in FunctionInfo.FunctionInfoArray.GroupBy(
+foreach (((int min, int max), string[] itemArray) in FunctionInfo.Normals.GroupBy(
     item => (item.Min, item.Max),
     item => item.Name,
     (key, values) => (key, values.ToArray()))

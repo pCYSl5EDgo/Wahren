@@ -8,9 +8,9 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
-    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallFunctionExpression statement)
+    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallFunctionExpression call)
     {
-        var arguments = statement.Arguments.AsSpan();
+        var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
         {
             return;
@@ -18,24 +18,24 @@ public static partial class NodeValidator
 
         ref var argument = ref arguments[0];
         ReadOnlySpan<char> span;
-        switch (statement.Kind)
+        switch (call.Kind)
         {
             case FunctionKind.isSelect:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'isSelect'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'isSelect'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case FunctionKind.isWhoDead:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'isWhoDead'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'isWhoDead'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case FunctionKind.isGameOver:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'isGameOver'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'isGameOver'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case FunctionKind.has:
@@ -894,7 +894,7 @@ public static partial class NodeValidator
 
                 break;
             case FunctionKind.getClearFloor:
-                AddReferenceAndValidate_Function_getClearFloor(ref context, ref result, statement);
+                // skip getClearFloor
                 break;
             case FunctionKind.equal:
                 span = result.GetSpan(argument.TokenId);
@@ -1225,16 +1225,16 @@ public static partial class NodeValidator
                 }
                 break;
             case FunctionKind.isJoin:
-                AddReferenceAndValidate_Function_isJoin(ref context, ref result, statement);
+                // skip isJoin
                 break;
             case FunctionKind.isNext:
-                AddReferenceAndValidate_Function_isNext(ref context, ref result, statement);
+                // skip isNext
                 break;
             case FunctionKind.getDistance:
-                AddReferenceAndValidate_Function_getDistance(ref context, ref result, statement);
+                // skip getDistance
                 break;
             case FunctionKind.isPostIn:
-                AddReferenceAndValidate_Function_isPostIn(ref context, ref result, statement);
+                // skip isPostIn
                 break;
             case FunctionKind.countPost:
                 if (!argument.IsNumber && (argument.HasReference = IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))

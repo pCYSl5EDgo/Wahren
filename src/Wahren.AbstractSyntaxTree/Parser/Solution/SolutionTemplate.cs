@@ -654,6 +654,17 @@ public sealed partial class Solution : ISolutionResolver
         System.Text.StringBuilder? builder = null;
         var fileSpan = Files.AsSpan();
 
+        if (!NodeValidator.CollectNames_UnitClassPowerSpot(fileSpan, ref AmbiguousDictionary_UnitClassPowerSpot))
+        {
+            NodeValidator.CollectError(fileSpan, ref SolutionErrorList, ref AmbiguousDictionary_UnitClassPowerSpot);
+            success = false;
+        }
+        
+        if (!NodeValidator.CollectNames_SkillSkillset(fileSpan, ref AmbiguousDictionary_SkillSkillset))
+        {
+            NodeValidator.CollectError(fileSpan, ref SolutionErrorList, ref AmbiguousDictionary_SkillSkillset);
+            success = false;
+        }
 
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
@@ -1053,17 +1064,6 @@ public sealed partial class Solution : ISolutionResolver
                 }
                 SolutionErrorList.Add(new(builder.ToString()));
             }
-        }
-
-        if (!NodeValidator.CollectNames_UnitClassPowerSpot(fileSpan, ref AmbiguousDictionary_UnitClassPowerSpot))
-        {
-            NodeValidator.CollectError(fileSpan, ref SolutionErrorList, ref AmbiguousDictionary_UnitClassPowerSpot);
-            success = false;
-        }
-        if (!NodeValidator.CollectNames_SkillSkillset(fileSpan, ref AmbiguousDictionary_SkillSkillset))
-        {
-            NodeValidator.CollectError(fileSpan, ref SolutionErrorList, ref AmbiguousDictionary_SkillSkillset);
-            success = false;
         }
 
         return success;

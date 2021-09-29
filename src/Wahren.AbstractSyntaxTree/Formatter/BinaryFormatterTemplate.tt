@@ -630,7 +630,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
-<# foreach (var (name, _, _) in FunctionInfo.FunctionInfoArray) { #>
+<# foreach (var (name, _, _) in FunctionInfo.Normals) { #>
                         case FunctionKind.<#= name.Escape() #>:
                             Append_<#= name #>_ParenLeft(ref destination, ref JustChangeLine);
                             continue;

@@ -112,7 +112,7 @@ public static class FormatterHelper
         {
             pairs.Add(new(name + "_ParenLeft", name + "("));
         }
-        foreach (var (name, _, _) in FunctionInfo.FunctionInfoArray)
+        foreach (var (name, _, _) in FunctionInfo.Normals)
         {
             pairs.Add(new(name + "_ParenLeft", name + "("));
         }

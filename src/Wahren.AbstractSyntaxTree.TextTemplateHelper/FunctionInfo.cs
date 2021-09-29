@@ -5,17 +5,25 @@ public struct FunctionInfo
     public string Name;
     public int Min;
     public int Max;
-    public ReferenceKind[] KindArray;
+    public ReferenceKind[][] KindArray;
 
     public FunctionInfo(string name, int min, int max)
     {
         Name = name;
         Min = min;
         Max = max;
-        KindArray = System.Array.Empty<ReferenceKind>();
+        KindArray = System.Array.Empty<ReferenceKind[]>();
     }
 
     public FunctionInfo(string name, int min, int max, params ReferenceKind[] kinds)
+    {
+        Name = name;
+        Min = min;
+        Max = max;
+        KindArray = new ReferenceKind[][] { kinds };
+    }
+
+    public FunctionInfo(string name, int min, int max, params ReferenceKind[][] kinds)
     {
         Name = name;
         Min = min;
@@ -31,25 +39,26 @@ public struct FunctionInfo
     }
 
     private const ReferenceKind NumReader = ReferenceKind.NumberVariableReader | ReferenceKind.Number;
+    private const ReferenceKind StrReader = ReferenceKind.StringVariableReader | ReferenceKind.Text;
     private const ReferenceKind SPow = ReferenceKind.StringVariableReader | ReferenceKind.Power;
     private const ReferenceKind SUni = ReferenceKind.StringVariableReader | ReferenceKind.Unit;
     private const ReferenceKind SPowUni = SPow | ReferenceKind.Unit;
     private const ReferenceKind SSpoUni = SUni | ReferenceKind.Spot;
     private const ReferenceKind SSpo = ReferenceKind.StringVariableReader | ReferenceKind.Spot;
 
-    public static readonly FunctionInfo[] FunctionInfoArray = new FunctionInfo[]
+    public static readonly FunctionInfo[] Normals = new FunctionInfo[]
     {
         new("isSelect", 0, int.MaxValue),
         new("isWhoDead", 0, int.MaxValue),
         new("isGameOver", 0, int.MaxValue),
-        new("has", 2, int.MaxValue, ReferenceKind.StringVariableReader, ReferenceKind.StringVariableReader | ReferenceKind.Text),
-        new("inVar", 2, int.MaxValue, ReferenceKind.StringVariableReader, ReferenceKind.StringVariableReader | ReferenceKind.Text),
+        new("has", 2, int.MaxValue, ReferenceKind.StringVariableReader, StrReader),
+        new("inVar", 2, int.MaxValue, ReferenceKind.StringVariableReader, StrReader),
         new("yet", 1, 1, ReferenceKind.Event),
         new("rand", 0, 0),
         new("count", 1, 1, ReferenceKind.StringVariableReader),
         new("amount", 1, 1, ReferenceKind.StringVariableReader),
-        new("equal", 2, 2, ReferenceKind.StringVariableReader, ReferenceKind.StringVariableReader | ReferenceKind.Text),
-        new("eqVar", 2, 2, ReferenceKind.StringVariableReader, ReferenceKind.StringVariableReader | ReferenceKind.Text),
+        new("equal", 2, 2, ReferenceKind.StringVariableReader, StrReader),
+        new("eqVar", 2, 2, ReferenceKind.StringVariableReader, StrReader),
         new("isMap", 0, 0),
         new("isNpc", 1, int.MaxValue, SPowUni),
         new("isNPM", 0, 0),
@@ -61,7 +70,7 @@ public struct FunctionInfo
         new("isDone", 1, 1, SUni),
         new("isJoin", 2, 3),
         new("isNext", 2, 3),
-        new("reckon", 2, 2, ReferenceKind.StringVariableReader, ReferenceKind.StringVariableReader | ReferenceKind.Text),
+        new("reckon", 2, 2, ReferenceKind.StringVariableReader, StrReader),
         new("getLife", 1, 1, SUni),
         new("getMode", 0, 0),
         new("getTime", 0, 0),

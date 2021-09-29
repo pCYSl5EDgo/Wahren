@@ -9,9 +9,9 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
-    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallActionStatement statement)
+    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallActionStatement call)
     {
-        var arguments = statement.Arguments.AsSpan();
+        var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
         {
             return;
@@ -19,90 +19,90 @@ public static partial class NodeValidator
 
         ref var argument = ref arguments[0];
         ReadOnlySpan<char> span;
-        switch (statement.Kind)
+        switch (call.Kind)
         {
             case ActionKind.vc:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'vc'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'vc'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.play:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'play'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'play'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.ppl1:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'ppl1'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'ppl1'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.citom:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'citom'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'citom'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.setbcg:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'setbcg'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'setbcg'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.levelup:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'levelup'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'levelup'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.showCamp:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'showCamp'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'showCamp'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.pushDeath:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'pushDeath'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'pushDeath'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.clickWait:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'clickWait'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'clickWait'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.worldskin:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'worldskin'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'worldskin'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.storeDeath:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.darkness_off:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'darkness_off'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'darkness_off'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.doGameEnding:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'doGameEnding'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'doGameEnding'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.setPowerHome:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'setPowerHome'.", result.TokenList[statement.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'setPowerHome'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.stopTroop:

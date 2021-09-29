@@ -549,7 +549,7 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
-<# foreach (var (name, _, _) in FunctionInfo.FunctionInfoArray) { #>
+<# foreach (var (name, _, _) in FunctionInfo.Normals) { #>
                         case FunctionKind.<#= name.Escape() #>:
                             Append_<#= name #>_ParenLeft(ref destination, ref JustChangeLine);
                             continue;
