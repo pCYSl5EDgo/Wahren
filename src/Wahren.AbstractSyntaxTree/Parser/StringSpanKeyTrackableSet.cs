@@ -1,14 +1,12 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
-public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
-    where TValue : unmanaged
+public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
     where TTrackId : unmanaged
 {
     private struct Item : IDisposable
     {
         public char[]? keyArray;
         public int keyArrayUsed;
-        public TValue[]? valueArray;
         public TTrackId[]?[]? trackIdArrayArray;
         public int[]? trackIdArrayUsedArray;
 
@@ -21,11 +19,6 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             }
 
             keyArrayUsed = 0;
-            if (valueArray is not null)
-            {
-                ArrayPool<TValue>.Shared.Return(valueArray);
-                valueArray = null;
-            }
 
             if (trackIdArrayUsedArray is not null)
             {
@@ -56,14 +49,14 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
     private int count;
     public int Count => count;
 
-    public StringSpanKeyTrackableDictionary()
+    public StringSpanKeyTrackableSet()
     {
         count = 0;
         itemArray = ArrayPool<Item>.Shared.Rent(32);
         Array.Clear(itemArray);
     }
 
-    public ref TValue TryGet(ReadOnlySpan<char> key, out ReadOnlySpan<TTrackId> references)
+    public bool TryGet(ReadOnlySpan<char> key, out ReadOnlySpan<TTrackId> references)
     {
         if (key.IsEmpty || itemArray is null)
         {
@@ -76,18 +69,14 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             goto NOT_FOUND;
         }
         ref var item = ref itemArray[keyId];
-        if (item.keyArrayUsed == 0 || item.keyArray is null || item.valueArray is null || item.trackIdArrayArray is null || item.trackIdArrayUsedArray is null)
+        if (item.keyArrayUsed == 0 || item.keyArray is null || item.trackIdArrayArray is null || item.trackIdArrayUsedArray is null)
         {
             goto NOT_FOUND;
         }
 
         int index = 0;
         var tmpKeyArray = item.keyArray.AsSpan();
-        var small = item.valueArray.Length;
-        if (item.keyArrayUsed < small)
-        {
-            small = item.keyArrayUsed;
-        }
+        var small = item.keyArrayUsed;
         if (item.trackIdArrayArray.Length < small)
         {
             small = item.trackIdArrayArray.Length;
@@ -101,16 +90,16 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             if (key.SequenceEqual(tmpKeyArray.Slice(0, key.Length)))
             {
                 references = item.trackIdArrayArray[index].AsSpan(0, item.trackIdArrayUsedArray[index]);
-                return ref item.valueArray[index];
+                return true;
             }
         }
 
     NOT_FOUND:
         references = ReadOnlySpan<TTrackId>.Empty;
-        return ref Unsafe.NullRef<TValue>();
+        return false;
     }
 
-    public ref TValue TryGetTrack(ReadOnlySpan<char> key, TTrackId id)
+    public bool TryGetTrack(ReadOnlySpan<char> key, TTrackId id)
     {
         if (key.IsEmpty || itemArray is null)
         {
@@ -131,28 +120,23 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
         {
             goto NOT_FOUND;
         }
-        ref var valueArray = ref item.valueArray;
-        if (valueArray is null)
-        {
-            goto NOT_FOUND;
-        }
 
         int index = 0;
         var tmpKeyArray = keyArray.AsSpan();
-        for (var small = item.keyArrayUsed < valueArray.Length ? item.keyArrayUsed : valueArray.Length; index < small; ++index, tmpKeyArray = tmpKeyArray.Slice(key.Length))
+        for (var small = item.keyArrayUsed; index < small; ++index, tmpKeyArray = tmpKeyArray.Slice(key.Length))
         {
             if (key.SequenceEqual(tmpKeyArray.Slice(0, key.Length)))
             {
-                RegisterTrackId(index, id, ref item);
-                return ref valueArray[index];
+                StringSpanKeyTrackableSet<TTrackId>.RegisterTrackId(index, id, ref item);
+                return true;
             }
         }
 
     NOT_FOUND:
-        return ref Unsafe.NullRef<TValue>();
+        return false;
     }
 
-    private void RegisterTrackId(int index, TTrackId id, ref Item item)
+    private static void RegisterTrackId(int index, TTrackId id, ref Item item)
     {
         ref var trackIdArrayUsedArray = ref item.trackIdArrayUsedArray;
         if (trackIdArrayUsedArray is null)
@@ -199,11 +183,11 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
         trackIdArray[trackIdArrayUsed] = id;
     }
 
-    public void TryRegisterTrack(ReadOnlySpan<char> key, TValue value, TTrackId id)
+    public bool TryRegisterTrack(ReadOnlySpan<char> key, TTrackId id)
     {
         if (key.IsEmpty)
         {
-            return;
+            return false;
         }
 
         var keyId = key.Length - 1;
@@ -226,10 +210,12 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
 
         int index = 0;
         var tmpKeyArray = keyArray.AsSpan();
+        bool newAdd = true;
         for (; index < keyArrayUsed; ++index, tmpKeyArray = tmpKeyArray.Slice(key.Length))
         {
             if (key.SequenceEqual(tmpKeyArray.Slice(0, key.Length)))
             {
+                newAdd = false;
                 break;
             }
         }
@@ -251,26 +237,11 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             }
 
             key.CopyTo(keyArray.AsSpan(index * key.Length));
-
-            ref var valueArray = ref item.valueArray;
-            if (valueArray is null)
-            {
-                valueArray = ArrayPool<TValue>.Shared.Rent(index + 1);
-                Array.Clear(valueArray);
-            }
-            else if (index >= valueArray.Length)
-            {
-                var tmp = ArrayPool<TValue>.Shared.Rent(index + 1);
-                tmp.AsSpan(valueArray.Length).Clear();
-                valueArray.AsSpan().CopyTo(tmp);
-                valueArray = tmp;
-            }
-
             ++count;
-            valueArray[index] = value;
         }
-        
-        RegisterTrackId(index, id, ref item);
+
+        StringSpanKeyTrackableSet<TTrackId>.RegisterTrackId(index, id, ref item);
+        return newAdd;
     }
 
     public void Dispose()
@@ -300,7 +271,7 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
         private int itemIndex;
         private int arrayIndex;
 
-        public Enumerator(ref StringSpanKeyTrackableDictionary<TValue, TTrackId> parent)
+        public Enumerator(ref StringSpanKeyTrackableSet<TTrackId> parent)
         {
             index = -1;
             itemIndex = 0;
@@ -309,7 +280,7 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             itemArray = parent.itemArray ?? Array.Empty<Item>();
         }
 
-        public ref TValue MoveNext(out ReadOnlySpan<char> key, out ReadOnlySpan<TTrackId> references)
+        public bool MoveNext(out ReadOnlySpan<char> key, out ReadOnlySpan<TTrackId> references)
         {
             if (++index >= count || itemIndex >= itemArray.Length)
             {
@@ -326,19 +297,19 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             }
 
             ref var item = ref itemArray[itemIndex];
-            if (item.trackIdArrayArray is null || item.trackIdArrayUsedArray is null || item.valueArray is null)
+            if (item.trackIdArrayArray is null || item.trackIdArrayUsedArray is null)
             {
                 goto NOT_FOUND;
             }
 
             key = item.keyArray.AsSpan(arrayIndex * (itemIndex + 1), itemIndex + 1);
             references = item.trackIdArrayArray[arrayIndex].AsSpan(0, item.trackIdArrayUsedArray[arrayIndex]);
-            return ref item.valueArray[arrayIndex];
+            return true;
 
         NOT_FOUND:
             key = default;
             references = default;
-            return ref Unsafe.NullRef<TValue>();
+            return false;
         }
     }
 }

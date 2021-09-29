@@ -6,17 +6,25 @@ public struct ActionInfo
     public string Name;
     public int Min;
     public int Max;
-    public ReferenceKind[] KindArray;
+    public ReferenceKind[][] KindArray;
 
     public ActionInfo(string name, int min, int max)
     {
         Name = name;
         Min = min;
         Max = max;
-        KindArray = System.Array.Empty<ReferenceKind>();
+        KindArray = System.Array.Empty<ReferenceKind[]>();
     }
 
     public ActionInfo(string name, int min, int max, params ReferenceKind[] kinds)
+    {
+        Name = name;
+        Min = min;
+        Max = max;
+        KindArray = new ReferenceKind[][] { kinds };
+    }
+
+    public ActionInfo(string name, int min, int max, params ReferenceKind[][] kinds)
     {
         Name = name;
         Min = min;
@@ -69,12 +77,12 @@ public struct ActionInfo
         new("darkness_off", 0, int.MaxValue),
         new("doGameEnding", 0, int.MaxValue),
         new("setPowerHome", 0, int.MaxValue),
-        new("msg", 1, 3),
-        new("msg2", 1, 3),
-        new("talk", 1, 3),
-        new("talk2", 1, 3),
-        new("chat", 1, 3),
-        new("chat2", 1, 3),
+        new("msg", 1, 3, new ReferenceKind[] { ReferenceKind.Text }, new ReferenceKind[] { SUni, ReferenceKind.Text}, new ReferenceKind[] {SUni, ReferenceKind.face, ReferenceKind.Text}),
+        new("msg2", 1, 3, new ReferenceKind[] { ReferenceKind.Text }, new ReferenceKind[] { SUni, ReferenceKind.Text}, new ReferenceKind[] {SUni, ReferenceKind.face, ReferenceKind.Text}),
+        new("talk", 1, 3, new ReferenceKind[] { ReferenceKind.Text }, new ReferenceKind[] { SUni, ReferenceKind.Text}, new ReferenceKind[] {SUni, ReferenceKind.face, ReferenceKind.Text}),
+        new("talk2", 1, 3, new ReferenceKind[] { ReferenceKind.Text }, new ReferenceKind[] { SUni, ReferenceKind.Text}, new ReferenceKind[] {SUni, ReferenceKind.face, ReferenceKind.Text}),
+        new("chat", 1, 3, new ReferenceKind[] { ReferenceKind.Text }, new ReferenceKind[] { SUni, ReferenceKind.Text}, new ReferenceKind[] {SUni, ReferenceKind.face, ReferenceKind.Text}),
+        new("chat2", 1, 3, new ReferenceKind[] { ReferenceKind.Text }, new ReferenceKind[] { SUni, ReferenceKind.Text}, new ReferenceKind[] {SUni, ReferenceKind.face, ReferenceKind.Text}),
         new("dialog", 1, 2),
         new("dialogF", 1, 2),
         new("image", 1, 5, ReferenceKind.image_file, NumReader, NumReader, NumReader, NumReader),
@@ -118,7 +126,7 @@ public struct ActionInfo
         new("index", 3, 3, ReferenceKind.StringVariableReader, NumReader, ReferenceKind.StringVariableWriter),
         new("storeIndex", 3, 3, ReferenceKind.StringVariableReader, NumReader, ReferenceKind.StringVariableWriter),
         new("storeIndexVar", 3, 3, ReferenceKind.StringVariableReader, NumReader, ReferenceKind.StringVariableWriter),
-        new("pushv", 2, 3),
+        new("pushv", 2, 3, new ReferenceKind[] { ReferenceKind.StringVariableReader, ReferenceKind.NumberVariableWriter }, new ReferenceKind[] { ReferenceKind.StringVariableReader, StrReader , ReferenceKind.NumberVariableWriter }),
         new("setPM", 2, 2, SUni, SFriendship),
         new("setud", 2, 2, ReferenceKind.GlobalStringVariableReader, ReferenceKind.StringVariableWriter),
         new("shake", 0, 1, NumReader),
@@ -128,9 +136,9 @@ public struct ActionInfo
         new("choice", 2, int.MaxValue, ReferenceKind.StringVariableWriter, ReferenceKind.Text),
         new("fadein", 0, 1, NumReader),
         new("gwrite", 2, 3, ReferenceKind.GlobalVariableWriter | ReferenceKind.StringVariableWriter, ReferenceKind.NumberVariableReader, ReferenceKind.StringVariableReader),
-        new("locate", 1, 2),
+        new("locate", 1, 2, new ReferenceKind[] { SSpoUni }, new ReferenceKind[] { NumReader, NumReader }),
         new("playSE", 1, 1, ReferenceKind.se),
-        new("scroll", 1, 2),
+        new("scroll", 1, 2, new ReferenceKind[] { SSpoUni }, new ReferenceKind[] { NumReader, NumReader }),
         new("select", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.Text),
         new("setVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("shadow", 0, 6, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number),

@@ -47,6 +47,9 @@ public sealed partial class Solution : IDisposable
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> GlobalStringVariableWriter = new();
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> GlobalStringVariableReader = new();
 
+    public StringSpanKeyTrackableSet<AmbiguousNameReference> AmbiguousDictionary_SkillSkillset = new();
+    public StringSpanKeyTrackableSet<AmbiguousNameReference> AmbiguousDictionary_UnitClassPowerSpot = new();
+
     public void Dispose()
     {
         Files.Dispose();
@@ -93,6 +96,9 @@ public sealed partial class Solution : IDisposable
         GlobalVariableReader.Dispose();
         GlobalStringVariableWriter.Dispose();
         GlobalStringVariableReader.Dispose();
+
+        AmbiguousDictionary_SkillSkillset.Dispose();
+        AmbiguousDictionary_UnitClassPowerSpot.Dispose();
     }
 
     public ref Result TryResolveDetail(uint queryFileId, ReadOnlySpan<char> name, out ReferenceKind kind, out uint index)

@@ -112,22 +112,334 @@ public static partial class NodeValidator
                 }
                 break;
             case ActionKind.msg:
-                AddReferenceAndValidate_Action_msg(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+                        break;
+                }
                 break;
             case ActionKind.msg2:
-                AddReferenceAndValidate_Action_msg2(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+                        break;
+                }
                 break;
             case ActionKind.talk:
-                AddReferenceAndValidate_Action_talk(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+                        break;
+                }
                 break;
             case ActionKind.talk2:
-                AddReferenceAndValidate_Action_talk2(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+                        break;
+                }
                 break;
             case ActionKind.chat:
-                AddReferenceAndValidate_Action_chat(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+                        break;
+                }
                 break;
             case ActionKind.chat2:
-                AddReferenceAndValidate_Action_chat2(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+                        break;
+                }
                 break;
             case ActionKind.@event:
                 argument.ReferenceKind = ReferenceKind.Event;
@@ -154,13 +466,13 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.changeMaster:
-                AddReferenceAndValidate_Action_changeMaster(ref context, ref result, statement);
+                // skip changeMaster
                 break;
             case ActionKind.dialog:
-                AddReferenceAndValidate_Action_dialog(ref context, ref result, statement);
+                // skip dialog
                 break;
             case ActionKind.dialogF:
-                AddReferenceAndValidate_Action_dialogF(ref context, ref result, statement);
+                // skip dialogF
                 break;
             case ActionKind.hideImage:
                 argument.ReferenceKind = ReferenceKind.image_file;
@@ -237,10 +549,48 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.locate:
-                AddReferenceAndValidate_Action_locate(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+break;
+                }
                 break;
             case ActionKind.scroll:
-                AddReferenceAndValidate_Action_scroll(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[1];
+                        if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+break;
+                }
                 break;
             case ActionKind.addSpot:
                 span = result.GetSpan(argument.TokenId);
@@ -305,10 +655,10 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.resetTruce:
-                AddReferenceAndValidate_Action_resetTruce(ref context, ref result, statement);
+                // skip resetTruce
                 break;
             case ActionKind.resetLeague:
-                AddReferenceAndValidate_Action_resetLeague(ref context, ref result, statement);
+                // skip resetLeague
                 break;
             case ActionKind.resetEnemyPower:
                 span = result.GetSpan(argument.TokenId);
@@ -3081,7 +3431,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.changePowerFix:
-                AddReferenceAndValidate_Action_changePowerFix(ref context, ref result, statement);
+                // skip changePowerFix
                 break;
             case ActionKind.pushBattleHome:
                 argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
@@ -3163,7 +3513,7 @@ public static partial class NodeValidator
                 
                 break;
             case ActionKind.changePowerName:
-                AddReferenceAndValidate_Action_changePowerName(ref context, ref result, statement);
+                // skip changePowerName
                 break;
             case ActionKind.changeSpotImage:
                 span = result.GetSpan(argument.TokenId);
@@ -5521,7 +5871,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.choiceTitle:
-                AddReferenceAndValidate_Action_choiceTitle(ref context, ref result, statement);
+                // skip choiceTitle
                 break;
             case ActionKind.changePlayer:
                 span = result.GetSpan(argument.TokenId);
@@ -5653,7 +6003,77 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.pushv:
-                AddReferenceAndValidate_Action_pushv(ref context, ref result, statement);
+                switch (arguments.Length)
+                {
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushv'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.HasReference = true;
+                            }
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        }
+                        else
+                        {
+                            if (context.CreateError(DiagnosticSeverity.Warning))
+                            {
+                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                            }
+                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                            argument.HasReference = true;
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        }
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                        argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushv'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.HasReference = true;
+                            }
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        }
+                        else
+                        {
+                            if (context.CreateError(DiagnosticSeverity.Warning))
+                            {
+                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                            }
+                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                            argument.HasReference = true;
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        }
+                        argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.Length > 1 && span[0] == '@')
+                        {
+                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                        argument = ref arguments[2];
+                        argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                        argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+break;
+                }
                 break;
             case ActionKind.gwrite:
                 
@@ -5694,28 +6114,28 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.addUnit:
-                AddReferenceAndValidate_Action_addUnit(ref context, ref result, statement);
+                // skip addUnit
                 break;
             case ActionKind.addDiplo:
-                AddReferenceAndValidate_Action_addDiplo(ref context, ref result, statement);
+                // skip addDiplo
                 break;
             case ActionKind.aimTroop:
-                AddReferenceAndValidate_Action_aimTroop(ref context, ref result, statement);
+                // skip aimTroop
                 break;
             case ActionKind.setDiplo:
-                AddReferenceAndValidate_Action_setDiplo(ref context, ref result, statement);
+                // skip setDiplo
                 break;
             case ActionKind.setTruce:
-                AddReferenceAndValidate_Action_setTruce(ref context, ref result, statement);
+                // skip setTruce
                 break;
             case ActionKind.equipItem:
-                AddReferenceAndValidate_Action_equipItem(ref context, ref result, statement);
+                // skip equipItem
                 break;
             case ActionKind.setLeague:
-                AddReferenceAndValidate_Action_setLeague(ref context, ref result, statement);
+                // skip setLeague
                 break;
             case ActionKind.skillTroop:
-                AddReferenceAndValidate_Action_skillTroop(ref context, ref result, statement);
+                // skip skillTroop
                 break;
             case ActionKind.index:
                 span = result.GetSpan(argument.TokenId);
@@ -6429,7 +6849,7 @@ public static partial class NodeValidator
                 }
                 break;
             case ActionKind.eraseUnit2:
-                AddReferenceAndValidate_Action_eraseUnit2(ref context, ref result, statement);
+                // skip eraseUnit2
                 break;
             case ActionKind.addPowerMerce:
                 span = result.GetSpan(argument.TokenId);
@@ -6677,10 +7097,10 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.doskill:
-                AddReferenceAndValidate_Action_doskill(ref context, ref result, statement);
+                // skip doskill
                 break;
             case ActionKind.addTroop:
-                AddReferenceAndValidate_Action_addTroop(ref context, ref result, statement);
+                // skip addTroop
                 break;
             case ActionKind.storeRectUnit:
                 if (!argument.IsNumber && (argument.HasReference = IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
@@ -6894,7 +7314,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.moveTroop:
-                AddReferenceAndValidate_Action_moveTroop(ref context, ref result, statement);
+                // skip moveTroop
                 break;
             case ActionKind.linkEscape:
                 span = result.GetSpan(argument.TokenId);
@@ -6961,7 +7381,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.moveTroopFix:
-                AddReferenceAndValidate_Action_moveTroopFix(ref context, ref result, statement);
+                // skip moveTroopFix
                 break;
             case ActionKind.spotmark:
                 

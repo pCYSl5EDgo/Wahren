@@ -32,7 +32,7 @@ public static partial class NodeValidator
         ReadOnlySpan<char> span;
         switch (statement.Kind)
         {
-<# foreach (((int min, int max), IEnumerable<(string, ReferenceKind[])> groupEnumerable) in ActionInfo.Normals.GroupBy(
+<# foreach (((int min, int max), IEnumerable<(string, ReferenceKind[][])> groupEnumerable) in ActionInfo.Normals.GroupBy(
         item => (item.Min, item.Max),
         item => (item.Name, item.KindArray),
         (key, values) => (key, values)
@@ -40,7 +40,7 @@ public static partial class NodeValidator
 ) { #>
 <#  if (min == max && min == 0) { continue; } #>
 <#  if (min == 0 && max == int.MaxValue) { #>
-<#      foreach ((string name, ReferenceKind[] array) in groupEnumerable) { #>
+<#      foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable) { #>
             case ActionKind.<#= name.Escape() #>:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
@@ -48,9 +48,31 @@ public static partial class NodeValidator
                 }
                 break;
 <#      } #>
-<#  } else { #>
-<#      foreach ((string name, ReferenceKind[] array) in groupEnumerable) { #>
+<#  } #>
+<#  else { #>
+<#      foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable) { #>
             case ActionKind.<#= name.Escape() #>:
+<#          ReferenceKind[] array; #>
+<#          if (arrayArray.Length == 0) { #>
+                // skip <#= name #>
+                break;
+<#              continue; #>
+<#          } #>
+<#          if (arrayArray.Length > 1) { #>
+                switch (arguments.Length)
+                {
+<#              for (int j = min; j <= max; ++j) { #>
+<#                  array = arrayArray[j - min]; #>
+                    case <#= j #>:
+<#                  for (int i = 0; i < j; ++i) { #>
+<#                      var reference = array[i]; #>
+                        <#= reference.ProcessArgument(i, name, 6) #><#                  } #>break;
+<#              } #>
+                }
+                break;
+<#              continue; #>
+<#          } #>
+<#          array = arrayArray[0]; #>
 <#          if (array.Length == 0) { #>
                 AddReferenceAndValidate_Action_<#= name #>(ref context, ref result, statement);
 <#          } else if (min == max) { #>
