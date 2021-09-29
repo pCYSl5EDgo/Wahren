@@ -22,12 +22,12 @@ public enum ActionKind : uint
 	showCamp,
 	pushDeath,
 	clickWait,
-	stopTroop,
 	worldskin,
 	storeDeath,
 	darkness_off,
 	doGameEnding,
 	setPowerHome,
+	stopTroop,
 	msg,
 	msg2,
 	talk,
@@ -173,6 +173,9 @@ public enum ActionKind : uint
 	hideBlind,
 	hideChara,
 	moveTroop,
+	moveTroopFix,
+	smoveTroop,
+	smoveTroopFix,
 	playWorld,
 	pushDiplo,
 	pushForce,
@@ -212,7 +215,6 @@ public enum ActionKind : uint
 	shuffleVar,
 	skillTroop,
 	sleepTroop,
-	smoveTroop,
 	speedTroop,
 	unionPower,
 	activeTroop,
@@ -235,7 +237,6 @@ public enum ActionKind : uint
 	changeCastle,
 	changeMaster,
 	changePlayer,
-	moveTroopFix,
 	retreatTroop,
 	reverseChara,
 	setBaseLevel,
@@ -250,7 +251,6 @@ public enum ActionKind : uint
 	setEnemyPower,
 	setTrainingUp,
 	setWorldMusic,
-	smoveTroopFix,
 	storeAllPower,
 	storeComPower,
 	storeNextSpot,
@@ -347,12 +347,12 @@ public static class ActionKindHelper
 			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("CAMP"): return ActionKind.showCamp;
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DEATH"): return ActionKind.pushDeath;
 			case 5 when (key4 == 0x00430049004C0043UL) && span.SequenceEqual("KWAIT"): return ActionKind.clickWait;
-			case 5 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("TROOP"): return ActionKind.stopTroop;
 			case 5 when (key4 == 0x004C0052004F0057UL) && span.SequenceEqual("DSKIN"): return ActionKind.worldskin;
 			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EDEATH"): return ActionKind.storeDeath;
 			case 8 when (key4 == 0x004B005200410044UL) && span.SequenceEqual("NESS_OFF"): return ActionKind.darkness_off;
 			case 8 when (key4 == 0x00410047004F0044UL) && span.SequenceEqual("MEENDING"): return ActionKind.doGameEnding;
 			case 8 when (key4 == 0x0050005400450053UL) && span.SequenceEqual("OWERHOME"): return ActionKind.setPowerHome;
+			case 5 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("TROOP"): return ActionKind.stopTroop;
 			case 0 when key4 == 0x000000470053004DUL: return ActionKind.msg;
 			case 0 when key4 == 0x003200470053004DUL: return ActionKind.msg2;
 			case 0 when key4 == 0x004B004C00410054UL: return ActionKind.talk;
@@ -498,6 +498,9 @@ public static class ActionKindHelper
 			case 5 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("BLIND"): return ActionKind.hideBlind;
 			case 5 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("CHARA"): return ActionKind.hideChara;
 			case 5 when (key4 == 0x00450056004F004DUL) && span.SequenceEqual("TROOP"): return ActionKind.moveTroop;
+			case 8 when (key4 == 0x00450056004F004DUL) && span.SequenceEqual("TROOPFIX"): return ActionKind.moveTroopFix;
+			case 6 when (key4 == 0x0056004F004D0053UL) && span.SequenceEqual("ETROOP"): return ActionKind.smoveTroop;
+			case 9 when (key4 == 0x0056004F004D0053UL) && span.SequenceEqual("ETROOPFIX"): return ActionKind.smoveTroopFix;
 			case 5 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("WORLD"): return ActionKind.playWorld;
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DIPLO"): return ActionKind.pushDiplo;
 			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("FORCE"): return ActionKind.pushForce;
@@ -537,7 +540,6 @@ public static class ActionKindHelper
 			case 6 when (key4 == 0x0046005500480053UL) && span.SequenceEqual("FLEVAR"): return ActionKind.shuffleVar;
 			case 6 when (key4 == 0x004C0049004B0053UL) && span.SequenceEqual("LTROOP"): return ActionKind.skillTroop;
 			case 6 when (key4 == 0x00450045004C0053UL) && span.SequenceEqual("PTROOP"): return ActionKind.sleepTroop;
-			case 6 when (key4 == 0x0056004F004D0053UL) && span.SequenceEqual("ETROOP"): return ActionKind.smoveTroop;
 			case 6 when (key4 == 0x0045004500500053UL) && span.SequenceEqual("DTROOP"): return ActionKind.speedTroop;
 			case 6 when (key4 == 0x004F0049004E0055UL) && span.SequenceEqual("NPOWER"): return ActionKind.unionPower;
 			case 7 when (key4 == 0x0049005400430041UL) && span.SequenceEqual("VETROOP"): return ActionKind.activeTroop;
@@ -560,7 +562,6 @@ public static class ActionKindHelper
 			case 8 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GECASTLE"): return ActionKind.changeCastle;
 			case 8 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEMASTER"): return ActionKind.changeMaster;
 			case 8 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEPLAYER"): return ActionKind.changePlayer;
-			case 8 when (key4 == 0x00450056004F004DUL) && span.SequenceEqual("TROOPFIX"): return ActionKind.moveTroopFix;
 			case 8 when (key4 == 0x0052005400450052UL) && span.SequenceEqual("EATTROOP"): return ActionKind.retreatTroop;
 			case 8 when (key4 == 0x0045005600450052UL) && span.SequenceEqual("RSECHARA"): return ActionKind.reverseChara;
 			case 8 when (key4 == 0x0042005400450053UL) && span.SequenceEqual("ASELEVEL"): return ActionKind.setBaseLevel;
@@ -575,7 +576,6 @@ public static class ActionKindHelper
 			case 9 when (key4 == 0x0045005400450053UL) && span.SequenceEqual("NEMYPOWER"): return ActionKind.setEnemyPower;
 			case 9 when (key4 == 0x0054005400450053UL) && span.SequenceEqual("RAININGUP"): return ActionKind.setTrainingUp;
 			case 9 when (key4 == 0x0057005400450053UL) && span.SequenceEqual("ORLDMUSIC"): return ActionKind.setWorldMusic;
-			case 9 when (key4 == 0x0056004F004D0053UL) && span.SequenceEqual("ETROOPFIX"): return ActionKind.smoveTroopFix;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EALLPOWER"): return ActionKind.storeAllPower;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ECOMPOWER"): return ActionKind.storeComPower;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ENEXTSPOT"): return ActionKind.storeNextSpot;

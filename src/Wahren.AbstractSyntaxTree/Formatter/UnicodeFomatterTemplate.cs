@@ -512,12 +512,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("clickWait(");
     }
 
-    public void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("stopTroop(");
-    }
-
     public void Append_worldskin_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -546,6 +540,12 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("setPowerHome(");
+    }
+
+    public void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("stopTroop(");
     }
 
     public void Append_msg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1418,6 +1418,24 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("moveTroop(");
     }
 
+    public void Append_moveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("moveTroopFix(");
+    }
+
+    public void Append_smoveTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("smoveTroop(");
+    }
+
+    public void Append_smoveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("smoveTroopFix(");
+    }
+
     public void Append_playWorld_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1652,12 +1670,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("sleepTroop(");
     }
 
-    public void Append_smoveTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("smoveTroop(");
-    }
-
     public void Append_speedTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1790,12 +1802,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("changePlayer(");
     }
 
-    public void Append_moveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("moveTroopFix(");
-    }
-
     public void Append_retreatTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1878,12 +1884,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("setWorldMusic(");
-    }
-
-    public void Append_smoveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("smoveTroopFix(");
     }
 
     public void Append_storeAllPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -3095,10 +3095,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.stopTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.worldskin:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
@@ -3118,6 +3114,10 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.setPowerHome:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stopTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.msg:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3699,6 +3699,18 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_moveTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.moveTroopFix:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_moveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.smoveTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_smoveTroop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.smoveTroopFix:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_smoveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.playWorld:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_playWorld_ParenLeft(ref destination, ref JustChangeLine);
@@ -3855,10 +3867,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_sleepTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.smoveTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_smoveTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.speedTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_speedTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -3947,10 +3955,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_changePlayer_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.moveTroopFix:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_moveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.retreatTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_retreatTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -4006,10 +4010,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.setWorldMusic:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setWorldMusic_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.smoveTroopFix:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_smoveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllPower:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

@@ -173,8 +173,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int pushDeath_ParenLeft_Count;
     private readonly int clickWait_ParenLeft_Offset;
     private readonly int clickWait_ParenLeft_Count;
-    private readonly int stopTroop_ParenLeft_Offset;
-    private readonly int stopTroop_ParenLeft_Count;
     private readonly int worldskin_ParenLeft_Offset;
     private readonly int worldskin_ParenLeft_Count;
     private readonly int storeDeath_ParenLeft_Offset;
@@ -185,6 +183,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int doGameEnding_ParenLeft_Count;
     private readonly int setPowerHome_ParenLeft_Offset;
     private readonly int setPowerHome_ParenLeft_Count;
+    private readonly int stopTroop_ParenLeft_Offset;
+    private readonly int stopTroop_ParenLeft_Count;
     private readonly int msg_ParenLeft_Offset;
     private readonly int msg_ParenLeft_Count;
     private readonly int msg2_ParenLeft_Offset;
@@ -475,6 +475,12 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int hideChara_ParenLeft_Count;
     private readonly int moveTroop_ParenLeft_Offset;
     private readonly int moveTroop_ParenLeft_Count;
+    private readonly int moveTroopFix_ParenLeft_Offset;
+    private readonly int moveTroopFix_ParenLeft_Count;
+    private readonly int smoveTroop_ParenLeft_Offset;
+    private readonly int smoveTroop_ParenLeft_Count;
+    private readonly int smoveTroopFix_ParenLeft_Offset;
+    private readonly int smoveTroopFix_ParenLeft_Count;
     private readonly int playWorld_ParenLeft_Offset;
     private readonly int playWorld_ParenLeft_Count;
     private readonly int pushDiplo_ParenLeft_Offset;
@@ -553,8 +559,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int skillTroop_ParenLeft_Count;
     private readonly int sleepTroop_ParenLeft_Offset;
     private readonly int sleepTroop_ParenLeft_Count;
-    private readonly int smoveTroop_ParenLeft_Offset;
-    private readonly int smoveTroop_ParenLeft_Count;
     private readonly int speedTroop_ParenLeft_Offset;
     private readonly int speedTroop_ParenLeft_Count;
     private readonly int unionPower_ParenLeft_Offset;
@@ -599,8 +603,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int changeMaster_ParenLeft_Count;
     private readonly int changePlayer_ParenLeft_Offset;
     private readonly int changePlayer_ParenLeft_Count;
-    private readonly int moveTroopFix_ParenLeft_Offset;
-    private readonly int moveTroopFix_ParenLeft_Count;
     private readonly int retreatTroop_ParenLeft_Offset;
     private readonly int retreatTroop_ParenLeft_Count;
     private readonly int reverseChara_ParenLeft_Offset;
@@ -629,8 +631,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int setTrainingUp_ParenLeft_Count;
     private readonly int setWorldMusic_ParenLeft_Offset;
     private readonly int setWorldMusic_ParenLeft_Count;
-    private readonly int smoveTroopFix_ParenLeft_Offset;
-    private readonly int smoveTroopFix_ParenLeft_Count;
     private readonly int storeAllPower_ParenLeft_Offset;
     private readonly int storeAllPower_ParenLeft_Count;
     private readonly int storeComPower_ParenLeft_Offset;
@@ -1203,10 +1203,6 @@ public class BinaryFormatter : IFormatter<byte>
         clickWait_ParenLeft_Count = Converter("clickWait(", registeredBytes.AsSpan(accum));
         accum += clickWait_ParenLeft_Count;
 
-        stopTroop_ParenLeft_Offset = accum;
-        stopTroop_ParenLeft_Count = Converter("stopTroop(", registeredBytes.AsSpan(accum));
-        accum += stopTroop_ParenLeft_Count;
-
         worldskin_ParenLeft_Offset = accum;
         worldskin_ParenLeft_Count = Converter("worldskin(", registeredBytes.AsSpan(accum));
         accum += worldskin_ParenLeft_Count;
@@ -1226,6 +1222,10 @@ public class BinaryFormatter : IFormatter<byte>
         setPowerHome_ParenLeft_Offset = accum;
         setPowerHome_ParenLeft_Count = Converter("setPowerHome(", registeredBytes.AsSpan(accum));
         accum += setPowerHome_ParenLeft_Count;
+
+        stopTroop_ParenLeft_Offset = accum;
+        stopTroop_ParenLeft_Count = Converter("stopTroop(", registeredBytes.AsSpan(accum));
+        accum += stopTroop_ParenLeft_Count;
 
         msg_ParenLeft_Offset = accum;
         msg_ParenLeft_Count = Converter("msg(", registeredBytes.AsSpan(accum));
@@ -1807,6 +1807,18 @@ public class BinaryFormatter : IFormatter<byte>
         moveTroop_ParenLeft_Count = Converter("moveTroop(", registeredBytes.AsSpan(accum));
         accum += moveTroop_ParenLeft_Count;
 
+        moveTroopFix_ParenLeft_Offset = accum;
+        moveTroopFix_ParenLeft_Count = Converter("moveTroopFix(", registeredBytes.AsSpan(accum));
+        accum += moveTroopFix_ParenLeft_Count;
+
+        smoveTroop_ParenLeft_Offset = accum;
+        smoveTroop_ParenLeft_Count = Converter("smoveTroop(", registeredBytes.AsSpan(accum));
+        accum += smoveTroop_ParenLeft_Count;
+
+        smoveTroopFix_ParenLeft_Offset = accum;
+        smoveTroopFix_ParenLeft_Count = Converter("smoveTroopFix(", registeredBytes.AsSpan(accum));
+        accum += smoveTroopFix_ParenLeft_Count;
+
         playWorld_ParenLeft_Offset = accum;
         playWorld_ParenLeft_Count = Converter("playWorld(", registeredBytes.AsSpan(accum));
         accum += playWorld_ParenLeft_Count;
@@ -1963,10 +1975,6 @@ public class BinaryFormatter : IFormatter<byte>
         sleepTroop_ParenLeft_Count = Converter("sleepTroop(", registeredBytes.AsSpan(accum));
         accum += sleepTroop_ParenLeft_Count;
 
-        smoveTroop_ParenLeft_Offset = accum;
-        smoveTroop_ParenLeft_Count = Converter("smoveTroop(", registeredBytes.AsSpan(accum));
-        accum += smoveTroop_ParenLeft_Count;
-
         speedTroop_ParenLeft_Offset = accum;
         speedTroop_ParenLeft_Count = Converter("speedTroop(", registeredBytes.AsSpan(accum));
         accum += speedTroop_ParenLeft_Count;
@@ -2055,10 +2063,6 @@ public class BinaryFormatter : IFormatter<byte>
         changePlayer_ParenLeft_Count = Converter("changePlayer(", registeredBytes.AsSpan(accum));
         accum += changePlayer_ParenLeft_Count;
 
-        moveTroopFix_ParenLeft_Offset = accum;
-        moveTroopFix_ParenLeft_Count = Converter("moveTroopFix(", registeredBytes.AsSpan(accum));
-        accum += moveTroopFix_ParenLeft_Count;
-
         retreatTroop_ParenLeft_Offset = accum;
         retreatTroop_ParenLeft_Count = Converter("retreatTroop(", registeredBytes.AsSpan(accum));
         accum += retreatTroop_ParenLeft_Count;
@@ -2114,10 +2118,6 @@ public class BinaryFormatter : IFormatter<byte>
         setWorldMusic_ParenLeft_Offset = accum;
         setWorldMusic_ParenLeft_Count = Converter("setWorldMusic(", registeredBytes.AsSpan(accum));
         accum += setWorldMusic_ParenLeft_Count;
-
-        smoveTroopFix_ParenLeft_Offset = accum;
-        smoveTroopFix_ParenLeft_Count = Converter("smoveTroopFix(", registeredBytes.AsSpan(accum));
-        accum += smoveTroopFix_ParenLeft_Count;
 
         storeAllPower_ParenLeft_Offset = accum;
         storeAllPower_ParenLeft_Count = Converter("storeAllPower(", registeredBytes.AsSpan(accum));
@@ -3143,12 +3143,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(clickWait_ParenLeft_Offset, clickWait_ParenLeft_Count));
     }
 
-    private void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
-    }
-
     private void Append_worldskin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3177,6 +3171,12 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPowerHome_ParenLeft_Offset, setPowerHome_ParenLeft_Count));
+    }
+
+    private void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
     }
 
     private void Append_msg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -4049,6 +4049,24 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(moveTroop_ParenLeft_Offset, moveTroop_ParenLeft_Count));
     }
 
+    private void Append_moveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(moveTroopFix_ParenLeft_Offset, moveTroopFix_ParenLeft_Count));
+    }
+
+    private void Append_smoveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(smoveTroop_ParenLeft_Offset, smoveTroop_ParenLeft_Count));
+    }
+
+    private void Append_smoveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(smoveTroopFix_ParenLeft_Offset, smoveTroopFix_ParenLeft_Count));
+    }
+
     private void Append_playWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4283,12 +4301,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(sleepTroop_ParenLeft_Offset, sleepTroop_ParenLeft_Count));
     }
 
-    private void Append_smoveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(smoveTroop_ParenLeft_Offset, smoveTroop_ParenLeft_Count));
-    }
-
     private void Append_speedTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4421,12 +4433,6 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(changePlayer_ParenLeft_Offset, changePlayer_ParenLeft_Count));
     }
 
-    private void Append_moveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(moveTroopFix_ParenLeft_Offset, moveTroopFix_ParenLeft_Count));
-    }
-
     private void Append_retreatTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -4509,12 +4515,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setWorldMusic_ParenLeft_Offset, setWorldMusic_ParenLeft_Count));
-    }
-
-    private void Append_smoveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(smoveTroopFix_ParenLeft_Offset, smoveTroopFix_ParenLeft_Count));
     }
 
     private void Append_storeAllPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -5723,10 +5723,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_clickWait_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.stopTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.worldskin:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
@@ -5746,6 +5742,10 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.setPowerHome:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stopTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.msg:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6327,6 +6327,18 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_moveTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.moveTroopFix:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_moveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.smoveTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_smoveTroop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.smoveTroopFix:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_smoveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.playWorld:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_playWorld_ParenLeft(ref destination, ref JustChangeLine);
@@ -6483,10 +6495,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_sleepTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.smoveTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_smoveTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.speedTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_speedTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -6575,10 +6583,6 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_changePlayer_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.moveTroopFix:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_moveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.retreatTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_retreatTroop_ParenLeft(ref destination, ref JustChangeLine);
@@ -6634,10 +6638,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.setWorldMusic:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setWorldMusic_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.smoveTroopFix:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_smoveTroopFix_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.storeAllPower:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
