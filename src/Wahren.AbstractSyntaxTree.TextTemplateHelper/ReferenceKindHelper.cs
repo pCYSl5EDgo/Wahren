@@ -2,6 +2,32 @@ namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
 public static class ReferenceKindHelper
 {
+    public static bool CanProcessArgument(this ReferenceKind[][] referencesArray)
+    {
+        foreach (var references in referencesArray)
+        {
+            if (!references.CanProcessArgument())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static bool CanProcessArgument(this ReferenceKind[] references)
+    {
+        foreach (var reference in references)
+        {
+            if (!reference.CanProcessArgument())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static bool CanProcessArgument(this ReferenceKind reference)
     {
         switch (reference)

@@ -204,30 +204,6 @@ public static partial class NodeValidator
 
                 }
                 break;
-            case FunctionKind.inPower:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length != 1)
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                        argument.HasReference = true;
-                    }
-                }
-                else
-                {
-                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.Power;
-                    argument.HasReference = true;
-                }
-
-                
-                break;
             case FunctionKind.inRoamSpot:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
@@ -596,9 +572,6 @@ public static partial class NodeValidator
                 }
 
                 break;
-            case FunctionKind.isPlayer:
-                
-                break;
             case FunctionKind.isRoamer:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
@@ -713,9 +686,6 @@ public static partial class NodeValidator
                     argument.HasReference = true;
                 }
 
-                break;
-            case FunctionKind.countUnit:
-                
                 break;
             case FunctionKind.isAllDead:
                 span = result.GetSpan(argument.TokenId);
@@ -894,7 +864,10 @@ public static partial class NodeValidator
 
                 break;
             case FunctionKind.getClearFloor:
-                // skip getClearFloor
+                argument.ReferenceKind = ReferenceKind.Dungeon;
+                argument.ReferenceId = result.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
+
                 break;
             case FunctionKind.equal:
                 span = result.GetSpan(argument.TokenId);
@@ -1043,14 +1016,6 @@ public static partial class NodeValidator
                 }
 
                 break;
-            case FunctionKind.isEnemy:
-                
-                
-                break;
-            case FunctionKind.isFriend:
-                
-                
-                break;
             case FunctionKind.isLeague:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
@@ -1119,9 +1084,6 @@ public static partial class NodeValidator
                 }
 
                 break;
-            case FunctionKind.isNpc:
-                
-                break;
             case FunctionKind.isDead:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
@@ -1169,12 +1131,6 @@ public static partial class NodeValidator
                     }
 
                 }
-                break;
-            case FunctionKind.isAlive:
-                
-                break;
-            case FunctionKind.inBattle:
-                
                 break;
             case FunctionKind.isAnyDead:
                 span = result.GetSpan(argument.TokenId);
@@ -1224,17 +1180,64 @@ public static partial class NodeValidator
 
                 }
                 break;
-            case FunctionKind.isJoin:
-                // skip isJoin
-                break;
             case FunctionKind.isNext:
-                // skip isNext
-                break;
-            case FunctionKind.getDistance:
-                // skip getDistance
-                break;
-            case FunctionKind.isPostIn:
-                // skip isPostIn
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isNext'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Spot;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isNext'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Spot;
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 2)
+                {
+                    break;
+                }
+                argument = ref arguments[2];
+                if (!argument.IsNumber && (argument.HasReference = IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                {
+                    argument.ReferenceKind = ReferenceKind.Boolean;
+                }
+                else
+                {
+                    result.ErrorList.Add(new($"The 2-th argument of action 'isNext' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                }
+
                 break;
             case FunctionKind.countPost:
                 if (!argument.IsNumber && (argument.HasReference = IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))

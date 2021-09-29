@@ -42,8 +42,10 @@ public struct FunctionInfo
     private const ReferenceKind StrReader = ReferenceKind.StringVariableReader | ReferenceKind.Text;
     private const ReferenceKind SPow = ReferenceKind.StringVariableReader | ReferenceKind.Power;
     private const ReferenceKind SUni = ReferenceKind.StringVariableReader | ReferenceKind.Unit;
+    private const ReferenceKind SUniCla = SUni | ReferenceKind.Class;
     private const ReferenceKind SPowUni = SPow | ReferenceKind.Unit;
     private const ReferenceKind SSpoUni = SUni | ReferenceKind.Spot;
+    private const ReferenceKind SSpoPow = SSpo | ReferenceKind.Power;
     private const ReferenceKind SSpo = ReferenceKind.StringVariableReader | ReferenceKind.Spot;
 
     public static readonly FunctionInfo[] Normals = new FunctionInfo[]
@@ -68,8 +70,8 @@ public struct FunctionInfo
         new("inSpot", 2, int.MaxValue, SSpo, SUni),
         new("isDead", 1, int.MaxValue, SUni),
         new("isDone", 1, 1, SUni),
-        new("isJoin", 2, 3),
-        new("isNext", 2, 3),
+        new("isJoin", 2, 3, SSpoPow, SSpoPow, ReferenceKind.Boolean),
+        new("isNext", 2, 3, SSpo, SSpo, ReferenceKind.Boolean),
         new("reckon", 2, 2, ReferenceKind.StringVariableReader, StrReader),
         new("getLife", 1, 1, SUni),
         new("getMode", 0, 0),
@@ -93,7 +95,7 @@ public struct FunctionInfo
         new("isLeague", 2, 2, SPow, SPow),
         new("isMaster", 1, 1, SUni),
         new("isPlayer", 1, 1, SPowUni),
-        new("isPostIn", 3, 5),
+        new("isPostIn", 3, 5, new[] { SUniCla, SUniCla, NumReader }, new[] { SUniCla, NumReader, NumReader, NumReader }, new[] { SUniCla, NumReader, NumReader, NumReader, NumReader }),
         new("isRoamer", 1, 1, SUni),
         new("isTalent", 1, 1, SUni),
         new("isVassal", 1, 1, SUni),
@@ -119,7 +121,7 @@ public struct FunctionInfo
         new("isSameArmy", 2, 2, SUni),
         new("isScenario", 1, 1, ReferenceKind.Scenario),
         new("isWatching", 0, 0),
-        new("getDistance", 2, 3),
+        new("getDistance", 2, 3, new[] { SUniCla, SUniCla }, new[] { SUniCla, NumReader, NumReader }),
         new("getRedCount", 0, 0),
         new("isBlueAlive", 0, 0),
         new("isGameClear", 0, 0),
@@ -127,7 +129,7 @@ public struct FunctionInfo
         new("getBlueCount", 0, 0),
         new("isPlayerTurn", 0, 0),
         new("isRoamLeader", 1, 1, SUni),
-        new("getClearFloor", 1, 1),
+        new("getClearFloor", 1, 1, ReferenceKind.Dungeon),
         new("isWorldMusicStop", 0, 0),
     };
 }

@@ -50,7 +50,7 @@ public static partial class NodeValidator
 <#      } #>
 <#  } #>
 <#  else { #>
-<#      foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable) { #>
+<#      foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable.Where(x => x.Item2.CanProcessArgument())) { #>
             case ActionKind.<#= name.Escape() #>:
 <#          ReferenceKind[] array; #>
 <#          if (arrayArray.Length == 0) { #>
@@ -66,7 +66,7 @@ public static partial class NodeValidator
                     case <#= j #>:
 <#                  for (int i = 0; i < j; ++i) { #>
 <#                      var reference = array[i]; #>
-                        <#= reference.ProcessArgument(i, name, 6) #><#                  } #>break;
+                        <#= reference.ProcessArgument(i, name, 6) #><#                  } #>                        break;
 <#              } #>
                 }
                 break;
