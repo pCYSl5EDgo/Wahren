@@ -56,6 +56,7 @@ public partial class Program
 
         var scriptFolderPath = Path.Combine(contentsFolder, "script");
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
+        var diagnosticSeverity = (DiagnosticSeverity)(uint)severity;
         var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
         var solution = new Solution();
         try
@@ -98,7 +99,7 @@ public partial class Program
 
                 try
                 {
-                    LoadAndParse((DiagnosticSeverity)(uint)severity, @switch, isUnicode, isEnglish, ref solution.Files[index], rental.AsSpan(0, actual));
+                    LoadAndParse(diagnosticSeverity, @switch, isUnicode, isEnglish, ref solution.Files[index], rental.AsSpan(0, actual));
                 }
                 finally
                 {
@@ -106,8 +107,7 @@ public partial class Program
                 }
             }).ConfigureAwait(false);
 
-            var diagnosticsSeverity = (DiagnosticSeverity)(uint)severity;
-            if (!CompileResultSync(solution, diagnosticsSeverity))
+            if (!CompileResultSync(solution, diagnosticSeverity))
             {
                 return 0;
             }
