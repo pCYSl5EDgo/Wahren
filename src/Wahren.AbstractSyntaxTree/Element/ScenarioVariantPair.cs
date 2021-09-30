@@ -22,4 +22,27 @@ public struct VariantPair<T> : IDisposable
             ScenarioVariant = null;
         }
     }
+
+    public T? TryGetMainOrVariant()
+    {
+        if (Value is not null)
+        {
+            return Value;
+        }
+
+        if (ScenarioVariant is null)
+        {
+            return null;
+        }
+
+        foreach (var item in ScenarioVariant)
+        {
+            if (item is not null)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
 }
