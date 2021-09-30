@@ -261,6 +261,8 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
         count = 0;
     }
 
+    public Single ToSingle() => new(ref this);
+
     public Enumerator GetEnumerator() => new(ref this);
 
     public ref struct Enumerator
@@ -310,6 +312,159 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
             key = default;
             references = default;
             return false;
+        }
+    }
+
+    public struct Single : IDisposable
+    {
+        private int count;
+        private char[] keyArray;
+        private System.Range[] infoArray;
+        private ulong[] hashArray;
+        private TTrackId[] trackIdArray;
+        private int maxKeyLength;
+
+        public void Dispose()
+        {
+            if (keyArray != Array.Empty<char>() && keyArray is not null)
+            {
+                ArrayPool<char>.Shared.Return(keyArray);
+                keyArray = Array.Empty<char>();
+            }
+
+            if (infoArray != Array.Empty<System.Range>() && infoArray is not null)
+            {
+                ArrayPool<System.Range>.Shared.Return(infoArray);
+                infoArray = Array.Empty<System.Range>();
+            }
+
+            if (hashArray != Array.Empty<ulong>() && hashArray is not null)
+            {
+                ArrayPool<ulong>.Shared.Return(hashArray);
+                hashArray = Array.Empty<ulong>();
+            }
+
+            if (trackIdArray != Array.Empty<TTrackId>() && trackIdArray is not null)
+            {
+                ArrayPool<TTrackId>.Shared.Return(trackIdArray);
+                trackIdArray = Array.Empty<TTrackId>();
+            }
+
+            count = 0;
+            maxKeyLength = 0;
+        }
+
+        public Single(ref StringSpanKeyTrackableSet<TTrackId> parent)
+        {
+            count = parent.count;
+            infoArray = ArrayPool<System.Range>.Shared.Rent(count);
+            hashArray = ArrayPool<ulong>.Shared.Rent(count);
+            trackIdArray = ArrayPool<TTrackId>.Shared.Rent(count);
+            maxKeyLength = 0;
+            var tmp = ArrayPool<(int itemIndex, int innerIndex)>.Shared.Rent(count);
+            var tmpSpan = tmp.AsSpan(0, count);
+            try
+            {
+                var fillIndex = 0;
+                var itemSpan = parent.itemArray.AsSpan();
+                var needCharCount = 0;
+                for (int itemIndex = 0; itemIndex < itemSpan.Length; itemIndex++)
+                {
+                    ref var item = ref itemSpan[itemIndex];
+                    if (item.keyArrayUsed == 0 || item.keyArray is null || item.trackIdArrayArray is null || item.trackIdArrayUsedArray is null)
+                    {
+                        continue;
+                    }
+
+                    maxKeyLength = itemIndex + 1;
+                    for (int innerIndex = 0; innerIndex < item.keyArrayUsed; innerIndex++)
+                    {
+                        if (item.trackIdArrayUsedArray[innerIndex] == 0)
+                        {
+                            continue;
+                        }
+
+                        var trackArray = item.trackIdArrayArray[innerIndex];
+                        if (trackArray is null || trackArray.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        needCharCount += maxKeyLength;
+                        hashArray[fillIndex] = CalcHash(item.keyArray.AsSpan(innerIndex * maxKeyLength, maxKeyLength));
+                        tmpSpan[fillIndex] = (itemIndex, innerIndex);
+                        fillIndex++;
+                    }
+                }
+
+                MemoryExtensions.Sort(hashArray.AsSpan(0, count), tmpSpan);
+                keyArray = ArrayPool<char>.Shared.Rent(needCharCount);
+                var keySpan = keyArray.AsSpan(0, needCharCount);
+                var sliceOffset = 0;
+                for (int i = 0; i < tmpSpan.Length; i++)
+                {
+                    var (itemIndex, innerIndex) = tmpSpan[i];
+                    ref var item = ref itemSpan[itemIndex];
+                    trackIdArray[i] = item.trackIdArrayArray![innerIndex]![0];
+                    infoArray[i] = new(new(sliceOffset), new(sliceOffset + itemIndex + 1));
+                    item.keyArray.AsSpan(innerIndex * (itemIndex + 1), itemIndex + 1).CopyTo(keySpan.Slice(sliceOffset));
+                    sliceOffset += itemIndex + 1;
+                }
+            }
+            finally
+            {
+                ArrayPool<(int itemIndex, int innerIndex)>.Shared.Return(tmp);
+            }
+        }
+
+        internal static ulong CalcHash(ReadOnlySpan<char> key)
+        {
+            var end = key.Length;
+            if (8 < end)
+            {
+                end = 8;
+            }
+
+            ulong answer = 0;
+            for (int i = 0; i < end; i++)
+            {
+                ulong c = key[i];
+                if (c >= 0x80)
+                {
+                    return ulong.MaxValue;
+                }
+
+                answer |= c << (i << 3);
+            }
+
+            return answer;
+        }
+
+        public ref TTrackId TryGet(ReadOnlySpan<char> key)
+        {
+            if (key.IsEmpty || key.Length >= maxKeyLength)
+            {
+                goto NOT_FOUND;
+            }
+
+            var hash = CalcHash(key);
+            if (hash == ulong.MaxValue)
+            {
+                goto NOT_FOUND;
+            }
+
+            var index = hashArray.AsSpan(0, count).BinarySearch(hash);
+            if (index == -1)
+            {
+                goto NOT_FOUND;
+            }
+
+            if (keyArray.AsSpan(infoArray[index]).SequenceEqual(key))
+            {
+                return ref trackIdArray[index];
+            }
+        NOT_FOUND:
+            return ref Unsafe.NullRef<TTrackId>();
         }
     }
 }
