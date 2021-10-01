@@ -443,7 +443,7 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
 
         public ref TTrackId TryGet(ReadOnlySpan<char> key)
         {
-            if (key.IsEmpty || key.Length >= maxKeyLength)
+            if (key.IsEmpty || key.Length > maxKeyLength)
             {
                 goto NOT_FOUND;
             }
