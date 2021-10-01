@@ -503,7 +503,7 @@ public static partial class NodeValidator
 		// Ignore Text Skill help
 		// Ignore Text Skill msg
 		ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
-		ValidateNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Number.");
+		ValidateBooleanNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Boolean 'on' or Number.");
 		ValidateNumber(ref result, ref node.color, " 'color' of skill requires Number.");
 		ValidateNumber(ref result, ref node.w, " 'w' of skill requires Number.");
 		ValidateNumber(ref result, ref node.h, " 'h' of skill requires Number.");

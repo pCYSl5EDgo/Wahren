@@ -18,15 +18,6 @@ public static partial class Parser
             case ActionKind.@while:
                 return Parse_While(ref context, ref result, currentIndex, ref statements, ref blockStack);
             case ActionKind.next:
-                foreach (ref var prev in statements)
-                {
-                    if ((object)prev.DisplayName == "next")
-                    {
-                        result.ErrorList.Add(new("next() statement must be only one in each event structure.", tokenList[currentIndex].Range));
-                        break;
-                    }
-                }
-
                 tokenList.Last.Kind = TokenKind.next;
                 if (!ReadToken(ref context, ref result))
                 {

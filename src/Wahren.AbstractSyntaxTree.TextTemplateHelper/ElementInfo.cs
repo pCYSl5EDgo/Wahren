@@ -208,7 +208,7 @@ public struct ElementInfo
         new("cutin"),
         new("value", referenceKind: ReferenceKind.Number),
         new("talent"),
-        new("exp_per", referenceKind: ReferenceKind.Number),
+        new("exp_per", referenceKind: ReferenceKind.Number | ReferenceKind.Boolean),
         new("movetype"),
         new("type"),
         new("color", referenceKind: ReferenceKind.Number),
