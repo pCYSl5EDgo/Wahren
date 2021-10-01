@@ -1,14 +1,14 @@
 ﻿global using System.Collections.Generic;
 namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
-public struct ActionInfo
+public struct CallableInfo
 {
     public string Name;
     public int Min;
     public int Max;
     public ReferenceKind[][] KindArray;
 
-    public ActionInfo(string name, int min, int max)
+    public CallableInfo(string name, int min, int max)
     {
         Name = name;
         Min = min;
@@ -16,7 +16,7 @@ public struct ActionInfo
         KindArray = System.Array.Empty<ReferenceKind[]>();
     }
 
-    public ActionInfo(string name, int min, int max, params ReferenceKind[] kinds)
+    public CallableInfo(string name, int min, int max, params ReferenceKind[] kinds)
     {
         Name = name;
         Min = min;
@@ -24,7 +24,7 @@ public struct ActionInfo
         KindArray = new ReferenceKind[][] { kinds };
     }
 
-    public ActionInfo(string name, int min, int max, params ReferenceKind[][] kinds)
+    public CallableInfo(string name, int min, int max, params ReferenceKind[][] kinds)
     {
         Name = name;
         Min = min;
@@ -62,7 +62,7 @@ public struct ActionInfo
     private const ReferenceKind SSpoPow = ReferenceKind.StringVariableReader | ReferenceKind.Spot | ReferenceKind.Power;
     private const ReferenceKind SFriendship = ReferenceKind.StringVariableReader | ReferenceKind.Race | ReferenceKind.Class | ReferenceKind.Unit;
 
-    public static readonly ActionInfo[] Normals = new ActionInfo[]
+    public static readonly CallableInfo[] ActionInfoNormals = new CallableInfo[]
     {
         new("vc", 0, int.MaxValue),
         new("play", 0, int.MaxValue),
@@ -78,15 +78,17 @@ public struct ActionInfo
         new("darkness_off", 0, int.MaxValue),
         new("doGameEnding", 0, int.MaxValue),
         new("setPowerHome", 0, int.MaxValue),
-        new("stopTroop", 1, int.MaxValue, SUniCla),
-        new("msg", 1, 3, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.Text}),
-        new("msg2", 1, 3, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.Text}),
-        new("talk", 1, 3, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.Text}),
-        new("talk2", 1, 3, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.Text}),
-        new("chat", 1, 3, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.Text}),
-        new("chat2", 1, 3, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.Text}),
-        new("dialog", 1, 2, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}),
-        new("dialogF", 1, 2, new[] { ReferenceKind.Text }, new[] { SUni | ReferenceKind.Text, ReferenceKind.Text}),
+        new("msg", 1, 3, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.CompoundText }),
+        new("msg2", 1, 3, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.CompoundText }),
+        new("talk", 1, 3, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.CompoundText }),
+        new("talk2", 1, 3, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.CompoundText }),
+        new("chat", 1, 3, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.CompoundText }),
+        new("chat2", 1, 3, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.face, ReferenceKind.CompoundText }),
+        new("dialog", 1, 2, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }),
+        new("dialogF", 1, 2, new[] { ReferenceKind.CompoundText }, new[] { SUni | ReferenceKind.Text, ReferenceKind.CompoundText }),
+        new("select", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.CompoundText),
+        new("choice", 2, int.MaxValue, ReferenceKind.StringVariableWriter, ReferenceKind.CompoundText),
+        new("exit", 0, 1, ReferenceKind.Number | ReferenceKind.CompoundText),
         new("image", 1, 5, ReferenceKind.image_file, NumReader, NumReader, NumReader, NumReader),
         new("image2", 1, 5, ReferenceKind.image_file, NumReader, NumReader, NumReader, NumReader),
         new("showImage", 1, 5, ReferenceKind.image_file, NumReader, NumReader, NumReader, NumReader),
@@ -112,7 +114,6 @@ public struct ActionInfo
         new("win", 0, 0),
         new("addv", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("call", 1, 1, ReferenceKind.Event),
-        new("exit", 0, 1, ReferenceKind.Number | ReferenceKind.Boolean),
         new("font", 0, 3, ReferenceKind.font, ReferenceKind.Number, ReferenceKind.Number),
         new("save", 0, 0),
         new("setv", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
@@ -135,13 +136,11 @@ public struct ActionInfo
         new("title", 2, 2, ReferenceKind.Text, NumReader),
         new("addstr", 2, 2, ReferenceKind.StringVariableWriter, ReferenceKind.Text),
         new("addVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
-        new("choice", 2, int.MaxValue, ReferenceKind.StringVariableWriter, ReferenceKind.Text),
         new("fadein", 0, 1, NumReader),
-        new("gwrite", 2, 3, ReferenceKind.GlobalVariableWriter | ReferenceKind.StringVariableWriter, ReferenceKind.NumberVariableReader, ReferenceKind.StringVariableReader),
+        new("gwrite", 2, 3, ReferenceKind.GlobalVariableWriter | ReferenceKind.StringVariableReader, ReferenceKind.NumberVariableReader, ReferenceKind.StringVariableReader),
         new("locate", 1, 2, new[] { SSpoUni }, new[] { NumReader, NumReader }),
         new("playSE", 1, 1, ReferenceKind.se),
         new("scroll", 1, 2, new[] { SSpoUni }, new[] { NumReader, NumReader }),
-        new("select", 2, 2, ReferenceKind.NumberVariableWriter, ReferenceKind.Text),
         new("setVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("shadow", 0, 6, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number),
         new("subVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
@@ -177,6 +176,7 @@ public struct ActionInfo
         new("addPower", 1, 1, SPow),
         new("addSkill", 2, int.MaxValue, SUni, SSki),
         new("addTroop", 5, 5, SUniCla, NumReader, NumReader, NumReader, ReferenceKind.RedBlue | ReferenceKind.Boolean),
+        new("stopTroop", 1, int.MaxValue, SUniCla),
         new("addTrust", 2, 2, SUni, NumReader),
         new("aimTroop", 2, 3, new[] { SUniCla, SUniCla }, new[]{ SUniCla, NumReader, NumReader }),
         new("clearVar", 1, 1, ReferenceKind.StringVariableReader),
@@ -215,7 +215,7 @@ public struct ActionInfo
         new("closeGoal", 0, 0),
         new("ctrlTroop", 1, 1, SUniCla),
         new("entryItem", 1, 1, SSki),
-        new("equipItem", 2, 3),
+        new("equipItem", 2, 3, SUni, SSki, ReferenceKind.Boolean),
         new("eraseItem", 1, 1, SSki),
         new("eraseUnit", 1, 1, SUni),
         new("formTroop", 2, 2, SUniCla, NumReader),
@@ -355,5 +355,90 @@ public struct ActionInfo
         new("storePowerOfDefense", 1, 1, ReferenceKind.StringVariableWriter),
         new("storeRoamUnitOfSpot", 2, 2, SSpo, ReferenceKind.StringVariableWriter),
         new("storeBaseClassOfUnit", 2, 2, SUni, ReferenceKind.StringVariableWriter),
+    };
+
+    public static readonly CallableInfo[] FunctionInfoNormals = new CallableInfo[]
+    {
+        new("isSelect", 0, int.MaxValue),
+        new("isWhoDead", 0, int.MaxValue),
+        new("isGameOver", 0, int.MaxValue),
+        new("has", 2, int.MaxValue, ReferenceKind.StringVariableReader, StrReader),
+        new("inVar", 2, int.MaxValue, ReferenceKind.StringVariableReader, StrReader),
+        new("yet", 1, 1, ReferenceKind.Event),
+        new("rand", 0, 0),
+        new("count", 1, 1, ReferenceKind.StringVariableReader),
+        new("amount", 1, 1, ReferenceKind.StringVariableReader),
+        new("equal", 2, 2, ReferenceKind.StringVariableReader, StrReader),
+        new("eqVar", 2, 2, ReferenceKind.StringVariableReader, StrReader),
+        new("isMap", 0, 0),
+        new("isNpc", 1, int.MaxValue, SPowUni),
+        new("isNPM", 0, 0),
+        new("isWar", 2, 2, SPow, ReferenceKind.Power),
+        new("ptest", 2, 2, ReferenceKind.Spot, ReferenceKind.Unit),
+        new("conVar", 1, 1, ReferenceKind.StringVariableReader),
+        new("inSpot", 2, int.MaxValue, SSpo, SUni),
+        new("isDead", 1, int.MaxValue, SUni),
+        new("isDone", 1, 1, SUni),
+        new("isJoin", 2, 3, SSpoPow, SSpoPow, ReferenceKind.Boolean),
+        new("isNext", 2, 3, SSpo, SSpo, ReferenceKind.Boolean),
+        new("reckon", 2, 2, ReferenceKind.StringVariableReader, StrReader),
+        new("getLife", 1, 1, SUni),
+        new("getMode", 0, 0),
+        new("getTime", 0, 0),
+        new("getTurn", 0, 0),
+        new("inPower", 2, int.MaxValue, SPow, SSpoUni),
+        new("isAlive", 1, int.MaxValue, SPowUni),
+        new("isEnemy", 2, 2, SSpoUni, SSpoUni),
+        new("isEvent", 0, 0),
+        new("isPeace", 0, 0),
+        new("isWorld", 0, 0),
+        new("countVar", 1, 1, ReferenceKind.StringVariableReader),
+        new("getLimit", 0, 0),
+        new("inBattle", 1, int.MaxValue, SPowUni),
+        new("isActive", 1, 1, SUni),
+        new("isArbeit", 1, 1, SUni),
+        new("isEnable", 1, 1, SUni),
+        new("isFriend", 2, 2, SSpoUni, SSpoUni),
+        new("isInvade", 1, 1, SPow),
+        new("isLeader", 1, 1, SUni),
+        new("isLeague", 2, 2, SPow, SPow),
+        new("isMaster", 1, 1, SUni),
+        new("isPlayer", 1, 1, SPowUni),
+        new("isPostIn", 3, 5, new[] { SUniCla, SUniCla, NumReader }, new[] { SUniCla, NumReader, NumReader, NumReader }, new[] { SUniCla, NumReader, NumReader, NumReader, NumReader }),
+        new("isRoamer", 1, 1, SUni),
+        new("isTalent", 1, 1, SUni),
+        new("isVassal", 1, 1, SUni),
+        new("countGain", 1, 1, SPow),
+        new("countPost", 6, 6, ReferenceKind.RedBlue, SUni, NumReader, NumReader, NumReader, NumReader),
+        new("countSpot", 1, 1, SPow),
+        new("countUnit", 1, 1, SPowUni),
+        new("isAllDead", 1, 1, SUni),
+        new("isAnyDead", 1, int.MaxValue, SUni),
+        new("isComTurn", 0, 1, SPow),
+        new("isDungeon", 0, 2, ReferenceKind.Dungeon, ReferenceKind.Number),
+        new("isNewTurn", 0, 0),
+        new("isNowSpot", 1, 1, SSpo),
+        new("istoWorld", 0, 0),
+        new("countForce", 1, 1, SPow),
+        new("countMoney", 1, 1, SPow),
+        new("countPower", 0, 0),
+        new("countSkill", 1, 1, ReferenceKind.Skill | ReferenceKind.StringVariableReader),
+        new("getLifePer", 1, 1, SUni),
+        new("inRoamSpot", 2, int.MaxValue, SSpo, SUni),
+        new("isInterval", 1, 1, NumReader),
+        new("isRedAlive", 0, 0),
+        new("isSameArmy", 2, 2, SUni),
+        new("isScenario", 1, 1, ReferenceKind.Scenario),
+        new("isWatching", 0, 0),
+        new("getDistance", 2, 3, new[] { SUniCla, SUniCla }, new[] { SUniCla, NumReader, NumReader }),
+        new("getRedCount", 0, 0),
+        new("isBlueAlive", 0, 0),
+        new("isGameClear", 0, 0),
+        new("isPlayerEnd", 0, 0),
+        new("getBlueCount", 0, 0),
+        new("isPlayerTurn", 0, 0),
+        new("isRoamLeader", 1, 1, SUni),
+        new("getClearFloor", 1, 1, ReferenceKind.Dungeon),
+        new("isWorldMusicStop", 0, 0),
     };
 }

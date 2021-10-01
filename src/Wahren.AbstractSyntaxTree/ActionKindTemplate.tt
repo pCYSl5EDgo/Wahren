@@ -15,11 +15,11 @@ namespace Wahren.AbstractSyntaxTree;
 
 public enum ActionKind : uint
 {
-<# foreach (var item in ActionInfo.Specials) { #>
+<# foreach (var item in CallableInfo.Specials) { #>
 	<#= item.Escape() #>,
 <# } #>
 <#
-foreach (var item in ActionInfo.Normals) { #>
+foreach (var item in CallableInfo.ActionInfoNormals) { #>
 	<#= item.Name.Escape() #>,
 <# } #>
 	None = uint.MaxValue
@@ -50,7 +50,7 @@ public static class ActionKindHelper
 		switch (span.Length)
         {
 <#
-foreach (var item in ActionInfo.Specials.Concat(ActionInfo.Normals.Select(x => x.Name)))
+foreach (var item in CallableInfo.Specials.Concat(CallableInfo.ActionInfoNormals.Select(x => x.Name)))
 {
 	var x = item.Escape();
 	ulong key = 0UL;

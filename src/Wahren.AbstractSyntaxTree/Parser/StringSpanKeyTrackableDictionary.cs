@@ -152,7 +152,7 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
         return ref Unsafe.NullRef<TValue>();
     }
 
-    private void RegisterTrackId(int index, TTrackId id, ref Item item)
+    private static void RegisterTrackId(int index, TTrackId id, ref Item item)
     {
         ref var trackIdArrayUsedArray = ref item.trackIdArrayUsedArray;
         if (trackIdArrayUsedArray is null)
@@ -294,8 +294,8 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
 
     public ref struct Enumerator
     {
-        private Item[] itemArray;
-        private int count;
+        private readonly Item[] itemArray;
+        private readonly int count;
         private int index;
         private int itemIndex;
         private int arrayIndex;

@@ -283,7 +283,7 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static void AddReference(ref Result result, ref VariantPair<StringArrayElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
+    internal static void AddReference(ref Result result, ref VariantPair<StringArrayElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
     {
         if (pair.Value is not null && pair.Value.HasValue)
         {
@@ -352,7 +352,7 @@ public static partial class NodeValidator
         }
     }
 
-    private static bool ValidateBooleanNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> postText)
+    internal static bool ValidateBooleanNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> postText)
     {
         bool success = true;
         if (pair is { Value.HasValue: true })
@@ -400,7 +400,7 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool IsStatus(ReadOnlySpan<char> span, out uint referenceId)
+    internal static bool IsStatus(ReadOnlySpan<char> span, out uint referenceId)
     {
         // hp 0
         // mp 1
@@ -464,7 +464,7 @@ public static partial class NodeValidator
         }
     }
 
-    private static bool IsBoolean(ReadOnlySpan<char> span, out uint referenceId)
+    internal static bool IsBoolean(ReadOnlySpan<char> span, out uint referenceId)
     {
         switch (span.Length)
         {
@@ -480,7 +480,7 @@ public static partial class NodeValidator
         }
     }
 
-    private static bool IsRedBlue(ReadOnlySpan<char> span, out uint referenceId)
+    internal static bool IsRedBlue(ReadOnlySpan<char> span, out uint referenceId)
     {
         switch (span.Length)
         {
@@ -496,9 +496,9 @@ public static partial class NodeValidator
         }
     }
 
-    private static bool SpecialTreatment_unit_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_unit_class_sex(ref result, ref pair, "unit", severity);
-    private static bool SpecialTreatment_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_unit_class_sex(ref result, ref pair, "class", severity);
-    private static bool SpecialTreatment_unit_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_unit_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_unit_class_sex(ref result, ref pair, "unit", severity);
+    internal static bool SpecialTreatment_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_unit_class_sex(ref result, ref pair, "class", severity);
+    internal static bool SpecialTreatment_unit_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
         {
@@ -547,9 +547,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_class_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu, DiagnosticSeverity severity) => SpecialTreatment_unit_class_yorozu(ref result, ref yorozu, "class", severity);
-    private static bool SpecialTreatment_unit_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu, DiagnosticSeverity severity) => SpecialTreatment_unit_class_yorozu(ref result, ref yorozu, "unit", severity);
-    private static bool SpecialTreatment_unit_class_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_class_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu, DiagnosticSeverity severity) => SpecialTreatment_unit_class_yorozu(ref result, ref yorozu, "class", severity);
+    internal static bool SpecialTreatment_unit_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu, DiagnosticSeverity severity) => SpecialTreatment_unit_class_yorozu(ref result, ref yorozu, "unit", severity);
+    internal static bool SpecialTreatment_unit_class_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, Span<Pair_NullableString_NullableInt> list, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
         {
@@ -638,7 +638,7 @@ public static partial class NodeValidator
     }
 
 
-    private static bool SpecialTreatment_event_handle(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_event_handle(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -685,7 +685,7 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_arbeit(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_unit_arbeit(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -744,7 +744,7 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_power_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_power_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -815,7 +815,7 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_unit_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -868,7 +868,7 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_scenario_power_order(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_scenario_power_order(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -921,9 +921,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_active(ref result, ref pair, "unit");
-    private static bool SpecialTreatment_class_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_active(ref result, ref pair, "class");
-    private static bool SpecialTreatment_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_active(ref result, ref pair, "unit");
+    internal static bool SpecialTreatment_class_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_active(ref result, ref pair, "class");
+    internal static bool SpecialTreatment_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
         {
@@ -1001,9 +1001,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "unit");
-    private static bool SpecialTreatment_class_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "class");
-    private static bool SpecialTreatment_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "unit");
+    internal static bool SpecialTreatment_class_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_detail(ref result, ref pair, "class");
+    internal static bool SpecialTreatment_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
         {
@@ -1062,9 +1062,9 @@ public static partial class NodeValidator
     }
 
 
-    private static bool SpecialTreatment_unit_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_add_vassal(ref result, ref pair, "unit");
-    private static bool SpecialTreatment_class_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_add_vassal(ref result, ref pair, "class");
-    private static bool SpecialTreatment_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_add_vassal(ref result, ref pair, "unit");
+    internal static bool SpecialTreatment_class_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_add_vassal(ref result, ref pair, "class");
+    internal static bool SpecialTreatment_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
         {
@@ -1114,9 +1114,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_multi(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, DiagnosticSeverity severity) => SpecialTreatment_multi(ref result, ref pair, severity, "unit");
-    private static bool SpecialTreatment_class_multi(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, DiagnosticSeverity severity) => SpecialTreatment_multi(ref result, ref pair, severity, "class");
-    private static bool SpecialTreatment_multi(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, DiagnosticSeverity severity, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_multi(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, DiagnosticSeverity severity) => SpecialTreatment_multi(ref result, ref pair, severity, "unit");
+    internal static bool SpecialTreatment_class_multi(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, DiagnosticSeverity severity) => SpecialTreatment_multi(ref result, ref pair, severity, "class");
+    internal static bool SpecialTreatment_multi(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, DiagnosticSeverity severity, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, Span<Pair_NullableString_NullableInt> list, ReadOnlySpan<char> kind, DiagnosticSeverity severity)
         {
@@ -1182,9 +1182,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_politics(ref result, ref pair, "unit");
-    private static bool SpecialTreatment_class_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_politics(ref result, ref pair, "class");
-    private static bool SpecialTreatment_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_politics(ref result, ref pair, "unit");
+    internal static bool SpecialTreatment_class_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_politics(ref result, ref pair, "class");
+    internal static bool SpecialTreatment_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
         {
@@ -1235,9 +1235,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_line(ref result, ref pair, severity, "unit");
-    private static bool SpecialTreatment_class_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_line(ref result, ref pair, severity, "class");
-    private static bool SpecialTreatment_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_line(ref result, ref pair, severity, "unit");
+    internal static bool SpecialTreatment_class_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_line(ref result, ref pair, severity, "class");
+    internal static bool SpecialTreatment_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
         {
@@ -1283,9 +1283,9 @@ public static partial class NodeValidator
         return success;
     }
 
-    private static bool SpecialTreatment_unit_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_floor(ref result, ref pair, severity, "unit");
-    private static bool SpecialTreatment_class_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_floor(ref result, ref pair, severity, "class");
-    private static bool SpecialTreatment_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity, ReadOnlySpan<char> kind)
+    internal static bool SpecialTreatment_unit_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_floor(ref result, ref pair, severity, "unit");
+    internal static bool SpecialTreatment_class_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity) => SpecialTreatment_picture_floor(ref result, ref pair, severity, "class");
+    internal static bool SpecialTreatment_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity, ReadOnlySpan<char> kind)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value, ReadOnlySpan<char> kind)
         {
@@ -1336,7 +1336,7 @@ public static partial class NodeValidator
         return success;
     }
     
-    private static bool SpecialTreatment_spot_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
+    internal static bool SpecialTreatment_spot_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, DiagnosticSeverity severity)
     {
         static bool Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1372,249 +1372,5 @@ public static partial class NodeValidator
         }
 
         return success;
-    }
-
-    private static bool AddReferenceAndValidate_Action_msg(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_msg2(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_talk(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_talk2(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_chat(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_chat2(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_dialog(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_dialogF(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        if (context.IsEnglishMode)
-        {
-
-        }
-        else
-        {
-            
-        }
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_changeMaster(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_locate(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_scroll(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_resetTruce(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_resetLeague(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_changePowerFix(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_changePowerName(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_exit(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_choiceTitle(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_pushv(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_addUnit(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_addDiplo(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_aimTroop(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_addTroop(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_setDiplo(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_setTruce(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_equipItem(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_setLeague(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_skillTroop(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_moveTroop(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_moveTroopFix(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_eraseUnit2(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Action_doskill(ref Context context, ref Result result, CallActionStatement statement)
-    {
-        return true;
-    }
-
-    private static bool AddReferenceAndValidate_Function_isPostIn(ref Context context, ref Result result, CallFunctionExpression statement)
-    {
-        return true;
-    }
-     
-    private static bool AddReferenceAndValidate_Function_getDistance(ref Context context, ref Result result, CallFunctionExpression statement)
-    {
-        return true;
-    }
-     
-    private static bool AddReferenceAndValidate_Function_isNext(ref Context context, ref Result result, CallFunctionExpression statement)
-    {
-        return true;
-    }
-     
-    private static bool AddReferenceAndValidate_Function_isJoin(ref Context context, ref Result result, CallFunctionExpression statement)
-    {
-        return true;
-    }
-     
-    private static bool AddReferenceAndValidate_Function_getClearFloor(ref Context context, ref Result result, CallFunctionExpression statement)
-    {
-        return true;
     }
 }

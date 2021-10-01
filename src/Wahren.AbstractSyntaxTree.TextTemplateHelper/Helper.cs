@@ -27,6 +27,18 @@ public static partial class Helper
         nameof(ElementInfo.Story),
     };
 
+    public static bool IsBlockContainer(this string name)
+    {
+        switch (name)
+        {
+            case nameof(ElementInfo.Event):
+            case nameof(ElementInfo.Scenario):
+            case nameof(ElementInfo.Story):
+                return true;
+            default: return false;
+        }
+    }
+
     public static bool IsAllowedUndefinedContent(string name)
     {
         switch (name)

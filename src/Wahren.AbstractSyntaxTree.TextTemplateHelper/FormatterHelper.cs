@@ -79,16 +79,18 @@ public static class FormatterHelper
 
     static FormatterHelper()
     {
-        var pairs = new List<NameContentPair>();
-        pairs.Add(new("Space_Assign", " ="));
-        pairs.Add(new("Semicolon", ";"));
-        pairs.Add(new("ParenLeft", "("));
-        pairs.Add(new("BracketLeft", "{"));
-        pairs.Add(new("ParenRight", ")"));
-        pairs.Add(new("else_Space_if_ParenLeft", "else if ("));
-        pairs.Add(new("else_Space_rif_ParenLeft", "else rif ("));
-        pairs.Add(new("Comma", ","));
-        pairs.Add(new("Comma_Space", ", "));
+        var pairs = new List<NameContentPair>
+        {
+            new("Space_Assign", " ="),
+            new("Semicolon", ";"),
+            new("ParenLeft", "("),
+            new("BracketLeft", "{"),
+            new("ParenRight", ")"),
+            new("else_Space_if_ParenLeft", "else if ("),
+            new("else_Space_rif_ParenLeft", "else rif ("),
+            new("Comma", ","),
+            new("Comma_Space", ", ")
+        };
         foreach (var x in new NameContentPair[]{
             new("Assign", "="),
             new("Colon", ":"),
@@ -108,22 +110,24 @@ public static class FormatterHelper
         {
             pairs.Add(new(name + "_Space", name + " "));
         };
-        foreach (var (name, _, _) in ActionInfo.Normals)
+        foreach (var x in CallableInfo.ActionInfoNormals)
         {
-            pairs.Add(new(name + "_ParenLeft", name + "("));
+            pairs.Add(new(x.Name + "_ParenLeft", x.Name + "("));
         }
-        foreach (var (name, _, _) in FunctionInfo.Normals)
+        foreach (var x in CallableInfo.FunctionInfoNormals)
         {
-            pairs.Add(new(name + "_ParenLeft", name + "("));
+            pairs.Add(new(x.Name + "_ParenLeft", x.Name + "("));
         }
         
         Pairs = pairs.ToArray();
 
-        var pairs_NewLine = new List<NameContentPair>();
-        pairs_NewLine.Add(new("BracketLeft", "{"));
-        pairs_NewLine.Add(new("BracketRight", "}"));
-        pairs_NewLine.Add(new("else", "else"));
-        pairs_NewLine.Add(new("battle", "battle"));
+        var pairs_NewLine = new List<NameContentPair>
+        {
+            new("BracketLeft", "{"),
+            new("BracketRight", "}"),
+            new("else", "else"),
+            new("battle", "battle")
+        };
         foreach (var name in new string[] {
             "next",
             "return",

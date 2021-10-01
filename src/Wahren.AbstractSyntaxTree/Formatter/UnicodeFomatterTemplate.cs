@@ -542,12 +542,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("setPowerHome(");
     }
 
-    public void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("stopTroop(");
-    }
-
     public void Append_msg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -594,6 +588,24 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("dialogF(");
+    }
+
+    public void Append_select_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("select(");
+    }
+
+    public void Append_choice_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("choice(");
+    }
+
+    public void Append_exit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("exit(");
     }
 
     public void Append_image_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -746,12 +758,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("call(");
     }
 
-    public void Append_exit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("exit(");
-    }
-
     public void Append_font_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -884,12 +890,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("addVar(");
     }
 
-    public void Append_choice_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("choice(");
-    }
-
     public void Append_fadein_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -918,12 +918,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("scroll(");
-    }
-
-    public void Append_select_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("select(");
     }
 
     public void Append_setVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1134,6 +1128,12 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("addTroop(");
+    }
+
+    public void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("stopTroop(");
     }
 
     public void Append_addTrust_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -3115,10 +3115,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setPowerHome_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.stopTroop:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.msg:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_msg_ParenLeft(ref destination, ref JustChangeLine);
@@ -3150,6 +3146,18 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.dialogF:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_dialogF_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.select:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_select_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.choice:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_choice_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.exit:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_exit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.image:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3251,10 +3259,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_call_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.exit:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_exit_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.font:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_font_ParenLeft(ref destination, ref JustChangeLine);
@@ -3343,10 +3347,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addVar_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.choice:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_choice_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.fadein:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_fadein_ParenLeft(ref destination, ref JustChangeLine);
@@ -3366,10 +3366,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.scroll:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_scroll_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.select:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_select_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setVar:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3510,6 +3506,10 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.addTroop:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addTroop_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.stopTroop:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_stopTroop_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addTrust:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

@@ -2,7 +2,7 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class NodeValidator
 {
-    public static bool CollectNames_UnitClassPowerSpot(Span<Result> results, ref StringSpanKeyTrackableSet<AmbiguousNameReference> set)
+    public static bool CollectNames(Span<Result> results, ref StringSpanKeyTrackableSet<AmbiguousNameReference> setUnitClassPowerSpotRace, ref StringSpanKeyTrackableSet<AmbiguousNameReference> setSkillSkillset)
     {
         bool noDuplication = true;
         for (int resultId = 0; resultId < results.Length; ++resultId)
@@ -13,7 +13,7 @@ public static partial class NodeValidator
                 for (int i = 0; i < span.Length; ++i)
                 {
                     ref var node = ref span[i];
-                    noDuplication &= set.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Unit, node.Name));
+                    noDuplication &= setUnitClassPowerSpotRace.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Unit, node.Name));
                 }
             }
             {
@@ -21,7 +21,7 @@ public static partial class NodeValidator
                 for (int i = 0; i < span.Length; ++i)
                 {
                     ref var node = ref span[i];
-                    noDuplication &= set.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Class, node.Name));
+                    noDuplication &= setUnitClassPowerSpotRace.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Class, node.Name));
                 }
             }
             {
@@ -29,7 +29,7 @@ public static partial class NodeValidator
                 for (int i = 0; i < span.Length; ++i)
                 {
                     ref var node = ref span[i];
-                    noDuplication &= set.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Power, node.Name));
+                    noDuplication &= setUnitClassPowerSpotRace.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Power, node.Name));
                 }
             }
             {
@@ -37,26 +37,23 @@ public static partial class NodeValidator
                 for (int i = 0; i < span.Length; ++i)
                 {
                     ref var node = ref span[i];
-                    noDuplication &= set.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Spot, node.Name));
+                    noDuplication &= setUnitClassPowerSpotRace.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Spot, node.Name));
                 }
             }
-        }
-
-        return noDuplication;
-    }
-
-    public static bool CollectNames_SkillSkillset(Span<Result> results, ref StringSpanKeyTrackableSet<AmbiguousNameReference> set)
-    {
-        bool noDuplication = true;
-        for (int resultId = 0; resultId < results.Length; ++resultId)
-        {
-            ref var result = ref results[resultId];
+            {
+                var span = result.RaceNodeList.AsSpan();
+                for (int i = 0; i < span.Length; ++i)
+                {
+                    ref var node = ref span[i];
+                    noDuplication &= setUnitClassPowerSpotRace.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Race, node.Name));
+                }
+            }
             {
                 var span = result.SkillNodeList.AsSpan();
                 for (int i = 0; i < span.Length; ++i)
                 {
                     ref var node = ref span[i];
-                    noDuplication &= set.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Skill, node.Name));
+                    noDuplication &= setSkillSkillset.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Skill, node.Name));
                 }
             }
             {
@@ -64,10 +61,11 @@ public static partial class NodeValidator
                 for (int i = 0; i < span.Length; ++i)
                 {
                     ref var node = ref span[i];
-                    noDuplication &= set.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Skillset, node.Name));
+                    noDuplication &= setSkillSkillset.TryRegisterTrack(result.GetSpan(node.Name), new(resultId, i, ReferenceKind.Skillset, node.Name));
                 }
             }
         }
+
         return noDuplication;
     }
 

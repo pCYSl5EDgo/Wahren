@@ -16,27 +16,27 @@ public static partial class NodeValidator
                 break;
             case WhileStatement @while:
                 AddReferenceAndValidate(ref context, ref result, @while.Condition);
-                foreach (ref var item in @while.Statements.AsSpan())
+                foreach (var item in @while.Statements.AsSpan())
                 {
                     AddReferenceAndValidate(ref context, ref result, item);
                 }
                 break;
             case IfStatement @if:
                 AddReferenceAndValidate(ref context, ref result, @if.Condition);
-                foreach (ref var item in @if.Statements.AsSpan())
+                foreach (var item in @if.Statements.AsSpan())
                 {
                     AddReferenceAndValidate(ref context, ref result, item);
                 }
                 if (@if.HasElseStatement)
                 {
-                    foreach (ref var item in @if.ElseStatements.AsSpan())
+                    foreach (var item in @if.ElseStatements.AsSpan())
                     {
                         AddReferenceAndValidate(ref context, ref result, item);
                     }
                 }
                 break;
             case BattleStatement battle:
-                foreach (ref var item in battle.Statements.AsSpan())
+                foreach (var item in battle.Statements.AsSpan())
                 {
                     AddReferenceAndValidate(ref context, ref result, item);
                 }

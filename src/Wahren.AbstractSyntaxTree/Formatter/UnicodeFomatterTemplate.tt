@@ -334,7 +334,7 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.CallAction:
                     switch ((ActionKind)token.Other)
                     {
-<# foreach (var (action, _, _) in ActionInfo.Normals) { #>
+<# foreach (var (action, _, _) in CallableInfo.ActionInfoNormals) { #>
                         case ActionKind.<#= action.Escape() #>:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_<#= action #>_ParenLeft(ref destination, ref JustChangeLine);
@@ -549,7 +549,7 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.CallFunction:
                     switch ((FunctionKind)token.Other)
                     {
-<# foreach (var (name, _, _) in FunctionInfo.Normals) { #>
+<# foreach (var (name, _, _) in CallableInfo.FunctionInfoNormals) { #>
                         case FunctionKind.<#= name.Escape() #>:
                             Append_<#= name #>_ParenLeft(ref destination, ref JustChangeLine);
                             continue;

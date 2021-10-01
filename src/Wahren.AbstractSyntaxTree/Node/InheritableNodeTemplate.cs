@@ -131,6 +131,7 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> force_blind_unit = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> satellite = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> hasexp = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> level = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> hp = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> mp = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> attack = new();
@@ -221,7 +222,6 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> bgm = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> volume = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> alive_per = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> level = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> yabo = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> kosen = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> align = new();
@@ -300,6 +300,7 @@ public partial struct UnitNode : IInheritableNode
 		force_blind_unit.Dispose();
 		satellite.Dispose();
 		hasexp.Dispose();
+		level.Dispose();
 		hp.Dispose();
 		mp.Dispose();
 		attack.Dispose();
@@ -390,7 +391,6 @@ public partial struct UnitNode : IInheritableNode
 		bgm.Dispose();
 		volume.Dispose();
 		alive_per.Dispose();
-		level.Dispose();
 		yabo.Dispose();
 		kosen.Dispose();
 		align.Dispose();
@@ -499,6 +499,7 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> force_blind_unit = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> satellite = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> hasexp = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> level = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> hp = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> mp = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> attack = new();
@@ -641,6 +642,7 @@ public partial struct ClassNode : IInheritableNode
 		force_blind_unit.Dispose();
 		satellite.Dispose();
 		hasexp.Dispose();
+		level.Dispose();
 		hp.Dispose();
 		mp.Dispose();
 		attack.Dispose();

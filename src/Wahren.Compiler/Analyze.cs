@@ -48,7 +48,7 @@ public partial class Program
             contentsFolder = Path.Combine(rootFolder, debugPaper.Folder);
         }
 
-        if (contentsFolder is null)
+        if (contentsFolder is null || !Directory.Exists(contentsFolder))
         {
             Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
             return 1;
@@ -56,9 +56,11 @@ public partial class Program
 
         var scriptFolderPath = Path.Combine(contentsFolder, "script");
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
-        var diagnosticSeverity = (DiagnosticSeverity)(uint)severity;
         var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-        var solution = new Solution();
+        var solution = new Solution()
+        {
+            RequiredSeverity = (DiagnosticSeverity)(uint)severity
+        };
         try
         {
             solution.Files.PrepareAddRange(files.Length);
@@ -99,15 +101,15 @@ public partial class Program
 
                 try
                 {
-                    LoadAndParse(diagnosticSeverity, @switch, isUnicode, isEnglish, ref solution.Files[index], rental.AsSpan(0, actual));
+                    LoadAndParse(solution.RequiredSeverity, @switch, isUnicode, isEnglish, ref solution.Files[index], rental.AsSpan(0, actual));
                 }
                 finally
                 {
                     ArrayPool<byte>.Shared.Return(rental);
                 }
             }).ConfigureAwait(false);
-
-            if (!CompileResultSync(solution, diagnosticSeverity))
+            
+            if (!CompileResultSync(solution))
             {
                 return 0;
             }
@@ -145,10 +147,19 @@ public partial class Program
         return success;
     }
 
-    private static bool CompileResultSync(Solution solution, DiagnosticSeverity severity)
+    private static bool CompileResultSync(Solution solution)
     {
-        var stringBuilder = new StringBuilder(1 << 14);
         bool isSuccess = true;
+        foreach (ref var file in solution.Files.AsSpan())
+        {
+            isSuccess &= file.NoError();
+        }
+        if (isSuccess)
+        {
+            solution.AddReferenceAndValidate();
+        }
+
+        StringBuilder? stringBuilder = null;
         foreach (ref var result in solution.Files)
         {
             if (result.ErrorList.IsEmpty)
@@ -164,14 +175,15 @@ public partial class Program
                     isSuccess = false;
                 }
 
+                stringBuilder ??= new(1 << 14);
                 stringBuilder.AppendLine(error.Text);
                 stringBuilder.Append(result.FilePath);
-                stringBuilder.Append("(");
+                stringBuilder.Append('(');
                 stringBuilder.Append(error.Range.StartInclusive.Line + 1);
                 stringBuilder.Append(", ");
                 stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
-                stringBuilder.Append(")");
-                if (severity != 0U)
+                stringBuilder.Append(')');
+                if (solution.RequiredSeverity != 0U)
                 {
                     stringBuilder.Append(", Severity: ");
                     stringBuilder.Append(error.Severity);
@@ -180,7 +192,10 @@ public partial class Program
             }
         }
 
-        Console.WriteLine(stringBuilder.ToString());
+        if (stringBuilder is not null)
+        {
+            Console.WriteLine(stringBuilder.ToString());
+        }
         return isSuccess;
     }
 

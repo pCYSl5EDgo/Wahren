@@ -728,6 +728,9 @@ public static partial class Parser
                         case 0x0076006100720062UL when span[0] == 'e':
                             pair_LOYAL = ref node.brave.EnsureGet(variant);
                             goto LOYAL;
+                        case 0x006500760065006CUL when span[0] == 'l':
+                            pair_DEFAULT = ref node.level.EnsureGet(variant);
+                            goto DEFAULT;
                         case 0x006900670061006DUL when span[0] == 'c':
                             pair_DEFAULT = ref node.magic.EnsureGet(variant);
                             goto DEFAULT;
@@ -775,9 +778,6 @@ public static partial class Parser
                             goto RAY;
                         case 0x00730061006C0063UL when span[0] == 's':
                             pair_DEFAULT = ref node.@class.EnsureGet(variant);
-                            goto DEFAULT;
-                        case 0x006500760065006CUL when span[0] == 'l':
-                            pair_DEFAULT = ref node.level.EnsureGet(variant);
                             goto DEFAULT;
                         case 0x00650073006F006BUL when span[0] == 'n':
                             pair_DEFAULT = ref node.kosen.EnsureGet(variant);
@@ -1828,6 +1828,9 @@ public static partial class Parser
                         case 0x0076006100720062UL when span[0] == 'e':
                             pair_LOYAL = ref node.brave.EnsureGet(variant);
                             goto LOYAL;
+                        case 0x006500760065006CUL when span[0] == 'l':
+                            pair_DEFAULT = ref node.level.EnsureGet(variant);
+                            goto DEFAULT;
                         case 0x006900670061006DUL when span[0] == 'c':
                             pair_DEFAULT = ref node.magic.EnsureGet(variant);
                             goto DEFAULT;

@@ -27,7 +27,6 @@ public enum ActionKind : uint
 	darkness_off,
 	doGameEnding,
 	setPowerHome,
-	stopTroop,
 	msg,
 	msg2,
 	talk,
@@ -36,6 +35,9 @@ public enum ActionKind : uint
 	chat2,
 	dialog,
 	dialogF,
+	select,
+	choice,
+	exit,
 	image,
 	image2,
 	showImage,
@@ -61,7 +63,6 @@ public enum ActionKind : uint
 	win,
 	addv,
 	call,
-	exit,
 	font,
 	save,
 	setv,
@@ -84,13 +85,11 @@ public enum ActionKind : uint
 	title,
 	addstr,
 	addVar,
-	choice,
 	fadein,
 	gwrite,
 	locate,
 	playSE,
 	scroll,
-	select,
 	setVar,
 	shadow,
 	subVar,
@@ -126,6 +125,7 @@ public enum ActionKind : uint
 	addPower,
 	addSkill,
 	addTroop,
+	stopTroop,
 	addTrust,
 	aimTroop,
 	clearVar,
@@ -352,7 +352,6 @@ public static class ActionKindHelper
 			case 8 when (key4 == 0x004B005200410044UL) && span.SequenceEqual("NESS_OFF"): return ActionKind.darkness_off;
 			case 8 when (key4 == 0x00410047004F0044UL) && span.SequenceEqual("MEENDING"): return ActionKind.doGameEnding;
 			case 8 when (key4 == 0x0050005400450053UL) && span.SequenceEqual("OWERHOME"): return ActionKind.setPowerHome;
-			case 5 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("TROOP"): return ActionKind.stopTroop;
 			case 0 when key4 == 0x000000470053004DUL: return ActionKind.msg;
 			case 0 when key4 == 0x003200470053004DUL: return ActionKind.msg2;
 			case 0 when key4 == 0x004B004C00410054UL: return ActionKind.talk;
@@ -361,6 +360,9 @@ public static class ActionKindHelper
 			case 1 when (key4 == 0x0054004100480043UL) && (span[0] == '2'): return ActionKind.chat2;
 			case 2 when (key4 == 0x004C004100490044UL) && span.SequenceEqual("OG"): return ActionKind.dialog;
 			case 3 when (key4 == 0x004C004100490044UL) && span.SequenceEqual("OGF"): return ActionKind.dialogF;
+			case 2 when (key4 == 0x0045004C00450053UL) && span.SequenceEqual("CT"): return ActionKind.select;
+			case 2 when (key4 == 0x0049004F00480043UL) && span.SequenceEqual("CE"): return ActionKind.choice;
+			case 0 when key4 == 0x0054004900580045UL: return ActionKind.exit;
 			case 1 when (key4 == 0x00470041004D0049UL) && (span[0] == 'E'): return ActionKind.image;
 			case 2 when (key4 == 0x00470041004D0049UL) && span.SequenceEqual("E2"): return ActionKind.image2;
 			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("IMAGE"): return ActionKind.showImage;
@@ -386,7 +388,6 @@ public static class ActionKindHelper
 			case 0 when key4 == 0x0000004E00490057UL: return ActionKind.win;
 			case 0 when key4 == 0x0056004400440041UL: return ActionKind.addv;
 			case 0 when key4 == 0x004C004C00410043UL: return ActionKind.call;
-			case 0 when key4 == 0x0054004900580045UL: return ActionKind.exit;
 			case 0 when key4 == 0x0054004E004F0046UL: return ActionKind.font;
 			case 0 when key4 == 0x0045005600410053UL: return ActionKind.save;
 			case 0 when key4 == 0x0056005400450053UL: return ActionKind.setv;
@@ -409,13 +410,11 @@ public static class ActionKindHelper
 			case 1 when (key4 == 0x004C005400490054UL) && (span[0] == 'E'): return ActionKind.title;
 			case 2 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("TR"): return ActionKind.addstr;
 			case 2 when (key4 == 0x0056004400440041UL) && span.SequenceEqual("AR"): return ActionKind.addVar;
-			case 2 when (key4 == 0x0049004F00480043UL) && span.SequenceEqual("CE"): return ActionKind.choice;
 			case 2 when (key4 == 0x0045004400410046UL) && span.SequenceEqual("IN"): return ActionKind.fadein;
 			case 2 when (key4 == 0x0049005200570047UL) && span.SequenceEqual("TE"): return ActionKind.gwrite;
 			case 2 when (key4 == 0x00410043004F004CUL) && span.SequenceEqual("TE"): return ActionKind.locate;
 			case 2 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("SE"): return ActionKind.playSE;
 			case 2 when (key4 == 0x004F005200430053UL) && span.SequenceEqual("LL"): return ActionKind.scroll;
-			case 2 when (key4 == 0x0045004C00450053UL) && span.SequenceEqual("CT"): return ActionKind.select;
 			case 2 when (key4 == 0x0056005400450053UL) && span.SequenceEqual("AR"): return ActionKind.setVar;
 			case 2 when (key4 == 0x0044004100480053UL) && span.SequenceEqual("OW"): return ActionKind.shadow;
 			case 2 when (key4 == 0x0056004200550053UL) && span.SequenceEqual("AR"): return ActionKind.subVar;
@@ -451,6 +450,7 @@ public static class ActionKindHelper
 			case 4 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWER"): return ActionKind.addPower;
 			case 4 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("KILL"): return ActionKind.addSkill;
 			case 4 when (key4 == 0x0054004400440041UL) && span.SequenceEqual("ROOP"): return ActionKind.addTroop;
+			case 5 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("TROOP"): return ActionKind.stopTroop;
 			case 4 when (key4 == 0x0054004400440041UL) && span.SequenceEqual("RUST"): return ActionKind.addTrust;
 			case 4 when (key4 == 0x0054004D00490041UL) && span.SequenceEqual("ROOP"): return ActionKind.aimTroop;
 			case 4 when (key4 == 0x00410045004C0043UL) && span.SequenceEqual("RVAR"): return ActionKind.clearVar;

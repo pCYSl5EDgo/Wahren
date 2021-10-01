@@ -71,16 +71,104 @@ public static partial class NodeValidator
 		}
 	}
 
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref EventNode node)
+	{
+		foreach (var statement in node.Statements.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, statement);
+		}
+		ValidateBoolean(ref result, ref node.disperse, " 'disperse' of event requires Boolean.");
+		ValidateNumber(ref result, ref node.w, " 'w' of event requires Number.");
+		ValidateNumber(ref result, ref node.h, " 'h' of event requires Number.");
+		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
+		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
+		// Ignore Text Event name
+		ValidateNumber(ref result, ref node.color, " 'color' of event requires Number.");
+		ValidateNumber(ref result, ref node.limit, " 'limit' of event requires Number.");
+		// Ignore Text Event title
+		ValidateNumber(ref result, ref node.volume, " 'volume' of event requires Number.");
+	}
+
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ScenarioNode node)
+	{
+		foreach (var statement in node.Statements.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, statement);
+		}
+		ValidateNumber(ref result, ref node.ws_red, " 'ws_red' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_blue, " 'ws_blue' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_green, " 'ws_green' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_alpha, " 'ws_alpha' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_light, " 'ws_light' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_light_range, " 'ws_light_range' of scenario requires Number.");
+		// Ignore Text Scenario save_name
+		ValidateNumber(ref result, ref node.max_unit, " 'max_unit' of scenario requires Number.");
+		// Ignore Text Scenario name
+		// Ignore Text Scenario help
+		ValidateNumber(ref result, ref node.locate_x, " 'locate_x' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.locate_y, " 'locate_y' of scenario requires Number.");
+		// Ignore Text Scenario begin_text
+		AddReference(ref result, ref node.world, ref result.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.fight, ref result.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.politics, ref result.EventSet, ReferenceKind.Event);
+		ValidateNumber(ref result, ref node.war_capacity, " 'war_capacity' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.spot_capacity, " 'spot_capacity' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.gain_per, " 'gain_per' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.support_range, " 'support_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.my_range, " 'my_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.myhelp_range, " 'myhelp_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.base_level, " 'base_level' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.monster_level, " 'monster_level' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.training_up, " 'training_up' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.actor_per, " 'actor_per' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of scenario requires Number.");
+		ValidateBoolean(ref result, ref node.default_ending, " 'default_ending' of scenario requires Boolean.");
+		SpecialTreatment_scenario_power_order(ref result, ref node.power_order, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.enable, " 'enable' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.party, " 'party' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_autosave, " 'no_autosave' of scenario requires Boolean.");
+		ValidateBoolean(ref result, ref node.nozone, " 'nozone' of scenario requires Boolean.");
+		ValidateBooleanNumber(ref result, ref node.item0, " 'item0' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item1, " 'item1' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item2, " 'item2' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item3, " 'item3' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item4, " 'item4' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item5, " 'item5' of scenario requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.item6, " 'item6' of scenario requires Boolean 'on' or Number.");
+		ValidateBoolean(ref result, ref node.item_limit, " 'item_limit' of scenario requires Boolean.");
+		AddReference(ref result, ref node.item_sale, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.item_hold, ref result.SkillSet, ReferenceKind.Skill);
+		// Ignore Text Scenario text
+		AddReference(ref result, ref node.roam, ref result.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.spot, ref result.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.power, ref result.PowerSet, ReferenceKind.Power);
+	}
+
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref StoryNode node)
+	{
+		foreach (var statement in node.Statements.AsSpan())
+		{
+			AddReferenceAndValidate(ref context, ref result, statement);
+		}
+		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
+		ValidateBoolean(ref result, ref node.fight, " 'fight' of story requires Boolean.");
+	}
+
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref VoiceNode node)
 	{
 		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
 		AddReference(ref result, ref node.delskill, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
+		// Ignore Text Voice spot
+		// Ignore Text Voice roam
+		// Ignore Text Voice power
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SpotNode node)
 	{
 		ValidateNumber(ref result, ref node.value, " 'value' of spot requires Number.");
 		SpecialTreatment_spot_politics(ref result, ref node.politics, context.RequiredSeverity);
+		// Ignore Text Spot name
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		ValidateNumber(ref result, ref node.x, " 'x' of spot requires Number.");
 		ValidateNumber(ref result, ref node.y, " 'y' of spot requires Number.");
@@ -99,6 +187,7 @@ public static partial class NodeValidator
 		ValidateBoolean(ref result, ref node.no_home, " 'no_home' of spot requires Boolean.");
 		ValidateBoolean(ref result, ref node.no_raise, " 'no_raise' of spot requires Boolean.");
 		ValidateNumber(ref result, ref node.castle_lot, " 'castle_lot' of spot requires Number.");
+		// Ignore Text Spot text
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref UnitNode node)
@@ -106,10 +195,13 @@ public static partial class NodeValidator
 		ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of unit requires Number.");
 		ValidateNumber(ref result, ref node.stealth, " 'stealth' of unit requires Number.");
 		ValidateNumber(ref result, ref node.free_move, " 'free_move' of unit requires Number.");
+		// Ignore Text Unit name
+		// Ignore Text Unit help
 		SpecialTreatment_unit_sex(ref result, ref node.sex, context.RequiredSeverity);
 		ValidateNumber(ref result, ref node.a, " 'a' of unit requires Number.");
 		ValidateNumber(ref result, ref node.h, " 'h' of unit requires Number.");
 		ValidateNumber(ref result, ref node.w, " 'w' of unit requires Number.");
+		// Ignore Text Unit text
 		ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of unit requires Boolean.");
 		SpecialTreatment_unit_yorozu(ref result, ref node.yorozu, context.RequiredSeverity);
 		ValidateNumber(ref result, ref node.radius, " 'radius' of unit requires Number.");
@@ -135,6 +227,7 @@ public static partial class NodeValidator
 		ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of unit requires Boolean 'on' or Number.");
 		ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of unit requires Number.");
 		ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of unit requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.level, " 'level' of unit requires Number.");
 		ValidateNumber(ref result, ref node.hp, " 'hp' of unit requires Number.");
 		ValidateNumber(ref result, ref node.mp, " 'mp' of unit requires Number.");
 		ValidateNumber(ref result, ref node.attack, " 'attack' of unit requires Number.");
@@ -198,6 +291,7 @@ public static partial class NodeValidator
 		SpecialTreatment_unit_active(ref result, ref node.active, context.RequiredSeverity);
 		ValidateBoolean(ref result, ref node.handle, " 'handle' of unit requires Boolean.");
 		ValidateBoolean(ref result, ref node.red, " 'red' of unit requires Boolean.");
+		// Ignore Text Unit rank_text
 		ValidateBoolean(ref result, ref node.no_training, " 'no_training' of unit requires Boolean.");
 		ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of unit requires Boolean.");
 		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
@@ -224,11 +318,11 @@ public static partial class NodeValidator
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
 		ValidateNumber(ref result, ref node.volume, " 'volume' of unit requires Number.");
 		ValidateNumber(ref result, ref node.alive_per, " 'alive_per' of unit requires Number.");
-		ValidateNumber(ref result, ref node.level, " 'level' of unit requires Number.");
 		ValidateNumber(ref result, ref node.yabo, " 'yabo' of unit requires Number.");
 		ValidateNumber(ref result, ref node.kosen, " 'kosen' of unit requires Number.");
 		ValidateNumber(ref result, ref node.align, " 'align' of unit requires Number.");
 		AddReference(ref result, ref node.loyal, ref result.UnitSet, ReferenceKind.Unit);
+		// Ignore Text Unit power_name
 		AddReference(ref result, ref node.enemy, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
 		ValidateBoolean(ref result, ref node.diplomacy, " 'diplomacy' of unit requires Boolean.");
@@ -243,11 +337,15 @@ public static partial class NodeValidator
 		ValidateBoolean(ref result, ref node.noitem_unit, " 'noitem_unit' of unit requires Boolean.");
 		SpecialTreatment_unit_arbeit(ref result, ref node.arbeit, context.RequiredSeverity);
 		ValidateNumber(ref result, ref node.arbeit_capacity, " 'arbeit_capacity' of unit requires Number.");
+		// Ignore Text Unit join
+		// Ignore Text Unit dead
+		// Ignore Text Unit retreat
 		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref RaceNode node)
 	{
+		// Ignore Text Race name
 		ValidateNumber(ref result, ref node.align, " 'align' of race requires Number.");
 		ValidateNumber(ref result, ref node.brave, " 'brave' of race requires Number.");
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
@@ -259,10 +357,13 @@ public static partial class NodeValidator
 		ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of class requires Number.");
 		ValidateNumber(ref result, ref node.stealth, " 'stealth' of class requires Number.");
 		ValidateNumber(ref result, ref node.free_move, " 'free_move' of class requires Number.");
+		// Ignore Text Class name
+		// Ignore Text Class help
 		SpecialTreatment_class_sex(ref result, ref node.sex, context.RequiredSeverity);
 		ValidateNumber(ref result, ref node.a, " 'a' of class requires Number.");
 		ValidateNumber(ref result, ref node.h, " 'h' of class requires Number.");
 		ValidateNumber(ref result, ref node.w, " 'w' of class requires Number.");
+		// Ignore Text Class text
 		ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of class requires Boolean.");
 		SpecialTreatment_class_yorozu(ref result, ref node.yorozu, context.RequiredSeverity);
 		ValidateNumber(ref result, ref node.radius, " 'radius' of class requires Number.");
@@ -288,6 +389,7 @@ public static partial class NodeValidator
 		ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of class requires Boolean 'on' or Number.");
 		ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of class requires Number.");
 		ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of class requires Boolean 'on' or Number.");
+		ValidateNumber(ref result, ref node.level, " 'level' of class requires Number.");
 		ValidateNumber(ref result, ref node.hp, " 'hp' of class requires Number.");
 		ValidateNumber(ref result, ref node.mp, " 'mp' of class requires Number.");
 		ValidateNumber(ref result, ref node.attack, " 'attack' of class requires Number.");
@@ -351,6 +453,7 @@ public static partial class NodeValidator
 		SpecialTreatment_class_active(ref result, ref node.active, context.RequiredSeverity);
 		ValidateBoolean(ref result, ref node.handle, " 'handle' of class requires Boolean.");
 		ValidateBoolean(ref result, ref node.red, " 'red' of class requires Boolean.");
+		// Ignore Text Class rank_text
 		ValidateBoolean(ref result, ref node.no_training, " 'no_training' of class requires Boolean.");
 		ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of class requires Boolean.");
 		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
@@ -393,9 +496,12 @@ public static partial class NodeValidator
 	{
 		ValidateBoolean(ref result, ref node.force_ray, " 'force_ray' of skill requires Boolean.");
 		ValidateBoolean(ref result, ref node.bright, " 'bright' of skill requires Boolean.");
+		// Ignore Text Skill name
 		AddReference(ref result, ref node.icon, ref result.imagedataSet, ReferenceKind.imagedata);
 		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of skill requires Number.");
 		ValidateBooleanNumber(ref result, ref node.special, " 'special' of skill requires Boolean 'on' or Number.");
+		// Ignore Text Skill help
+		// Ignore Text Skill msg
 		ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
 		ValidateNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Number.");
 		ValidateNumber(ref result, ref node.color, " 'color' of skill requires Number.");
@@ -440,6 +546,8 @@ public static partial class NodeValidator
 	{
 		ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of power requires Boolean.");
 		ValidateBoolean(ref result, ref node.@event, " 'event' of power requires Boolean.");
+		// Ignore Text Power name
+		// Ignore Text Power help
 		AddReference(ref result, ref node.master, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
@@ -459,10 +567,23 @@ public static partial class NodeValidator
 		AddReference(ref result, ref node.merits, ref result.UnitSet, ReferenceKind.Unit);
 		ValidateNumber(ref result, ref node.base_loyal, " 'base_loyal' of power requires Number.");
 		AddReference(ref result, ref node.loyals, ref result.UnitSet, ReferenceKind.Unit);
+		// Ignore Text Power head
+		// Ignore Text Power head2
+		// Ignore Text Power head3
+		// Ignore Text Power head4
+		// Ignore Text Power head5
+		// Ignore Text Power head6
+		// Ignore Text Power diff
 		ValidateNumber(ref result, ref node.yabo, " 'yabo' of power requires Number.");
 		ValidateNumber(ref result, ref node.kosen, " 'kosen' of power requires Number.");
+		// Ignore Text Power text
 		AddReference(ref result, ref node.member, ref result.SpotSet, ReferenceKind.Spot);
 		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
+		// Ignore Text Power master2
+		// Ignore Text Power master3
+		// Ignore Text Power master4
+		// Ignore Text Power master5
+		// Ignore Text Power master6
 		ValidateNumber(ref result, ref node.training_up, " 'training_up' of power requires Number.");
 	}
 
@@ -491,8 +612,11 @@ public static partial class NodeValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref DungeonNode node)
 	{
+		// Ignore Text Dungeon name
 		ValidateNumber(ref result, ref node.max, " 'max' of dungeon requires Number.");
 		ValidateNumber(ref result, ref node.move_speed, " 'move_speed' of dungeon requires Number.");
+		// Ignore Text Dungeon prefix
+		// Ignore Text Dungeon suffix
 		ValidateNumber(ref result, ref node.lv_adjust, " 'lv_adjust' of dungeon requires Number.");
 		ValidateNumber(ref result, ref node.limit, " 'limit' of dungeon requires Number.");
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
@@ -504,92 +628,15 @@ public static partial class NodeValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref MovetypeNode node)
 	{
+		// Ignore Text Movetype name
+		// Ignore Text Movetype help
 		AddReference(ref result, ref node.consti, ref result.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeTypeReader);
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillsetNode node)
 	{
+		// Ignore Text Skillset name
 		AddReference(ref result, ref node.back, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.member, ref result.SkillSet, ReferenceKind.Skill);
-	}
-
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref EventNode node)
-	{
-		foreach (var statement in node.Statements.AsSpan())
-		{
-			AddReferenceAndValidate(ref context, ref result, statement);
-		}
-
-		ValidateBoolean(ref result, ref node.disperse, " 'disperse' of event requires Boolean.");
-		ValidateNumber(ref result, ref node.w, " 'w' of event requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of event requires Number.");
-		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
-		ValidateNumber(ref result, ref node.color, " 'color' of event requires Number.");
-		ValidateNumber(ref result, ref node.limit, " 'limit' of event requires Number.");
-		ValidateNumber(ref result, ref node.volume, " 'volume' of event requires Number.");
-	}
-
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ScenarioNode node)
-	{
-		foreach (var statement in node.Statements.AsSpan())
-		{
-			AddReferenceAndValidate(ref context, ref result, statement);
-		}
-
-		ValidateNumber(ref result, ref node.ws_red, " 'ws_red' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_blue, " 'ws_blue' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_green, " 'ws_green' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_alpha, " 'ws_alpha' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_light, " 'ws_light' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_light_range, " 'ws_light_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.max_unit, " 'max_unit' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.locate_x, " 'locate_x' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.locate_y, " 'locate_y' of scenario requires Number.");
-		AddReference(ref result, ref node.world, ref result.EventSet, ReferenceKind.Event);
-		AddReference(ref result, ref node.fight, ref result.EventSet, ReferenceKind.Event);
-		AddReference(ref result, ref node.politics, ref result.EventSet, ReferenceKind.Event);
-		ValidateNumber(ref result, ref node.war_capacity, " 'war_capacity' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.spot_capacity, " 'spot_capacity' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.gain_per, " 'gain_per' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.support_range, " 'support_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.my_range, " 'my_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.myhelp_range, " 'myhelp_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.base_level, " 'base_level' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.monster_level, " 'monster_level' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.training_up, " 'training_up' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.actor_per, " 'actor_per' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of scenario requires Number.");
-		ValidateBoolean(ref result, ref node.default_ending, " 'default_ending' of scenario requires Boolean.");
-		SpecialTreatment_scenario_power_order(ref result, ref node.power_order, context.RequiredSeverity);
-		ValidateBoolean(ref result, ref node.enable, " 'enable' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.party, " 'party' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.no_autosave, " 'no_autosave' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.nozone, " 'nozone' of scenario requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.item0, " 'item0' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item1, " 'item1' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item2, " 'item2' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item3, " 'item3' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item4, " 'item4' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item5, " 'item5' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item6, " 'item6' of scenario requires Boolean 'on' or Number.");
-		ValidateBoolean(ref result, ref node.item_limit, " 'item_limit' of scenario requires Boolean.");
-		AddReference(ref result, ref node.item_sale, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.item_hold, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.roam, ref result.UnitSet, ReferenceKind.Unit);
-		AddReference(ref result, ref node.spot, ref result.SpotSet, ReferenceKind.Spot);
-		AddReference(ref result, ref node.power, ref result.PowerSet, ReferenceKind.Power);
-	}
-
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref StoryNode node)
-	{
-		foreach (var statement in node.Statements.AsSpan())
-		{
-			AddReferenceAndValidate(ref context, ref result, statement);
-		}
-
-		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
-		ValidateBoolean(ref result, ref node.fight, " 'fight' of story requires Boolean.");
 	}
 }

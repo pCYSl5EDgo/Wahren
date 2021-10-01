@@ -397,18 +397,124 @@ public static partial class Parser
         return answer;
     }
 
+    private static bool Parse_CallAction_English(ref Context context, ref Result result, CallActionStatement statement, int beforeLastCompoundTextArgumentCount)
+    {
+        ref var tokenList = ref result.TokenList;
+        ref var source = ref result.Source;
+        Argument argument = new();
+        ref var arguments = ref statement.Arguments;
+
+        for (int i = 0; i != beforeLastCompoundTextArgumentCount; ++i)
+        {
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(statement.TokenId);
+                return false;
+            }
+
+            if (tokenList.Last.IsParenRight(ref source))
+            {
+                result.ErrorList.Add(new($"{statement.Kind} must have {beforeLastCompoundTextArgumentCount + 1} argument(s) but actually {i} argument(s).", tokenList.Last.Range));
+                return true;
+            }
+
+            if (tokenList.Last.IsComma(ref source))
+            {
+                result.ErrorList.Add(new($"{statement.Kind} {i}-th argument does not exist.", tokenList.Last.Range));
+                return true;
+            }
+
+            tokenList.Last.Kind = TokenKind.Content;
+            argument.TokenId = tokenList.LastIndex;
+            argument.IsNumber = tokenList.Last.TryParse(ref source, out argument.Number);
+            arguments.Add(ref argument);
+            do
+            {
+                if (!ReadToken(ref context, ref result))
+                {
+                    result.ErrorAdd_UnexpectedEndOfFile(statement.TokenId);
+                    return false;
+                }
+
+                if (tokenList.Last.IsComma(ref source))
+                {
+                    break;
+                }
+
+                if (tokenList.Last.IsParenRight(ref source))
+                {
+                    result.ErrorList.Add(new($"{statement.Kind} must have {beforeLastCompoundTextArgumentCount + 1} argument(s) but actually {i} argument(s).", tokenList.Last.Range));
+                    return true;
+                }
+
+                arguments.Last.IsNumber = false;
+                result.UnionLast2Tokens();
+            } while (true);
+        }
+
+        if (!ReadToken(ref context, ref result))
+        {
+            result.ErrorAdd_UnexpectedEndOfFile(statement.TokenId);
+            return false;
+        }
+
+        if (tokenList.Last.IsParenRight(ref source))
+        {
+            result.ErrorList.Add(new("Argument does not exists between ',' and ')'.", tokenList[tokenList.LastIndex - 1].Range));
+            return true;
+        }
+
+        tokenList.Last.Kind = TokenKind.Content;
+        argument.TokenId = tokenList.LastIndex;
+        arguments.Add(ref argument);
+
+        do
+        {
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(statement.TokenId);
+                return false;
+            }
+
+            if (tokenList.Last.IsParenRight(ref source) && tokenList.Last.Range.EndExclusive.Offset == 0)
+            {
+                return true;
+            }
+
+            result.UnionLast2Tokens();
+        } while (true);
+    }
+    
     /// <summary>
     /// Already read '('.
     /// </summary>
     private static bool Parse_CallAction(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ActionKind actionKind)
     {
         ref var tokenList = ref result.TokenList;
-        ref var source = ref result.Source;
         tokenList[currentIndex].Kind = TokenKind.CallAction;
         tokenList[currentIndex].Other = (uint)actionKind;
         var statement = new CallActionStatement(currentIndex, actionKind);
         statements.Add(statement);
+        if (context.IsEnglishMode)
+        {
+            switch (actionKind)
+            {
+                case ActionKind.msg:
+                case ActionKind.msg2:
+                case ActionKind.dialog:
+                    return Parse_CallAction_English(ref context, ref result, statement, 0);
+                case ActionKind.talk:
+                case ActionKind.talk2:
+                case ActionKind.dialogF:
+                case ActionKind.select:
+                    return Parse_CallAction_English(ref context, ref result, statement, 1);
+                case ActionKind.chat:
+                case ActionKind.chat2:
+                    return Parse_CallAction_English(ref context, ref result, statement, 2);
+            }
+        }
 
+        ref var source = ref result.Source;
         Argument argument = new();
         ref var arguments = ref statement.Arguments;
         do

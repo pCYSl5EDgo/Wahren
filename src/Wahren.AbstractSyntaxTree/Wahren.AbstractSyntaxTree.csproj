@@ -81,11 +81,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>NodeValidatorActionTemplate.tt</DependentUpon>
     </None>
-    <None Include="Parser\Validation\NodeValidatorFunctionTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorFunctionTemplate.tt</DependentUpon>
-    </None>
     <None Include="Parser\Validation\NodeValidatorTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -161,10 +156,6 @@
     <None Update="Parser\Validation\NodeValidatorActionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NodeValidatorActionTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Parser\Validation\NodeValidatorFunctionTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NodeValidatorFunctionTemplate.cs</LastGenOutput>
     </None>
     <None Update="Parser\Validation\NodeValidatorTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -283,11 +274,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>NodeValidatorArgumentTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Validation\NodeValidatorFunctionTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorFunctionTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Parser\Validation\NodeValidatorTemplate.cs">
       <DesignTime>True</DesignTime>

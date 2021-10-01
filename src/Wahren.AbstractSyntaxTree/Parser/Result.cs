@@ -224,9 +224,9 @@ public struct Result : IDisposable
         return Source[start.Line].AsSpan(start.Offset, token.LengthInFirstLine);
     }
 
-    public override string ToString() => ToString("", null);
+    public override string ToString() => ToString("");
 
-    public string ToString(string? format, IFormatProvider? formatProvider = null)
+    public string ToString(string? format)
     {
         if (Source.Count == 0 || (Source.Count == 1 && Source[0].IsEmpty))
         {
@@ -276,5 +276,18 @@ public struct Result : IDisposable
         {
             list.Dispose();
         }
+    }
+
+    public bool NoError()
+    {
+        foreach (var error in ErrorList.AsSpan())
+        {
+            if (error.Severity == DiagnosticSeverity.Error)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

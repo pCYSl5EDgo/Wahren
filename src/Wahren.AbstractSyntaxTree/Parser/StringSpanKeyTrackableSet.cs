@@ -181,6 +181,7 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
             trackIdArray = tmp;
         }
         trackIdArray[trackIdArrayUsed] = id;
+        trackIdArrayUsed++;
     }
 
     public bool TryRegisterTrack(ReadOnlySpan<char> key, TTrackId id)
@@ -267,8 +268,8 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
 
     public ref struct Enumerator
     {
-        private Item[] itemArray;
-        private int count;
+        private readonly Item[] itemArray;
+        private readonly int count;
         private int index;
         private int itemIndex;
         private int arrayIndex;
@@ -454,15 +455,15 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
             }
 
             var index = hashArray.AsSpan(0, count).BinarySearch(hash);
-            if (index == -1)
+            if (index < 0)
             {
                 goto NOT_FOUND;
             }
-
             if (keyArray.AsSpan(infoArray[index]).SequenceEqual(key))
             {
                 return ref trackIdArray[index];
             }
+
         NOT_FOUND:
             return ref Unsafe.NullRef<TTrackId>();
         }

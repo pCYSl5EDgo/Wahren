@@ -15,7 +15,7 @@ namespace Wahren.AbstractSyntaxTree;
 
 public enum FunctionKind : uint
 {
-<# foreach (var (item, min, max) in FunctionInfo.Normals) { #>
+<# foreach (var (item, min, max) in CallableInfo.FunctionInfoNormals) { #>
     <#= item #>,
 <# } #>
     None = uint.MaxValue,
@@ -55,7 +55,7 @@ public static class FunctionKindHelper
         switch (span.Length - 1)
         {
 <#
-foreach (var (len, items) in FunctionInfo.Normals.GroupBy(x => x.Name.Length, x => x, (len, items) => (len, items.ToArray())))
+foreach (var (len, items) in CallableInfo.FunctionInfoNormals.GroupBy(x => x.Name.Length, x => x, (len, items) => (len, items.ToArray())))
 {
     if (len <= 4) { continue; }
     foreach (var (item, min, max) in items)

@@ -6,6 +6,12 @@ public struct ElementInfo
     public string variantType;
     public ReferenceKind referenceKind;
 
+    public string Name => name switch
+    {
+        "picture@cutin" => "picture_atmark_cutin",
+        _ => name,
+    };
+
     public ElementInfo(string name, string variantType = nameof(Scenario), ReferenceKind referenceKind = ReferenceKind.Unknown)
     {
         this.name = name;
@@ -407,6 +413,7 @@ public struct ElementInfo
         new("satellite", referenceKind: ReferenceKind.Boolean | ReferenceKind.Number),
         new("hasexp", referenceKind: ReferenceKind.Number),
         new("brave", referenceKind: ReferenceKind.Boolean | ReferenceKind.Number),
+        new("level", referenceKind: ReferenceKind.Number),
         new("hp", referenceKind: ReferenceKind.Number),
         new("mp", referenceKind: ReferenceKind.Number),
         new("attack", referenceKind: ReferenceKind.Number),
@@ -514,7 +521,6 @@ public struct ElementInfo
         new("bgm", referenceKind: ReferenceKind.bgm),
         new("volume", referenceKind: ReferenceKind.Number),
         new("alive_per", referenceKind: ReferenceKind.Number),
-        new("level", referenceKind: ReferenceKind.Number),
         new("leader_skill", referenceKind: ReferenceKind.Skill | ReferenceKind.Skillset),
         new("assist_skill", referenceKind: ReferenceKind.Skill | ReferenceKind.Skillset),
         new("yabo", referenceKind: ReferenceKind.Number),
