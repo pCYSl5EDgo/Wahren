@@ -36,10 +36,25 @@ var types = new string[]{
 "Dungeon",
 "Voice",
 };
+var readerwriters = new string[]{
+"Reader",
+"Writer",
+};
+var readwrites = new string[]{
+"NumberVariable",
+"StringVariable",
+"GlobalVariable",
+"GlobalStringVariable",
+"ClassType",
+"VoiceType",
+"FieldId",
+"FieldAttributeType",
+};
 #>
 
 public interface ISolutionResolver
-{<# foreach (var name in types) { #>
+{
+<# foreach (var name in types) { #>
     ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index);
 <# } #>
 }
@@ -57,7 +72,7 @@ public sealed class FailResolver : ISolutionResolver
 }
 
 public sealed partial class Solution : ISolutionResolver
-{<# foreach (var name in types) { #>
+{<# foreach (var name in types) {  #>
 
 	public ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
@@ -67,7 +82,15 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
+<# var is5 = name == "Unit" || name == "Class" || name == "Race" || name == "Spot" || name == "Power"; var is2 = name == "Skill" || name == "Skillset"; #>
+<# if (is5 || is2) { #>
+        ref var track = ref AmbiguousDictionary_<#= is5 ? "UnitClassPowerSpotRace" : "SkillSkillset" #>.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.<#= name #>)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+<# } else { #>
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -89,6 +112,7 @@ public sealed partial class Solution : ISolutionResolver
                 }
             }
         }
+<# } #>
 
         index = 0;
         return ref Unsafe.NullRef<Result>();
@@ -130,6 +154,48 @@ public sealed partial class Solution : ISolutionResolver
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
                 SolutionErrorList.Add(new(builder.ToString()));
+            }
+        }
+<# } #>
+<# foreach (var name in readwrites) { #>
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.<#= name #>ReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.<#= name #>WriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].<#= name #>WriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
             }
         }
 <# } #>

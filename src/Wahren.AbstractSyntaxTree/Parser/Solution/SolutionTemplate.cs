@@ -8,7 +8,8 @@ using Wahren.AbstractSyntaxTree.Element.Statement.Expression;
 namespace Wahren.AbstractSyntaxTree.Parser;
 
 public interface ISolutionResolver
-{    ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
+{
+    ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
     ref Result TryGetEventNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
     ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
     ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index);
@@ -115,7 +116,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -150,7 +150,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -185,7 +184,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -220,7 +218,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -255,27 +252,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skill)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.SkillNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Skill.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -290,27 +271,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skillset)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.SkillsetNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Skillset.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -325,27 +290,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Race)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.RaceNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Race.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -360,27 +309,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Unit)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.UnitNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Unit.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -395,27 +328,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Class)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.ClassNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Class.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -430,27 +347,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Power)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.PowerNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Power.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -465,27 +366,11 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Spot)
         {
-            ref var file = ref files[i];
-            ref var list = ref file.SpotNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Spot.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -500,7 +385,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -535,7 +419,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -570,7 +453,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -605,7 +487,6 @@ public sealed partial class Solution : ISolutionResolver
             index = pair.Id;
             return ref Files[pair.FileId];
         }
-        
         var files = Files.AsSpan();
         for (int i = 0; i < files.Length; ++i)
         {
@@ -1010,6 +891,326 @@ public sealed partial class Solution : ISolutionResolver
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
                 SolutionErrorList.Add(new(builder.ToString()));
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.NumberVariableReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.NumberVariableWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].NumberVariableWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.StringVariableReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.StringVariableWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].StringVariableWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.GlobalVariableReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.GlobalVariableWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].GlobalVariableWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.GlobalStringVariableReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.GlobalStringVariableWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].GlobalStringVariableWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.ClassTypeReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.ClassTypeWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].ClassTypeWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.VoiceTypeReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.VoiceTypeWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].VoiceTypeWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.FieldIdReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.FieldIdWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].FieldIdWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
+            }
+        }
+
+        for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[fileIndex];
+            ref var set = ref file.FieldAttributeTypeReaderSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                bool notFound = !file.FieldAttributeTypeWriterSet.TryGet(name, out _);
+                if (notFound)
+                {
+                    for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
+                    {
+                        if (anotherFileIndex == fileIndex)
+                        {
+                            continue;
+                        }
+
+                        if (fileSpan[anotherFileIndex].FieldAttributeTypeWriterSet.TryGet(name, out _))
+                        {
+                            notFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (notFound)
+                {
+                    builder ??= new();
+                    builder.Clear();
+                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
+                    foreach (var tokenId in set.References[i].AsSpan())
+                    {
+                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
+                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
+                    }
+                    SolutionErrorList.Add(new(builder.ToString()));
+                }
             }
         }
 
