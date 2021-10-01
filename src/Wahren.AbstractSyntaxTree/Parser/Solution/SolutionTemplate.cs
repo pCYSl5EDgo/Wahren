@@ -1066,7 +1066,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1088,13 +1088,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1106,11 +1106,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1124,11 +1120,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -1138,13 +1138,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -1156,11 +1156,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -1174,11 +1170,15 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -1188,13 +1188,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1206,11 +1206,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1224,11 +1220,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -1237,13 +1237,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1255,11 +1255,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1273,64 +1269,20 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
                 break;
             case FunctionKind.isEnemy:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length == 1)
-                    {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                        argument.HasReference = true;
-                    }
-                }
-                else
-                {
-                    ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        switch (track.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Unit;
-                                argument.HasReference = true;
-                                break;
-                            case ReferenceKind.Spot:
-                                argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Spot;
-                                argument.HasReference = true;
-                                break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
-                        }
-                    }
-                }
-
-                argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
@@ -1352,11 +1304,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1370,26 +1318,29 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
-                break;
-            case FunctionKind.isFriend:
+                argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1401,11 +1352,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1419,15 +1366,20 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
-                argument = ref arguments[1];
+                break;
+            case FunctionKind.isFriend:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
@@ -1449,11 +1401,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1467,26 +1415,29 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
-                break;
-            case FunctionKind.isNpc:
+                argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1498,11 +1449,56 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
+                    if (!Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                        switch (track.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Unit;
+                                argument.HasReference = true;
+                                break;
+                            case ReferenceKind.Spot:
+                                argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Spot;
+                                argument.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
+                        }
                     }
                     else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                    }
+                }
+
+                break;
+            case FunctionKind.isNpc:
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length == 1)
+                    {
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                    }
+                    else
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1516,11 +1512,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -1530,13 +1530,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -1548,11 +1548,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -1566,11 +1562,15 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -1580,13 +1580,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1598,11 +1598,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1616,11 +1612,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -1630,13 +1630,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -1648,11 +1648,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -1666,11 +1662,15 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -1680,13 +1680,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1698,11 +1698,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1716,11 +1712,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -1730,13 +1730,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -1748,11 +1748,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -1766,65 +1762,21 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
                 }
                 break;
             case FunctionKind.isJoin:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"0-th argument is empty.Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length == 1)
-                    {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                        argument.HasReference = true;
-                    }
-                }
-                else
-                {
-                    ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        switch (track.Kind)
-                        {
-                            case ReferenceKind.Power:
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                                break;
-                            case ReferenceKind.Spot:
-                                argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Spot;
-                                argument.HasReference = true;
-                                break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
-                        }
-                    }
-                }
-
-                argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
@@ -1846,11 +1798,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -1864,11 +1812,63 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                    }
+                }
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"2-th argument is empty.Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length == 1)
+                    {
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                    }
+                    else
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (!Unsafe.IsNullRef(ref track))
+                    {
+                        switch (track.Kind)
+                        {
+                            case ReferenceKind.Power:
+                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                                break;
+                            case ReferenceKind.Spot:
+                                argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Spot;
+                                argument.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -1883,7 +1883,7 @@ public sealed partial class Solution : ISolutionResolver
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 2-th argument of action 'isJoin' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 3-th argument of action 'isJoin' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -1891,54 +1891,6 @@ public sealed partial class Solution : ISolutionResolver
                 switch (arguments.Length)
                 {
                     case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -1960,11 +1912,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -1978,26 +1926,29 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
-                        break;
-                    case 3:
+                        argument = ref arguments[1];
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -2009,11 +1960,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -2027,11 +1974,64 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -2061,13 +2061,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -2079,11 +2079,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -2097,15 +2093,76 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
                         argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        argument = ref arguments[2];
+                        if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 4:
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -2127,11 +2184,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -2145,68 +2198,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
-                            }
-                        }
-
-                        argument = ref arguments[2];
-                        if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 4:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -2239,13 +2239,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -2257,11 +2257,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -2275,11 +2271,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -2348,14 +2348,8 @@ public sealed partial class Solution : ISolutionResolver
             case ActionKind.setbcg:
                 result.ErrorList.Add(new($"Unknown action 'setbcg'.", result.TokenList[call.TokenId].Range));
                 break;
-            case ActionKind.levelup:
-                result.ErrorList.Add(new($"Unknown action 'levelup'.", result.TokenList[call.TokenId].Range));
-                break;
             case ActionKind.showCamp:
                 result.ErrorList.Add(new($"Unknown action 'showCamp'.", result.TokenList[call.TokenId].Range));
-                break;
-            case ActionKind.pushDeath:
-                result.ErrorList.Add(new($"Unknown action 'pushDeath'.", result.TokenList[call.TokenId].Range));
                 break;
             case ActionKind.clickWait:
                 result.ErrorList.Add(new($"Unknown action 'clickWait'.", result.TokenList[call.TokenId].Range));
@@ -2363,814 +2357,14 @@ public sealed partial class Solution : ISolutionResolver
             case ActionKind.worldskin:
                 result.ErrorList.Add(new($"Unknown action 'worldskin'.", result.TokenList[call.TokenId].Range));
                 break;
-            case ActionKind.storeDeath:
-                result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[call.TokenId].Range));
-                break;
             case ActionKind.darkness_off:
                 result.ErrorList.Add(new($"Unknown action 'darkness_off'.", result.TokenList[call.TokenId].Range));
                 break;
             case ActionKind.doGameEnding:
                 result.ErrorList.Add(new($"Unknown action 'doGameEnding'.", result.TokenList[call.TokenId].Range));
                 break;
-            case ActionKind.setPowerHome:
-                result.ErrorList.Add(new($"Unknown action 'setPowerHome'.", result.TokenList[call.TokenId].Range));
-                break;
-            case ActionKind.msg:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        argument.ReferenceKind = ReferenceKind.face;
-                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
-
-                        break;
-                }
-                break;
-            case ActionKind.msg2:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        argument.ReferenceKind = ReferenceKind.face;
-                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
-
-                        break;
-                }
-                break;
-            case ActionKind.talk:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        argument.ReferenceKind = ReferenceKind.face;
-                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
-
-                        break;
-                }
-                break;
-            case ActionKind.talk2:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        argument.ReferenceKind = ReferenceKind.face;
-                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
-
-                        break;
-                }
-                break;
-            case ActionKind.chat:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        argument.ReferenceKind = ReferenceKind.face;
-                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
-
-                        break;
-                }
-                break;
-            case ActionKind.chat2:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        argument.ReferenceKind = ReferenceKind.face;
-                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
-
-                        break;
-                }
-                break;
-            case ActionKind.changeMaster:
-                switch (arguments.Length)
-                {
-                    case 1:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length != 1)
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Unit;
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Power:
-                                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Power;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length != 1)
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Unit;
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length != 1)
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Unit;
-                            argument.HasReference = true;
-                        }
-
-                        argument = ref arguments[1];
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length != 1)
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Unit;
-                            argument.HasReference = true;
-                        }
-
-                        argument = ref arguments[2];
-                        argument.ReferenceKind = ReferenceKind.flag;
-                        argument.ReferenceId = result.flagSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-
-                        break;
-                }
+            case ActionKind.storeDeath:
+                result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[call.TokenId].Range));
                 break;
             case ActionKind.dialog:
                 switch (arguments.Length)
@@ -3183,13 +2377,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -3201,11 +2395,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -3214,10 +2404,6 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
                                 }
                             }
                         }
@@ -3239,13 +2425,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -3257,11 +2443,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -3270,10 +2452,6 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Text, StringVariableReader required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
                                 }
                             }
                         }
@@ -3291,13 +2469,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Spot, StringVariableReader is required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'locate'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'locate'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -3309,11 +2487,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'locate'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -3327,11 +2501,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Spot;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'locate'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'locate'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -3362,13 +2540,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Spot, StringVariableReader is required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, Spot, StringVariableReader is required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, Spot, StringVariableReader is required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -3380,11 +2558,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -3393,16 +2567,25 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
                                     case ReferenceKind.Spot:
                                         argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Spot;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -3430,13 +2613,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Power, Spot, StringVariableReader is required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, Spot, StringVariableReader is required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, Spot, StringVariableReader is required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3448,14 +2631,15 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
+                            case ReferenceKind.Unit:
+                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Unit;
+                                argument.HasReference = true;
+                                break;
                             case ReferenceKind.Power:
                                 argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
@@ -3466,11 +2650,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3481,9 +2669,710 @@ public sealed partial class Solution : ISolutionResolver
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'showSpotMark' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'showSpotMark' must be Number.");
                 }
 
+                break;
+            case ActionKind.msg:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        argument = ref arguments[2];
+                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+
+                        break;
+                }
+                break;
+            case ActionKind.msg2:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        argument = ref arguments[2];
+                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+
+                        break;
+                }
+                break;
+            case ActionKind.talk:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        argument = ref arguments[2];
+                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+
+                        break;
+                }
+                break;
+            case ActionKind.talk2:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        argument = ref arguments[2];
+                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+
+                        break;
+                }
+                break;
+            case ActionKind.chat:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        argument = ref arguments[2];
+                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+
+                        break;
+                }
+                break;
+            case ActionKind.chat2:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                }
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        argument = ref arguments[2];
+                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+
+                        break;
+                }
+                break;
+            case ActionKind.changeMaster:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 2:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Power:
+                                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Power;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+
+                        argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length != 1)
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.Unit;
+                            argument.HasReference = true;
+                        }
+
+                        argument = ref arguments[2];
+                        argument.ReferenceKind = ReferenceKind.flag;
+                        argument.ReferenceId = result.flagSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.HasReference = true;
+
+                        break;
+                }
                 break;
             case ActionKind.select:
                 argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
@@ -3498,7 +3387,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3520,13 +3409,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3538,11 +3427,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3561,11 +3446,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Race;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3574,13 +3463,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3592,11 +3481,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3610,11 +3495,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3631,13 +3520,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Power, Spot, StringVariableReader is required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3649,11 +3538,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3667,11 +3552,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3685,13 +3574,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3703,11 +3592,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3721,11 +3606,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3742,13 +3631,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3760,11 +3649,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3778,11 +3663,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3799,13 +3688,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3817,11 +3706,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3835,11 +3720,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3853,13 +3742,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3871,11 +3760,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3889,11 +3774,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3907,13 +3796,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3925,11 +3814,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3943,11 +3828,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Power, StringVariableReader required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -3961,13 +3850,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3979,11 +3868,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -3997,11 +3882,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4018,7 +3907,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4040,13 +3929,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4060,7 +3949,7 @@ public sealed partial class Solution : ISolutionResolver
                     ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                     if (Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4077,7 +3966,7 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.HasReference = true;
                                 break;
                           default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                              result.ErrorList.Add(new($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
                               argument.HasReference = false;
                               break;
                         }
@@ -4089,13 +3978,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4107,11 +3996,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4120,11 +4005,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4132,13 +4021,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4151,7 +4040,7 @@ public sealed partial class Solution : ISolutionResolver
                 {
                     if (DiagnosticSeverity.Warning <= RequiredSeverity)
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4163,13 +4052,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4181,11 +4070,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4194,11 +4079,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4206,13 +4095,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4225,7 +4114,7 @@ public sealed partial class Solution : ISolutionResolver
                 {
                     if (DiagnosticSeverity.Warning <= RequiredSeverity)
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4237,7 +4126,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changePowerFlag'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changePowerFlag'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4262,13 +4151,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'choice'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'choice'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4281,7 +4170,7 @@ public sealed partial class Solution : ISolutionResolver
                 {
                     if (DiagnosticSeverity.Warning <= RequiredSeverity)
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4302,7 +4191,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4324,13 +4213,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4342,11 +4231,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4365,11 +4250,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Race;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4379,13 +4268,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -4397,11 +4286,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -4420,11 +4305,15 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -4434,13 +4323,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4452,11 +4341,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4470,11 +4355,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4482,7 +4371,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4506,7 +4395,7 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -4530,7 +4419,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4552,13 +4441,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4570,11 +4459,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4588,11 +4473,20 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            case ReferenceKind.Race:
+                                argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Race;
+                                argument.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4602,13 +4496,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -4620,11 +4514,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -4638,11 +4528,20 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                case ReferenceKind.Race:
+                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Race;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -4652,7 +4551,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4674,13 +4573,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4692,11 +4591,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4710,11 +4605,20 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            case ReferenceKind.Race:
+                                argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Race;
+                                argument.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4724,13 +4628,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -4742,11 +4646,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -4760,11 +4660,20 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                case ReferenceKind.Race:
+                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Race;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -4774,7 +4683,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4796,13 +4705,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4814,11 +4723,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4832,11 +4737,20 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            case ReferenceKind.Race:
+                                argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Race;
+                                argument.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4846,13 +4760,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -4864,11 +4778,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -4882,11 +4792,20 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                case ReferenceKind.Race:
+                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Race;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -4896,7 +4815,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4918,13 +4837,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4936,11 +4855,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -4954,11 +4869,20 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            case ReferenceKind.Race:
+                                argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Race;
+                                argument.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -4968,13 +4892,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -4986,11 +4910,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -5004,11 +4924,20 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                case ReferenceKind.Race:
+                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Race;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -5023,7 +4952,7 @@ public sealed partial class Solution : ISolutionResolver
                 {
                     if (argument.Number != 0)
                     {
-                        result.ErrorList.Add(new($"0-th argument is not Number, CompoundText required by action 'exit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is not Number, CompoundText required by action 'exit'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
                 else
@@ -5036,13 +4965,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Spot, StringVariableReader is required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, Spot, StringVariableReader is required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, Spot, StringVariableReader is required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5054,11 +4983,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5067,16 +4992,25 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                                 break;
+                            case ReferenceKind.Class:
+                                argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Class;
+                                argument.HasReference = true;
+                                break;
                             case ReferenceKind.Spot:
                                 argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Spot, StringVariableReader required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5085,13 +5019,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5103,11 +5037,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5121,11 +5051,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5134,13 +5068,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5152,11 +5086,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5170,11 +5100,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5183,13 +5117,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5201,11 +5135,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5219,11 +5149,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5232,13 +5166,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5250,11 +5184,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5268,11 +5198,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5281,13 +5215,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5299,11 +5233,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5317,11 +5247,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5330,13 +5264,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5348,11 +5282,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5366,11 +5296,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5379,13 +5313,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5397,11 +5331,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5415,11 +5345,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5428,13 +5362,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5446,11 +5380,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5464,11 +5394,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5477,13 +5411,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5495,11 +5429,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5513,11 +5443,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5526,13 +5460,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5544,11 +5478,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5562,11 +5492,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5575,54 +5509,6 @@ public sealed partial class Solution : ISolutionResolver
                 switch (arguments.Length)
                 {
                     case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -5644,11 +5530,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -5662,26 +5544,29 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
-                        break;
-                    case 3:
+                        argument = ref arguments[1];
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -5693,11 +5578,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -5711,11 +5592,64 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -5742,7 +5676,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5764,13 +5698,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5782,11 +5716,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5800,11 +5730,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5818,13 +5752,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5836,11 +5770,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5854,11 +5784,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5892,13 +5826,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5910,11 +5844,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -5928,11 +5858,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -5942,13 +5876,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -5960,11 +5894,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -5978,11 +5908,15 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -5992,7 +5926,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6018,13 +5952,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6038,7 +5972,7 @@ public sealed partial class Solution : ISolutionResolver
                     ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                     if (Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6055,7 +5989,7 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.HasReference = true;
                                 break;
                           default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                              result.ErrorList.Add(new($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                               argument.HasReference = false;
                               break;
                         }
@@ -6068,13 +6002,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -6088,7 +6022,7 @@ public sealed partial class Solution : ISolutionResolver
                         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                         if (Unsafe.IsNullRef(ref track))
                         {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -6105,7 +6039,7 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.HasReference = true;
                                     break;
                               default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                                  result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
                                   argument.HasReference = false;
                                   break;
                             }
@@ -6118,7 +6052,7 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6144,13 +6078,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6162,11 +6096,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"1-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -6185,11 +6115,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Race;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"1-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -6199,13 +6133,13 @@ public sealed partial class Solution : ISolutionResolver
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                         }
                         else
                         {
@@ -6217,11 +6151,7 @@ public sealed partial class Solution : ISolutionResolver
                     else
                     {
                         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (Unsafe.IsNullRef(ref track))
-                        {
-                            result.ErrorList.Add(new($"{i}-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else
+                        if (!Unsafe.IsNullRef(ref track))
                         {
                             switch (track.Kind)
                             {
@@ -6240,11 +6170,15 @@ public sealed partial class Solution : ISolutionResolver
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
-                              default:
-                                  result.ErrorList.Add(new($"{i}-th argument {span} is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
-                                  argument.HasReference = false;
-                                  break;
+                                default:
+                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                                    argument.HasReference = false;
+                                    break;
                             }
+                        }
+                        else
+                        {
+                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
                         }
                     }
 
@@ -6254,54 +6188,6 @@ public sealed partial class Solution : ISolutionResolver
                 switch (arguments.Length)
                 {
                     case 2:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
-                            }
-                        }
-
-                        argument = ref arguments[1];
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -6323,11 +6209,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6341,26 +6223,29 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
-                        break;
-                    case 3:
+                        argument = ref arguments[1];
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6372,11 +6257,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6390,11 +6271,64 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        break;
+                    case 3:
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -6419,13 +6353,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6437,11 +6371,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6455,11 +6385,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -6497,13 +6431,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6515,11 +6449,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6533,15 +6463,68 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
                         argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        break;
+                    case 3:
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -6563,11 +6546,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6581,60 +6560,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
-                            }
-                        }
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -6659,13 +6593,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6677,11 +6611,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6695,11 +6625,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -6737,13 +6671,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6755,11 +6689,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6773,15 +6703,68 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
                         argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        break;
+                    case 3:
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -6803,11 +6786,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6821,60 +6800,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
-                            }
-                        }
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -6899,13 +6833,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6917,11 +6851,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -6935,11 +6865,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -6977,13 +6911,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -6995,11 +6929,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -7013,15 +6943,68 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
                         argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.IsEmpty)
+                        {
+                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                        }
+                        else if (span[0] == '@')
+                        {
+                            if (span.Length == 1)
+                            {
+                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            }
+                            else
+                            {
+                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                argument.HasReference = true;
+                            }
+                        }
+                        else
+                        {
+                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                            if (!Unsafe.IsNullRef(ref track))
+                            {
+                                switch (track.Kind)
+                                {
+                                    case ReferenceKind.Unit:
+                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Unit;
+                                        argument.HasReference = true;
+                                        break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
+                                    default:
+                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            }
+                        }
+
+                        break;
+                    case 3:
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
@@ -7043,11 +7026,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -7061,60 +7040,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"1-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
-                            }
-                        }
-
-                        break;
-                    case 3:
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
-                                }
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -7139,13 +7073,13 @@ public sealed partial class Solution : ISolutionResolver
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                             else
                             {
@@ -7157,11 +7091,7 @@ public sealed partial class Solution : ISolutionResolver
                         else
                         {
                             ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (Unsafe.IsNullRef(ref track))
-                            {
-                                result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                            }
-                            else
+                            if (!Unsafe.IsNullRef(ref track))
                             {
                                 switch (track.Kind)
                                 {
@@ -7175,11 +7105,15 @@ public sealed partial class Solution : ISolutionResolver
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
-                                  default:
-                                      result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
-                                      argument.HasReference = false;
-                                      break;
+                                    default:
+                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        argument.HasReference = false;
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
                             }
                         }
 
@@ -7218,13 +7152,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Power, Spot, StringVariableReader is required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, Spot, StringVariableReader is required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, Spot, StringVariableReader is required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -7236,14 +7170,15 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
+                            case ReferenceKind.Unit:
+                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Unit;
+                                argument.HasReference = true;
+                                break;
                             case ReferenceKind.Power:
                                 argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
@@ -7254,11 +7189,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Spot;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Power, Spot, StringVariableReader required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -7269,7 +7208,7 @@ public sealed partial class Solution : ISolutionResolver
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'spotmark' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'spotmark' must be Number.");
                 }
 
                 break;
@@ -7277,13 +7216,13 @@ public sealed partial class Solution : ISolutionResolver
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty.Unit, Class, StringVariableReader is required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -7295,11 +7234,7 @@ public sealed partial class Solution : ISolutionResolver
                 else
                 {
                     ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref track))
-                    {
-                        result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
+                    if (!Unsafe.IsNullRef(ref track))
                     {
                         switch (track.Kind)
                         {
@@ -7313,11 +7248,15 @@ public sealed partial class Solution : ISolutionResolver
                                 argument.ReferenceKind = ReferenceKind.Class;
                                 argument.HasReference = true;
                                 break;
-                          default:
-                              result.ErrorList.Add(new($"0-th argument {span} is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
-                              argument.HasReference = false;
-                              break;
+                            default:
+                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                                argument.HasReference = false;
+                                break;
                         }
+                    }
+                    else
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
                     }
                 }
 
@@ -7348,7 +7287,7 @@ public sealed partial class Solution : ISolutionResolver
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 3-th argument of action 'shiftTroop' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 4-th argument of action 'shiftTroop' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;

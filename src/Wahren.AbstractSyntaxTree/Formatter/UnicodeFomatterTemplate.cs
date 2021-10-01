@@ -488,22 +488,10 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("setbcg(");
     }
 
-    public void Append_levelup_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("levelup(");
-    }
-
     public void Append_showCamp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showCamp(");
-    }
-
-    public void Append_pushDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("pushDeath(");
     }
 
     public void Append_clickWait_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -518,12 +506,6 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("worldskin(");
     }
 
-    public void Append_storeDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("storeDeath(");
-    }
-
     public void Append_darkness_off_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -534,6 +516,18 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("doGameEnding(");
+    }
+
+    public void Append_storeDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("storeDeath(");
+    }
+
+    public void Append_pushDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("pushDeath(");
     }
 
     public void Append_setPowerHome_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1088,6 +1082,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("addDiplo(");
     }
 
+    public void Append_levelup_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("levelup(");
+    }
+
     public void Append_addLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1286,16 +1286,16 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("spotmark(");
     }
 
-    public void Append_hideSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("hideSpotMark(");
-    }
-
     public void Append_showSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showSpotMark(");
+    }
+
+    public void Append_hideSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("hideSpotMark(");
     }
 
     public void Append_hideEscape_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1850,6 +1850,18 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("addPowerStaff(");
     }
 
+    public void Append_addPowerMerce2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("addPowerMerce2(");
+    }
+
+    public void Append_addPowerStaff2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("addPowerStaff2(");
+    }
+
     public void Append_addTrainingUp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1926,18 +1938,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("storeTodoUnit(");
-    }
-
-    public void Append_addPowerMerce2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("addPowerMerce2(");
-    }
-
-    public void Append_addPowerStaff2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("addPowerStaff2(");
     }
 
     public void Append_changePowerFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -3027,7 +3027,7 @@ public class UnicodeFormatter : IFormatter<char>
                         return false;
                     }
 
-                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
+                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces + 1))
                     {
                         return false;
                     }
@@ -3035,7 +3035,7 @@ public class UnicodeFormatter : IFormatter<char>
                 case TokenKind.battle:
                     Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                     Append_battle_NewLine_BracketLeft_NewLine(ref destination, ref JustChangeLine);
-                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces))
+                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref  tokenIndex, spaces + 1))
                     {
                         continue;
                     }
@@ -3079,17 +3079,9 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setbcg_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.levelup:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.showCamp:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showCamp_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.pushDeath:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.clickWait:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3099,10 +3091,6 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_worldskin_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.storeDeath:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.darkness_off:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_darkness_off_ParenLeft(ref destination, ref JustChangeLine);
@@ -3110,6 +3098,14 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.doGameEnding:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_doGameEnding_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.storeDeath:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeDeath_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.pushDeath:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_pushDeath_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setPowerHome:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3479,6 +3475,10 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addDiplo_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.levelup:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_levelup_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.addLevel:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addLevel_ParenLeft(ref destination, ref JustChangeLine);
@@ -3611,13 +3611,13 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_spotmark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
-                        case ActionKind.hideSpotMark:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
                         case ActionKind.showSpotMark:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_showSpotMark_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.hideSpotMark:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_hideSpotMark_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.hideEscape:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3987,6 +3987,14 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addPowerStaff_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.addPowerMerce2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPowerMerce2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
+                        case ActionKind.addPowerStaff2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_addPowerStaff2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.addTrainingUp:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_addTrainingUp_ParenLeft(ref destination, ref JustChangeLine);
@@ -4038,14 +4046,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.storeTodoUnit:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_storeTodoUnit_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.addPowerMerce2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_addPowerMerce2_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.addPowerStaff2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_addPowerStaff2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.changePowerFix:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

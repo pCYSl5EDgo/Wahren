@@ -51,22 +51,10 @@ public static partial class NodeValidator
                     result.ErrorList.Add(new($"Unknown action 'setbcg'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
-            case ActionKind.levelup:
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.ErrorList.Add(new($"Unknown action 'levelup'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
-                }
-                break;
             case ActionKind.showCamp:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
                     result.ErrorList.Add(new($"Unknown action 'showCamp'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
-                }
-                break;
-            case ActionKind.pushDeath:
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.ErrorList.Add(new($"Unknown action 'pushDeath'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
             case ActionKind.clickWait:
@@ -81,12 +69,6 @@ public static partial class NodeValidator
                     result.ErrorList.Add(new($"Unknown action 'worldskin'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
-            case ActionKind.storeDeath:
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
-                }
-                break;
             case ActionKind.darkness_off:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
@@ -99,34 +81,123 @@ public static partial class NodeValidator
                     result.ErrorList.Add(new($"Unknown action 'doGameEnding'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
-            case ActionKind.setPowerHome:
+            case ActionKind.storeDeath:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action 'setPowerHome'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
                 }
                 break;
-            case ActionKind.@event:
-                argument.ReferenceKind = ReferenceKind.Event;
-                argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+            case ActionKind.pushDeath:
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'pushDeath'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Power;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[2];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[3];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[4];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[5];
+                argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                 argument.HasReference = true;
+
+                break;
+            case ActionKind.setPowerHome:
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setPowerHome'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Power;
+                    argument.HasReference = true;
+                }
 
                 if (arguments.Length <= 1)
                 {
                     break;
                 }
                 argument = ref arguments[1];
-                argument.ReferenceKind = ReferenceKind.Power;
-                argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                argument.HasReference = true;
-
-                if (arguments.Length <= 2)
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
                 {
-                    break;
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setPowerHome'.", result.TokenList[argument.TokenId].Range));
                 }
-                argument = ref arguments[2];
-                argument.ReferenceKind = ReferenceKind.Power;
-                argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                argument.HasReference = true;
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Spot;
+                    argument.HasReference = true;
+                }
 
                 break;
             case ActionKind.hideImage:
@@ -199,7 +270,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'bg' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'bg' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -207,7 +278,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -233,7 +304,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'addSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -259,7 +330,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'resetTruce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetTruce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -274,7 +345,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -285,7 +356,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'resetTruce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetTruce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -306,7 +377,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetTruce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'resetTruce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -333,7 +404,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'resetLeague'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetLeague'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -348,7 +419,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -359,7 +430,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'resetLeague'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetLeague'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -380,7 +451,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetLeague'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'resetLeague'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -404,7 +475,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'resetEnemyPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetEnemyPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -430,7 +501,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'resetEnemyPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'resetEnemyPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -447,6 +518,30 @@ public static partial class NodeValidator
                     argument.ReferenceKind = ReferenceKind.Power;
                     argument.HasReference = true;
                 }
+
+                break;
+            case ActionKind.@event:
+                argument.ReferenceKind = ReferenceKind.Event;
+                argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
+
+                if (arguments.Length <= 1)
+                {
+                    break;
+                }
+                argument = ref arguments[1];
+                argument.ReferenceKind = ReferenceKind.Power;
+                argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
+
+                if (arguments.Length <= 2)
+                {
+                    break;
+                }
+                argument = ref arguments[2];
+                argument.ReferenceKind = ReferenceKind.Power;
+                argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
 
                 break;
             case ActionKind.add:
@@ -551,132 +646,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addv'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length == 1)
-                    {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-                else
-                {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
-                    }
-                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                    argument.HasReference = true;
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-
-                argument = ref arguments[1];
-                span = result.GetSpan(argument.TokenId);
-                if (span.Length > 1 && span[0] == '@')
-                {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                    argument.HasReference = true;
-                }
-
-                break;
-            case ActionKind.setv:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setv'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length == 1)
-                    {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-                else
-                {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
-                    }
-                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                    argument.HasReference = true;
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-
-                argument = ref arguments[1];
-                span = result.GetSpan(argument.TokenId);
-                if (span.Length > 1 && span[0] == '@')
-                {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                    argument.HasReference = true;
-                }
-
-                break;
-            case ActionKind.subv:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'subv'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length == 1)
-                    {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
-                    }
-                    else
-                    {
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-                else
-                {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
-                    }
-                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                    argument.HasReference = true;
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-
-                argument = ref arguments[1];
-                span = result.GetSpan(argument.TokenId);
-                if (span.Length > 1 && span[0] == '@')
-                {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                    argument.HasReference = true;
-                }
-
-                break;
-            case ActionKind.setud:
-                argument.ReferenceKind = ReferenceKind.GlobalStringVariableReader;
-                argument.ReferenceId = result.GlobalStringVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                argument.HasReference = true;
-
-                argument = ref arguments[1];
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setud'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addv'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -702,6 +672,131 @@ public static partial class NodeValidator
                     argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                 }
 
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                break;
+            case ActionKind.setv:
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setv'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length == 1)
+                    {
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                    }
+                    else
+                    {
+                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.HasReference = true;
+                    }
+                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                }
+                else
+                {
+                    if (context.CreateError(DiagnosticSeverity.Warning))
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                    }
+                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                    argument.HasReference = true;
+                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                }
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                break;
+            case ActionKind.subv:
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'subv'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length == 1)
+                    {
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                    }
+                    else
+                    {
+                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.HasReference = true;
+                    }
+                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                }
+                else
+                {
+                    if (context.CreateError(DiagnosticSeverity.Warning))
+                    {
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                    }
+                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                    argument.HasReference = true;
+                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                }
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                break;
+            case ActionKind.setud:
+                argument.ReferenceKind = ReferenceKind.GlobalStringVariableReader;
+                argument.ReferenceId = result.GlobalStringVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setud'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length == 1)
+                    {
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                    }
+                    else
+                    {
+                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.HasReference = true;
+                    }
+                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                }
+                else
+                {
+                    if (context.CreateError(DiagnosticSeverity.Warning))
+                    {
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                    }
+                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                    argument.HasReference = true;
+                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                }
+
                 break;
             case ActionKind.title:
                 
@@ -718,13 +813,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addstr'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addstr'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -737,7 +832,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -750,13 +845,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -769,7 +864,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -790,13 +885,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -809,7 +904,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -830,13 +925,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'subVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'subVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -849,7 +944,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -881,7 +976,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addCapa'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addCapa'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -912,7 +1007,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addGain'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addGain'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -943,7 +1038,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushSex'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushSex'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -971,7 +1066,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -986,7 +1081,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -1003,7 +1098,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setCapa'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setCapa'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1034,7 +1129,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setDone'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setDone'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1059,7 +1154,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'setDone' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'setDone' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -1067,7 +1162,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setGain'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setGain'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1098,7 +1193,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePM'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePM'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1120,13 +1215,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePM'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storePM'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -1139,7 +1234,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -1156,7 +1251,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeud'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeud'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1171,7 +1266,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -1179,11 +1274,42 @@ public static partial class NodeValidator
                 }
 
                 break;
+            case ActionKind.levelup:
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'levelup'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Unit;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[1];
+                if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                break;
             case ActionKind.addLevel:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addLevel'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addLevel'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1214,7 +1340,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addLoyal'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addLoyal'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1245,7 +1371,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addTrust'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addTrust'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1276,7 +1402,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'hideLink'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'hideLink'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1298,7 +1424,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'hideLink'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'hideLink'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1321,7 +1447,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushCapa'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushCapa'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1349,7 +1475,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1377,7 +1503,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushRank'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushRank'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1405,7 +1531,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1433,7 +1559,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setLevel'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setLevel'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1464,7 +1590,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'hideEscape'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'hideEscape'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1486,7 +1612,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'hideEscape'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'hideEscape'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1509,7 +1635,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addCastle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addCastle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1540,7 +1666,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addMerits'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addMerits'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1571,7 +1697,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeMap'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMap'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1599,7 +1725,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushLevel'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushLevel'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1627,7 +1753,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushLoyal'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushLoyal'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1655,7 +1781,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushTrain'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushTrain'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1683,7 +1809,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setCastle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setCastle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1714,7 +1840,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeRace'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeRace'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1736,7 +1862,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeRace'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'changeRace'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1759,7 +1885,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushCastle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushCastle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1787,7 +1913,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushMerits'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushMerits'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1815,7 +1941,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setDungeon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setDungeon'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1843,7 +1969,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'unionPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'unionPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1865,7 +1991,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'unionPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'unionPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1888,7 +2014,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addTraining'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addTraining'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1919,7 +2045,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeClass'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeClass'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1941,7 +2067,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeClass'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'changeClass'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1964,7 +2090,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushTrainUp'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushTrainUp'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -1992,7 +2118,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setTraining'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setTraining'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2023,7 +2149,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addBaseLevel'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addBaseLevel'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2054,7 +2180,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeCastle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeCastle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2085,7 +2211,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setBaseLevel'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setBaseLevel'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2116,7 +2242,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addTrainingUp'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addTrainingUp'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2147,7 +2273,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeDungeon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeDungeon'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2175,7 +2301,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushBaseLevel'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushBaseLevel'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2203,7 +2329,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setTrainingUp'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setTrainingUp'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2234,7 +2360,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeNextSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeNextSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2256,13 +2382,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeNextSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeNextSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2275,7 +2401,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2287,7 +2413,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeSkillset'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSkillset'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2309,13 +2435,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSkillset'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeSkillset'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2328,7 +2454,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2340,7 +2466,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changePowerFix'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changePowerFix'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2386,7 +2512,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changePowerName'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changePowerName'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2410,7 +2536,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changeSpotImage'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeSpotImage'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2438,7 +2564,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setDungeonFloor'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setDungeonFloor'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2469,7 +2595,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeRaceOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeRaceOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2491,13 +2617,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeRaceOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeRaceOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2510,7 +2636,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2522,7 +2648,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeSpotOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSpotOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2544,13 +2670,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSpotOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeSpotOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2563,7 +2689,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2575,7 +2701,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2597,13 +2723,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2616,7 +2742,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2628,7 +2754,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeClassOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeClassOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2650,13 +2776,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeClassOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeClassOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2669,7 +2795,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2681,7 +2807,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePowerOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2703,13 +2829,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storePowerOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2722,7 +2848,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2734,7 +2860,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePowerOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2756,13 +2882,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storePowerOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2775,7 +2901,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2787,7 +2913,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeSkillOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSkillOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2809,13 +2935,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSkillOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeSkillOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2828,7 +2954,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2840,7 +2966,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeSpotOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSpotOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2862,13 +2988,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSpotOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeSpotOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2881,7 +3007,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2898,13 +3024,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeTalentPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeTalentPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2917,7 +3043,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2929,7 +3055,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeUnitOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeUnitOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -2951,13 +3077,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeUnitOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeUnitOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -2970,7 +3096,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2982,7 +3108,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeLeaderOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeLeaderOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3004,13 +3130,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeLeaderOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeLeaderOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3023,7 +3149,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3035,7 +3161,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeMasterOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeMasterOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3057,13 +3183,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeMasterOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeMasterOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3076,7 +3202,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3088,7 +3214,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeMemberOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeMemberOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3110,13 +3236,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeMemberOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeMemberOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3129,7 +3255,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3149,13 +3275,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfForce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storePowerOfForce'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3168,7 +3294,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3180,7 +3306,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeLeaderOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeLeaderOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3202,13 +3328,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeLeaderOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeLeaderOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3221,7 +3347,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3233,7 +3359,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeMasterOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeMasterOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3255,13 +3381,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeMasterOfPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeMasterOfPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3274,7 +3400,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3286,7 +3412,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeRoamUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeRoamUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3308,13 +3434,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeRoamUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeRoamUnitOfSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3327,7 +3453,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3339,7 +3465,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeBaseClassOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeBaseClassOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3361,13 +3487,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeBaseClassOfUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeBaseClassOfUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -3380,7 +3506,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3392,7 +3518,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3414,7 +3540,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'addSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3438,7 +3564,7 @@ public static partial class NodeValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'addSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'addSkill'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -3462,7 +3588,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addSkill2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addSkill2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3484,7 +3610,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addSkill2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'addSkill2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3508,7 +3634,7 @@ public static partial class NodeValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'addSkill2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'addSkill2'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -3541,7 +3667,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'focus'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'focus'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3600,7 +3726,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 0-th argument of action 'reloadMenu' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 1-th argument of action 'reloadMenu' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -3611,7 +3737,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'changePlayer'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changePlayer'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -3637,7 +3763,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 0-th argument of action 'setGameClear' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 1-th argument of action 'setGameClear' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -4200,13 +4326,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'clear'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'clear'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4219,7 +4345,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4246,7 +4372,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4275,7 +4401,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'shuffle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'shuffle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4290,7 +4416,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4311,7 +4437,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4334,7 +4460,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'clearVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'clearVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4349,7 +4475,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4361,7 +4487,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'exitItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'exitItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4384,7 +4510,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'hideSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'hideSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4419,7 +4545,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'roamUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'roamUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4442,7 +4568,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'roamUnit2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'roamUnit2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4474,7 +4600,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'showSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'showSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4500,7 +4626,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 0-th argument of action 'showParty' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 1-th argument of action 'showParty' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -4508,7 +4634,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'entryItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'entryItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4531,7 +4657,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'eraseItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4554,7 +4680,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'eraseUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4601,7 +4727,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'erasePower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'erasePower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4624,7 +4750,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'removeSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'removeSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4647,7 +4773,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'shuffleVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'shuffleVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4662,7 +4788,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4689,7 +4815,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'showDungeon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'showDungeon'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4721,7 +4847,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 0-th argument of action 'showPolitics' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 1-th argument of action 'showPolitics' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -4729,13 +4855,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeAllSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeAllSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4748,7 +4874,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4760,13 +4886,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeAllPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeAllPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4779,7 +4905,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4791,13 +4917,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeComPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeComPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4810,7 +4936,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4822,13 +4948,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeNowPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeNowPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4841,7 +4967,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4859,13 +4985,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeAllTalent'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeAllTalent'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4878,7 +5004,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4890,7 +5016,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'erasePowerMerce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'erasePowerMerce'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4913,7 +5039,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'erasePowerStaff'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'erasePowerStaff'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -4936,13 +5062,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeBattleSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeBattleSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4955,7 +5081,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4967,13 +5093,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePlayerUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePlayerUnit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -4986,7 +5112,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4998,13 +5124,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeAttackPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeAttackPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5017,7 +5143,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5029,13 +5155,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeNeutralSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeNeutralSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5048,7 +5174,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5060,13 +5186,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePlayerPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePlayerPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5079,7 +5205,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5091,13 +5217,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeDefensePower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeDefensePower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5110,7 +5236,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5122,13 +5248,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeSpotOfBattle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeSpotOfBattle'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5141,7 +5267,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5153,13 +5279,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePowerOfAttack'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfAttack'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5172,7 +5298,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5184,13 +5310,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeNonPlayerPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeNonPlayerPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5203,7 +5329,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5215,13 +5341,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storePowerOfDefense'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storePowerOfDefense'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"0-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5234,7 +5360,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5254,7 +5380,7 @@ public static partial class NodeValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'font' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'font' must be Number.");
                 }
 
                 if (arguments.Length <= 2)
@@ -5264,14 +5390,14 @@ public static partial class NodeValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'font' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'font' must be Number.");
                 }
 
                 break;
             case ActionKind.fontc:
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 0-th argument of action 'fontc' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'fontc' must be Number.");
                 }
 
                 if (arguments.Length <= 1)
@@ -5281,7 +5407,7 @@ public static partial class NodeValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'fontc' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'fontc' must be Number.");
                 }
 
                 if (arguments.Length <= 2)
@@ -5291,7 +5417,7 @@ public static partial class NodeValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'fontc' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'fontc' must be Number.");
                 }
 
                 break;
@@ -5299,7 +5425,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'gread'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'gread'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5330,13 +5456,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'gread'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"3-th argument is empty. String Variable is required by action 'gread'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5349,7 +5475,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5364,7 +5490,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushv'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushv'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5379,7 +5505,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5394,7 +5520,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushv'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushv'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5409,7 +5535,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5434,7 +5560,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'gwrite'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'gwrite'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5465,7 +5591,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'gwrite'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"3-th argument is empty. String Variable is required by action 'gwrite'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5480,7 +5606,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5498,7 +5624,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addDiplo'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addDiplo'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5513,7 +5639,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5531,7 +5657,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addDiplo'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addDiplo'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5552,7 +5678,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addDiplo'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'addDiplo'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5586,7 +5712,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setDiplo'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setDiplo'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5601,7 +5727,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5619,7 +5745,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setDiplo'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setDiplo'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5640,7 +5766,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setDiplo'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setDiplo'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5674,7 +5800,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setTruce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setTruce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5689,7 +5815,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5707,7 +5833,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setTruce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setTruce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5728,7 +5854,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setTruce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setTruce'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5759,7 +5885,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'equipItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'equipItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5781,7 +5907,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'equipItem'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'equipItem'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5810,7 +5936,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 2-th argument of action 'equipItem' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 3-th argument of action 'equipItem' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -5821,7 +5947,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setLeague'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setLeague'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5836,7 +5962,7 @@ public static partial class NodeValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5854,7 +5980,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setLeague'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setLeague'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5875,7 +6001,7 @@ public static partial class NodeValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setLeague'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setLeague'.", result.TokenList[argument.TokenId].Range));
                         }
                         else if (span[0] == '@')
                         {
@@ -5909,7 +6035,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'index'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'index'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5924,7 +6050,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5943,13 +6069,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'index'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"3-th argument is empty. String Variable is required by action 'index'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -5962,7 +6088,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5974,7 +6100,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeIndex'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeIndex'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -5989,7 +6115,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6008,13 +6134,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeIndex'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"3-th argument is empty. String Variable is required by action 'storeIndex'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6027,7 +6153,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6039,7 +6165,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'storeIndexVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'storeIndexVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6054,7 +6180,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6073,13 +6199,13 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeIndexVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"3-th argument is empty. String Variable is required by action 'storeIndexVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6092,7 +6218,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"3-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6104,7 +6230,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'addStatus'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addStatus'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6126,17 +6252,17 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (argument.IsNumber)
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'addStatus' must be Status, StringVariableReader. Actually Number appears.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader. Actually Number appears.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'addStatus' must be Status, StringVariableReader. Actually empty string appears.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader. Actually empty string appears.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"The 1-th argument of action 'addStatus' must be Status, StringVariableReader. Actually empty string('@') appears.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader. Actually empty string('@') appears.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6151,7 +6277,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'addStatus' must be Status, StringVariableReader.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader.", result.TokenList[argument.TokenId].Range));
                 }
 
                 argument = ref arguments[2];
@@ -6167,7 +6293,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushDiplo'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushDiplo'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6189,7 +6315,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushDiplo'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'pushDiplo'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6217,7 +6343,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setArbeit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setArbeit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6239,7 +6365,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setArbeit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setArbeit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6270,7 +6396,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setStatus'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setStatus'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6292,17 +6418,17 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (argument.IsNumber)
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'setStatus' must be Status, StringVariableReader. Actually Number appears.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader. Actually Number appears.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'setStatus' must be Status, StringVariableReader. Actually empty string appears.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader. Actually empty string appears.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"The 1-th argument of action 'setStatus' must be Status, StringVariableReader. Actually empty string('@') appears.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader. Actually empty string('@') appears.", result.TokenList[argument.TokenId].Range));
                     }
                     else
                     {
@@ -6317,7 +6443,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'setStatus' must be Status, StringVariableReader.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader.", result.TokenList[argument.TokenId].Range));
                 }
 
                 argument = ref arguments[2];
@@ -6333,7 +6459,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushStatus'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushStatus'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6358,7 +6484,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 1-th argument of action 'pushStatus' must be Status.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 2-th argument of action 'pushStatus' must be Status.", result.TokenList[argument.TokenId].Range));
                 }
 
                 argument = ref arguments[2];
@@ -6371,7 +6497,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'pushSpotPos'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushSpotPos'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6404,7 +6530,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'setEnemyPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setEnemyPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6426,7 +6552,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setEnemyPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'setEnemyPower'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6456,7 +6582,7 @@ public static partial class NodeValidator
             case ActionKind.shadow:
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 0-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'shadow' must be Number.");
                 }
 
                 if (arguments.Length <= 1)
@@ -6466,7 +6592,7 @@ public static partial class NodeValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'shadow' must be Number.");
                 }
 
                 if (arguments.Length <= 2)
@@ -6476,7 +6602,7 @@ public static partial class NodeValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'shadow' must be Number.");
                 }
 
                 if (arguments.Length <= 3)
@@ -6486,7 +6612,7 @@ public static partial class NodeValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'shadow' must be Number.");
                 }
 
                 if (arguments.Length <= 4)
@@ -6496,7 +6622,7 @@ public static partial class NodeValidator
                 argument = ref arguments[4];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 5-th argument of action 'shadow' must be Number.");
                 }
 
                 if (arguments.Length <= 5)
@@ -6506,7 +6632,7 @@ public static partial class NodeValidator
                 argument = ref arguments[5];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 5-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 6-th argument of action 'shadow' must be Number.");
                 }
 
                 break;
@@ -6546,7 +6672,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 4-th argument of action 'doskill' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 5-th argument of action 'doskill' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -6557,7 +6683,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 0-th argument of action 'storeRectUnit' must be RedBlue.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 1-th argument of action 'storeRectUnit' must be RedBlue.", result.TokenList[argument.TokenId].Range));
                 }
 
                 argument = ref arguments[1];
@@ -6615,7 +6741,7 @@ public static partial class NodeValidator
             case ActionKind.darkness:
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 0-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'darkness' must be Number.");
                 }
 
                 if (arguments.Length <= 1)
@@ -6625,7 +6751,7 @@ public static partial class NodeValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'darkness' must be Number.");
                 }
 
                 if (arguments.Length <= 2)
@@ -6635,7 +6761,7 @@ public static partial class NodeValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'darkness' must be Number.");
                 }
 
                 if (arguments.Length <= 3)
@@ -6645,33 +6771,11 @@ public static partial class NodeValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'darkness' must be Number.");
                 }
 
                 break;
             case ActionKind.linkSpot:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'linkSpot'.", result.TokenList[argument.TokenId].Range));
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length != 1)
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                        argument.HasReference = true;
-                    }
-                }
-                else
-                {
-                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.Spot;
-                    argument.HasReference = true;
-                }
-
-                argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
@@ -6693,31 +6797,11 @@ public static partial class NodeValidator
                     argument.HasReference = true;
                 }
 
-                if (arguments.Length <= 2)
-                {
-                    break;
-                }
-                argument = ref arguments[2];
-                argument.ReferenceKind = ReferenceKind.imagedata;
-                argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                argument.HasReference = true;
-
-                if (arguments.Length <= 3)
-                {
-                    break;
-                }
-                argument = ref arguments[3];
-                if (!argument.IsNumber)
-                {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'linkSpot' must be Number.");
-                }
-
-                break;
-            case ActionKind.linkEscape:
+                argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'linkEscape'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'linkSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6735,7 +6819,27 @@ public static partial class NodeValidator
                     argument.HasReference = true;
                 }
 
-                argument = ref arguments[1];
+                if (arguments.Length <= 2)
+                {
+                    break;
+                }
+                argument = ref arguments[2];
+                argument.ReferenceKind = ReferenceKind.imagedata;
+                argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
+
+                if (arguments.Length <= 3)
+                {
+                    break;
+                }
+                argument = ref arguments[3];
+                if (!argument.IsNumber)
+                {
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'linkSpot' must be Number.");
+                }
+
+                break;
+            case ActionKind.linkEscape:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
@@ -6757,6 +6861,28 @@ public static partial class NodeValidator
                     argument.HasReference = true;
                 }
 
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'linkEscape'.", result.TokenList[argument.TokenId].Range));
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Spot;
+                    argument.HasReference = true;
+                }
+
                 if (arguments.Length <= 2)
                 {
                     break;
@@ -6773,7 +6899,7 @@ public static partial class NodeValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'linkEscape' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'linkEscape' must be Number.");
                 }
 
                 break;
@@ -6827,7 +6953,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'shiftTroop2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'shiftTroop2'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -6868,7 +6994,7 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 3-th argument of action 'shiftTroop2' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 4-th argument of action 'shiftTroop2' must be Boolean.", result.TokenList[argument.TokenId].Range));
                 }
 
                 break;
@@ -6884,28 +7010,22 @@ public static partial class NodeValidator
 
 		switch (kind)
         {
-            case ActionKind.msg:
-            case ActionKind.msg2:
-            case ActionKind.talk:
-            case ActionKind.talk2:
-            case ActionKind.chat:
-            case ActionKind.chat2:
-            case ActionKind.@event:
-            case ActionKind.changeMaster:
-				if (count < 1)
+            case ActionKind.pushDeath:
+                if (count < 6)
                 {
-                    result.ErrorList.Add(new($"There are too less arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~3.", result.TokenList[index].Range));
+                    result.ErrorList.Add(new($"There are too less arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 6.", result.TokenList[index].Range));
                     return false;
                 }
-                else if (count > 3)
+                else if (count > 6)
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~3.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
+                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 6.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
                     }
                     return false;
                 }
                 break;
+            case ActionKind.setPowerHome:
             case ActionKind.dialog:
             case ActionKind.dialogF:
             case ActionKind.hideImage:
@@ -6929,6 +7049,28 @@ public static partial class NodeValidator
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
                         result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~2.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
+                    }
+                    return false;
+                }
+                break;
+            case ActionKind.msg:
+            case ActionKind.msg2:
+            case ActionKind.talk:
+            case ActionKind.talk2:
+            case ActionKind.chat:
+            case ActionKind.chat2:
+            case ActionKind.@event:
+            case ActionKind.changeMaster:
+				if (count < 1)
+                {
+                    result.ErrorList.Add(new($"There are too less arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~3.", result.TokenList[index].Range));
+                    return false;
+                }
+                else if (count > 3)
+                {
+                    if (context.CreateError(DiagnosticSeverity.Warning))
+                    {
+                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~3.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
                     }
                     return false;
                 }
@@ -6961,6 +7103,7 @@ public static partial class NodeValidator
             case ActionKind.setGain:
             case ActionKind.storePM:
             case ActionKind.storeud:
+            case ActionKind.levelup:
             case ActionKind.addLevel:
             case ActionKind.addLoyal:
             case ActionKind.addMoney:
@@ -7433,7 +7576,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'has'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'has'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7448,7 +7591,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7481,7 +7624,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'inVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7496,7 +7639,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7529,7 +7672,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'inSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7551,7 +7694,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'inSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7575,7 +7718,7 @@ public static partial class NodeValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'inSpot'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'inSpot'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -7599,7 +7742,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'inRoamSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inRoamSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7621,7 +7764,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inRoamSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'inRoamSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7645,7 +7788,7 @@ public static partial class NodeValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'inRoamSpot'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'inRoamSpot'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -7675,7 +7818,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'count'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'count'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7690,7 +7833,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7702,7 +7845,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'amount'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'amount'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7717,7 +7860,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7729,7 +7872,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'conVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'conVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7744,7 +7887,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7756,7 +7899,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isDone'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isDone'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7779,7 +7922,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'getLife'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'getLife'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7802,7 +7945,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'countVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7817,7 +7960,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7829,7 +7972,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isActive'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isActive'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7852,7 +7995,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isArbeit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isArbeit'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7875,7 +8018,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isEnable'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isEnable'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7898,7 +8041,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isInvade'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isInvade'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7921,7 +8064,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isLeader'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isLeader'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7944,7 +8087,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isMaster'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isMaster'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7967,7 +8110,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isRoamer'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isRoamer'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -7990,7 +8133,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isTalent'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isTalent'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8013,7 +8156,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isVassal'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isVassal'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8036,7 +8179,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'countGain'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countGain'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8059,7 +8202,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'countSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8082,7 +8225,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isAllDead'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isAllDead'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8105,7 +8248,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isNowSpot'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isNowSpot'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8128,7 +8271,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'countForce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countForce'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8151,7 +8294,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'countMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countMoney'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8174,7 +8317,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'countSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countSkill'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8197,7 +8340,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'getLifePer'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'getLifePer'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8235,7 +8378,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isRoamLeader'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isRoamLeader'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8264,7 +8407,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'equal'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'equal'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8279,7 +8422,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -8300,7 +8443,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'eqVar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eqVar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8315,7 +8458,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -8336,7 +8479,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isWar'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isWar'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8375,7 +8518,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'reckon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'reckon'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8390,7 +8533,7 @@ public static partial class NodeValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"0-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -8411,7 +8554,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isLeague'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isLeague'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8433,7 +8576,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isLeague'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'isLeague'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8456,7 +8599,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isSameArmy'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isSameArmy'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8479,7 +8622,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isDead'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isDead'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8503,7 +8646,7 @@ public static partial class NodeValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'isDead'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'isDead'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -8527,7 +8670,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isAnyDead'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isAnyDead'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8551,7 +8694,7 @@ public static partial class NodeValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i}-th argument is empty. String Variable is required by action 'isAnyDead'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'isAnyDead'.", result.TokenList[argument.TokenId].Range));
                     }
                     else if (span[0] == '@')
                     {
@@ -8575,7 +8718,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isNext'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isNext'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8597,7 +8740,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isNext'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'isNext'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8620,13 +8763,11 @@ public static partial class NodeValidator
                     break;
                 }
                 argument = ref arguments[2];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber)
                 {
-                    argument.ReferenceKind = ReferenceKind.Boolean;
-                }
-                else
-                {
-                    result.ErrorList.Add(new($"The 2-th argument of action 'isNext' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
                 }
 
                 break;
@@ -8637,14 +8778,14 @@ public static partial class NodeValidator
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 0-th argument of action 'countPost' must be RedBlue.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"The 1-th argument of action 'countPost' must be RedBlue.", result.TokenList[argument.TokenId].Range));
                 }
 
                 argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'countPost'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'countPost'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8699,7 +8840,7 @@ public static partial class NodeValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"0-th argument is empty. String Variable is required by action 'isComTurn'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'isComTurn'.", result.TokenList[argument.TokenId].Range));
                 }
                 else if (span[0] == '@')
                 {
@@ -8730,7 +8871,7 @@ public static partial class NodeValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'isDungeon' must be Number.");
+                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'isDungeon' must be Number.");
                 }
 
                 break;

@@ -160,6 +160,7 @@ public partial class Program
         }
 
         StringBuilder? stringBuilder = null;
+        bool showNotError = solution.RequiredSeverity != 0U;
         foreach (ref var result in solution.Files)
         {
             if (result.ErrorList.IsEmpty)
@@ -176,19 +177,7 @@ public partial class Program
                 }
 
                 stringBuilder ??= new(1 << 14);
-                stringBuilder.AppendLine(error.Text);
-                stringBuilder.Append(result.FilePath);
-                stringBuilder.Append('(');
-                stringBuilder.Append(error.Range.StartInclusive.Line + 1);
-                stringBuilder.Append(", ");
-                stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
-                stringBuilder.Append(')');
-                if (solution.RequiredSeverity != 0U)
-                {
-                    stringBuilder.Append(", Severity: ");
-                    stringBuilder.Append(error.Severity);
-                }
-                stringBuilder.AppendLine();
+                AppendResultError(stringBuilder, showNotError, result.FilePath, error);
             }
         }
 
@@ -197,6 +186,24 @@ public partial class Program
             Console.WriteLine(stringBuilder.ToString());
         }
         return isSuccess;
+    }
+
+    private static void AppendResultError(StringBuilder stringBuilder, bool showNotError, string? filePath, Error error)
+    {
+        stringBuilder.AppendLine(error.Text);
+        stringBuilder.Append(filePath);
+        stringBuilder.Append('(');
+        stringBuilder.Append(error.Range.StartInclusive.Line + 1);
+        stringBuilder.Append(", ");
+        stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
+        stringBuilder.Append(')');
+        if (showNotError)
+        {
+            stringBuilder.Append(", Severity: ");
+            stringBuilder.Append(error.Severity);
+        }
+
+        stringBuilder.AppendLine();
     }
 
     private static void LoadAndParse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isUnicode, bool isEnglish, ref Result result, Span<byte> input)

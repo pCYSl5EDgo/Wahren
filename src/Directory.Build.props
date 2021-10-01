@@ -2,11 +2,11 @@
     <PropertyGroup>
         <Authors>pCYSl5EDgo</Authors>
         <Copyright>pCYSl5EDgo</Copyright>
-        <Version>0.2.3</Version>
+        <Version>0.2.4</Version>
         <TargetFramework>net6.0</TargetFramework>
         <InvariantGlobalization>true</InvariantGlobalization>
         <Deterministic>true</Deterministic>
-        <LangVersion>preview</LangVersion>
+        <LangVersion>10</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
         <NoWarn>CS0105</NoWarn>

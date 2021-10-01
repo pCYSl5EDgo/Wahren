@@ -421,21 +421,38 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
         internal static ulong CalcHash(ReadOnlySpan<char> key)
         {
             var end = key.Length;
-            if (8 < end)
+            const int endMax = 12; // 64 * log2 / log(10 + 26 + 1)
+            if (endMax < end)
             {
-                end = 8;
+                end = endMax;
             }
 
             ulong answer = 0;
             for (int i = 0; i < end; i++)
             {
                 ulong c = key[i];
-                if (c >= 0x80)
+                
+                answer *= 37;
+                if (c >= '0' && c <= '9')
+                {
+                    answer += c - '0';
+                }
+                else if (c >= 'A' && c <= 'Z')
+                {
+                    answer += c - ('A' - 10);
+                }
+                else if (c >= 'a' && c <= 'z')
+                {
+                    answer += c - ('a' - 10);
+                }
+                else if (c == '_')
+                {
+                    answer += 36;
+                }
+                else
                 {
                     return ulong.MaxValue;
                 }
-
-                answer |= c << (i << 3);
             }
 
             return answer;
@@ -463,7 +480,20 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
             {
                 return ref trackIdArray[index];
             }
-
+            for (var currentIndex = index + 1; currentIndex < count && hash == hashArray[currentIndex]; ++currentIndex)
+            {
+                if (keyArray.AsSpan(infoArray[currentIndex]).SequenceEqual(key))
+                {
+                    return ref trackIdArray[currentIndex];
+                }
+            }
+            for (var currentIndex = index - 1; currentIndex >= 0 && hash == hashArray[currentIndex]; --currentIndex)
+            {
+                if (keyArray.AsSpan(infoArray[currentIndex]).SequenceEqual(key))
+                {
+                    return ref trackIdArray[currentIndex];
+                }
+            }
         NOT_FOUND:
             return ref Unsafe.NullRef<TTrackId>();
         }

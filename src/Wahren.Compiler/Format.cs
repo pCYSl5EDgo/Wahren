@@ -10,30 +10,43 @@ public partial class Program
     public async ValueTask<int> Format(
         [Option(0, "input folder")] string rootFolder = ".",
         [Option("switch")] bool @switch = false,
-        [Option("t")] bool time = false
+        [Option("t")] bool time = false,
+        [Option("unicode")] bool forceUnicode = false
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
 
         var debugPaper = await GetDebugPaper(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
-        var contentsFolder = debugPaper.Folder ?? DetectContentsFolder(rootFolder);
-        if (contentsFolder is null)
+        string? contentsFolder;
+        if (debugPaper.Folder is null)
+        {
+            contentsFolder = DetectContentsFolder(rootFolder);
+        }
+        else
+        {
+            contentsFolder = Path.Combine(rootFolder, debugPaper.Folder);
+        }
+
+        if (contentsFolder is null || !Directory.Exists(contentsFolder))
         {
             Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
             return 1;
         }
 
-        var scriptFolderPath = Path.GetRelativePath(Environment.CurrentDirectory, Path.GetFullPath(Path.Combine(contentsFolder, "script")));
-        var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath);
+        var scriptFolderPath = Path.Combine(contentsFolder, "script");
+        var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
+        var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
+        var toUnicodeFolderStructureTask = ToUnicodeFolderStructure(isUnicode, forceUnicode, scriptFolderPath, cancellationTokenSource);
         try
         {
             var enumerates = Directory.EnumerateFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-            await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token, 
+            await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token,
                 (path, token) =>
                 {
-                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, token);
+                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, forceUnicode, token);
                 }).ConfigureAwait(false);
+            await toUnicodeFolderStructureTask.ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -53,7 +66,94 @@ public partial class Program
         return 0;
     }
 
-    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, CancellationToken token)
+    private static ValueTask ToUnicodeFolderStructure(bool isUnicode, bool forceUnicode, string scriptFolderPath, CancellationTokenSource cancellationTokenSource)
+    {
+        if (isUnicode || !forceUnicode)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        File.Create(Path.Combine(scriptFolderPath, "unicode.txt")).Dispose();
+        string path_dot_gitattributes = Path.Combine(scriptFolderPath, ".gitattributes");
+        if (File.Exists(path_dot_gitattributes))
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        static async ValueTask ToUnicodeFolderStructure(CancellationTokenSource cancellationTokenSource, string scriptFolderPath, string path_dot_gitattributes)
+        {
+            const string content = "*.dat text working-tree-encoding=UTF-16LE-BOM eol=CRLF";
+            var buffer = ArrayPool<byte>.Shared.Rent(content.Length);
+            try
+            {
+                using var stream = File.Create(path_dot_gitattributes, 4096);
+                stream.Write(buffer.AsSpan(0, Encoding.UTF8.GetBytes(content.AsSpan(), buffer.AsSpan())));
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+
+            var enumerates = Directory.EnumerateFiles(scriptFolderPath, "language*.txt", SearchOption.TopDirectoryOnly);
+            await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token,
+                async (path, token) =>
+                {
+                    Microsoft.Win32.SafeHandles.SafeFileHandle? handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
+                    try
+                    {
+                        var bytesCount = RandomAccess.GetLength(handle);
+                        if (bytesCount > int.MaxValue)
+                        {
+                            throw new InsufficientMemoryException();
+                        }
+                        var originalBuffer = ArrayPool<byte>.Shared.Rent((int)bytesCount);
+                        try
+                        {
+                            var actualBytesCount = await RandomAccess.ReadAsync(handle, originalBuffer.AsMemory(0, (int)bytesCount), 0, token).ConfigureAwait(false);
+                            handle.Dispose();
+                            handle = default;
+
+                            var sjis = Encoding.GetEncoding(932);
+                            var maximum = sjis.GetMaxCharCount(actualBytesCount);
+                            var charBuffer = ArrayPool<char>.Shared.Rent(maximum);
+                            try
+                            {
+                                var charCount = sjis.GetChars(originalBuffer.AsSpan(0, actualBytesCount), charBuffer.AsSpan());
+                                var writingBuffer = ArrayPool<byte>.Shared.Rent((charCount + 1) << 1);
+                                try
+                                {
+                                    writingBuffer[0] = 0xff;
+                                    writingBuffer[1] = 0xfe;
+                                    MemoryMarshal.Cast<char, byte>(charBuffer.AsSpan(0, charCount)).CopyTo(writingBuffer.AsSpan(2));
+                                    using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, false);
+                                    stream.Write(writingBuffer.AsSpan(0, (charCount + 1) << 1));
+                                }
+                                finally
+                                {
+                                    ArrayPool<byte>.Shared.Return(writingBuffer);
+                                }
+                            }
+                            finally
+                            {
+                                ArrayPool<char>.Shared.Return(charBuffer);
+                            }
+                        }
+                        finally
+                        {
+                            ArrayPool<byte>.Shared.Return(originalBuffer);
+                        }
+                    }
+                    finally
+                    {
+                        handle?.Dispose();
+                    }
+                }).ConfigureAwait(false);
+        }
+
+        return ToUnicodeFolderStructure(cancellationTokenSource, scriptFolderPath, path_dot_gitattributes);
+    }
+
+    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, bool forceUnicode, CancellationToken token)
     {
         Result result;
         byte[]? rental;
@@ -100,14 +200,38 @@ public partial class Program
         var byteList = new List<byte>();
         try
         {
-            if (isUnicode)
+            if (isUnicode || forceUnicode)
             {
                 byteList.Add(0xff);
                 byteList.Add(0xfe);
                 var formatter = BinaryFormatter.GetDefault_Utf16Le(true);
                 if (!formatter.TryFormat(ref result, ref byteList))
                 {
-                    return;
+                    StringBuilder stringBuilder = new();
+                    foreach (var error in result.ErrorList)
+                    {
+                        AppendResultError(stringBuilder, false, result.FilePath, error);
+                    }
+                    Console.WriteLine(stringBuilder.ToString());
+
+                    if (isUnicode || !forceUnicode)
+                    {
+                        return;
+                    }
+
+                    for (int i = 0; i < result.Source.Count; i++)
+                    {
+                        var line = result.Source[i];
+                        if (i != 0)
+                        {
+                            byteList.Add((byte)'\r');
+                            byteList.Add(0);
+                            byteList.Add((byte)'\n');
+                            byteList.Add(0);
+                        }
+
+                        byteList.AddRange(MemoryMarshal.Cast<char, byte>(line.AsSpan()));
+                    }
                 }
             }
             else
@@ -115,6 +239,12 @@ public partial class Program
                 var formatter = BinaryFormatter.GetDefault_Cp932(true);
                 if (!formatter.TryFormat(ref result, ref byteList))
                 {
+                    StringBuilder stringBuilder = new();
+                    foreach (var error in result.ErrorList)
+                    {
+                        AppendResultError(stringBuilder, false, result.FilePath, error);
+                    }
+                    Console.WriteLine(stringBuilder.ToString());
                     return;
                 }
             }

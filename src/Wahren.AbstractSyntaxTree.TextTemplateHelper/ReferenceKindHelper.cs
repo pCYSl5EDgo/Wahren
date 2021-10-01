@@ -186,13 +186,13 @@ public static class ReferenceKindHelper
         builder.Append("span = result.GetSpan(argument.TokenId);").AppendLine();
         Inden().Append("if (span.IsEmpty)").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument is empty.").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is empty.").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("}").AppendLine();
         Inden().Append("else if (span[0] == '@')").AppendLine();
         Inden().Append("{").AppendLine();
         Inden().Append("    if (span.Length == 1)").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument is empty string '@'. ").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is empty string '@'. ").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("    else").AppendLine();
         Inden().Append("    {").AppendLine();
@@ -206,7 +206,7 @@ public static class ReferenceKindHelper
         Inden().Append("    ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);").AppendLine();
         Inden().Append("    if (Unsafe.IsNullRef(ref track))").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument {span} is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument {span} is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("    else").AppendLine();
         Inden().Append("    {").AppendLine();
@@ -230,7 +230,7 @@ public static class ReferenceKindHelper
         }
 
         Inden().Append("          default:").AppendLine();
-        Inden().Append("              result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument {span} is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("              result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument '{span}' is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("              argument.HasReference = false;").AppendLine();
         Inden().Append("              break;").AppendLine();
         Inden().Append("        }").AppendLine();
@@ -238,7 +238,7 @@ public static class ReferenceKindHelper
         Inden().Append("}").AppendLine();
     }
 
-    private static void ProcessLateUnitClassPowerSpotRace(ReferenceKind reference, bool hasUnit, bool hasClass, bool hasPower, bool hasSpot, bool hasRace, int i, string name, int indent, StringBuilder builder)
+    private static void ProcessLateUnitClassPowerSpotRace(ReferenceKind reference, bool hasUnit, bool hasClass, bool hasPower, bool hasSpot, bool hasRace, bool hasText, int i, string name, int indent, StringBuilder builder)
     {
         StringBuilder Inden()
         {
@@ -262,13 +262,13 @@ public static class ReferenceKindHelper
         builder.Append("span = result.GetSpan(argument.TokenId);").AppendLine();
         Inden().Append("if (span.IsEmpty)").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument is empty.").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is empty.").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("}").AppendLine();
         Inden().Append("else if (span[0] == '@')").AppendLine();
         Inden().Append("{").AppendLine();
         Inden().Append("    if (span.Length == 1)").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument is empty string '@'. ").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is empty string '@'. ").Append(reference).Append(" is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("    else").AppendLine();
         Inden().Append("    {").AppendLine();
@@ -280,11 +280,7 @@ public static class ReferenceKindHelper
         Inden().Append("else").AppendLine();
         Inden().Append("{").AppendLine();
         Inden().Append("    ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);").AppendLine();
-        Inden().Append("    if (Unsafe.IsNullRef(ref track))").AppendLine();
-        Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument {span} is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
-        Inden().Append("    }").AppendLine();
-        Inden().Append("    else").AppendLine();
+        Inden().Append("    if (!Unsafe.IsNullRef(ref track))").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        switch (track.Kind)").AppendLine();
         Inden().Append("        {").AppendLine();
@@ -328,13 +324,23 @@ public static class ReferenceKindHelper
             Inden().Append("                argument.HasReference = true;").AppendLine();
             Inden().Append("                break;").AppendLine();
         }
-
-        Inden().Append("          default:").AppendLine();
-        Inden().Append("              result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument {span} is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
-        Inden().Append("              argument.HasReference = false;").AppendLine();
-        Inden().Append("              break;").AppendLine();
+        if (!hasText)
+        {
+            Inden().Append("            default:").AppendLine();
+            Inden().Append("                result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument '{span}' is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+            Inden().Append("                argument.HasReference = false;").AppendLine();
+            Inden().Append("                break;").AppendLine();
+        }
         Inden().Append("        }").AppendLine();
         Inden().Append("    }").AppendLine();
+        if (!hasText)
+        {
+            Inden().Append("    else").AppendLine();
+            Inden().Append("    {").AppendLine();
+            Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
+            builder.Append("-th argument '{span}' is not ").Append(reference).Append(" required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+            Inden().Append("    }").AppendLine();
+        }
         Inden().Append("}").AppendLine();
     }
 
@@ -365,7 +371,7 @@ public static class ReferenceKindHelper
         Inden().Append("{").AppendLine();
         Inden().Append("    if (argument.Number != 0)").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); } builder.Append("-th argument is not Number, CompoundText required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+        Inden().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is not Number, CompoundText required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("}").AppendLine();
         Inden().Append("else").AppendLine();
@@ -376,19 +382,21 @@ public static class ReferenceKindHelper
 
     private static void ProcessLateString(ReferenceKind reference, int i, string name, int indent, StringBuilder builder)
     {
-        bool hasSpot = (reference & ReferenceKind.Spot) == ReferenceKind.Spot;
-        bool hasPower = (reference & ReferenceKind.Power) == ReferenceKind.Power;
-        bool hasUnit = (reference & ReferenceKind.Unit) == ReferenceKind.Unit;
-        bool hasClass = (reference & ReferenceKind.Class) == ReferenceKind.Class;
-        bool hasRace = (reference & ReferenceKind.Race) == ReferenceKind.Race;
+        var hasSpot = (reference & ReferenceKind.Spot) == ReferenceKind.Spot;
+        var hasPower = (reference & ReferenceKind.Power) == ReferenceKind.Power;
+        var hasUnit = (reference & ReferenceKind.Unit) == ReferenceKind.Unit;
+        var hasClass = (reference & ReferenceKind.Class) == ReferenceKind.Class;
+        var hasRace = (reference & ReferenceKind.Race) == ReferenceKind.Race;
+        var hasText = (reference & ReferenceKind.Text) == ReferenceKind.Text;
+        var hasSkill = (reference & ReferenceKind.Skill) == ReferenceKind.Skill;
+        var hasSkillset = (reference & ReferenceKind.Skillset) == ReferenceKind.Skillset;
         if (hasSpot || hasPower || hasUnit || hasClass || hasRace)
         {
-            ProcessLateUnitClassPowerSpotRace(reference, hasUnit, hasClass, hasPower, hasSpot, hasRace, i, name, indent, builder);
+            ProcessLateUnitClassPowerSpotRace(reference, hasUnit, hasClass, hasPower, hasSpot, hasRace, hasText, i, name, indent, builder);
             return;
         }
 
-        bool hasSkill = (reference & ReferenceKind.Skill) == ReferenceKind.Skill;
-        bool hasSkillset = (reference & ReferenceKind.Skillset) == ReferenceKind.Skillset;
+        
         if (hasSkill || hasSkillset)
         {
             ProcessLateSkillSkillset(reference, hasSkill, hasSkillset, i, name, indent, builder);
@@ -473,7 +481,7 @@ public static class ReferenceKindHelper
             case ReferenceKind.Number:
                 F().Append("if (!argument.IsNumber)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_NumberIsExpected(argument.TokenId, $\" The "); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }; builder.Append("-th argument of action '").Append(name).AppendLine(@"' must be Number."");");
+                I().Append("    result.ErrorAdd_NumberIsExpected(argument.TokenId, $\" The "); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }; builder.Append("-th argument of action '").Append(name).AppendLine(@"' must be Number."");");
                 I().Append("}").AppendLine();
                 break;
             case ReferenceKind.Boolean:
@@ -485,8 +493,7 @@ public static class ReferenceKindHelper
                 I().Append("}").AppendLine();
                 I().Append("else").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
-                builder.Append("-th argument of action '").Append(name).Append("' must be ").Append(reference).AppendLine(".\", result.TokenList[argument.TokenId].Range));");
+                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument of action '").Append(name).Append("' must be ").Append(reference).AppendLine(".\", result.TokenList[argument.TokenId].Range));");
                 I().Append("}").AppendLine();
                 break;
             case ReferenceKind.NumberVariableReader | ReferenceKind.Number:
@@ -501,8 +508,7 @@ public static class ReferenceKindHelper
                 F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
                 I().Append("if (span.IsEmpty)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
-                builder.Append("-th argument is empty. String Variable is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+                I().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is empty. String Variable is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else if (span[0] == '@')").AppendLine();
                 I().Append("{").AppendLine();
@@ -517,8 +523,7 @@ public static class ReferenceKindHelper
                 I().Append("{").AppendLine();
                 I().Append("    if (").Append(severityCheck).Append(")").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
-                builder.Append("-th argument '{span}' is String Variable. '@' should be written.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+                I().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument '{span}' is String Variable. '@' should be written.\", result.TokenList[argument.TokenId].Range));").AppendLine();
                 I().Append("    }").AppendLine();
                 I().Append("    argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
                 I().Append("    argument.HasReference = true;").AppendLine();
@@ -529,15 +534,13 @@ public static class ReferenceKindHelper
                 F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
                 I().Append("if (span.IsEmpty)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
-                builder.Append("-th argument is empty. String Variable is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+                I().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is empty. String Variable is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else if (span[0] == '@')").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    if (span.Length == 1)").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
-                builder.Append("-th argument '@' must be String Variable.\", result.TokenList[argument.TokenId].Range));").AppendLine();
+                I().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument '@' must be String Variable.\", result.TokenList[argument.TokenId].Range));").AppendLine();
                 I().Append("    }").AppendLine();
                 I().Append("    else").AppendLine();
                 I().Append("    {").AppendLine();
@@ -550,7 +553,7 @@ public static class ReferenceKindHelper
                 I().Append("{").AppendLine();
                 I().Append("    if (").Append(severityCheck).Append(")").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
+                I().Append("        result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
                 builder.Append("-th argument '{span}' is String Variable. '@' should be written.\", result.TokenList[argument.TokenId].Range));").AppendLine();
                 I().Append("    }").AppendLine();
                 I().Append("    argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
@@ -572,7 +575,7 @@ public static class ReferenceKindHelper
                 F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
                 I().Append("if (span.IsEmpty)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
+                I().Append("    result.ErrorList.Add(new($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
                 builder.Append("-th argument is empty. String Variable is required by action '").Append(name).Append("'.\", result.TokenList[argument.TokenId].Range));").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else if (span[0] == '@')").AppendLine();
@@ -606,19 +609,19 @@ public static class ReferenceKindHelper
                 F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
                 I().Append("if (argument.IsNumber)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
+                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
                 builder.Append("-th argument of action '").Append(name).Append("' must be ").Append(reference).AppendLine(". Actually Number appears.\", result.TokenList[argument.TokenId].Range));");
                 I().Append("}").AppendLine();
                 I().Append("else if (span.IsEmpty)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
+                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
                 builder.Append("-th argument of action '").Append(name).Append("' must be ").Append(reference).AppendLine(". Actually empty string appears.\", result.TokenList[argument.TokenId].Range));");
                 I().Append("}").AppendLine();
                 I().Append("else if (span[0] == '@')").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    if (span.Length == 1)").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
+                I().Append("        result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
                 builder.Append("-th argument of action '").Append(name).Append("' must be ").Append(reference).AppendLine(". Actually empty string('@') appears.\", result.TokenList[argument.TokenId].Range));");
                 I().Append("    }").AppendLine();
                 I().Append("    else").AppendLine();
@@ -634,7 +637,7 @@ public static class ReferenceKindHelper
                 I().Append("}").AppendLine();
                 I().Append("else").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i}"); } else { builder.Append(i); }
+                I().Append("    result.ErrorList.Add(new($\"The "); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
                 builder.Append("-th argument of action '").Append(name).Append("' must be ").Append(reference).AppendLine(".\", result.TokenList[argument.TokenId].Range));");
                 I().Append("}").AppendLine();
                 break;

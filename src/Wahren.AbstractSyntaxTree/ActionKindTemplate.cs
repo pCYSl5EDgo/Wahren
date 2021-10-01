@@ -18,14 +18,13 @@ public enum ActionKind : uint
 	ppl1,
 	citom,
 	setbcg,
-	levelup,
 	showCamp,
-	pushDeath,
 	clickWait,
 	worldskin,
-	storeDeath,
 	darkness_off,
 	doGameEnding,
+	storeDeath,
+	pushDeath,
 	setPowerHome,
 	msg,
 	msg2,
@@ -118,6 +117,7 @@ public enum ActionKind : uint
 	storePM,
 	storeud,
 	addDiplo,
+	levelup,
 	addLevel,
 	addLimit,
 	addLoyal,
@@ -151,8 +151,8 @@ public enum ActionKind : uint
 	setTruce,
 	showSpot,
 	spotmark,
-	hideSpotMark,
 	showSpotMark,
+	hideSpotMark,
 	hideEscape,
 	showParty,
 	addCastle,
@@ -245,6 +245,8 @@ public enum ActionKind : uint
 	storeAllSpot,
 	addPowerMerce,
 	addPowerStaff,
+	addPowerMerce2,
+	addPowerStaff2,
 	addTrainingUp,
 	changeDungeon,
 	pushBaseLevel,
@@ -258,8 +260,6 @@ public enum ActionKind : uint
 	storeRectUnit,
 	storeSkillset,
 	storeTodoUnit,
-	addPowerMerce2,
-	addPowerStaff2,
 	changePowerFix,
 	eraseUnitTroop,
 	pushBattleHome,
@@ -343,14 +343,13 @@ public static class ActionKindHelper
 			case 0 when key4 == 0x0031004C00500050UL: return ActionKind.ppl1;
 			case 1 when (key4 == 0x004F005400490043UL) && (span[0] == 'M'): return ActionKind.citom;
 			case 2 when (key4 == 0x0042005400450053UL) && span.SequenceEqual("CG"): return ActionKind.setbcg;
-			case 3 when (key4 == 0x004500560045004CUL) && span.SequenceEqual("LUP"): return ActionKind.levelup;
 			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("CAMP"): return ActionKind.showCamp;
-			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DEATH"): return ActionKind.pushDeath;
 			case 5 when (key4 == 0x00430049004C0043UL) && span.SequenceEqual("KWAIT"): return ActionKind.clickWait;
 			case 5 when (key4 == 0x004C0052004F0057UL) && span.SequenceEqual("DSKIN"): return ActionKind.worldskin;
-			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EDEATH"): return ActionKind.storeDeath;
 			case 8 when (key4 == 0x004B005200410044UL) && span.SequenceEqual("NESS_OFF"): return ActionKind.darkness_off;
 			case 8 when (key4 == 0x00410047004F0044UL) && span.SequenceEqual("MEENDING"): return ActionKind.doGameEnding;
+			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EDEATH"): return ActionKind.storeDeath;
+			case 5 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("DEATH"): return ActionKind.pushDeath;
 			case 8 when (key4 == 0x0050005400450053UL) && span.SequenceEqual("OWERHOME"): return ActionKind.setPowerHome;
 			case 0 when key4 == 0x000000470053004DUL: return ActionKind.msg;
 			case 0 when key4 == 0x003200470053004DUL: return ActionKind.msg2;
@@ -443,6 +442,7 @@ public static class ActionKindHelper
 			case 3 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EPM"): return ActionKind.storePM;
 			case 3 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EUD"): return ActionKind.storeud;
 			case 4 when (key4 == 0x0044004400440041UL) && span.SequenceEqual("IPLO"): return ActionKind.addDiplo;
+			case 3 when (key4 == 0x004500560045004CUL) && span.SequenceEqual("LUP"): return ActionKind.levelup;
 			case 4 when (key4 == 0x004C004400440041UL) && span.SequenceEqual("EVEL"): return ActionKind.addLevel;
 			case 4 when (key4 == 0x004C004400440041UL) && span.SequenceEqual("IMIT"): return ActionKind.addLimit;
 			case 4 when (key4 == 0x004C004400440041UL) && span.SequenceEqual("OYAL"): return ActionKind.addLoyal;
@@ -476,8 +476,8 @@ public static class ActionKindHelper
 			case 4 when (key4 == 0x0054005400450053UL) && span.SequenceEqual("RUCE"): return ActionKind.setTruce;
 			case 4 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("SPOT"): return ActionKind.showSpot;
 			case 4 when (key4 == 0x0054004F00500053UL) && span.SequenceEqual("MARK"): return ActionKind.spotmark;
-			case 8 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.hideSpotMark;
 			case 8 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.showSpotMark;
+			case 8 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("SPOTMARK"): return ActionKind.hideSpotMark;
 			case 6 when (key4 == 0x0045004400490048UL) && span.SequenceEqual("ESCAPE"): return ActionKind.hideEscape;
 			case 5 when (key4 == 0x0057004F00480053UL) && span.SequenceEqual("PARTY"): return ActionKind.showParty;
 			case 5 when (key4 == 0x0043004400440041UL) && span.SequenceEqual("ASTLE"): return ActionKind.addCastle;
@@ -570,6 +570,8 @@ public static class ActionKindHelper
 			case 8 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EALLSPOT"): return ActionKind.storeAllSpot;
 			case 9 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERMERCE"): return ActionKind.addPowerMerce;
 			case 9 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERSTAFF"): return ActionKind.addPowerStaff;
+			case 10 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERMERCE2"): return ActionKind.addPowerMerce2;
+			case 10 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERSTAFF2"): return ActionKind.addPowerStaff2;
 			case 9 when (key4 == 0x0054004400440041UL) && span.SequenceEqual("RAININGUP"): return ActionKind.addTrainingUp;
 			case 9 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEDUNGEON"): return ActionKind.changeDungeon;
 			case 9 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("BASELEVEL"): return ActionKind.pushBaseLevel;
@@ -583,8 +585,6 @@ public static class ActionKindHelper
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ERECTUNIT"): return ActionKind.storeRectUnit;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ESKILLSET"): return ActionKind.storeSkillset;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("ETODOUNIT"): return ActionKind.storeTodoUnit;
-			case 10 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERMERCE2"): return ActionKind.addPowerMerce2;
-			case 10 when (key4 == 0x0050004400440041UL) && span.SequenceEqual("OWERSTAFF2"): return ActionKind.addPowerStaff2;
 			case 10 when (key4 == 0x004E004100480043UL) && span.SequenceEqual("GEPOWERFIX"): return ActionKind.changePowerFix;
 			case 10 when (key4 == 0x0053004100520045UL) && span.SequenceEqual("EUNITTROOP"): return ActionKind.eraseUnitTroop;
 			case 10 when (key4 == 0x0048005300550050UL) && span.SequenceEqual("BATTLEHOME"): return ActionKind.pushBattleHome;

@@ -404,7 +404,9 @@ public sealed partial class Solution : IDisposable
                 ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
                 if (Unsafe.IsNullRef(ref track))
                 {
-                    result.ErrorList.Add(new($"{argumentIndex}-th argument {span} is not Unit, Class, Spot, Power, StringVariableReader.", result.TokenList[argument.TokenId].Range));
+                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.HasReference = true;
                 }
                 else
                 {
@@ -431,8 +433,9 @@ public sealed partial class Solution : IDisposable
                             argument.HasReference = true;
                             break;
                         default:
-                            result.ErrorList.Add(new($"{argumentIndex}-th argument {span} is not Unit, Class, Spot, Power, StringVariableReader.", result.TokenList[argument.TokenId].Range));
-                            argument.HasReference = false;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.HasReference = true;
                             break;
                     }
                 }

@@ -391,7 +391,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
                         return false;
                     }
 
-                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
                     {
                         return false;
                     }
@@ -401,7 +401,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
                     Append_battle_NewLine(ref destination, ref JustChangeLine);
                     Append_Indent(ref destination, ref JustChangeLine, spaces);
                     Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
-                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
                     {
                         continue;
                     }
