@@ -11,11 +11,11 @@ public partial struct VoiceNode : IInheritableNode
     public uint? Super { get; set; }
     public uint Name { get; set; }
 
-	public VariantPair<StringArrayElement> voice_type = new();
-	public VariantPair<StringArrayElement> delskill = new();
-	public VariantPair<StringArrayElement> spot = new();
-	public VariantPair<StringArrayElement> roam = new();
-	public VariantPair<StringArrayElement> power = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> voice_type = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> spot = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> roam = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> power = new();
 
 	public void Dispose()
 	{
@@ -55,11 +55,11 @@ public partial struct SpotNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> no_home = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> no_raise = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle_lot = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> text = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> merce = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> monster = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu = new();
-	public VariantPair<StringElement> text = new();
 
 	public void Dispose()
 	{
@@ -84,11 +84,11 @@ public partial struct SpotNode : IInheritableNode
 		no_home.Dispose();
 		no_raise.Dispose();
 		castle_lot.Dispose();
+		text.Dispose();
 		merce.Dispose();
 		monster.Dispose();
 		member.Dispose();
 		yorozu.Dispose();
-		text.Dispose();
 	}
 }
 public partial struct UnitNode : IInheritableNode
@@ -240,11 +240,11 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> join = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> dead = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> retreat = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> text = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> brave = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> fkey = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> loyal = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> arbeit = new();
-	public VariantPair<StringElement> text = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> consti = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> leader_skill = new();
@@ -259,12 +259,12 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> merce = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> castle_guard = new();
-	public VariantPair<StringArrayElement> friend = new();
-	public VariantPair<StringArrayElement> delskill = new();
-	public VariantPair<StringArrayElement> delskill2 = new();
-	public VariantPair<StringArrayElement> enemy = new();
-	public VariantPair<StringArrayElement> staff = new();
-	public VariantPair<StringArrayElement> voice_type = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill2 = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> enemy = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> staff = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> voice_type = new();
 
 	public void Dispose()
 	{
@@ -409,11 +409,11 @@ public partial struct UnitNode : IInheritableNode
 		join.Dispose();
 		dead.Dispose();
 		retreat.Dispose();
+		text.Dispose();
 		brave.Dispose();
 		fkey.Dispose();
 		loyal.Dispose();
 		arbeit.Dispose();
-		text.Dispose();
 		yorozu.Dispose();
 		consti.Dispose();
 		leader_skill.Dispose();
@@ -589,10 +589,10 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> sub_image2 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> unique = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> same_sex = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> text = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> brave = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> fkey = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> change = new();
-	public VariantPair<StringElement> text = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> consti = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> activenum = new();
@@ -604,9 +604,9 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> merce = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item = new();
-	public VariantPair<StringArrayElement> friend = new();
-	public VariantPair<StringArrayElement> delskill = new();
-	public VariantPair<StringArrayElement> delskill2 = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill2 = new();
 
 	public void Dispose()
 	{
@@ -732,10 +732,10 @@ public partial struct ClassNode : IInheritableNode
 		sub_image2.Dispose();
 		unique.Dispose();
 		same_sex.Dispose();
+		text.Dispose();
 		brave.Dispose();
 		fkey.Dispose();
 		change.Dispose();
-		text.Dispose();
 		yorozu.Dispose();
 		consti.Dispose();
 		activenum.Dispose();
@@ -943,8 +943,8 @@ public partial struct SkillNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> just_next = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> color = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> ray = new();
-	public VariantPair<StringArrayElement> offset = new();
-	public VariantPair<StringArrayElement> friend = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> offset = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();
 
 	public void Dispose()
 	{
@@ -1140,17 +1140,17 @@ public partial struct PowerNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> master6 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> enable = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> training_up = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> text = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> home = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> diplo = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> league = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> enemy_power = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> merits = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> loyals = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> staff = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> merce = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
-	public VariantPair<StringArrayElement> staff = new();
-	public VariantPair<StringArrayElement> friend = new();
-	public VariantPair<StringElement> text = new();
 
 	public void Dispose()
 	{
@@ -1187,6 +1187,7 @@ public partial struct PowerNode : IInheritableNode
 		master6.Dispose();
 		enable.Dispose();
 		training_up.Dispose();
+		text.Dispose();
 		Others.Dispose();
 		home.Dispose();
 		diplo.Dispose();
@@ -1194,13 +1195,10 @@ public partial struct PowerNode : IInheritableNode
 		enemy_power.Dispose();
 		merits.Dispose();
 		loyals.Dispose();
-		merce.Dispose();
-		member.Dispose();
-		Others.Dispose();
 		staff.Dispose();
 		friend.Dispose();
-		Others.Dispose();
-		text.Dispose();
+		merce.Dispose();
+		member.Dispose();
 		Others.Dispose();
 	}
 }

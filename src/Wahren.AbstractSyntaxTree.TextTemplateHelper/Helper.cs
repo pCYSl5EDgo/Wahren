@@ -194,7 +194,6 @@ public static partial class Helper
             case "roam":
             case "spot":
             case "power":
-                return "StringArrayElement";
             case "multi":
             case "ray":
             case "poli":
@@ -234,8 +233,6 @@ public static partial class Helper
             case "leader_skill":
             case "assist_skill":
                 return "Pair_NullableString_NullableInt_ArrayElement";
-            case "text":
-                return "StringElement";
             default:
                 return "Pair_NullableString_NullableIntElement";
         }

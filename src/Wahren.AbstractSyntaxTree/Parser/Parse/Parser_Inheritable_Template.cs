@@ -25,8 +25,8 @@ public static partial class Parser
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
-        ref var pair_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
-        ref var pair_ROAM = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var pair_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var pair_ROAM = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -219,9 +219,9 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ulong key = 0UL;
         do
         {
@@ -434,6 +434,38 @@ public static partial class Parser
             {
                 return false;
             }
+        TEXT:
+            if (pair_TEXT is null)
+            {
+                pair_TEXT = new(currentIndex);
+                pair_TEXT.ElementScenarioId = variant;
+                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_TEXT.ElementKeyRange.Line = start.Line;
+                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
         MEMBER:
             if (pair_MEMBER is null)
             {
@@ -498,38 +530,6 @@ public static partial class Parser
             {
                 return false;
             }
-        TEXT:
-            if (pair_TEXT is null)
-            {
-                pair_TEXT = new(currentIndex);
-                pair_TEXT.ElementScenarioId = variant;
-                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    pair_TEXT.ElementKeyRange.Line = start.Line;
-                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
-                {
-                   continue;
-                }
-
-                return false;
-            }
-
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-                
-            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
         DISCARD:
             if (Parse_Discard(ref context, ref result, currentIndex, span, key))
             {
@@ -562,12 +562,12 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_LOYAL = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
-        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var pair_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var pair_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -1233,38 +1233,6 @@ public static partial class Parser
             {
                 return false;
             }
-        LOYAL:
-            if (pair_LOYAL is null)
-            {
-                pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = variant;
-                pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    pair_LOYAL.ElementKeyRange.Line = start.Line;
-                    pair_LOYAL.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_LOYAL(ref context, ref result, pair_LOYAL))
-                {
-                   continue;
-                }
-
-                return false;
-            }
-
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-                
-            if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
         TEXT:
             if (pair_TEXT is null)
             {
@@ -1290,6 +1258,38 @@ public static partial class Parser
             }
                 
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        LOYAL:
+            if (pair_LOYAL is null)
+            {
+                pair_LOYAL = new(currentIndex);
+                pair_LOYAL.ElementScenarioId = variant;
+                pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_LOYAL.ElementKeyRange.Line = start.Line;
+                    pair_LOYAL.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_LOYAL(ref context, ref result, pair_LOYAL))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
             }
@@ -1683,12 +1683,12 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_LOYAL = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
-        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var pair_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var pair_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -2276,38 +2276,6 @@ public static partial class Parser
             {
                 return false;
             }
-        LOYAL:
-            if (pair_LOYAL is null)
-            {
-                pair_LOYAL = new(currentIndex);
-                pair_LOYAL.ElementScenarioId = variant;
-                pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    pair_LOYAL.ElementKeyRange.Line = start.Line;
-                    pair_LOYAL.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_LOYAL(ref context, ref result, pair_LOYAL))
-                {
-                   continue;
-                }
-
-                return false;
-            }
-
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-                
-            if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
         TEXT:
             if (pair_TEXT is null)
             {
@@ -2333,6 +2301,38 @@ public static partial class Parser
             }
                 
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        LOYAL:
+            if (pair_LOYAL is null)
+            {
+                pair_LOYAL = new(currentIndex);
+                pair_LOYAL.ElementScenarioId = variant;
+                pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_LOYAL.ElementKeyRange.Line = start.Line;
+                    pair_LOYAL.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_LOYAL(ref context, ref result, pair_LOYAL))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
             }
@@ -2757,7 +2757,7 @@ public static partial class Parser
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var pair_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var pair_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -3581,11 +3581,11 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         ref var pair_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var pair_TEXT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_CONSTI = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var pair_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var pair_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
-        ref var pair_TEXT = ref Unsafe.NullRef<StringElement?>();
         ulong key = 0UL;
         do
         {
@@ -3856,6 +3856,38 @@ public static partial class Parser
             {
                 return false;
             }
+        TEXT:
+            if (pair_TEXT is null)
+            {
+                pair_TEXT = new(currentIndex);
+                pair_TEXT.ElementScenarioId = variant;
+                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    pair_TEXT.ElementKeyRange.Line = start.Line;
+                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+                
+            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
         RAY:
             if (pair_RAY is null)
             {
@@ -3920,38 +3952,6 @@ public static partial class Parser
             {
                 return false;
             }
-        MEMBER:
-            if (pair_MEMBER is null)
-            {
-                pair_MEMBER = new(currentIndex);
-                pair_MEMBER.ElementScenarioId = variant;
-                pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    pair_MEMBER.ElementKeyRange.Line = start.Line;
-                    pair_MEMBER.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_MEMBER(ref context, ref result, pair_MEMBER))
-                {
-                   continue;
-                }
-
-                return false;
-            }
-
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-                
-            if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
         OFFSET:
             if (pair_OFFSET is null)
             {
@@ -3984,18 +3984,18 @@ public static partial class Parser
             {
                 return false;
             }
-        TEXT:
-            if (pair_TEXT is null)
+        MEMBER:
+            if (pair_MEMBER is null)
             {
-                pair_TEXT = new(currentIndex);
-                pair_TEXT.ElementScenarioId = variant;
-                pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                pair_MEMBER = new(currentIndex);
+                pair_MEMBER.ElementScenarioId = variant;
+                pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
                     ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    pair_TEXT.ElementKeyRange.Line = start.Line;
-                    pair_TEXT.ElementKeyRange.Offset = start.Offset;
+                    pair_MEMBER.ElementKeyRange.Line = start.Line;
+                    pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
-                if (Parse_Element_TEXT(ref context, ref result, pair_TEXT))
+                if (Parse_Element_MEMBER(ref context, ref result, pair_MEMBER))
                 {
                    continue;
                 }
@@ -4008,7 +4008,7 @@ public static partial class Parser
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
                 
-            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
             }

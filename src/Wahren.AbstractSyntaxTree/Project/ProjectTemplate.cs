@@ -7537,7 +7537,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Unit, friend of Race, Unit, Class
             }
         }
@@ -7551,7 +7551,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Unit, friend of Race, Unit, Class
                 }
             }
@@ -7652,7 +7652,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Unit, delskill of Skill, Skillset
             }
         }
@@ -7666,7 +7666,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Unit, delskill of Skill, Skillset
                 }
             }
@@ -7675,7 +7675,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Unit, delskill2 of Skill, Skillset
             }
         }
@@ -7689,7 +7689,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Unit, delskill2 of Skill, Skillset
                 }
             }
@@ -7744,7 +7744,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Unit, staff of Race, Class
             }
         }
@@ -7758,7 +7758,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Unit, staff of Race, Class
                 }
             }
@@ -7821,7 +7821,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Class, friend of Race, Unit, Class
             }
         }
@@ -7835,7 +7835,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Class, friend of Race, Unit, Class
                 }
             }
@@ -7936,7 +7936,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Class, delskill of Skill, Skillset
             }
         }
@@ -7950,7 +7950,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Class, delskill of Skill, Skillset
                 }
             }
@@ -7959,7 +7959,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Class, delskill2 of Skill, Skillset
             }
         }
@@ -7973,7 +7973,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Class, delskill2 of Skill, Skillset
                 }
             }
@@ -8017,7 +8017,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                // StringArrayElement
+                // Pair_NullableString_NullableInt_ArrayElement
                 // ERROR  Power, staff of Unit, ClassTypeReader
             }
         }
@@ -8031,7 +8031,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // StringArrayElement
+                    // Pair_NullableString_NullableInt_ArrayElement
                     // ERROR  Power, staff of Unit, ClassTypeReader
                 }
             }

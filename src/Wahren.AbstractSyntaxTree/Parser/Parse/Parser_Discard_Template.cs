@@ -120,13 +120,13 @@ public static partial class Parser
 		return Parse_Discard_TEXT(ref context, ref result, elementTokenId);
     CONSTI: 
 		return Parse_Discard_CONSTI(ref context, ref result, elementTokenId);
-    MEMBER: 
-		return Parse_Discard_MEMBER(ref context, ref result, elementTokenId);
-    RAY: 
-		return Parse_Discard_RAY(ref context, ref result, elementTokenId);
     ROAM: 
 		return Parse_Discard_ROAM(ref context, ref result, elementTokenId);
+    MEMBER: 
+		return Parse_Discard_MEMBER(ref context, ref result, elementTokenId);
     OFFSET: 
 		return Parse_Discard_OFFSET(ref context, ref result, elementTokenId);
+    RAY: 
+		return Parse_Discard_RAY(ref context, ref result, elementTokenId);
 	}
 }

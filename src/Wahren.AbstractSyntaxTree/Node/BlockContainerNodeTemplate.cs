@@ -140,11 +140,11 @@ public partial struct ScenarioNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item_sale = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item_hold = new();
-	public VariantPair<StringElement> text = new();
-	public VariantPair<StringArrayElement> roam = new();
-	public VariantPair<StringArrayElement> spot = new();
-	public VariantPair<StringArrayElement> power = new();
-	public VariantPair<StringArrayElement> offset = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> text = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> roam = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> spot = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> power = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> offset = new();
 
 	public void Dispose()
 	{
@@ -219,7 +219,7 @@ public partial struct StoryNode : IInheritableNode
     public uint Name { get; set; }
 
     public List<IStatement> Statements = new();
-	public VariantPair<StringArrayElement> friend = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> fight = new();
 
 	public void Dispose()

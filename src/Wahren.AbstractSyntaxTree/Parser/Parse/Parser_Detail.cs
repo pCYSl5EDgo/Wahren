@@ -29,7 +29,7 @@ public static partial class Parser
                 return true;
             }
 
-            StringElement element = new(tokenList.LastIndex);
+            Pair_NullableString_NullableIntElement element = new(tokenList.LastIndex);
             if (!SplitElement(ref result, element))
             {
                 return false;

@@ -350,11 +350,11 @@ public static partial class Parser
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
         ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var element_TEXT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var element_TEXT = ref Unsafe.NullRef<StringElement?>();
-        ref var element_ROAM = ref Unsafe.NullRef<StringArrayElement?>();
-        ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var element_ROAM = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var element_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
         {
@@ -590,6 +590,40 @@ public static partial class Parser
             {
                 goto FALSE;
             }
+        TEXT:
+            if (element_TEXT is null)
+            {
+                element_TEXT = new(currentIndex);
+                element_TEXT.ElementScenarioId = variant;
+                element_TEXT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    element_TEXT.ElementKeyRange.Line = start.Line;
+                    element_TEXT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_TEXT(ref context, ref result, element_TEXT))
+                {
+                    continue;
+                }
+                else
+                {
+                    goto FALSE;
+                }
+            }
+            
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+
+            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                goto FALSE;
+            }
         RAY:
             if (element_RAY is null)
             {
@@ -651,40 +685,6 @@ public static partial class Parser
             }
 
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                goto FALSE;
-            }
-        TEXT:
-            if (element_TEXT is null)
-            {
-                element_TEXT = new(currentIndex);
-                element_TEXT.ElementScenarioId = variant;
-                element_TEXT.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    element_TEXT.ElementKeyRange.Line = start.Line;
-                    element_TEXT.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_TEXT(ref context, ref result, element_TEXT))
-                {
-                    continue;
-                }
-                else
-                {
-                    goto FALSE;
-                }
-            }
-            
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
-            if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
             {
                 continue;
             }
@@ -782,7 +782,7 @@ public static partial class Parser
         uint variant = uint.MaxValue;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
-        ref var element_OFFSET = ref Unsafe.NullRef<StringArrayElement?>();
+        ref var element_OFFSET = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ulong key = 0UL;
         do

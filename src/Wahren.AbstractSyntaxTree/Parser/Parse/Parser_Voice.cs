@@ -5,7 +5,7 @@ public static partial class Parser
     /// <summary>
     /// Already read '='.
     /// </summary>
-    private static bool Parse_Voice_ROAM_EnglishMode(ref Context context, ref Result result, StringArrayElement element)
+    private static bool Parse_Voice_ROAM_EnglishMode(ref Context context, ref Result result, Pair_NullableString_NullableInt_ArrayElement element)
     {
         if (!context.IsEnglishMode)
         {

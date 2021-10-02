@@ -461,7 +461,7 @@ public static partial class Parser
     /// Already read '='. Already split.
     /// element: [ voice_type, delskill, delskill2, friend, enemy, staff, offset ]
     /// </summary>
-    private static bool Parse_Element_OFFSET(ref Context context, ref Result result, StringArrayElement element)
+    private static bool Parse_Element_OFFSET(ref Context context, ref Result result, Pair_NullableString_NullableInt_ArrayElement element)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -520,7 +520,7 @@ public static partial class Parser
     /// Already read '='. Already split.
     /// element: [ roam, power, spot ]
     /// </summary>
-    private static bool Parse_Element_ROAM(ref Context context, ref Result result, StringArrayElement element)
+    private static bool Parse_Element_ROAM(ref Context context, ref Result result, Pair_NullableString_NullableInt_ArrayElement element)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -585,7 +585,7 @@ public static partial class Parser
     /// detail
     /// element: [ text ]
     /// </summary>
-    private static bool Parse_Element_TEXT(ref Context context, ref Result result, StringElement element)
+    private static bool Parse_Element_TEXT(ref Context context, ref Result result, Pair_NullableString_NullableIntElement element)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -600,7 +600,7 @@ public static partial class Parser
 
         tokenList.Last.Kind = TokenKind.Content;
         element.HasValue = true;
-        element.Value = tokenList.LastIndex;
+        element.Value = new() { Text = tokenList.LastIndex, HasText = true };
 
         if (!ReadUsefulToken(ref context, ref result) || !tokenList.Last.IsSemicolon(ref source))
         {
