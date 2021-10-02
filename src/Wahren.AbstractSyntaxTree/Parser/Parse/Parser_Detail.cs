@@ -19,7 +19,7 @@ public static partial class Parser
             if (!ReadUsefulToken(ref context, ref result))
             {
                 var text = $"struct deail needs '}}' but not found.";
-                result.ErrorList.Add(new(text, tokenList[node.Kind].Range));
+                result.ErrorAdd(text, node.Kind);
                 return false;
             }
 

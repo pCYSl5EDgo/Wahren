@@ -17,7 +17,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[element.ElementTokenId].Range));
+            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
             return false;
         }
 

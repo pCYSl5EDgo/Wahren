@@ -75,7 +75,7 @@ public static partial class PerResultValidator
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"Invalid Program Exception or Invalid Input. '{span}'", result.TokenList[id].Range));
+                        result.ErrorAdd($"Invalid Program Exception or Invalid Input. '{span}'", id);
                     }
                 }
                 if (stringCompare.Left is StringVariableExpression variableLeft)

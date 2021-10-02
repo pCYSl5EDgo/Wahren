@@ -13,7 +13,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.LOYAL;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[element.ElementTokenId].Range));
+            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
             return false;
         }
 
@@ -23,7 +23,7 @@ public static partial class Parser
         {
             if (!result.IsEndOfLine(tokenList.LastIndex))
             {
-                result.ErrorList.Add(new("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList.Last.Range));
+                result.ErrorAdd("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList.LastIndex);
                 return false;
             }
         }
@@ -64,7 +64,7 @@ public static partial class Parser
             element.Value.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Number);
             if (!element.Value.HasNumber)
             {
-                result.ErrorList.Add(new("Number text must follows '*'.", tokenList[textIndex].Range));
+                result.ErrorAdd("Number text must follows '*'.", textIndex);
             }
 
             if (result.IsEndOfLine(tokenList.LastIndex))
@@ -72,7 +72,7 @@ public static partial class Parser
                 break;
             }
 
-            result.ErrorList.Add(new($"Line feed must be next to number value in this kind of element '{result.GetSpan(element.ElementTokenId)}'. Neither text nor comment are allowed.", tokenList[textIndex].Range));
+            result.ErrorAdd($"Line feed must be next to number value in this kind of element '{result.GetSpan(element.ElementTokenId)}'. Neither text nor comment are allowed.", textIndex);
             return false;
         }
 
@@ -94,7 +94,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.RAY;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[element.ElementTokenId].Range));
+            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
             return false;
         }
 
@@ -174,14 +174,9 @@ public static partial class Parser
                     {
                         if (item != ' ' && item != '\t')
                         {
-                            result.ErrorList.Add(new($"Line feed is needed immediately after number text({element.Value.Number}).", tokenList[element.ElementTokenId].Range));
+                            result.ErrorAdd($"Line feed is needed immediately after number text({element.Value.Number}).", element.ElementTokenId);
                             return false;
                         }
-                    }
-
-                    if (context.CreateError(DiagnosticSeverity.Hint))
-                    {
-                        result.ErrorList.Add(new($"Line feed is needed immediately after number text({element.Value.Number}).  Trailing whitespaces are allowed, but not recommended.", tokenList[element.ElementTokenId].Range, DiagnosticSeverity.Hint));
                     }
                 }
             }
@@ -226,7 +221,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.MEMBER;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[element.ElementTokenId].Range));
+            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
             return false;
         }
 
@@ -252,7 +247,7 @@ public static partial class Parser
         element.HasValue = true;
         if (!AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
         {
-            result.ErrorList.Add(new($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.Last.Range));
+            result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.LastIndex);
             return false;
         }
 
@@ -284,7 +279,7 @@ public static partial class Parser
                     continue;
                 }
 
-                result.ErrorList.Add(new($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.Last.Range));
+                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.LastIndex);
                 return false;
             }
 
@@ -307,11 +302,11 @@ public static partial class Parser
                 {
                     if (repeatCount < 0)
                     {
-                        result.ErrorList.Add(new($"Repeat count({repeatCount}) should be greater than -1.", tokenList.Last.Range, DiagnosticSeverity.Warning, ErrorCode.Semantics));
+                        result.WarningAdd($"Repeat count({repeatCount}) should be greater than -1.", tokenList.LastIndex);
                     }
                     else if (repeatCount == 0)
                     {
-                        result.ErrorList.Add(new("Repeat count is 0. I recommend you not to write \"*0\".", tokenList.Last.Range, DiagnosticSeverity.Warning, ErrorCode.Semantics));
+                        result.WarningAdd("Repeat count is 0. I recommend you not to write \"*0\".", tokenList.LastIndex);
                         element.Value.RemoveLast();
                     }
                 }
@@ -353,7 +348,7 @@ public static partial class Parser
 
             if (!AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
             {
-                result.ErrorList.Add(new($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.Last.Range));
+                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.LastIndex);
                 return false;
             }
         } while (true);
@@ -532,7 +527,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[element.ElementTokenId].Range));
+            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
             return false;
         }
 

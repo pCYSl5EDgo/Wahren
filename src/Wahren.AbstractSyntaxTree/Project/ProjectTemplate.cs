@@ -1158,19 +1158,19 @@ public sealed partial class Project
         switch (call.Kind)
         {
             case FunctionKind.isSelect:
-                result.ErrorList.Add(new($"Unknown action 'isSelect'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'isSelect'.", call.TokenId);
                 break;
             case FunctionKind.isWhoDead:
-                result.ErrorList.Add(new($"Unknown action 'isWhoDead'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'isWhoDead'.", call.TokenId);
                 break;
             case FunctionKind.isGameOver:
-                result.ErrorList.Add(new($"Unknown action 'isGameOver'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'isGameOver'.", call.TokenId);
                 break;
             case FunctionKind.inPower:
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'inPower'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1192,13 +1192,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", argument.TokenId);
                     }
                     else
                     {
@@ -1225,14 +1225,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", argument.TokenId);
                     }
                 }
 
@@ -1242,13 +1242,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Unit, Spot, StringVariableReader is required by action 'inPower'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'inPower'.", argument.TokenId);
                         }
                         else
                         {
@@ -1275,14 +1275,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'inPower'.", argument.TokenId);
                         }
                     }
 
@@ -1292,13 +1292,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isPlayer'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isPlayer'.", argument.TokenId);
                     }
                     else
                     {
@@ -1325,14 +1325,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isPlayer'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isPlayer'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isPlayer'.", argument.TokenId);
                     }
                 }
 
@@ -1341,13 +1341,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'countUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'countUnit'.", argument.TokenId);
                     }
                     else
                     {
@@ -1374,14 +1374,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'countUnit'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'countUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'countUnit'.", argument.TokenId);
                     }
                 }
 
@@ -1390,13 +1390,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isEnemy'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isEnemy'.", argument.TokenId);
                     }
                     else
                     {
@@ -1423,14 +1423,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", argument.TokenId);
                     }
                 }
 
@@ -1438,13 +1438,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isEnemy'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isEnemy'.", argument.TokenId);
                     }
                     else
                     {
@@ -1471,14 +1471,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isEnemy'.", argument.TokenId);
                     }
                 }
 
@@ -1487,13 +1487,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isFriend'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isFriend'.", argument.TokenId);
                     }
                     else
                     {
@@ -1520,14 +1520,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", argument.TokenId);
                     }
                 }
 
@@ -1535,13 +1535,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Unit, Spot, StringVariableReader is required by action 'isFriend'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'isFriend'.", argument.TokenId);
                     }
                     else
                     {
@@ -1568,14 +1568,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'isFriend'.", argument.TokenId);
                     }
                 }
 
@@ -1584,13 +1584,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", argument.TokenId);
                     }
                     else
                     {
@@ -1617,14 +1617,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", argument.TokenId);
                     }
                 }
 
@@ -1634,13 +1634,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isNpc'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isNpc'.", argument.TokenId);
                         }
                         else
                         {
@@ -1667,14 +1667,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isNpc'.", argument.TokenId);
                         }
                     }
 
@@ -1684,13 +1684,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", argument.TokenId);
                     }
                     else
                     {
@@ -1717,14 +1717,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", argument.TokenId);
                     }
                 }
 
@@ -1734,13 +1734,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'isAlive'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'isAlive'.", argument.TokenId);
                         }
                         else
                         {
@@ -1767,14 +1767,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'isAlive'.", argument.TokenId);
                         }
                     }
 
@@ -1784,13 +1784,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", argument.TokenId);
                     }
                     else
                     {
@@ -1817,14 +1817,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", argument.TokenId);
                     }
                 }
 
@@ -1834,13 +1834,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Unit, Power, StringVariableReader is required by action 'inBattle'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'inBattle'.", argument.TokenId);
                         }
                         else
                         {
@@ -1867,14 +1867,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'inBattle'.", argument.TokenId);
                         }
                     }
 
@@ -1884,13 +1884,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'isJoin'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'isJoin'.", argument.TokenId);
                     }
                     else
                     {
@@ -1917,14 +1917,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", argument.TokenId);
                     }
                 }
 
@@ -1932,13 +1932,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Power, Spot, StringVariableReader is required by action 'isJoin'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'isJoin'.", argument.TokenId);
                     }
                     else
                     {
@@ -1965,14 +1965,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'isJoin'.", argument.TokenId);
                     }
                 }
 
@@ -1987,7 +1987,7 @@ public sealed partial class Project
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 3-th argument of action 'isJoin' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"The 3-th argument of action 'isJoin' must be Boolean.", argument.TokenId);
                 }
 
                 break;
@@ -1998,13 +1998,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", argument.TokenId);
                             }
                             else
                             {
@@ -2031,14 +2031,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", argument.TokenId);
                             }
                         }
 
@@ -2046,13 +2046,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", argument.TokenId);
                             }
                             else
                             {
@@ -2079,14 +2079,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", argument.TokenId);
                             }
                         }
 
@@ -2095,13 +2095,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'getDistance'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'getDistance'.", argument.TokenId);
                             }
                             else
                             {
@@ -2128,14 +2128,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'getDistance'.", argument.TokenId);
                             }
                         }
 
@@ -2165,13 +2165,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                             }
                             else
                             {
@@ -2198,14 +2198,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                             }
                         }
 
@@ -2213,13 +2213,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                             }
                             else
                             {
@@ -2246,14 +2246,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                             }
                         }
 
@@ -2270,13 +2270,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                             }
                             else
                             {
@@ -2303,14 +2303,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                             }
                         }
 
@@ -2343,13 +2343,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'isPostIn'.", argument.TokenId);
                             }
                             else
                             {
@@ -2376,14 +2376,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'isPostIn'.", argument.TokenId);
                             }
                         }
 
@@ -2438,37 +2438,37 @@ public sealed partial class Project
         switch (call.Kind)
         {
             case ActionKind.vc:
-                result.ErrorList.Add(new($"Unknown action 'vc'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'vc'.", call.TokenId);
                 break;
             case ActionKind.play:
-                result.ErrorList.Add(new($"Unknown action 'play'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'play'.", call.TokenId);
                 break;
             case ActionKind.ppl1:
-                result.ErrorList.Add(new($"Unknown action 'ppl1'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'ppl1'.", call.TokenId);
                 break;
             case ActionKind.citom:
-                result.ErrorList.Add(new($"Unknown action 'citom'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'citom'.", call.TokenId);
                 break;
             case ActionKind.setbcg:
-                result.ErrorList.Add(new($"Unknown action 'setbcg'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'setbcg'.", call.TokenId);
                 break;
             case ActionKind.showCamp:
-                result.ErrorList.Add(new($"Unknown action 'showCamp'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'showCamp'.", call.TokenId);
                 break;
             case ActionKind.clickWait:
-                result.ErrorList.Add(new($"Unknown action 'clickWait'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'clickWait'.", call.TokenId);
                 break;
             case ActionKind.worldskin:
-                result.ErrorList.Add(new($"Unknown action 'worldskin'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'worldskin'.", call.TokenId);
                 break;
             case ActionKind.darkness_off:
-                result.ErrorList.Add(new($"Unknown action 'darkness_off'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'darkness_off'.", call.TokenId);
                 break;
             case ActionKind.doGameEnding:
-                result.ErrorList.Add(new($"Unknown action 'doGameEnding'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'doGameEnding'.", call.TokenId);
                 break;
             case ActionKind.storeDeath:
-                result.ErrorList.Add(new($"Unknown action 'storeDeath'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action 'storeDeath'.", call.TokenId);
                 break;
             case ActionKind.dialog:
                 switch (arguments.Length)
@@ -2481,13 +2481,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialog'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialog'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialog'.", argument.TokenId);
                             }
                             else
                             {
@@ -2529,13 +2529,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'dialogF'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialogF'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'dialogF'.", argument.TokenId);
                             }
                             else
                             {
@@ -2573,13 +2573,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Spot, StringVariableReader is required by action 'locate'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Spot, StringVariableReader is required by action 'locate'.", argument.TokenId);
                             }
                             else
                             {
@@ -2606,14 +2606,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'locate'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'locate'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Spot, StringVariableReader required by action 'locate'.", argument.TokenId);
                             }
                         }
 
@@ -2644,13 +2644,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, Spot, StringVariableReader is required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, Spot, StringVariableReader is required by action 'scroll'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, Spot, StringVariableReader is required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, Spot, StringVariableReader is required by action 'scroll'.", argument.TokenId);
                             }
                             else
                             {
@@ -2682,14 +2682,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll'.", argument.TokenId);
                             }
                         }
 
@@ -2717,13 +2717,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, Spot, StringVariableReader is required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, Spot, StringVariableReader is required by action 'showSpotMark'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, Spot, StringVariableReader is required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, Spot, StringVariableReader is required by action 'showSpotMark'.", argument.TokenId);
                     }
                     else
                     {
@@ -2755,14 +2755,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'showSpotMark'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'showSpotMark'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'showSpotMark'.", argument.TokenId);
                     }
                 }
 
@@ -2788,13 +2788,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", argument.TokenId);
                             }
                             else
                             {
@@ -2827,13 +2827,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg'.", argument.TokenId);
                             }
                             else
                             {
@@ -2880,13 +2880,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", argument.TokenId);
                             }
                             else
                             {
@@ -2919,13 +2919,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'msg2'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'msg2'.", argument.TokenId);
                             }
                             else
                             {
@@ -2972,13 +2972,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", argument.TokenId);
                             }
                             else
                             {
@@ -3011,13 +3011,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk'.", argument.TokenId);
                             }
                             else
                             {
@@ -3064,13 +3064,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", argument.TokenId);
                             }
                             else
                             {
@@ -3103,13 +3103,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'talk2'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'talk2'.", argument.TokenId);
                             }
                             else
                             {
@@ -3156,13 +3156,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", argument.TokenId);
                             }
                             else
                             {
@@ -3195,13 +3195,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat'.", argument.TokenId);
                             }
                             else
                             {
@@ -3248,13 +3248,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", argument.TokenId);
                             }
                             else
                             {
@@ -3287,13 +3287,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Text, StringVariableReader is required by action 'chat2'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Text, StringVariableReader is required by action 'chat2'.", argument.TokenId);
                             }
                             else
                             {
@@ -3336,7 +3336,7 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeMaster'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -3359,13 +3359,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'changeMaster'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'changeMaster'.", argument.TokenId);
                             }
                             else
                             {
@@ -3392,14 +3392,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'changeMaster'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'changeMaster'.", argument.TokenId);
                             }
                         }
 
@@ -3407,7 +3407,7 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'changeMaster'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -3430,7 +3430,7 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeMaster'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -3452,7 +3452,7 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'changeMaster'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'changeMaster'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -3491,7 +3491,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setPM'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3513,13 +3513,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'setPM'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'setPM'.", argument.TokenId);
                     }
                     else
                     {
@@ -3551,14 +3551,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'setPM'.", argument.TokenId);
                     }
                 }
 
@@ -3567,13 +3567,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'addMoney'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'addMoney'.", argument.TokenId);
                     }
                     else
                     {
@@ -3600,14 +3600,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'addMoney'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'addMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'addMoney'.", argument.TokenId);
                     }
                 }
 
@@ -3624,13 +3624,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'pushGain'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'pushGain'.", argument.TokenId);
                     }
                     else
                     {
@@ -3657,14 +3657,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'pushGain'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'pushGain'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'pushGain'.", argument.TokenId);
                     }
                 }
 
@@ -3678,13 +3678,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'setMoney'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'setMoney'.", argument.TokenId);
                     }
                     else
                     {
@@ -3711,14 +3711,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'setMoney'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'setMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'setMoney'.", argument.TokenId);
                     }
                 }
 
@@ -3735,13 +3735,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'formTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'formTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -3768,14 +3768,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'formTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'formTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'formTroop'.", argument.TokenId);
                     }
                 }
 
@@ -3792,13 +3792,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushForce'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushForce'.", argument.TokenId);
                     }
                     else
                     {
@@ -3825,14 +3825,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushForce'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushForce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushForce'.", argument.TokenId);
                     }
                 }
 
@@ -3846,13 +3846,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushMoney'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushMoney'.", argument.TokenId);
                     }
                     else
                     {
@@ -3879,14 +3879,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushMoney'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushMoney'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushMoney'.", argument.TokenId);
                     }
                 }
 
@@ -3900,13 +3900,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, StringVariableReader is required by action 'pushTrust'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, StringVariableReader is required by action 'pushTrust'.", argument.TokenId);
                     }
                     else
                     {
@@ -3933,14 +3933,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushTrust'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushTrust'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, StringVariableReader required by action 'pushTrust'.", argument.TokenId);
                     }
                 }
 
@@ -3954,13 +3954,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'speedTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'speedTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -3987,14 +3987,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'speedTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'speedTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'speedTroop'.", argument.TokenId);
                     }
                 }
 
@@ -4011,7 +4011,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'removeSkill'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4033,13 +4033,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'removeSkill'.", argument.TokenId);
                     }
                     else
                     {
@@ -4053,7 +4053,7 @@ public sealed partial class Project
                     ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                     if (Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorList.Add(new($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", argument.TokenId);
                     }
                     else
                     {
@@ -4070,7 +4070,7 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                           default:
-                              result.ErrorList.Add(new($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", result.TokenList[argument.TokenId].Range));
+                              result.ErrorAdd($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", argument.TokenId);
                               argument.HasReference = false;
                               break;
                         }
@@ -4082,13 +4082,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", argument.TokenId);
                     }
                     else
                     {
@@ -4110,14 +4110,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", argument.TokenId);
                     }
                 }
 
@@ -4125,13 +4125,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeTodoUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeTodoUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
                     }
                     else
                     {
@@ -4144,7 +4144,7 @@ public sealed partial class Project
                 {
                     if (DiagnosticSeverity.Warning <= RequiredSeverity)
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4156,13 +4156,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", argument.TokenId);
                     }
                     else
                     {
@@ -4184,14 +4184,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", argument.TokenId);
                     }
                 }
 
@@ -4199,13 +4199,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'storeAliveUnit'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeAliveUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
                     }
                     else
                     {
@@ -4218,7 +4218,7 @@ public sealed partial class Project
                 {
                     if (DiagnosticSeverity.Warning <= RequiredSeverity)
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4230,7 +4230,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'changePowerFlag'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changePowerFlag'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4255,13 +4255,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'choice'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'choice'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument '@' must be String Variable.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
                     }
                     else
                     {
@@ -4274,7 +4274,7 @@ public sealed partial class Project
                 {
                     if (DiagnosticSeverity.Warning <= RequiredSeverity)
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is String Variable. '@' should be written.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4295,7 +4295,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addFriend'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4317,13 +4317,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", argument.TokenId);
                     }
                     else
                     {
@@ -4355,14 +4355,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", argument.TokenId);
                     }
                 }
 
@@ -4372,13 +4372,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addFriend'.", argument.TokenId);
                         }
                         else
                         {
@@ -4410,14 +4410,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addFriend'.", argument.TokenId);
                         }
                     }
 
@@ -4427,13 +4427,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Power, Spot, StringVariableReader is required by action 'eraseUnit2'.", argument.TokenId);
                     }
                     else
                     {
@@ -4460,14 +4460,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Power, Spot, StringVariableReader required by action 'eraseUnit2'.", argument.TokenId);
                     }
                 }
 
@@ -4475,7 +4475,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty. String Variable is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'eraseUnit2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4499,7 +4499,7 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty. String Variable is required by action 'eraseUnit2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'eraseUnit2'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -4523,7 +4523,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addPowerMerce'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4545,13 +4545,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", argument.TokenId);
                     }
                     else
                     {
@@ -4583,14 +4583,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", argument.TokenId);
                     }
                 }
 
@@ -4600,13 +4600,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce'.", argument.TokenId);
                         }
                         else
                         {
@@ -4638,14 +4638,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce'.", argument.TokenId);
                         }
                     }
 
@@ -4655,7 +4655,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addPowerStaff'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4677,13 +4677,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", argument.TokenId);
                     }
                     else
                     {
@@ -4715,14 +4715,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", argument.TokenId);
                     }
                 }
 
@@ -4732,13 +4732,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff'.", argument.TokenId);
                         }
                         else
                         {
@@ -4770,14 +4770,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff'.", argument.TokenId);
                         }
                     }
 
@@ -4787,7 +4787,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addPowerMerce2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4809,13 +4809,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", argument.TokenId);
                     }
                     else
                     {
@@ -4847,14 +4847,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", argument.TokenId);
                     }
                 }
 
@@ -4864,13 +4864,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerMerce2'.", argument.TokenId);
                         }
                         else
                         {
@@ -4902,14 +4902,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerMerce2'.", argument.TokenId);
                         }
                     }
 
@@ -4919,7 +4919,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addPowerStaff2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4941,13 +4941,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", argument.TokenId);
                     }
                     else
                     {
@@ -4979,14 +4979,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", argument.TokenId);
                     }
                 }
 
@@ -4996,13 +4996,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'addPowerStaff2'.", argument.TokenId);
                         }
                         else
                         {
@@ -5034,14 +5034,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'addPowerStaff2'.", argument.TokenId);
                         }
                     }
 
@@ -5056,7 +5056,7 @@ public sealed partial class Project
                 {
                     if (argument.Number != 0)
                     {
-                        result.ErrorList.Add(new($"1-th argument is not Number, CompoundText required by action 'exit'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is not Number, CompoundText required by action 'exit'.", argument.TokenId);
                     }
                 }
                 else
@@ -5069,13 +5069,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, Spot, StringVariableReader is required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, Spot, StringVariableReader is required by action 'scroll2'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, Spot, StringVariableReader is required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, Spot, StringVariableReader is required by action 'scroll2'.", argument.TokenId);
                     }
                     else
                     {
@@ -5107,14 +5107,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll2'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll2'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, Spot, StringVariableReader required by action 'scroll2'.", argument.TokenId);
                     }
                 }
 
@@ -5123,13 +5123,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'ctrlTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5156,14 +5156,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'ctrlTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5172,13 +5172,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'freeTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'freeTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5205,14 +5205,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'freeTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'freeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'freeTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5221,13 +5221,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'haltTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'haltTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5254,14 +5254,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'haltTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'haltTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'haltTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5270,13 +5270,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5303,14 +5303,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5319,13 +5319,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'sleepTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'sleepTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5352,14 +5352,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'sleepTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5368,13 +5368,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'activeTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'activeTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5401,14 +5401,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'activeTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'activeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'activeTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5417,13 +5417,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'removeTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'removeTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5450,14 +5450,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'removeTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'removeTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'removeTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5466,13 +5466,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'unctrlTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5499,14 +5499,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'unctrlTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5515,13 +5515,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'retreatTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'retreatTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5548,14 +5548,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'retreatTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5564,13 +5564,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'eraseUnitTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5597,14 +5597,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'eraseUnitTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5616,13 +5616,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -5649,14 +5649,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", argument.TokenId);
                             }
                         }
 
@@ -5664,13 +5664,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -5697,14 +5697,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", argument.TokenId);
                             }
                         }
 
@@ -5713,13 +5713,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'aimTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'aimTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -5746,14 +5746,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'aimTroop'.", argument.TokenId);
                             }
                         }
 
@@ -5780,7 +5780,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushCon'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5802,13 +5802,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'pushCon'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'pushCon'.", argument.TokenId);
                     }
                     else
                     {
@@ -5835,14 +5835,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'pushCon'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'pushCon'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'pushCon'.", argument.TokenId);
                     }
                 }
 
@@ -5856,13 +5856,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'addTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'addTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5889,14 +5889,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'addTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'addTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'addTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5930,13 +5930,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -5963,14 +5963,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", argument.TokenId);
                     }
                 }
 
@@ -5980,13 +5980,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Unit, Class, StringVariableReader is required by action 'stopTroop'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'stopTroop'.", argument.TokenId);
                         }
                         else
                         {
@@ -6013,14 +6013,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'stopTroop'.", argument.TokenId);
                         }
                     }
 
@@ -6030,7 +6030,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'eraseSkill'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6056,13 +6056,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", argument.TokenId);
                     }
                     else
                     {
@@ -6076,7 +6076,7 @@ public sealed partial class Project
                     ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                     if (Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorList.Add(new($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
                     }
                     else
                     {
@@ -6093,7 +6093,7 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                           default:
-                              result.ErrorList.Add(new($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                              result.ErrorAdd($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
                               argument.HasReference = false;
                               break;
                         }
@@ -6106,13 +6106,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Skill, Skillset, StringVariableReader is required by action 'eraseSkill'.", argument.TokenId);
                         }
                         else
                         {
@@ -6126,7 +6126,7 @@ public sealed partial class Project
                         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                         if (Unsafe.IsNullRef(ref track))
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
                         }
                         else
                         {
@@ -6143,7 +6143,7 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                               default:
-                                  result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", result.TokenList[argument.TokenId].Range));
+                                  result.ErrorAdd($"{i + 1}-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
                                   argument.HasReference = false;
                                   break;
                             }
@@ -6156,7 +6156,7 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty. String Variable is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'eraseFriend'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6182,13 +6182,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"2-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", argument.TokenId);
                     }
                     else
                     {
@@ -6220,14 +6220,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"2-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", argument.TokenId);
                     }
                 }
 
@@ -6237,13 +6237,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorList.Add(new($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"{i + 1}-th argument is empty.Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument is empty string '@'. Race, Unit, Class, StringVariableReader is required by action 'eraseFriend'.", argument.TokenId);
                         }
                         else
                         {
@@ -6275,14 +6275,14 @@ public sealed partial class Project
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                                    result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorList.Add(new($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Race, Unit, Class, StringVariableReader required by action 'eraseFriend'.", argument.TokenId);
                         }
                     }
 
@@ -6295,13 +6295,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6328,14 +6328,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6343,13 +6343,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6376,14 +6376,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6392,13 +6392,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6425,14 +6425,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6457,13 +6457,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6490,14 +6490,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6535,13 +6535,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -6568,14 +6568,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -6583,13 +6583,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -6616,14 +6616,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -6632,13 +6632,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -6665,14 +6665,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -6697,13 +6697,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'moveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -6730,14 +6730,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'moveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -6775,13 +6775,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6808,14 +6808,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6823,13 +6823,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6856,14 +6856,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6872,13 +6872,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6905,14 +6905,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -6937,13 +6937,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroop'.", argument.TokenId);
                             }
                             else
                             {
@@ -6970,14 +6970,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroop'.", argument.TokenId);
                             }
                         }
 
@@ -7015,13 +7015,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -7048,14 +7048,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -7063,13 +7063,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"2-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -7096,14 +7096,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"2-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -7112,13 +7112,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -7145,14 +7145,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -7177,13 +7177,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                            result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                             else
                             {
@@ -7210,14 +7210,14 @@ public sealed partial class Project
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'smoveTroopFix'.", argument.TokenId);
                             }
                         }
 
@@ -7256,13 +7256,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Power, Spot, StringVariableReader is required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Power, Spot, StringVariableReader is required by action 'spotmark'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Power, Spot, StringVariableReader is required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Power, Spot, StringVariableReader is required by action 'spotmark'.", argument.TokenId);
                     }
                     else
                     {
@@ -7294,14 +7294,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'spotmark'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'spotmark'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Power, Spot, StringVariableReader required by action 'spotmark'.", argument.TokenId);
                     }
                 }
 
@@ -7320,13 +7320,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorList.Add(new($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'shiftTroop'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorList.Add(new($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'shiftTroop'.", argument.TokenId);
                     }
                     else
                     {
@@ -7353,14 +7353,14 @@ public sealed partial class Project
                                 argument.HasReference = true;
                                 break;
                             default:
-                                result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", result.TokenList[argument.TokenId].Range));
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'shiftTroop'.", argument.TokenId);
                     }
                 }
 
@@ -7391,7 +7391,7 @@ public sealed partial class Project
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"The 4-th argument of action 'shiftTroop' must be Boolean.", result.TokenList[argument.TokenId].Range));
+                    result.ErrorAdd($"The 4-th argument of action 'shiftTroop' must be Boolean.", argument.TokenId);
                 }
 
                 break;

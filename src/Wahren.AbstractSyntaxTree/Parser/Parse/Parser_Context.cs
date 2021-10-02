@@ -37,7 +37,7 @@ public static partial class Parser
 
             if (element.ElementScenarioId != uint.MaxValue)
             {
-                result.ErrorList.Add(new("'@scenario' is not allowed in structure context.", tokenList[element.ElementTokenId].Range));
+                result.ErrorAdd("'@scenario' is not allowed in structure context.", element.ElementTokenId);
                 return false;
             }
 

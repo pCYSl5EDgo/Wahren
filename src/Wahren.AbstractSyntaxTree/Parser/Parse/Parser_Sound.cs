@@ -37,7 +37,7 @@ public static partial class Parser
 
             if (element.ElementScenarioId != uint.MaxValue)
             {
-                result.ErrorList.Add(new("'@scenario' is not allowed in structure sound.", tokenList[element.ElementTokenId].Range));
+                result.ErrorAdd("'@scenario' is not allowed in structure sound.", element.ElementTokenId);
                 return false;
             }
 

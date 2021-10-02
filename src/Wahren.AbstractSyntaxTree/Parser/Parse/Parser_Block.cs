@@ -32,7 +32,7 @@ public static partial class Parser
                 else
                 {
                     CancelTokenReadback(ref context, ref result);
-                    result.ErrorList.Add(new("')' of 'next()' is not found.", tokenList[currentIndex].Range));
+                    result.ErrorAdd("')' of 'next()' is not found.", currentIndex);
                 }
                 statements.Add(new NextStatement(currentIndex));
                 return true;
@@ -51,7 +51,7 @@ public static partial class Parser
                 else
                 {
                     CancelTokenReadback(ref context, ref result);
-                    result.ErrorList.Add(new("return()'s ')' is not found.", tokenList[currentIndex].Range));
+                    result.ErrorAdd("return()'s ')' is not found.", currentIndex);
                 }
 
                 statements.Add(new ReturnStatement(currentIndex));
@@ -71,12 +71,12 @@ public static partial class Parser
                 else
                 {
                     CancelTokenReadback(ref context, ref result);
-                    result.ErrorList.Add(new("break()'s ')' is not found.", tokenList[currentIndex].Range));
+                    result.ErrorAdd("break()'s ')' is not found.", currentIndex);
                 }
 
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new("break() statement must be in while loop.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                    result.WarningAdd("break() statement must be in while loop.", currentIndex);
                 }
 
                 statements.Add(new BreakStatement(currentIndex, null));
@@ -96,12 +96,12 @@ public static partial class Parser
                 else
                 {
                     CancelTokenReadback(ref context, ref result);
-                    result.ErrorList.Add(new("continue()'s ')' is not found.", tokenList[currentIndex].Range));
+                    result.ErrorAdd("continue()'s ')' is not found.", currentIndex);
                 }
 
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new("continue() statement must be in while loop.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                    result.WarningAdd("continue() statement must be in while loop.", currentIndex);
                 }
 
                 statements.Add(new ContinueStatement(currentIndex, null));
@@ -139,7 +139,6 @@ public static partial class Parser
         ref var source = ref result.Source;
         WhileStatement? @while;
         var createWarning = context.CreateError(DiagnosticSeverity.Warning);
-        var createInfo = context.CreateError(DiagnosticSeverity.Info);
         do
         {
             if (!ReadUsefulToken(ref context, ref result))
@@ -166,7 +165,7 @@ public static partial class Parser
                 {
                     if (createWarning)
                     {
-                        result.ErrorList.Add(new($"Assignment to '{result.GetSpan(currentIndex)}' in the conditional block does not behave as you expected.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd($"Assignment to '{result.GetSpan(currentIndex)}' in the conditional block does not behave as you expected.", currentIndex);
                     }
                     continue;
                 }
@@ -201,7 +200,7 @@ public static partial class Parser
                     else
                     {
                         CancelTokenReadback(ref context, ref result);
-                        result.ErrorList.Add(new("return()'s ')' is not found.", tokenList[currentIndex].Range));
+                        result.ErrorAdd("return()'s ')' is not found.", currentIndex);
                     }
                     statements.Add(new ReturnStatement(currentIndex));
                     continue;
@@ -220,13 +219,9 @@ public static partial class Parser
                     else
                     {
                         CancelTokenReadback(ref context, ref result);
-                        result.ErrorList.Add(new("')' of 'next()' is not found.", tokenList[currentIndex].Range));
+                        result.ErrorAdd("')' of 'next()' is not found.", currentIndex);
                     }
                     statements.Add(new NextStatement(currentIndex));
-                    if (createInfo)
-                    {
-                        result.ErrorList.Add(new("next() statement should be written on the root level.", tokenList[currentIndex].Range, DiagnosticSeverity.Info));
-                    }
                     continue;
                 case ActionKind.@while:
                     if (Parse_While(ref context, ref result, currentIndex, ref statements, ref blockStack))
@@ -242,7 +237,7 @@ public static partial class Parser
                     @while = GetWhile(ref blockStack);
                     if (@while is null && createWarning)
                     {
-                        result.ErrorList.Add(new("break() statement must be in while loop.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd("break() statement must be in while loop.", currentIndex);
                     }
                     if (!ReadToken(ref context, ref result))
                     {
@@ -256,7 +251,7 @@ public static partial class Parser
                     }
                     else
                     {
-                        result.ErrorList.Add(new("break()'s ')' is not found.", tokenList[currentIndex].Range));
+                        result.ErrorAdd("break()'s ')' is not found.", currentIndex);
                         CancelTokenReadback(ref context, ref result);
                     }
                     statements.Add(new BreakStatement(currentIndex, @while));
@@ -266,7 +261,7 @@ public static partial class Parser
                     @while = GetWhile(ref blockStack);
                     if (@while is null && createWarning)
                     {
-                        result.ErrorList.Add(new("continue() statement must be in while loop.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd("continue() statement must be in while loop.", currentIndex);
                     }
                     if (!ReadToken(ref context, ref result))
                     {
@@ -280,7 +275,7 @@ public static partial class Parser
                     }
                     else
                     {
-                        result.ErrorList.Add(new("continue()'s ')' is not found.", tokenList[currentIndex].Range));
+                        result.ErrorAdd("continue()'s ')' is not found.", currentIndex);
                         CancelTokenReadback(ref context, ref result);
                     }
                     statements.Add(new ContinueStatement(currentIndex, @while));
@@ -377,7 +372,7 @@ public static partial class Parser
             var elseifIndex = result.TokenList.LastIndex;
             if (!ReadToken(ref context, ref result) || !result.TokenList.Last.IsParenLeft(ref result.Source))
             {
-                result.ErrorList.Add(new("'(' of else (r)if statement is not found.", result.TokenList[elseifIndex].Range));
+                result.ErrorAdd("'(' of else (r)if statement is not found.", elseifIndex);
                 return false;
             }
 
@@ -405,13 +400,13 @@ public static partial class Parser
 
             if (tokenList.Last.IsParenRight(ref source))
             {
-                result.ErrorList.Add(new($"{statement.Kind} must have {beforeLastCompoundTextArgumentCount + 1} argument(s) but actually {i} argument(s).", tokenList.Last.Range));
+                result.ErrorAdd($"{statement.Kind} must have {beforeLastCompoundTextArgumentCount + 1} argument(s) but actually {i} argument(s).", tokenList.LastIndex);
                 return true;
             }
 
             if (tokenList.Last.IsComma(ref source))
             {
-                result.ErrorList.Add(new($"{statement.Kind} {i}-th argument does not exist.", tokenList.Last.Range));
+                result.ErrorAdd($"{statement.Kind} {i}-th argument does not exist.", tokenList.LastIndex);
                 return true;
             }
 
@@ -435,7 +430,7 @@ public static partial class Parser
 
                 if (tokenList.Last.IsParenRight(ref source))
                 {
-                    result.ErrorList.Add(new($"{statement.Kind} must have {beforeLastCompoundTextArgumentCount + 1} argument(s) but actually {i} argument(s).", tokenList.Last.Range));
+                    result.ErrorAdd($"{statement.Kind} must have {beforeLastCompoundTextArgumentCount + 1} argument(s) but actually {i} argument(s).", tokenList.LastIndex);
                     return true;
                 }
 
@@ -453,7 +448,7 @@ public static partial class Parser
 
         if (tokenList.Last.IsParenRight(ref source))
         {
-            result.ErrorList.Add(new("Argument does not exists between ',' and ')'.", tokenList[tokenList.LastIndex - 1].Range));
+            result.ErrorAdd("Argument does not exists between ',' and ')'.", tokenList.LastIndex - 1);
             return true;
         }
 
@@ -524,7 +519,7 @@ public static partial class Parser
             {
                 if (!arguments.IsEmpty)
                 {
-                    result.ErrorList.Add(new("Argument does not exists between ',' and ')'.", tokenList[tokenList.LastIndex - 1].Range));
+                    result.ErrorAdd("Argument does not exists between ',' and ')'.", tokenList.LastIndex - 1);
                 }
 
                 goto TRUE;
@@ -532,7 +527,7 @@ public static partial class Parser
 
             if (tokenList.Last.IsComma(ref source))
             {
-                result.ErrorList.Add(new("Between ',' and ',' nothing is written.", tokenList[currentIndex].Range));
+                result.ErrorAdd("Between ',' and ',' nothing is written.", currentIndex);
                 continue;
             }
 
@@ -594,7 +589,7 @@ public static partial class Parser
             endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, uint.MaxValue, uint.MaxValue);
             if (endingRoll is null)
             {
-                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}).", tokenList[currentIndex].Range));
+                result.ErrorAdd($"Invalid action {result.GetSpan(currentIndex)}).", currentIndex);
             }
         }
         else if (arguments.Count == 1)
@@ -602,7 +597,7 @@ public static partial class Parser
             endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, uint.MaxValue);
             if (endingRoll is null)
             {
-                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}).", tokenList[currentIndex].Range));
+                result.ErrorAdd($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}).", currentIndex);
             }
         }
         else if (arguments.Count == 2)
@@ -610,12 +605,12 @@ public static partial class Parser
             endingRoll = TryParseCallEndingRollActionStatement(result.GetSpan(currentIndex), currentIndex, arguments[0].TokenId, arguments[1].TokenId);
             if (endingRoll is null)
             {
-                result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}, {result.GetSpan(arguments[1].TokenId)}).", tokenList[currentIndex].Range));
+                result.ErrorAdd($"Invalid action {result.GetSpan(currentIndex)}{result.GetSpan(arguments[0].TokenId)}, {result.GetSpan(arguments[1].TokenId)}).", currentIndex);
             }
         }
         else
         {
-            result.ErrorList.Add(new($"Invalid action {result.GetSpan(currentIndex)}) or too many ending roll action arguments count of '{result.GetSpan(currentIndex)}'. Exceeding arguments are just ignored.", tokenList[currentIndex].Range));
+            result.ErrorAdd($"Invalid action {result.GetSpan(currentIndex)}) or too many ending roll action arguments count of '{result.GetSpan(currentIndex)}'. Exceeding arguments are just ignored.", currentIndex);
         }
 
         if (endingRoll is not null)

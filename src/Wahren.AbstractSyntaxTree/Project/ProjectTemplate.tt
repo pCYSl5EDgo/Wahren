@@ -234,7 +234,7 @@ public sealed partial class Project
 <#      if (min == 0 && max == int.MaxValue) { #>
 <#          foreach ((string name, ReferenceKind[][] arrayArray) in groupEnumerable) { #>
             case <#= func #>Kind.<#= name.Escape() #>:
-                result.ErrorList.Add(new($"Unknown action '<#= name #>'.", result.TokenList[call.TokenId].Range));
+                result.ErrorAdd($"Unknown action '<#= name #>'.", call.TokenId);
                 break;
 <#          } #>
 <#          continue; #>

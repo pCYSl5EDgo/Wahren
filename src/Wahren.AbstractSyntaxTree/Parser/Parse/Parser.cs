@@ -27,7 +27,7 @@ public static partial class Parser
     /// <summary>
     /// </summary>
     /// <return>True : Not comment token is read.</return>
-    private static bool ReadUsefulToken(ref Context context, ref Result result, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
+    private static bool ReadUsefulToken(ref Context context, ref Result result)
     {
         ref var source = ref result.Source;
         ref var position = ref context.Position;
@@ -69,7 +69,7 @@ public static partial class Parser
                     lastRange.EndExclusive = position;
                     position.Line++;
                     position.Offset = 0;
-                    if (!ParseMultiLineComment(ref position, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
+                    if (!ParseMultiLineComment(ref position, ref result))
                     {
                         return false;
                     }
@@ -88,7 +88,7 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseMultiLineComment(ref Position position, ref Result result, string InternalCSharpFilePath, int InternalCSharpLineNumber)
+    private static bool ParseMultiLineComment(ref Position position, ref Result result)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -118,7 +118,7 @@ public static partial class Parser
             return true;
         }
 
-        result.ErrorList.Add(new("Multiline comment \"/*\" needs corresponding \"*/\". But it is not found in this file.", tokenList.Last.Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+        result.ErrorAdd("Multiline comment \"/*\" needs corresponding \"*/\". But it is not found in this file.", tokenList.LastIndex);
         return false;
     }
 
@@ -126,8 +126,6 @@ public static partial class Parser
     {
         span = result.GetSpan(tokenId);
         var index = span.LastIndexOf('@');
-        ref var token = ref result.TokenList[tokenId];
-        ref var range = ref token.Range;
         switch (index)
         {
             case -1:
@@ -141,7 +139,7 @@ public static partial class Parser
 
         if (span.IsEmpty)
         {
-            result.ErrorList.Add(new("Element key consists of plain key and scenario name. The length of plain key must not be zero.", range));
+            result.ErrorAdd("Element key consists of plain key and scenario name. The length of plain key must not be zero.", tokenId);
             return false;
         }
 
@@ -152,8 +150,6 @@ public static partial class Parser
     {
         span = result.GetSpan(tokenId);
         var index = span.LastIndexOf('@');
-        ref var token = ref result.TokenList[tokenId];
-        ref var range = ref token.Range;
         switch (index)
         {
             case -1:
@@ -167,7 +163,7 @@ public static partial class Parser
 
         if (span.IsEmpty)
         {
-            result.ErrorList.Add(new("Element key consists of plain key and scenario name. The length of plain key must not be zero.", range));
+            result.ErrorAdd("Element key consists of plain key and scenario name. The length of plain key must not be zero.", tokenId);
             return false;
         }
 
@@ -197,20 +193,21 @@ public static partial class Parser
 
         if (elementKey.Length == 0)
         {
-            result.ErrorList.Add(new("Element key consists of plain key and scenario name. The length of plain key must not be zero.", range));
+            result.ErrorAdd("Element key consists of plain key and scenario name. The length of plain key must not be zero.", element.ElementTokenId);
             return false;
         }
 
         return true;
     }
 
-    private static bool IsValidIdentifier(ref this Token token, ref Context context, ref Result result, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
+    private static bool IsValidIdentifier(ref Context context, ref Result result, uint tokenIndex)
     {
+        ref var token = ref result.TokenList[tokenIndex];
         var length = token.Length;
         ref var range = ref token.Range;
         if (!range.OneLine)
         {
-            result.ErrorList.Add(new("Identifier must be one liner.", range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            result.ErrorAdd("Identifier must be one liner.", tokenIndex);
             return false;
         }
 
@@ -219,7 +216,7 @@ public static partial class Parser
         var invalidIndex = span.IndexOfAny(" \t@:;^|+-*/.,");
         if (invalidIndex != -1)
         {
-            result.ErrorList.Add(new($"Identifier must not contain {span[invalidIndex]}.", range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            result.ErrorAdd($"Identifier must not contain {span[invalidIndex]}.", tokenIndex);
             return false;
         }
 
@@ -228,7 +225,7 @@ public static partial class Parser
             ushort c = span[0];
             if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != '_')
             {
-                result.ErrorList.Add(new("Identifier should start with alphabet or underscore.", range, DiagnosticSeverity.Warning, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+                result.WarningAdd("Identifier should start with alphabet or underscore.", tokenIndex);
             }
 
             for (int i = 1; i < span.Length; ++i)
@@ -236,7 +233,7 @@ public static partial class Parser
                 c = span[i];
                 if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != '_' && (c < '0' || c > '9'))
                 {
-                    result.ErrorList.Add(new("Identifier should consist of alphabet, underscore or digit.", range, DiagnosticSeverity.Warning, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+                    result.WarningAdd("Identifier should consist of alphabet, underscore or digit.", tokenIndex);
                     break;
                 }
             }
@@ -245,7 +242,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool ParseNameAndSuperAndBracketLeft<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
+    private static bool ParseNameAndSuperAndBracketLeft<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet)
         where T : struct, IInheritableNode
     {
         ref var source = ref result.Source;
@@ -253,20 +250,20 @@ public static partial class Parser
         ref var errorList = ref result.ErrorList;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            errorList.Add(new($"{result.GetSpan(node.Kind)} should have name.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            result.ErrorAdd($"{result.GetSpan(node.Kind)} should have name.", node.Kind);
             return false;
         }
 
         node.Name = tokenList.LastIndex;
         tokenList.Last.Kind = TokenKind.Name;
-        if (!tokenList.Last.IsValidIdentifier(ref context, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
+        if (!IsValidIdentifier(ref context, ref result, tokenList.LastIndex))
         {
             return false;
         }
 
         if (!ReadUsefulToken(ref context, ref result))
         {
-            errorList.Add(new($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{' but not found.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            result.ErrorAdd($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{' but not found.", node.Kind);
             return false;
         }
 
@@ -274,28 +271,28 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                errorList.Add(new($"After ':', name of the super is needed.", tokenList[node.Name].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+                result.ErrorAdd($"After ':', name of the super is needed.", node.Name);
                 return false;
             }
 
             tokenList.Last.Kind = TokenKind.Super;
             var superIndex = superSet.GetOrAdd(result.GetSpan(tokenList.LastIndex), tokenList.LastIndex);
             node.Super = superIndex;
-            if (context.CreateError(DiagnosticSeverity.Warning) && !tokenList.Last.IsValidIdentifier(ref context, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
+            if (context.CreateError(DiagnosticSeverity.Warning) && !IsValidIdentifier(ref context, ref result, tokenList.LastIndex))
             {
-                errorList.Add(new($"Not appropriate super name '{superSet[superIndex]}' of struct {result.GetSpan(node.Kind)} '{result.GetSpan(node.Name)}'.", tokenList.Last.Range));
+                result.ErrorAdd($"Not appropriate super name '{superSet[superIndex]}' of struct {result.GetSpan(node.Kind)} '{result.GetSpan(node.Name)}'.", tokenList.LastIndex);
             }
 
             if (!ReadUsefulToken(ref context, ref result))
             {
-                errorList.Add(new($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} : {superSet[superIndex]} should start with '{{' but not found.", tokenList[node.Kind].Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+                result.ErrorAdd($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} : {superSet[superIndex]} should start with '{{' but not found.", node.Kind);
                 return false;
             }
         }
 
         if (!tokenList.Last.IsBracketLeft(ref source))
         {
-            errorList.Add(new($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{'.", tokenList.Last.Range, InternalCSharpFilePath: InternalCSharpFilePath, InternalCSharpLineNumber: InternalCSharpLineNumber));
+            result.ErrorAdd($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{'.", tokenList.LastIndex);
             return false;
         }
 
@@ -308,7 +305,7 @@ public static partial class Parser
         ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", result.TokenList[kindIndex].Range));
+            result.ErrorAdd($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", kindIndex);
             return false;
         }
 
@@ -319,7 +316,7 @@ public static partial class Parser
         }
         
         var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Range.StartInclusive.Line + 1}, Offset : {last.Range.StartInclusive.Offset + 1}) appears.";
-        result.ErrorList.Add(new(text, result.TokenList[kindIndex].Range));
+        result.ErrorAdd(text, kindIndex);
         return false;
     }
 
@@ -328,7 +325,7 @@ public static partial class Parser
         ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", result.TokenList[kindIndex].Range));
+            result.ErrorAdd($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", kindIndex);
             return false;
         }
 
@@ -339,7 +336,7 @@ public static partial class Parser
         }
 
         var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Range.StartInclusive.Line + 1}, Offset : {last.Range.StartInclusive.Offset + 1}) appears.";
-        result.ErrorList.Add(new(text, result.TokenList[kindIndex].Range));
+        result.ErrorAdd(text, kindIndex);
         return false;
     }
 
@@ -353,20 +350,15 @@ public static partial class Parser
     {
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorList.Add(new("Element must have '=' but not found", result.TokenList[elementTokenId].Range));
+            result.ErrorAdd("Element must have '=' but not found", elementTokenId);
             return false;
         }
 
         ref var last = ref result.TokenList.Last;
         if (!last.IsAssign(ref result.Source))
         {
-            result.ErrorList.Add(new("Element must have '=' but first found token is not '='.", last.Range));
+            result.ErrorAdd("Element must have '=' but first found token is not '='.", result.TokenList.LastIndex);
             return false;
-        }
-
-        if (last.PrecedingWhitespaceCount != 1 && context.CreateError(DiagnosticSeverity.Hint))
-        {
-            result.ErrorList.Add(new("Element's '=' should have a preceding whitespace.", last.Range, DiagnosticSeverity.Hint));
         }
 
         return true;

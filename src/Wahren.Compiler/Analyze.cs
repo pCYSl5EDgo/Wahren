@@ -194,9 +194,9 @@ public partial class Program
         stringBuilder.AppendLine(error.Text);
         stringBuilder.Append(filePath);
         stringBuilder.Append('(');
-        stringBuilder.Append(error.Range.StartInclusive.Line + 1);
+        stringBuilder.Append(error.Position.Line + 1);
         stringBuilder.Append(", ");
-        stringBuilder.Append(error.Range.StartInclusive.Offset + 1);
+        stringBuilder.Append(error.Position.Offset + 1);
         stringBuilder.Append(')');
         if (showNotError)
         {

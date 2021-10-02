@@ -46,7 +46,7 @@ public static partial class PerResultValidator
             case <#= callableKind #>Kind.<#= name.Escape() #>:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new($"Unknown action '<#= name #>'.", result.TokenList[call.TokenId].Range, DiagnosticSeverity.Warning));
+                    result.WarningAdd($"Unknown action '<#= name #>'.", call.TokenId);
                 }
                 break;
 <#      } #>
@@ -160,14 +160,14 @@ foreach (((int min, int max), string[] itemArray) in callableInfoArray.GroupBy(
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0.", index);
                     }
                     return false;
                 }
 <#  } else if (max == int.MaxValue) { #>
                 if (count < <#= min #>)
                 {
-                    result.ErrorList.Add(new($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>~.", result.TokenList[index].Range));
+                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>~.", index);
                     return false;
                 }
 <#  } else if (min == 0) { #>
@@ -175,35 +175,35 @@ foreach (((int min, int max), string[] itemArray) in callableInfoArray.GroupBy(
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~<#= max #>.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~<#= max #>.", index);
                     }
                     return false;
                 }
 <#  } else if (min == max) { #>
                 if (count < <#= min #>)
                 {
-                    result.ErrorList.Add(new($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>.", result.TokenList[index].Range));
+                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>.", index);
                     return false;
                 }
                 else if (count > <#= max #>)
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: <#= min #>.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: <#= min #>.", index);
                     }
                     return false;
                 }
 <#  } else { #>
 				if (count < <#= min #>)
                 {
-                    result.ErrorList.Add(new($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>~<#= max #>.", result.TokenList[index].Range));
+                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>~<#= max #>.", index);
                     return false;
                 }
                 else if (count > <#= max #>)
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorList.Add(new($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: <#= min #>~<#= max #>.", result.TokenList[index].Range, DiagnosticSeverity.Warning));
+                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: <#= min #>~<#= max #>.", index);
                     }
                     return false;
                 }

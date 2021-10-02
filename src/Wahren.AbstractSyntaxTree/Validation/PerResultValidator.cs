@@ -294,7 +294,7 @@ public static partial class PerResultValidator
                 var span = result.GetSpan(value.Text);
                 if (!span.SequenceEqual("on") && !span.SequenceEqual("off"))
                 {
-                    result.ErrorList.Add(new($"Boolean text or Number text is expected but actually \"{result.GetSpan(value.Text)}\".{postText}", result.TokenList[value.Text].Range));
+                    result.ErrorAdd($"Boolean text or Number text is expected but actually \"{result.GetSpan(value.Text)}\".{postText}", value.Text);
                     success = false;
                 }
             }
@@ -324,7 +324,7 @@ public static partial class PerResultValidator
                 continue;
             }
 
-            result.ErrorList.Add(new($"Boolean text or Number text is expected but actually \"{result.GetSpan(value.Text)}\".{postText}", result.TokenList[value.Text].Range));
+            result.ErrorAdd($"Boolean text or Number text is expected but actually \"{result.GetSpan(value.Text)}\".{postText}", value.Text);
             success = false;
         }
 
@@ -447,7 +447,7 @@ public static partial class PerResultValidator
                 value.ReferenceId = 0;
                 if (DiagnosticSeverity.Warning <= severity && !span.IsEmpty && !span.SequenceEqual("neuter"))
                 {
-                    result.ErrorList.Add(new($"'sex' of struct {kind} must be 'neuter', 'male' or 'female'.", result.TokenList[value.Text].Range, DiagnosticSeverity.Warning));
+                    result.WarningAdd($"'sex' of struct {kind} must be 'neuter', 'male' or 'female'.", value.Text);
                 }
             }
 
@@ -486,7 +486,7 @@ public static partial class PerResultValidator
         {
             if (list.Length > 4 && DiagnosticSeverity.Warning <= severity)
             {
-                result.ErrorList.Add(new($"'yorozu' of struct {kind} can have up to 4 kind of values ('keep_direct', 'no_circle', 'base', or 'keep_color').", result.TokenList[list[4].Text].Range, DiagnosticSeverity.Warning));
+                result.WarningAdd($"'yorozu' of struct {kind} can have up to 4 kind of values ('keep_direct', 'no_circle', 'base', or 'keep_color').", list[4].Text);
             }
 
             int keep_direct = -1;
@@ -509,7 +509,7 @@ public static partial class PerResultValidator
                     case 4 when text.SequenceEqual("base"):
                         if (@base != -1)
                         {
-                            result.ErrorList.Add(new($"'yorozu' of struct {kind} already have 'base'.", result.TokenList[item.Text].Range));
+                            result.ErrorAdd($"'yorozu' of struct {kind} already have 'base'.", item.Text);
                             success = false;
                         }
                         @base = i;
@@ -517,7 +517,7 @@ public static partial class PerResultValidator
                     case 9 when text.SequenceEqual(nameof(no_circle)):
                         if (no_circle != -1)
                         {
-                            result.ErrorList.Add(new($"'yorozu' of struct {kind} already have 'no_circle'.", result.TokenList[item.Text].Range));
+                            result.ErrorAdd($"'yorozu' of struct {kind} already have 'no_circle'.", item.Text);
                             success = false;
                         }
                         no_circle = i;
@@ -525,7 +525,7 @@ public static partial class PerResultValidator
                     case 10 when text.SequenceEqual(nameof(keep_color)):
                         if (keep_color != -1)
                         {
-                            result.ErrorList.Add(new($"'yorozu' of struct {kind} already have 'keep_color'.", result.TokenList[item.Text].Range));
+                            result.ErrorAdd($"'yorozu' of struct {kind} already have 'keep_color'.", item.Text);
                             success = false;
                         }
                         keep_color = i;
@@ -533,13 +533,13 @@ public static partial class PerResultValidator
                     case 11 when text.SequenceEqual(nameof(keep_direct)):
                         if (keep_direct != -1)
                         {
-                            result.ErrorList.Add(new($"'yorozu' of struct {kind} already have 'keep_direct'.", result.TokenList[item.Text].Range));
+                            result.ErrorAdd($"'yorozu' of struct {kind} already have 'keep_direct'.", item.Text);
                             success = false;
                         }
                         keep_direct = i;
                         break;
                     default:
-                        result.ErrorList.Add(new($"'{text}' is not valid value. 'yorozu' of struct {kind} can have up to 4 kind of values ('keep_direct', 'no_circle', 'base', or 'keep_color').", result.TokenList[item.Text].Range));
+                        result.ErrorAdd($"'{text}' is not valid value. 'yorozu' of struct {kind} can have up to 4 kind of values ('keep_direct', 'no_circle', 'base', or 'keep_color').", item.Text);
                         success = false;
                         break;
                 }
@@ -589,7 +589,7 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
-                result.ErrorList.Add(new("'handle' of struct event must be 'red' or 'blue'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd("'handle' of struct event must be 'red' or 'blue'.", value.Text);
                 return false;
             }
 
@@ -648,7 +648,7 @@ public static partial class PerResultValidator
             else if (!value.HasNumber)
             {
                 value.HasReference = false;
-                result.ErrorList.Add(new("'arbeit' of struct unit must be 'on', 'power' or 'fix'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd("'arbeit' of struct unit must be 'on', 'power' or 'fix'.", value.Text);
                 return false;
             }
 
@@ -719,7 +719,7 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
-                result.ErrorList.Add(new("'fix' of struct power must be 'off', 'on', 'home', 'hold', 'warlike', 'freeze'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd("'fix' of struct power must be 'off', 'on', 'home', 'hold', 'warlike', 'freeze'.", value.Text);
                 return false;
             }
 
@@ -772,7 +772,7 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
-                result.ErrorList.Add(new("'fix' of struct unit must be 'off', 'on' or 'home'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd("'fix' of struct unit must be 'off', 'on' or 'home'.", value.Text);
                 return false;
             }
 
@@ -825,7 +825,7 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
-                result.ErrorList.Add(new("'power_order' of struct scenario must be 'normal', 'test' or 'dash'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd("'power_order' of struct scenario must be 'normal', 'test' or 'dash'.", value.Text);
                 return false;
             }
 
@@ -902,7 +902,7 @@ public static partial class PerResultValidator
             else
             {
                 value.ReferenceId = 0;
-                result.ErrorList.Add(new($"'active' of struct {kind} must be 'never', 'rect', 'range', 'time', 'troop', 'never2', 'rect2', 'range2', 'time2', or 'troop2'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd($"'active' of struct {kind} must be 'never', 'rect', 'range', 'time', 'troop', 'never2', 'rect2', 'range2', 'time2', or 'troop2'.", value.Text);
             }
 
             value.HasReference = true;
@@ -962,7 +962,7 @@ public static partial class PerResultValidator
             else
             {
                 value.ReferenceId = 0;
-                result.ErrorList.Add(new($"'picture_detail' of struct {kind} must be 'off', 'on', 'on1', 'on2', or 'on3'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd($"'picture_detail' of struct {kind} must be 'off', 'on', 'on1', 'on2', or 'on3'.", value.Text);
             }
 
             value.HasReference = true;
@@ -1015,7 +1015,7 @@ public static partial class PerResultValidator
             else
             {
                 value.ReferenceId = 0;
-                result.ErrorList.Add(new($"'add_vassal' of struct {kind} must be 'off', 'on' or 'roam'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd($"'add_vassal' of struct {kind} must be 'off', 'on' or 'roam'.", value.Text);
             }
 
             value.HasReference = true;
@@ -1053,7 +1053,7 @@ public static partial class PerResultValidator
         {
             if (list.Length > 11 && DiagnosticSeverity.Warning <= severity)
             {
-                result.ErrorList.Add(new($"'multi' of struct {kind} can have up to 11 kind of values ('hp', 'mp', 'attack', 'defense', 'magic', 'magdef', 'speed', 'dext', 'move', 'hprec', 'mprec').", result.TokenList[list[4].Text].Range, DiagnosticSeverity.Warning));
+                result.WarningAdd($"'multi' of struct {kind} can have up to 11 kind of values ('hp', 'mp', 'attack', 'defense', 'magic', 'magdef', 'speed', 'dext', 'move', 'hprec', 'mprec').", list[4].Text);
             }
 
             Span<int> statuses = stackalloc int[11];
@@ -1077,14 +1077,14 @@ public static partial class PerResultValidator
                     }
                     else
                     {
-                        result.ErrorList.Add(new($"'multi' of struct {kind} already have '{text}'.", result.TokenList[item.Text].Range));
+                        result.ErrorAdd($"'multi' of struct {kind} already have '{text}'.", item.Text);
                         success = false;
                         break;
                     }
                 }
                 else
                 {
-                    result.ErrorList.Add(new($"'{text}' is not valid value. 'multi' of struct {kind} must be one of the 11 status text('hp', 'mp', 'attack', 'defense', 'magic', 'magdef', 'speed', 'dext', 'move', 'hprec', 'mprec').", result.TokenList[item.Text].Range));
+                    result.ErrorAdd($"'{text}' is not valid value. 'multi' of struct {kind} must be one of the 11 status text('hp', 'mp', 'attack', 'defense', 'magic', 'magdef', 'speed', 'dext', 'move', 'hprec', 'mprec').", item.Text);
                     success = false;
                     break;
                 }
@@ -1135,7 +1135,7 @@ public static partial class PerResultValidator
                     value.ReferenceId = 4;
                     break;
                 default:
-                    result.ErrorList.Add(new($"'politics' of struct {kind} must be 'on', 'fix', 'erase' or 'unique'.", result.TokenList[value.Text].Range));
+                    result.ErrorAdd($"'politics' of struct {kind} must be 'on', 'fix', 'erase' or 'unique'.", value.Text);
                     return false;
             }
 
@@ -1183,7 +1183,7 @@ public static partial class PerResultValidator
                     break;
                 default:
                     value.ReferenceId = 0;
-                    result.ErrorList.Add(new($"'line' of struct {kind} must be 'front', or 'back'.", result.TokenList[value.Text].Range));
+                    result.ErrorAdd($"'line' of struct {kind} must be 'front', or 'back'.", value.Text);
                     return false;
             }
 
@@ -1236,7 +1236,7 @@ public static partial class PerResultValidator
                     value.ReferenceId = 2;
                     break;
                 default:
-                    result.ErrorList.Add(new($"'picture_floor' of struct {kind} must be 'top', 'msg', 'base' or 'bottom'.", result.TokenList[value.Text].Range));
+                    result.ErrorAdd($"'picture_floor' of struct {kind} must be 'top', 'msg', 'base' or 'bottom'.", value.Text);
                     return false;
             }
 
@@ -1274,7 +1274,7 @@ public static partial class PerResultValidator
             var span = result.GetSpan(value.Text);
             if (!span.SequenceEqual("on"))
             {
-                result.ErrorList.Add(new($"'politics' of struct spot must be 'on'.", result.TokenList[value.Text].Range));
+                result.ErrorAdd($"'politics' of struct spot must be 'on'.", value.Text);
                 return false;
             }
 

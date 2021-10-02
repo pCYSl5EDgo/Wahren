@@ -69,7 +69,7 @@ public static partial class PerResultValidator
         return noDuplication;
     }
 
-    public static void CollectError(Span<Result> results, ref List<SolutionError> errorList, ref StringSpanKeyTrackableSet<AmbiguousNameReference> set)
+    public static void CollectError(Span<Result> results, ref List<ProjectError> errorList, ref StringSpanKeyTrackableSet<AmbiguousNameReference> set)
     {
         var enumerator = set.GetEnumerator();
         System.Text.StringBuilder? builder = default;

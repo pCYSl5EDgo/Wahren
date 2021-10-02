@@ -9,7 +9,7 @@ public sealed partial class Project : IDisposable
 {
     public DiagnosticSeverity RequiredSeverity;
     public DisposableList<Result> Files = new();
-    public List<SolutionError> SolutionErrorList = new();
+    public List<ProjectError> SolutionErrorList = new();
 
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> Scenario = new();
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> Event = new();

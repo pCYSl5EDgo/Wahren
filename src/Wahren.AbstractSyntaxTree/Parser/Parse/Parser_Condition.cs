@@ -31,7 +31,7 @@ public static partial class Parser
                 if (!result.TokenList.Last.IsBracketLeft(ref source))
                 {
                     CancelTokenReadback(ref context, ref result);
-                    result.ErrorList.Add(new("'{' of while/if/rif statement is not found.", result.TokenList[statementTokenId].Range));
+                    result.ErrorAdd("'{' of while/if/rif statement is not found.", statementTokenId);
                 }
                 
                 return condition;
@@ -39,7 +39,7 @@ public static partial class Parser
 
             if (result.ErrorList.IsEmpty || result.ErrorList.Last.Severity != DiagnosticSeverity.Error)
             {
-                result.ErrorList.Add(new("Condition Parse Failed.", tokenList[statementTokenId].Range));
+                result.ErrorAdd("Condition Parse Failed.", statementTokenId);
             }
 
             do
@@ -87,7 +87,7 @@ public static partial class Parser
                         case '@':
                             if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new StringVariableExpression(currentIndex)))
                             {
-                                result.ErrorList.Add(new($"{nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                                result.ErrorAdd($"{nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                                 return null;
                             }
                             continue;
@@ -95,7 +95,7 @@ public static partial class Parser
                             tokenList.Last.Kind = TokenKind.ParenLeft;
                             if (expressionList.Count < expressionListStartIndex)
                             {
-                                result.ErrorList.Add(new($"{nameof(expressionList)}.Count: {expressionList.Count}, ${nameof(expressionListStartIndex)}: ${expressionListStartIndex}", tokenList.Last.Range));
+                                result.ErrorAdd($"{nameof(expressionList)}.Count: {expressionList.Count}, ${nameof(expressionListStartIndex)}: ${expressionListStartIndex}", tokenList.LastIndex);
                                 return null;
                             }
                             else if (expressionList.Count == expressionListStartIndex)
@@ -109,7 +109,7 @@ public static partial class Parser
                                 paren.IncrementParenCount();
                                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, paren))
                                 {
-                                    result.ErrorList.Add(new($"{nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                                    result.ErrorAdd($"{nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                                     return null;
                                 }
                                 continue;
@@ -131,7 +131,7 @@ public static partial class Parser
                                             {
                                                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, identifierExpression as IReturnNumberExpression))
                                                 {
-                                                    result.ErrorList.Add(new($"{nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                                                    result.ErrorAdd($"{nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                                                     return null;
                                                 }
                                             }
@@ -139,7 +139,7 @@ public static partial class Parser
                                             {
                                                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, paren))
                                                 {
-                                                    result.ErrorList.Add(new($"{nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                                                    result.ErrorAdd($"{nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                                                     return null;
                                                 }
                                             }
@@ -157,7 +157,7 @@ public static partial class Parser
                                             paren.IncrementParenCount();
                                             if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, paren))
                                             {
-                                                result.ErrorList.Add(new($"{nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                                                result.ErrorAdd($"{nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                                                 return null;
                                             }
 
@@ -178,7 +178,7 @@ public static partial class Parser
                         case '9':
                             if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new NumberExpression(currentIndex, span[0] - '0')))
                             {
-                                result.ErrorList.Add(new($"{span[0]} {nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                                result.ErrorAdd($"{span[0]} {nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                                 return null;
                             }
                             continue;
@@ -226,7 +226,7 @@ public static partial class Parser
                                     continue;
                                 }
 
-                                result.ErrorList.Add(new($"&& {nameof(AddOperatorReduce)} failed.", tokenList.Last.Range));
+                                result.ErrorAdd($"&& {nameof(AddOperatorReduce)} failed.", tokenList.LastIndex);
                             }
                             else
                             {
@@ -243,7 +243,7 @@ public static partial class Parser
                                     continue;
                                 }
 
-                                result.ErrorList.Add(new($"|| {nameof(AddOperatorReduce)} failed.", tokenList.Last.Range));
+                                result.ErrorAdd($"|| {nameof(AddOperatorReduce)} failed.", tokenList.LastIndex);
                             }
                             else
                             {
@@ -264,7 +264,7 @@ public static partial class Parser
             {
                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new NumberExpression(currentIndex, number)))
                 {
-                    result.ErrorList.Add(new($"{span} {nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                    result.ErrorAdd($"{span} {nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                     return null;
                 }
 
@@ -273,7 +273,7 @@ public static partial class Parser
 
             if (context.CreateError(DiagnosticSeverity.Warning) && span[0] == '+' || span[0] == '-')
             {
-                result.ErrorList.Add(new("This can cause error.", tokenList[currentIndex].Range, DiagnosticSeverity.Warning));
+                result.WarningAdd("This can cause error.", currentIndex);
             }
 
             if (!ReadToken(ref context, ref result))
@@ -290,7 +290,7 @@ public static partial class Parser
                 result.TokenList.Last.Other = (uint)functionId;
                 if (functionId == FunctionKind.None)
                 {
-                    result.ErrorList.Add(new($"{span} is not registered function.", tokenList[currentIndex].Range));
+                    result.ErrorAdd($"{span} is not registered function.", currentIndex);
                     return null;
                 }
 
@@ -302,7 +302,7 @@ public static partial class Parser
 
                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, callFunctionExpression as IReturnNumberExpression))
                 {
-                    result.ErrorList.Add(new($"{span} {nameof(AddValueReduce)} as number failed.", tokenList.Last.Range));
+                    result.ErrorAdd($"{span} {nameof(AddValueReduce)} as number failed.", tokenList.LastIndex);
                     return null;
                 }
                 continue;
@@ -312,7 +312,7 @@ public static partial class Parser
             {
                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new IdentifierExpression(currentIndex) as IReturnNumberExpression))
                 {
-                    result.ErrorList.Add(new($"{span} {nameof(AddValueReduce)} as number identifier failed.", tokenList.Last.Range));
+                    result.ErrorAdd($"{span} {nameof(AddValueReduce)} as number identifier failed.", tokenList.LastIndex);
                     return null;
                 }
 
@@ -349,7 +349,7 @@ public static partial class Parser
 
                         if (!ExpressionParseString(ref context, ref result, statementTokenId, out var right))
                         {
-                            result.ErrorList.Add(new("Expression Parsing Error. String is expected as the right argument of string equlity comparer.", tokenList.Last.Range));
+                            result.ErrorAdd("Expression Parsing Error. String is expected as the right argument of string equlity comparer.", tokenList.LastIndex);
                             return null;
                         }
 
@@ -365,7 +365,7 @@ public static partial class Parser
                 {
                     if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new StringExpression(currentIndex)))
                     {
-                        result.ErrorList.Add(new($"{span} {nameof(AddValueReduce)} failed.", tokenList.Last.Range));
+                        result.ErrorAdd($"{span} {nameof(AddValueReduce)} failed.", tokenList.LastIndex);
                         return null;
                     }
 
@@ -381,7 +381,7 @@ public static partial class Parser
             }
             else
             {
-                result.ErrorList.Add(new($"{comparerOperator} {nameof(AddOperatorReduce)} failed.", tokenList.Last.Range));
+                result.ErrorAdd($"{comparerOperator} {nameof(AddOperatorReduce)} failed.", tokenList.LastIndex);
                 return null;
             }
 
@@ -392,7 +392,7 @@ public static partial class Parser
             }
             else
             {
-                result.ErrorList.Add(new($"{calculatorOperator} {nameof(AddOperatorReduce)} failed.", tokenList.Last.Range));
+                result.ErrorAdd($"{calculatorOperator} {nameof(AddOperatorReduce)} failed.", tokenList.LastIndex);
                 return null;
             }
         } while (true);
@@ -437,7 +437,7 @@ public static partial class Parser
             {
                 if (!ExpressionParseString(ref context, ref result, currentIndex, out var right))
                 {
-                    result.ErrorList.Add(new("Expression Parsing Error. String is expected as the right argument of string equlity comparer.", result.TokenList.Last.Range));
+                    result.ErrorAdd("Expression Parsing Error. String is expected as the right argument of string equlity comparer.", result.TokenList.LastIndex);
                     return false;
                 }
 
@@ -594,7 +594,7 @@ public static partial class Parser
             {
                 if (last.IsOperator(ref source))
                 {
-                    result.ErrorList.Add(new("Function argument is not written.", tokenList[callFunctionExpression.TokenId].Range));
+                    result.ErrorAdd("Function argument is not written.", callFunctionExpression.TokenId);
                     return false;
                 }
             }
@@ -626,13 +626,13 @@ public static partial class Parser
             tokenList.Last.Kind = TokenKind.ContentTrailing;
             argument.IsNumber = false;
             argument.TrailingTokenCount++;
-            result.ErrorList.Add(new("Function argument must be number, identifier, string variable, 1-word-length text.", tokenList.Last.Range));
+            result.ErrorAdd("Function argument must be number, identifier, string variable, 1-word-length text.", tokenList.LastIndex);
             return false;
         } while (true);
         
         if (callFunctionExpression.Kind == FunctionKind.isInterval && statementKind != ConditionStatementKind.Rif)
         {
-            result.ErrorList.Add(new("'isInterval' can only be called inside of 'rif' condition expression.", tokenList[callFunctionExpression.TokenId].Range));
+            result.ErrorAdd("'isInterval' can only be called inside of 'rif' condition expression.", callFunctionExpression.TokenId);
         }
 
         return true;
@@ -788,7 +788,7 @@ public static partial class Parser
             case '-':
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.ErrorList.Add(new("This can cause error.", tokenList.Last.Range, DiagnosticSeverity.Warning));
+                    result.WarningAdd("This can cause error.", tokenList.LastIndex);
                 }
                 break;
         }
