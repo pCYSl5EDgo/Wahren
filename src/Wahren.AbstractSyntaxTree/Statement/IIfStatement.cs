@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Element.Statement;
+﻿namespace Wahren.AbstractSyntaxTree.Statement;
 
 public interface IIfStatement : IConditionalStatement
 {

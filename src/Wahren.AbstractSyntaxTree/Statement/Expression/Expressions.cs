@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Element.Statement.Expression;
+﻿namespace Wahren.AbstractSyntaxTree.Statement.Expression;
 
 public sealed record class NumberExpression(uint TokenId, int Number) : IReturnNumberExpression
 {

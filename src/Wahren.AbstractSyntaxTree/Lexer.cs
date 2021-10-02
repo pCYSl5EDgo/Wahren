@@ -153,13 +153,13 @@ public static class Lexer
     RETURN_VALIDATION:
         if (position.Offset >= line.Count)
         {
-            token.LengthInFirstLine = (uint)line.Count - range.StartInclusive.Offset;
+            token.Length = (uint)line.Count - range.StartInclusive.Offset;
             position.Line++;
             position.Offset = 0;
         }
         else
         {
-            token.LengthInFirstLine = position.Offset - range.StartInclusive.Offset;
+            token.Length = position.Offset - range.StartInclusive.Offset;
         }
 
         range.EndExclusive = position;
@@ -216,11 +216,11 @@ public static class Lexer
         range.EndExclusive = position;
         if (range.EndExclusive.Line == range.StartInclusive.Line)
         {
-            token.LengthInFirstLine = range.EndExclusive.Offset - range.StartInclusive.Offset;
+            token.Length = range.EndExclusive.Offset - range.StartInclusive.Offset;
         }
         else
         {
-            token.LengthInFirstLine = (uint)line.Count - range.StartInclusive.Offset;
+            token.Length = (uint)line.Count - range.StartInclusive.Offset;
         }
 
         return true;
@@ -286,7 +286,7 @@ public static class Lexer
         }
 
         token.Range.StartInclusive = position;
-        token.LengthInFirstLine = (uint)source[position.Line].Count - position.Offset;
+        token.Length = (uint)source[position.Line].Count - position.Offset;
         position.Offset = 0;
         position.Line++;
         token.Range.EndExclusive = position;

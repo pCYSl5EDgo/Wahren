@@ -5,7 +5,7 @@ public static partial class TokenUtility
     {
         if (!token.Range.IsEmpty && token.Range.OneLine)
         {
-            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.LengthInFirstLine);
+            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.Length);
             return int.TryParse(span, out result);
         }
 
@@ -144,7 +144,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1)
     {
         const int size = 2;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -175,7 +175,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2)
     {
         const int size = 3;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -206,7 +206,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2)
     {
         const int size = 3;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -237,7 +237,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3)
     {
         const int size = 4;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -268,7 +268,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3)
     {
         const int size = 4;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -299,7 +299,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3, char other4)
     {
         const int size = 5;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -330,7 +330,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3, char other4)
     {
         const int size = 5;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -361,7 +361,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3, char other4, char other5)
     {
         const int size = 6;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -392,7 +392,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3, char other4, char other5)
     {
         const int size = 6;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -423,7 +423,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3, char other4, char other5, char other6)
     {
         const int size = 7;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -454,7 +454,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3, char other4, char other5, char other6)
     {
         const int size = 7;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -485,7 +485,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3, char other4, char other5, char other6, char other7)
     {
         const int size = 8;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -516,7 +516,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3, char other4, char other5, char other6, char other7)
     {
         const int size = 8;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -547,7 +547,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3, char other4, char other5, char other6, char other7, char other8)
     {
         const int size = 9;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -578,7 +578,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3, char other4, char other5, char other6, char other7, char other8)
     {
         const int size = 9;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -609,7 +609,7 @@ public static partial class TokenUtility
     public static bool Equals(ref this Token token, ref DualList<char> source, char other0, char other1, char other2, char other3, char other4, char other5, char other6, char other7, char other8, char other9)
     {
         const int size = 10;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -640,7 +640,7 @@ public static partial class TokenUtility
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source, char other2, char other3, char other4, char other5, char other6, char other7, char other8, char other9)
     {
         const int size = 10;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }

@@ -46,7 +46,7 @@ public static partial class Parser
                 tokenList.Last.Kind = TokenKind.Comment;
                 if (last.Range.StartAndEndLineAreSame)
                 {
-                    last.LengthInFirstLine = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
+                    last.Length = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
                     ++position.Line;
                     position.Offset = 0;
                     lastRange.EndExclusive = position;
@@ -57,7 +57,7 @@ public static partial class Parser
                 tokenList.Last.Kind = TokenKind.Comment;
                 if (context.TreatSlashPlusAsSingleLineComment && lastRange.StartAndEndLineAreSame)
                 {
-                    last.LengthInFirstLine = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
+                    last.Length = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
                     ++position.Line;
                     position.Offset = 0;
                     lastRange.EndExclusive = position;
@@ -172,7 +172,7 @@ public static partial class Parser
         switch (index)
         {
             case -1:
-                elementKey.Length = token.LengthInFirstLine;
+                elementKey.Length = token.Length;
                 element.ElementScenarioId = uint.MaxValue;
                 break;
             default:
@@ -192,7 +192,7 @@ public static partial class Parser
 
     private static bool IsValidIdentifier(ref this Token token, ref Context context, ref Result result, [CallerFilePath] string InternalCSharpFilePath = "", [CallerLineNumber] int InternalCSharpLineNumber = 0)
     {
-        var length = token.LengthInFirstLine;
+        var length = token.Length;
         ref var range = ref token.Range;
         if (!range.OneLine)
         {

@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Parser;
-using Element.Statement;
-using Element.Statement.Expression;
+using Statement;
+using Statement.Expression;
 
 public static partial class NodeValidator
 {

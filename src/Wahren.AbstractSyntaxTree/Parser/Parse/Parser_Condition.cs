@@ -1,8 +1,8 @@
 ﻿[assembly: InternalsVisibleTo("Wahren.Tests")]
 namespace Wahren.AbstractSyntaxTree.Parser;
 
-using Element.Statement;
-using Element.Statement.Expression;
+using Statement;
+using Statement.Expression;
 
 public static partial class Parser
 {
@@ -75,7 +75,7 @@ public static partial class Parser
 
         PREVIOUS_TOKEN_EXISTS:
             var currentIndex = tokenList.LastIndex;
-            var span = source[tokenList.Last.Range.StartInclusive.Line].AsSpan(tokenList.Last.Range.StartInclusive.Offset, tokenList.Last.LengthInFirstLine);
+            var span = source[tokenList.Last.Range.StartInclusive.Line].AsSpan(tokenList.Last.Range.StartInclusive.Offset, tokenList.Last.Length);
             switch (span.Length)
             {
                 case 1:
@@ -329,7 +329,7 @@ public static partial class Parser
                 }
 
                 ref var last = ref result.TokenList.Last;
-                if (last.LengthInFirstLine == 2)
+                if (last.Length == 2)
                 {
                     var stringSpan = source[last.Range.StartInclusive.Line].AsSpan(last.Range.StartInclusive.Offset, 2);
                     if (stringSpan[1] == '=')
@@ -775,7 +775,7 @@ public static partial class Parser
         ref var tokenList = ref result.TokenList;
         tokenList.Last.Kind = TokenKind.Content;
         ref var source = ref result.Source;
-        var span = source[tokenList.Last.Range.StartInclusive.Line].AsSpan(tokenList.Last.Range.StartInclusive.Offset, tokenList.Last.LengthInFirstLine);
+        var span = source[tokenList.Last.Range.StartInclusive.Line].AsSpan(tokenList.Last.Range.StartInclusive.Offset, tokenList.Last.Length);
         switch (span[0])
         {
             case '@':

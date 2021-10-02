@@ -3,7 +3,7 @@
 public struct Token
 {
     public Range Range;
-    public uint LengthInFirstLine;
+    public uint Length;
     public uint PrecedingWhitespaces;
     public TokenKind Kind;
     /// <summary>

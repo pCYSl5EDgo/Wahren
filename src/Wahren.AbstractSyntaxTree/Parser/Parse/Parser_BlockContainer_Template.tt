@@ -15,7 +15,8 @@ using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 
 namespace Wahren.AbstractSyntaxTree.Parser;
-using Element.Statement;
+
+using Statement;
 
 public static partial class Parser
 {

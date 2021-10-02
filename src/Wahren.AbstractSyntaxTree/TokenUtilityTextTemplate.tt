@@ -15,7 +15,7 @@ foreach (var type in types)
     {
         if (!token.Range.IsEmpty && token.Range.OneLine)
         {
-            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.LengthInFirstLine);
+            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.Length);
             return <#= type #>.TryParse(span, out result);
         }
 
@@ -87,7 +87,7 @@ for (int i = 2; i < maxLength + 1; i++)
     public static bool Equals(ref this Token token, ref DualList<char> source<#for (int j = 0; j < i; ++j) {#>, char other<#= j #><#}#>)
     {
         const int size = <#= i #>;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }
@@ -119,7 +119,7 @@ for (int i = 2; i < maxLength + 1; i++)
     public static bool EqualsSkip2(ref this Token token, ref DualList<char> source<#for (int j = 2; j < i; ++j) {#>, char other<#= j #><#}#>)
     {
         const int size = <#= i #>;
-        if (token.LengthInFirstLine != size)
+        if (token.Length != size)
         {
             return false;
         }

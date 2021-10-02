@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Element.Statement;
+﻿namespace Wahren.AbstractSyntaxTree.Statement;
 
 public sealed record class CallEndingRollActionStatement(uint TokenId, uint Text0, uint Text1, byte Font0, byte Font1, EndingRollDisplayMethod DisplyMethod, byte MargnFontType, byte MarginFontCount) : IStatement
 {

@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Element.Statement;
+﻿namespace Wahren.AbstractSyntaxTree.Statement;
 using Expression;
 
 public sealed record class IfStatement(uint TokenId, IReturnBooleanExpression Condition, bool IsRepeatIf) : IIfStatement

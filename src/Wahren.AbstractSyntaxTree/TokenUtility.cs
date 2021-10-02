@@ -4,7 +4,7 @@ public static partial class TokenUtility
 {
     public static bool Equals(ref this Token token, ref DualList<char> source, char other)
     {
-        if (!token.Range.OneLine || token.LengthInFirstLine != 1)
+        if (!token.Range.OneLine || token.Length != 1)
         {
             return false;
         }
@@ -21,7 +21,7 @@ public static partial class TokenUtility
 
     public static bool IsOperator(ref this Token token, ref DualList<char> source)
     {
-        var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.LengthInFirstLine);
+        var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.Length);
         switch (span.Length)
         {
             case 1:

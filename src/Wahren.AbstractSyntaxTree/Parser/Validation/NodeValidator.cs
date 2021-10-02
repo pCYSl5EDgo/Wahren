@@ -1,8 +1,8 @@
-﻿using Wahren.AbstractSyntaxTree.Element;
-using Wahren.AbstractSyntaxTree.Element.Statement;
-using Wahren.AbstractSyntaxTree.Element.Statement.Expression;
+﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
-namespace Wahren.AbstractSyntaxTree.Parser;
+using Element;
+using Statement;
+using Statement.Expression;
 
 public static partial class NodeValidator
 {

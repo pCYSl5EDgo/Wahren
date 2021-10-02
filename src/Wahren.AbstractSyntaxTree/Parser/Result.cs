@@ -206,11 +206,11 @@ public struct Result : IDisposable
         {
             if (lastBut1.Range.StartInclusive.Line == lastBut1.Range.EndExclusive.Line)
             {
-                lastBut1.LengthInFirstLine = lastBut1.Range.EndExclusive.Offset - lastBut1.Range.StartInclusive.Offset;
+                lastBut1.Length = lastBut1.Range.EndExclusive.Offset - lastBut1.Range.StartInclusive.Offset;
             }
             else
             {
-                lastBut1.LengthInFirstLine = (uint)Source[last.Range.StartInclusive.Line].Count - lastBut1.Range.StartInclusive.Offset;
+                lastBut1.Length = (uint)Source[last.Range.StartInclusive.Line].Count - lastBut1.Range.StartInclusive.Offset;
             }
         }
 
@@ -221,7 +221,7 @@ public struct Result : IDisposable
     {
         ref var token = ref TokenList[tokenIndex];
         ref var start = ref token.Range.StartInclusive;
-        return Source[start.Line].AsSpan(start.Offset, token.LengthInFirstLine);
+        return Source[start.Line].AsSpan(start.Offset, token.Length);
     }
 
     public override string ToString() => ToString("");

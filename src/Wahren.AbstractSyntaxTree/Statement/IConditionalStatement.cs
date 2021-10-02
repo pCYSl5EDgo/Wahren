@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Element.Statement;
+﻿namespace Wahren.AbstractSyntaxTree.Statement;
 using Expression;
 
 public interface IConditionalStatement : IBlockStatement

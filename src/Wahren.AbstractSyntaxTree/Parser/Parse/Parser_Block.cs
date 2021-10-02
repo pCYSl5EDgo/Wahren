@@ -1,6 +1,6 @@
-﻿using Wahren.AbstractSyntaxTree.Element.Statement;
+﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
-namespace Wahren.AbstractSyntaxTree.Parser;
+using Statement;
 
 public static partial class Parser
 {

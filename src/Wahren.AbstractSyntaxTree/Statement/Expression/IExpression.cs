@@ -1,4 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Element.Statement.Expression;
+﻿namespace Wahren.AbstractSyntaxTree.Statement.Expression;
 
 public interface IExpression : IDisposable
 {

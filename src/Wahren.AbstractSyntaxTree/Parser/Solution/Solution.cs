@@ -1,5 +1,5 @@
-﻿using Wahren.AbstractSyntaxTree.Element.Statement;
-using Wahren.AbstractSyntaxTree.Element.Statement.Expression;
+﻿using Wahren.AbstractSyntaxTree.Statement;
+using Wahren.AbstractSyntaxTree.Statement.Expression;
 
 namespace Wahren.AbstractSyntaxTree.Parser;
 
