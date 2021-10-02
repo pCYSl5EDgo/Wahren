@@ -16,7 +16,7 @@
 
 namespace Wahren.AbstractSyntaxTree.Parser;
 
-public static partial class NodeValidator
+public static partial class PerResultValidator
 {
 	public static void AddReferenceAndValidate(ref Context context, ref Result result)
 	{

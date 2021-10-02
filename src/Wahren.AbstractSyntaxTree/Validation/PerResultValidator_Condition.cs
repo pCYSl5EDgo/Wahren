@@ -2,7 +2,7 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 using Statement;
 using Statement.Expression;
 
-public static partial class NodeValidator
+public static partial class PerResultValidator
 {
     private static void AddReferenceAndValidate(ref Context context, ref Result result, IStatement statement)
     {

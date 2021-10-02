@@ -4,7 +4,7 @@ using Element;
 using Statement;
 using Statement.Expression;
 
-public static partial class NodeValidator
+public static partial class PerResultValidator
 {
     public static void AddReference(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
     {

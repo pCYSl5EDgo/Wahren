@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Parser;
 
-public static partial class NodeValidator
+public static partial class PerResultValidator
 {
     public static bool CollectNames(Span<Result> results, ref StringSpanKeyTrackableSet<AmbiguousNameReference> setUnitClassPowerSpotRace, ref StringSpanKeyTrackableSet<AmbiguousNameReference> setSkillSkillset)
     {

@@ -4,6 +4,7 @@ global using System.IO;
 global using System.Runtime.InteropServices;
 global using System.Threading;
 global using Wahren.AbstractSyntaxTree.Parser;
+global using Wahren.AbstractSyntaxTree.Project;
 global using Wahren.FileLoader;
 global using System.Diagnostics;
 global using System.Text;
@@ -57,7 +58,7 @@ public partial class Program
         var scriptFolderPath = Path.Combine(contentsFolder, "script");
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
         var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-        var solution = new Solution()
+        var solution = new Project()
         {
             RequiredSeverity = (DiagnosticSeverity)(uint)severity
         };
@@ -133,7 +134,7 @@ public partial class Program
         return 0;
     }
 
-    private bool CheckSync(Solution solution)
+    private bool CheckSync(Project solution)
     {
         var success = solution.CheckExistance();
         if (!success)
@@ -147,7 +148,7 @@ public partial class Program
         return success;
     }
 
-    private static bool CompileResultSync(Solution solution)
+    private static bool CompileResultSync(Project solution)
     {
         bool isSuccess = true;
         foreach (ref var file in solution.Files.AsSpan())
@@ -219,7 +220,7 @@ public partial class Program
 
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, severity);
         result.Success = Parser.Parse(ref context, ref result);
-        NodeValidator.AddReferenceAndValidate(ref context, ref result);
+        PerResultValidator.AddReferenceAndValidate(ref context, ref result);
         if (result.Success)
         {
             ref var errorList = ref result.ErrorList;

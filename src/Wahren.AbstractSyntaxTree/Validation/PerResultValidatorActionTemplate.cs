@@ -8,7 +8,7 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 using Statement;
 using Statement.Expression;
 
-public static partial class NodeValidator
+public static partial class PerResultValidator
 {
     public static void AddReferenceAndValidate(ref Context context, ref Result result, CallActionStatement call)
     {
@@ -265,7 +265,7 @@ public static partial class NodeValidator
                     break;
                 }
                 argument = ref arguments[1];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -1149,7 +1149,7 @@ public static partial class NodeValidator
                 }
 
                 argument = ref arguments[1];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -3721,7 +3721,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.reloadMenu:
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -3758,7 +3758,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.setGameClear:
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -4621,7 +4621,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.showParty:
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -4842,7 +4842,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.showPolitics:
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -5931,7 +5931,7 @@ public static partial class NodeValidator
                     break;
                 }
                 argument = ref arguments[2];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -6272,7 +6272,7 @@ public static partial class NodeValidator
                         argument.HasReference = true;
                     }
                 }
-                else if (argument.HasReference = NodeValidator.IsStatus(span, out argument.ReferenceId))
+                else if (argument.HasReference = PerResultValidator.IsStatus(span, out argument.ReferenceId))
                 {
                     argument.ReferenceKind = ReferenceKind.Status;
                 }
@@ -6438,7 +6438,7 @@ public static partial class NodeValidator
                         argument.HasReference = true;
                     }
                 }
-                else if (argument.HasReference = NodeValidator.IsStatus(span, out argument.ReferenceId))
+                else if (argument.HasReference = PerResultValidator.IsStatus(span, out argument.ReferenceId))
                 {
                     argument.ReferenceKind = ReferenceKind.Status;
                 }
@@ -6479,7 +6479,7 @@ public static partial class NodeValidator
                 }
 
                 argument = ref arguments[1];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsStatus(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsStatus(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Status;
                 }
@@ -6667,7 +6667,7 @@ public static partial class NodeValidator
                 }
 
                 argument = ref arguments[4];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -6678,7 +6678,7 @@ public static partial class NodeValidator
 
                 break;
             case ActionKind.storeRectUnit:
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.RedBlue;
                 }
@@ -6989,7 +6989,7 @@ public static partial class NodeValidator
                 }
 
                 argument = ref arguments[3];
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.Boolean;
                 }
@@ -8773,7 +8773,7 @@ public static partial class NodeValidator
 
                 break;
             case FunctionKind.countPost:
-                if (!argument.IsNumber && (argument.HasReference = NodeValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
                     argument.ReferenceKind = ReferenceKind.RedBlue;
                 }

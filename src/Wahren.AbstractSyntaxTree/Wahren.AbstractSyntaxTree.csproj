@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -71,20 +71,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
     </None>
-    <None Include="Parser\Solution\SolutionTemplate.cs">
+    <None Include="Project\SolutionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SolutionTemplate.tt</DependentUpon>
     </None>
-    <None Include="Parser\Validation\NodeValidatorActionTemplate.cs">
+    <None Include="Validation\PerResultValidatorActionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorActionTemplate.tt</DependentUpon>
+      <DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
     </None>
-    <None Include="Parser\Validation\NodeValidatorTemplate.cs">
+    <None Include="Validation\PerResultValidatorTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorTemplate.tt</DependentUpon>
+      <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
     </None>
     <None Include="TokenUtilityTextTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -149,17 +149,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Solution\SolutionTemplate.tt">
+    <None Update="Project\SolutionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SolutionTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Validation\NodeValidatorActionTemplate.tt">
+    <None Update="Validation\PerResultValidatorActionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NodeValidatorActionTemplate.cs</LastGenOutput>
+      <LastGenOutput>PerResultValidatorActionTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Validation\NodeValidatorTemplate.tt">
+    <None Update="Validation\PerResultValidatorTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NodeValidatorTemplate.cs</LastGenOutput>
+      <LastGenOutput>PerResultValidatorTemplate.cs</LastGenOutput>
     </None>
     <None Update="TokenUtilityTextTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -255,30 +255,25 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Solution\SolutionTemplate.cs">
+    <Compile Update="Project\SolutionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SolutionTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Validation\NodeValidator.cs">
+    <Compile Update="Validation\PerResultValidator.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidator.tt</DependentUpon>
+      <DependentUpon>PerResultValidator.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Validation\NodeValidatorActionTemplate.cs">
+    <Compile Update="Validation\PerResultValidatorActionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorActionTemplate.tt</DependentUpon>
+      <DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Validation\NodeValidatorArgumentTemplate.cs">
+    <Compile Update="Validation\PerResultValidatorTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorArgumentTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Validation\NodeValidatorTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NodeValidatorTemplate.tt</DependentUpon>
+      <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="TokenUtilityTextTemplate.cs">
       <DesignTime>True</DesignTime>

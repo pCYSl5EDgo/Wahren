@@ -487,7 +487,7 @@ public static class ReferenceKindHelper
             case ReferenceKind.Boolean:
             case ReferenceKind.Status:
             case ReferenceKind.RedBlue:
-                F().Append("if (!argument.IsNumber && (argument.HasReference = NodeValidator.Is").Append(reference).AppendLine("(result.GetSpan(argument.TokenId), out argument.ReferenceId)))");
+                F().Append("if (!argument.IsNumber && (argument.HasReference = PerResultValidator.Is").Append(reference).AppendLine("(result.GetSpan(argument.TokenId), out argument.ReferenceId)))");
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
                 I().Append("}").AppendLine();
@@ -631,7 +631,7 @@ public static class ReferenceKindHelper
                 I().Append("        argument.HasReference = true;").AppendLine();
                 I().Append("    }").AppendLine();
                 I().Append("}").AppendLine();
-                I().Append("else if (argument.HasReference = NodeValidator.Is").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine("(span, out argument.ReferenceId))");
+                I().Append("else if (argument.HasReference = PerResultValidator.Is").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine("(span, out argument.ReferenceId))");
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine(";");
                 I().Append("}").AppendLine();

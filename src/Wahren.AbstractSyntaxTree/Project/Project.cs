@@ -1,9 +1,11 @@
 ﻿using Wahren.AbstractSyntaxTree.Statement;
 using Wahren.AbstractSyntaxTree.Statement.Expression;
 
-namespace Wahren.AbstractSyntaxTree.Parser;
+namespace Wahren.AbstractSyntaxTree.Project;
 
-public sealed partial class Solution : IDisposable
+using Parser;
+
+public sealed partial class Project : IDisposable
 {
     public DiagnosticSeverity RequiredSeverity;
     public DisposableList<Result> Files = new();
@@ -119,15 +121,15 @@ public sealed partial class Solution : IDisposable
         StringSpanKeyTrackableSet<AmbiguousNameReference> ambiguousDictionary_UnitClassPowerSpotRace = new(), ambiguousDictionary_SkillSkillset = new();
         try
         {
-            if (NodeValidator.CollectNames(fileSpan, ref ambiguousDictionary_UnitClassPowerSpotRace, ref ambiguousDictionary_SkillSkillset))
+            if (PerResultValidator.CollectNames(fileSpan, ref ambiguousDictionary_UnitClassPowerSpotRace, ref ambiguousDictionary_SkillSkillset))
             {
                 AmbiguousDictionary_UnitClassPowerSpotRace = ambiguousDictionary_UnitClassPowerSpotRace.ToSingle();
                 AmbiguousDictionary_SkillSkillset = ambiguousDictionary_SkillSkillset.ToSingle();
             }
             else
             {
-                NodeValidator.CollectError(fileSpan, ref SolutionErrorList, ref ambiguousDictionary_UnitClassPowerSpotRace);
-                NodeValidator.CollectError(fileSpan, ref SolutionErrorList, ref ambiguousDictionary_SkillSkillset);
+                PerResultValidator.CollectError(fileSpan, ref SolutionErrorList, ref ambiguousDictionary_UnitClassPowerSpotRace);
+                PerResultValidator.CollectError(fileSpan, ref SolutionErrorList, ref ambiguousDictionary_SkillSkillset);
                 return;
             }
         }
