@@ -51,6 +51,7 @@ public enum TokenKind
     CompareLessThanOrEqualTo,
     CompareLessThan,
     Content,
+    ContentTrailing,
     LOYAL,
     DEFAULT,
     CONSTI,

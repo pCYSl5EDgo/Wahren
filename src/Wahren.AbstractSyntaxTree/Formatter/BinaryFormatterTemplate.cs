@@ -6892,6 +6892,14 @@ public class BinaryFormatter : IFormatter<byte>
 
                     Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
+                case TokenKind.ContentTrailing:
+                    for (uint i = 1; i < token.PrecedingNewLineCount; ++i)
+                    {
+                        Append_NewLine(ref destination, ref JustChangeLine);
+                    }
+
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    continue;
                 case TokenKind.Mul:
                     Append_Space_Mul_Space(ref destination, ref JustChangeLine);
                     continue;
@@ -6967,6 +6975,14 @@ public class BinaryFormatter : IFormatter<byte>
                     {
                         Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
+                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    continue;
+                case TokenKind.ContentTrailing:
+                    for (uint i = 1; i < token.PrecedingNewLineCount; ++i)
+                    {
+                        Append_NewLine(ref destination, ref JustChangeLine);
+                    }
+
                     Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
                     continue;
                 case TokenKind.Comma:

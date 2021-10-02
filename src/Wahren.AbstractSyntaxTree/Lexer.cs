@@ -23,6 +23,7 @@ public static class Lexer
             }
 
         INCREMENT_LINE:
+            token.PrecedingNewLineCount++;
             position.Offset = 0;
             if (++position.Line >= source.Count)
             {
@@ -151,76 +152,12 @@ public static class Lexer
         } while (true);
 
     RETURN_VALIDATION:
-        if (position.Offset >= line.Count)
-        {
-            token.Length = (uint)line.Count - range.StartInclusive.Offset;
-            position.Line++;
-            position.Offset = 0;
-        }
-        else
-        {
-            token.Length = position.Offset - range.StartInclusive.Offset;
-        }
-
+        token.Length = position.Offset - range.StartInclusive.Offset;
         range.EndExclusive = position;
-        return true;
-    }
-
-    public static bool ReadTokenSemicolon(ref DualList<char> source, ref Position position, ref Token token)
-    {
-        if (position.Line >= source.Count)
+        if (range.EndExclusive.Offset >= line.Count)
         {
-            return false;
-        }
-
-        ref var line = ref source[position.Line];
-        ref var range = ref token.Range;
-
-        Span<char> currentLineRestSpan;
-        do
-        {
-            currentLineRestSpan = line.AsSpan(position.Offset);
-            token.PrecedingWhitespaceCount = CountLeadingWhitespace(currentLineRestSpan);
-            if (token.PrecedingWhitespaceCount != currentLineRestSpan.Length)
-            {
-                break;
-            }
-
-            position.Offset = 0;
-            if (++position.Line >= source.Count)
-            {
-                return false;
-            }
-
-            line = ref source[position.Line];
-        } while (true);
-
-        position.Offset += token.PrecedingWhitespaceCount;
-        range.StartInclusive = position;
-        currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaceCount);
-        var symbolIndex = currentLineRestSpan.IndexOf(';');
-        while (symbolIndex == -1)
-        {
-            position.Offset = 0;
-            if (++position.Line >= source.Count)
-            {
-                return false;
-            }
-
-            symbolIndex = source[position.Line].AsSpan().IndexOf(';');
-        }
-
-        position.Offset += (uint)symbolIndex;
-        ReadBackUntilNotWhitespaceAppears(ref source, ref position, ref range.StartInclusive);
-
-        range.EndExclusive = position;
-        if (range.EndExclusive.Line == range.StartInclusive.Line)
-        {
-            token.Length = range.EndExclusive.Offset - range.StartInclusive.Offset;
-        }
-        else
-        {
-            token.Length = (uint)line.Count - range.StartInclusive.Offset;
+            range.EndExclusive.Line++;
+            range.EndExclusive.Offset = 0;
         }
 
         return true;
@@ -269,28 +206,6 @@ public static class Lexer
                     return;
             }
         } while (true);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="source"></param>
-    /// <param name="position"></param>
-    /// <param name="token"></param>
-    /// <returns>If already at the end of the source, return false else return true.</returns>
-    public static bool ReadTokenToEndOfLine(ref DualList<char> source, ref Position position, ref Token token)
-    {
-        if (position.Line >= source.Count)
-        {
-            return false;
-        }
-
-        token.Range.StartInclusive = position;
-        token.Length = (uint)source[position.Line].Count - position.Offset;
-        position.Offset = 0;
-        position.Line++;
-        token.Range.EndExclusive = position;
-        return true;
     }
 
     public static unsafe uint CountLeadingWhitespace(ReadOnlySpan<char> span)

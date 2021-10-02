@@ -146,20 +146,27 @@ public static partial class Parser
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         tokenList[elementTokenId].Kind = TokenKind.TEXT;
-        tokenList.Add(new());
-        if (!Lexer.ReadTokenSemicolon(ref source, ref context.Position, ref tokenList.Last))
+        if (!ReadToken(ref context, ref result))
         {
-            tokenList.RemoveLast();
-            result.ErrorAdd_UnexpectedEndOfFile(elementTokenId, "';' is expected.");
+            result.ErrorAdd_UnexpectedEndOfFile(elementTokenId);
             return false;
         }
 
-        tokenList.Last.Kind = TokenKind.Content;
-        if (!ReadUsefulToken(ref context, ref result) || !tokenList.Last.IsSemicolon(ref source))
+        if (tokenList.Last.IsSemicolon(ref source))
         {
-            throw new InvalidOperationException();
+            return true;
         }
 
+        tokenList.Last.Kind = TokenKind.Content;
+        do
+        {
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(elementTokenId);
+                return false;
+            }
+            tokenList.Last.Kind = TokenKind.ContentTrailing;
+        } while (!tokenList.Last.IsSemicolon(ref source));
         return true;
     }
 
@@ -282,7 +289,7 @@ public static partial class Parser
                 {
                     return true;
                 }
-                
+
                 tokenList.Last.Kind = TokenKind.Content;
             }
             else

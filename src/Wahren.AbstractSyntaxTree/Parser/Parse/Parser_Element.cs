@@ -590,23 +590,39 @@ public static partial class Parser
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         tokenList[element.ElementTokenId].Kind = TokenKind.TEXT;
-        tokenList.Add(new());
-        if (!Lexer.ReadTokenSemicolon(ref source, ref context.Position, ref tokenList.Last))
+
+        if (!ReadToken(ref context, ref result))
         {
-            tokenList.RemoveLast();
-            result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId, "';' is expected.");
+            result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
             return false;
         }
 
-        tokenList.Last.Kind = TokenKind.Content;
-        element.HasValue = true;
-        element.Value = new() { Text = tokenList.LastIndex, HasText = true };
-
-        if (!ReadUsefulToken(ref context, ref result) || !tokenList.Last.IsSemicolon(ref source))
+        if (tokenList.Last.IsSemicolon(ref source))
         {
-            throw new InvalidOperationException();
+            element.HasValue = false;
+            return true;
         }
 
-        return true;
+        element.HasValue = true;
+        element.Value = new(tokenList.LastIndex);
+        tokenList.Last.Kind = TokenKind.Content;
+
+        do
+        {
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
+                return false;
+            }
+
+            if (tokenList.Last.IsSemicolon(ref source))
+            {
+                return true;
+            }
+
+            tokenList.Last.Kind = TokenKind.ContentTrailing;
+            element.Value.HasNumber = false;
+            element.Value.TrailingTokenCount++;
+        } while (true);
     }
 }
