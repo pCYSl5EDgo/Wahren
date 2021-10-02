@@ -81,6 +81,7 @@ public static class FormatterHelper
     {
         var pairs = new List<NameContentPair>
         {
+            new("Space", " "),
             new("Space_Assign", " ="),
             new("Semicolon", ";"),
             new("ParenLeft", "("),
@@ -123,8 +124,8 @@ public static class FormatterHelper
 
         var pairs_NewLine = new List<NameContentPair>
         {
-            new("BracketLeft", "{"),
             new("BracketRight", "}"),
+            new("BracketLeft", "{"),
             new("else", "else"),
             new("battle", "battle")
         };

@@ -604,6 +604,7 @@ public static partial class Parser
             }
 
             tokenList.Last.Kind = TokenKind.Content;
+            argument = new();
             argument.TokenId = tokenList.LastIndex;
             argument.IsNumber = last.TryParse(ref source, out argument.Number);
             callFunctionExpression.Arguments.Add(ref argument);
@@ -622,7 +623,9 @@ public static partial class Parser
                 break;
             }
 
-            result.UnionLast2Tokens();
+            tokenList.Last.Kind = TokenKind.ContentTrailing;
+            argument.IsNumber = false;
+            argument.TrailingTokenCount++;
             result.ErrorList.Add(new("Function argument must be number, identifier, string variable, 1-word-length text.", tokenList.Last.Range));
             return false;
         } while (true);

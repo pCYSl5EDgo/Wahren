@@ -419,6 +419,7 @@ public static partial class Parser
             argument.TokenId = tokenList.LastIndex;
             argument.IsNumber = tokenList.Last.TryParse(ref source, out argument.Number);
             arguments.Add(ref argument);
+            ref var lastArgument = ref arguments.Last;
             do
             {
                 if (!ReadToken(ref context, ref result))
@@ -438,8 +439,9 @@ public static partial class Parser
                     return true;
                 }
 
-                arguments.Last.IsNumber = false;
-                result.UnionLast2Tokens();
+                lastArgument.IsNumber = false;
+                lastArgument.TrailingTokenCount++;
+                tokenList.Last.Kind = TokenKind.ContentTrailing;
             } while (true);
         }
 
@@ -472,10 +474,12 @@ public static partial class Parser
                 return true;
             }
 
-            result.UnionLast2Tokens();
+            arguments.Last.IsNumber = false;
+            arguments.Last.TrailingTokenCount++;
+            tokenList.Last.Kind = TokenKind.ContentTrailing;
         } while (true);
     }
-    
+
     /// <summary>
     /// Already read '('.
     /// </summary>
@@ -553,7 +557,8 @@ public static partial class Parser
             }
 
             arguments.Last.IsNumber = false;
-            result.UnionLast2Tokens();
+            arguments.Last.TrailingTokenCount++;
+            tokenList.Last.Kind = TokenKind.ContentTrailing;
 
             do
             {
@@ -572,7 +577,8 @@ public static partial class Parser
                     goto TRUE;
                 }
 
-                result.UnionLast2Tokens();
+                arguments.Last.TrailingTokenCount++;
+                tokenList.Last.Kind = TokenKind.ContentTrailing;
             } while (true);
         } while (true);
 

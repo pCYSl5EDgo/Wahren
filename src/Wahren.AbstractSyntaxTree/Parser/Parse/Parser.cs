@@ -43,32 +43,42 @@ public static partial class Parser
             ref var lastRange = ref last.Range;
             if (last.IsSingleLineComment(ref source))
             {
-                tokenList.Last.Kind = TokenKind.Comment;
                 if (last.Range.StartAndEndLineAreSame)
                 {
                     last.Length = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
-                    ++position.Line;
-                    position.Offset = 0;
+                    position.Offset = (uint)source[lastRange.StartInclusive.Line].Count;
                     lastRange.EndExclusive = position;
                 }
             }
             else if (last.IsSingleLineCommentSlashPlus(ref source))
             {
-                tokenList.Last.Kind = TokenKind.Comment;
                 if (context.TreatSlashPlusAsSingleLineComment && lastRange.StartAndEndLineAreSame)
                 {
                     last.Length = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
-                    ++position.Line;
-                    position.Offset = 0;
+                    position.Offset = (uint)source[lastRange.StartInclusive.Line].Count;
                     lastRange.EndExclusive = position;
                 }
             }
             else if (last.IsMultiLineCommentStart(ref source))
             {
-                tokenList.Last.Kind = TokenKind.Comment;
-                if (!ParseMultiLineComment(ref position, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
+                var mulslashIndex = source[last.Range.EndExclusive.Line].AsSpan(last.Range.EndExclusive.Offset).IndexOf("*/");
+                if (mulslashIndex == -1)
                 {
-                    return false;
+                    last.Length = (uint)source[lastRange.StartInclusive.Line].Count - lastRange.StartInclusive.Offset;
+                    position.Offset = (uint)source[lastRange.StartInclusive.Line].Count;
+                    lastRange.EndExclusive = position;
+                    position.Line++;
+                    position.Offset = 0;
+                    if (!ParseMultiLineComment(ref position, ref result, InternalCSharpFilePath, InternalCSharpLineNumber))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    last.Length += (uint)mulslashIndex + 2U;
+                    position.Offset = (uint)mulslashIndex + 2U;
+                    lastRange.EndExclusive = position;
                 }
             }
             else
@@ -84,23 +94,27 @@ public static partial class Parser
         ref var tokenList = ref result.TokenList;
         while (position.Line < source.Count)
         {
+            tokenList.Add(new());
+            ref var last = ref tokenList.Last;
+            last.Kind = TokenKind.Comment;
+            last.PrecedingNewLineCount = 1;
+            last.Range.StartInclusive = position;
+            last.Range.EndExclusive = position;
             ref var line = ref source[position.Line];
             var span = line.AsSpan(position.Offset);
             var index = span.IndexOf("*/");
             if (index == -1)
             {
+                last.Length = (uint)span.Length;
+                last.Range.EndExclusive.Offset += (uint)span.Length;
                 position.Offset = 0;
                 position.Line++;
                 continue;
             }
 
             position.Offset += (uint)index + 2U;
-            if (position.Offset >= line.Count)
-            {
-                position.Offset = 0;
-                position.Line++;
-            }
-            tokenList.Last.Range.EndExclusive = position;
+            last.Length = (uint)index + 2U;
+            last.Range.EndExclusive = position;
             return true;
         }
 

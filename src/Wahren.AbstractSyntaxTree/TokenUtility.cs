@@ -164,11 +164,38 @@ public static partial class TokenUtility
         return false;
     }
 
-    public static bool IsSingleLineComment(ref this Token token, ref DualList<char> source) => Equals(ref token, ref source, '/', '/');
+    public static bool IsSingleLineComment(ref this Token token, ref DualList<char> source)
+    {
+        if (Equals(ref token, ref source, '/', '/'))
+        {
+            token.Kind = TokenKind.Comment;
+            return true;
+        }
 
-    public static bool IsSingleLineCommentSlashPlus(ref this Token token, ref DualList<char> source) => Equals(ref token, ref source, '/', '+');
+        return false;
+    }
 
-    public static bool IsMultiLineCommentStart(ref this Token token, ref DualList<char> source) => Equals(ref token, ref source, '/', '*');
+    public static bool IsSingleLineCommentSlashPlus(ref this Token token, ref DualList<char> source)
+    {
+        if (Equals(ref token, ref source, '/', '+'))
+        {
+            token.Kind = TokenKind.Comment;
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool IsMultiLineCommentStart(ref this Token token, ref DualList<char> source)
+    {
+        if (Equals(ref token, ref source, '/', '*'))
+        {
+            token.Kind = TokenKind.Comment;
+            return true;
+        }
+
+        return false;
+    }
 
     public static bool IsBracketLeft(ref this Token token, ref DualList<char> source)
     {

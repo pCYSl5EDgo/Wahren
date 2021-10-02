@@ -51,10 +51,10 @@ public class BinaryFormatter : IFormatter<byte>
     private const int Indent_Offset = 0;
     private readonly int Indent_Count;
 
-    private readonly int BracketLeft_NewLine_Offset;
-    private readonly int BracketLeft_NewLine_Count;
     private readonly int BracketRight_NewLine_Offset;
     private readonly int BracketRight_NewLine_Count;
+    private readonly int BracketLeft_NewLine_Offset;
+    private readonly int BracketLeft_NewLine_Count;
     private readonly int else_NewLine_Offset;
     private readonly int else_NewLine_Count;
     private readonly int battle_NewLine_Offset;
@@ -67,6 +67,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int continue_ParenLeft_ParenRight_NewLine_Count;
     private readonly int break_ParenLeft_ParenRight_NewLine_Offset;
     private readonly int break_ParenLeft_ParenRight_NewLine_Count;
+    private readonly int Space_Offset;
+    private readonly int Space_Count;
     private readonly int Space_Assign_Offset;
     private readonly int Space_Assign_Count;
     private readonly int Semicolon_Offset;
@@ -928,7 +930,7 @@ public class BinaryFormatter : IFormatter<byte>
         Indent_Count = Converter(spanIndentSource, spanIndent);
         spanIndent = spanIndent.Slice(0, Indent_Count);
 
-        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4080) + NewLine_Count * 15 + Indent_Count, true);
+        registeredBytes = GC.AllocateUninitializedArray<byte>(Assumption(4081) + NewLine_Count * 15 + Indent_Count, true);
 
         spanIndent.CopyTo(registeredBytes.AsSpan(0, Indent_Count));
         int accum = Indent_Count;
@@ -943,17 +945,17 @@ public class BinaryFormatter : IFormatter<byte>
         NewLine_BracketLeft_NewLine_Count = accum - NewLine_BracketLeft_NewLine_Offset;
 
 
-        BracketLeft_NewLine_Offset = accum;
-        accum += Converter("{", registeredBytes.AsSpan(accum));
-        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
-        accum += NewLine_Count;
-        BracketLeft_NewLine_Count = accum - BracketLeft_NewLine_Offset;
-
         BracketRight_NewLine_Offset = accum;
         accum += Converter("}", registeredBytes.AsSpan(accum));
         spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
         accum += NewLine_Count;
         BracketRight_NewLine_Count = accum - BracketRight_NewLine_Offset;
+
+        BracketLeft_NewLine_Offset = accum;
+        accum += Converter("{", registeredBytes.AsSpan(accum));
+        spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
+        accum += NewLine_Count;
+        BracketLeft_NewLine_Count = accum - BracketLeft_NewLine_Offset;
 
         else_NewLine_Offset = accum;
         accum += Converter("else", registeredBytes.AsSpan(accum));
@@ -990,6 +992,10 @@ public class BinaryFormatter : IFormatter<byte>
         spanNewLine.CopyTo(registeredBytes.AsSpan(accum, NewLine_Count));
         accum += NewLine_Count;
         break_ParenLeft_ParenRight_NewLine_Count = accum - break_ParenLeft_ParenRight_NewLine_Offset;
+
+        Space_Offset = accum;
+        Space_Count = Converter(" ", registeredBytes.AsSpan(accum));
+        accum += Space_Count;
 
         Space_Assign_Offset = accum;
         Space_Assign_Count = Converter(" =", registeredBytes.AsSpan(accum));
@@ -2734,40 +2740,8 @@ public class BinaryFormatter : IFormatter<byte>
 
     private void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
+        JustChangeLine = false;
         destination.AddRangeConversion(Converter, Assumption, singleLineSource);
-    }
-
-    private void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ref DualList<char> source, ref Range range)
-    {
-        ref var line = ref source[range.StartInclusive.Line];
-        var slice = line.AsSpan(range.StartInclusive.Offset);
-        if (range.StartInclusive.Line == range.EndExclusive.Line)
-        {
-            slice = slice.Slice(0, (int)(range.EndExclusive.Offset - range.StartInclusive.Offset));
-            Append_Copy(ref destination, ref JustChangeLine, slice);
-            return;
-        }
-
-        var lineIndex = range.StartInclusive.Line;
-        do
-        {
-            Append_Copy(ref destination, ref JustChangeLine, slice);
-            Append_NewLine(ref destination, ref JustChangeLine);
-            if (++lineIndex != range.EndExclusive.Line)
-            {
-                slice = source[lineIndex].AsSpan();
-                continue;
-            }
-
-            if (range.EndExclusive.Offset == 0)
-            {
-                return;
-            }
-
-            slice = source[lineIndex].AsSpan(0, range.EndExclusive.Offset);
-            Append_Copy(ref destination, ref JustChangeLine, slice);
-            return;
-        } while (true);
     }
 
     private void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
@@ -2777,16 +2751,16 @@ public class BinaryFormatter : IFormatter<byte>
     }
 
 
-    private void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = true;
-        destination.AddRange(registeredBytes.AsSpan(BracketLeft_NewLine_Offset, BracketLeft_NewLine_Count));
-    }
-
     private void Append_BracketRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketRight_NewLine_Offset, BracketRight_NewLine_Count));
+    }
+
+    private void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = true;
+        destination.AddRange(registeredBytes.AsSpan(BracketLeft_NewLine_Offset, BracketLeft_NewLine_Count));
     }
 
     private void Append_else_NewLine(ref List<byte> destination, ref bool JustChangeLine)
@@ -2823,6 +2797,12 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(break_ParenLeft_ParenRight_NewLine_Offset, break_ParenLeft_ParenRight_NewLine_Count));
+    }
+
+    private void Append_Space(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(Space_Offset, Space_Count));
     }
 
     private void Append_Space_Assign(ref List<byte> destination, ref bool JustChangeLine)
@@ -5362,15 +5342,15 @@ public class BinaryFormatter : IFormatter<byte>
             switch (token.Kind)
             {
                 case TokenKind.Comment:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind == TokenKind.BracketRight)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
                 case TokenKind.spot:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5378,7 +5358,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_spot_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.unit:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5386,7 +5366,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_unit_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.race:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5394,7 +5374,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_race_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.@class:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5402,7 +5382,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_class_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.field:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5410,7 +5390,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_field_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.skill:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5418,7 +5398,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_skill_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.power:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5426,7 +5406,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_power_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.voice:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5434,7 +5414,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_voice_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.@object:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5442,7 +5422,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_object_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.dungeon:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5450,7 +5430,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_dungeon_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.movetype:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5458,7 +5438,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_movetype_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.skillset:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5466,7 +5446,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_skillset_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.story:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5474,7 +5454,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_story_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.fight:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5482,7 +5462,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_fight_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.world:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5490,7 +5470,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_world_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.@event:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5498,7 +5478,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_event_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.scenario:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5506,7 +5486,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_scenario_Space(ref destination, ref JustChangeLine);
                     break;
                 case TokenKind.context:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5514,7 +5494,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_context_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.workspace:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5522,7 +5502,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_workspace_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.attribute:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5530,7 +5510,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_attribute_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.sound:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5538,7 +5518,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_sound_NewLine_BracketLeft(ref destination, ref JustChangeLine);
                     goto CONTENTS;
                 case TokenKind.detail:
-                    if (tokenIndex > 0 && TokenList[tokenIndex - 1].Kind != TokenKind.Comment)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
@@ -5577,7 +5557,7 @@ public class BinaryFormatter : IFormatter<byte>
                 return false;
             }
             
-            if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces: 1))
+            if (TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces: 1))
             {
                 continue;
             }
@@ -5588,16 +5568,17 @@ public class BinaryFormatter : IFormatter<byte>
         return true;
 	}
 
-    bool TryFormat_Block(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    bool TryFormat_Block(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
+        ref var tokenList = ref result.TokenList;
         do
         {
-            if (++tokenIndex >= TokenList.Count)
+            if (++tokenIndex >= tokenList.Count)
             {
                 return false;
             }
 
-            ref var token = ref TokenList[tokenIndex];
+            ref var token = ref tokenList[tokenIndex];
             switch (token.Kind)
             {
                 case TokenKind.BracketRight:
@@ -5605,10 +5586,14 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_BracketRight_NewLine(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Comment:
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
+                    {
+                        Append_NewLine(ref destination, ref JustChangeLine);
+                    }
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
                 case TokenKind.DEFAULT:
-                    if (TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref token, ref tokenIndex, spaces))
+                    if (TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -5621,7 +5606,7 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.OFFSET:
                 case TokenKind.ROAM:
                 case TokenKind.TEXT:
-                    if (TryFormatElementAssignment_Not_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref token, ref tokenIndex, spaces))
+                    if (TryFormatElementAssignment_Not_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -5630,7 +5615,7 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.rif:
                     Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                     Append_rif_Space_ParenLeft(ref destination, ref JustChangeLine);
-                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+                    if (TryFormat_If(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -5639,7 +5624,7 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.@if:
                     Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                     Append_if_Space_ParenLeft(ref destination, ref JustChangeLine);
-                    if (TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+                    if (TryFormat_If(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -5648,12 +5633,12 @@ public class BinaryFormatter : IFormatter<byte>
                 case TokenKind.@while:
                     Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                     Append_while_Space_ParenLeft(ref destination, ref JustChangeLine);
-                    if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+                    if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         return false;
                     }
 
-                    if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
+                    if (!TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
                     {
                         return false;
                     }
@@ -5663,7 +5648,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_battle_NewLine(ref destination, ref JustChangeLine);
                     Append_Indent(ref destination, ref JustChangeLine, spaces);
                     Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
-                    if (TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
+                    if (TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
                     {
                         continue;
                     }
@@ -6852,11 +6837,11 @@ public class BinaryFormatter : IFormatter<byte>
                             Append_storeBaseClassOfUnit_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         default:
-                            Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                            Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                             break;
                     }
 
-                    if (TryFormatCallActionArguments(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+                    if (TryFormatCallActionArguments(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
                     {
                         continue;
                     }
@@ -6866,21 +6851,22 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_Not_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
-        if (!TryFormatElementAssignment_DEFAULT(ref TokenList, ref source, ref destination, ref JustChangeLine, ref element, ref tokenIndex, spaces))
+        if (!TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
             return false;
         }
 
+        ref var tokenList = ref result.TokenList;
         do
         {
-            if (++tokenIndex >= TokenList.Count)
+            if (++tokenIndex >= tokenList.Count)
             {
                 return false;
             }
 
-            ref var token = ref TokenList[tokenIndex];
+            ref var token = ref tokenList[tokenIndex];
             switch (token.Kind)
             {
                 case TokenKind.Content:
@@ -6890,15 +6876,19 @@ public class BinaryFormatter : IFormatter<byte>
                         Append_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
 
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
                 case TokenKind.ContentTrailing:
-                    for (uint i = 1; i < token.PrecedingNewLineCount; ++i)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    for (uint i = 0; i < token.PrecedingWhitespaceCount; ++i)
+                    {
+                        Append_Space(ref destination, ref JustChangeLine);
+                    }
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
                 case TokenKind.Mul:
                     Append_Space_Mul_Space(ref destination, ref JustChangeLine);
@@ -6912,7 +6902,7 @@ public class BinaryFormatter : IFormatter<byte>
                     Append_Semicolon(ref destination, ref JustChangeLine);
                     return true;
                 case TokenKind.Comma:
-                    if (tokenIndex + 1 < TokenList.Count && TokenList[tokenIndex + 1].IsFirstTokenInTheLine)
+                    if (tokenIndex + 1 < tokenList.Count && tokenList[tokenIndex + 1].IsFirstTokenInTheLine)
                     {
                         Append_Comma(ref destination, ref JustChangeLine);
                     }
@@ -6929,21 +6919,23 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    bool TryFormatElementAssignment_DEFAULT(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref Token element, ref uint tokenIndex, int spaces)
+    bool TryFormatElementAssignment_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
-        if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Assign)
+        var elementTokenIndex = tokenIndex;
+        if (++tokenIndex + 1 >= result.TokenList.Count || result.TokenList[tokenIndex].Kind != TokenKind.Assign)
         {
             return false;
         }
 
-        ref var content = ref TokenList[++tokenIndex];
+        var contentTokenIndex = ++tokenIndex;
+        ref var content = ref result.TokenList[contentTokenIndex];
         if (content.Kind != TokenKind.Content)
         {
             return false;
         }
 
         Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-        Append_Copy(ref destination, ref JustChangeLine, ref source, ref element.Range);
+        Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(elementTokenIndex));
         if (content.IsFirstTokenInTheLine)
         {
             Append_Space_Assign(ref destination, ref JustChangeLine);
@@ -6953,21 +6945,21 @@ public class BinaryFormatter : IFormatter<byte>
         {
             Append_Space_Assign_Space(ref destination, ref JustChangeLine);
         }
-
-        Append_Copy(ref destination, ref JustChangeLine, ref source, ref content.Range);
+        Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(contentTokenIndex));
         return true;
     }
 
-    bool TryFormatCallActionArguments(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    bool TryFormatCallActionArguments(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
+        ref var tokenList = ref result.TokenList;
         do
         {
-            if (++tokenIndex >= TokenList.Count)
+            if (++tokenIndex >= tokenList.Count)
             {
                 return false;
             }
 
-            ref var token = ref TokenList[tokenIndex];
+            ref var token = ref tokenList[tokenIndex];
             switch (token.Kind)
             {
                 case TokenKind.Content:
@@ -6975,18 +6967,22 @@ public class BinaryFormatter : IFormatter<byte>
                     {
                         Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces + 1);
                     }
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
                 case TokenKind.ContentTrailing:
-                    for (uint i = 1; i < token.PrecedingNewLineCount; ++i)
+                    for (uint i = JustChangeLine ? 1U : 0U; i < token.PrecedingNewLineCount; ++i)
                     {
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    for (uint i = 0; i < token.PrecedingWhitespaceCount; ++i)
+                    {
+                        Append_Space(ref destination, ref JustChangeLine);
+                    }
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
                 case TokenKind.Comma:
-                    if (tokenIndex + 1 < TokenList.Count && TokenList[tokenIndex + 1].IsFirstTokenInTheLine)
+                    if (tokenIndex + 1 < tokenList.Count && tokenList[tokenIndex + 1].IsFirstTokenInTheLine)
                     {
                         Append_Comma(ref destination, ref JustChangeLine);
                     }
@@ -7006,53 +7002,54 @@ public class BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    bool TryFormat_If(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    bool TryFormat_If(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
-        if (!TryFormat_Condition(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
+        if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
             return false;
         }
 
-        if (!TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
+        if (!TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1))
         {
             return false;
         }
 
-        if (++tokenIndex + 1 >= TokenList.Count || TokenList[tokenIndex].Kind != TokenKind.Else)
+        if (++tokenIndex + 1 >= result.TokenList.Count || result.TokenList[tokenIndex].Kind != TokenKind.Else)
         {
             --tokenIndex;
             return true;
         }
 
         Append_Indent(ref destination, ref JustChangeLine, spaces);
-        switch (TokenList[++tokenIndex].Kind)
+        switch (result.TokenList[++tokenIndex].Kind)
         {
             case TokenKind.@if:
                 Append_else_Space_if_ParenLeft(ref destination, ref JustChangeLine);
-                return TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces);
+                return TryFormat_If(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces);
             case TokenKind.rif:
                 Append_else_Space_rif_ParenLeft(ref destination, ref JustChangeLine);
-                return TryFormat_If(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces);
+                return TryFormat_If(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces);
             case TokenKind.BracketLeft:
                 Append_else_NewLine(ref destination, ref JustChangeLine);
                 Append_Indent(ref destination, ref JustChangeLine, spaces);
                 Append_BracketLeft_NewLine(ref destination, ref JustChangeLine);
-                return TryFormat_Block(ref TokenList, ref source, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1);
+                return TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces + 1);
             default:
                 return false;
         }
     }
 
-    bool TryFormat_Condition(ref List<Token> TokenList, ref DualList<char> source, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    bool TryFormat_Condition(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
+        ref var tokenList = ref result.TokenList;
         do
         {
-            if (++tokenIndex >= TokenList.Count)
+            if (++tokenIndex >= tokenList.Count)
             {
                 return false;
             }
 
-            ref var token = ref TokenList[tokenIndex];
+            ref var token = ref tokenList[tokenIndex];
             switch (token.Kind)
             {
                 case TokenKind.BracketLeft:
@@ -7357,7 +7354,7 @@ public class BinaryFormatter : IFormatter<byte>
 
                     goto default;
                 default:
-                    Append_Copy(ref destination, ref JustChangeLine, ref source, ref token.Range);
+                    Append_Copy(ref destination, ref JustChangeLine, result.GetSpan(tokenIndex));
                     continue;
             }
         } while (true);
