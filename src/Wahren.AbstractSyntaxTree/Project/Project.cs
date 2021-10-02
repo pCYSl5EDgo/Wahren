@@ -272,137 +272,95 @@ public sealed partial class Project : IDisposable
             return;
         }
 
-        ref var range = ref result.TokenList[argument.TokenId].Range;
-        if (range.OneLine)
+        for (uint i = argument.TokenId + 2U, end = argument.TokenId + argument.TrailingTokenCount + 1U; i < end; ++i)
         {
-            AddReferenceAndValidate_CompoundText_Line(ref result, argumentIndex, ref argument, result.GetSpan(argument.TokenId));
-            return;
-        }
-
-        ref var source = ref result.Source;
-        
-        AddReferenceAndValidate_CompoundText_Line(ref result, argumentIndex, ref argument, source[range.StartInclusive.Line].AsSpan(range.StartInclusive.Offset));
-        for (uint lineIndex = range.StartInclusive.Line + 1, lineEnd = range.EndExclusive.Line; lineIndex < lineEnd; lineIndex++)
-        {
-            AddReferenceAndValidate_CompoundText_Line(ref result, argumentIndex, ref argument, source[lineIndex].AsSpan());
-        }
-        if (range.EndExclusive.Offset != 0)
-        {
-            AddReferenceAndValidate_CompoundText_Line(ref result, argumentIndex, ref argument, source[range.EndExclusive.Line].AsSpan(0, range.EndExclusive.Offset));
-        }
-    }
-
-    private void AddReferenceAndValidate_CompoundText_Line(ref Result result, int argumentIndex, ref Argument argument, ReadOnlySpan<char> line)
-    {
-        var andIndex = line.IndexOf('&');
-        if (andIndex == -1)
-        {
-            return;
-        }
-
-        do
-        {
-            line = line.Slice(andIndex + 1);
-            andIndex = line.IndexOf('&');
-            if (andIndex == -1)
-            {
-                return;
-            }
-            if (andIndex == 0)
+            var span = result.GetSpan(i);
+            if (span.Length != 1 || span[0] != '&')
             {
                 continue;
             }
 
-            var span = line.Slice(0, andIndex);
+            span = result.GetSpan(i - 2U);
+            if (span.Length != 1 || span[0] != '&')
+            {
+                continue;
+            }
+
+            ref var tokenList = ref result.TokenList;
+            ref var latter = ref tokenList[i++];
+            if (latter.PrecedingWhitespaceCount != 0 || latter.PrecedingNewLineCount != 0)
+            {
+                continue;
+            }
+            ref var token = ref tokenList[i - 2U];
+            if (token.PrecedingWhitespaceCount != 0 || token.PrecedingNewLineCount != 0)
+            {
+                continue;
+            }
+            span = result.GetSpan(i - 2U);
+            if (span.IsEmpty)
+            {
+                continue;
+            }
+
+            static bool IsIdentifier(ReadOnlySpan<char> span)
+            {
+                foreach (var item in span)
+                {
+                    if ((item < '0' || item > '9') && (item < 'A' || item > 'Z') && (item < 'a' || item > 'z') && item != '_')
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
             if (span[0] == '@')
             {
-                span = span.Slice(1);
-                if (span.IsEmpty)
+                if (span.Length == 1)
                 {
                     continue;
                 }
-                for (int i = 0; i < span.Length; ++i)
-                {
-                    var c = span[i];
-                    if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
-                    {
 
-                    }
-                    else
-                    {
-                        goto FAIL;
-                    }
+                span = span.Slice(1);
+                if (span.IsEmpty || !IsIdentifier(span))
+                {
+                    continue;
                 }
-                
-                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+
                 argument.HasReference = true;
+                result.StringVariableReaderSet.GetOrAdd(span, i - 2U);
+                i++;
+                continue;
             }
-            else
+            else if (!IsIdentifier(span))
             {
-                for (int i = 0; i < span.Length; ++i)
-                {
-                    var c = span[i];
-                    if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
-                    {
-
-                    }
-                    else
-                    {
-                        goto FAIL;
-                    }
-                }
-
-                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                if (Unsafe.IsNullRef(ref track))
-                {
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    switch (track.Kind)
-                    {
-                        case ReferenceKind.Spot:
-                            argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Spot;
-                            argument.HasReference = true;
-                            break;
-                        case ReferenceKind.Power:
-                            argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Power;
-                            argument.HasReference = true;
-                            break;
-                        case ReferenceKind.Class:
-                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Class;
-                            argument.HasReference = true;
-                            break;
-                        case ReferenceKind.Unit:
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.Unit;
-                            argument.HasReference = true;
-                            break;
-                        default:
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.HasReference = true;
-                            break;
-                    }
-                }
+                continue;
             }
 
-            line = line.Slice(andIndex + 1);
-            andIndex = line.IndexOf('&');
-            if (andIndex == -1)
+            argument.HasReference = true; 
+            ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+            if (!Unsafe.IsNullRef(ref reference))
             {
-                return;
+                switch (reference.Kind)
+                {
+                    case ReferenceKind.Unit:
+                        result.UnitSet.GetOrAdd(span, i - 2U);
+                        continue;
+                    case ReferenceKind.Class:
+                        result.ClassSet.GetOrAdd(span, i - 2U);
+                        continue;
+                    case ReferenceKind.Power:
+                        result.PowerSet.GetOrAdd(span, i - 2U);
+                        continue;
+                    case ReferenceKind.Spot:
+                        result.SpotSet.GetOrAdd(span, i - 2U);
+                        continue;
+                }
             }
 
-        FAIL:
-            continue;
-        } while (true);
+            result.NumberVariableReaderSet.GetOrAdd(span, i - 2U);
+        }
     }
 
     private void AddReferenceAndValidate(ref Result result, IStatement statement)
