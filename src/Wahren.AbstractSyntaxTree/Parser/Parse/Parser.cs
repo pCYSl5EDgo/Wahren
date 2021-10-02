@@ -350,7 +350,7 @@ public static partial class Parser
             return false;
         }
 
-        if (last.PrecedingWhitespaces != 1 && context.CreateError(DiagnosticSeverity.Hint))
+        if (last.PrecedingWhitespaceCount != 1 && context.CreateError(DiagnosticSeverity.Hint))
         {
             result.ErrorList.Add(new("Element's '=' should have a preceding whitespace.", last.Range, DiagnosticSeverity.Hint));
         }

@@ -33,15 +33,15 @@ public static class Lexer
 
         NO_INCREMENT_LINE:
             var currentLineRestSpan = line.AsSpan(position.Offset);
-            token.PrecedingWhitespaces = CountLeadingWhitespace(currentLineRestSpan);
-            if (token.PrecedingWhitespaces == currentLineRestSpan.Length)
+            token.PrecedingWhitespaceCount = CountLeadingWhitespace(currentLineRestSpan);
+            if (token.PrecedingWhitespaceCount == currentLineRestSpan.Length)
             {
                 goto INCREMENT_LINE;
             }
 
-            position.Offset += token.PrecedingWhitespaces;
+            position.Offset += token.PrecedingWhitespaceCount;
             range.StartInclusive = position;
-            currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaces);
+            currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaceCount);
             var whitespaceIndex = currentLineRestSpan.IndexOfAny(' ', '\t');
             var inspectionSpan = whitespaceIndex == -1 ? currentLineRestSpan : currentLineRestSpan.Slice(0, whitespaceIndex);
             var symbolIndex = inspectionSpan.IndexOfAny("{}(),;:=!<>&|*/+-%");
@@ -180,8 +180,8 @@ public static class Lexer
         do
         {
             currentLineRestSpan = line.AsSpan(position.Offset);
-            token.PrecedingWhitespaces = CountLeadingWhitespace(currentLineRestSpan);
-            if (token.PrecedingWhitespaces != currentLineRestSpan.Length)
+            token.PrecedingWhitespaceCount = CountLeadingWhitespace(currentLineRestSpan);
+            if (token.PrecedingWhitespaceCount != currentLineRestSpan.Length)
             {
                 break;
             }
@@ -195,9 +195,9 @@ public static class Lexer
             line = ref source[position.Line];
         } while (true);
 
-        position.Offset += token.PrecedingWhitespaces;
+        position.Offset += token.PrecedingWhitespaceCount;
         range.StartInclusive = position;
-        currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaces);
+        currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaceCount);
         var symbolIndex = currentLineRestSpan.IndexOf(';');
         while (symbolIndex == -1)
         {
