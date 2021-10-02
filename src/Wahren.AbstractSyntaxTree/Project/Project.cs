@@ -87,12 +87,12 @@ public sealed partial class Project : IDisposable
                     continue;
                 }
 
-                if (other.ScenarioVariant is null)
+                if (other.VariantArray is null)
                 {
                     continue;
                 }
 
-                foreach (var item in other.ScenarioVariant)
+                foreach (var item in other.VariantArray)
                 {
                     if (item is null)
                     {

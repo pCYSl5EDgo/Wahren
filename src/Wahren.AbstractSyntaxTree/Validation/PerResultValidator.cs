@@ -16,12 +16,12 @@ public static partial class PerResultValidator
             value.HasReference = true;
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is null || !item.HasValue)
             {
@@ -63,12 +63,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is null || !item.HasValue)
             {
@@ -117,12 +117,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return success;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is null || !item.HasValue)
             {
@@ -159,12 +159,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return success;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is null || !item.HasValue)
             {
@@ -203,12 +203,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return success;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is not { HasValue: true, Value.HasNumber: false })
             {
@@ -251,12 +251,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return success;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is null || !item.HasValue)
             {
@@ -311,12 +311,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is null || !item.HasValue)
             {
@@ -369,12 +369,12 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
             return success;
         }
 
-        foreach (var item in pair.ScenarioVariant)
+        foreach (var item in pair.VariantArray)
         {
             if (item is not { HasValue: true })
             {
@@ -531,12 +531,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind, severity);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true })
             {
@@ -623,9 +623,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, pair.Value.Value.AsSpan(), kind, severity);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.IsEmpty: false })
                 {
@@ -671,9 +671,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.HasText: true })
                 {
@@ -730,9 +730,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.HasText: true })
                 {
@@ -801,9 +801,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.HasText: true })
                 {
@@ -854,9 +854,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.HasText: true })
                 {
@@ -907,9 +907,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.HasText: true })
                 {
@@ -985,12 +985,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true })
             {
@@ -1045,12 +1045,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true })
             {
@@ -1098,12 +1098,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true })
             {
@@ -1168,9 +1168,9 @@ public static partial class PerResultValidator
             success &= Validate(ref result, pair.Value.Value.AsSpan(), kind, severity);
         }
 
-        if (pair.ScenarioVariant is not null)
+        if (pair.VariantArray is not null)
         {
-            foreach (var item in pair.ScenarioVariant)
+            foreach (var item in pair.VariantArray)
             {
                 if (item is { HasValue: true, Value.IsEmpty: false })
                 {
@@ -1219,12 +1219,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true })
             {
@@ -1267,12 +1267,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true })
             {
@@ -1320,12 +1320,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value, kind);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true, Value.HasNumber: false })
             {
@@ -1358,12 +1358,12 @@ public static partial class PerResultValidator
             success &= Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.ScenarioVariant is null || pair.ScenarioVariant.Length == 0)
+        if (pair.VariantArray is null || pair.VariantArray.Length == 0)
         {
             return success;
         }
 
-        foreach (ref var item in pair.ScenarioVariant.AsSpan())
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
             if (item is { HasValue: true, Value.HasText: true, Value.HasNumber: false })
             {

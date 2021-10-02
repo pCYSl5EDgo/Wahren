@@ -71,10 +71,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
     </None>
-    <None Include="Project\SolutionTemplate.cs">
+    <None Include="Project\ProjectTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>SolutionTemplate.tt</DependentUpon>
+      <DependentUpon>ProjectTemplate.tt</DependentUpon>
     </None>
     <None Include="Validation\PerResultValidatorActionTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -149,9 +149,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
     </None>
-    <None Update="Project\SolutionTemplate.tt">
+    <None Update="Project\ProjectTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SolutionTemplate.cs</LastGenOutput>
+      <LastGenOutput>ProjectTemplate.cs</LastGenOutput>
     </None>
     <None Update="Validation\PerResultValidatorActionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -254,6 +254,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Project\ProjectTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProjectTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Project\SolutionTemplate.cs">
       <DesignTime>True</DesignTime>

@@ -8,14 +8,14 @@ public static class VariantPairUtility
         uint element;
         if (pair.Value is null)
         {
-            if (pair.ScenarioVariant is null)
+            if (pair.VariantArray is null)
             {
                 return false;
             }
 
-            for (int i = 0; i < pair.ScenarioVariant.Length; i++)
+            for (int i = 0; i < pair.VariantArray.Length; i++)
             {
-                ref T? item = ref pair.ScenarioVariant[i];
+                ref T? item = ref pair.VariantArray[i];
                 if (item is not null)
                 {
                     element = item.ElementTokenId;
@@ -42,22 +42,22 @@ public static class VariantPairUtility
             return ref pair.Value;
         }
 
-        if (pair.ScenarioVariant is null)
+        if (pair.VariantArray is null)
         {
-            pair.ScenarioVariant = ArrayPool<T?>.Shared.Rent((int)scenario + 1);
-            Array.Clear(pair.ScenarioVariant);
-            return ref pair.ScenarioVariant[scenario];
+            pair.VariantArray = ArrayPool<T?>.Shared.Rent((int)scenario + 1);
+            Array.Clear(pair.VariantArray);
+            return ref pair.VariantArray[scenario];
         }
 
-        if (scenario >= pair.ScenarioVariant.LongLength)
+        if (scenario >= pair.VariantArray.LongLength)
         {
             var newArray = ArrayPool<T?>.Shared.Rent((int)scenario + 1);
-            pair.ScenarioVariant.CopyTo(newArray.AsSpan(0, pair.ScenarioVariant.Length));
-            newArray.AsSpan(pair.ScenarioVariant.Length).Clear();
-            Array.Clear(pair.ScenarioVariant);
-            pair.ScenarioVariant = newArray;
+            pair.VariantArray.CopyTo(newArray.AsSpan(0, pair.VariantArray.Length));
+            newArray.AsSpan(pair.VariantArray.Length).Clear();
+            Array.Clear(pair.VariantArray);
+            pair.VariantArray = newArray;
         }
 
-        return ref pair.ScenarioVariant[scenario];
+        return ref pair.VariantArray[scenario];
     }
 }

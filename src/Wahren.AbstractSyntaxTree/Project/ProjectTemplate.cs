@@ -7445,9 +7445,9 @@ public sealed partial class Project
                 // ERROR  Spot, merce of Unit, Class
             }
         }
-        if (node.merce.ScenarioVariant is { Length: > 0 })
+        if (node.merce.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.merce.ScenarioVariant)
+            foreach (var element in node.merce.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7468,9 +7468,9 @@ public sealed partial class Project
                 // ERROR  Spot, monster of Unit, Class
             }
         }
-        if (node.monster.ScenarioVariant is { Length: > 0 })
+        if (node.monster.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.monster.ScenarioVariant)
+            foreach (var element in node.monster.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7491,9 +7491,9 @@ public sealed partial class Project
                 // ERROR  Spot, member of Unit, Class
             }
         }
-        if (node.member.ScenarioVariant is { Length: > 0 })
+        if (node.member.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.member.ScenarioVariant)
+            foreach (var element in node.member.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7518,9 +7518,9 @@ public sealed partial class Project
                 // ERROR  Unit, member of Unit, Class
             }
         }
-        if (node.member.ScenarioVariant is { Length: > 0 })
+        if (node.member.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.member.ScenarioVariant)
+            foreach (var element in node.member.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7541,9 +7541,9 @@ public sealed partial class Project
                 // ERROR  Unit, friend of Race, Unit, Class
             }
         }
-        if (node.friend.ScenarioVariant is { Length: > 0 })
+        if (node.friend.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.friend.ScenarioVariant)
+            foreach (var element in node.friend.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7564,9 +7564,9 @@ public sealed partial class Project
                 // ERROR  Unit, merce of Unit, Class
             }
         }
-        if (node.merce.ScenarioVariant is { Length: > 0 })
+        if (node.merce.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.merce.ScenarioVariant)
+            foreach (var element in node.merce.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7587,9 +7587,9 @@ public sealed partial class Project
                 // ERROR  Unit, skill of Skill, Skillset
             }
         }
-        if (node.skill.ScenarioVariant is { Length: > 0 })
+        if (node.skill.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.skill.ScenarioVariant)
+            foreach (var element in node.skill.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7610,9 +7610,9 @@ public sealed partial class Project
                 // ERROR  Unit, skill2 of Skill, Skillset
             }
         }
-        if (node.skill2.ScenarioVariant is { Length: > 0 })
+        if (node.skill2.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.skill2.ScenarioVariant)
+            foreach (var element in node.skill2.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7633,9 +7633,9 @@ public sealed partial class Project
                 // ERROR  Unit, learn of Skill, Skillset
             }
         }
-        if (node.learn.ScenarioVariant is { Length: > 0 })
+        if (node.learn.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.learn.ScenarioVariant)
+            foreach (var element in node.learn.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7656,9 +7656,9 @@ public sealed partial class Project
                 // ERROR  Unit, delskill of Skill, Skillset
             }
         }
-        if (node.delskill.ScenarioVariant is { Length: > 0 })
+        if (node.delskill.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.delskill.ScenarioVariant)
+            foreach (var element in node.delskill.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7679,9 +7679,9 @@ public sealed partial class Project
                 // ERROR  Unit, delskill2 of Skill, Skillset
             }
         }
-        if (node.delskill2.ScenarioVariant is { Length: > 0 })
+        if (node.delskill2.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.delskill2.ScenarioVariant)
+            foreach (var element in node.delskill2.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7702,9 +7702,9 @@ public sealed partial class Project
                 // ERROR  Unit, leader_skill of Skill, Skillset
             }
         }
-        if (node.leader_skill.ScenarioVariant is { Length: > 0 })
+        if (node.leader_skill.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.leader_skill.ScenarioVariant)
+            foreach (var element in node.leader_skill.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7725,9 +7725,9 @@ public sealed partial class Project
                 // ERROR  Unit, assist_skill of Skill, Skillset
             }
         }
-        if (node.assist_skill.ScenarioVariant is { Length: > 0 })
+        if (node.assist_skill.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.assist_skill.ScenarioVariant)
+            foreach (var element in node.assist_skill.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7748,9 +7748,9 @@ public sealed partial class Project
                 // ERROR  Unit, staff of Race, Class
             }
         }
-        if (node.staff.ScenarioVariant is { Length: > 0 })
+        if (node.staff.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.staff.ScenarioVariant)
+            foreach (var element in node.staff.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7771,9 +7771,9 @@ public sealed partial class Project
                 // ERROR  Unit, castle_guard of Unit, Class
             }
         }
-        if (node.castle_guard.ScenarioVariant is { Length: > 0 })
+        if (node.castle_guard.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.castle_guard.ScenarioVariant)
+            foreach (var element in node.castle_guard.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7802,9 +7802,9 @@ public sealed partial class Project
                 // ERROR  Class, member of Unit, Class
             }
         }
-        if (node.member.ScenarioVariant is { Length: > 0 })
+        if (node.member.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.member.ScenarioVariant)
+            foreach (var element in node.member.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7825,9 +7825,9 @@ public sealed partial class Project
                 // ERROR  Class, friend of Race, Unit, Class
             }
         }
-        if (node.friend.ScenarioVariant is { Length: > 0 })
+        if (node.friend.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.friend.ScenarioVariant)
+            foreach (var element in node.friend.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7848,9 +7848,9 @@ public sealed partial class Project
                 // ERROR  Class, merce of Unit, Class
             }
         }
-        if (node.merce.ScenarioVariant is { Length: > 0 })
+        if (node.merce.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.merce.ScenarioVariant)
+            foreach (var element in node.merce.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7871,9 +7871,9 @@ public sealed partial class Project
                 // ERROR  Class, skill of Skill, Skillset
             }
         }
-        if (node.skill.ScenarioVariant is { Length: > 0 })
+        if (node.skill.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.skill.ScenarioVariant)
+            foreach (var element in node.skill.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7894,9 +7894,9 @@ public sealed partial class Project
                 // ERROR  Class, skill2 of Skill, Skillset
             }
         }
-        if (node.skill2.ScenarioVariant is { Length: > 0 })
+        if (node.skill2.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.skill2.ScenarioVariant)
+            foreach (var element in node.skill2.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7917,9 +7917,9 @@ public sealed partial class Project
                 // ERROR  Class, learn of Skill, Skillset
             }
         }
-        if (node.learn.ScenarioVariant is { Length: > 0 })
+        if (node.learn.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.learn.ScenarioVariant)
+            foreach (var element in node.learn.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7940,9 +7940,9 @@ public sealed partial class Project
                 // ERROR  Class, delskill of Skill, Skillset
             }
         }
-        if (node.delskill.ScenarioVariant is { Length: > 0 })
+        if (node.delskill.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.delskill.ScenarioVariant)
+            foreach (var element in node.delskill.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7963,9 +7963,9 @@ public sealed partial class Project
                 // ERROR  Class, delskill2 of Skill, Skillset
             }
         }
-        if (node.delskill2.ScenarioVariant is { Length: > 0 })
+        if (node.delskill2.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.delskill2.ScenarioVariant)
+            foreach (var element in node.delskill2.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7986,9 +7986,9 @@ public sealed partial class Project
                 // ERROR  Class, friend_ex of Race, Unit, Class
             }
         }
-        if (node.friend_ex.ScenarioVariant is { Length: > 0 })
+        if (node.friend_ex.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.friend_ex.ScenarioVariant)
+            foreach (var element in node.friend_ex.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -8021,9 +8021,9 @@ public sealed partial class Project
                 // ERROR  Power, staff of Unit, ClassTypeReader
             }
         }
-        if (node.staff.ScenarioVariant is { Length: > 0 })
+        if (node.staff.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.staff.ScenarioVariant)
+            foreach (var element in node.staff.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -8044,9 +8044,9 @@ public sealed partial class Project
                 // ERROR  Power, merce of Unit, ClassTypeReader
             }
         }
-        if (node.merce.ScenarioVariant is { Length: > 0 })
+        if (node.merce.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.merce.ScenarioVariant)
+            foreach (var element in node.merce.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {

@@ -352,9 +352,9 @@ public sealed partial class Project
 <#          }#>
 <#      } #>
         }
-        if (node.<#= element.Name #>.ScenarioVariant is { Length: > 0 })
+        if (node.<#= element.Name #>.VariantArray is { Length: > 0 })
         {
-            foreach (var element in node.<#= element.Name #>.ScenarioVariant)
+            foreach (var element in node.<#= element.Name #>.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
