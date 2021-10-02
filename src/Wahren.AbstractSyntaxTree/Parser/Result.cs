@@ -211,6 +211,17 @@ public struct Result : IDisposable
         TokenList.RemoveLast();
     }
 
+    public bool IsEndOfLine(uint tokenIndex)
+    {
+        ref var range = ref TokenList[tokenIndex].Range;
+        if (range.EndExclusive.Line >= Source.Count)
+        {
+            return true;
+        }
+
+        return range.EndExclusive.Offset >= Source[range.StartInclusive.Line].Count;
+    }
+
     public Span<char> GetSpan(uint tokenIndex)
     {
         ref var token = ref TokenList[tokenIndex];

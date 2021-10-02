@@ -154,12 +154,6 @@ public static class Lexer
     RETURN_VALIDATION:
         token.Length = position.Offset - range.StartInclusive.Offset;
         range.EndExclusive = position;
-        if (range.EndExclusive.Offset >= line.Count)
-        {
-            range.EndExclusive.Line++;
-            range.EndExclusive.Offset = 0;
-        }
-
         return true;
     }
 

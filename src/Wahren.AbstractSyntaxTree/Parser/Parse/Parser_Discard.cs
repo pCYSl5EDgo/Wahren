@@ -27,6 +27,79 @@ public static partial class Parser
     }
 
     /// <summary>
+    /// Already read '='.
+    /// structure: attribute
+    /// element: [ loyal, change, fkey, str, arbeit, brave, ground, gun_delay ]
+    /// </summary>
+    private static bool Parse_Discard_LOYAL(ref Context context, ref Result result, uint elementTokenId)
+    {
+        ref var source = ref result.Source;
+        ref var tokenList = ref result.TokenList;
+        tokenList[elementTokenId].Kind = TokenKind.LOYAL;
+        if (!ReadUsefulToken(ref context, ref result))
+        {
+            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[elementTokenId].Range));
+            return false;
+        }
+
+        tokenList.Last.Kind = TokenKind.Content;
+        if (tokenList.Last.TryParse(ref source, out _))
+        {
+            if (!result.IsEndOfLine(tokenList.LastIndex))
+            {
+                result.ErrorList.Add(new("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList.Last.Range));
+                return false;
+            }
+        }
+
+        var textIndex = tokenList.LastIndex;
+        while (!result.IsEndOfLine(tokenList.LastIndex))
+        {
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(textIndex);
+                return false;
+            }
+
+            if (!tokenList.Last.IsMul(ref source))
+            {
+                if (tokenList.Last.Range.StartInclusive.Line == tokenList[tokenList.LastIndex - 1].Range.StartInclusive.Line)
+                {
+                    result.UnionLast2Tokens();
+                    continue;
+                }
+                else
+                {
+                    CancelTokenReadback(ref context, ref result);
+                    break;
+                }
+            }
+
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(textIndex, "Number text is expected after '*'.");
+                return false;
+            }
+
+            tokenList.Last.Kind = TokenKind.Content;
+            if (!tokenList.Last.TryParse(ref source, out _))
+            {
+                result.ErrorList.Add(new("Number text must follows '*'.", tokenList[textIndex].Range));
+            }
+
+            if (result.IsEndOfLine(tokenList.LastIndex))
+            {
+                break;
+            }
+
+            result.ErrorList.Add(new("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList[textIndex].Range));
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// Already read '='. Already split element.
     /// element: [ ray, poli, camp, home, multi, learn, skill, color, joint, weapon, skill2, weapon2, activenum, friend_ex ]
     /// </summary>
@@ -69,71 +142,6 @@ public static partial class Parser
                 return false;
             }
         } while (true);
-    }
-
-    /// <summary>
-    /// Already read '='.
-    /// structure: attribute
-    /// element: [ loyal, change, fkey, str, arbeit, brave, ground, gun_delay ]
-    /// </summary>
-    private static bool Parse_Discard_LOYAL(ref Context context, ref Result result, uint elementTokenId)
-    {
-        ref var source = ref result.Source;
-        ref var tokenList = ref result.TokenList;
-        tokenList[elementTokenId].Kind = TokenKind.LOYAL;
-        if (!ReadUsefulToken(ref context, ref result))
-        {
-            result.ErrorList.Add(new("Element must have value. There is no value text after '='.", result.TokenList[elementTokenId].Range));
-            return false;
-        }
-
-        tokenList.Last.Kind = TokenKind.Content;
-        if (tokenList.Last.TryParse(ref source, out _))
-        {
-            if (tokenList.Last.Range.EndExclusive.Offset != 0)
-            {
-                result.ErrorList.Add(new("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList.Last.Range));
-                return false;
-            }
-        }
-
-        var textIndex = tokenList.LastIndex;
-        while (tokenList.Last.Range.EndExclusive.Offset != 0)
-        {
-            if (!ReadToken(ref context, ref result))
-            {
-                result.ErrorAdd_UnexpectedEndOfFile(textIndex);
-                return false;
-            }
-
-            if (!tokenList.Last.IsMul(ref source))
-            {
-                result.UnionLast2Tokens();
-                continue;
-            }
-
-            if (!ReadToken(ref context, ref result))
-            {
-                result.ErrorAdd_UnexpectedEndOfFile(textIndex, "Number text is expected after '*'.");
-                return false;
-            }
-
-            tokenList.Last.Kind = TokenKind.Content;
-            if (!tokenList.Last.TryParse(ref source, out _))
-            {
-                result.ErrorList.Add(new("Number text must follows '*'.", tokenList[textIndex].Range));
-            }
-
-            if (tokenList.Last.Range.EndExclusive.Offset == 0)
-            {
-                break;
-            }
-
-            result.ErrorList.Add(new("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList[textIndex].Range));
-            return false;
-        }
-
-        return true;
     }
 
     /// <summary>

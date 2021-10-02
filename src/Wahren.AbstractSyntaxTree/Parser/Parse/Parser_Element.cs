@@ -21,7 +21,7 @@ public static partial class Parser
         tokenList.Last.Kind = TokenKind.Content;
         if (element.Value.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Number))
         {
-            if (tokenList.Last.Range.EndExclusive.Offset != 0)
+            if (!result.IsEndOfLine(tokenList.LastIndex))
             {
                 result.ErrorList.Add(new("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList.Last.Range));
                 return false;
@@ -29,7 +29,10 @@ public static partial class Parser
         }
 
         var textIndex = tokenList.LastIndex;
-        while (tokenList.Last.Range.EndExclusive.Offset != 0)
+        element.HasValue = true;
+        element.Value.HasText = true;
+        element.Value.Text = textIndex;
+        while (!result.IsEndOfLine(tokenList.LastIndex))
         {
             if (!ReadToken(ref context, ref result))
             {
@@ -39,8 +42,16 @@ public static partial class Parser
 
             if (!tokenList.Last.IsMul(ref source))
             {
-                result.UnionLast2Tokens();
-                continue;
+                if (tokenList.Last.Range.StartInclusive.Line == tokenList[tokenList.LastIndex - 1].Range.StartInclusive.Line)
+                {
+                    result.UnionLast2Tokens();
+                    continue;
+                }
+                else
+                {
+                    CancelTokenReadback(ref context, ref result);
+                    break;
+                }
             }
 
             if (!ReadToken(ref context, ref result))
@@ -56,7 +67,7 @@ public static partial class Parser
                 result.ErrorList.Add(new("Number text must follows '*'.", tokenList[textIndex].Range));
             }
 
-            if (tokenList.Last.Range.EndExclusive.Offset == 0)
+            if (result.IsEndOfLine(tokenList.LastIndex))
             {
                 break;
             }
@@ -68,12 +79,6 @@ public static partial class Parser
         if (tokenList[textIndex].IsAtmark(ref source))
         {
             element.HasValue = false;
-        }
-        else
-        {
-            element.HasValue = true;
-            element.Value.HasText = true;
-            element.Value.Text = textIndex;
         }
 
         return true;
