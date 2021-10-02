@@ -53,26 +53,7 @@ var readwrites = new string[]{
 };
 #>
 
-public interface ISolutionResolver
-{
-<# foreach (var name in types) { #>
-    ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index);
-<# } #>
-}
-
-public sealed class FailResolver : ISolutionResolver
-{
-    public static readonly FailResolver Default = new();
-<# foreach (var name in types) { #>
-    public ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-<# } #>
-}
-
-public sealed partial class Solution : ISolutionResolver
+public sealed partial class Solution
 {<# foreach (var name in types) {  #>
 
 	public ref Result TryGet<#= name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index)

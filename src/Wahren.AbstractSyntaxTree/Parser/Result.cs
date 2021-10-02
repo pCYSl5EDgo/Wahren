@@ -77,7 +77,6 @@ public struct Result : IDisposable
 
     public ContextNode? ContextNode = null;
     public SoundNode? SoundNode = null;
-    public readonly ISolutionResolver Resolver = FailResolver.Default;
 
     public uint Id = default;
     public bool Success = default;
@@ -110,11 +109,6 @@ public struct Result : IDisposable
         {
             AttributeTypeSet.InitialAdd(attribute);
         }
-    }
-
-    public Result(ISolutionResolver resolver, uint id) : this(id)
-    {
-        Resolver = resolver;
     }
 
     public void Dispose()

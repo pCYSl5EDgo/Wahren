@@ -66,7 +66,7 @@ public partial class Program
             solution.Files.PrepareAddRange(files.Length);
             for (int i = 0; i < files.Length; i++)
             {
-                solution.Files.Add(new(solution, (uint)i));
+                solution.Files.Add(new((uint)i));
             }
 
             await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, files.Length), cancellationTokenSource.Token, async (int index, CancellationToken token) =>
