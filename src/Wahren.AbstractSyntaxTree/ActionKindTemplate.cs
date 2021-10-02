@@ -74,18 +74,19 @@ public enum ActionKind : uint
 	focus,
 	fontc,
 	gread,
+	gwrite,
 	index,
 	storeIndex,
 	storeIndexVar,
 	pushv,
 	setPM,
 	setud,
+	storeud,
 	shake,
 	title,
 	addstr,
 	addVar,
 	fadein,
-	gwrite,
 	locate,
 	playSE,
 	scroll,
@@ -115,7 +116,6 @@ public enum ActionKind : uint
 	shuffle,
 	stopBGM,
 	storePM,
-	storeud,
 	addDiplo,
 	levelup,
 	addLevel,
@@ -399,18 +399,19 @@ public static class ActionKindHelper
 			case 1 when (key4 == 0x00550043004F0046UL) && (span[0] == 'S'): return ActionKind.focus;
 			case 1 when (key4 == 0x0054004E004F0046UL) && (span[0] == 'C'): return ActionKind.fontc;
 			case 1 when (key4 == 0x0041004500520047UL) && (span[0] == 'D'): return ActionKind.gread;
+			case 2 when (key4 == 0x0049005200570047UL) && span.SequenceEqual("TE"): return ActionKind.gwrite;
 			case 1 when (key4 == 0x00450044004E0049UL) && (span[0] == 'X'): return ActionKind.index;
 			case 6 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EINDEX"): return ActionKind.storeIndex;
 			case 9 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EINDEXVAR"): return ActionKind.storeIndexVar;
 			case 1 when (key4 == 0x0048005300550050UL) && (span[0] == 'V'): return ActionKind.pushv;
 			case 1 when (key4 == 0x0050005400450053UL) && (span[0] == 'M'): return ActionKind.setPM;
 			case 1 when (key4 == 0x0055005400450053UL) && (span[0] == 'D'): return ActionKind.setud;
+			case 3 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EUD"): return ActionKind.storeud;
 			case 1 when (key4 == 0x004B004100480053UL) && (span[0] == 'E'): return ActionKind.shake;
 			case 1 when (key4 == 0x004C005400490054UL) && (span[0] == 'E'): return ActionKind.title;
 			case 2 when (key4 == 0x0053004400440041UL) && span.SequenceEqual("TR"): return ActionKind.addstr;
 			case 2 when (key4 == 0x0056004400440041UL) && span.SequenceEqual("AR"): return ActionKind.addVar;
 			case 2 when (key4 == 0x0045004400410046UL) && span.SequenceEqual("IN"): return ActionKind.fadein;
-			case 2 when (key4 == 0x0049005200570047UL) && span.SequenceEqual("TE"): return ActionKind.gwrite;
 			case 2 when (key4 == 0x00410043004F004CUL) && span.SequenceEqual("TE"): return ActionKind.locate;
 			case 2 when (key4 == 0x00590041004C0050UL) && span.SequenceEqual("SE"): return ActionKind.playSE;
 			case 2 when (key4 == 0x004F005200430053UL) && span.SequenceEqual("LL"): return ActionKind.scroll;
@@ -440,7 +441,6 @@ public static class ActionKindHelper
 			case 3 when (key4 == 0x0046005500480053UL) && span.SequenceEqual("FLE"): return ActionKind.shuffle;
 			case 3 when (key4 == 0x0050004F00540053UL) && span.SequenceEqual("BGM"): return ActionKind.stopBGM;
 			case 3 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EPM"): return ActionKind.storePM;
-			case 3 when (key4 == 0x0052004F00540053UL) && span.SequenceEqual("EUD"): return ActionKind.storeud;
 			case 4 when (key4 == 0x0044004400440041UL) && span.SequenceEqual("IPLO"): return ActionKind.addDiplo;
 			case 3 when (key4 == 0x004500560045004CUL) && span.SequenceEqual("LUP"): return ActionKind.levelup;
 			case 4 when (key4 == 0x004C004400440041UL) && span.SequenceEqual("EVEL"): return ActionKind.addLevel;

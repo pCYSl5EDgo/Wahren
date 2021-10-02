@@ -764,6 +764,21 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.setud:
+                argument.ReferenceKind = ReferenceKind.GlobalStringVariableWriter;
+                argument.ReferenceId = result.GlobalStringVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
+
+                argument = ref arguments[1];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                break;
+            case ActionKind.storeud:
                 argument.ReferenceKind = ReferenceKind.GlobalStringVariableReader;
                 argument.ReferenceId = result.GlobalStringVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                 argument.HasReference = true;
@@ -772,7 +787,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setud'.", argument.TokenId);
+                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeud'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1240,38 +1255,6 @@ public static partial class PerResultValidator
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
                     argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-
-                break;
-            case ActionKind.storeud:
-                argument.ReferenceKind = ReferenceKind.GlobalStringVariableWriter;
-                argument.ReferenceId = result.GlobalStringVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                argument.HasReference = true;
-
-                argument = ref arguments[1];
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeud'.", argument.TokenId);
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length != 1)
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                }
-                else
-                {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
-                    }
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                    argument.HasReference = true;
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
                 }
 
                 break;
@@ -5484,6 +5467,50 @@ public static partial class PerResultValidator
                 }
 
                 break;
+            case ActionKind.gwrite:
+                span = result.GetSpan(argument.TokenId);
+                if (span.IsEmpty)
+                {
+                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'gwrite'.", argument.TokenId);
+                }
+                else if (span[0] == '@')
+                {
+                    if (span.Length != 1)
+                    {
+                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+                else
+                {
+                    argument.ReferenceId = result.GlobalVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.GlobalVariableWriter;
+                    argument.HasReference = true;
+                }
+
+                argument = ref arguments[1];
+                if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 2)
+                {
+                    break;
+                }
+                argument = ref arguments[2];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
+                {
+                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                    argument.HasReference = true;
+                }
+
+                break;
             case ActionKind.pushv:
                 switch (arguments.Length)
                 {
@@ -5556,64 +5583,6 @@ public static partial class PerResultValidator
                         argument.HasReference = true;
                         break;
                 }
-                break;
-            case ActionKind.gwrite:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'gwrite'.", argument.TokenId);
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length != 1)
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                        argument.HasReference = true;
-                    }
-                }
-                else
-                {
-                    argument.ReferenceId = result.GlobalVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.GlobalVariableWriter;
-                    argument.HasReference = true;
-                }
-
-                argument = ref arguments[1];
-                argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                argument.HasReference = true;
-
-                if (arguments.Length <= 2)
-                {
-                    break;
-                }
-                argument = ref arguments[2];
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorAdd($"3-th argument is empty. String Variable is required by action 'gwrite'.", argument.TokenId);
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length != 1)
-                    {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                }
-                else
-                {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.ErrorAdd($"3-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
-                    }
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                    argument.HasReference = true;
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                }
-
                 break;
             case ActionKind.addUnit:
                 // skip addUnit
@@ -7089,6 +7058,7 @@ public static partial class PerResultValidator
             case ActionKind.subv:
             case ActionKind.setPM:
             case ActionKind.setud:
+            case ActionKind.storeud:
             case ActionKind.title:
             case ActionKind.addstr:
             case ActionKind.addVar:
@@ -7103,7 +7073,6 @@ public static partial class PerResultValidator
             case ActionKind.setDone:
             case ActionKind.setGain:
             case ActionKind.storePM:
-            case ActionKind.storeud:
             case ActionKind.levelup:
             case ActionKind.addLevel:
             case ActionKind.addLoyal:
@@ -7368,8 +7337,8 @@ public static partial class PerResultValidator
                 }
                 break;
             case ActionKind.gread:
-            case ActionKind.pushv:
             case ActionKind.gwrite:
+            case ActionKind.pushv:
             case ActionKind.addUnit:
             case ActionKind.addDiplo:
             case ActionKind.aimTroop:

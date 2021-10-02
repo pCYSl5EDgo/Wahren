@@ -798,6 +798,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("gread(");
     }
 
+    public void Append_gwrite_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("gwrite(");
+    }
+
     public void Append_index_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -834,6 +840,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("setud(");
     }
 
+    public void Append_storeud_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("storeud(");
+    }
+
     public void Append_shake_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -862,12 +874,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("fadein(");
-    }
-
-    public void Append_gwrite_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("gwrite(");
     }
 
     public void Append_locate_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -1042,12 +1048,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("storePM(");
-    }
-
-    public void Append_storeud_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("storeud(");
     }
 
     public void Append_addDiplo_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -3284,6 +3284,10 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_gread_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.gwrite:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_gwrite_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.index:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_index_ParenLeft(ref destination, ref JustChangeLine);
@@ -3308,6 +3312,10 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setud_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.storeud:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeud_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.shake:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_shake_ParenLeft(ref destination, ref JustChangeLine);
@@ -3327,10 +3335,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.fadein:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_fadein_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.gwrite:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_gwrite_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.locate:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -3447,10 +3451,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.storePM:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_storePM_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.storeud:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeud_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addDiplo:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

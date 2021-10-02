@@ -212,7 +212,7 @@ public sealed partial class Project
     }
 <# foreach (var (func, expres, infos) in new (string, string, CallableInfo[])[] { ("Function", "Expression", CallableInfo.FunctionInfoNormals), ("Action", "Statement", CallableInfo.ActionInfoNormals) }) { #>
 
-    private void AddReferenceAndValidate(ref Result result, Call<#= func #><#= expres #> call)
+    private void AddReferenceAndValidate_Call(ref Result result, Call<#= func #><#= expres #> call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -323,7 +323,7 @@ public sealed partial class Project
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, statement);
             }
 		}
 <#  } #>

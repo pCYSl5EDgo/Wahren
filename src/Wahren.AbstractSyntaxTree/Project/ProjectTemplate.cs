@@ -1145,7 +1145,7 @@ public sealed partial class Project
         return success;
     }
 
-    private void AddReferenceAndValidate(ref Result result, CallFunctionExpression call)
+    private void AddReferenceAndValidate_Call(ref Result result, CallFunctionExpression call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -2425,7 +2425,7 @@ public sealed partial class Project
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, CallActionStatement call)
+    private void AddReferenceAndValidate_Call(ref Result result, CallActionStatement call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -4082,13 +4082,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", argument.TokenId);
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'storeTodoUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeTodoUnit'.", argument.TokenId);
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'storeTodoUnit'.", argument.TokenId);
                     }
                     else
                     {
@@ -4109,15 +4109,20 @@ public sealed partial class Project
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                                 break;
+                            case ReferenceKind.Class:
+                                argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Class;
+                                argument.HasReference = true;
+                                break;
                             default:
-                                result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", argument.TokenId);
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'storeTodoUnit'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeTodoUnit'.", argument.TokenId);
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'storeTodoUnit'.", argument.TokenId);
                     }
                 }
 
@@ -4156,13 +4161,13 @@ public sealed partial class Project
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty.Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", argument.TokenId);
+                    result.ErrorAdd($"1-th argument is empty.Unit, Class, StringVariableReader is required by action 'storeAliveUnit'.", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, StringVariableReader, ClassTypeReader is required by action 'storeAliveUnit'.", argument.TokenId);
+                        result.ErrorAdd($"1-th argument is empty string '@'. Unit, Class, StringVariableReader is required by action 'storeAliveUnit'.", argument.TokenId);
                     }
                     else
                     {
@@ -4183,15 +4188,20 @@ public sealed partial class Project
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                                 break;
+                            case ReferenceKind.Class:
+                                argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Class;
+                                argument.HasReference = true;
+                                break;
                             default:
-                                result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", argument.TokenId);
+                                result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'storeAliveUnit'.", argument.TokenId);
                                 argument.HasReference = false;
                                 break;
                         }
                     }
                     else
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is not Unit, StringVariableReader, ClassTypeReader required by action 'storeAliveUnit'.", argument.TokenId);
+                        result.ErrorAdd($"1-th argument '{span}' is not Unit, Class, StringVariableReader required by action 'storeAliveUnit'.", argument.TokenId);
                     }
                 }
 
@@ -4252,34 +4262,9 @@ public sealed partial class Project
 
                 break;
             case ActionKind.choice:
-                span = result.GetSpan(argument.TokenId);
-                if (span.IsEmpty)
-                {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'choice'.", argument.TokenId);
-                }
-                else if (span[0] == '@')
-                {
-                    if (span.Length == 1)
-                    {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
-                    }
-                    else
-                    {
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
-                else
-                {
-                    if (DiagnosticSeverity.Warning <= RequiredSeverity)
-                    {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
-                    }
-                    argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                    argument.HasReference = true;
-                    argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                }
+                argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.HasReference = true;
 
                 argument = ref arguments[1];
                 AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
@@ -7404,7 +7389,7 @@ public sealed partial class Project
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, statement);
             }
 		}
     }
@@ -7415,7 +7400,7 @@ public sealed partial class Project
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, statement);
             }
 		}
     }
@@ -7426,7 +7411,7 @@ public sealed partial class Project
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, statement);
             }
 		}
     }

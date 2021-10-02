@@ -363,71 +363,71 @@ public sealed partial class Project : IDisposable
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, IStatement statement)
+    private void AddReferenceAndValidate_Statement(ref Result result, IStatement statement)
     {
         switch (statement)
         {
             case CallActionStatement call:
-                AddReferenceAndValidate(ref result, call);
+                AddReferenceAndValidate_Call(ref result, call);
                 break;
             case WhileStatement @while:
-                AddReferenceAndValidate(ref result, @while.Condition);
+                AddReferenceAndValidate_Condition(ref result, @while.Condition);
                 foreach (var item in @while.Statements.AsSpan())
                 {
-                    AddReferenceAndValidate(ref result, item);
+                    AddReferenceAndValidate_Statement(ref result, item);
                 }
                 break;
             case IfStatement @if:
-                AddReferenceAndValidate(ref result, @if.Condition);
+                AddReferenceAndValidate_Condition(ref result, @if.Condition);
                 foreach (var item in @if.Statements.AsSpan())
                 {
-                    AddReferenceAndValidate(ref result, item);
+                    AddReferenceAndValidate_Statement(ref result, item);
                 }
                 if (@if.HasElseStatement)
                 {
                     foreach (var item in @if.ElseStatements.AsSpan())
                     {
-                        AddReferenceAndValidate(ref result, item);
+                        AddReferenceAndValidate_Statement(ref result, item);
                     }
                 }
                 break;
             case BattleStatement battle:
                 foreach (var item in battle.Statements.AsSpan())
                 {
-                    AddReferenceAndValidate(ref result, item);
+                    AddReferenceAndValidate_Statement(ref result, item);
                 }
                 break;
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, IReturnBooleanExpression? expression)
+    private void AddReferenceAndValidate_Condition(ref Result result, IReturnBooleanExpression? expression)
     {
         switch (expression)
         {
             case CallFunctionExpression call:
-                AddReferenceAndValidate(ref result, call);
+                AddReferenceAndValidate_Call(ref result, call);
                 break;
             case LogicOperatorExpression logic:
-                AddReferenceAndValidate(ref result, logic.Left);
-                AddReferenceAndValidate(ref result, logic.Right);
+                AddReferenceAndValidate_Condition(ref result, logic.Left);
+                AddReferenceAndValidate_Condition(ref result, logic.Right);
                 break;
             case NumberComparerExpression numberCompare:
-                AddReferenceAndValidate(ref result, numberCompare.Left);
-                AddReferenceAndValidate(ref result, numberCompare.Right);
+                AddReferenceAndValidate_Number(ref result, numberCompare.Left);
+                AddReferenceAndValidate_Number(ref result, numberCompare.Right);
                 break;
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, IReturnNumberExpression? expression)
+    private void AddReferenceAndValidate_Number(ref Result result, IReturnNumberExpression? expression)
     {
         switch (expression)
         {
-            case CallFunctionExpression callFunction:
-                AddReferenceAndValidate(ref result, callFunction);
+            case CallFunctionExpression call:
+                AddReferenceAndValidate_Call(ref result, call);
                 break;
             case NumberCalculatorOperatorExpression numberCalculator:
-                AddReferenceAndValidate(ref result, numberCalculator.Left);
-                AddReferenceAndValidate(ref result, numberCalculator.Right);
+                AddReferenceAndValidate_Number(ref result, numberCalculator.Left);
+                AddReferenceAndValidate_Number(ref result, numberCalculator.Right);
                 break;
         }
     }

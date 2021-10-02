@@ -104,6 +104,16 @@ public struct Result : IDisposable
         ScenarioSet.InitialAdd("h");
         ScenarioSet.InitialAdd("i");
         ScenarioSet.InitialAdd("j");
+        VoiceTypeWriterSet.InitialAdd("hold");
+        VoiceTypeWriterSet.InitialAdd("advance");
+        VoiceTypeWriterSet.InitialAdd("even");
+        VoiceTypeWriterSet.InitialAdd("push");
+        VoiceTypeWriterSet.InitialAdd("back");
+        VoiceTypeReaderSet.InitialAdd("hold");
+        VoiceTypeReaderSet.InitialAdd("advance");
+        VoiceTypeReaderSet.InitialAdd("even");
+        VoiceTypeReaderSet.InitialAdd("push");
+        VoiceTypeReaderSet.InitialAdd("back");
 
         foreach (var attribute in Enum.GetNames<AttributeTypeKind>())
         {

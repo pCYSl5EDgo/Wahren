@@ -279,6 +279,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int fontc_ParenLeft_Count;
     private readonly int gread_ParenLeft_Offset;
     private readonly int gread_ParenLeft_Count;
+    private readonly int gwrite_ParenLeft_Offset;
+    private readonly int gwrite_ParenLeft_Count;
     private readonly int index_ParenLeft_Offset;
     private readonly int index_ParenLeft_Count;
     private readonly int storeIndex_ParenLeft_Offset;
@@ -291,6 +293,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int setPM_ParenLeft_Count;
     private readonly int setud_ParenLeft_Offset;
     private readonly int setud_ParenLeft_Count;
+    private readonly int storeud_ParenLeft_Offset;
+    private readonly int storeud_ParenLeft_Count;
     private readonly int shake_ParenLeft_Offset;
     private readonly int shake_ParenLeft_Count;
     private readonly int title_ParenLeft_Offset;
@@ -301,8 +305,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int addVar_ParenLeft_Count;
     private readonly int fadein_ParenLeft_Offset;
     private readonly int fadein_ParenLeft_Count;
-    private readonly int gwrite_ParenLeft_Offset;
-    private readonly int gwrite_ParenLeft_Count;
     private readonly int locate_ParenLeft_Offset;
     private readonly int locate_ParenLeft_Count;
     private readonly int playSE_ParenLeft_Offset;
@@ -361,8 +363,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int stopBGM_ParenLeft_Count;
     private readonly int storePM_ParenLeft_Offset;
     private readonly int storePM_ParenLeft_Count;
-    private readonly int storeud_ParenLeft_Offset;
-    private readonly int storeud_ParenLeft_Count;
     private readonly int addDiplo_ParenLeft_Offset;
     private readonly int addDiplo_ParenLeft_Count;
     private readonly int levelup_ParenLeft_Offset;
@@ -1417,6 +1417,10 @@ public class BinaryFormatter : IFormatter<byte>
         gread_ParenLeft_Count = Converter("gread(", registeredBytes.AsSpan(accum));
         accum += gread_ParenLeft_Count;
 
+        gwrite_ParenLeft_Offset = accum;
+        gwrite_ParenLeft_Count = Converter("gwrite(", registeredBytes.AsSpan(accum));
+        accum += gwrite_ParenLeft_Count;
+
         index_ParenLeft_Offset = accum;
         index_ParenLeft_Count = Converter("index(", registeredBytes.AsSpan(accum));
         accum += index_ParenLeft_Count;
@@ -1441,6 +1445,10 @@ public class BinaryFormatter : IFormatter<byte>
         setud_ParenLeft_Count = Converter("setud(", registeredBytes.AsSpan(accum));
         accum += setud_ParenLeft_Count;
 
+        storeud_ParenLeft_Offset = accum;
+        storeud_ParenLeft_Count = Converter("storeud(", registeredBytes.AsSpan(accum));
+        accum += storeud_ParenLeft_Count;
+
         shake_ParenLeft_Offset = accum;
         shake_ParenLeft_Count = Converter("shake(", registeredBytes.AsSpan(accum));
         accum += shake_ParenLeft_Count;
@@ -1460,10 +1468,6 @@ public class BinaryFormatter : IFormatter<byte>
         fadein_ParenLeft_Offset = accum;
         fadein_ParenLeft_Count = Converter("fadein(", registeredBytes.AsSpan(accum));
         accum += fadein_ParenLeft_Count;
-
-        gwrite_ParenLeft_Offset = accum;
-        gwrite_ParenLeft_Count = Converter("gwrite(", registeredBytes.AsSpan(accum));
-        accum += gwrite_ParenLeft_Count;
 
         locate_ParenLeft_Offset = accum;
         locate_ParenLeft_Count = Converter("locate(", registeredBytes.AsSpan(accum));
@@ -1580,10 +1584,6 @@ public class BinaryFormatter : IFormatter<byte>
         storePM_ParenLeft_Offset = accum;
         storePM_ParenLeft_Count = Converter("storePM(", registeredBytes.AsSpan(accum));
         accum += storePM_ParenLeft_Count;
-
-        storeud_ParenLeft_Offset = accum;
-        storeud_ParenLeft_Count = Converter("storeud(", registeredBytes.AsSpan(accum));
-        accum += storeud_ParenLeft_Count;
 
         addDiplo_ParenLeft_Offset = accum;
         addDiplo_ParenLeft_Count = Converter("addDiplo(", registeredBytes.AsSpan(accum));
@@ -3435,6 +3435,12 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(gread_ParenLeft_Offset, gread_ParenLeft_Count));
     }
 
+    private void Append_gwrite_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(gwrite_ParenLeft_Offset, gwrite_ParenLeft_Count));
+    }
+
     private void Append_index_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3471,6 +3477,12 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(setud_ParenLeft_Offset, setud_ParenLeft_Count));
     }
 
+    private void Append_storeud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(storeud_ParenLeft_Offset, storeud_ParenLeft_Count));
+    }
+
     private void Append_shake_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3499,12 +3511,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadein_ParenLeft_Offset, fadein_ParenLeft_Count));
-    }
-
-    private void Append_gwrite_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(gwrite_ParenLeft_Offset, gwrite_ParenLeft_Count));
     }
 
     private void Append_locate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -3679,12 +3685,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePM_ParenLeft_Offset, storePM_ParenLeft_Count));
-    }
-
-    private void Append_storeud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(storeud_ParenLeft_Offset, storeud_ParenLeft_Count));
     }
 
     private void Append_addDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -5916,6 +5916,10 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_gread_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.gwrite:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_gwrite_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.index:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_index_ParenLeft(ref destination, ref JustChangeLine);
@@ -5940,6 +5944,10 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setud_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.storeud:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_storeud_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.shake:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_shake_ParenLeft(ref destination, ref JustChangeLine);
@@ -5959,10 +5967,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.fadein:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_fadein_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.gwrite:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_gwrite_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.locate:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
@@ -6079,10 +6083,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.storePM:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_storePM_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.storeud:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_storeud_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.addDiplo:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
