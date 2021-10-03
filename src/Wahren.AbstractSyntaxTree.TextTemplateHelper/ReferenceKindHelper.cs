@@ -70,7 +70,9 @@ public static class ReferenceKindHelper
             ReferenceKind.map or
             ReferenceKind.bgm or
             ReferenceKind.imagedata or
+            ReferenceKind.imagedata2 or
             ReferenceKind.face or
+            ReferenceKind.icon or
             ReferenceKind.sound or
             ReferenceKind.picture or
             ReferenceKind.image_file or
@@ -477,6 +479,8 @@ public static class ReferenceKindHelper
             case ReferenceKind.map:
             case ReferenceKind.bgm:
             case ReferenceKind.imagedata:
+            case ReferenceKind.imagedata2:
+            case ReferenceKind.icon:
             case ReferenceKind.face:
             case ReferenceKind.sound:
             case ReferenceKind.picture:

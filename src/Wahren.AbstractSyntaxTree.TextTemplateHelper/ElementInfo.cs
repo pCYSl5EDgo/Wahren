@@ -193,7 +193,7 @@ public struct ElementInfo
         new("bright", referenceKind: ReferenceKind.Boolean),
         new("func"),
         new("name", referenceKind: ReferenceKind.Text),
-        new("icon", referenceKind: ReferenceKind.imagedata),
+        new("icon", referenceKind: ReferenceKind.icon),
         new("fkey"),
         new("sortkey", referenceKind: ReferenceKind.Number),
         new("special", referenceKind: ReferenceKind.Boolean | ReferenceKind.Number),
@@ -204,7 +204,7 @@ public struct ElementInfo
         new("hide_help"),
         new("sound", referenceKind: ReferenceKind.sound),
         new("msg", variantType: "Unit", referenceKind: ReferenceKind.Text),
-        new("picture", variantType: "Unit"),
+        new("picture", variantType: "Unit", referenceKind: ReferenceKind.picture),
         new("cutin"),
         new("value", referenceKind: ReferenceKind.Number),
         new("talent"),
@@ -216,7 +216,7 @@ public struct ElementInfo
         new("h", referenceKind: ReferenceKind.Number),
         new("a", referenceKind: ReferenceKind.Number),
         new("mp", referenceKind: ReferenceKind.Number),
-        new("image"),
+        new("image", referenceKind: ReferenceKind.imagedata2),
         new("alpha_tip"),
         new("alpha_butt"),
         new("anime", referenceKind: ReferenceKind.Number),
@@ -342,7 +342,7 @@ public struct ElementInfo
     internal static readonly ElementInfo[] Skillset = new ElementInfo[]
     {
         new("name", referenceKind: ReferenceKind.Text),
-        new("back", referenceKind: ReferenceKind.imagedata),
+        new("back", referenceKind: ReferenceKind.icon),
         new("member", referenceKind: ReferenceKind.Skill),
     };
 

@@ -54,9 +54,11 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet ClassTypeWriterSet = new();
     public StringSpanKeySlowSet ClassTypeReaderSet = new();
 
+    public StringSpanKeySlowSet imagedataSet = new();
+    public StringSpanKeySlowSet imagedata2Set = new();
     public StringSpanKeySlowSet mapSet = new();
     public StringSpanKeySlowSet bgmSet = new();
-    public StringSpanKeySlowSet imagedataSet = new();
+    public StringSpanKeySlowSet iconSet = new();
     public StringSpanKeySlowSet faceSet = new();
     public StringSpanKeySlowSet soundSet = new();
     public StringSpanKeySlowSet pictureSet = new();
@@ -121,6 +123,8 @@ public struct Result : IDisposable
         {
             AttributeTypeSet.InitialAdd(attribute);
         }
+
+        imagedata2Set.InitialAdd("@@");
     }
 
     public void Dispose()
@@ -182,9 +186,11 @@ public struct Result : IDisposable
         GlobalStringVariableWriterSet.Dispose();
         GlobalStringVariableReaderSet.Dispose();
 
+        imagedataSet.Dispose();
+        imagedata2Set.Dispose();
         mapSet.Dispose();
         bgmSet.Dispose();
-        imagedataSet.Dispose();
+        iconSet.Dispose();
         faceSet.Dispose();
         soundSet.Dispose();
         pictureSet.Dispose();
