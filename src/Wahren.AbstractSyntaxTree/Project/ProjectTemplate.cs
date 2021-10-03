@@ -8012,1202 +8012,1072 @@ public sealed partial class Project
 
     private void SpecialTreatment_spot_merce(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_spot_monster(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_spot_member(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_member(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_friend(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Race:
-                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Race;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_merce(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_skill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_learn(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_leader_skill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_assist_skill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_staff(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Race:
-                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Race;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_unit_castle_guard(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_member(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_friend(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Race:
-                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Race;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_merce(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_skill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_learn(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Skill:
-                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skill;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Skillset:
-                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Skillset;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_class_friend_ex(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Class:
-                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Class;
-                                value.HasReference = true;
-                                break;
-                            case ReferenceKind.Race:
-                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Race;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_power_staff(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+                break;
         }
     }
 
     private void SpecialTreatment_power_merce(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        if (value.HasText)
+        if (!value.HasText)
         {
-            if (value.TrailingTokenCount == 0)
-            {
-                if (value.HasNumber)
-                {
-                    result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-                }
-                else
-                {
-                    var span = result.GetSpan(value.Text);
-                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                    if (Unsafe.IsNullRef(ref reference))
-                    {
-                        result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-                    }
-                    else
-                    {
-                        switch (reference.Kind)
-                        {
-                            case ReferenceKind.Unit:
-                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                                value.ReferenceKind = ReferenceKind.Unit;
-                                value.HasReference = true;
-                                break;
-                            default:
-                                result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
-            }
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd($"Value '{span}...' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+            return;
+        }
+        if (value.HasNumber)
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+                break;
         }
     }
 }

@@ -378,7 +378,8 @@ public static class ReferenceKindHelper
         Inden().Append("{").AppendLine();
         Inden().Append("    if (argument.Number != 0)").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorAdd($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); } builder.Append("-th argument is not Number, CompoundText required by action '").Append(name).Append("'.\", argument.TokenId);").AppendLine();
+        Inden().Append("        result.ErrorAdd($\""); if (i < 0) { builder.Append("{i + 1}"); } else { builder.Append(i + 1); }
+        builder.Append("-th argument is not Number, CompoundText required by action '").Append(name).Append("'.\", argument.TokenId);").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("}").AppendLine();
         Inden().Append("else").AppendLine();
@@ -685,53 +686,47 @@ public static class ReferenceKindHelper
         void Pre(string nodeKind, ref ElementInfo element)
         {
             var canBeNumber = HasFlag(ReferenceKind.Number);
-            builder.Append("if (value.HasText)").AppendLine();
+            builder.Append("if (!value.HasText)").AppendLine();
             Inden().Append('{').AppendLine();
-            Inden().Append("    if (value.TrailingTokenCount == 0)").AppendLine();
-            Inden().Append("    {").AppendLine();
+            Inden().Append("    return;").AppendLine();
+            Inden().Append('}').AppendLine();
+            Inden().Append("var span = result.GetSpan(value.Text);").AppendLine();
+            Inden().Append("if (value.TrailingTokenCount != 0)").AppendLine();
+            Inden().Append("{").AppendLine();
+            if (!hasText)
+            {
+                Inden().Append("    result.ErrorAdd($\"Value '{span}...' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            }
+            Inden().Append("    return;").AppendLine();
+            Inden().Append("}").AppendLine();
             if (canBeNumber)
             {
-                Inden().Append("        if (!value.HasNumber)").AppendLine();
-                Inden().Append("        {").AppendLine();
+                Inden().Append("if (value.HasNumber)").AppendLine();
+                Inden().Append("{").AppendLine();
+                Inden().Append("    return;").AppendLine();
+                Inden().Append("}").AppendLine();
             }
             else
             {
-                Inden().Append("        if (value.HasNumber)").AppendLine();
-                Inden().Append("        {").AppendLine();
-                Inden().Append("            result.ErrorAdd(\"'").Append(element.name).Append("' of struct ").Append(nodeKind).Append(" must be one of the ").Append(element.referenceKind).Append(".\", value.Text);").AppendLine();
-                Inden().Append("        }").AppendLine();
-                Inden().Append("        else").AppendLine();
-                Inden().Append("        {").AppendLine();
+                Inden().Append("if (value.HasNumber)").AppendLine();
+                Inden().Append("{").AppendLine();
+                Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+                Inden().Append("    return;").AppendLine();
+                Inden().Append("}").AppendLine();
             }
-        }
-
-        void Post(string nodeKind, ref ElementInfo element)
-        {
-            Inden().Append("        }").AppendLine();
-            Inden().Append("    }").AppendLine();
-            if (!hasText)
-            {
-                Inden().Append("    else").AppendLine();
-                Inden().Append("    {").AppendLine();
-                Inden().Append("        result.ErrorAdd(\"'").Append(element.name).Append("' of struct ").Append(nodeKind).Append(" must be one of the ").Append(element.referenceKind).Append(".\", value.Text);").AppendLine();
-                Inden().Append("    }").AppendLine();
-            }
-            Inden().Append('}');
         }
 
         if (hasSpot || hasUnit || hasClass || hasPower || hasRace)
         {
             Pre(nodeKind, ref element);
-            ProcessElementLate_Details(nodeKind, ref element, indent + 3, builder, hasText, hasSpot, hasUnit, hasClass, hasPower, hasRace);
-            Post(nodeKind, ref element);
+            ProcessElementLate_Details(nodeKind, ref element, indent, builder, hasText, hasSpot, hasUnit, hasClass, hasPower, hasRace);
             return builder.ToString();
         }
 
         if (hasSkill || hasSkillset)
         {
             Pre(nodeKind, ref element);
-            ProcessElementLate_SkillSkillset(nodeKind, ref element, indent + 3, builder, hasText, hasSkill, hasSkillset);
-            Post(nodeKind, ref element);
+            ProcessElementLate_SkillSkillset(nodeKind, ref element, indent, builder, hasText, hasSkill, hasSkillset);
             return builder.ToString();
         }
 
@@ -745,47 +740,47 @@ public static class ReferenceKindHelper
             for (int j = 0; j < indent; ++j) { builder.Append("    "); }
             return builder;
         }
-        Inden().Append("var span = result.GetSpan(value.Text);").AppendLine();
         Inden().Append("ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);").AppendLine();
         if (hasText)
         {
-            Inden().Append("if (!Unsafe.IsNullRef(ref reference))").AppendLine();
+            Inden().Append("if (Unsafe.IsNullRef(ref reference))").AppendLine();
+            Inden().Append("{").AppendLine();
+            Inden().Append("    return;").AppendLine();
+            Inden().Append("}").AppendLine();
         }
         else
         {
             Inden().Append("if (Unsafe.IsNullRef(ref reference))").AppendLine();
             Inden().Append("{").AppendLine();
-            Inden().Append("    result.ErrorAdd(\"'").Append(element.name).Append("' of struct ").Append(nodeKind).Append(" must be one of the ").Append(element.referenceKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("    return;").AppendLine();
             Inden().Append("}").AppendLine();
-            Inden().Append("else").AppendLine();
         }
+        Inden().Append("switch (reference.Kind)").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    switch (reference.Kind)").AppendLine();
-        Inden().Append("    {").AppendLine();
         if (hasSkill)
         {
-            Inden().Append("        case ReferenceKind.Skill:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Skill;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("   case ReferenceKind.Skill:").AppendLine();
+            Inden().Append("       value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("       value.ReferenceKind = ReferenceKind.Skill;").AppendLine();
+            Inden().Append("       value.HasReference = true;").AppendLine();
+            Inden().Append("       break;").AppendLine();
         }
         if (hasSkillset)
         {
-            Inden().Append("        case ReferenceKind.Skillset:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Skillset;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    case ReferenceKind.Skillset:").AppendLine();
+            Inden().Append("        value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceKind = ReferenceKind.Skillset;").AppendLine();
+            Inden().Append("        value.HasReference = true;").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
         if (!hasText)
         {
-            Inden().Append("        default:").AppendLine();
-            Inden().Append("            result.ErrorAdd(\"'").Append(element.name).Append("' of struct ").Append(nodeKind).Append(" must be one of the ").Append(element.referenceKind).Append(".\", value.Text);").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    default:").AppendLine();
+            Inden().Append("        result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
-        Inden().Append("    }").AppendLine();
-        Inden().Append("}").AppendLine();
+        Inden().Append("}");
     }
 
     private static void ProcessElementLate_Details(string nodeKind, ref ElementInfo element, int indent, StringBuilder builder, bool hasText, bool hasSpot, bool hasUnit, bool hasClass, bool hasPower, bool hasRace)
@@ -795,70 +790,70 @@ public static class ReferenceKindHelper
             for (int j = 0; j < indent; ++j) { builder.Append("    "); }
             return builder;
         }
-        Inden().Append("var span = result.GetSpan(value.Text);").AppendLine();
         Inden().Append("ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);").AppendLine();
         if (hasText)
         {
-            Inden().Append("if (!Unsafe.IsNullRef(ref reference))").AppendLine();
+            Inden().Append("if (Unsafe.IsNullRef(ref reference))").AppendLine();
+            Inden().Append("{").AppendLine();
+            Inden().Append("    return;").AppendLine();
+            Inden().Append("}").AppendLine();
         }
         else
         {
             Inden().Append("if (Unsafe.IsNullRef(ref reference))").AppendLine();
             Inden().Append("{").AppendLine();
-            Inden().Append("    result.ErrorAdd(\"'").Append(element.name).Append("' of struct ").Append(nodeKind).Append(" must be one of the ").Append(element.referenceKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("    return;").AppendLine();
             Inden().Append("}").AppendLine();
-            Inden().Append("else").AppendLine();
         }
+        Inden().Append("switch (reference.Kind)").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    switch (reference.Kind)").AppendLine();
-        Inden().Append("    {").AppendLine();
         if (hasUnit)
         {
-            Inden().Append("        case ReferenceKind.Unit:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Unit;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    case ReferenceKind.Unit:").AppendLine();
+            Inden().Append("        value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceKind = ReferenceKind.Unit;").AppendLine();
+            Inden().Append("        value.HasReference = true;").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
         if (hasSpot)
         {
-            Inden().Append("        case ReferenceKind.Spot:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.SpotSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Spot;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    case ReferenceKind.Spot:").AppendLine();
+            Inden().Append("        value.ReferenceId = result.SpotSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceKind = ReferenceKind.Spot;").AppendLine();
+            Inden().Append("        value.HasReference = true;").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
         if (hasClass)
         {
-            Inden().Append("        case ReferenceKind.Class:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Class;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    case ReferenceKind.Class:").AppendLine();
+            Inden().Append("        value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceKind = ReferenceKind.Class;").AppendLine();
+            Inden().Append("        value.HasReference = true;").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
         if (hasPower)
         {
-            Inden().Append("        case ReferenceKind.Power:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.PowerSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Power;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    case ReferenceKind.Power:").AppendLine();
+            Inden().Append("        value.ReferenceId = result.PowerSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceKind = ReferenceKind.Power;").AppendLine();
+            Inden().Append("        value.HasReference = true;").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
         if (hasRace)
         {
-            Inden().Append("        case ReferenceKind.Race:").AppendLine();
-            Inden().Append("            value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);").AppendLine();
-            Inden().Append("            value.ReferenceKind = ReferenceKind.Race;").AppendLine();
-            Inden().Append("            value.HasReference = true;").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    case ReferenceKind.Race:").AppendLine();
+            Inden().Append("        value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceKind = ReferenceKind.Race;").AppendLine();
+            Inden().Append("        value.HasReference = true;").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
         if (!hasText)
         {
-            Inden().Append("        default:").AppendLine();
-            Inden().Append("            result.ErrorAdd(\"'").Append(element.name).Append("' of struct ").Append(nodeKind).Append(" must be one of the ").Append(element.referenceKind).Append(".\", value.Text);").AppendLine();
-            Inden().Append("            break;").AppendLine();
+            Inden().Append("    default:").AppendLine();
+            Inden().Append("        result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("        break;").AppendLine();
         }
-        Inden().Append("    }").AppendLine();
-        Inden().Append("}").AppendLine();
+        Inden().Append("}");
     }
 }
