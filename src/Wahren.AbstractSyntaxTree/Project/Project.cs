@@ -9,7 +9,7 @@ public sealed partial class Project : IDisposable
 {
     public DiagnosticSeverity RequiredSeverity;
     public DisposableList<Result> Files = new();
-    public List<ProjectError> SolutionErrorList = new();
+    public List<ProjectError> ErrorList = new();
 
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> Scenario = new();
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> Event = new();
@@ -34,7 +34,7 @@ public sealed partial class Project : IDisposable
     public void Dispose()
     {
         Files.Dispose();
-        SolutionErrorList.Dispose();
+        ErrorList.Dispose();
 
         Scenario.Dispose();
         Story.Dispose();
@@ -128,8 +128,8 @@ public sealed partial class Project : IDisposable
             }
             else
             {
-                PerResultValidator.CollectError(fileSpan, ref SolutionErrorList, ref ambiguousDictionary_UnitClassPowerSpotRace);
-                PerResultValidator.CollectError(fileSpan, ref SolutionErrorList, ref ambiguousDictionary_SkillSkillset);
+                PerResultValidator.CollectError(fileSpan, ref ErrorList, ref ambiguousDictionary_UnitClassPowerSpotRace);
+                PerResultValidator.CollectError(fileSpan, ref ErrorList, ref ambiguousDictionary_SkillSkillset);
                 return;
             }
         }

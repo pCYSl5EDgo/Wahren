@@ -443,7 +443,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -468,7 +468,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -493,7 +493,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -518,7 +518,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -543,7 +543,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -568,7 +568,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -593,7 +593,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -618,7 +618,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -643,7 +643,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -668,7 +668,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -693,7 +693,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -718,7 +718,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -743,7 +743,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -768,7 +768,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -793,7 +793,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -832,7 +832,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -872,7 +872,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -912,7 +912,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -952,7 +952,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -992,7 +992,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -1032,7 +1032,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -1072,7 +1072,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -1112,7 +1112,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -1138,7 +1138,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -4053,7 +4053,7 @@ public sealed partial class Project
                     ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                     if (Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorAdd($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", argument.TokenId);
+                        result.ErrorAdd($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'removeSkill'.", argument.TokenId);
                     }
                     else
                     {
@@ -4272,7 +4272,7 @@ public sealed partial class Project
                 for (int i = 2; i < arguments.Length; ++i)
                 {
                     argument = ref arguments[i];
-                    AddReferenceAndValidate_CompoundText(ref result, -1, ref argument);
+                    AddReferenceAndValidate_CompoundText(ref result, i, ref argument);
 
                 }
                 break;
@@ -6061,7 +6061,7 @@ public sealed partial class Project
                     ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                     if (Unsafe.IsNullRef(ref track))
                     {
-                        result.ErrorAdd($"2-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
+                        result.ErrorAdd($"2-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
                     }
                     else
                     {
@@ -6111,7 +6111,7 @@ public sealed partial class Project
                         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
                         if (Unsafe.IsNullRef(ref track))
                         {
-                            result.ErrorAdd($"{i + 1}-th argument {span} is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
+                            result.ErrorAdd($"{i + 1}-th argument '{span}' is not Skill, Skillset, StringVariableReader required by action 'eraseSkill'.", argument.TokenId);
                         }
                         else
                         {
@@ -7426,8 +7426,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Spot, merce of Unit, Class
+                SpecialTreatment_spot_merce(ref result, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -7440,8 +7439,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Spot, merce of Unit, Class
+                    SpecialTreatment_spot_merce(ref result, ref value);
                 }
             }
         }
@@ -7449,8 +7447,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Spot, monster of Unit, Class
+                SpecialTreatment_spot_monster(ref result, ref value);
             }
         }
         if (node.monster.VariantArray is { Length: > 0 })
@@ -7463,8 +7460,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Spot, monster of Unit, Class
+                    SpecialTreatment_spot_monster(ref result, ref value);
                 }
             }
         }
@@ -7472,8 +7468,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Spot, member of Unit, Class
+                SpecialTreatment_spot_member(ref result, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -7486,8 +7481,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Spot, member of Unit, Class
+                    SpecialTreatment_spot_member(ref result, ref value);
                 }
             }
         }
@@ -7499,8 +7493,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, member of Unit, Class
+                SpecialTreatment_unit_member(ref result, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -7513,8 +7506,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, member of Unit, Class
+                    SpecialTreatment_unit_member(ref result, ref value);
                 }
             }
         }
@@ -7522,8 +7514,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, friend of Race, Unit, Class
+                SpecialTreatment_unit_friend(ref result, ref value);
             }
         }
         if (node.friend.VariantArray is { Length: > 0 })
@@ -7536,8 +7527,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, friend of Race, Unit, Class
+                    SpecialTreatment_unit_friend(ref result, ref value);
                 }
             }
         }
@@ -7545,8 +7535,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, merce of Unit, Class
+                SpecialTreatment_unit_merce(ref result, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -7559,8 +7548,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, merce of Unit, Class
+                    SpecialTreatment_unit_merce(ref result, ref value);
                 }
             }
         }
@@ -7568,8 +7556,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, skill of Skill, Skillset
+                SpecialTreatment_unit_skill(ref result, ref value);
             }
         }
         if (node.skill.VariantArray is { Length: > 0 })
@@ -7582,8 +7569,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, skill of Skill, Skillset
+                    SpecialTreatment_unit_skill(ref result, ref value);
                 }
             }
         }
@@ -7591,8 +7577,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, skill2 of Skill, Skillset
+                SpecialTreatment_unit_skill2(ref result, ref value);
             }
         }
         if (node.skill2.VariantArray is { Length: > 0 })
@@ -7605,8 +7590,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, skill2 of Skill, Skillset
+                    SpecialTreatment_unit_skill2(ref result, ref value);
                 }
             }
         }
@@ -7614,8 +7598,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, learn of Skill, Skillset
+                SpecialTreatment_unit_learn(ref result, ref value);
             }
         }
         if (node.learn.VariantArray is { Length: > 0 })
@@ -7628,8 +7611,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, learn of Skill, Skillset
+                    SpecialTreatment_unit_learn(ref result, ref value);
                 }
             }
         }
@@ -7637,8 +7619,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, delskill of Skill, Skillset
+                SpecialTreatment_unit_delskill(ref result, ref value);
             }
         }
         if (node.delskill.VariantArray is { Length: > 0 })
@@ -7651,8 +7632,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, delskill of Skill, Skillset
+                    SpecialTreatment_unit_delskill(ref result, ref value);
                 }
             }
         }
@@ -7660,8 +7640,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, delskill2 of Skill, Skillset
+                SpecialTreatment_unit_delskill2(ref result, ref value);
             }
         }
         if (node.delskill2.VariantArray is { Length: > 0 })
@@ -7674,8 +7653,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, delskill2 of Skill, Skillset
+                    SpecialTreatment_unit_delskill2(ref result, ref value);
                 }
             }
         }
@@ -7683,8 +7661,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.leader_skill.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, leader_skill of Skill, Skillset
+                SpecialTreatment_unit_leader_skill(ref result, ref value);
             }
         }
         if (node.leader_skill.VariantArray is { Length: > 0 })
@@ -7697,8 +7674,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, leader_skill of Skill, Skillset
+                    SpecialTreatment_unit_leader_skill(ref result, ref value);
                 }
             }
         }
@@ -7706,8 +7682,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.assist_skill.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, assist_skill of Skill, Skillset
+                SpecialTreatment_unit_assist_skill(ref result, ref value);
             }
         }
         if (node.assist_skill.VariantArray is { Length: > 0 })
@@ -7720,8 +7695,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, assist_skill of Skill, Skillset
+                    SpecialTreatment_unit_assist_skill(ref result, ref value);
                 }
             }
         }
@@ -7729,8 +7703,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, staff of Race, Class
+                SpecialTreatment_unit_staff(ref result, ref value);
             }
         }
         if (node.staff.VariantArray is { Length: > 0 })
@@ -7743,8 +7716,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, staff of Race, Class
+                    SpecialTreatment_unit_staff(ref result, ref value);
                 }
             }
         }
@@ -7752,8 +7724,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.castle_guard.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Unit, castle_guard of Unit, Class
+                SpecialTreatment_unit_castle_guard(ref result, ref value);
             }
         }
         if (node.castle_guard.VariantArray is { Length: > 0 })
@@ -7766,8 +7737,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Unit, castle_guard of Unit, Class
+                    SpecialTreatment_unit_castle_guard(ref result, ref value);
                 }
             }
         }
@@ -7783,8 +7753,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, member of Unit, Class
+                SpecialTreatment_class_member(ref result, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -7797,8 +7766,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, member of Unit, Class
+                    SpecialTreatment_class_member(ref result, ref value);
                 }
             }
         }
@@ -7806,8 +7774,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, friend of Race, Unit, Class
+                SpecialTreatment_class_friend(ref result, ref value);
             }
         }
         if (node.friend.VariantArray is { Length: > 0 })
@@ -7820,8 +7787,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, friend of Race, Unit, Class
+                    SpecialTreatment_class_friend(ref result, ref value);
                 }
             }
         }
@@ -7829,8 +7795,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, merce of Unit, Class
+                SpecialTreatment_class_merce(ref result, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -7843,8 +7808,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, merce of Unit, Class
+                    SpecialTreatment_class_merce(ref result, ref value);
                 }
             }
         }
@@ -7852,8 +7816,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, skill of Skill, Skillset
+                SpecialTreatment_class_skill(ref result, ref value);
             }
         }
         if (node.skill.VariantArray is { Length: > 0 })
@@ -7866,8 +7829,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, skill of Skill, Skillset
+                    SpecialTreatment_class_skill(ref result, ref value);
                 }
             }
         }
@@ -7875,8 +7837,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, skill2 of Skill, Skillset
+                SpecialTreatment_class_skill2(ref result, ref value);
             }
         }
         if (node.skill2.VariantArray is { Length: > 0 })
@@ -7889,8 +7850,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, skill2 of Skill, Skillset
+                    SpecialTreatment_class_skill2(ref result, ref value);
                 }
             }
         }
@@ -7898,8 +7858,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, learn of Skill, Skillset
+                SpecialTreatment_class_learn(ref result, ref value);
             }
         }
         if (node.learn.VariantArray is { Length: > 0 })
@@ -7912,8 +7871,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, learn of Skill, Skillset
+                    SpecialTreatment_class_learn(ref result, ref value);
                 }
             }
         }
@@ -7921,8 +7879,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, delskill of Skill, Skillset
+                SpecialTreatment_class_delskill(ref result, ref value);
             }
         }
         if (node.delskill.VariantArray is { Length: > 0 })
@@ -7935,8 +7892,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, delskill of Skill, Skillset
+                    SpecialTreatment_class_delskill(ref result, ref value);
                 }
             }
         }
@@ -7944,8 +7900,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, delskill2 of Skill, Skillset
+                SpecialTreatment_class_delskill2(ref result, ref value);
             }
         }
         if (node.delskill2.VariantArray is { Length: > 0 })
@@ -7958,8 +7913,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, delskill2 of Skill, Skillset
+                    SpecialTreatment_class_delskill2(ref result, ref value);
                 }
             }
         }
@@ -7967,8 +7921,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend_ex.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Class, friend_ex of Race, Unit, Class
+                SpecialTreatment_class_friend_ex(ref result, ref value);
             }
         }
         if (node.friend_ex.VariantArray is { Length: > 0 })
@@ -7981,8 +7934,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Class, friend_ex of Race, Unit, Class
+                    SpecialTreatment_class_friend_ex(ref result, ref value);
                 }
             }
         }
@@ -8002,8 +7954,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Power, staff of Unit, ClassTypeReader
+                SpecialTreatment_power_staff(ref result, ref value);
             }
         }
         if (node.staff.VariantArray is { Length: > 0 })
@@ -8016,8 +7967,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Power, staff of Unit, ClassTypeReader
+                    SpecialTreatment_power_staff(ref result, ref value);
                 }
             }
         }
@@ -8025,8 +7975,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                // Pair_NullableString_NullableInt_ArrayElement
-                // ERROR  Power, merce of Unit, ClassTypeReader
+                SpecialTreatment_power_merce(ref result, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -8039,8 +7988,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    // Pair_NullableString_NullableInt_ArrayElement
-                    // ERROR  Power, merce of Unit, ClassTypeReader
+                    SpecialTreatment_power_merce(ref result, ref value);
                 }
             }
         }
@@ -8060,5 +8008,1206 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref SkillsetNode node)
     {
+    }
+
+    private void SpecialTreatment_spot_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'merce' of struct Spot must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_spot_monster(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'monster' of struct Spot must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_spot_member(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'member' of struct Spot must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_member(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'member' of struct Unit must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_friend(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Race:
+                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Race;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'friend' of struct Unit must be one of the Race, Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'merce' of struct Unit must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'skill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_learn(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'learn' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'delskill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'delskill2' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_leader_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'leader_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_assist_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'assist_skill' of struct Unit must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_staff(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Race:
+                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Race;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'staff' of struct Unit must be one of the Race, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_unit_castle_guard(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'castle_guard' of struct Unit must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_member(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'member' of struct Class must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_friend(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Race:
+                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Race;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'friend' of struct Class must be one of the Race, Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'merce' of struct Class must be one of the Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'skill' of struct Class must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'skill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_learn(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'learn' of struct Class must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'delskill' of struct Class must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Skill:
+                                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skill;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Skillset:
+                                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Skillset;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'delskill2' of struct Class must be one of the Skill, Skillset.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_class_friend_ex(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Class:
+                                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Class;
+                                value.HasReference = true;
+                                break;
+                            case ReferenceKind.Race:
+                                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Race;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'friend_ex' of struct Class must be one of the Race, Unit, Class.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_power_staff(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'staff' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+            }
+        }
+    }
+
+    private void SpecialTreatment_power_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (value.HasText)
+        {
+            if (value.TrailingTokenCount == 0)
+            {
+                if (value.HasNumber)
+                {
+                    result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+                }
+                else
+                {
+                    var span = result.GetSpan(value.Text);
+                    ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                    if (Unsafe.IsNullRef(ref reference))
+                    {
+                        result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+                    }
+                    else
+                    {
+                        switch (reference.Kind)
+                        {
+                            case ReferenceKind.Unit:
+                                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                                value.ReferenceKind = ReferenceKind.Unit;
+                                value.HasReference = true;
+                                break;
+                            default:
+                                result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result.ErrorAdd("'merce' of struct Power must be one of the Unit, ClassTypeReader.", value.Text);
+            }
+        }
     }
 }

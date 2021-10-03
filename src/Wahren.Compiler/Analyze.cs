@@ -139,7 +139,7 @@ public partial class Program
         var success = solution.CheckExistance();
         if (!success)
         {
-            foreach (var error in solution.SolutionErrorList)
+            foreach (var error in solution.ErrorList)
             {
                 Console.WriteLine(error.Text);
             }

@@ -136,7 +136,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 <# } #>
@@ -177,7 +177,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    SolutionErrorList.Add(new(builder.ToString()));
+                    ErrorList.Add(new(builder.ToString()));
                 }
             }
         }
@@ -204,7 +204,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                SolutionErrorList.Add(new(builder.ToString()));
+                ErrorList.Add(new(builder.ToString()));
             }
         }
 
@@ -335,21 +335,10 @@ public sealed partial class Project
 <#      if (isArray) { #>
             foreach (ref var value in node.<#= element.Name #>.Value.Value.AsSpan())
             {
-<#          if (element.referenceKind == ReferenceKind.SpecialLate) { #>
-                AddReferenceAndValidateLate_<#= nodeKind #>_<#= element.Name #>(ref result, ref value);
-<#          } else { #>
-                // <#= element.name.GetCorrespondingType() #>
-                <#= ReferenceKindHelper.ProcessElementLate(nodeKind, ref element, 4) #>
-<#          }#>
+                SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
             }
 <#      } else { #>
-            ref var value = ref node.Value.Value;
-<#          if (element.referenceKind == ReferenceKind.SpecialLate) { #>
-            AddReferenceAndValidateLate_<#= nodeKind #>_<#= element.Name #>(ref result, ref value);
-<#          } else { #>
-            // <#= element.name.GetCorrespondingType() #>
-            <#= ReferenceKindHelper.ProcessElementLate(nodeKind, ref element, 3) #>
-<#          }#>
+            SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.Value.Value);
 <#      } #>
         }
         if (node.<#= element.Name #>.VariantArray is { Length: > 0 })
@@ -363,25 +352,24 @@ public sealed partial class Project
 <#      if (isArray) { #>
                 foreach (ref var value in element.Value.AsSpan())
                 {
-<#          if (element.referenceKind == ReferenceKind.SpecialLate) { #>
-                    AddReferenceAndValidateLate_<#= nodeKind #>_<#= element.Name #>(ref result, ref value);
-<#          } else { #>
-                    // <#= element.name.GetCorrespondingType() #>
-                    <#= ReferenceKindHelper.ProcessElementLate(nodeKind, ref element, 5) #>
-<#          }#>
+                    SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
                 }
 <#      } else { #>
-                ref var value = ref element.Value;
-<#          if (element.referenceKind == ReferenceKind.SpecialLate) { #>
-                AddReferenceAndValidateLate_<#= nodeKind #>_<#= element.Name #>(ref result, ref value);
-<#          } else { #>
-                // <#= element.name.GetCorrespondingType() #>
-                <#= ReferenceKindHelper.ProcessElementLate(nodeKind, ref element, 4) #>
-<#          }#>
+                SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref element.Value);
 <#      } #>
             }
         }
 <#  } #>
     }
+<# } #>
+<# foreach (var nodeKind in Helper.BlockContainers.Concat(Helper.Inheritables)) { #>
+<#	var elements = ElementInfo.Get(nodeKind).Where(x => !x.referenceKind.CanProcessEarly()).ToArray(); #>
+<#	for (int elementIndex = 0; elementIndex < elements.Length ; ++elementIndex) { ref var element = ref elements[elementIndex]; #>
+
+    private void SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        <#= ReferenceKindHelper.ProcessElementLate(nodeKind, ref element, 2) #>
+    }
+<#  } #>
 <# } #>
 }
