@@ -501,6 +501,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of skill requires Number.");
 		ValidateBooleanNumber(ref result, ref node.special, " 'special' of skill requires Boolean 'on' or Number.");
 		// Ignore Text Skill help
+		AddReference(ref result, ref node.sound, ref result.soundSet, ReferenceKind.sound);
 		// Ignore Text Skill msg
 		ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
 		ValidateBooleanNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Boolean 'on' or Number.");

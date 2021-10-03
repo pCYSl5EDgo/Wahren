@@ -202,7 +202,7 @@ public struct ElementInfo
         new("quickreload"),
         new("help", referenceKind: ReferenceKind.Text),
         new("hide_help"),
-        new("sound"),
+        new("sound", referenceKind: ReferenceKind.sound),
         new("msg", variantType: "Unit", referenceKind: ReferenceKind.Text),
         new("picture", variantType: "Unit"),
         new("cutin"),

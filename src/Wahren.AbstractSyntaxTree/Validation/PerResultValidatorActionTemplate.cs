@@ -4338,8 +4338,8 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.playSE:
-                argument.ReferenceKind = ReferenceKind.se;
-                argument.ReferenceId = result.seSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                argument.ReferenceKind = ReferenceKind.sound;
+                argument.ReferenceId = result.soundSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                 argument.HasReference = true;
 
                 break;

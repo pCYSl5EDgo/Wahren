@@ -68,7 +68,7 @@ public static partial class PerResultValidator
 <#			case ReferenceKind.bgm						: #>
 <#			case ReferenceKind.imagedata				: #>
 <#			case ReferenceKind.face						: #>
-<#			case ReferenceKind.se						: #>
+<#			case ReferenceKind.sound					: #>
 <#			case ReferenceKind.picture					: #>
 <#			case ReferenceKind.image_file				: #>
 <#			case ReferenceKind.flag						: #>

@@ -37,7 +37,10 @@ public partial class Program
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
-
+        Console.CancelKeyPress += new((object? _, ConsoleCancelEventArgs args) => {
+            cancellationTokenSource?.Cancel();
+            args.Cancel = true;
+        });
         var debugPaper = await GetDebugPaper(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
         string? contentsFolder;
         if (debugPaper.Folder is null)
@@ -58,23 +61,23 @@ public partial class Program
         var scriptFolderPath = Path.Combine(contentsFolder, "script");
         var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
         var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-        var solution = new Project()
+        var project = new Project()
         {
             RequiredSeverity = (DiagnosticSeverity)(uint)severity
         };
         try
         {
-            solution.Files.PrepareAddRange(files.Length);
+            project.Files.PrepareAddRange(files.Length);
             for (int i = 0; i < files.Length; i++)
             {
-                solution.Files.Add(new((uint)i));
+                project.Files.Add(new((uint)i));
             }
 
             await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, files.Length), cancellationTokenSource.Token, async (int index, CancellationToken token) =>
             {
                 byte[] rental;
                 int actual;
-                solution.Files[index].FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[index]);
+                project.Files[index].FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[index]);
                 var handle = File.OpenHandle(files[index], FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
                 try
                 {
@@ -102,7 +105,7 @@ public partial class Program
 
                 try
                 {
-                    LoadAndParse(solution.RequiredSeverity, @switch, isUnicode, isEnglish, ref solution.Files[index], rental.AsSpan(0, actual));
+                    LoadAndParse(project.RequiredSeverity, @switch, isUnicode, isEnglish, ref project.Files[index], rental.AsSpan(0, actual));
                 }
                 finally
                 {
@@ -110,19 +113,96 @@ public partial class Program
                 }
             }).ConfigureAwait(false);
             
-            if (!CompileResultSync(solution))
+            if (!CompileResultSync(project))
             {
                 return 0;
             }
 
-            if (!CheckSync(solution))
+            if (!CheckSync(project))
             {
                 return 0;
             }
+
+            await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, files.Length), cancellationTokenSource.Token, (int index, CancellationToken token) =>
+            {
+                ref var file = ref project.Files[index];
+                for (uint i = 0, count = file.mapSet.Count; i != count; ++i)
+                {
+                    var name = file.mapSet[i];
+                    var original = $"{contentsFolder}/stage/{name}.map";
+                    if (!File.Exists(original))
+                    {
+                        Console.WriteLine($"file map '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+                for (uint i = 0, count = file.bgmSet.Count; i != count; ++i)
+                {
+                    var name = file.bgmSet[i];
+                    var original = $"{contentsFolder}/bgm/{name}";
+                    if (!File.Exists(original) && !File.Exists(original + ".mp3") && !File.Exists(original + ".ogg") && !File.Exists(original + ".mid"))
+                    {
+                        Console.WriteLine($"file bgm '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+                for (uint i = 0, count = file.faceSet.Count; i != count; ++i)
+                {
+                    var name = file.faceSet[i];
+                    var original = $"{contentsFolder}/face/{name}";
+                    if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                    {
+                        Console.WriteLine($"file face '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+                for (uint i = 0, count = file.soundSet.Count; i != count; ++i)
+                {
+                    var name = file.soundSet[i];
+                    var original = $"{contentsFolder}/sound/{name}.wav";
+                    if (!File.Exists(original))
+                    {
+                        Console.WriteLine($"file sound '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+                for (uint i = 0, count = file.pictureSet.Count; i != count; ++i)
+                {
+                    var name = file.pictureSet[i];
+                    var original = $"{contentsFolder}/picture/{name}";
+                    if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                    {
+                        Console.WriteLine($"file pciture '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+                for (uint i = 0, count = file.image_fileSet.Count; i != count; ++i)
+                {
+                    var name = file.image_fileSet[i];
+                    var original = $"{contentsFolder}/image/{name}";
+                    if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                    {
+                        Console.WriteLine($"file image '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+                for (uint i = 0, count = file.flagSet.Count; i != count; ++i)
+                {
+                    var name = file.flagSet[i];
+                    var original = $"{contentsFolder}/flag/{name}";
+                    if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                    {
+                        Console.WriteLine($"file flag '{name}' is not found.");
+                        return ValueTask.CompletedTask;
+                    }
+                }
+
+                return ValueTask.CompletedTask;
+            }).ConfigureAwait(false);
         }
         finally
         {
-            solution.Dispose();
+            project.Dispose();
             stopwatch?.Stop();
             if (stopwatch is not null)
             {
@@ -134,12 +214,12 @@ public partial class Program
         return 0;
     }
 
-    private bool CheckSync(Project solution)
+    private bool CheckSync(Project project)
     {
-        var success = solution.CheckExistance();
+        var success = project.CheckExistance();
         if (!success)
         {
-            foreach (var error in solution.ErrorList)
+            foreach (var error in project.ErrorList)
             {
                 Console.WriteLine(error.Text);
             }
@@ -148,21 +228,21 @@ public partial class Program
         return success;
     }
 
-    private static bool CompileResultSync(Project solution)
+    private static bool CompileResultSync(Project project)
     {
         bool isSuccess = true;
-        foreach (ref var file in solution.Files.AsSpan())
+        foreach (ref var file in project.Files.AsSpan())
         {
             isSuccess &= file.NoError();
         }
         if (isSuccess)
         {
-            solution.AddReferenceAndValidate();
+            project.AddReferenceAndValidate();
         }
 
         StringBuilder? stringBuilder = null;
-        bool showNotError = solution.RequiredSeverity != 0U;
-        foreach (ref var result in solution.Files)
+        bool showNotError = project.RequiredSeverity != 0U;
+        foreach (ref var result in project.Files)
         {
             if (result.ErrorList.IsEmpty)
             {

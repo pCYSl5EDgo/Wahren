@@ -48,7 +48,7 @@ public enum ReferenceKind : ulong
     bgm                         = 0x_0000_0200_0000_0000UL,
     imagedata                   = 0x_0000_0400_0000_0000UL,
     face                        = 0x_0000_0800_0000_0000UL,
-    se                          = 0x_0000_1000_0000_0000UL,
+    sound                       = 0x_0000_1000_0000_0000UL,
     picture                     = 0x_0000_2000_0000_0000UL,
     image_file                  = 0x_0000_4000_0000_0000UL,
     flag                        = 0x_0000_8000_0000_0000UL,

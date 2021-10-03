@@ -141,7 +141,7 @@ public struct CallableInfo
         new("addVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("fadein", 0, 1, NumReader),
         new("locate", 1, 2, new[] { SSpoUni }, new[] { NumReader, NumReader }),
-        new("playSE", 1, 1, ReferenceKind.se),
+        new("playSE", 1, 1, ReferenceKind.sound),
         new("scroll", 1, 2, new[] { SSpoUniCla }, new[] { NumReader, NumReader }),
         new("setVar", 2, 2, ReferenceKind.StringVariableWriter, StrReader),
         new("shadow", 0, 6, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number, ReferenceKind.Number),

@@ -58,7 +58,7 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet bgmSet = new();
     public StringSpanKeySlowSet imagedataSet = new();
     public StringSpanKeySlowSet faceSet = new();
-    public StringSpanKeySlowSet seSet = new();
+    public StringSpanKeySlowSet soundSet = new();
     public StringSpanKeySlowSet pictureSet = new();
     public StringSpanKeySlowSet image_fileSet = new();
     public StringSpanKeySlowSet flagSet = new();
@@ -186,7 +186,7 @@ public struct Result : IDisposable
         bgmSet.Dispose();
         imagedataSet.Dispose();
         faceSet.Dispose();
-        seSet.Dispose();
+        soundSet.Dispose();
         pictureSet.Dispose();
         image_fileSet.Dispose();
         flagSet.Dispose();

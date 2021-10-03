@@ -71,7 +71,7 @@ public static class ReferenceKindHelper
             ReferenceKind.bgm or
             ReferenceKind.imagedata or
             ReferenceKind.face or
-            ReferenceKind.se or
+            ReferenceKind.sound or
             ReferenceKind.picture or
             ReferenceKind.image_file or
             ReferenceKind.flag or
@@ -478,7 +478,7 @@ public static class ReferenceKindHelper
             case ReferenceKind.bgm:
             case ReferenceKind.imagedata:
             case ReferenceKind.face:
-            case ReferenceKind.se:
+            case ReferenceKind.sound:
             case ReferenceKind.picture:
             case ReferenceKind.image_file:
             case ReferenceKind.flag:
