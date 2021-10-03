@@ -1,7 +1,4 @@
-﻿using System;
-using System.Buffers;
-
-namespace Wahren.PooledList;
+﻿namespace Wahren.PooledList;
 
 public struct List<T> : IDisposable, System.Collections.Generic.IList<T>, IEquatable<List<T>>
 {

@@ -1,6 +1,3 @@
-using System;
-using System.Buffers;
-
 namespace Wahren.PooledList;
 
 public struct DisposableList<T> : IDisposable, System.Collections.Generic.IList<T>

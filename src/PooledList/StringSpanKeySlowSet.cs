@@ -1,5 +1,4 @@
-﻿namespace Wahren.AbstractSyntaxTree.Parser;
-using PooledList;
+﻿namespace Wahren.PooledList;
 
 public struct StringSpanKeySlowSet : IDisposable
 {
