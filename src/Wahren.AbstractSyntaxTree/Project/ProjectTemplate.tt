@@ -113,6 +113,9 @@ public sealed partial class Project
         case "Scenario":
             offset = 10;
             break;
+        case "Unit":
+            offset = 2;
+            break;
     }#>
 
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
@@ -364,7 +367,9 @@ public sealed partial class Project
 <# } #>
 <# foreach (var nodeKind in Helper.BlockContainers.Concat(Helper.Inheritables)) { #>
 <#	var elements = ElementInfo.Get(nodeKind).Where(x => !x.referenceKind.CanProcessEarly()).ToArray(); #>
-<#	for (int elementIndex = 0; elementIndex < elements.Length ; ++elementIndex) { ref var element = ref elements[elementIndex]; #>
+<#	for (int elementIndex = 0; elementIndex < elements.Length ; ++elementIndex) { #>
+<#      ref var element = ref elements[elementIndex]; #>
+<#      if (element.referenceKind == ReferenceKind.SpecialLate) continue; #>
 
     private void SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref Pair_NullableString_NullableInt value)
     {

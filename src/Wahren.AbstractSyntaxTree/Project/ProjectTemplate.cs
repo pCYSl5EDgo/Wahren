@@ -601,7 +601,7 @@ public sealed partial class Project
         {
             ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref file.UnitSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
+            for (uint i = 2, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
                 if (!Unsafe.IsNullRef(ref TryGetUnitNode(fileIndex, name, out _)))
@@ -8019,18 +8019,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Spot. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8046,7 +8041,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Spot. ET3", value.Text);
                 break;
         }
     }
@@ -8060,18 +8055,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'monster' of struct Spot. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8087,7 +8077,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'monster' of struct Spot. ET3", value.Text);
                 break;
         }
     }
@@ -8101,18 +8091,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Spot. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8128,7 +8113,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Spot. ET3", value.Text);
                 break;
         }
     }
@@ -8142,18 +8127,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8169,53 +8149,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit.", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_unit_friend(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Race;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8229,18 +8163,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8256,7 +8185,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8270,18 +8199,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8297,7 +8221,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8311,18 +8235,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill2' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8338,7 +8257,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8352,18 +8271,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'learn' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8379,7 +8293,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8393,18 +8307,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8420,7 +8329,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8434,18 +8343,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill2' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8461,7 +8365,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8475,18 +8379,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'leader_skill' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8502,7 +8401,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'leader_skill' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8516,18 +8415,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'assist_skill' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8543,7 +8437,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'assist_skill' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8557,18 +8451,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Race, Class required by element 'staff' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8584,7 +8473,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Race, Class required by element 'staff' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8598,18 +8487,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'castle_guard' of struct Unit. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8625,7 +8509,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'castle_guard' of struct Unit. ET3", value.Text);
                 break;
         }
     }
@@ -8639,18 +8523,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'member' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8666,53 +8545,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class.", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_friend(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Race;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'member' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8726,18 +8559,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Unit, Class required by element 'merce' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8753,7 +8581,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Unit, Class required by element 'merce' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8767,18 +8595,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8794,7 +8617,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8808,18 +8631,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'skill2' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8835,7 +8653,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'skill2' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8849,18 +8667,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'learn' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8876,7 +8689,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'learn' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8890,18 +8703,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8917,7 +8725,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8931,18 +8739,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Skill, Skillset required by element 'delskill2' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -8958,7 +8761,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Skill, Skillset required by element 'delskill2' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -8972,18 +8775,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend_ex' of struct Class. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -9004,7 +8802,7 @@ public sealed partial class Project
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend_ex' of struct Class. ET3", value.Text);
                 break;
         }
     }
@@ -9018,18 +8816,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'staff' of struct Power. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'staff' of struct Power. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -9039,8 +8832,18 @@ public sealed partial class Project
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'staff' of struct Power.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'staff' of struct Power. ET3", value.Text);
                 break;
         }
     }
@@ -9054,18 +8857,13 @@ public sealed partial class Project
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
-            return;
-        }
-        if (value.HasNumber)
-        {
-            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'merce' of struct Power. ET0", value.Text);
             return;
         }
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'merce' of struct Power. ET2", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -9075,8 +8873,18 @@ public sealed partial class Project
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Unit, ClassTypeReader required by element 'merce' of struct Power.", value.Text);
+                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'merce' of struct Power. ET3", value.Text);
                 break;
         }
     }

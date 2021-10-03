@@ -685,7 +685,6 @@ public static class ReferenceKindHelper
 
         void Pre(string nodeKind, ref ElementInfo element)
         {
-            var canBeNumber = HasFlag(ReferenceKind.Number);
             builder.Append("if (!value.HasText)").AppendLine();
             Inden().Append('{').AppendLine();
             Inden().Append("    return;").AppendLine();
@@ -695,25 +694,10 @@ public static class ReferenceKindHelper
             Inden().Append("{").AppendLine();
             if (!hasText)
             {
-                Inden().Append("    result.ErrorAdd($\"Value '{span}...' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+                Inden().Append("    result.ErrorAdd($\"Value '{span}...' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(". ET0\", value.Text);").AppendLine();
             }
             Inden().Append("    return;").AppendLine();
             Inden().Append("}").AppendLine();
-            if (canBeNumber)
-            {
-                Inden().Append("if (value.HasNumber)").AppendLine();
-                Inden().Append("{").AppendLine();
-                Inden().Append("    return;").AppendLine();
-                Inden().Append("}").AppendLine();
-            }
-            else
-            {
-                Inden().Append("if (value.HasNumber)").AppendLine();
-                Inden().Append("{").AppendLine();
-                Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
-                Inden().Append("    return;").AppendLine();
-                Inden().Append("}").AppendLine();
-            }
         }
 
         if (hasSpot || hasUnit || hasClass || hasPower || hasRace)
@@ -752,7 +736,7 @@ public static class ReferenceKindHelper
         {
             Inden().Append("if (Unsafe.IsNullRef(ref reference))").AppendLine();
             Inden().Append("{").AppendLine();
-            Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(". ET2\", value.Text);").AppendLine();
             Inden().Append("    return;").AppendLine();
             Inden().Append("}").AppendLine();
         }
@@ -777,7 +761,7 @@ public static class ReferenceKindHelper
         if (!hasText)
         {
             Inden().Append("    default:").AppendLine();
-            Inden().Append("        result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("        result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(". ET3\", value.Text);").AppendLine();
             Inden().Append("        break;").AppendLine();
         }
         Inden().Append("}");
@@ -802,7 +786,7 @@ public static class ReferenceKindHelper
         {
             Inden().Append("if (Unsafe.IsNullRef(ref reference))").AppendLine();
             Inden().Append("{").AppendLine();
-            Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("    result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(". ET2\", value.Text);").AppendLine();
             Inden().Append("    return;").AppendLine();
             Inden().Append("}").AppendLine();
         }
@@ -851,7 +835,7 @@ public static class ReferenceKindHelper
         if (!hasText)
         {
             Inden().Append("    default:").AppendLine();
-            Inden().Append("        result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(".\", value.Text);").AppendLine();
+            Inden().Append("        result.ErrorAdd($\"Value '{span}' is not ").Append(element.referenceKind).Append(" required by element '").Append(element.name).Append("' of struct ").Append(nodeKind).Append(". ET3\", value.Text);").AppendLine();
             Inden().Append("        break;").AppendLine();
         }
         Inden().Append("}");

@@ -94,6 +94,8 @@ public struct Result : IDisposable
 
     private void Initialize()
     {
+        UnitSet.InitialAdd("dead_event_a");
+        UnitSet.InitialAdd("dead_event_d");
         ScenarioSet.InitialAdd("a");
         ScenarioSet.InitialAdd("b");
         ScenarioSet.InitialAdd("c");
