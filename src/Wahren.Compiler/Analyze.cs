@@ -30,7 +30,9 @@ public partial class Program
     [Command(new string[] {
         "analyze",
     })]
+#pragma warning disable CA1822
     public async ValueTask<int> Analyze(
+#pragma warning restore CA1822
         [Option(0, "input folder")] string rootFolder = ".",
         [Option("switch")] bool @switch = false,
         [Option("s")] PseudoDiagnosticSeverity severity = PseudoDiagnosticSeverity.Error,
@@ -120,13 +122,13 @@ public partial class Program
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (!CompileResultSync(project))
             {
-                //return 0;
+                return 0;
             }
 
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (!CheckSync(project))
             {
-                //return 0;
+                return 0;
             }
 
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -241,7 +243,6 @@ public partial class Program
                             if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                             {
                                 project.ErrorAdd_FileNotFound("image", name);
-                                Console.WriteLine($"file image '{name}' is not found.");
                             }
                         }
                         break;
@@ -260,7 +261,6 @@ public partial class Program
                             if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                             {
                                 project.ErrorAdd_FileNotFound("flag", name);
-                                Console.WriteLine($"file flag '{name}' is not found.");
                             }
                         }
                         break;
@@ -385,7 +385,7 @@ public partial class Program
 #if DEBUG
                 project.ErrorBag.Add(new($"不正なデータフォーマットをしています。\n  {datFileName}"));
 #else
-            project.ErrorBag.Add(new($"Invalid data format error.\n  {datFileName}"));
+                project.ErrorBag.Add(new($"Invalid data format error.\n  {datFileName}"));
 #endif
                 return;
             }

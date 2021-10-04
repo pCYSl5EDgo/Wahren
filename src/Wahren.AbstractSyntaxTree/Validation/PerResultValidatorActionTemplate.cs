@@ -101,7 +101,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'pushDeath'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushDeath", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -156,7 +156,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setPowerHome'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setPowerHome", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -182,7 +182,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setPowerHome'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setPowerHome", 2, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -271,7 +271,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'bg' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("bg", 2, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -279,7 +279,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -305,7 +305,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'addSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addSpot", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -331,7 +331,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'resetTruce'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("resetTruce", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -346,7 +346,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("resetTruce", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -357,7 +357,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'resetTruce'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("resetTruce", 1, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -378,7 +378,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'resetTruce'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("resetTruce", 2, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -405,7 +405,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'resetLeague'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("resetLeague", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -420,7 +420,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("resetLeague", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -431,7 +431,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'resetLeague'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("resetLeague", 1, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -452,7 +452,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'resetLeague'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("resetLeague", 2, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -476,7 +476,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'resetEnemyPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("resetEnemyPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -502,7 +502,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'resetEnemyPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("resetEnemyPower", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -647,13 +647,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addv'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addv", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addv", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -666,7 +666,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addv", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -687,13 +687,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setv'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setv", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("setv", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -706,7 +706,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("setv", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -727,13 +727,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'subv'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("subv", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("subv", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -746,7 +746,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("subv", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -787,13 +787,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeud'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeud", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeud", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -806,7 +806,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeud", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -829,13 +829,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addstr'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addstr", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addstr", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -848,7 +848,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addstr", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -861,13 +861,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addVar", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addVar", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -880,7 +880,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addVar", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -901,13 +901,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setVar", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("setVar", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -920,7 +920,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("setVar", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -941,13 +941,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'subVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("subVar", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("subVar", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -960,7 +960,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("subVar", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -992,7 +992,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addCapa'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addCapa", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1023,7 +1023,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addGain'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addGain", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1054,7 +1054,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushSex'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushSex", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1082,7 +1082,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1097,7 +1097,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -1114,7 +1114,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setCapa'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setCapa", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1145,7 +1145,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setDone'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDone", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1170,7 +1170,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'setDone' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDone", 2, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -1178,7 +1178,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setGain'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setGain", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1209,7 +1209,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePM'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePM", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1231,13 +1231,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storePM'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePM", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePM", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -1250,7 +1250,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePM", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -1262,7 +1262,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'levelup'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("levelup", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1293,7 +1293,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addLevel'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addLevel", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1324,7 +1324,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addLoyal'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addLoyal", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1355,7 +1355,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addTrust'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addTrust", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1386,7 +1386,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'hideLink'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("hideLink", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1408,7 +1408,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'hideLink'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("hideLink", 2, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1431,7 +1431,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushCapa'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushCapa", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1459,7 +1459,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushItem", 1, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1487,7 +1487,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushRank'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushRank", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1515,7 +1515,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushSpot", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1543,7 +1543,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setLevel'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setLevel", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1574,7 +1574,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'hideEscape'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("hideEscape", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1596,7 +1596,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'hideEscape'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("hideEscape", 2, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1619,7 +1619,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addCastle'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addCastle", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1650,7 +1650,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addMerits'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addMerits", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1681,7 +1681,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeMap'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeMap", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1709,7 +1709,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushLevel'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushLevel", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1737,7 +1737,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushLoyal'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushLoyal", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1765,7 +1765,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushTrain'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushTrain", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1793,7 +1793,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setCastle'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setCastle", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1824,7 +1824,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeRace'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeRace", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1846,7 +1846,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'changeRace'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeRace", 2, "Race", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1869,7 +1869,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushCastle'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushCastle", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1897,7 +1897,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushMerits'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushMerits", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1925,7 +1925,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setDungeon'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDungeon", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1953,7 +1953,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'unionPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("unionPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1975,7 +1975,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'unionPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("unionPower", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -1998,7 +1998,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addTraining'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addTraining", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2029,7 +2029,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeClass'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeClass", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2051,7 +2051,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'changeClass'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeClass", 2, "Class", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2074,7 +2074,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushTrainUp'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushTrainUp", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2102,7 +2102,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setTraining'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setTraining", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2133,7 +2133,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addBaseLevel'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addBaseLevel", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2164,7 +2164,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeCastle'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeCastle", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2195,7 +2195,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setBaseLevel'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setBaseLevel", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2226,7 +2226,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addTrainingUp'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addTrainingUp", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2257,7 +2257,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeDungeon'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeDungeon", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2285,7 +2285,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushBaseLevel'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushBaseLevel", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2313,7 +2313,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setTrainingUp'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setTrainingUp", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2344,7 +2344,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeNextSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNextSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2366,13 +2366,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeNextSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNextSpot", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNextSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2385,7 +2385,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNextSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2397,7 +2397,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeSkillset'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillset", 1, "Skillset", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2419,13 +2419,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeSkillset'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillset", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillset", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2438,7 +2438,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillset", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2450,7 +2450,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changePowerFix'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changePowerFix", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2496,7 +2496,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changePowerName'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changePowerName", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2520,7 +2520,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changeSpotImage'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changeSpotImage", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2548,7 +2548,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setDungeonFloor'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDungeonFloor", 1, "Dungeon", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2579,7 +2579,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeRaceOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRaceOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2601,13 +2601,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeRaceOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRaceOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRaceOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2620,7 +2620,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRaceOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2632,7 +2632,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeSpotOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2654,13 +2654,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeSpotOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2673,7 +2673,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2685,7 +2685,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeUnitOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2707,13 +2707,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeUnitOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2726,7 +2726,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2738,7 +2738,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeClassOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeClassOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2760,13 +2760,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeClassOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2779,7 +2779,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2791,7 +2791,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePowerOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2813,13 +2813,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storePowerOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfSpot", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2832,7 +2832,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2844,7 +2844,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePowerOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2866,13 +2866,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storePowerOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2885,7 +2885,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2897,7 +2897,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeSkillOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2919,13 +2919,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeSkillOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2938,7 +2938,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -2950,7 +2950,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeSpotOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -2972,13 +2972,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeSpotOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfPower", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -2991,7 +2991,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3008,13 +3008,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeTalentPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeTalentPower", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeTalentPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3027,7 +3027,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeTalentPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3039,7 +3039,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeUnitOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3061,13 +3061,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeUnitOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfPower", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3080,7 +3080,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3092,7 +3092,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeLeaderOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3114,13 +3114,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeLeaderOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfSpot", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3133,7 +3133,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3145,7 +3145,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeMasterOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3167,13 +3167,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeMasterOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3186,7 +3186,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3198,7 +3198,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeMemberOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMemberOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3220,13 +3220,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeMemberOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMemberOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMemberOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3239,7 +3239,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMemberOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3259,13 +3259,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storePowerOfForce'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfForce", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfForce", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3278,7 +3278,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfForce", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3290,7 +3290,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeLeaderOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3312,13 +3312,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeLeaderOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfPower", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3331,7 +3331,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3343,7 +3343,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeMasterOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3365,13 +3365,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeMasterOfPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfPower", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3384,7 +3384,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfPower", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3396,7 +3396,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeRoamUnitOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRoamUnitOfSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3418,13 +3418,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeRoamUnitOfSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRoamUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRoamUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3437,7 +3437,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRoamUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3449,7 +3449,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeBaseClassOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBaseClassOfUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3471,13 +3471,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'storeBaseClassOfUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBaseClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"2-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBaseClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -3490,7 +3490,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"2-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBaseClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -3502,7 +3502,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addSkill'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addSkill", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3524,7 +3524,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'addSkill'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addSkill", 2, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3548,7 +3548,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'addSkill'.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addSkill", i + 1, "Skill", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -3572,7 +3572,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addSkill2'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addSkill2", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3594,7 +3594,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'addSkill2'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addSkill2", 2, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3618,7 +3618,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'addSkill2'.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addSkill2", i + 1, "Skill", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -3651,7 +3651,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'focus'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("focus", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3710,7 +3710,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 1-th argument of action 'reloadMenu' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("reloadMenu", 1, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -3721,7 +3721,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'changePlayer'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("changePlayer", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -3747,7 +3747,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 1-th argument of action 'setGameClear' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setGameClear", 1, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -4310,13 +4310,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'clear'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("clear", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("clear", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -4329,7 +4329,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("clear", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4356,7 +4356,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addItem", 1, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4385,7 +4385,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'shuffle'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shuffle", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4400,7 +4400,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("shuffle", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4421,7 +4421,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4444,7 +4444,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'clearVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("clearVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4459,7 +4459,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("clearVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4471,7 +4471,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'exitItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("exitItem", 1, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4494,7 +4494,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'hideSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("hideSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4529,7 +4529,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'roamUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4552,7 +4552,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'roamUnit2'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit2", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4584,7 +4584,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'showSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("showSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4610,7 +4610,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 1-th argument of action 'showParty' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("showParty", 1, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -4618,7 +4618,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'entryItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("entryItem", 1, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4641,7 +4641,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'eraseItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("eraseItem", 1, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4664,7 +4664,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'eraseUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("eraseUnit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4711,7 +4711,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'erasePower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("erasePower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4734,7 +4734,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'removeSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("removeSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4757,7 +4757,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'shuffleVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shuffleVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4772,7 +4772,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("shuffleVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4799,7 +4799,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'showDungeon'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("showDungeon", 1, "Dungeon", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -4831,7 +4831,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 1-th argument of action 'showPolitics' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("showPolitics", 1, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -4839,13 +4839,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeAllSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllSpot", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllSpot", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -4858,7 +4858,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllSpot", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4870,13 +4870,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeAllPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllPower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -4889,7 +4889,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4901,13 +4901,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeComPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeComPower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeComPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -4920,7 +4920,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeComPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4932,13 +4932,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeNowPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNowPower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNowPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -4951,7 +4951,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNowPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -4969,13 +4969,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeAllTalent'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllTalent", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllTalent", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -4988,7 +4988,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllTalent", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5000,7 +5000,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'erasePowerMerce'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("erasePowerMerce", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5023,7 +5023,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'erasePowerStaff'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("erasePowerStaff", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5046,13 +5046,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeBattleSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBattleSpot", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBattleSpot", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5065,7 +5065,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBattleSpot", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5077,13 +5077,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePlayerUnit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerUnit", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerUnit", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5096,7 +5096,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerUnit", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5108,13 +5108,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeAttackPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAttackPower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAttackPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5127,7 +5127,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAttackPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5139,13 +5139,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeNeutralSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNeutralSpot", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNeutralSpot", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5158,7 +5158,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNeutralSpot", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5170,13 +5170,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePlayerPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerPower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5189,7 +5189,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5201,13 +5201,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeDefensePower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeDefensePower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeDefensePower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5220,7 +5220,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeDefensePower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5232,13 +5232,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeSpotOfBattle'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfBattle", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfBattle", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5251,7 +5251,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfBattle", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5263,13 +5263,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePowerOfAttack'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfAttack", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfAttack", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5282,7 +5282,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfAttack", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5294,13 +5294,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeNonPlayerPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNonPlayerPower", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNonPlayerPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5313,7 +5313,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNonPlayerPower", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5325,13 +5325,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storePowerOfDefense'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfDefense", 1, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"1-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfDefense", 1, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5344,7 +5344,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfDefense", 1, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5364,7 +5364,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'font' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("font", 2, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 2)
@@ -5374,14 +5374,14 @@ public static partial class PerResultValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'font' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("font", 3, "Number", argument.TokenId);
                 }
 
                 break;
             case ActionKind.fontc:
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'fontc' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("fontc", 1, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 1)
@@ -5391,7 +5391,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'fontc' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("fontc", 2, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 2)
@@ -5401,7 +5401,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'fontc' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("fontc", 3, "Number", argument.TokenId);
                 }
 
                 break;
@@ -5409,7 +5409,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'gread'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 1, "GlobalVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5440,13 +5440,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"3-th argument is empty. String Variable is required by action 'gread'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"3-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -5459,7 +5459,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"3-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -5471,7 +5471,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'gwrite'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("gwrite", 1, "GlobalVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5518,7 +5518,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushv'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5533,7 +5533,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5548,7 +5548,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushv'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5563,7 +5563,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5594,7 +5594,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addDiplo'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5609,7 +5609,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5627,7 +5627,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addDiplo'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5648,7 +5648,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'addDiplo'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 2, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5682,7 +5682,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setDiplo'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5697,7 +5697,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5715,7 +5715,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setDiplo'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5736,7 +5736,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setDiplo'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 2, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5770,7 +5770,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setTruce'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5785,7 +5785,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5803,7 +5803,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setTruce'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5824,7 +5824,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setTruce'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 2, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5855,7 +5855,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'equipItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5877,7 +5877,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'equipItem'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 2, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -5906,7 +5906,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 3-th argument of action 'equipItem' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 3, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -5917,7 +5917,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setLeague'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5932,7 +5932,7 @@ public static partial class PerResultValidator
                         {
                             if (context.CreateError(DiagnosticSeverity.Warning))
                             {
-                                result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
                             }
                             argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                             argument.HasReference = true;
@@ -5950,7 +5950,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setLeague'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -5971,7 +5971,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setLeague'.", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 2, "Power", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
@@ -6005,7 +6005,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'index'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6020,7 +6020,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6039,13 +6039,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"3-th argument is empty. String Variable is required by action 'index'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 3, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"3-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 3, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -6058,7 +6058,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"3-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 3, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6070,7 +6070,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeIndex'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6085,7 +6085,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6104,13 +6104,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"3-th argument is empty. String Variable is required by action 'storeIndex'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 3, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"3-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 3, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -6123,7 +6123,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"3-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 3, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6135,7 +6135,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'storeIndexVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6150,7 +6150,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6169,13 +6169,13 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"3-th argument is empty. String Variable is required by action 'storeIndexVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 3, "StringVariableWriter", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"3-th argument '@' must be String Variable.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 3, "StringVariableWriter", argument.TokenId);
                     }
                     else
                     {
@@ -6188,7 +6188,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"3-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 3, "StringVariableWriter", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -6200,7 +6200,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'addStatus'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addStatus", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6222,17 +6222,17 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (argument.IsNumber)
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader. Actually Number appears.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addStatus", 2, "Status, StringVariableReader", argument.TokenId);
                 }
                 else if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader. Actually empty string appears.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addStatus", 2, "Status, StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader. Actually empty string('@') appears.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("addStatus", 2, "Status, StringVariableReader", argument.TokenId);
                     }
                     else
                     {
@@ -6247,7 +6247,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'addStatus' must be Status, StringVariableReader.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addStatus", 2, "Status, StringVariableReader", argument.TokenId);
                 }
 
                 argument = ref arguments[2];
@@ -6263,7 +6263,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushDiplo'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushDiplo", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6285,7 +6285,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'pushDiplo'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushDiplo", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6313,7 +6313,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setArbeit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setArbeit", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6335,7 +6335,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setArbeit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setArbeit", 2, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6366,7 +6366,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setStatus'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setStatus", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6388,17 +6388,17 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (argument.IsNumber)
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader. Actually Number appears.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setStatus", 2, "Status, StringVariableReader", argument.TokenId);
                 }
                 else if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader. Actually empty string appears.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setStatus", 2, "Status, StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
                     if (span.Length == 1)
                     {
-                        result.ErrorAdd($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader. Actually empty string('@') appears.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("setStatus", 2, "Status, StringVariableReader", argument.TokenId);
                     }
                     else
                     {
@@ -6413,7 +6413,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'setStatus' must be Status, StringVariableReader.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setStatus", 2, "Status, StringVariableReader", argument.TokenId);
                 }
 
                 argument = ref arguments[2];
@@ -6429,7 +6429,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushStatus'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushStatus", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6454,7 +6454,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 2-th argument of action 'pushStatus' must be Status.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushStatus", 2, "Status", argument.TokenId);
                 }
 
                 argument = ref arguments[2];
@@ -6467,7 +6467,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'pushSpotPos'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushSpotPos", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6500,7 +6500,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'setEnemyPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setEnemyPower", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6522,7 +6522,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'setEnemyPower'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setEnemyPower", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6552,7 +6552,7 @@ public static partial class PerResultValidator
             case ActionKind.shadow:
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shadow", 1, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 1)
@@ -6562,7 +6562,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shadow", 2, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 2)
@@ -6572,7 +6572,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shadow", 3, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 3)
@@ -6582,7 +6582,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shadow", 4, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 4)
@@ -6592,7 +6592,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[4];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 5-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shadow", 5, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 5)
@@ -6602,7 +6602,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[5];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 6-th argument of action 'shadow' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shadow", 6, "Number", argument.TokenId);
                 }
 
                 break;
@@ -6642,7 +6642,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 5-th argument of action 'doskill' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("doskill", 5, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -6653,7 +6653,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 1-th argument of action 'storeRectUnit' must be RedBlue.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRectUnit", 1, "RedBlue", argument.TokenId);
                 }
 
                 argument = ref arguments[1];
@@ -6711,7 +6711,7 @@ public static partial class PerResultValidator
             case ActionKind.darkness:
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 1-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("darkness", 1, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 1)
@@ -6721,7 +6721,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("darkness", 2, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 2)
@@ -6731,7 +6731,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[2];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 3-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("darkness", 3, "Number", argument.TokenId);
                 }
 
                 if (arguments.Length <= 3)
@@ -6741,7 +6741,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'darkness' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("darkness", 4, "Number", argument.TokenId);
                 }
 
                 break;
@@ -6749,7 +6749,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'linkSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("linkSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6771,7 +6771,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'linkSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("linkSpot", 2, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6805,7 +6805,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'linkSpot' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("linkSpot", 4, "Number", argument.TokenId);
                 }
 
                 break;
@@ -6813,7 +6813,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'linkEscape'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("linkEscape", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6835,7 +6835,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'linkEscape'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("linkEscape", 2, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6869,7 +6869,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[3];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 4-th argument of action 'linkEscape' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("linkEscape", 4, "Number", argument.TokenId);
                 }
 
                 break;
@@ -6923,7 +6923,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'shiftTroop2'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shiftTroop2", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -6964,7 +6964,7 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 4-th argument of action 'shiftTroop2' must be Boolean.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("shiftTroop2", 4, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -7546,7 +7546,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'has'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("has", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7561,7 +7561,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("has", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7594,7 +7594,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'inVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7609,7 +7609,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7642,7 +7642,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'inSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7664,7 +7664,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'inSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inSpot", 2, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7688,7 +7688,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'inSpot'.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inSpot", i + 1, "Unit", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -7712,7 +7712,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'inRoamSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inRoamSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7734,7 +7734,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'inRoamSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inRoamSpot", 2, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7758,7 +7758,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'inRoamSpot'.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inRoamSpot", i + 1, "Unit", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -7788,7 +7788,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'count'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("count", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7803,7 +7803,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("count", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7815,7 +7815,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'amount'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("amount", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7830,7 +7830,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("amount", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7842,7 +7842,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'conVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("conVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7857,7 +7857,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("conVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7869,7 +7869,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isDone'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isDone", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7892,7 +7892,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'getLife'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("getLife", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7915,7 +7915,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'countVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7930,7 +7930,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("countVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -7942,7 +7942,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isActive'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isActive", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7965,7 +7965,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isArbeit'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isArbeit", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -7988,7 +7988,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isEnable'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isEnable", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8011,7 +8011,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isInvade'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isInvade", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8034,7 +8034,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isLeader'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isLeader", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8057,7 +8057,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isMaster'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isMaster", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8080,7 +8080,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isRoamer'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isRoamer", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8103,7 +8103,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isTalent'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isTalent", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8126,7 +8126,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isVassal'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isVassal", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8149,7 +8149,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'countGain'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countGain", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8172,7 +8172,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'countSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countSpot", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8195,7 +8195,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isAllDead'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isAllDead", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8218,7 +8218,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isNowSpot'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isNowSpot", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8241,7 +8241,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'countForce'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countForce", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8264,7 +8264,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'countMoney'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countMoney", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8287,7 +8287,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'countSkill'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countSkill", 1, "Skill", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8310,7 +8310,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'getLifePer'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("getLifePer", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8348,7 +8348,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isRoamLeader'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isRoamLeader", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8377,7 +8377,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'equal'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("equal", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8392,7 +8392,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("equal", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -8413,7 +8413,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'eqVar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("eqVar", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8428,7 +8428,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("eqVar", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -8449,7 +8449,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isWar'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isWar", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8488,7 +8488,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'reckon'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("reckon", 1, "StringVariableReader", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8503,7 +8503,7 @@ public static partial class PerResultValidator
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.ErrorAdd($"1-th argument '{span}' is String Variable. '@' should be written.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("reckon", 1, "StringVariableReader", argument.TokenId);
                     }
                     argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                     argument.HasReference = true;
@@ -8524,7 +8524,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isLeague'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isLeague", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8546,7 +8546,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'isLeague'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isLeague", 2, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8569,7 +8569,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isSameArmy'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isSameArmy", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8592,7 +8592,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isDead'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isDead", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8616,7 +8616,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'isDead'.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("isDead", i + 1, "Unit", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -8640,7 +8640,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isAnyDead'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isAnyDead", 1, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8664,7 +8664,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd($"{i + 1}-th argument is empty. String Variable is required by action 'isAnyDead'.", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("isAnyDead", i + 1, "Unit", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
@@ -8688,7 +8688,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isNext'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isNext", 1, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8710,7 +8710,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'isNext'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isNext", 2, "Spot", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8748,14 +8748,14 @@ public static partial class PerResultValidator
                 }
                 else
                 {
-                    result.ErrorAdd($"The 1-th argument of action 'countPost' must be RedBlue.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countPost", 1, "RedBlue", argument.TokenId);
                 }
 
                 argument = ref arguments[1];
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"2-th argument is empty. String Variable is required by action 'countPost'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("countPost", 2, "Unit", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8810,7 +8810,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.IsEmpty)
                 {
-                    result.ErrorAdd($"1-th argument is empty. String Variable is required by action 'isComTurn'.", argument.TokenId);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isComTurn", 1, "Power", argument.TokenId);
                 }
                 else if (span[0] == '@')
                 {
@@ -8841,7 +8841,7 @@ public static partial class PerResultValidator
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
-                    result.ErrorAdd_NumberIsExpected(argument.TokenId, $" The 2-th argument of action 'isDungeon' must be Number.");
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isDungeon", 2, "Number", argument.TokenId);
                 }
 
                 break;

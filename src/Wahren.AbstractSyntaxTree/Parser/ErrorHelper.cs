@@ -95,7 +95,7 @@ public static class ErrorHelper
     public static void ErrorAdd_UnexpectedElementReferenceKind(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
 #if DEBUG
-        var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は型{referenceKind}ではありません。";
+        var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は期待される型{referenceKind}ではありません。";
 #else
         var text = $"Value '{result.GetSpan(tokenId)}' is not {referenceKind} required by element '{elementName}' of struct {nodeKind}.";
 #endif
@@ -105,9 +105,9 @@ public static class ErrorHelper
     public static void ErrorAdd_UnexpectedArgumentReferenceKind(ref this Result result, ReadOnlySpan<char> action, int argumentIndex, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
 #if DEBUG
-        var text = $"";
+        var text = $"{action}関数の{argumentIndex}番目の引数の値'{result.GetSpan(tokenId)}'は期待される型{referenceKind}ではありません。";
 #else
-        var text = $"";
+        var text = $"The value '{result.GetSpan(tokenId)}' of the action {action}'s {argumentIndex}-th argument is not {referenceKind}.";
 #endif
         result.ErrorAdd(text, tokenId);
     }

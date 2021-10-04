@@ -104,7 +104,6 @@ public sealed partial class Project
 
     public bool CheckExistance()
     {
-        System.Text.StringBuilder? builder = null;
         var fileSpan = Files.AsSpan();
         var success = true;
 <# foreach (var name in types) { #>
@@ -131,15 +130,7 @@ public sealed partial class Project
                 }
 
                 success = false;
-                builder ??= new();
-                builder.Clear();
-                builder.Append($"<#= name.ToLowerInvariant() #> '{name}' is not found in this solution.");
-                foreach (var tokenId in set.References[i].AsSpan())
-                {
-                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
-                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
-                }
-                ErrorBag.Add(new(builder.ToString()));
+                this.ErrorAdd_NameStructureNotFound("<#= name.ToLowerInvariant() #>", name, ref file, set.References[i].AsSpan());
             }
         }
 <# } #>
@@ -172,15 +163,7 @@ public sealed partial class Project
 
                 if (notFound)
                 {
-                    builder ??= new();
-                    builder.Clear();
-                    builder.Append($"Corresponding writing to the '{name}' is not found in this solution.");
-                    foreach (var tokenId in set.References[i].AsSpan())
-                    {
-                        ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
-                        builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
-                    }
-                    ErrorBag.Add(new(builder.ToString()));
+                    this.ErrorAdd_CorrespondingWritingNotFound("<#= name #>", name, ref file, set.References[i].AsSpan());
                 }
             }
         }
@@ -199,15 +182,7 @@ public sealed partial class Project
                 }
 
                 success = false;
-                builder ??= new();
-                builder.Clear();
-                builder.Append($"attribute type '{name}' is not found in this solution.");
-                foreach (var tokenId in set.References[i].AsSpan())
-                {
-                    ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
-                    builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
-                }
-                ErrorBag.Add(new(builder.ToString()));
+                this.ErrorAdd_AttributeTypeNotFound(name, ref file, set.References[i].AsSpan());
             }
         }
 
