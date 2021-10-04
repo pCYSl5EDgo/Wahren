@@ -4,6 +4,13 @@ This program is for .NET 6.
 
 ## How to use
 
+The main project is `Wahren.Compiler`.
+It depends on [ConsoleAppFramework](https://github.com/Cysharp/ConsoleAppFramework).
+
+There are 2 commands. Default command is a redirection to `analyze` command.
+
+- analyze
+- format
 
 ## License
 
