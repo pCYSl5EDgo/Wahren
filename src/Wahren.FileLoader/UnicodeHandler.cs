@@ -23,7 +23,7 @@ public unsafe static class UnicodeHandler
         do
         {
             var linefeedIndex = content.IndexOf('\n');
-            ref var lastLine = ref source.Last();
+            ref var lastLine = ref source.Last;
             if (linefeedIndex == -1)
             {
                 lastLine.AddRange(content);
@@ -56,7 +56,7 @@ public unsafe static class UnicodeHandler
         do
         {
             var linefeedIndex = charSpan.IndexOf('\n');
-            ref var lastLine = ref source.Last();
+            ref var lastLine = ref source.Last;
             if (linefeedIndex == -1)
             {
                 lastLine.AddRange(charSpan);

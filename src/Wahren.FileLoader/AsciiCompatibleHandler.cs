@@ -16,7 +16,7 @@ public static unsafe class AsciiCompatibleHandler
         ReadOnlySpan<byte> span = content;
         while (!span.IsEmpty)
         {
-            ref var line = ref source.Last();
+            ref var line = ref source.Last;
             var linefeedIndex = span.IndexOf((byte)'\n');
             if (linefeedIndex == 0)
             {

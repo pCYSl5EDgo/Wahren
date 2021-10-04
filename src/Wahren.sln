@@ -28,7 +28,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Server", "Wahren.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.Basic", "Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj", "{09E18557-F116-41B3-B36B-C6E2CC76257E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.Map", "Wahren.Map\Wahren.Map.csproj", "{AAD137F4-B451-426F-AF98-9081E4028215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Map", "Wahren.Map\Wahren.Map.csproj", "{AAD137F4-B451-426F-AF98-9081E4028215}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6750A6CC-B3D0-46B4-94D4-01B7A0812B5C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

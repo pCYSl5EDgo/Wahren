@@ -44,7 +44,7 @@ public struct DualList<T> : IDisposable
 
     public Span<List<T>> AsSpan() => array.AsSpan(0, count);
 
-    public ref List<T> Last() => ref count == 0 ? ref Unsafe.NullRef<List<T>>() : ref array[count - 1];
+    public ref List<T> Last => ref count == 0 ? ref Unsafe.NullRef<List<T>>() : ref array[count - 1];
     
     public uint LastIndex => (uint)count - 1U;
 
