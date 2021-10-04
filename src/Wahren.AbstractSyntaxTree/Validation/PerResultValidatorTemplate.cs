@@ -497,12 +497,12 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.force_ray, " 'force_ray' of skill requires Boolean.");
 		ValidateBoolean(ref result, ref node.bright, " 'bright' of skill requires Boolean.");
 		// Ignore Text Skill name
-		AddReference(ref result, ref node.icon, ref result.imagedataSet, ReferenceKind.imagedata);
 		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of skill requires Number.");
 		ValidateBooleanNumber(ref result, ref node.special, " 'special' of skill requires Boolean 'on' or Number.");
 		// Ignore Text Skill help
 		AddReference(ref result, ref node.sound, ref result.soundSet, ReferenceKind.sound);
 		// Ignore Text Skill msg
+		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
 		ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
 		ValidateBooleanNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Boolean 'on' or Number.");
 		ValidateNumber(ref result, ref node.color, " 'color' of skill requires Number.");
@@ -637,7 +637,6 @@ public static partial class PerResultValidator
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillsetNode node)
 	{
 		// Ignore Text Skillset name
-		AddReference(ref result, ref node.back, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.member, ref result.SkillSet, ReferenceKind.Skill);
 	}
 }

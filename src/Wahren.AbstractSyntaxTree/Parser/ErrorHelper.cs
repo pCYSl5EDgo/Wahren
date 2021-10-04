@@ -14,31 +14,58 @@ public static class ErrorHelper
         result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Warning));
     }
 
-    public static void WarningAdd_MultipleAssignment(ref this Result result, uint tokenId)
+    public static void InfoAdd(ref this Result result, string text, uint tokenId)
     {
         ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new("Multiple assignment can cause serious error.", token.Range.StartInclusive, token.Length, DiagnosticSeverity.Warning));
+        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Info));
+    }
+
+    public static void HintAdd(ref this Result result, string text, uint tokenId)
+    {
+        ref var token = ref result.TokenList[tokenId];
+        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Hint));
+    }
+
+    public static void WarningAdd_MultipleAssignment(ref this Result result, uint tokenId)
+    {
+#if DEBUG
+        var error = $"要素'{result.GetSpan(tokenId)}'への多重代入は深刻なエラーの原因となりえます。この代入は無視されます。";
+#else
+        var error = $"Multiple assignment to '{result.GetSpan(tokenId)}' can cause serious error.";
+#endif
+        result.WarningAdd(error, tokenId);
     }
 
     public static void ErrorAdd_UnexpectedEndOfFile(ref this Result result, uint tokenId, ReadOnlySpan<char> text = default)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new($"Unexpected End Of File. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}", token.Range.StartInclusive, token.Length));
+#if DEBUG
+        var error = $"予期せぬファイル終端です。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}。{text}";
+#else
+        var error = $"Unexpected End Of File. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}";
+#endif
+        result.ErrorAdd(error, tokenId);
     }
 
     public static void ErrorAdd_UnexpectedOperatorToken(ref this Result result, uint elementId, string? text = null)
     {
         if (string.IsNullOrEmpty(text))
         {
+#if DEBUG
+            text = $"予期せぬ演算子です。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}";
+#else
             text = $"Unexpected Operator. Last Token: {result.GetSpan(result.TokenList.LastIndex)}";
+#endif
         }
         else
         {
+#if DEBUG
+            text = $"予期せぬ演算子です。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}。{text}";
+#else
             text = $"Unexpected Operator. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}";
+#endif
         }
 
-        ref var token = ref result.TokenList[elementId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length));
+        result.ErrorAdd(text, elementId);
     }
 
     public static void ErrorAdd_UnexpectedElementName(ref this Result result, uint kindId, uint elementId)
@@ -47,15 +74,42 @@ public static class ErrorHelper
         var name = result.GetSpan(elementId);
         if (name.Length != 0 && char.IsWhiteSpace(name[0]))
         {
+#if DEBUG
+            text = $"'{name}'が空白文字列から始まってはいませんか？ {result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
+#else
             text = $"'{name}' starts with whitespace(s). '{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
+#endif
         }
         else
         {
+#if DEBUG
+            text = $"{result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
+#else
             text = $"'{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
+#endif
         }
 
-        ref var token = ref result.TokenList[elementId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length));
+        result.ErrorAdd(text, elementId);
+    }
+
+    public static void ErrorAdd_UnexpectedElementReferenceKind(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> referenceKind, uint tokenId)
+    {
+#if DEBUG
+        var text = $"";
+#else
+        var text = $"Value '{result.GetSpan(tokenId)}' is not {referenceKind} required by element '{elementName}' of struct {nodeKind}.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
+    public static void ErrorAdd_UnexpectedArgumentReferenceKind(ref this Result result, ReadOnlySpan<char> action, int argumentIndex, ReadOnlySpan<char> referenceKind, uint tokenId)
+    {
+#if DEBUG
+        var text = $"";
+#else
+        var text = $"";
+#endif
+        result.ErrorAdd(text, tokenId);
     }
 
     public static void WarningAdd_UnexpectedElementName(ref this Result result, uint kindId, uint elementId)
@@ -64,45 +118,71 @@ public static class ErrorHelper
         var name = result.GetSpan(elementId);
         if (name.Length != 0 && char.IsWhiteSpace(name[0]))
         {
+#if DEBUG
+            text = $"'{name}'が空白文字列から始まってはいませんか？ {result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
+#else
             text = $"'{name}' starts with whitespace(s). '{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
+#endif
         }
         else
         {
+#if DEBUG
+            text = $"{result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
+#else
             text = $"'{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
+#endif
         }
-        ref var token = ref result.TokenList[elementId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Warning));
+        result.WarningAdd(text, elementId);
     }
 
     public static void ErrorAdd_BracketRightNotFound(ref this Result result, uint kindId)
     {
-        ref var token = ref result.TokenList[kindId];
-        var text = $"{result.GetSpan(kindId)}'s '}}' is not found. Unexpected End Of File.";
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length));
+#if DEBUG
+        var error = $"{result.GetSpan(kindId)}構造体の '}}' がファイル末尾まで探しても見つかりませんでした。";
+#else
+        var error = $"{result.GetSpan(kindId)}'s '}}' is not found. Unexpected End Of File.";
+#endif
+        result.ErrorAdd(error, kindId);
     }
 
     public static void ErrorAdd_BracketRightNotFound(ref this Result result, uint kindId, uint nameId)
     {
-        var text = $"{result.GetSpan(kindId)} {result.GetSpan(nameId)}'s '}}' is not found. Unexpected End Of File.";
+#if DEBUG
+        var error = $"{result.GetSpan(kindId)}構造体 '{result.GetSpan(nameId)}'の '}}' がファイル末尾まで探しても見つかりませんでした。";
+#else
+        var error = $"{result.GetSpan(kindId)} {result.GetSpan(nameId)}'s '}}' is not found. Unexpected End Of File.";
+#endif
         ref var token = ref result.TokenList[kindId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length));
+        result.ErrorAdd(error, kindId);
     }
 
     public static void ErrorAdd_NumberIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new($"Number text is expected but actually \"{result.GetSpan(tokenId)}\".{postText}", token.Range.StartInclusive, token.Length));
+#if DEBUG
+        var error = $"ここには数値が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
+#else
+        var error = $"Number text is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
+#endif
+        result.ErrorAdd(error, tokenId);
     }
 
     public static void ErrorAdd_BooleanIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new($"Boolean text is expected but actually \"{result.GetSpan(tokenId)}\".{postText}", token.Range.StartInclusive, token.Length));
+#if DEBUG
+        var error = $"ここにはon/offが記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
+#else
+        var error = $"Boolean text is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
+#endif
+        result.ErrorAdd(error, tokenId);
     }
 
     public static void ErrorAdd_CommaIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new($"',' is expected but actually \"{result.GetSpan(tokenId)}\".{postText}", token.Range.StartInclusive, token.Length));
+#if DEBUG
+        var error = $"ここには','が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
+#else
+        var error = $"',' is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
+#endif
+        result.ErrorAdd(error, tokenId);
     }
 }

@@ -12,7 +12,7 @@ public unsafe static class UnicodeHandler
 {
     public static void LoadFromString(ReadOnlySpan<char> content, out DualList<char> source)
     {
-        source = new DualList<char>(256);
+        source = new DualList<char>();
         source.AddEmpty();
 
         if (content.IsEmpty)
@@ -38,7 +38,7 @@ public unsafe static class UnicodeHandler
 
     public static void Load(Span<byte> content, out DualList<char> source)
     {
-        source = new DualList<char>(256);
+        source = new DualList<char>();
         source.AddEmpty();
 
         if (content.Length >= 32 && content[0] == 1 && content[1] == 2 && content[2] == 3 && content[3] == 4)

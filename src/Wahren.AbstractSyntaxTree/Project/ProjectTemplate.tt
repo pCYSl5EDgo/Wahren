@@ -139,7 +139,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                ErrorList.Add(new(builder.ToString()));
+                ErrorBag.Add(new(builder.ToString()));
             }
         }
 <# } #>
@@ -180,7 +180,7 @@ public sealed partial class Project
                         ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                         builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                     }
-                    ErrorList.Add(new(builder.ToString()));
+                    ErrorBag.Add(new(builder.ToString()));
                 }
             }
         }
@@ -207,7 +207,7 @@ public sealed partial class Project
                     ref var position = ref file.TokenList[tokenId].Range.StartInclusive;
                     builder.Append($"\n  {file.FilePath}({position.Line + 1}, {position.Offset + 1})");
                 }
-                ErrorList.Add(new(builder.ToString()));
+                ErrorBag.Add(new(builder.ToString()));
             }
         }
 

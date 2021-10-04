@@ -101,8 +101,7 @@ public struct StringSpanKeySlowSet : IDisposable
         pair |= (uint)keys.Count;
         offset_length_Pairs.Add(pair);
         keys.AddRange(key);
-        var list = new List<uint>();
-        References.Add(ref list);
+        References.AddEmpty();
         count++;
     }
 
@@ -172,8 +171,7 @@ public struct StringSpanKeySlowSet : IDisposable
         pair |= (uint)keys.Count;
         offset_length_Pairs.Add(pair);
         keys.AddRange(key);
-        var list = new List<uint>();
-        References.Add(ref list);
+        References.AddEmpty();
         References[count].Add(registerId);
         return count++;
     }

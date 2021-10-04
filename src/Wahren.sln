@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.DebugPaper", "Wahren
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Server", "Wahren.Server\Wahren.Server.csproj", "{57221454-4467-48BE-8688-6B838331E690}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.AbstractSyntaxTree.Basic", "Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj", "{09E18557-F116-41B3-B36B-C6E2CC76257E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.Basic", "Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj", "{09E18557-F116-41B3-B36B-C6E2CC76257E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.Map", "Wahren.Map\Wahren.Map.csproj", "{AAD137F4-B451-426F-AF98-9081E4028215}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,10 @@ Global
 		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09E18557-F116-41B3-B36B-C6E2CC76257E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD137F4-B451-426F-AF98-9081E4028215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD137F4-B451-426F-AF98-9081E4028215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD137F4-B451-426F-AF98-9081E4028215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD137F4-B451-426F-AF98-9081E4028215}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

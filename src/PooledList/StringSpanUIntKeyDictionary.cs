@@ -103,7 +103,7 @@ public struct StringSpanUIntKeyDictionary<T> : IDisposable
                 {
                     variantValueDualListArray.CopyTo(rentalValue.AsSpan(0, variantValueDualListArray.Length));
                 }
-                rentalValue.AsSpan(variantValueDualListArray.Length).Fill(new(0));
+                rentalValue.AsSpan(variantValueDualListArray.Length).Fill(new());
                 if (variantValueDualListArray.Length != 0)
                 {
                     ArrayPool<DualList<T?>>.Shared.Return(variantValueDualListArray);
@@ -115,7 +115,7 @@ public struct StringSpanUIntKeyDictionary<T> : IDisposable
                 {
                     variantKeyDualListArray.CopyTo(rentalKey.AsSpan(0, variantKeyDualListArray.Length));
                 }
-                rentalKey.AsSpan(variantKeyDualListArray.Length).Fill(new(0));
+                rentalKey.AsSpan(variantKeyDualListArray.Length).Fill(new());
                 if (variantKeyDualListArray.Length != 0)
                 {
                     ArrayPool<DualList<uint>>.Shared.Return(variantKeyDualListArray);

@@ -4,7 +4,7 @@ public static unsafe class AsciiCompatibleHandler
 {
     public static void Load(Span<byte> content, List<char>.AddConverter<byte> GetChars, out DualList<char> source)
     {
-        source = new DualList<char>(256);
+        source = new DualList<char>();
         source.AddEmpty();
 
         if (content.Length >= 32 && content[0] == 1 && content[1] == 2 && content[2] == 3 && content[3] == 4)

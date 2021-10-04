@@ -1,4 +1,5 @@
 namespace Wahren.AbstractSyntaxTree.Parser;
+using Wahren.AbstractSyntaxTree.Project;
 
 public static partial class PerResultValidator
 {
@@ -69,7 +70,7 @@ public static partial class PerResultValidator
         return noDuplication;
     }
 
-    public static void CollectError(Span<Result> results, ref List<ProjectError> errorList, ref StringSpanKeyTrackableSet<AmbiguousNameReference> set)
+    public static void CollectError(Span<Result> results, System.Collections.Concurrent.ConcurrentBag<ProjectError> errorBag, ref StringSpanKeyTrackableSet<AmbiguousNameReference> set)
     {
         var enumerator = set.GetEnumerator();
         System.Text.StringBuilder? builder = default;
@@ -95,7 +96,7 @@ public static partial class PerResultValidator
                 ref var position = ref result.TokenList[index].Range.StartInclusive;
                 builder.Append($"\n    {result.FilePath}({position.Line + 1}, {position.Offset + 1})");
             }
-            errorList.Add(new(builder.ToString()));
+            errorBag.Add(new(builder.ToString()));
         }
     }
 }
