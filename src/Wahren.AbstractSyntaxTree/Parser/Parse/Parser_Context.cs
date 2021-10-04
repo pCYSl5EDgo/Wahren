@@ -5,7 +5,6 @@ public static partial class Parser
     private static bool ParseContext(ref Context context, ref Result result)
     {
         ref var source = ref result.Source;
-        ref var errorList = ref result.ErrorList;
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
         if (!ParseNamelessUniqueToBracketLeft(ref context, ref result, kindIndex))
