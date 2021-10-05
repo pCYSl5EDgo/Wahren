@@ -83,6 +83,7 @@ public static class ReferenceKindHelper
             ReferenceKind.Status or
             ReferenceKind.RedBlue or
             ReferenceKind.Text or
+            ReferenceKind.Status | ReferenceKind.Number or
             ReferenceKind.Boolean | ReferenceKind.Number or
             ReferenceKind.NumberVariableReader | ReferenceKind.Number or
             ReferenceKind.StringVariableReader or

@@ -78,7 +78,7 @@ public static partial class Parser
                         
                     if (nextStatement is null)
                     {
-                        result.ErrorAdd_Statement_BracketRightNotFound(currentIndex, "battle");
+                        result.ErrorAdd("'battle{}' block does not have corresponding 'next()' statement.", currentIndex);
                     }
 
                     var battleStatement = new BattleStatement(currentIndex, nextStatement);

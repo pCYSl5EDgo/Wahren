@@ -77,16 +77,34 @@ public static partial class PerResultValidator
 		{
 			AddReferenceAndValidate(ref context, ref result, statement);
 		}
-		ValidateBoolean(ref result, ref node.disperse, " 'disperse' of event requires Boolean.");
-		ValidateNumber(ref result, ref node.w, " 'w' of event requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of event requires Number.");
+		ValidateBoolean(ref result, ref node.disperse, "Event", "disperse");
+		ValidateNumber(ref result, ref node.castle, "Event", "castle");
+		ValidateBoolean(ref result, ref node.castle_battle, "Event", "castle_battle");
+		ValidateBooleanNumber(ref result, ref node.blind, "Event", "blind");
+		ValidateNumber(ref result, ref node.w, "Event", "w");
+		ValidateNumber(ref result, ref node.h, "Event", "h");
+		// Ignore unknown Event bg
+		// Ignore unknown Event bcg
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
 		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
 		// Ignore Text Event name
-		ValidateNumber(ref result, ref node.color, " 'color' of event requires Number.");
-		ValidateNumber(ref result, ref node.limit, " 'limit' of event requires Number.");
+		// Ignore unknown Event size
+		ValidateNumber(ref result, ref node.color, "Event", "color");
+		// Ignore unknown Event block
+		ValidateNumber(ref result, ref node.limit, "Event", "limit");
 		// Ignore Text Event title
-		ValidateNumber(ref result, ref node.volume, " 'volume' of event requires Number.");
+		// Ignore unknown Event center
+		// Ignore unknown Event italic
+		ValidateRedBlue(ref result, ref node.handle, "Event", "handle");
+		// Ignore unknown Event member
+		// Ignore unknown Event second
+		ValidateNumber(ref result, ref node.volume, "Event", "volume");
+		// Ignore unknown Event bg_fade
+		// Ignore unknown Event dark_fade
+		// Ignore unknown Event dark_alpha
+		// Ignore unknown Event bg_interval
+		// Ignore unknown Event dark_fade_e
+		// Ignore unknown Event last_second
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ScenarioNode node)
@@ -95,54 +113,107 @@ public static partial class PerResultValidator
 		{
 			AddReferenceAndValidate(ref context, ref result, statement);
 		}
-		ValidateNumber(ref result, ref node.ws_red, " 'ws_red' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_blue, " 'ws_blue' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_green, " 'ws_green' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_alpha, " 'ws_alpha' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_light, " 'ws_light' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.ws_light_range, " 'ws_light_range' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.ws_red, "Scenario", "ws_red");
+		ValidateNumber(ref result, ref node.ws_blue, "Scenario", "ws_blue");
+		ValidateNumber(ref result, ref node.ws_green, "Scenario", "ws_green");
+		ValidateNumber(ref result, ref node.ws_alpha, "Scenario", "ws_alpha");
+		ValidateNumber(ref result, ref node.ws_light, "Scenario", "ws_light");
+		ValidateNumber(ref result, ref node.ws_light_range, "Scenario", "ws_light_range");
+		// Ignore unknown Scenario discus
 		// Ignore Text Scenario save_name
-		ValidateNumber(ref result, ref node.max_unit, " 'max_unit' of scenario requires Number.");
+		ValidateBoolean(ref result, ref node.enable_select, "Scenario", "enable_select");
+		ValidateNumber(ref result, ref node.max_unit, "Scenario", "max_unit");
+		ValidateNumber(ref result, ref node.blind, "Scenario", "blind");
 		// Ignore Text Scenario name
+		AddReference(ref result, ref node.map, ref result.image_fileSet, ReferenceKind.image_file);
 		// Ignore Text Scenario help
-		ValidateNumber(ref result, ref node.locate_x, " 'locate_x' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.locate_y, " 'locate_y' of scenario requires Number.");
+		ValidateNumber(ref result, ref node.locate_x, "Scenario", "locate_x");
+		ValidateNumber(ref result, ref node.locate_y, "Scenario", "locate_y");
 		// Ignore Text Scenario begin_text
 		AddReference(ref result, ref node.world, ref result.EventSet, ReferenceKind.Event);
 		AddReference(ref result, ref node.fight, ref result.EventSet, ReferenceKind.Event);
 		AddReference(ref result, ref node.politics, ref result.EventSet, ReferenceKind.Event);
-		ValidateNumber(ref result, ref node.war_capacity, " 'war_capacity' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.spot_capacity, " 'spot_capacity' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.gain_per, " 'gain_per' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.support_range, " 'support_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.my_range, " 'my_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.myhelp_range, " 'myhelp_range' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.base_level, " 'base_level' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.monster_level, " 'monster_level' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.training_up, " 'training_up' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.actor_per, " 'actor_per' of scenario requires Number.");
-		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of scenario requires Number.");
-		ValidateBoolean(ref result, ref node.default_ending, " 'default_ending' of scenario requires Boolean.");
-		SpecialTreatment_scenario_power_order(ref result, ref node.power_order, context.RequiredSeverity);
-		ValidateBoolean(ref result, ref node.enable, " 'enable' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.party, " 'party' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.no_autosave, " 'no_autosave' of scenario requires Boolean.");
-		ValidateBoolean(ref result, ref node.nozone, " 'nozone' of scenario requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.item0, " 'item0' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item1, " 'item1' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item2, " 'item2' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item3, " 'item3' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item4, " 'item4' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item5, " 'item5' of scenario requires Boolean 'on' or Number.");
-		ValidateBooleanNumber(ref result, ref node.item6, " 'item6' of scenario requires Boolean 'on' or Number.");
-		ValidateBoolean(ref result, ref node.item_limit, " 'item_limit' of scenario requires Boolean.");
+		ValidateNumber(ref result, ref node.war_capacity, "Scenario", "war_capacity");
+		ValidateNumber(ref result, ref node.spot_capacity, "Scenario", "spot_capacity");
+		ValidateNumber(ref result, ref node.gain_per, "Scenario", "gain_per");
+		ValidateNumber(ref result, ref node.support_range, "Scenario", "support_range");
+		ValidateNumber(ref result, ref node.my_range, "Scenario", "my_range");
+		ValidateNumber(ref result, ref node.myhelp_range, "Scenario", "myhelp_range");
+		ValidateNumber(ref result, ref node.base_level, "Scenario", "base_level");
+		ValidateNumber(ref result, ref node.monster_level, "Scenario", "monster_level");
+		ValidateNumber(ref result, ref node.training_up, "Scenario", "training_up");
+		ValidateNumber(ref result, ref node.actor_per, "Scenario", "actor_per");
+		ValidateNumber(ref result, ref node.sortkey, "Scenario", "sortkey");
+		ValidateBoolean(ref result, ref node.default_ending, "Scenario", "default_ending");
+		SpecialTreatment_scenario_power_order(ref result, ref node.power_order);
+		ValidateBoolean(ref result, ref node.enable, "Scenario", "enable");
+		ValidateBoolean(ref result, ref node.enable_talent, "Scenario", "enable_talent");
+		ValidateBoolean(ref result, ref node.party, "Scenario", "party");
+		ValidateBoolean(ref result, ref node.no_autosave, "Scenario", "no_autosave");
+		// Ignore unknown Scenario zone
+		ValidateBoolean(ref result, ref node.nozone, "Scenario", "nozone");
+		ValidateBooleanNumber(ref result, ref node.item0, "Scenario", "item0");
+		ValidateBooleanNumber(ref result, ref node.item1, "Scenario", "item1");
+		ValidateBooleanNumber(ref result, ref node.item2, "Scenario", "item2");
+		ValidateBooleanNumber(ref result, ref node.item3, "Scenario", "item3");
+		ValidateBooleanNumber(ref result, ref node.item4, "Scenario", "item4");
+		ValidateBooleanNumber(ref result, ref node.item5, "Scenario", "item5");
+		ValidateBooleanNumber(ref result, ref node.item6, "Scenario", "item6");
+		ValidateBoolean(ref result, ref node.item_limit, "Scenario", "item_limit");
+		// Ignore unknown Scenario poli
+		// Ignore unknown Scenario camp
+		// Ignore unknown Scenario multi
+		// Ignore unknown Scenario item
 		AddReference(ref result, ref node.item_sale, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.item_hold, ref result.SkillSet, ReferenceKind.Skill);
 		// Ignore Text Scenario text
 		AddReference(ref result, ref node.roam, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.spot, ref result.SpotSet, ReferenceKind.Spot);
 		AddReference(ref result, ref node.power, ref result.PowerSet, ReferenceKind.Power);
+		// Ignore unknown Scenario offset
+	}
+
+	private static void SpecialTreatment_scenario_power_order(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("normal"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("test"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("dash"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Scenario", "power_order", "normal, test, dash", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref StoryNode node)
@@ -152,7 +223,7 @@ public static partial class PerResultValidator
 			AddReferenceAndValidate(ref context, ref result, statement);
 		}
 		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
-		ValidateBoolean(ref result, ref node.fight, " 'fight' of story requires Boolean.");
+		ValidateBoolean(ref result, ref node.fight, "Story", "fight");
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref VoiceNode node)
@@ -166,407 +237,1436 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SpotNode node)
 	{
-		ValidateNumber(ref result, ref node.value, " 'value' of spot requires Number.");
-		SpecialTreatment_spot_politics(ref result, ref node.politics, context.RequiredSeverity);
+		ValidateNumber(ref result, ref node.value, "Spot", "value");
+		SpecialTreatment_spot_politics(ref result, ref node.politics);
 		// Ignore Text Spot name
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
-		ValidateNumber(ref result, ref node.x, " 'x' of spot requires Number.");
-		ValidateNumber(ref result, ref node.y, " 'y' of spot requires Number.");
-		ValidateNumber(ref result, ref node.w, " 'w' of spot requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of spot requires Number.");
+		ValidateNumber(ref result, ref node.x, "Spot", "x");
+		ValidateNumber(ref result, ref node.y, "Spot", "y");
+		ValidateNumber(ref result, ref node.w, "Spot", "w");
+		ValidateNumber(ref result, ref node.h, "Spot", "h");
+		// Ignore unknown Spot big
 		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
-		ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of spot requires Boolean.");
+		ValidateBoolean(ref result, ref node.castle_battle, "Spot", "castle_battle");
 		AddReference(ref result, ref node.yorozu, ref result.ClassSet, ReferenceKind.Class);
-		ValidateNumber(ref result, ref node.limit, " 'limit' of spot requires Number.");
+		ValidateNumber(ref result, ref node.limit, "Spot", "limit");
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		ValidateNumber(ref result, ref node.volume, " 'volume' of spot requires Number.");
-		ValidateNumber(ref result, ref node.gain, " 'gain' of spot requires Number.");
-		ValidateNumber(ref result, ref node.castle, " 'castle' of spot requires Number.");
-		ValidateNumber(ref result, ref node.capacity, " 'capacity' of spot requires Number.");
+		ValidateNumber(ref result, ref node.volume, "Spot", "volume");
+		ValidateNumber(ref result, ref node.gain, "Spot", "gain");
+		ValidateNumber(ref result, ref node.castle, "Spot", "castle");
+		ValidateNumber(ref result, ref node.capacity, "Spot", "capacity");
 		AddReference(ref result, ref node.dungeon, ref result.DungeonSet, ReferenceKind.Dungeon);
-		ValidateBoolean(ref result, ref node.no_home, " 'no_home' of spot requires Boolean.");
-		ValidateBoolean(ref result, ref node.no_raise, " 'no_raise' of spot requires Boolean.");
-		ValidateNumber(ref result, ref node.castle_lot, " 'castle_lot' of spot requires Number.");
+		ValidateBoolean(ref result, ref node.no_home, "Spot", "no_home");
+		ValidateBoolean(ref result, ref node.no_raise, "Spot", "no_raise");
+		ValidateNumber(ref result, ref node.castle_lot, "Spot", "castle_lot");
 		// Ignore Text Spot text
+	}
+
+	private static void SpecialTreatment_spot_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 0;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Spot", "politics", "on", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref UnitNode node)
 	{
-		ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of unit requires Number.");
-		ValidateNumber(ref result, ref node.stealth, " 'stealth' of unit requires Number.");
-		ValidateNumber(ref result, ref node.free_move, " 'free_move' of unit requires Number.");
+		ValidateNumber(ref result, ref node.troop_sort, "Unit", "troop_sort");
+		ValidateNumber(ref result, ref node.stealth, "Unit", "stealth");
+		ValidateNumber(ref result, ref node.free_move, "Unit", "free_move");
 		// Ignore Text Unit name
 		// Ignore Text Unit help
-		SpecialTreatment_unit_sex(ref result, ref node.sex, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.a, " 'a' of unit requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of unit requires Number.");
-		ValidateNumber(ref result, ref node.w, " 'w' of unit requires Number.");
+		SpecialTreatment_unit_sex(ref result, ref node.sex);
+		ValidateNumber(ref result, ref node.a, "Unit", "a");
+		ValidateNumber(ref result, ref node.h, "Unit", "h");
+		ValidateNumber(ref result, ref node.w, "Unit", "w");
 		// Ignore Text Unit text
-		ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of unit requires Boolean.");
-		SpecialTreatment_unit_yorozu(ref result, ref node.yorozu, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.radius, " 'radius' of unit requires Number.");
-		ValidateNumber(ref result, ref node.radius_press, " 'radius_press' of unit requires Number.");
-		ValidateBoolean(ref result, ref node.no_escape, " 'no_escape' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.no_regular, " 'no_regular' of unit requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.no_knock, " 'no_knock' of unit requires Boolean 'on' or Number.");
-		ValidateBoolean(ref result, ref node.no_cover, " 'no_cover' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.sub_image_even, "Unit", "sub_image_even");
+		SpecialTreatment_unit_yorozu(ref result, ref node.yorozu);
+		ValidateNumber(ref result, ref node.radius, "Unit", "radius");
+		ValidateNumber(ref result, ref node.radius_press, "Unit", "radius_press");
+		ValidateBoolean(ref result, ref node.no_escape, "Unit", "no_escape");
+		ValidateBoolean(ref result, ref node.no_regular, "Unit", "no_regular");
+		ValidateBooleanNumber(ref result, ref node.no_knock, "Unit", "no_knock");
+		ValidateBoolean(ref result, ref node.no_cover, "Unit", "no_cover");
 		AddReference(ref result, ref node.dead_event, ref result.EventSet, ReferenceKind.Event);
-		ValidateBoolean(ref result, ref node.beast_unit, " 'beast_unit' of unit requires Boolean.");
-		ValidateNumber(ref result, ref node.summon_max, " 'summon_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.summon_level, " 'summon_level' of unit requires Number.");
-		ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of unit requires Number.");
-		ValidateNumber(ref result, ref node.escape_range, " 'escape_range' of unit requires Number.");
-		ValidateNumber(ref result, ref node.escape_run, " 'escape_run' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hand_range, " 'hand_range' of unit requires Number.");
-		ValidateNumber(ref result, ref node.wake_range, " 'wake_range' of unit requires Number.");
-		ValidateNumber(ref result, ref node.view_range, " 'view_range' of unit requires Number.");
-		ValidateNumber(ref result, ref node.cavalry_range, " 'cavalry_range' of unit requires Number.");
-		ValidateBoolean(ref result, ref node.view_unit, " 'view_unit' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.force_view_unit, " 'force_view_unit' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.force_blind_unit, " 'force_blind_unit' of unit requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of unit requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of unit requires Number.");
-		ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of unit requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.level, " 'level' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hp, " 'hp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mp, " 'mp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.attack, " 'attack' of unit requires Number.");
-		ValidateNumber(ref result, ref node.defense, " 'defense' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magic, " 'magic' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magdef, " 'magdef' of unit requires Number.");
-		ValidateNumber(ref result, ref node.speed, " 'speed' of unit requires Number.");
-		ValidateNumber(ref result, ref node.dext, " 'dext' of unit requires Number.");
-		ValidateNumber(ref result, ref node.move, " 'move' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hprec, " 'hprec' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mprec, " 'mprec' of unit requires Number.");
-		ValidateNumber(ref result, ref node.heal_max, " 'heal_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.attack_max, " 'attack_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.defense_max, " 'defense_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magic_max, " 'magic_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magdef_max, " 'magdef_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.speed_max, " 'speed_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.dext_max, " 'dext_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.move_max, " 'move_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hprec_max, " 'hprec_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mprec_max, " 'mprec_max' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.beast_unit, "Unit", "beast_unit");
+		ValidateNumber(ref result, ref node.summon_max, "Unit", "summon_max");
+		ValidateNumber(ref result, ref node.summon_level, "Unit", "summon_level");
+		ValidateNumber(ref result, ref node.attack_range, "Unit", "attack_range");
+		ValidateNumber(ref result, ref node.escape_range, "Unit", "escape_range");
+		ValidateNumber(ref result, ref node.escape_run, "Unit", "escape_run");
+		ValidateNumber(ref result, ref node.hand_range, "Unit", "hand_range");
+		ValidateNumber(ref result, ref node.wake_range, "Unit", "wake_range");
+		ValidateNumber(ref result, ref node.view_range, "Unit", "view_range");
+		ValidateNumber(ref result, ref node.cavalry_range, "Unit", "cavalry_range");
+		ValidateBoolean(ref result, ref node.view_unit, "Unit", "view_unit");
+		ValidateBoolean(ref result, ref node.force_view_unit, "Unit", "force_view_unit");
+		ValidateBoolean(ref result, ref node.force_blind_unit, "Unit", "force_blind_unit");
+		ValidateBooleanNumber(ref result, ref node.satellite, "Unit", "satellite");
+		ValidateNumber(ref result, ref node.hasexp, "Unit", "hasexp");
+		ValidateBooleanNumber(ref result, ref node.brave, "Unit", "brave");
+		ValidateNumber(ref result, ref node.level, "Unit", "level");
+		ValidateNumber(ref result, ref node.hp, "Unit", "hp");
+		ValidateNumber(ref result, ref node.mp, "Unit", "mp");
+		ValidateNumber(ref result, ref node.attack, "Unit", "attack");
+		ValidateNumber(ref result, ref node.defense, "Unit", "defense");
+		ValidateNumber(ref result, ref node.magic, "Unit", "magic");
+		ValidateNumber(ref result, ref node.magdef, "Unit", "magdef");
+		ValidateNumber(ref result, ref node.speed, "Unit", "speed");
+		ValidateNumber(ref result, ref node.dext, "Unit", "dext");
+		ValidateNumber(ref result, ref node.move, "Unit", "move");
+		ValidateNumber(ref result, ref node.hprec, "Unit", "hprec");
+		ValidateNumber(ref result, ref node.mprec, "Unit", "mprec");
+		ValidateNumber(ref result, ref node.heal_max, "Unit", "heal_max");
+		ValidateNumber(ref result, ref node.attack_max, "Unit", "attack_max");
+		ValidateNumber(ref result, ref node.defense_max, "Unit", "defense_max");
+		ValidateNumber(ref result, ref node.magic_max, "Unit", "magic_max");
+		ValidateNumber(ref result, ref node.magdef_max, "Unit", "magdef_max");
+		ValidateNumber(ref result, ref node.speed_max, "Unit", "speed_max");
+		ValidateNumber(ref result, ref node.dext_max, "Unit", "dext_max");
+		ValidateNumber(ref result, ref node.move_max, "Unit", "move_max");
+		ValidateNumber(ref result, ref node.hprec_max, "Unit", "hprec_max");
+		ValidateNumber(ref result, ref node.mprec_max, "Unit", "mprec_max");
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
-		ValidateNumber(ref result, ref node.hpUp, " 'hpUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mpUp, " 'mpUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.attackUp, " 'attackUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.defenseUp, " 'defenseUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magicUp, " 'magicUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magdefUp, " 'magdefUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.speedUp, " 'speedUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.dextUp, " 'dextUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.moveUp, " 'moveUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hprecUp, " 'hprecUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mprecUp, " 'mprecUp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hpMax, " 'hpMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mpMax, " 'mpMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.attackMax, " 'attackMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.defenseMax, " 'defenseMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magicMax, " 'magicMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.magdefMax, " 'magdefMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.speedMax, " 'speedMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.dextMax, " 'dextMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.moveMax, " 'moveMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.hprecMax, " 'hprecMax' of unit requires Number.");
-		ValidateNumber(ref result, ref node.mprecMax, " 'mprecMax' of unit requires Number.");
+		ValidateNumber(ref result, ref node.hpUp, "Unit", "hpUp");
+		ValidateNumber(ref result, ref node.mpUp, "Unit", "mpUp");
+		ValidateNumber(ref result, ref node.attackUp, "Unit", "attackUp");
+		ValidateNumber(ref result, ref node.defenseUp, "Unit", "defenseUp");
+		ValidateNumber(ref result, ref node.magicUp, "Unit", "magicUp");
+		ValidateNumber(ref result, ref node.magdefUp, "Unit", "magdefUp");
+		ValidateNumber(ref result, ref node.speedUp, "Unit", "speedUp");
+		ValidateNumber(ref result, ref node.dextUp, "Unit", "dextUp");
+		ValidateNumber(ref result, ref node.moveUp, "Unit", "moveUp");
+		ValidateNumber(ref result, ref node.hprecUp, "Unit", "hprecUp");
+		ValidateNumber(ref result, ref node.mprecUp, "Unit", "mprecUp");
+		ValidateNumber(ref result, ref node.hpMax, "Unit", "hpMax");
+		ValidateNumber(ref result, ref node.mpMax, "Unit", "mpMax");
+		ValidateNumber(ref result, ref node.attackMax, "Unit", "attackMax");
+		ValidateNumber(ref result, ref node.defenseMax, "Unit", "defenseMax");
+		ValidateNumber(ref result, ref node.magicMax, "Unit", "magicMax");
+		ValidateNumber(ref result, ref node.magdefMax, "Unit", "magdefMax");
+		ValidateNumber(ref result, ref node.speedMax, "Unit", "speedMax");
+		ValidateNumber(ref result, ref node.dextMax, "Unit", "dextMax");
+		ValidateNumber(ref result, ref node.moveMax, "Unit", "moveMax");
+		ValidateNumber(ref result, ref node.hprecMax, "Unit", "hprecMax");
+		ValidateNumber(ref result, ref node.mprecMax, "Unit", "mprecMax");
 		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
-		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of unit requires Number.");
+		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		SpecialTreatment_unit_picture_detail(ref result, ref node.picture_detail, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.picture_menu, " 'picture_menu' of unit requires Number.");
-		SpecialTreatment_unit_picture_floor(ref result, ref node.picture_floor, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.picture_shift, " 'picture_shift' of unit requires Number.");
-		ValidateNumber(ref result, ref node.picture_shift_up, " 'picture_shift_up' of unit requires Number.");
-		ValidateNumber(ref result, ref node.picture_center, " 'picture_center' of unit requires Number.");
-		ValidateNumber(ref result, ref node.price, " 'price' of unit requires Number.");
-		ValidateNumber(ref result, ref node.cost, " 'cost' of unit requires Number.");
-		ValidateNumber(ref result, ref node.finance, " 'finance' of unit requires Number.");
-		ValidateBoolean(ref result, ref node.tkool, " 'tkool' of unit requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of unit requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of unit requires Number.");
-		ValidateNumber(ref result, ref node.medical, " 'medical' of unit requires Number.");
-		SpecialTreatment_unit_active(ref result, ref node.active, context.RequiredSeverity);
-		ValidateBoolean(ref result, ref node.handle, " 'handle' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.red, " 'red' of unit requires Boolean.");
+		// Ignore unknown Unit picture_atmark_cutin
+		SpecialTreatment_unit_picture_detail(ref result, ref node.picture_detail);
+		ValidateNumber(ref result, ref node.picture_menu, "Unit", "picture_menu");
+		SpecialTreatment_unit_picture_floor(ref result, ref node.picture_floor);
+		ValidateNumber(ref result, ref node.picture_shift, "Unit", "picture_shift");
+		ValidateNumber(ref result, ref node.picture_shift_up, "Unit", "picture_shift_up");
+		ValidateNumber(ref result, ref node.picture_center, "Unit", "picture_center");
+		// Ignore unknown Unit picture_back
+		ValidateNumber(ref result, ref node.price, "Unit", "price");
+		ValidateNumber(ref result, ref node.cost, "Unit", "cost");
+		ValidateNumber(ref result, ref node.finance, "Unit", "finance");
+		ValidateBoolean(ref result, ref node.tkool, "Unit", "tkool");
+		ValidateBooleanNumber(ref result, ref node.keep_form, "Unit", "keep_form");
+		ValidateNumber(ref result, ref node.breast_width, "Unit", "breast_width");
+		ValidateNumber(ref result, ref node.medical, "Unit", "medical");
+		SpecialTreatment_unit_active(ref result, ref node.active);
+		// Ignore unknown Unit activenum
+		ValidateBoolean(ref result, ref node.handle, "Unit", "handle");
+		ValidateBoolean(ref result, ref node.red, "Unit", "red");
 		// Ignore Text Unit rank_text
-		ValidateBoolean(ref result, ref node.no_training, " 'no_training' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_training, "Unit", "no_training");
+		ValidateBoolean(ref result, ref node.force_voice, "Unit", "force_voice");
 		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
-		ValidateBoolean(ref result, ref node.same_friend, " 'same_friend' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.same_call, " 'same_call' of unit requires Boolean.");
-		ValidateNumber(ref result, ref node.level_max, " 'level_max' of unit requires Number.");
-		ValidateNumber(ref result, ref node.exp, " 'exp' of unit requires Number.");
-		ValidateNumber(ref result, ref node.exp_mul, " 'exp_mul' of unit requires Number.");
-		ValidateNumber(ref result, ref node.exp_max, " 'exp_max' of unit requires Number.");
-		SpecialTreatment_unit_line(ref result, ref node.line, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.same_friend, "Unit", "same_friend");
+		ValidateBoolean(ref result, ref node.same_call, "Unit", "same_call");
+		ValidateNumber(ref result, ref node.level_max, "Unit", "level_max");
+		ValidateNumber(ref result, ref node.exp, "Unit", "exp");
+		ValidateNumber(ref result, ref node.exp_mul, "Unit", "exp_mul");
+		ValidateNumber(ref result, ref node.exp_max, "Unit", "exp_max");
+		SpecialTreatment_unit_line(ref result, ref node.line);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
-		SpecialTreatment_unit_politics(ref result, ref node.politics, context.RequiredSeverity);
-		ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of unit requires Boolean.");
+		SpecialTreatment_unit_politics(ref result, ref node.politics);
+		ValidateBoolean(ref result, ref node.element_lost, "Unit", "element_lost");
 		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of unit requires Number.");
-		SpecialTreatment_unit_add_vassal(ref result, ref node.add_vassal, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.value, " 'value' of unit requires Number.");
+		ValidateStatusNumber(ref result, ref node.multi, "Unit", "multi");
+		ValidateNumber(ref result, ref node.lost_corpse, "Unit", "lost_corpse");
+		SpecialTreatment_unit_add_vassal(ref result, ref node.add_vassal);
+		ValidateNumber(ref result, ref node.value, "Unit", "value");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.scream, ref result.soundSet, ReferenceKind.sound);
 		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
-		ValidateBoolean(ref result, ref node.talent, " 'talent' of unit requires Boolean.");
+		ValidateBoolean(ref result, ref node.talent, "Unit", "talent");
 		AddReference(ref result, ref node.@class, ref result.ClassSet, ReferenceKind.Class);
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		ValidateNumber(ref result, ref node.volume, " 'volume' of unit requires Number.");
-		ValidateNumber(ref result, ref node.alive_per, " 'alive_per' of unit requires Number.");
-		ValidateNumber(ref result, ref node.yabo, " 'yabo' of unit requires Number.");
-		ValidateNumber(ref result, ref node.kosen, " 'kosen' of unit requires Number.");
-		ValidateNumber(ref result, ref node.align, " 'align' of unit requires Number.");
+		ValidateNumber(ref result, ref node.volume, "Unit", "volume");
+		ValidateNumber(ref result, ref node.alive_per, "Unit", "alive_per");
+		ValidateNumber(ref result, ref node.yabo, "Unit", "yabo");
+		ValidateNumber(ref result, ref node.kosen, "Unit", "kosen");
+		ValidateNumber(ref result, ref node.align, "Unit", "align");
 		AddReference(ref result, ref node.loyal, ref result.UnitSet, ReferenceKind.Unit);
 		// Ignore Text Unit power_name
 		AddReference(ref result, ref node.enemy, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
-		ValidateBoolean(ref result, ref node.diplomacy, " 'diplomacy' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.actor, " 'actor' of unit requires Boolean.");
-		ValidateNumber(ref result, ref node.enable, " 'enable' of unit requires Number.");
-		ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of unit requires Boolean.");
-		ValidateNumber(ref result, ref node.enable_max, " 'enable_max' of unit requires Number.");
-		SpecialTreatment_unit_fix(ref result, ref node.fix, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.diplomacy, "Unit", "diplomacy");
+		ValidateBoolean(ref result, ref node.actor, "Unit", "actor");
+		ValidateNumber(ref result, ref node.enable, "Unit", "enable");
+		ValidateBoolean(ref result, ref node.enable_select, "Unit", "enable_select");
+		ValidateNumber(ref result, ref node.enable_max, "Unit", "enable_max");
+		SpecialTreatment_unit_fix(ref result, ref node.fix);
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
-		ValidateBoolean(ref result, ref node.noremove_unit, " 'noremove_unit' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.noemploy_unit, " 'noemploy_unit' of unit requires Boolean.");
-		ValidateBoolean(ref result, ref node.noitem_unit, " 'noitem_unit' of unit requires Boolean.");
-		SpecialTreatment_unit_arbeit(ref result, ref node.arbeit, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.arbeit_capacity, " 'arbeit_capacity' of unit requires Number.");
+		ValidateBoolean(ref result, ref node.noremove_unit, "Unit", "noremove_unit");
+		ValidateBoolean(ref result, ref node.noemploy_unit, "Unit", "noemploy_unit");
+		ValidateBoolean(ref result, ref node.noitem_unit, "Unit", "noitem_unit");
+		SpecialTreatment_unit_arbeit(ref result, ref node.arbeit);
+		ValidateNumber(ref result, ref node.arbeit_capacity, "Unit", "arbeit_capacity");
 		// Ignore Text Unit join
 		// Ignore Text Unit dead
 		// Ignore Text Unit retreat
 		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
 	}
 
+	private static void SpecialTreatment_unit_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("neuter"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("male"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("female"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "sex", "neuter, male, female", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("keep_direct"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("no_circle"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("base"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("keep_color"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "yorozu", "keep_direct, no_circle, base, keep_color", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in pair.Value.Value.AsSpan())
+            {
+                Validate(ref result, ref value);
+            }
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.Count: > 0 })
+                {
+                    foreach (ref var value in item.Value.AsSpan())
+                    {
+                        Validate(ref result, ref value);
+                    }
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("on1"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("on2"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("on3"))
+            {
+                value.ReferenceId = 4;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "picture_detail", "off, on, on1, on2, on3", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("top"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("msg"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("base"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("bottom"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "picture_floor", "top, msg, base, bottom", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("never"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("rect"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("range"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("time"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("troop"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("never2"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("rect2"))
+            {
+                value.ReferenceId = 6;
+            }
+            else if (span.SequenceEqual("range2"))
+            {
+                value.ReferenceId = 7;
+            }
+            else if (span.SequenceEqual("time2"))
+            {
+                value.ReferenceId = 8;
+            }
+            else if (span.SequenceEqual("troop2"))
+            {
+                value.ReferenceId = 9;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "active", "never, rect, range, time, troop, never2, rect2, range2, time2, troop2", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("back"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("front"))
+            {
+                value.ReferenceId = 1;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "line", "back, front", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("fix"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("erase"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("unique"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "politics", "on, fix, erase, unique", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("roam"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "add_vassal", "off, on, roam", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("home"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "fix", "off, on, home", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_unit_arbeit(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("power"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("fix"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "arbeit", "off, on, power, fix", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref RaceNode node)
 	{
 		// Ignore Text Race name
-		ValidateNumber(ref result, ref node.align, " 'align' of race requires Number.");
-		ValidateNumber(ref result, ref node.brave, " 'brave' of race requires Number.");
+		ValidateNumber(ref result, ref node.align, "Race", "align");
+		ValidateNumber(ref result, ref node.brave, "Race", "brave");
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ClassNode node)
 	{
-		ValidateNumber(ref result, ref node.troop_sort, " 'troop_sort' of class requires Number.");
-		ValidateNumber(ref result, ref node.stealth, " 'stealth' of class requires Number.");
-		ValidateNumber(ref result, ref node.free_move, " 'free_move' of class requires Number.");
+		ValidateNumber(ref result, ref node.troop_sort, "Class", "troop_sort");
+		ValidateNumber(ref result, ref node.stealth, "Class", "stealth");
+		ValidateNumber(ref result, ref node.free_move, "Class", "free_move");
 		// Ignore Text Class name
 		// Ignore Text Class help
-		SpecialTreatment_class_sex(ref result, ref node.sex, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.a, " 'a' of class requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of class requires Number.");
-		ValidateNumber(ref result, ref node.w, " 'w' of class requires Number.");
+		SpecialTreatment_class_sex(ref result, ref node.sex);
+		ValidateNumber(ref result, ref node.a, "Class", "a");
+		ValidateNumber(ref result, ref node.h, "Class", "h");
+		ValidateNumber(ref result, ref node.w, "Class", "w");
 		// Ignore Text Class text
-		ValidateBoolean(ref result, ref node.sub_image_even, " 'sub_image_even' of class requires Boolean.");
-		SpecialTreatment_class_yorozu(ref result, ref node.yorozu, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.radius, " 'radius' of class requires Number.");
-		ValidateNumber(ref result, ref node.radius_press, " 'radius_press' of class requires Number.");
-		ValidateBoolean(ref result, ref node.no_escape, " 'no_escape' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.no_regular, " 'no_regular' of class requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.no_knock, " 'no_knock' of class requires Boolean 'on' or Number.");
-		ValidateBoolean(ref result, ref node.no_cover, " 'no_cover' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.sub_image_even, "Class", "sub_image_even");
+		SpecialTreatment_class_yorozu(ref result, ref node.yorozu);
+		ValidateNumber(ref result, ref node.radius, "Class", "radius");
+		ValidateNumber(ref result, ref node.radius_press, "Class", "radius_press");
+		ValidateBoolean(ref result, ref node.no_escape, "Class", "no_escape");
+		ValidateBoolean(ref result, ref node.no_regular, "Class", "no_regular");
+		ValidateBooleanNumber(ref result, ref node.no_knock, "Class", "no_knock");
+		ValidateBoolean(ref result, ref node.no_cover, "Class", "no_cover");
 		AddReference(ref result, ref node.dead_event, ref result.EventSet, ReferenceKind.Event);
-		ValidateBoolean(ref result, ref node.beast_unit, " 'beast_unit' of class requires Boolean.");
-		ValidateNumber(ref result, ref node.summon_max, " 'summon_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.summon_level, " 'summon_level' of class requires Number.");
-		ValidateNumber(ref result, ref node.attack_range, " 'attack_range' of class requires Number.");
-		ValidateNumber(ref result, ref node.escape_range, " 'escape_range' of class requires Number.");
-		ValidateNumber(ref result, ref node.escape_run, " 'escape_run' of class requires Number.");
-		ValidateNumber(ref result, ref node.hand_range, " 'hand_range' of class requires Number.");
-		ValidateNumber(ref result, ref node.wake_range, " 'wake_range' of class requires Number.");
-		ValidateNumber(ref result, ref node.view_range, " 'view_range' of class requires Number.");
-		ValidateNumber(ref result, ref node.cavalry_range, " 'cavalry_range' of class requires Number.");
-		ValidateBoolean(ref result, ref node.view_unit, " 'view_unit' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.force_view_unit, " 'force_view_unit' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.force_blind_unit, " 'force_blind_unit' of class requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.satellite, " 'satellite' of class requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.hasexp, " 'hasexp' of class requires Number.");
-		ValidateBooleanNumber(ref result, ref node.brave, " 'brave' of class requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.level, " 'level' of class requires Number.");
-		ValidateNumber(ref result, ref node.hp, " 'hp' of class requires Number.");
-		ValidateNumber(ref result, ref node.mp, " 'mp' of class requires Number.");
-		ValidateNumber(ref result, ref node.attack, " 'attack' of class requires Number.");
-		ValidateNumber(ref result, ref node.defense, " 'defense' of class requires Number.");
-		ValidateNumber(ref result, ref node.magic, " 'magic' of class requires Number.");
-		ValidateNumber(ref result, ref node.magdef, " 'magdef' of class requires Number.");
-		ValidateNumber(ref result, ref node.speed, " 'speed' of class requires Number.");
-		ValidateNumber(ref result, ref node.dext, " 'dext' of class requires Number.");
-		ValidateNumber(ref result, ref node.move, " 'move' of class requires Number.");
-		ValidateNumber(ref result, ref node.hprec, " 'hprec' of class requires Number.");
-		ValidateNumber(ref result, ref node.mprec, " 'mprec' of class requires Number.");
-		ValidateNumber(ref result, ref node.heal_max, " 'heal_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.attack_max, " 'attack_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.defense_max, " 'defense_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.magic_max, " 'magic_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.magdef_max, " 'magdef_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.speed_max, " 'speed_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.dext_max, " 'dext_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.move_max, " 'move_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.hprec_max, " 'hprec_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.mprec_max, " 'mprec_max' of class requires Number.");
+		ValidateBoolean(ref result, ref node.beast_unit, "Class", "beast_unit");
+		ValidateNumber(ref result, ref node.summon_max, "Class", "summon_max");
+		ValidateNumber(ref result, ref node.summon_level, "Class", "summon_level");
+		ValidateNumber(ref result, ref node.attack_range, "Class", "attack_range");
+		ValidateNumber(ref result, ref node.escape_range, "Class", "escape_range");
+		ValidateNumber(ref result, ref node.escape_run, "Class", "escape_run");
+		ValidateNumber(ref result, ref node.hand_range, "Class", "hand_range");
+		ValidateNumber(ref result, ref node.wake_range, "Class", "wake_range");
+		ValidateNumber(ref result, ref node.view_range, "Class", "view_range");
+		ValidateNumber(ref result, ref node.cavalry_range, "Class", "cavalry_range");
+		ValidateBoolean(ref result, ref node.view_unit, "Class", "view_unit");
+		ValidateBoolean(ref result, ref node.force_view_unit, "Class", "force_view_unit");
+		ValidateBoolean(ref result, ref node.force_blind_unit, "Class", "force_blind_unit");
+		ValidateBooleanNumber(ref result, ref node.satellite, "Class", "satellite");
+		ValidateNumber(ref result, ref node.hasexp, "Class", "hasexp");
+		ValidateBooleanNumber(ref result, ref node.brave, "Class", "brave");
+		ValidateNumber(ref result, ref node.level, "Class", "level");
+		ValidateNumber(ref result, ref node.hp, "Class", "hp");
+		ValidateNumber(ref result, ref node.mp, "Class", "mp");
+		ValidateNumber(ref result, ref node.attack, "Class", "attack");
+		ValidateNumber(ref result, ref node.defense, "Class", "defense");
+		ValidateNumber(ref result, ref node.magic, "Class", "magic");
+		ValidateNumber(ref result, ref node.magdef, "Class", "magdef");
+		ValidateNumber(ref result, ref node.speed, "Class", "speed");
+		ValidateNumber(ref result, ref node.dext, "Class", "dext");
+		ValidateNumber(ref result, ref node.move, "Class", "move");
+		ValidateNumber(ref result, ref node.hprec, "Class", "hprec");
+		ValidateNumber(ref result, ref node.mprec, "Class", "mprec");
+		ValidateNumber(ref result, ref node.heal_max, "Class", "heal_max");
+		ValidateNumber(ref result, ref node.attack_max, "Class", "attack_max");
+		ValidateNumber(ref result, ref node.defense_max, "Class", "defense_max");
+		ValidateNumber(ref result, ref node.magic_max, "Class", "magic_max");
+		ValidateNumber(ref result, ref node.magdef_max, "Class", "magdef_max");
+		ValidateNumber(ref result, ref node.speed_max, "Class", "speed_max");
+		ValidateNumber(ref result, ref node.dext_max, "Class", "dext_max");
+		ValidateNumber(ref result, ref node.move_max, "Class", "move_max");
+		ValidateNumber(ref result, ref node.hprec_max, "Class", "hprec_max");
+		ValidateNumber(ref result, ref node.mprec_max, "Class", "mprec_max");
 		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
-		ValidateNumber(ref result, ref node.hpUp, " 'hpUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.mpUp, " 'mpUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.attackUp, " 'attackUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.defenseUp, " 'defenseUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.magicUp, " 'magicUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.magdefUp, " 'magdefUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.speedUp, " 'speedUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.dextUp, " 'dextUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.moveUp, " 'moveUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.hprecUp, " 'hprecUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.mprecUp, " 'mprecUp' of class requires Number.");
-		ValidateNumber(ref result, ref node.hpMax, " 'hpMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.mpMax, " 'mpMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.attackMax, " 'attackMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.defenseMax, " 'defenseMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.magicMax, " 'magicMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.magdefMax, " 'magdefMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.speedMax, " 'speedMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.dextMax, " 'dextMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.moveMax, " 'moveMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.hprecMax, " 'hprecMax' of class requires Number.");
-		ValidateNumber(ref result, ref node.mprecMax, " 'mprecMax' of class requires Number.");
+		ValidateNumber(ref result, ref node.hpUp, "Class", "hpUp");
+		ValidateNumber(ref result, ref node.mpUp, "Class", "mpUp");
+		ValidateNumber(ref result, ref node.attackUp, "Class", "attackUp");
+		ValidateNumber(ref result, ref node.defenseUp, "Class", "defenseUp");
+		ValidateNumber(ref result, ref node.magicUp, "Class", "magicUp");
+		ValidateNumber(ref result, ref node.magdefUp, "Class", "magdefUp");
+		ValidateNumber(ref result, ref node.speedUp, "Class", "speedUp");
+		ValidateNumber(ref result, ref node.dextUp, "Class", "dextUp");
+		ValidateNumber(ref result, ref node.moveUp, "Class", "moveUp");
+		ValidateNumber(ref result, ref node.hprecUp, "Class", "hprecUp");
+		ValidateNumber(ref result, ref node.mprecUp, "Class", "mprecUp");
+		ValidateNumber(ref result, ref node.hpMax, "Class", "hpMax");
+		ValidateNumber(ref result, ref node.mpMax, "Class", "mpMax");
+		ValidateNumber(ref result, ref node.attackMax, "Class", "attackMax");
+		ValidateNumber(ref result, ref node.defenseMax, "Class", "defenseMax");
+		ValidateNumber(ref result, ref node.magicMax, "Class", "magicMax");
+		ValidateNumber(ref result, ref node.magdefMax, "Class", "magdefMax");
+		ValidateNumber(ref result, ref node.speedMax, "Class", "speedMax");
+		ValidateNumber(ref result, ref node.dextMax, "Class", "dextMax");
+		ValidateNumber(ref result, ref node.moveMax, "Class", "moveMax");
+		ValidateNumber(ref result, ref node.hprecMax, "Class", "hprecMax");
+		ValidateNumber(ref result, ref node.mprecMax, "Class", "mprecMax");
 		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
-		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of class requires Number.");
+		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		SpecialTreatment_class_picture_detail(ref result, ref node.picture_detail, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.picture_menu, " 'picture_menu' of class requires Number.");
-		SpecialTreatment_class_picture_floor(ref result, ref node.picture_floor, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.picture_shift, " 'picture_shift' of class requires Number.");
-		ValidateNumber(ref result, ref node.picture_shift_up, " 'picture_shift_up' of class requires Number.");
-		ValidateNumber(ref result, ref node.picture_center, " 'picture_center' of class requires Number.");
-		ValidateNumber(ref result, ref node.price, " 'price' of class requires Number.");
-		ValidateNumber(ref result, ref node.cost, " 'cost' of class requires Number.");
-		ValidateNumber(ref result, ref node.finance, " 'finance' of class requires Number.");
-		ValidateBoolean(ref result, ref node.tkool, " 'tkool' of class requires Boolean.");
-		ValidateBooleanNumber(ref result, ref node.keep_form, " 'keep_form' of class requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.breast_width, " 'breast_width' of class requires Number.");
-		ValidateNumber(ref result, ref node.medical, " 'medical' of class requires Number.");
-		SpecialTreatment_class_active(ref result, ref node.active, context.RequiredSeverity);
-		ValidateBoolean(ref result, ref node.handle, " 'handle' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.red, " 'red' of class requires Boolean.");
+		// Ignore unknown Class picture_atmark_cutin
+		SpecialTreatment_class_picture_detail(ref result, ref node.picture_detail);
+		ValidateNumber(ref result, ref node.picture_menu, "Class", "picture_menu");
+		SpecialTreatment_class_picture_floor(ref result, ref node.picture_floor);
+		ValidateNumber(ref result, ref node.picture_shift, "Class", "picture_shift");
+		ValidateNumber(ref result, ref node.picture_shift_up, "Class", "picture_shift_up");
+		ValidateNumber(ref result, ref node.picture_center, "Class", "picture_center");
+		// Ignore unknown Class picture_back
+		ValidateNumber(ref result, ref node.price, "Class", "price");
+		ValidateNumber(ref result, ref node.cost, "Class", "cost");
+		ValidateNumber(ref result, ref node.finance, "Class", "finance");
+		ValidateBoolean(ref result, ref node.tkool, "Class", "tkool");
+		ValidateBooleanNumber(ref result, ref node.keep_form, "Class", "keep_form");
+		ValidateNumber(ref result, ref node.breast_width, "Class", "breast_width");
+		ValidateNumber(ref result, ref node.medical, "Class", "medical");
+		SpecialTreatment_class_active(ref result, ref node.active);
+		// Ignore unknown Class activenum
+		ValidateBoolean(ref result, ref node.handle, "Class", "handle");
+		ValidateBoolean(ref result, ref node.red, "Class", "red");
 		// Ignore Text Class rank_text
-		ValidateBoolean(ref result, ref node.no_training, " 'no_training' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.force_voice, " 'force_voice' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.no_training, "Class", "no_training");
+		ValidateBoolean(ref result, ref node.force_voice, "Class", "force_voice");
 		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
-		ValidateBoolean(ref result, ref node.same_friend, " 'same_friend' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.same_call, " 'same_call' of class requires Boolean.");
-		ValidateNumber(ref result, ref node.level_max, " 'level_max' of class requires Number.");
-		ValidateNumber(ref result, ref node.exp, " 'exp' of class requires Number.");
-		ValidateNumber(ref result, ref node.exp_mul, " 'exp_mul' of class requires Number.");
-		ValidateNumber(ref result, ref node.exp_max, " 'exp_max' of class requires Number.");
-		SpecialTreatment_class_line(ref result, ref node.line, context.RequiredSeverity);
+		ValidateBoolean(ref result, ref node.same_friend, "Class", "same_friend");
+		ValidateBoolean(ref result, ref node.same_call, "Class", "same_call");
+		ValidateNumber(ref result, ref node.level_max, "Class", "level_max");
+		ValidateNumber(ref result, ref node.exp, "Class", "exp");
+		ValidateNumber(ref result, ref node.exp_mul, "Class", "exp_mul");
+		ValidateNumber(ref result, ref node.exp_max, "Class", "exp_max");
+		SpecialTreatment_class_line(ref result, ref node.line);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
-		SpecialTreatment_class_politics(ref result, ref node.politics, context.RequiredSeverity);
-		ValidateBoolean(ref result, ref node.element_lost, " 'element_lost' of class requires Boolean.");
+		SpecialTreatment_class_politics(ref result, ref node.politics);
+		ValidateBoolean(ref result, ref node.element_lost, "Class", "element_lost");
 		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		ValidateNumber(ref result, ref node.lost_corpse, " 'lost_corpse' of class requires Number.");
-		SpecialTreatment_class_add_vassal(ref result, ref node.add_vassal, context.RequiredSeverity);
-		ValidateNumber(ref result, ref node.value, " 'value' of class requires Number.");
+		ValidateStatusNumber(ref result, ref node.multi, "Class", "multi");
+		ValidateNumber(ref result, ref node.lost_corpse, "Class", "lost_corpse");
+		SpecialTreatment_class_add_vassal(ref result, ref node.add_vassal);
+		ValidateNumber(ref result, ref node.value, "Class", "value");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.scream, ref result.soundSet, ReferenceKind.sound);
 		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.image2, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image2, ref result.imagedataSet, ReferenceKind.imagedata);
-		ValidateBoolean(ref result, ref node.unique, " 'unique' of class requires Boolean.");
-		ValidateBoolean(ref result, ref node.same_sex, " 'same_sex' of class requires Boolean.");
+		ValidateBoolean(ref result, ref node.unique, "Class", "unique");
+		ValidateBoolean(ref result, ref node.same_sex, "Class", "same_sex");
 		AddReference(ref result, ref node.change, ref result.ClassSet, ReferenceKind.Class);
+	}
+
+	private static void SpecialTreatment_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("neuter"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("male"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("female"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "sex", "neuter, male, female", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("keep_direct"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("no_circle"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("base"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("keep_color"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "yorozu", "keep_direct, no_circle, base, keep_color", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in pair.Value.Value.AsSpan())
+            {
+                Validate(ref result, ref value);
+            }
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.Count: > 0 })
+                {
+                    foreach (ref var value in item.Value.AsSpan())
+                    {
+                        Validate(ref result, ref value);
+                    }
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("on1"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("on2"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("on3"))
+            {
+                value.ReferenceId = 4;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "picture_detail", "off, on, on1, on2, on3", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("top"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("msg"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("base"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("bottom"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "picture_floor", "top, msg, base, bottom", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("never"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("rect"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("range"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("time"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("troop"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("never2"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("rect2"))
+            {
+                value.ReferenceId = 6;
+            }
+            else if (span.SequenceEqual("range2"))
+            {
+                value.ReferenceId = 7;
+            }
+            else if (span.SequenceEqual("time2"))
+            {
+                value.ReferenceId = 8;
+            }
+            else if (span.SequenceEqual("troop2"))
+            {
+                value.ReferenceId = 9;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "active", "never, rect, range, time, troop, never2, rect2, range2, time2, troop2", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("back"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("front"))
+            {
+                value.ReferenceId = 1;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "line", "back, front", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("fix"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("erase"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("unique"))
+            {
+                value.ReferenceId = 3;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "politics", "on, fix, erase, unique", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_class_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("roam"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Class", "add_vassal", "off, on, roam", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref FieldNode node)
 	{
+		// Ignore unknown Field type
 		AddReference(ref result, ref node.attr, ref result.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeTypeWriter);
-		ValidateNumber(ref result, ref node.color, " 'color' of field requires Number.");
+		ValidateNumber(ref result, ref node.color, "Field", "color");
 		AddReference(ref result, ref node.id, ref result.FieldIdWriterSet, ReferenceKind.FieldIdWriter);
-		ValidateBoolean(ref result, ref node.edge, " 'edge' of field requires Boolean.");
-		ValidateNumber(ref result, ref node.alt, " 'alt' of field requires Number.");
-		ValidateNumber(ref result, ref node.alt_max, " 'alt_max' of field requires Number.");
+		ValidateBoolean(ref result, ref node.edge, "Field", "edge");
+		// Ignore unknown Field joint
+		// Ignore unknown Field image
+		// Ignore unknown Field add2
+		// Ignore unknown Field member
+		ValidateNumber(ref result, ref node.alt, "Field", "alt");
+		ValidateNumber(ref result, ref node.alt_max, "Field", "alt_max");
+		// Ignore unknown Field smooth
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillNode node)
 	{
-		ValidateBoolean(ref result, ref node.force_ray, " 'force_ray' of skill requires Boolean.");
-		ValidateBoolean(ref result, ref node.bright, " 'bright' of skill requires Boolean.");
+		ValidateBoolean(ref result, ref node.force_ray, "Skill", "force_ray");
+		ValidateBoolean(ref result, ref node.bright, "Skill", "bright");
+		// Ignore unknown Skill func
 		// Ignore Text Skill name
-		ValidateNumber(ref result, ref node.sortkey, " 'sortkey' of skill requires Number.");
-		ValidateBooleanNumber(ref result, ref node.special, " 'special' of skill requires Boolean 'on' or Number.");
+		// Ignore unknown Skill fkey
+		ValidateNumber(ref result, ref node.sortkey, "Skill", "sortkey");
+		ValidateBooleanNumber(ref result, ref node.special, "Skill", "special");
+		// Ignore unknown Skill delay
+		// Ignore unknown Skill gun_delay
+		// Ignore unknown Skill quickreload
 		// Ignore Text Skill help
+		// Ignore unknown Skill hide_help
 		AddReference(ref result, ref node.sound, ref result.soundSet, ReferenceKind.sound);
 		// Ignore Text Skill msg
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		ValidateNumber(ref result, ref node.value, " 'value' of skill requires Number.");
-		ValidateBooleanNumber(ref result, ref node.exp_per, " 'exp_per' of skill requires Boolean 'on' or Number.");
-		ValidateNumber(ref result, ref node.color, " 'color' of skill requires Number.");
-		ValidateNumber(ref result, ref node.w, " 'w' of skill requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of skill requires Number.");
-		ValidateNumber(ref result, ref node.a, " 'a' of skill requires Number.");
-		ValidateNumber(ref result, ref node.mp, " 'mp' of skill requires Number.");
-		ValidateNumber(ref result, ref node.anime, " 'anime' of skill requires Number.");
-		ValidateNumber(ref result, ref node.anime_interval, " 'anime_interval' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_interval, " 'resize_interval' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_start, " 'resize_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_reverse, " 'resize_reverse' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_w, " 'resize_w' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_w_start, " 'resize_w_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_w_max, " 'resize_w_max' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_w_min, " 'resize_w_min' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_h_min, " 'resize_h_min' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_h_max, " 'resize_h_max' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_h_start, " 'resize_h_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_h, " 'resize_h' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_x, " 'resize_x' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_x_start, " 'resize_x_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_x_max, " 'resize_x_max' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_x_min, " 'resize_x_min' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_y_min, " 'resize_y_min' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_y_max, " 'resize_y_max' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_y_start, " 'resize_y_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_y, " 'resize_y' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_a, " 'resize_a' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_s, " 'resize_s' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_a_start, " 'resize_a_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_s_start, " 'resize_s_start' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_a_max, " 'resize_a_max' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_s_max, " 'resize_s_max' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_a_min, " 'resize_a_min' of skill requires Number.");
-		ValidateNumber(ref result, ref node.resize_s_min, " 'resize_s_min' of skill requires Number.");
-		ValidateNumber(ref result, ref node.start_degree, " 'start_degree' of skill requires Number.");
-		ValidateNumber(ref result, ref node.start_random_degree, " 'start_random_degree' of skill requires Number.");
+		// Ignore unknown Skill cutin
+		ValidateNumber(ref result, ref node.value, "Skill", "value");
+		// Ignore unknown Skill talent
+		ValidateBooleanNumber(ref result, ref node.exp_per, "Skill", "exp_per");
+		// Ignore unknown Skill movetype
+		// Ignore unknown Skill type
+		ValidateNumber(ref result, ref node.color, "Skill", "color");
+		ValidateNumber(ref result, ref node.w, "Skill", "w");
+		ValidateNumber(ref result, ref node.h, "Skill", "h");
+		ValidateNumber(ref result, ref node.a, "Skill", "a");
+		ValidateNumber(ref result, ref node.mp, "Skill", "mp");
+		// Ignore unknown Skill alpha_tip
+		// Ignore unknown Skill alpha_butt
+		ValidateNumber(ref result, ref node.anime, "Skill", "anime");
+		ValidateNumber(ref result, ref node.anime_interval, "Skill", "anime_interval");
+		// Ignore unknown Skill center
+		// Ignore unknown Skill ground
+		// Ignore unknown Skill d360
+		// Ignore unknown Skill d360_adj
+		// Ignore unknown Skill rotate
+		// Ignore unknown Skill direct
+		ValidateNumber(ref result, ref node.resize_interval, "Skill", "resize_interval");
+		ValidateNumber(ref result, ref node.resize_start, "Skill", "resize_start");
+		ValidateNumber(ref result, ref node.resize_reverse, "Skill", "resize_reverse");
+		ValidateNumber(ref result, ref node.resize_w, "Skill", "resize_w");
+		ValidateNumber(ref result, ref node.resize_w_start, "Skill", "resize_w_start");
+		ValidateNumber(ref result, ref node.resize_w_max, "Skill", "resize_w_max");
+		ValidateNumber(ref result, ref node.resize_w_min, "Skill", "resize_w_min");
+		ValidateNumber(ref result, ref node.resize_h_min, "Skill", "resize_h_min");
+		ValidateNumber(ref result, ref node.resize_h_max, "Skill", "resize_h_max");
+		ValidateNumber(ref result, ref node.resize_h_start, "Skill", "resize_h_start");
+		ValidateNumber(ref result, ref node.resize_h, "Skill", "resize_h");
+		ValidateNumber(ref result, ref node.resize_x, "Skill", "resize_x");
+		ValidateNumber(ref result, ref node.resize_x_start, "Skill", "resize_x_start");
+		ValidateNumber(ref result, ref node.resize_x_max, "Skill", "resize_x_max");
+		ValidateNumber(ref result, ref node.resize_x_min, "Skill", "resize_x_min");
+		ValidateNumber(ref result, ref node.resize_y_min, "Skill", "resize_y_min");
+		ValidateNumber(ref result, ref node.resize_y_max, "Skill", "resize_y_max");
+		ValidateNumber(ref result, ref node.resize_y_start, "Skill", "resize_y_start");
+		ValidateNumber(ref result, ref node.resize_y, "Skill", "resize_y");
+		ValidateNumber(ref result, ref node.resize_a, "Skill", "resize_a");
+		ValidateNumber(ref result, ref node.resize_s, "Skill", "resize_s");
+		ValidateNumber(ref result, ref node.resize_a_start, "Skill", "resize_a_start");
+		ValidateNumber(ref result, ref node.resize_s_start, "Skill", "resize_s_start");
+		ValidateNumber(ref result, ref node.resize_a_max, "Skill", "resize_a_max");
+		ValidateNumber(ref result, ref node.resize_s_max, "Skill", "resize_s_max");
+		ValidateNumber(ref result, ref node.resize_a_min, "Skill", "resize_a_min");
+		ValidateNumber(ref result, ref node.resize_s_min, "Skill", "resize_s_min");
+		// Ignore unknown Skill force_fire
+		// Ignore unknown Skill slow_per
+		// Ignore unknown Skill slow_time
+		// Ignore unknown Skill slide
+		// Ignore unknown Skill slide_speed
+		// Ignore unknown Skill slide_delay
+		// Ignore unknown Skill slide_stamp
+		// Ignore unknown Skill wait_time
+		// Ignore unknown Skill wait_time2
+		// Ignore unknown Skill shake
+		// Ignore unknown Skill ray
+		// Ignore unknown Skill flash
+		// Ignore unknown Skill flash_anime
+		// Ignore unknown Skill flash_image
+		// Ignore unknown Skill collision
+		// Ignore unknown Skill afterdeath
+		// Ignore unknown Skill afterhit
+		// Ignore unknown Skill yorozu
+		// Ignore unknown Skill str
+		// Ignore unknown Skill str_ratio
+		// Ignore unknown Skill attr
+		// Ignore unknown Skill add
+		// Ignore unknown Skill add2
+		// Ignore unknown Skill add_all
+		// Ignore unknown Skill add_per
+		// Ignore unknown Skill damage
+		// Ignore unknown Skill damage_range_adjust
+		// Ignore unknown Skill attack_us
+		// Ignore unknown Skill allfunc
+		// Ignore unknown Skill bom
+		// Ignore unknown Skill homing
+		// Ignore unknown Skill homing2
+		// Ignore unknown Skill forward
+		// Ignore unknown Skill far
+		// Ignore unknown Skill hard
+		// Ignore unknown Skill hard2
+		// Ignore unknown Skill onehit
+		// Ignore unknown Skill offset
+		// Ignore unknown Skill offset_attr
+		// Ignore unknown Skill knock
+		// Ignore unknown Skill knock_speed
+		// Ignore unknown Skill knock_power
+		// Ignore unknown Skill range
+		// Ignore unknown Skill range_min
+		// Ignore unknown Skill check
+		// Ignore unknown Skill speed
+		// Ignore unknown Skill wave
+		// Ignore unknown Skill origin
+		// Ignore unknown Skill random_space
+		// Ignore unknown Skill random_space_min
+		// Ignore unknown Skill time
+		// Ignore unknown Skill height
+		// Ignore unknown Skill rush
+		// Ignore unknown Skill rush_interval
+		// Ignore unknown Skill rush_degree
+		// Ignore unknown Skill rush_random_degree
+		// Ignore unknown Skill follow
+		ValidateNumber(ref result, ref node.start_degree, "Skill", "start_degree");
+		// Ignore unknown Skill start_degree_fix
+		// Ignore unknown Skill start_degree_turnunit
+		// Ignore unknown Skill start_degree_type
+		ValidateNumber(ref result, ref node.start_random_degree, "Skill", "start_random_degree");
+		// Ignore unknown Skill drop_degree
+		// Ignore unknown Skill drop_degree2
+		// Ignore unknown Skill joint_skill
+		// Ignore unknown Skill send_target
+		// Ignore unknown Skill send_image_degree
+		// Ignore unknown Skill next
+		// Ignore unknown Skill next2
+		// Ignore unknown Skill next3
+		// Ignore unknown Skill next4
+		// Ignore unknown Skill next_order
+		// Ignore unknown Skill next_last
+		// Ignore unknown Skill next_first
+		// Ignore unknown Skill next_interval
+		// Ignore unknown Skill just_next
+		// Ignore unknown Skill pair_next
+		// Ignore unknown Skill item_type
+		// Ignore unknown Skill item_sort
+		// Ignore unknown Skill item_nosell
+		// Ignore unknown Skill price
+		// Ignore unknown Skill friend
+		// Ignore unknown Skill summon_level
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref PowerNode node)
 	{
-		ValidateBoolean(ref result, ref node.castle_battle, " 'castle_battle' of power requires Boolean.");
-		ValidateBoolean(ref result, ref node.@event, " 'event' of power requires Boolean.");
+		ValidateBoolean(ref result, ref node.castle_battle, "Power", "castle_battle");
+		ValidateBoolean(ref result, ref node.@event, "Power", "event");
 		// Ignore Text Power name
 		// Ignore Text Power help
 		AddReference(ref result, ref node.master, ref result.UnitSet, ReferenceKind.Unit);
 		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		ValidateNumber(ref result, ref node.volume, " 'volume' of power requires Number.");
-		ValidateBoolean(ref result, ref node.diplomacy, " 'diplomacy' of power requires Boolean.");
-		ValidateBoolean(ref result, ref node.enable_select, " 'enable_select' of power requires Boolean.");
-		ValidateBoolean(ref result, ref node.enable_talent, " 'enable_talent' of power requires Boolean.");
-		ValidateBoolean(ref result, ref node.free_raise, " 'free_raise' of power requires Boolean.");
-		ValidateNumber(ref result, ref node.money, " 'money' of power requires Number.");
+		ValidateNumber(ref result, ref node.volume, "Power", "volume");
+		ValidateBoolean(ref result, ref node.diplomacy, "Power", "diplomacy");
+		ValidateBoolean(ref result, ref node.enable_select, "Power", "enable_select");
+		ValidateBoolean(ref result, ref node.enable_talent, "Power", "enable_talent");
+		ValidateBoolean(ref result, ref node.free_raise, "Power", "free_raise");
+		ValidateNumber(ref result, ref node.money, "Power", "money");
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
-		SpecialTreatment_power_fix(ref result, ref node.fix, context.RequiredSeverity);
+		SpecialTreatment_power_fix(ref result, ref node.fix);
 		AddReference(ref result, ref node.diplo, ref result.PowerSet, ReferenceKind.Power);
 		AddReference(ref result, ref node.league, ref result.PowerSet, ReferenceKind.Power);
 		AddReference(ref result, ref node.enemy_power, ref result.PowerSet, ReferenceKind.Power);
-		ValidateNumber(ref result, ref node.training_average, " 'training_average' of power requires Number.");
-		ValidateNumber(ref result, ref node.base_merits, " 'base_merits' of power requires Number.");
+		ValidateNumber(ref result, ref node.training_average, "Power", "training_average");
+		ValidateNumber(ref result, ref node.base_merits, "Power", "base_merits");
 		AddReference(ref result, ref node.merits, ref result.UnitSet, ReferenceKind.Unit);
-		ValidateNumber(ref result, ref node.base_loyal, " 'base_loyal' of power requires Number.");
+		ValidateNumber(ref result, ref node.base_loyal, "Power", "base_loyal");
 		AddReference(ref result, ref node.loyals, ref result.UnitSet, ReferenceKind.Unit);
 		// Ignore Text Power head
 		// Ignore Text Power head2
@@ -575,8 +1675,8 @@ public static partial class PerResultValidator
 		// Ignore Text Power head5
 		// Ignore Text Power head6
 		// Ignore Text Power diff
-		ValidateNumber(ref result, ref node.yabo, " 'yabo' of power requires Number.");
-		ValidateNumber(ref result, ref node.kosen, " 'kosen' of power requires Number.");
+		ValidateNumber(ref result, ref node.yabo, "Power", "yabo");
+		ValidateNumber(ref result, ref node.kosen, "Power", "kosen");
 		// Ignore Text Power text
 		AddReference(ref result, ref node.member, ref result.SpotSet, ReferenceKind.Spot);
 		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
@@ -585,46 +1685,120 @@ public static partial class PerResultValidator
 		// Ignore Text Power master4
 		// Ignore Text Power master5
 		// Ignore Text Power master6
-		ValidateNumber(ref result, ref node.training_up, " 'training_up' of power requires Number.");
+		// Ignore unknown Power enable
+		ValidateNumber(ref result, ref node.training_up, "Power", "training_up");
+	}
+
+	private static void SpecialTreatment_power_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("home"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("hold"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("warlike"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("freeze"))
+            {
+                value.ReferenceId = 5;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Power", "fix", "off, on, home, hold, warlike, freeze", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ObjectNode node)
 	{
-		ValidateNumber(ref result, ref node.width, " 'width' of object requires Number.");
-		ValidateNumber(ref result, ref node.height, " 'height' of object requires Number.");
-		ValidateNumber(ref result, ref node.alpha, " 'alpha' of object requires Number.");
-		ValidateNumber(ref result, ref node.color, " 'color' of object requires Number.");
-		ValidateBooleanNumber(ref result, ref node.land_base, " 'land_base' of object requires Boolean 'on' or Number.");
-		ValidateBoolean(ref result, ref node.no_stop, " 'no_stop' of object requires Boolean.");
-		ValidateNumber(ref result, ref node.no_wall2, " 'no_wall2' of object requires Number.");
-		ValidateBoolean(ref result, ref node.no_arc_hit, " 'no_arc_hit' of object requires Boolean.");
-		ValidateNumber(ref result, ref node.radius, " 'radius' of object requires Number.");
-		ValidateBoolean(ref result, ref node.blk, " 'blk' of object requires Boolean.");
-		ValidateNumber(ref result, ref node.w, " 'w' of object requires Number.");
-		ValidateNumber(ref result, ref node.h, " 'h' of object requires Number.");
-		ValidateNumber(ref result, ref node.a, " 'a' of object requires Number.");
+		// Ignore unknown Object skill
+		// Ignore unknown Object front
+		ValidateNumber(ref result, ref node.width, "Object", "width");
+		ValidateNumber(ref result, ref node.height, "Object", "height");
+		ValidateNumber(ref result, ref node.alpha, "Object", "alpha");
+		// Ignore unknown Object type
+		// Ignore unknown Object breakfire
+		ValidateNumber(ref result, ref node.color, "Object", "color");
+		ValidateBooleanNumber(ref result, ref node.land_base, "Object", "land_base");
+		ValidateBoolean(ref result, ref node.no_stop, "Object", "no_stop");
+		ValidateNumber(ref result, ref node.no_wall2, "Object", "no_wall2");
+		ValidateBoolean(ref result, ref node.no_arc_hit, "Object", "no_arc_hit");
+		ValidateNumber(ref result, ref node.radius, "Object", "radius");
+		ValidateBoolean(ref result, ref node.blk, "Object", "blk");
+		ValidateNumber(ref result, ref node.w, "Object", "w");
+		ValidateNumber(ref result, ref node.h, "Object", "h");
+		ValidateNumber(ref result, ref node.a, "Object", "a");
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.image2, ref result.imagedataSet, ReferenceKind.imagedata);
-		ValidateNumber(ref result, ref node.image2_w, " 'image2_w' of object requires Number.");
-		ValidateNumber(ref result, ref node.image2_h, " 'image2_h' of object requires Number.");
-		ValidateNumber(ref result, ref node.image2_a, " 'image2_a' of object requires Number.");
-		ValidateBoolean(ref result, ref node.ground, " 'ground' of object requires Boolean.");
+		ValidateNumber(ref result, ref node.image2_w, "Object", "image2_w");
+		ValidateNumber(ref result, ref node.image2_h, "Object", "image2_h");
+		ValidateNumber(ref result, ref node.image2_a, "Object", "image2_a");
+		// Ignore unknown Object member
+		ValidateBoolean(ref result, ref node.ground, "Object", "ground");
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref DungeonNode node)
 	{
 		// Ignore Text Dungeon name
-		ValidateNumber(ref result, ref node.max, " 'max' of dungeon requires Number.");
-		ValidateNumber(ref result, ref node.move_speed, " 'move_speed' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.max, "Dungeon", "max");
+		ValidateNumber(ref result, ref node.move_speed, "Dungeon", "move_speed");
 		// Ignore Text Dungeon prefix
 		// Ignore Text Dungeon suffix
-		ValidateNumber(ref result, ref node.lv_adjust, " 'lv_adjust' of dungeon requires Number.");
-		ValidateNumber(ref result, ref node.limit, " 'limit' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.lv_adjust, "Dungeon", "lv_adjust");
+		ValidateBoolean(ref result, ref node.open, "Dungeon", "open");
+		ValidateNumber(ref result, ref node.limit, "Dungeon", "limit");
 		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		ValidateNumber(ref result, ref node.volume, " 'volume' of dungeon requires Number.");
-		ValidateNumber(ref result, ref node.base_level, " 'base_level' of dungeon requires Number.");
-		ValidateNumber(ref result, ref node.color, " 'color' of dungeon requires Number.");
+		ValidateNumber(ref result, ref node.volume, "Dungeon", "volume");
+		ValidateNumber(ref result, ref node.blind, "Dungeon", "blind");
+		ValidateNumber(ref result, ref node.base_level, "Dungeon", "base_level");
+		ValidateNumber(ref result, ref node.color, "Dungeon", "color");
 		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
+		AddReference(ref result, ref node.floor, ref result.FieldSet, ReferenceKind.Field);
+		AddReference(ref result, ref node.wall, ref result.ObjectSet, ReferenceKind.Object);
+		AddReference(ref result, ref node.start, ref result.ObjectSet, ReferenceKind.Object);
+		AddReference(ref result, ref node.goal, ref result.ObjectSet, ReferenceKind.Object);
+		ValidateNumber(ref result, ref node.monster_num, "Dungeon", "monster_num");
+		AddReference(ref result, ref node.box, ref result.ObjectSet, ReferenceKind.Object);
+		// Ignore unknown Dungeon item
+		ValidateNumber(ref result, ref node.item_num, "Dungeon", "item_num");
+		ValidateBoolean(ref result, ref node.item_text, "Dungeon", "item_text");
+		ValidateNumber(ref result, ref node.home, "Dungeon", "home");
+		ValidateNumber(ref result, ref node.ray, "Dungeon", "ray");
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref MovetypeNode node)

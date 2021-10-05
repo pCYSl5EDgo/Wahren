@@ -102,6 +102,16 @@ public static class ErrorHelper
         result.ErrorAdd(text, tokenId);
     }
 
+    public static void ErrorAdd_UnexpectedElementSpecialValue(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> values, uint tokenId)
+    {
+#if DEBUG
+        var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は期待される値{values}ではありません。";
+#else
+        var text = $"Value '{result.GetSpan(tokenId)}' is not {values} required by element '{elementName}' of struct {nodeKind}.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
     public static void ErrorAdd_UnexpectedArgumentReferenceKind(ref this Result result, ReadOnlySpan<char> action, int argumentIndex, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
 #if DEBUG

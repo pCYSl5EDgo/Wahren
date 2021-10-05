@@ -7806,6 +7806,27 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref DungeonNode node)
     {
+        if (node.monster.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.monster.Value.Value.AsSpan())
+            {
+                SpecialTreatment_dungeon_monster(ref result, ref value);
+            }
+        }
+        if (node.monster.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.monster.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_dungeon_monster(ref result, ref value);
+                }
+            }
+        }
     }
 
     private void AddReferenceAndValidate(ref Result result, ref MovetypeNode node)
@@ -8691,6 +8712,42 @@ public sealed partial class Project
                 break;
             default:
                 result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_dungeon_monster(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
                 break;
         }
     }

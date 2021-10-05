@@ -40,6 +40,9 @@ public static partial class PerResultValidator
 <#  } #>
 <#	foreach (var element in elements) {
 		switch (element.referenceKind) { #>
+<#			case ReferenceKind.Unknown					: #>
+		// Ignore unknown <#= elementName #> <#= element.Name #>
+<#				break;#>
 <#			case ReferenceKind.Scenario					: #>
 <#			case ReferenceKind.Event					: #>
 <#			case ReferenceKind.Story					: #>
@@ -77,19 +80,93 @@ public static partial class PerResultValidator
 <#				break;#>
 <#			case ReferenceKind.Number: #>
 <#			case ReferenceKind.Boolean: #>
-		Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, " '<#= element.Name #>' of <#= elementName.ToLowerInvariant() #> requires <#= element.referenceKind #>.");
+<#			case ReferenceKind.RedBlue: #>
+<#			case ReferenceKind.Status: #>
+		Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, "<#= elementName #>", "<#= element.name #>");
+<#				break;#>
+<#			case ReferenceKind.Status | ReferenceKind.Number: #>
+		ValidateStatusNumber(ref result, ref node.<#= element.name.Escape() #>, "<#= elementName #>", "<#= element.name #>");
 <#				break;#>
 <#			case ReferenceKind.Boolean | ReferenceKind.Number: #>
-		ValidateBooleanNumber(ref result, ref node.<#= element.name.Escape() #>, " '<#= element.Name #>' of <#= elementName.ToLowerInvariant() #> requires Boolean 'on' or Number.");
+		ValidateBooleanNumber(ref result, ref node.<#= element.name.Escape() #>, "<#= elementName #>", "<#= element.name #>");
 <#				break;#>
 <#			case ReferenceKind.Special: #>
-		SpecialTreatment_<#= elementName.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.<#= element.name.Escape() #>, context.RequiredSeverity);
+		SpecialTreatment_<#= elementName.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.<#= element.name.Escape() #>);
 <#				break;#>
 <#			case ReferenceKind.Text: #>
 		// Ignore Text <#= elementName #> <#= element.Name #>
 <#				break;#>
-<#		}#>
+<#		} #>
 <#	}#>
 	}
+<#	foreach (var element in elements) { #>
+<#	    if (element.referenceKind == ReferenceKind.Special && element.specialStringArray is { Length: > 0 }) { #>
+
+	private static void SpecialTreatment_<#= elementName.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref VariantPair<<#= element.name.GetCorrespondingType() #>> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("<#= element.specialStringArray[0] #>"))
+            {
+                value.ReferenceId = 0;
+            }
+<#              for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>
+            else if (span.SequenceEqual("<#= element.specialStringArray[speIndex] #>"))
+            {
+                value.ReferenceId = <#= speIndex #>;
+            }
+<#              } #>
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("<#= elementName #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
+            }
+        }
+
+<#              if (element.name.GetCorrespondingType() == "Pair_NullableString_NullableIntElement") { #>
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+<#              } else { #>
+        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in pair.Value.Value.AsSpan())
+            {
+                Validate(ref result, ref value);
+            }
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.Count: > 0 })
+                {
+                    foreach (ref var value in item.Value.AsSpan())
+                    {
+                        Validate(ref result, ref value);
+                    }
+                }
+            }
+        }
+<#              }#>
+	}
+<#	    } #>
+<#	}#>
 <# } #>
 }
