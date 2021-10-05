@@ -158,53 +158,41 @@ foreach (((int min, int max), string[] itemArray) in callableInfoArray.GroupBy(
 <#  if (min == max && min == 0) { #>
 				if (count != 0)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, <#= max #>, index);
                     return false;
                 }
 <#  } else if (max == int.MaxValue) { #>
                 if (count < <#= min #>)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>~.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, <#= min #>, index);
                     return false;
                 }
 <#  } else if (min == 0) { #>
 				if (count > <#= max #>)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~<#= max #>.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, <#= max #>, index);
                     return false;
                 }
 <#  } else if (min == max) { #>
                 if (count < <#= min #>)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, <#= min #>, index);
                     return false;
                 }
                 else if (count > <#= max #>)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: <#= min #>.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, <#= max #>, index);
                     return false;
                 }
 <#  } else { #>
 				if (count < <#= min #>)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: <#= min #>~<#= max #>.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, <#= min #>, index);
                     return false;
                 }
                 else if (count > <#= max #>)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: <#= min #>~<#= max #>.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, <#= max #>, index);
                     return false;
                 }
 <#  } #>

@@ -6983,15 +6983,12 @@ public static partial class PerResultValidator
             case ActionKind.pushDeath:
                 if (count < 6)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 6.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 6, index);
                     return false;
                 }
                 else if (count > 6)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 6.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 6, index);
                     return false;
                 }
                 break;
@@ -7011,15 +7008,12 @@ public static partial class PerResultValidator
             case ActionKind.resetEnemyPower:
 				if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1~2.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 else if (count > 2)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~2.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 2, index);
                     return false;
                 }
                 break;
@@ -7033,15 +7027,12 @@ public static partial class PerResultValidator
             case ActionKind.changeMaster:
 				if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1~3.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 else if (count > 3)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~3.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
                 }
                 break;
@@ -7147,15 +7138,12 @@ public static partial class PerResultValidator
             case ActionKind.storeBaseClassOfUnit:
                 if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 else if (count > 2)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 2.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 2, index);
                     return false;
                 }
                 break;
@@ -7170,7 +7158,7 @@ public static partial class PerResultValidator
             case ActionKind.addPowerStaff2:
                 if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2~.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 break;
@@ -7187,10 +7175,7 @@ public static partial class PerResultValidator
             case ActionKind.setGameClear:
 				if (count > 1)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~1.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 1, index);
                     return false;
                 }
                 break;
@@ -7206,15 +7191,12 @@ public static partial class PerResultValidator
             case ActionKind.showPicture:
 				if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1~5.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 else if (count > 5)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1~5.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 5, index);
                     return false;
                 }
                 break;
@@ -7240,10 +7222,7 @@ public static partial class PerResultValidator
             case ActionKind.clearBattleRecord:
 				if (count != 0)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 0, index);
                     return false;
                 }
                 break;
@@ -7313,15 +7292,12 @@ public static partial class PerResultValidator
             case ActionKind.storePowerOfDefense:
                 if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 else if (count > 1)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 1, index);
                     return false;
                 }
                 break;
@@ -7329,10 +7305,7 @@ public static partial class PerResultValidator
             case ActionKind.fontc:
 				if (count > 3)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~3.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
                 }
                 break;
@@ -7349,15 +7322,12 @@ public static partial class PerResultValidator
             case ActionKind.skillTroop:
 				if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2~3.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 else if (count > 3)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 2~3.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
                 }
                 break;
@@ -7374,25 +7344,19 @@ public static partial class PerResultValidator
             case ActionKind.setEnemyPower:
                 if (count < 3)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 3.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 3, index);
                     return false;
                 }
                 else if (count > 3)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 3.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
                 }
                 break;
             case ActionKind.shadow:
 				if (count > 6)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~6.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 6, index);
                     return false;
                 }
                 break;
@@ -7401,15 +7365,12 @@ public static partial class PerResultValidator
             case ActionKind.storeRectUnit:
                 if (count < 5)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 5.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 5, index);
                     return false;
                 }
                 else if (count > 5)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 5.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 5, index);
                     return false;
                 }
                 break;
@@ -7419,17 +7380,14 @@ public static partial class PerResultValidator
             case ActionKind.eraseFriend:
                 if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1~.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 break;
             case ActionKind.darkness:
 				if (count > 4)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~4.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 4, index);
                     return false;
                 }
                 break;
@@ -7441,70 +7399,55 @@ public static partial class PerResultValidator
             case ActionKind.linkEscape:
 				if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2~4.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 else if (count > 4)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 2~4.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 4, index);
                     return false;
                 }
                 break;
             case ActionKind.spotmark:
 				if (count > 2)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~2.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 2, index);
                     return false;
                 }
                 break;
             case ActionKind.showChara:
 				if (count < 3)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 3~5.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 3, index);
                     return false;
                 }
                 else if (count > 5)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 3~5.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 5, index);
                     return false;
                 }
                 break;
             case ActionKind.shiftTroop:
 				if (count < 3)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 3~4.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 3, index);
                     return false;
                 }
                 else if (count > 4)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 3~4.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 4, index);
                     return false;
                 }
                 break;
             case ActionKind.shiftTroop2:
                 if (count < 4)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 4.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 4, index);
                     return false;
                 }
                 else if (count > 4)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 4.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 4, index);
                     return false;
                 }
                 break;
@@ -8864,7 +8807,7 @@ public static partial class PerResultValidator
             case FunctionKind.inRoamSpot:
                 if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2~.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 break;
@@ -8900,15 +8843,12 @@ public static partial class PerResultValidator
             case FunctionKind.getClearFloor:
                 if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 else if (count > 1)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 1.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 1, index);
                     return false;
                 }
                 break;
@@ -8936,10 +8876,7 @@ public static partial class PerResultValidator
             case FunctionKind.isWorldMusicStop:
 				if (count != 0)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 0, index);
                     return false;
                 }
                 break;
@@ -8954,15 +8891,12 @@ public static partial class PerResultValidator
             case FunctionKind.isSameArmy:
                 if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 else if (count > 2)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 2.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 2, index);
                     return false;
                 }
                 break;
@@ -8973,7 +8907,7 @@ public static partial class PerResultValidator
             case FunctionKind.isAnyDead:
                 if (count < 1)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 1~.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
                 break;
@@ -8982,65 +8916,50 @@ public static partial class PerResultValidator
             case FunctionKind.getDistance:
 				if (count < 2)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 2~3.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
                     return false;
                 }
                 else if (count > 3)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 2~3.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
                 }
                 break;
             case FunctionKind.isPostIn:
 				if (count < 3)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 3~5.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 3, index);
                     return false;
                 }
                 else if (count > 5)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 3~5.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 5, index);
                     return false;
                 }
                 break;
             case FunctionKind.countPost:
                 if (count < 6)
                 {
-                    result.ErrorAdd($"There are too less arguments({count}) for '{kind}'. Required: 6.", index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 6, index);
                     return false;
                 }
                 else if (count > 6)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 6.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 6, index);
                     return false;
                 }
                 break;
             case FunctionKind.isComTurn:
 				if (count > 1)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~1.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 1, index);
                     return false;
                 }
                 break;
             case FunctionKind.isDungeon:
 				if (count > 2)
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd($"There are too many arguments({count}) for '{kind}'. Exceeding arguments are just ignored. Required: 0~2.", index);
-                    }
+                    result.ErrorAdd_TooManyArguments(kind, count, 2, index);
                     return false;
                 }
                 break;

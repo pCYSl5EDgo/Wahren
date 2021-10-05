@@ -68,6 +68,46 @@ public static class ErrorHelper
         result.ErrorAdd(text, elementId);
     }
 
+    public static void ErrorAdd_TooManyArguments(ref this Result result, ActionKind callName, int count, int max, uint callTokenId)
+    {
+#if DEBUG
+        var text = $"{callName}関数の引数の個数は最大{max}個までですが、{count}個もあります。";
+#else
+        var text = $"There are too many arguments({count}) for '{callName}'. Max: {max}";
+#endif
+        result.ErrorAdd(text, callTokenId);
+    }
+
+    public static void ErrorAdd_TooManyArguments(ref this Result result, FunctionKind callName, int count, int max, uint callTokenId)
+    {
+#if DEBUG
+        var text = $"{callName}関数の引数の個数は最大{max}個までですが、{count}個もあります。";
+#else
+        var text = $"There are too many arguments({count}) for '{callName}'. Max: {max}";
+#endif
+        result.ErrorAdd(text, callTokenId);
+    }
+
+    public static void ErrorAdd_TooLessArguments(ref this Result result, FunctionKind callName, int count, int min, uint callTokenId)
+    {
+#if DEBUG
+        var text = $"{callName}関数の引数の個数は最低{min}個必要ですが、{count}個しかありません。";
+#else
+        var text = $"There are too less arguments({count}) for '{callName}'. Min: {min}";
+#endif
+        result.ErrorAdd(text, callTokenId);
+    }
+
+    public static void ErrorAdd_TooLessArguments(ref this Result result, ActionKind callName, int count, int min, uint callTokenId)
+    {
+#if DEBUG
+        var text = $"{callName}関数の引数の個数は最低{min}個必要ですが、{count}個しかありません。";
+#else
+        var text = $"There are too less arguments({count}) for '{callName}'. Min: {min}";
+#endif
+        result.ErrorAdd(text, callTokenId);
+    }
+
     public static void ErrorAdd_UnexpectedElementName(ref this Result result, uint kindId, uint elementId)
     {
         string text;
