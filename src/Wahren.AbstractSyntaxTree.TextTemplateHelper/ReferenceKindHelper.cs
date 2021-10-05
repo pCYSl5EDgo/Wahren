@@ -65,6 +65,7 @@ public static class ReferenceKindHelper
             ReferenceKind.FieldIdWriter or
             ReferenceKind.ClassTypeReader or
             ReferenceKind.ClassTypeWriter or
+            ReferenceKind.SkillGroupReader or
             ReferenceKind.GlobalStringVariableReader or
             ReferenceKind.GlobalStringVariableWriter or
             ReferenceKind.map or
@@ -83,6 +84,7 @@ public static class ReferenceKindHelper
             ReferenceKind.Status or
             ReferenceKind.RedBlue or
             ReferenceKind.Text or
+            ReferenceKind.Skill | ReferenceKind.Boolean or
             ReferenceKind.Status | ReferenceKind.Number or
             ReferenceKind.Boolean | ReferenceKind.Number or
             ReferenceKind.NumberVariableReader | ReferenceKind.Number or
@@ -127,14 +129,14 @@ public static class ReferenceKindHelper
         }
         if (reference == ReferenceKind.CompoundText)
         {
-            ProcessLateCompoundText(i, name, indent, builder, true);
+            ProcessLateCompoundText(i, indent, builder, true);
             return builder.ToString();
         }
 
         return "// ERROR 1";
     }
 
-    private static void ProcessLateCompoundText(int i, string name, int indent, StringBuilder builder, bool processArgument)
+    private static void ProcessLateCompoundText(int i, int indent, StringBuilder builder, bool processArgument)
     {
         StringBuilder Inden()
         {
@@ -379,7 +381,7 @@ public static class ReferenceKindHelper
         Inden().Append("else").AppendLine();
         Inden().Append("{").AppendLine();
         for (int j = 0; j < indent + 1; ++j) { builder.Append("    "); }
-        ProcessLateCompoundText(i, name, indent + 1, builder, false);
+        ProcessLateCompoundText(i, indent + 1, builder, false);
         Inden().Append("}").AppendLine();
     }
 

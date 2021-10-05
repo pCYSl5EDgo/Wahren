@@ -21,35 +21,6 @@ public struct ElementInfo
         this.specialStringArray = null;
     }
 
-    public static bool IsAllScenarioVariant(string name) => name switch
-    {
-        nameof(Dungeon) or nameof(Skill) => false,
-        _ => true,
-    };
-
-    public static ElementInfo[] Get(string name)
-    {
-        switch (name)
-        {
-            case nameof(Power): return Power;
-            case nameof(Class): return Class;
-            case nameof(Dungeon): return Dungeon;
-            case nameof(Field): return Field;
-            case nameof(Movetype): return Movetype;
-            case nameof(Object): return Object;
-            case nameof(Race): return Race;
-            case nameof(Skill): return Skill;
-            case nameof(Skillset): return Skillset;
-            case nameof(Spot): return Spot;
-            case nameof(Unit): return Unit;
-            case nameof(Scenario): return Scenario;
-            case nameof(Event): return Event;
-            case nameof(Story): return Story;
-            case nameof(Voice): return Voice;
-            default: return System.Array.Empty<ElementInfo>();
-        }
-    }
-
     internal static readonly ElementInfo[] Voice = new ElementInfo[]
     {
         new("voice_type", ReferenceKind.VoiceTypeReader),
@@ -193,23 +164,23 @@ public struct ElementInfo
     {
         new("force_ray", ReferenceKind.Boolean),
         new("bright", ReferenceKind.Boolean),
-        new("func"),
+        new("func", ReferenceKind.Special) { specialStringArray = new[] { "missile", "sword", "heal", "summon", "charge", "status", } },
         new("name", ReferenceKind.Text),
         new("icon", ReferenceKind.icon),
-        new("fkey"),
+        new("fkey", ReferenceKind.SkillGroupReader),
         new("sortkey", ReferenceKind.Number),
         new("special", ReferenceKind.Boolean | ReferenceKind.Number),
-        new("delay"),
+        new("delay", ReferenceKind.Number),
         new("gun_delay"),
-        new("quickreload"),
+        new("quickreload", ReferenceKind.Boolean),
         new("help", ReferenceKind.Text),
-        new("hide_help"),
+        new("hide_help", ReferenceKind.Boolean),
         new("sound", ReferenceKind.sound),
         new("msg", ReferenceKind.Text, variantType: "Unit"),
         new("picture", ReferenceKind.picture, variantType: "Unit"),
         new("cutin"),
         new("value", ReferenceKind.Number),
-        new("talent"),
+        new("talent", ReferenceKind.Boolean | ReferenceKind.Skill),
         new("exp_per", ReferenceKind.Number | ReferenceKind.Boolean),
         new("movetype"),
         new("type"),

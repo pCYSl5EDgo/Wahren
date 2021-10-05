@@ -53,6 +53,7 @@ public struct Result : IDisposable
     public StringSpanKeySlowSet VoiceTypeReaderSet = new();
     public StringSpanKeySlowSet ClassTypeWriterSet = new();
     public StringSpanKeySlowSet ClassTypeReaderSet = new();
+    public StringSpanKeySlowSet SkillGroupReaderSet = new();
 
     public StringSpanKeySlowSet imagedataSet = new();
     public StringSpanKeySlowSet imagedata2Set = new();
@@ -181,6 +182,7 @@ public struct Result : IDisposable
         GlobalVariableReaderSet.Dispose();
         GlobalStringVariableWriterSet.Dispose();
         GlobalStringVariableReaderSet.Dispose();
+        SkillGroupReaderSet.Dispose();
 
         imagedataSet.Dispose();
         imagedata2Set.Dispose();

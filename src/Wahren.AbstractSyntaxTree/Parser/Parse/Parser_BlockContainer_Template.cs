@@ -11,328 +11,6 @@ using Statement;
 
 public static partial class Parser
 {
-    private static bool ParseEvent(ref Context context, ref Result result, out bool canContinue)
-    {
-        result.EventNodeList.Add(new());
-        ref var node = ref result.EventNodeList.Last;
-        ref var tokenList = ref result.TokenList;
-        node.Kind = tokenList.LastIndex;
-        canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.EventSet))
-        {
-            return false;
-        }
-
-        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
-        ref var source = ref result.Source;
-        List<IBlockStatement> blockStack = new();
-        ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
-        ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
-        ulong key = 0UL;
-        do
-        {
-            if (!ReadUsefulToken(ref context, ref result))
-            {
-                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
-                goto FALSE;
-            }
-
-            var currentIndex = tokenList.LastIndex;
-            if (tokenList.Last.IsBracketRight(ref source))
-            {
-                node.BracketRight = currentIndex;
-                blockStack.Dispose();
-                canContinue = true;
-                return true;
-            }
-
-            if (!ReadToken(ref context, ref result))
-            {
-                result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' or '(' is expected but not found.");
-                goto FALSE;
-            }
-            
-            if (!tokenList.Last.IsAssign(ref source))
-            {
-                if (tokenList.Last.IsParenLeft(ref source))
-                {
-                    if (Parse_RootBlock(ref context, ref result, currentIndex, ref node.Statements, ref blockStack))
-                    {
-                        continue;
-                    }
-
-                    goto FALSE;
-                }
-                else if (tokenList.Last.IsBracketLeft(ref source) && result.GetSpan(currentIndex).SequenceEqual("battle"))
-                {
-                    NextStatement? nextStatement = null;
-                    foreach (ref var statement in node.Statements)
-                    {
-                        if ((nextStatement = statement as NextStatement) is not null)
-                        {
-                            break;
-                        }
-                    }
-                        
-                    if (nextStatement is null)
-                    {
-                        result.ErrorAdd("'battle{}' block does not have corresponding 'next()' statement.", currentIndex);
-                    }
-
-                    var battleStatement = new BattleStatement(currentIndex, nextStatement);
-                    tokenList[currentIndex].Kind = TokenKind.battle;
-                    blockStack.Add(battleStatement);
-                    var answer = Parse_Block(ref context, ref result, ref battleStatement.Statements, ref blockStack);
-                    blockStack.RemoveLast();
-                    if (answer)
-                    {
-                        continue;
-                    }
-                        
-                    goto FALSE;
-                }
- 
-                   
-                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
-                goto FALSE;
-            }
-
-            if (!result.SplitElement(currentIndex, out var span, out variant))
-            {
-                return false;
-            }
-
-            var byteSpan = MemoryMarshal.Cast<char, byte>(span);
-            var originalLength = span.Length;
-            switch (originalLength)
-            {
-                case 0: return false;
-                case 1:
-                    switch (span[0])
-                    {
-                        case 'w': element_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
-                        case 'h': element_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
-                    }
-                    key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
-                    span = Span<char>.Empty;
-                    goto DISCARD;
-                case 2:
-                    key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
-                    switch ((uint)key)
-                    {
-                        case 0x00670062U: element_DEFAULT = ref node.bg.EnsureGet(variant); goto DEFAULT;
-                    }
-                    span = Span<char>.Empty;
-                    goto DISCARD;
-                case 3:
-                    key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
-                    switch (key)
-                    {
-                        case 0x006700630062UL: element_DEFAULT = ref node.bcg.EnsureGet(variant); goto DEFAULT;
-                        case 0x006D00670062UL: element_DEFAULT = ref node.bgm.EnsureGet(variant); goto DEFAULT;
-                        case 0x00700061006DUL: element_DEFAULT = ref node.map.EnsureGet(variant); goto DEFAULT;
-                    }
-                    span = Span<char>.Empty;
-                    goto DISCARD;
-            }
-
-            key = System.Buffers.Binary.BinaryPrimitives.ReadUInt64LittleEndian(byteSpan);
-            span = span.Slice(4);
-            switch (span.Length)
-            {
-                case 0:
-                    switch (key)
-                    {
-                        case 0x0065006D0061006EUL when span.SequenceEqual(""): element_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x0065007A00690073UL when span.SequenceEqual(""): element_DEFAULT = ref node.size.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 1:
-                    switch (key)
-                    {
-                        case 0x006E0069006C0062UL when span[0] == 'd': element_DEFAULT = ref node.blind.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x006F006C006F0063UL when span[0] == 'r': element_RAY = ref node.color.EnsureGet(variant); goto RAY;                            
-                        case 0x0063006F006C0062UL when span[0] == 'k': element_DEFAULT = ref node.block.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x0069006D0069006CUL when span[0] == 't': element_DEFAULT = ref node.limit.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x006C007400690074UL when span[0] == 'e': element_DEFAULT = ref node.title.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 2:
-                    switch (key)
-                    {
-                        case 0x0074007300610063UL when span.SequenceEqual("le"): element_DEFAULT = ref node.castle.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x0074006E00650063UL when span.SequenceEqual("er"): element_DEFAULT = ref node.center.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x006C006100740069UL when span.SequenceEqual("ic"): element_DEFAULT = ref node.italic.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x0064006E00610068UL when span.SequenceEqual("le"): element_DEFAULT = ref node.handle.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): element_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;                            
-                        case 0x006F006300650073UL when span.SequenceEqual("nd"): element_DEFAULT = ref node.second.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): element_DEFAULT = ref node.volume.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 3:
-                    switch (key)
-                    {
-                        case 0x0066005F00670062UL when span.SequenceEqual("ade"): element_DEFAULT = ref node.bg_fade.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 4:
-                    switch (key)
-                    {
-                        case 0x0070007300690064UL when span.SequenceEqual("erse"): element_DEFAULT = ref node.disperse.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 5:
-                    switch (key)
-                    {
-                        case 0x006B007200610064UL when span.SequenceEqual("_fade"): element_DEFAULT = ref node.dark_fade.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 6:
-                    switch (key)
-                    {
-                        case 0x006B007200610064UL when span.SequenceEqual("_alpha"): element_DEFAULT = ref node.dark_alpha.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 7:
-                    switch (key)
-                    {
-                        case 0x0069005F00670062UL when span.SequenceEqual("nterval"): element_DEFAULT = ref node.bg_interval.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x006B007200610064UL when span.SequenceEqual("_fade_e"): element_DEFAULT = ref node.dark_fade_e.EnsureGet(variant); goto DEFAULT;                            
-                        case 0x007400730061006CUL when span.SequenceEqual("_second"): element_DEFAULT = ref node.last_second.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-                case 9:
-                    switch (key)
-                    {
-                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): element_DEFAULT = ref node.castle_battle.EnsureGet(variant); goto DEFAULT;                            
-                    }
-                    break;
-            }
-
-        DISCARD:
-            if (Parse_Discard(ref context, ref result, currentIndex, span, key))
-            {
-                if (createErrorWarning)
-                {
-                    result.WarningAdd_UnexpectedElementName(node.Kind, currentIndex);
-                }
-                continue;
-            }
-            else
-            {
-                goto FALSE;
-            }
-
-        DEFAULT:
-            if (element_DEFAULT is null)
-            {
-                element_DEFAULT = new(currentIndex);
-                element_DEFAULT.ElementScenarioId = variant;
-                element_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    element_DEFAULT.ElementKeyRange.Line = start.Line;
-                    element_DEFAULT.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_DEFAULT(ref context, ref result, element_DEFAULT))
-                {
-                    continue;
-                }
-                else
-                {
-                    goto FALSE;
-                }
-            }
-            
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
-            if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                goto FALSE;
-            }
-        RAY:
-            if (element_RAY is null)
-            {
-                element_RAY = new(currentIndex);
-                element_RAY.ElementScenarioId = variant;
-                element_RAY.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    element_RAY.ElementKeyRange.Line = start.Line;
-                    element_RAY.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_RAY(ref context, ref result, element_RAY))
-                {
-                    continue;
-                }
-                else
-                {
-                    goto FALSE;
-                }
-            }
-            
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
-            if (Parse_Discard_RAY(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                goto FALSE;
-            }
-        MEMBER:
-            if (element_MEMBER is null)
-            {
-                element_MEMBER = new(currentIndex);
-                element_MEMBER.ElementScenarioId = variant;
-                element_MEMBER.ElementKeyRange.Length = (uint)originalLength;
-                {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
-                    element_MEMBER.ElementKeyRange.Line = start.Line;
-                    element_MEMBER.ElementKeyRange.Offset = start.Offset;
-                }
-                if (Parse_Element_MEMBER(ref context, ref result, element_MEMBER))
-                {
-                    continue;
-                }
-                else
-                {
-                    goto FALSE;
-                }
-            }
-            
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
-            if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
-            {
-                continue;
-            }
-            else
-            {
-                goto FALSE;
-            }
-        } while (true);
-
-    FALSE:
-        blockStack.Dispose();
-        return false;
-    }
     private static bool ParseScenario(ref Context context, ref Result result, out bool canContinue)
     {
         result.ScenarioNodeList.Add(new());
@@ -753,6 +431,328 @@ public static partial class Parser
             }
 
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                goto FALSE;
+            }
+        } while (true);
+
+    FALSE:
+        blockStack.Dispose();
+        return false;
+    }
+    private static bool ParseEvent(ref Context context, ref Result result, out bool canContinue)
+    {
+        result.EventNodeList.Add(new());
+        ref var node = ref result.EventNodeList.Last;
+        ref var tokenList = ref result.TokenList;
+        node.Kind = tokenList.LastIndex;
+        canContinue = false;
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.EventSet))
+        {
+            return false;
+        }
+
+        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
+        uint variant = uint.MaxValue;
+        ref var source = ref result.Source;
+        List<IBlockStatement> blockStack = new();
+        ref var element_DEFAULT = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ref var element_RAY = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ref var element_MEMBER = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ulong key = 0UL;
+        do
+        {
+            if (!ReadUsefulToken(ref context, ref result))
+            {
+                result.ErrorAdd_BracketRightNotFound(node.Kind, node.Name);
+                goto FALSE;
+            }
+
+            var currentIndex = tokenList.LastIndex;
+            if (tokenList.Last.IsBracketRight(ref source))
+            {
+                node.BracketRight = currentIndex;
+                blockStack.Dispose();
+                canContinue = true;
+                return true;
+            }
+
+            if (!ReadToken(ref context, ref result))
+            {
+                result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' or '(' is expected but not found.");
+                goto FALSE;
+            }
+            
+            if (!tokenList.Last.IsAssign(ref source))
+            {
+                if (tokenList.Last.IsParenLeft(ref source))
+                {
+                    if (Parse_RootBlock(ref context, ref result, currentIndex, ref node.Statements, ref blockStack))
+                    {
+                        continue;
+                    }
+
+                    goto FALSE;
+                }
+                else if (tokenList.Last.IsBracketLeft(ref source) && result.GetSpan(currentIndex).SequenceEqual("battle"))
+                {
+                    NextStatement? nextStatement = null;
+                    foreach (ref var statement in node.Statements)
+                    {
+                        if ((nextStatement = statement as NextStatement) is not null)
+                        {
+                            break;
+                        }
+                    }
+                        
+                    if (nextStatement is null)
+                    {
+                        result.ErrorAdd("'battle{}' block does not have corresponding 'next()' statement.", currentIndex);
+                    }
+
+                    var battleStatement = new BattleStatement(currentIndex, nextStatement);
+                    tokenList[currentIndex].Kind = TokenKind.battle;
+                    blockStack.Add(battleStatement);
+                    var answer = Parse_Block(ref context, ref result, ref battleStatement.Statements, ref blockStack);
+                    blockStack.RemoveLast();
+                    if (answer)
+                    {
+                        continue;
+                    }
+                        
+                    goto FALSE;
+                }
+ 
+                   
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
+                goto FALSE;
+            }
+
+            if (!result.SplitElement(currentIndex, out var span, out variant))
+            {
+                return false;
+            }
+
+            var byteSpan = MemoryMarshal.Cast<char, byte>(span);
+            var originalLength = span.Length;
+            switch (originalLength)
+            {
+                case 0: return false;
+                case 1:
+                    switch (span[0])
+                    {
+                        case 'w': element_DEFAULT = ref node.w.EnsureGet(variant); goto DEFAULT;
+                        case 'h': element_DEFAULT = ref node.h.EnsureGet(variant); goto DEFAULT;
+                    }
+                    key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
+                    span = Span<char>.Empty;
+                    goto DISCARD;
+                case 2:
+                    key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan);
+                    switch ((uint)key)
+                    {
+                        case 0x00670062U: element_DEFAULT = ref node.bg.EnsureGet(variant); goto DEFAULT;
+                    }
+                    span = Span<char>.Empty;
+                    goto DISCARD;
+                case 3:
+                    key = BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | (((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4))) << 32);
+                    switch (key)
+                    {
+                        case 0x006700630062UL: element_DEFAULT = ref node.bcg.EnsureGet(variant); goto DEFAULT;
+                        case 0x006D00670062UL: element_DEFAULT = ref node.bgm.EnsureGet(variant); goto DEFAULT;
+                        case 0x00700061006DUL: element_DEFAULT = ref node.map.EnsureGet(variant); goto DEFAULT;
+                    }
+                    span = Span<char>.Empty;
+                    goto DISCARD;
+            }
+
+            key = System.Buffers.Binary.BinaryPrimitives.ReadUInt64LittleEndian(byteSpan);
+            span = span.Slice(4);
+            switch (span.Length)
+            {
+                case 0:
+                    switch (key)
+                    {
+                        case 0x0065006D0061006EUL when span.SequenceEqual(""): element_DEFAULT = ref node.name.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0065007A00690073UL when span.SequenceEqual(""): element_DEFAULT = ref node.size.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 1:
+                    switch (key)
+                    {
+                        case 0x006E0069006C0062UL when span[0] == 'd': element_DEFAULT = ref node.blind.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006F006C006F0063UL when span[0] == 'r': element_RAY = ref node.color.EnsureGet(variant); goto RAY;                            
+                        case 0x0063006F006C0062UL when span[0] == 'k': element_DEFAULT = ref node.block.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0069006D0069006CUL when span[0] == 't': element_DEFAULT = ref node.limit.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006C007400690074UL when span[0] == 'e': element_DEFAULT = ref node.title.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 2:
+                    switch (key)
+                    {
+                        case 0x0074007300610063UL when span.SequenceEqual("le"): element_DEFAULT = ref node.castle.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0074006E00650063UL when span.SequenceEqual("er"): element_DEFAULT = ref node.center.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006C006100740069UL when span.SequenceEqual("ic"): element_DEFAULT = ref node.italic.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0064006E00610068UL when span.SequenceEqual("le"): element_DEFAULT = ref node.handle.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0062006D0065006DUL when span.SequenceEqual("er"): element_MEMBER = ref node.member.EnsureGet(variant); goto MEMBER;                            
+                        case 0x006F006300650073UL when span.SequenceEqual("nd"): element_DEFAULT = ref node.second.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x0075006C006F0076UL when span.SequenceEqual("me"): element_DEFAULT = ref node.volume.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 3:
+                    switch (key)
+                    {
+                        case 0x0066005F00670062UL when span.SequenceEqual("ade"): element_DEFAULT = ref node.bg_fade.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 4:
+                    switch (key)
+                    {
+                        case 0x0070007300690064UL when span.SequenceEqual("erse"): element_DEFAULT = ref node.disperse.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 5:
+                    switch (key)
+                    {
+                        case 0x006B007200610064UL when span.SequenceEqual("_fade"): element_DEFAULT = ref node.dark_fade.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 6:
+                    switch (key)
+                    {
+                        case 0x006B007200610064UL when span.SequenceEqual("_alpha"): element_DEFAULT = ref node.dark_alpha.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 7:
+                    switch (key)
+                    {
+                        case 0x0069005F00670062UL when span.SequenceEqual("nterval"): element_DEFAULT = ref node.bg_interval.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x006B007200610064UL when span.SequenceEqual("_fade_e"): element_DEFAULT = ref node.dark_fade_e.EnsureGet(variant); goto DEFAULT;                            
+                        case 0x007400730061006CUL when span.SequenceEqual("_second"): element_DEFAULT = ref node.last_second.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+                case 9:
+                    switch (key)
+                    {
+                        case 0x0074007300610063UL when span.SequenceEqual("le_battle"): element_DEFAULT = ref node.castle_battle.EnsureGet(variant); goto DEFAULT;                            
+                    }
+                    break;
+            }
+
+        DISCARD:
+            if (Parse_Discard(ref context, ref result, currentIndex, span, key))
+            {
+                if (createErrorWarning)
+                {
+                    result.WarningAdd_UnexpectedElementName(node.Kind, currentIndex);
+                }
+                continue;
+            }
+            else
+            {
+                goto FALSE;
+            }
+
+        DEFAULT:
+            if (element_DEFAULT is null)
+            {
+                element_DEFAULT = new(currentIndex);
+                element_DEFAULT.ElementScenarioId = variant;
+                element_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    element_DEFAULT.ElementKeyRange.Line = start.Line;
+                    element_DEFAULT.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_DEFAULT(ref context, ref result, element_DEFAULT))
+                {
+                    continue;
+                }
+                else
+                {
+                    goto FALSE;
+                }
+            }
+            
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+
+            if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                goto FALSE;
+            }
+        RAY:
+            if (element_RAY is null)
+            {
+                element_RAY = new(currentIndex);
+                element_RAY.ElementScenarioId = variant;
+                element_RAY.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    element_RAY.ElementKeyRange.Line = start.Line;
+                    element_RAY.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_RAY(ref context, ref result, element_RAY))
+                {
+                    continue;
+                }
+                else
+                {
+                    goto FALSE;
+                }
+            }
+            
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+
+            if (Parse_Discard_RAY(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                goto FALSE;
+            }
+        MEMBER:
+            if (element_MEMBER is null)
+            {
+                element_MEMBER = new(currentIndex);
+                element_MEMBER.ElementScenarioId = variant;
+                element_MEMBER.ElementKeyRange.Length = (uint)originalLength;
+                {
+                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    element_MEMBER.ElementKeyRange.Line = start.Line;
+                    element_MEMBER.ElementKeyRange.Offset = start.Offset;
+                }
+                if (Parse_Element_MEMBER(ref context, ref result, element_MEMBER))
+                {
+                    continue;
+                }
+                else
+                {
+                    goto FALSE;
+                }
+            }
+            
+            if (createErrorWarning)
+            {
+                result.WarningAdd_MultipleAssignment(currentIndex);
+            }
+
+            if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
             }

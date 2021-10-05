@@ -6,78 +6,6 @@ namespace Wahren.AbstractSyntaxTree.Node;
 
 using Statement;
 
-public partial struct EventNode : IInheritableNode
-{
-    public uint Kind { get; set; }
-    public uint BracketLeft { get; set; }
-    public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
-    public uint Name { get; set; }
-
-    public List<IStatement> Statements = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> disperse = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> castle = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> castle_battle = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> blind = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> w = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> h = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> bg = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> bcg = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> bgm = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> map = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> size = new();
-	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> color = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> block = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> limit = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> title = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> center = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> italic = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> handle = new();
-	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> second = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> volume = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> bg_fade = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> dark_fade = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> dark_alpha = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> bg_interval = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> dark_fade_e = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> last_second = new();
-
-	public void Dispose()
-	{
-		Statements.Dispose();
-		disperse.Dispose();
-		castle.Dispose();
-		castle_battle.Dispose();
-		blind.Dispose();
-		w.Dispose();
-		h.Dispose();
-		bg.Dispose();
-		bcg.Dispose();
-		bgm.Dispose();
-		map.Dispose();
-		name.Dispose();
-		size.Dispose();
-		color.Dispose();
-		block.Dispose();
-		limit.Dispose();
-		title.Dispose();
-		center.Dispose();
-		italic.Dispose();
-		handle.Dispose();
-		member.Dispose();
-		second.Dispose();
-		volume.Dispose();
-		bg_fade.Dispose();
-		dark_fade.Dispose();
-		dark_alpha.Dispose();
-		bg_interval.Dispose();
-		dark_fade_e.Dispose();
-		last_second.Dispose();
-	}
-}
-
 public partial struct ScenarioNode : IInheritableNode
 {
     public uint Kind { get; set; }
@@ -207,6 +135,78 @@ public partial struct ScenarioNode : IInheritableNode
 		spot.Dispose();
 		power.Dispose();
 		offset.Dispose();
+	}
+}
+
+public partial struct EventNode : IInheritableNode
+{
+    public uint Kind { get; set; }
+    public uint BracketLeft { get; set; }
+    public uint BracketRight { get; set; }
+    public uint? Super { get; set; }
+    public uint Name { get; set; }
+
+    public List<IStatement> Statements = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> disperse = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> castle = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> castle_battle = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> blind = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> w = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> h = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> bg = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> bcg = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> bgm = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> map = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> size = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> color = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> block = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> limit = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> title = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> center = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> italic = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> handle = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> member = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> second = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> volume = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> bg_fade = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> dark_fade = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> dark_alpha = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> bg_interval = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> dark_fade_e = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> last_second = new();
+
+	public void Dispose()
+	{
+		Statements.Dispose();
+		disperse.Dispose();
+		castle.Dispose();
+		castle_battle.Dispose();
+		blind.Dispose();
+		w.Dispose();
+		h.Dispose();
+		bg.Dispose();
+		bcg.Dispose();
+		bgm.Dispose();
+		map.Dispose();
+		name.Dispose();
+		size.Dispose();
+		color.Dispose();
+		block.Dispose();
+		limit.Dispose();
+		title.Dispose();
+		center.Dispose();
+		italic.Dispose();
+		handle.Dispose();
+		member.Dispose();
+		second.Dispose();
+		volume.Dispose();
+		bg_fade.Dispose();
+		dark_fade.Dispose();
+		dark_alpha.Dispose();
+		bg_interval.Dispose();
+		dark_fade_e.Dispose();
+		last_second.Dispose();
 	}
 }
 

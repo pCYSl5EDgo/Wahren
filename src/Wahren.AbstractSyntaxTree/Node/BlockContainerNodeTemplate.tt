@@ -15,11 +15,11 @@ namespace Wahren.AbstractSyntaxTree.Node;
 
 using Statement;
 <#
-foreach (string name in Helper.BlockContainers) {
-    ElementInfo[] array = ElementInfo.Get(name);
+foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
+    ElementInfo[] array = node.Elements;
 #>
 
-public partial struct <#= name #>Node : IInheritableNode
+public partial struct <#= node.Name #>Node : IInheritableNode
 {
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }

@@ -19,21 +19,21 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
 {
-<# foreach (var name in Helper.Inheritables) {
-    bool noScenario = !ElementInfo.IsAllScenarioVariant(name);
-    ElementInfo[] array = ElementInfo.Get(name);
+<# foreach (var node in NodeInfo.Nodes.Where(x => !x.HasBlock)) {
+    bool noScenario = !node.IsAllScenarioVariant;
+    ElementInfo[] array = node.Elements;
     var len1 = array.Where(x => x.name.Length == 1).ToArray();
     var len2 = array.Where(x => x.name.Length == 2).ToArray();
     var len3 = array.Where(x => x.name.Length == 3).ToArray();
     var usageGroup = array.MakeUsageGroup(); #>
-    private static bool Parse<#= name #>(ref Context context, ref Result result, out bool canContinue)
+    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, out bool canContinue)
     {
-        result.<#= name #>NodeList.Add(new());
+        result.<#= node.Name #>NodeList.Add(new());
         ref var tokenList = ref result.TokenList;
-        ref var node = ref result.<#= name #>NodeList.Last;
+        ref var node = ref result.<#= node.Name #>NodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= name #>Set))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= node.Name #>Set))
         {
             return false;
         }
@@ -101,7 +101,7 @@ public static partial class Parser
 <#      } #>
                     }
 <#  }
-    if(Helper.IsAllowedUndefinedContent(name)) { #>
+    if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
@@ -120,7 +120,7 @@ public static partial class Parser
                             goto <#= trailer #>;
 <#      } #>
                     }
-<#  }if(Helper.IsAllowedUndefinedContent(name)) { #>
+<#  }if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     span = Span<char>.Empty;
@@ -139,7 +139,7 @@ public static partial class Parser
 <#      } #>
                     }
 <#  }
-    if(Helper.IsAllowedUndefinedContent(name)) { #>
+    if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     span = Span<char>.Empty;
@@ -165,7 +165,7 @@ public static partial class Parser
                     goto default;
 <#  } #>
                 default:
-<#  if(Helper.IsAllowedUndefinedContent(name)) { #>
+<#  if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
                     span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DEFAULT_OTHERS;
 <#  } else { #>
@@ -176,7 +176,7 @@ public static partial class Parser
 <#  foreach (var (type, outers) in usageGroup) {
         foreach (var (x, _) in outers) {
             var (trailer, func) = x;
-            if (trailer == "ROAM" && name == "Voice") { func = "Parse_Voice_ROAM_EnglishMode"; }#>
+            if (trailer == "ROAM" && node.Name == "Voice") { func = "Parse_Voice_ROAM_EnglishMode"; }#>
         <#= trailer #>:
             if (pair_<#= trailer #> is null)
             {
@@ -211,7 +211,7 @@ public static partial class Parser
             }
 <#      }
     } #>
-<#  if (Helper.IsAllowedUndefinedContent(name)) { #>
+<#  if (Helper.IsAllowedUndefinedContent(node.Name)) { #>
         DEFAULT_OTHERS:
             foreach (ref var other in node.Others)
             {

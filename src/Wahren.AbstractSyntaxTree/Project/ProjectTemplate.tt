@@ -291,12 +291,12 @@ public sealed partial class Project
         }
     }
 <# } #>
-<# foreach (var nodeKind in Helper.BlockContainers.Concat(Helper.Inheritables)) { #>
-<#	var elements = ElementInfo.Get(nodeKind).Where(x => !x.referenceKind.CanProcessEarly()).ToArray(); #>
+<# foreach (var node in NodeInfo.Nodes) { #>
+<#	var elements = node.Elements.Where(x => !x.referenceKind.CanProcessEarly()).ToArray(); #>
 
-    private void AddReferenceAndValidate(ref Result result, ref <#= nodeKind #>Node node)
+    private void AddReferenceAndValidate(ref Result result, ref <#= node.Name #>Node node)
     {
-<#  if (nodeKind.IsBlockContainer()) { #>
+<#  if (node.HasBlock) { #>
         foreach (var statement in node.Statements.AsSpan())
 		{
             if (statement is not null)
@@ -313,10 +313,10 @@ public sealed partial class Project
 <#      if (isArray) { #>
             foreach (ref var value in node.<#= element.Name #>.Value.Value.AsSpan())
             {
-                SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
             }
 <#      } else { #>
-            SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.Value.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.Value.Value);
 <#      } #>
         }
         if (node.<#= element.Name #>.VariantArray is { Length: > 0 })
@@ -330,25 +330,25 @@ public sealed partial class Project
 <#      if (isArray) { #>
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
+                    SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
                 }
 <#      } else { #>
-                SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref element.Value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref element.Value);
 <#      } #>
             }
         }
 <#  } #>
     }
 <# } #>
-<# foreach (var nodeKind in Helper.BlockContainers.Concat(Helper.Inheritables)) { #>
-<#	var elements = ElementInfo.Get(nodeKind).Where(x => !x.referenceKind.CanProcessEarly()).ToArray(); #>
+<# foreach (var node in NodeInfo.Nodes) { #>
+<#	var elements = node.Elements.Where(x => !x.referenceKind.CanProcessEarly()).ToArray(); #>
 <#	for (int elementIndex = 0; elementIndex < elements.Length ; ++elementIndex) { #>
 <#      ref var element = ref elements[elementIndex]; #>
 <#      if (element.referenceKind == ReferenceKind.SpecialLate) continue; #>
 
-    private void SpecialTreatment_<#= nodeKind.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-        <#= ReferenceKindHelper.ProcessElementLate(nodeKind, ref element, 2) #>
+        <#= ReferenceKindHelper.ProcessElementLate(node.Name, ref element, 2) #>
     }
 <#  } #>
 <# } #>

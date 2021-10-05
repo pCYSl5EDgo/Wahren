@@ -20,19 +20,19 @@ public static partial class PerResultValidator
 {
 	public static void AddReferenceAndValidate(ref Context context, ref Result result)
 	{
-<# foreach (var elementName in Helper.Inheritables.Concat(Helper.BlockContainers)) { #>
-		foreach (ref var node in result.<#= elementName #>NodeList.AsSpan())
+<# foreach (var nodeInfo in NodeInfo.Nodes) { #>
+		foreach (ref var node in result.<#= nodeInfo.Name #>NodeList.AsSpan())
 		{
 			AddReferenceAndValidate(ref context, ref result, ref node);
 		}
 <# } #>
 	}
-<# foreach (var elementName in Helper.BlockContainers.Concat(Helper.Inheritables)) {
-	var elements = ElementInfo.Get(elementName).Where(x => x.referenceKind.CanProcessEarly()); #>
+<# foreach (var nodeInfo in NodeInfo.Nodes) {
+	var elements = nodeInfo.Elements.Where(x => x.referenceKind.CanProcessEarly()); #>
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref <#= elementName #>Node node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref <#= nodeInfo.Name #>Node node)
 	{
-<#  if (elementName.IsBlockContainer()) { #>
+<#  if (nodeInfo.HasBlock) { #>
 		foreach (var statement in node.Statements.AsSpan())
 		{
 			AddReferenceAndValidate(ref context, ref result, statement);
@@ -40,8 +40,8 @@ public static partial class PerResultValidator
 <#  } #>
 <#	foreach (var element in elements) {
 		switch (element.referenceKind) { #>
-<#			case ReferenceKind.Unknown					: #>
-		// Ignore unknown <#= elementName #> <#= element.Name #>
+<#			default: #>
+		// Ignore <#= element.referenceKind #> <#= nodeInfo.Name #> <#= element.Name #>
 <#				break;#>
 <#			case ReferenceKind.Scenario					: #>
 <#			case ReferenceKind.Event					: #>
@@ -67,6 +67,7 @@ public static partial class PerResultValidator
 <#			case ReferenceKind.FieldIdWriter			: #>
 <#			case ReferenceKind.ClassTypeReader			: #>
 <#			case ReferenceKind.ClassTypeWriter			: #>
+<#			case ReferenceKind.SkillGroupReader			: #>
 <#			case ReferenceKind.map						: #>
 <#			case ReferenceKind.bgm						: #>
 <#			case ReferenceKind.imagedata				: #>
@@ -82,19 +83,20 @@ public static partial class PerResultValidator
 <#			case ReferenceKind.Boolean: #>
 <#			case ReferenceKind.RedBlue: #>
 <#			case ReferenceKind.Status: #>
-		Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, "<#= elementName #>", "<#= element.name #>");
+		Validate<#= element.referenceKind #>(ref result, ref node.<#= element.name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.name #>");
+<#				break;#>
+<#			case ReferenceKind.Skill | ReferenceKind.Boolean: #>
+		AddReferenceSkillBoolean(ref result, ref node.<#= element.name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.name #>");
 <#				break;#>
 <#			case ReferenceKind.Status | ReferenceKind.Number: #>
-		ValidateStatusNumber(ref result, ref node.<#= element.name.Escape() #>, "<#= elementName #>", "<#= element.name #>");
-<#				break;#>
 <#			case ReferenceKind.Boolean | ReferenceKind.Number: #>
-		ValidateBooleanNumber(ref result, ref node.<#= element.name.Escape() #>, "<#= elementName #>", "<#= element.name #>");
+		Validate<#= element.referenceKind ^ ReferenceKind.Number #>Number(ref result, ref node.<#= element.name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.name #>");
 <#				break;#>
 <#			case ReferenceKind.Special: #>
-		SpecialTreatment_<#= elementName.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.<#= element.name.Escape() #>);
+		SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.<#= element.name.Escape() #>);
 <#				break;#>
 <#			case ReferenceKind.Text: #>
-		// Ignore Text <#= elementName #> <#= element.Name #>
+		// Ignore Text <#= nodeInfo.Name #> <#= element.Name #>
 <#				break;#>
 <#		} #>
 <#	}#>
@@ -102,7 +104,7 @@ public static partial class PerResultValidator
 <#	foreach (var element in elements) { #>
 <#	    if (element.referenceKind == ReferenceKind.Special && element.specialStringArray is { Length: > 0 }) { #>
 
-	private static void SpecialTreatment_<#= elementName.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref VariantPair<<#= element.name.GetCorrespondingType() #>> pair)
+	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref VariantPair<<#= element.name.GetCorrespondingType() #>> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -122,7 +124,7 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
-                result.ErrorAdd_UnexpectedElementSpecialValue("<#= elementName #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
+                result.ErrorAdd_UnexpectedElementSpecialValue("<#= nodeInfo.Name #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
             }
         }
 

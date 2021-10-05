@@ -21,21 +21,21 @@ using Statement;
 public static partial class Parser
 {
 <#
-foreach (string name in Helper.BlockContainers) {
-    ElementInfo[] array = ElementInfo.Get(name);
+foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
+    ElementInfo[] array = node.Elements;
     var len1 = array.Where(x => x.name.Length == 1).ToArray();
     var len2 = array.Where(x => x.name.Length == 2).ToArray();
     var len3 = array.Where(x => x.name.Length == 3).ToArray();
     var usageGroup = array.MakeUsageGroup();
 #>
-    private static bool Parse<#= name #>(ref Context context, ref Result result, out bool canContinue)
+    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, out bool canContinue)
     {
-        result.<#= name #>NodeList.Add(new());
-        ref var node = ref result.<#= name #>NodeList.Last;
+        result.<#= node.Name #>NodeList.Add(new());
+        ref var node = ref result.<#= node.Name #>NodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= name #>Set))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= node.Name #>Set))
         {
             return false;
         }
@@ -84,7 +84,7 @@ foreach (string name in Helper.BlockContainers) {
 
                     goto FALSE;
                 }
-<#  if (name == "Event") { #>
+<#  if (node.Name == "Event") { #>
                 else if (tokenList.Last.IsBracketLeft(ref source) && result.GetSpan(currentIndex).SequenceEqual("battle"))
                 {
                     NextStatement? nextStatement = null;
@@ -119,7 +119,7 @@ foreach (string name in Helper.BlockContainers) {
                 goto FALSE;
             }
 
-<# if (ElementInfo.IsAllScenarioVariant(name)) { #>
+<# if (node.IsAllScenarioVariant) { #>
             if (!result.SplitElement(currentIndex, out var span, out variant))
 <# } else { #>
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
@@ -138,7 +138,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch (span[0])
                     {
 <#      foreach (var item in len1) { #>
-                        case '<#= item.name[0] #>': element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+                        case '<#= item.name[0] #>': element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!node.IsAllScenarioVariant) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
 <#      } #>
                     }
 <#  } #>
@@ -151,7 +151,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch ((uint)key)
                     {
 <#      foreach (var item in len2) { #>
-                        case 0x<#= item.name.GetKey().ToString("X8") #>U: element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+                        case 0x<#= item.name.GetKey().ToString("X8") #>U: element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!node.IsAllScenarioVariant) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
 <#      } #>
                     }
 <#  } #>
@@ -163,7 +163,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch (key)
                     {
 <#      foreach (var item in len3) { #>
-                        case 0x<#= item.name.GetKey().ToString("X12") #>UL: element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
+                        case 0x<#= item.name.GetKey().ToString("X12") #>UL: element_<#= item.name.GetCorrespondingTrailer() #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant<# if (!node.IsAllScenarioVariant) { #> = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= item.name.GetCorrespondingTrailer() #>;
 <#      } #>
                     }
 <#  } #>
@@ -180,7 +180,7 @@ foreach (string name in Helper.BlockContainers) {
                     switch (key)
                     {
 <#  foreach (var (element, key, rest) in items) { #>
-                        case 0x<#= key #>UL<# if (element.name.Length == 5) { #> when span[0] == '<#= rest[0] #>'<# } else { #> when span.SequenceEqual("<#= rest #>")<# } #>: element_<#= element.name.GetCorrespondingTrailer() #> = ref node.<#= element.name.Escape() #>.EnsureGet(variant<# if (!ElementInfo.IsAllScenarioVariant(name)) { #> = result.<#= element.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= element.name.GetCorrespondingTrailer() #>;                            
+                        case 0x<#= key #>UL<# if (element.name.Length == 5) { #> when span[0] == '<#= rest[0] #>'<# } else { #> when span.SequenceEqual("<#= rest #>")<# } #>: element_<#= element.name.GetCorrespondingTrailer() #> = ref node.<#= element.name.Escape() #>.EnsureGet(variant<# if (!node.IsAllScenarioVariant) { #> = result.<#= element.variantType #>Set.GetOrAdd(variantSpan, currentIndex)<# } #>); goto <#= element.name.GetCorrespondingTrailer() #>;                            
 <#  } #>
                     }
                     break;

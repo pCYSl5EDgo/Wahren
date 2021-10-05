@@ -7189,40 +7189,291 @@ public sealed partial class Project
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref EventNode node)
+    private void AddReferenceAndValidate(ref Result result, ref PowerNode node)
     {
-        foreach (var statement in node.Statements.AsSpan())
-		{
-            if (statement is not null)
+        if (node.staff.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-			    AddReferenceAndValidate_Statement(ref result, statement);
+                SpecialTreatment_power_staff(ref result, ref value);
             }
-		}
+        }
+        if (node.staff.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.staff.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_power_staff(ref result, ref value);
+                }
+            }
+        }
+        if (node.merce.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.merce.Value.Value.AsSpan())
+            {
+                SpecialTreatment_power_merce(ref result, ref value);
+            }
+        }
+        if (node.merce.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.merce.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_power_merce(ref result, ref value);
+                }
+            }
+        }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref ScenarioNode node)
+    private void AddReferenceAndValidate(ref Result result, ref ClassNode node)
     {
-        foreach (var statement in node.Statements.AsSpan())
-		{
-            if (statement is not null)
+        if (node.member.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-			    AddReferenceAndValidate_Statement(ref result, statement);
+                SpecialTreatment_class_member(ref result, ref value);
             }
-		}
+        }
+        if (node.member.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.member.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_member(ref result, ref value);
+                }
+            }
+        }
+        if (node.friend.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.friend.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_friend(ref result, ref value);
+            }
+        }
+        if (node.friend.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.friend.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_friend(ref result, ref value);
+                }
+            }
+        }
+        if (node.merce.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.merce.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_merce(ref result, ref value);
+            }
+        }
+        if (node.merce.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.merce.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_merce(ref result, ref value);
+                }
+            }
+        }
+        if (node.skill.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.skill.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_skill(ref result, ref value);
+            }
+        }
+        if (node.skill.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.skill.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_skill(ref result, ref value);
+                }
+            }
+        }
+        if (node.skill2.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.skill2.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_skill2(ref result, ref value);
+            }
+        }
+        if (node.skill2.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.skill2.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_skill2(ref result, ref value);
+                }
+            }
+        }
+        if (node.learn.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.learn.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_learn(ref result, ref value);
+            }
+        }
+        if (node.learn.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.learn.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_learn(ref result, ref value);
+                }
+            }
+        }
+        if (node.delskill.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.delskill.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_delskill(ref result, ref value);
+            }
+        }
+        if (node.delskill.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.delskill.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_delskill(ref result, ref value);
+                }
+            }
+        }
+        if (node.delskill2.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.delskill2.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_delskill2(ref result, ref value);
+            }
+        }
+        if (node.delskill2.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.delskill2.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_delskill2(ref result, ref value);
+                }
+            }
+        }
+        if (node.friend_ex.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.friend_ex.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_friend_ex(ref result, ref value);
+            }
+        }
+        if (node.friend_ex.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.friend_ex.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_class_friend_ex(ref result, ref value);
+                }
+            }
+        }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref StoryNode node)
+    private void AddReferenceAndValidate(ref Result result, ref DungeonNode node)
     {
-        foreach (var statement in node.Statements.AsSpan())
-		{
-            if (statement is not null)
+        if (node.monster.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
-			    AddReferenceAndValidate_Statement(ref result, statement);
+                SpecialTreatment_dungeon_monster(ref result, ref value);
             }
-		}
+        }
+        if (node.monster.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.monster.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_dungeon_monster(ref result, ref value);
+                }
+            }
+        }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref VoiceNode node)
+    private void AddReferenceAndValidate(ref Result result, ref FieldNode node)
+    {
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref MovetypeNode node)
+    {
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref ObjectNode node)
+    {
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref RaceNode node)
+    {
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref SkillNode node)
+    {
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref SkillsetNode node)
     {
     }
 
@@ -7549,292 +7800,452 @@ public sealed partial class Project
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref RaceNode node)
+    private void AddReferenceAndValidate(ref Result result, ref VoiceNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref ClassNode node)
+    private void AddReferenceAndValidate(ref Result result, ref ScenarioNode node)
     {
-        if (node.member.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.member.Value.Value.AsSpan())
+        foreach (var statement in node.Statements.AsSpan())
+		{
+            if (statement is not null)
             {
-                SpecialTreatment_class_member(ref result, ref value);
+			    AddReferenceAndValidate_Statement(ref result, statement);
             }
+		}
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref EventNode node)
+    {
+        foreach (var statement in node.Statements.AsSpan())
+		{
+            if (statement is not null)
+            {
+			    AddReferenceAndValidate_Statement(ref result, statement);
+            }
+		}
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref StoryNode node)
+    {
+        foreach (var statement in node.Statements.AsSpan())
+		{
+            if (statement is not null)
+            {
+			    AddReferenceAndValidate_Statement(ref result, statement);
+            }
+		}
+    }
+
+    private void SpecialTreatment_power_staff(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
         }
-        if (node.member.VariantArray is { Length: > 0 })
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
         {
-            foreach (var element in node.member.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_member(ref result, ref value);
-                }
-            }
+            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "staff", "Race, Unit, Class", value.Text);
+            return;
         }
-        if (node.friend.Value is { HasValue: true })
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
         {
-            foreach (ref var value in node.friend.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_friend(ref result, ref value);
-            }
+            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "staff", "Race, Unit, Class", value.Text);
+            return;
         }
-        if (node.friend.VariantArray is { Length: > 0 })
+        switch (reference.Kind)
         {
-            foreach (var element in node.friend.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_friend(ref result, ref value);
-                }
-            }
-        }
-        if (node.merce.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.merce.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_merce(ref result, ref value);
-            }
-        }
-        if (node.merce.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.merce.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_merce(ref result, ref value);
-                }
-            }
-        }
-        if (node.skill.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.skill.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_skill(ref result, ref value);
-            }
-        }
-        if (node.skill.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.skill.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_skill(ref result, ref value);
-                }
-            }
-        }
-        if (node.skill2.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.skill2.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_skill2(ref result, ref value);
-            }
-        }
-        if (node.skill2.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.skill2.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_skill2(ref result, ref value);
-                }
-            }
-        }
-        if (node.learn.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.learn.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_learn(ref result, ref value);
-            }
-        }
-        if (node.learn.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.learn.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_learn(ref result, ref value);
-                }
-            }
-        }
-        if (node.delskill.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.delskill.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_delskill(ref result, ref value);
-            }
-        }
-        if (node.delskill.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.delskill.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_delskill(ref result, ref value);
-                }
-            }
-        }
-        if (node.delskill2.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.delskill2.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_delskill2(ref result, ref value);
-            }
-        }
-        if (node.delskill2.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.delskill2.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_delskill2(ref result, ref value);
-                }
-            }
-        }
-        if (node.friend_ex.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.friend_ex.Value.Value.AsSpan())
-            {
-                SpecialTreatment_class_friend_ex(ref result, ref value);
-            }
-        }
-        if (node.friend_ex.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.friend_ex.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_class_friend_ex(ref result, ref value);
-                }
-            }
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Power", "staff", "Race, Unit, Class", value.Text);
+                break;
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref FieldNode node)
+    private void SpecialTreatment_power_merce(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref SkillNode node)
-    {
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref PowerNode node)
-    {
-        if (node.staff.Value is { HasValue: true })
+        if (!value.HasText)
         {
-            foreach (ref var value in node.staff.Value.Value.AsSpan())
-            {
-                SpecialTreatment_power_staff(ref result, ref value);
-            }
+            return;
         }
-        if (node.staff.VariantArray is { Length: > 0 })
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
         {
-            foreach (var element in node.staff.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_power_staff(ref result, ref value);
-                }
-            }
+            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
+            return;
         }
-        if (node.merce.Value is { HasValue: true })
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
         {
-            foreach (ref var value in node.merce.Value.Value.AsSpan())
-            {
-                SpecialTreatment_power_merce(ref result, ref value);
-            }
+            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
+            return;
         }
-        if (node.merce.VariantArray is { Length: > 0 })
+        switch (reference.Kind)
         {
-            foreach (var element in node.merce.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_power_merce(ref result, ref value);
-                }
-            }
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
+                break;
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref ObjectNode node)
+    private void SpecialTreatment_class_member(ref Result result, ref Pair_NullableString_NullableInt value)
     {
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref DungeonNode node)
-    {
-        if (node.monster.Value is { HasValue: true })
+        if (!value.HasText)
         {
-            foreach (ref var value in node.monster.Value.Value.AsSpan())
-            {
-                SpecialTreatment_dungeon_monster(ref result, ref value);
-            }
+            return;
         }
-        if (node.monster.VariantArray is { Length: > 0 })
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
         {
-            foreach (var element in node.monster.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_dungeon_monster(ref result, ref value);
-                }
-            }
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "member", "Unit, Class", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "member", "Unit, Class", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "member", "Unit, Class", value.Text);
+                break;
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref MovetypeNode node)
+    private void SpecialTreatment_class_merce(ref Result result, ref Pair_NullableString_NullableInt value)
     {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "merce", "Unit, Class", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "merce", "Unit, Class", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "merce", "Unit, Class", value.Text);
+                break;
+        }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref SkillsetNode node)
+    private void SpecialTreatment_class_skill(ref Result result, ref Pair_NullableString_NullableInt value)
     {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill", "Skill, Skillset", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill", "Skill, Skillset", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_class_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill2", "Skill, Skillset", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill2", "Skill, Skillset", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill2", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_class_learn(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "learn", "Skill, Skillset", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "learn", "Skill, Skillset", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "learn", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_class_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill", "Skill, Skillset", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill", "Skill, Skillset", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_class_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_class_friend_ex(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "friend_ex", "Race, Unit, Class", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "friend_ex", "Race, Unit, Class", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Race:
+                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Race;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "friend_ex", "Race, Unit, Class", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_dungeon_monster(ref Result result, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
+                break;
+        }
     }
 
     private void SpecialTreatment_spot_merce(ref Result result, ref Pair_NullableString_NullableInt value)
@@ -8337,417 +8748,6 @@ public sealed partial class Project
                 break;
             default:
                 result.ErrorAdd_UnexpectedElementReferenceKind("Unit", "castle_guard", "Unit, Class", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_member(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "member", "Unit, Class", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "member", "Unit, Class", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "member", "Unit, Class", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_merce(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "merce", "Unit, Class", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "merce", "Unit, Class", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "merce", "Unit, Class", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_skill(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill", "Skill, Skillset", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill", "Skill, Skillset", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-           case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-               value.ReferenceKind = ReferenceKind.Skill;
-               value.HasReference = true;
-               break;
-            case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Skillset;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill", "Skill, Skillset", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill2", "Skill, Skillset", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill2", "Skill, Skillset", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-           case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-               value.ReferenceKind = ReferenceKind.Skill;
-               value.HasReference = true;
-               break;
-            case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Skillset;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "skill2", "Skill, Skillset", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_learn(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "learn", "Skill, Skillset", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "learn", "Skill, Skillset", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-           case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-               value.ReferenceKind = ReferenceKind.Skill;
-               value.HasReference = true;
-               break;
-            case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Skillset;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "learn", "Skill, Skillset", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill", "Skill, Skillset", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill", "Skill, Skillset", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-           case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-               value.ReferenceKind = ReferenceKind.Skill;
-               value.HasReference = true;
-               break;
-            case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Skillset;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill", "Skill, Skillset", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-           case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-               value.ReferenceKind = ReferenceKind.Skill;
-               value.HasReference = true;
-               break;
-            case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Skillset;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_class_friend_ex(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "friend_ex", "Race, Unit, Class", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "friend_ex", "Race, Unit, Class", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Race;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "friend_ex", "Race, Unit, Class", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_power_staff(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "staff", "Race, Unit, Class", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "staff", "Race, Unit, Class", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Race;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Power", "staff", "Race, Unit, Class", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_power_merce(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Race;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Power", "merce", "Race, Unit, Class", value.Text);
-                break;
-        }
-    }
-
-    private void SpecialTreatment_dungeon_monster(ref Result result, ref Pair_NullableString_NullableInt value)
-    {
-        if (!value.HasText)
-        {
-            return;
-        }
-        var span = result.GetSpan(value.Text);
-        if (value.TrailingTokenCount != 0)
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
-            return;
-        }
-        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-        if (Unsafe.IsNullRef(ref reference))
-        {
-            result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
-            return;
-        }
-        switch (reference.Kind)
-        {
-            case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Unit;
-                value.HasReference = true;
-                break;
-            case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
-                value.ReferenceKind = ReferenceKind.Class;
-                value.HasReference = true;
-                break;
-            default:
-                result.ErrorAdd_UnexpectedElementReferenceKind("Dungeon", "monster", "Unit, Class", value.Text);
                 break;
         }
     }
