@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj" />
     <ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
     <ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
+    <ProjectReference Include="..\Wahren.Map\Wahren.Map.csproj" />
   </ItemGroup>
 
 </Project>

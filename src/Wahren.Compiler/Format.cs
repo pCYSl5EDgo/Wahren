@@ -125,7 +125,7 @@ public partial class Program
                                     writingBuffer[0] = 0xff;
                                     writingBuffer[1] = 0xfe;
                                     MemoryMarshal.Cast<char, byte>(charBuffer.AsSpan(0, charCount)).CopyTo(writingBuffer.AsSpan(2));
-                                    using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, false);
+                                    using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 0, false);
                                     stream.Write(writingBuffer.AsSpan(0, (charCount + 1) << 1));
                                 }
                                 finally
@@ -175,7 +175,7 @@ public partial class Program
                     return;
                 }
 
-                result = new();
+                result = new(0);
                 if (isUnicode)
                 {
                     UnicodeHandler.Load(rental.AsSpan(0, actual), out result.Source);
@@ -249,7 +249,7 @@ public partial class Program
                 }
             }
 
-            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, false);
+            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 0, false);
             stream.Write(byteList.AsSpan());
         }
         finally

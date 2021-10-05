@@ -10,6 +10,7 @@ global using System.Diagnostics;
 global using System.Text;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Wahren.Map;
 
 namespace Wahren.Compiler;
 
@@ -76,48 +77,10 @@ public partial class Program
             for (int i = 0; i < files.Length; i++)
             {
                 project.Files.Add(new((uint)i));
+                project.Files.Last.FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[i]);
             }
 
-            await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, files.Length), cancellationTokenSource.Token, async (int index, CancellationToken token) =>
-            {
-                byte[] rental;
-                int actual;
-                project.Files[index].FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[index]);
-                var handle = File.OpenHandle(files[index], FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
-                try
-                {
-                    var length = RandomAccess.GetLength(handle);
-                    if (length == 0)
-                    {
-                        return;
-                    }
-
-                    rental = ArrayPool<byte>.Shared.Rent((int)length);
-                    try
-                    {
-                        actual = await RandomAccess.ReadAsync(handle, rental.AsMemory(0, (int)length), 0, token).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        ArrayPool<byte>.Shared.Return(rental);
-                        throw;
-                    }
-                }
-                finally
-                {
-                    handle.Dispose();
-                }
-
-                try
-                {
-                    token.ThrowIfCancellationRequested();
-                    LoadAndParse(project.RequiredSeverity, @switch, isUnicode, isEnglish, ref project.Files[index], rental.AsSpan(0, actual));
-                }
-                finally
-                {
-                    ArrayPool<byte>.Shared.Return(rental);
-                }
-            }).ConfigureAwait(false);
+            await ParallelLoadAndParseAsync(project, @switch, isUnicode, isEnglish, cancellationTokenSource.Token).ConfigureAwait(false);
 
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (!CompileResultSync(project))
@@ -132,179 +95,7 @@ public partial class Program
             }
 
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, 8), cancellationTokenSource.Token, (int index, CancellationToken token) =>
-            {
-                HashSet<string> hashSet = new();
-                switch (index)
-                {
-                    case 0:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.imagedataSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.imagedataSet[i]));
-                            }
-                        }
-                        return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata.dat", "chip", token);
-                    case 1:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.imagedata2Set.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.imagedata2Set[i]));
-                            }
-                        }
-                        hashSet.Remove("@@");
-                        return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata2.dat", "chip2", token);
-                    case 2:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.faceSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.faceSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/face/{name}";
-                            if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
-                            {
-                                project.ErrorAdd_FileNotFound("face", name);
-                            }
-                        }
-                        break;
-                    case 3:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.iconSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.iconSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/icon/{name}";
-                            if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
-                            {
-                                project.ErrorAdd_FileNotFound("icon", name);
-                            }
-                        }
-                        break;
-                    case 4:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.soundSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.soundSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/sound/{name}.wav";
-                            if (!File.Exists(original))
-                            {
-                                project.ErrorAdd_FileNotFound("sound", name);
-                            }
-                        }
-                        break;
-                    case 5:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.pictureSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.pictureSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/picture/{name}";
-                            if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
-                            {
-                                project.ErrorAdd_FileNotFound("picture", name);
-                            }
-                        }
-                        break;
-                    case 6:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.image_fileSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.image_fileSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/image/{name}";
-                            if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
-                            {
-                                project.ErrorAdd_FileNotFound("image", name);
-                            }
-                        }
-                        break;
-                    case 7:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.flagSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.flagSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/flag/{name}";
-                            if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
-                            {
-                                project.ErrorAdd_FileNotFound("flag", name);
-                            }
-                        }
-                        break;
-                    case 8:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.mapSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.mapSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/stage/{name}.map";
-                            if (!File.Exists(original))
-                            {
-                                project.ErrorAdd_FileNotFound("stage", name);
-                            }
-                        }
-                        break;
-                    case 9:
-                        foreach (ref var file in project.Files.AsSpan())
-                        {
-                            for (uint i = 0, count = file.bgmSet.Count; i != count; ++i)
-                            {
-                                hashSet.Add(new(file.bgmSet[i]));
-                            }
-                        }
-                        token.ThrowIfCancellationRequested();
-                        foreach (var name in hashSet)
-                        {
-                            var original = $"{contentsFolder}/bgm/{name}";
-                            if (!File.Exists(original) && !File.Exists(original + ".mp3") && !File.Exists(original + ".ogg") && !File.Exists(original + ".mid"))
-                            {
-                                project.ErrorAdd_FileNotFound("bgm", name);
-                            }
-                        }
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(index));
-                }
-                return ValueTask.CompletedTask;
-            }).ConfigureAwait(false);
+            await ParallelCheckFileExistanceAsync(project, contentsFolder, cancellationTokenSource.Token).ConfigureAwait(false);
             foreach (var error in project.ErrorBag)
             {
                 Console.WriteLine(error.Text);
@@ -327,6 +118,255 @@ public partial class Program
         }
 
         return 0;
+    }
+
+    private static async ValueTask<MapInfo[]> ParallelMapLoadAsync(string stageFolderPath, CancellationToken token)
+    {
+        var mapPaths = Directory.GetFiles(stageFolderPath, "*.map", SearchOption.TopDirectoryOnly);
+        if (mapPaths.Length == 0)
+        {
+            return Array.Empty<MapInfo>();
+        }
+
+        var answer = new MapInfo[mapPaths.Length];
+        for (nint i = 0; i < answer.Length; i++)
+        {
+            answer[i] = new(mapPaths[i]);
+        }
+
+        await Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, answer.Length), token, async (int index, CancellationToken token) =>
+        {
+            var path = answer[index].Path;
+            Debug.Assert(path is not null);
+            var (rental, actual) = await ReadFileUtility.ReadAsync(path, token).ConfigureAwait(false);
+            try
+            {
+                if (actual == 0)
+                {
+                    return;
+                }
+                var success = MapFileInfoLoader.TryParse(rental.AsSpan(0, actual), ref answer[index]);
+                if (success)
+                {
+                    ;
+                }
+                else
+                {
+                    ;
+                }
+            }
+            finally
+            {
+                if (rental.Length != 0)
+                {
+                    ArrayPool<byte>.Shared.Return(rental);
+                }
+            }
+        }).ConfigureAwait(false);
+        return answer;
+    }
+
+    private static Task ParallelLoadAndParseAsync(Project project, bool @switch, bool isUnicode, bool isEnglish, CancellationToken token)
+    {
+        return Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, project.Files.Count), token, async (int index, CancellationToken token) =>
+        {
+            var path = project.Files[index].FilePath;
+            Debug.Assert(path is not null);
+            var (rental, actual) = await ReadFileUtility.ReadAsync(path, token).ConfigureAwait(false);
+            try
+            {
+                if (actual == 0)
+                {
+                    return;
+                }
+                token.ThrowIfCancellationRequested();
+                LoadAndParse(project.RequiredSeverity, @switch, isUnicode, isEnglish, ref project.Files[index], rental.AsSpan(0, actual));
+            }
+            finally
+            {
+                if (rental.Length != 0)
+                {
+                    ArrayPool<byte>.Shared.Return(rental);
+                }
+            }
+        });
+    }
+
+    private static Task ParallelCheckFileExistanceAsync(Project project, string contentsFolder, CancellationToken token)
+    {
+        return Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, 8), token, (int index, CancellationToken token) =>
+        {
+            HashSet<string> hashSet = new();
+            switch (index)
+            {
+                case 0:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.imagedataSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.imagedataSet[i]));
+                        }
+                    }
+                    return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata.dat", "chip", token);
+                case 1:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.imagedata2Set.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.imagedata2Set[i]));
+                        }
+                    }
+                    hashSet.Remove("@@");
+                    return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata2.dat", "chip2", token);
+                case 2:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.faceSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.faceSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/face/{name}";
+                        if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                        {
+                            project.ErrorAdd_FileNotFound("face", name);
+                        }
+                    }
+                    break;
+                case 3:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.iconSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.iconSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/icon/{name}";
+                        if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                        {
+                            project.ErrorAdd_FileNotFound("icon", name);
+                        }
+                    }
+                    break;
+                case 4:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.soundSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.soundSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/sound/{name}.wav";
+                        if (!File.Exists(original))
+                        {
+                            project.ErrorAdd_FileNotFound("sound", name);
+                        }
+                    }
+                    break;
+                case 5:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.pictureSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.pictureSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/picture/{name}";
+                        if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                        {
+                            project.ErrorAdd_FileNotFound("picture", name);
+                        }
+                    }
+                    break;
+                case 6:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.image_fileSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.image_fileSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/image/{name}";
+                        if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                        {
+                            project.ErrorAdd_FileNotFound("image", name);
+                        }
+                    }
+                    break;
+                case 7:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.flagSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.flagSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/flag/{name}";
+                        if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
+                        {
+                            project.ErrorAdd_FileNotFound("flag", name);
+                        }
+                    }
+                    break;
+                case 8:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.mapSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.mapSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/stage/{name}.map";
+                        if (!File.Exists(original))
+                        {
+                            project.ErrorAdd_FileNotFound("stage", name);
+                        }
+                    }
+                    break;
+                case 9:
+                    foreach (ref var file in project.Files.AsSpan())
+                    {
+                        for (uint i = 0, count = file.bgmSet.Count; i != count; ++i)
+                        {
+                            hashSet.Add(new(file.bgmSet[i]));
+                        }
+                    }
+                    token.ThrowIfCancellationRequested();
+                    foreach (var name in hashSet)
+                    {
+                        var original = $"{contentsFolder}/bgm/{name}";
+                        if (!File.Exists(original) && !File.Exists(original + ".mp3") && !File.Exists(original + ".ogg") && !File.Exists(original + ".mid"))
+                        {
+                            project.ErrorAdd_FileNotFound("bgm", name);
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            return ValueTask.CompletedTask;
+        });
     }
 
     private static async ValueTask EnsureExistanceImageDataAsync(Project project, HashSet<string> hashSet, string contentsFolder, string datFileName, string chipFolderName, CancellationToken token)
@@ -410,7 +450,11 @@ public partial class Program
 
     private static bool CheckSync(Project project)
     {
+        Stopwatch watch = new();
+        watch.Start();
         var success = project.CheckExistance();
+        watch.Stop();
+        Console.WriteLine("CHECK EXISTANCE " + watch.ElapsedMilliseconds + " milli seconds.");
         if (!success)
         {
             foreach (var error in project.ErrorBag)

@@ -19,8 +19,7 @@ public static partial class Parser
         {
             if (!ReadUsefulToken(ref context, ref result))
             {
-                var text = $"attribute needs '}}' but not found.";
-                result.ErrorAdd(text, node.Kind);
+                result.ErrorAdd_BracketRightNotFound(kindIndex);
                 return false;
             }
 

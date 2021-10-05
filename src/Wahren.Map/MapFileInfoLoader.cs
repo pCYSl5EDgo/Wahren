@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Buffers.Binary;
-using System.Runtime.CompilerServices;
-using Wahren.PooledList;
 
 namespace Wahren.Map;
 
 public static class MapFileInfoLoader
 {
-    public static bool TryParse(ReadOnlySpan<byte> content, ref DualList<ChipData> board, ref StringSpanKeySlowSet set)
+    public static bool TryParse(ReadOnlySpan<byte> content, ref MapInfo mapInfo)
     {
         if (content.Length < 2)
         {
@@ -26,18 +23,18 @@ public static class MapFileInfoLoader
                 {
                     return false;
                 }
-                board.AddEmpty();
-                ref var list = ref board.Last;
+                mapInfo.Board.AddEmpty();
+                ref var list = ref mapInfo.Board.Last;
                 do
                 {
                     var zOrder = content[0];
+                    content = content.Slice(1);
 
                     if (zOrder == 0xff)
                     {
                         break;
                     }
 
-                    content = content.Slice(1);
                     var nameEnd = content.IndexOf<byte>(0xfe);
                     if (nameEnd > 255)
                     {
@@ -49,20 +46,14 @@ public static class MapFileInfoLoader
                         nameSpan[i] = (char)nameBytes[i];
                     }
                     content = content.Slice(nameEnd + 1);
-                    var nameId = set.GetOrAdd(nameSpan, ((uint)x << 16) | ((uint)y << 8) | ((uint)list.Count));
+                    var nameId = mapInfo.NameSet.GetOrAdd(nameSpan.Slice(0, nameBytes.Length), ((uint)x << 16) | ((uint)y << 8) | ((uint)list.Count));
                     list.Add(new(zOrder, nameId));
                 } while (true);
             }
         }
 
+        mapInfo.Width = (byte)width;
+        mapInfo.Height = (byte)height;
         return true;
     }
-}
-
-public record struct ChipData(byte ZOrder, uint NameId)
-{
-}
-
-public record struct ChipPosition(byte X, byte Y, byte Index)
-{
 }

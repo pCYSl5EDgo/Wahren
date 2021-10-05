@@ -84,13 +84,9 @@ public struct Result : IDisposable
     public bool Success = default;
     public string? FilePath = default;
 
-    public Result()
+    public Result(uint id)
     {
         Initialize();
-    }
-
-    public Result(uint id) : this()
-    {
         Id = id;
     }
 

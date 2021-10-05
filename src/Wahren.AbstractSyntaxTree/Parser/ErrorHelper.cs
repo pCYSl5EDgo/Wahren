@@ -156,6 +156,16 @@ public static class ErrorHelper
         result.ErrorAdd(error, kindId);
     }
 
+    public static void ErrorAdd_Statement_BracketRightNotFound(ref this Result result, uint statementId, ReadOnlySpan<char> statement)
+    {
+#if DEBUG
+        var error = $"{statement}文の '}}' がファイル末尾まで探しても見つかりませんでした。";
+#else
+        var error = $"{statement}'s '}}' is not found. Unexpected End Of File.";
+#endif
+        result.ErrorAdd(error, statementId);
+    }
+
     public static void ErrorAdd_NumberIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
 #if DEBUG

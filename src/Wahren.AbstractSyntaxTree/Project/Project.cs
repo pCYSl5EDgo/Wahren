@@ -453,7 +453,7 @@ public sealed partial class Project : IDisposable
         var span = result.GetSpan(value.Text);
         if (value.TrailingTokenCount != 0)
         {
-            result.ErrorAdd($"Value '{span}...' is not Race, Unit, Class required by element 'friend' of struct {kind}. ET0", value.Text);
+            result.ErrorAdd_UnexpectedElementReferenceKind(kind, "friend", "Race, Unit, Class", value.Text);
             return;
         }
         if (span.SequenceEqual("allclass"))
@@ -467,7 +467,7 @@ public sealed partial class Project : IDisposable
         ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
         if (Unsafe.IsNullRef(ref reference))
         {
-            result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct {kind}. ET2", value.Text);
+            result.ErrorAdd_UnexpectedElementReferenceKind(kind, "friend", "Race, Unit, Class", value.Text);
             return;
         }
         switch (reference.Kind)
@@ -488,7 +488,7 @@ public sealed partial class Project : IDisposable
                 value.HasReference = true;
                 break;
             default:
-                result.ErrorAdd($"Value '{span}' is not Race, Unit, Class required by element 'friend' of struct {kind}. ET3", value.Text);
+                result.ErrorAdd_UnexpectedElementReferenceKind(kind, "friend", "Race, Unit, Class", value.Text);
                 break;
         }
     }
