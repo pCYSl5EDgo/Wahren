@@ -16,7 +16,7 @@ public static class ProjectErrorHelper
         {
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Range.StartInclusive;
+                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
@@ -54,7 +54,7 @@ public static class ProjectErrorHelper
         {
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Range.StartInclusive;
+                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
@@ -79,7 +79,7 @@ public static class ProjectErrorHelper
         {
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Range.StartInclusive;
+                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
@@ -105,7 +105,7 @@ public static class ProjectErrorHelper
         {
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Range.StartInclusive;
+                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');

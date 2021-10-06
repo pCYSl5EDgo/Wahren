@@ -13,8 +13,6 @@ public static class Lexer
         }
 
         ref var line = ref source[position.Line];
-        ref var range = ref token.Range;
-
         do
         {
             if (position.Offset < line.Count)
@@ -41,7 +39,7 @@ public static class Lexer
             }
 
             position.Offset += token.PrecedingWhitespaceCount;
-            range.StartInclusive = position;
+            token.Position = position;
             currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaceCount);
             var whitespaceIndex = currentLineRestSpan.IndexOfAny(' ', '\t');
             var inspectionSpan = whitespaceIndex == -1 ? currentLineRestSpan : currentLineRestSpan.Slice(0, whitespaceIndex);
@@ -152,8 +150,7 @@ public static class Lexer
         } while (true);
 
     RETURN_VALIDATION:
-        token.Length = position.Offset - range.StartInclusive.Offset;
-        range.EndExclusive = position;
+        token.Length = position.Offset - token.Position.Offset;
         return true;
     }
 

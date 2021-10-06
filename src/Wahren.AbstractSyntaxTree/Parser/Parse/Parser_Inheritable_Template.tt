@@ -184,7 +184,7 @@ public static partial class Parser
                 pair_<#= trailer #>.ElementScenarioId = variant;
                 pair_<#= trailer #>.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_<#= trailer #>.ElementKeyRange.Line = start.Line;
                     pair_<#= trailer #>.ElementKeyRange.Offset = start.Offset;
                 }

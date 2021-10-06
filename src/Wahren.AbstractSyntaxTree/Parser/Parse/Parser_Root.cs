@@ -22,9 +22,8 @@ public static partial class Parser
             }
 
             ref var last = ref tokenList.Last;
-            ref var lastRange = ref last.Range;
-            ref var line = ref source[lastRange.StartInclusive.Line];
-            var nextIndex = lastRange.StartInclusive.Offset + 1;
+            ref var line = ref source[last.Position.Line];
+            var nextIndex = last.Position.Offset + 1;
             if (nextIndex >= line.Count)
             {
                 if (last.IsBracketRight(ref source))

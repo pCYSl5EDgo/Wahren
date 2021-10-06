@@ -210,7 +210,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                 element_<#= trailer #>.ElementScenarioId = variant;
                 element_<#= trailer #>.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     element_<#= trailer #>.ElementKeyRange.Line = start.Line;
                     element_<#= trailer #>.ElementKeyRange.Offset = start.Offset;
                 }

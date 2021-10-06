@@ -44,7 +44,7 @@ public static partial class Parser
                 return true;
             }
 
-            if (tokenList.Last.IsComma(ref source) && tokenList.Last.Range.EndExclusive.Offset == 0)
+            if (tokenList.Last.IsComma(ref source) && result.IsEndOfLine(tokenList.LastIndex))
             {
                 if (!ReadToken(ref context, ref result))
                 {

@@ -3,9 +3,9 @@ public static partial class TokenUtility
 {
     public static bool TryParse(ref this Token token, ref DualList<char> source, out int result)
     {
-        if (!token.Range.IsEmpty && token.Range.OneLine)
+        if (token.Length != 0)
         {
-            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.Length);
+            var span = source[token.Position.Line].AsSpan(token.Position.Offset, token.Length);
             return int.TryParse(span, out result);
         }
 
@@ -149,26 +149,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[1] == other1 && span[0] == other0;
     }
 
@@ -180,26 +162,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -211,26 +175,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[2] == other2;
     }
 
@@ -242,26 +188,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -273,26 +201,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[3] == other3 && span[2] == other2;
     }
 
@@ -304,26 +214,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[4] == other4 && span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -335,26 +227,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[4] == other4 && span[3] == other3 && span[2] == other2;
     }
 
@@ -366,26 +240,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -397,26 +253,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2;
     }
 
@@ -428,26 +266,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -459,26 +279,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2;
     }
 
@@ -490,26 +292,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[7] == other7 && span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -521,26 +305,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[7] == other7 && span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2;
     }
 
@@ -552,26 +318,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[8] == other8 && span[7] == other7 && span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -583,26 +331,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[8] == other8 && span[7] == other7 && span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2;
     }
 
@@ -614,26 +344,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[9] == other9 && span[8] == other8 && span[7] == other7 && span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2 && span[1] == other1 && span[0] == other0;
     }
 
@@ -645,26 +357,8 @@ public static partial class TokenUtility
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return span[9] == other9 && span[8] == other8 && span[7] == other7 && span[6] == other6 && span[5] == other5 && span[4] == other4 && span[3] == other3 && span[2] == other2;
     }
 

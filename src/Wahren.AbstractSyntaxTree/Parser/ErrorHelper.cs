@@ -5,25 +5,25 @@ public static class ErrorHelper
     public static void ErrorAdd(ref this Result result, string text, uint tokenId)
     {
         ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length));
+        result.ErrorList.Add(new(text, token.Position, token.Length));
     }
 
     public static void WarningAdd(ref this Result result, string text, uint tokenId)
     {
         ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Warning));
+        result.ErrorList.Add(new(text, token.Position, token.Length, DiagnosticSeverity.Warning));
     }
 
     public static void InfoAdd(ref this Result result, string text, uint tokenId)
     {
         ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Info));
+        result.ErrorList.Add(new(text, token.Position, token.Length, DiagnosticSeverity.Info));
     }
 
     public static void HintAdd(ref this Result result, string text, uint tokenId)
     {
         ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Range.StartInclusive, token.Length, DiagnosticSeverity.Hint));
+        result.ErrorList.Add(new(text, token.Position, token.Length, DiagnosticSeverity.Hint));
     }
 
     public static void WarningAdd_MultipleAssignment(ref this Result result, uint tokenId)
@@ -34,6 +34,17 @@ public static class ErrorHelper
         var error = $"Multiple assignment to '{result.GetSpan(tokenId)}' can cause serious error.";
 #endif
         result.WarningAdd(error, tokenId);
+    }
+
+    public static void ErrorAdd_LastAndLastBut1MustBeOneLine(ref this Result result)
+    {
+        var lastIndex = result.TokenList.LastIndex;
+#if DEBUG
+        var error = $"最後のトークンとその１つ前のトークンは同じ行になくてはいけませんでした。最後のトークン: '{result.GetSpan(lastIndex)}'。その１つ前のトークン: '{result.GetSpan(lastIndex - 1U)}'。";
+#else
+        var error = $"The last token and the last but 1 token must be on the same line. Last Token: '{result.GetSpan(lastIndex)}'. Last But 1 Token: '{result.GetSpan(lastIndex - 1U)}'.";
+#endif
+        result.ErrorAdd(error, lastIndex);
     }
 
     public static void ErrorAdd_UnexpectedEndOfFile(ref this Result result, uint tokenId, ReadOnlySpan<char> text = default)
@@ -51,7 +62,7 @@ public static class ErrorHelper
         if (string.IsNullOrEmpty(text))
         {
 #if DEBUG
-            text = $"予期せぬ演算子です。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}";
+            text = $"予期せぬ演算子です。最後のトークン: '{result.GetSpan(result.TokenList.LastIndex)}'。";
 #else
             text = $"Unexpected Operator. Last Token: {result.GetSpan(result.TokenList.LastIndex)}";
 #endif
@@ -59,7 +70,7 @@ public static class ErrorHelper
         else
         {
 #if DEBUG
-            text = $"予期せぬ演算子です。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}。{text}";
+            text = $"予期せぬ演算子です。最後のトークン: '{result.GetSpan(result.TokenList.LastIndex)}'。{text}";
 #else
             text = $"Unexpected Operator. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}";
 #endif

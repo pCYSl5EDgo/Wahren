@@ -210,38 +210,33 @@ public struct Result : IDisposable
     public void UnionLast2Tokens()
     {
         ref var last = ref TokenList.Last;
-        ref var lastBut1 = ref TokenList[TokenList.LastIndex - 1];
-        lastBut1.Range.EndExclusive = last.Range.EndExclusive;
-        if (lastBut1.Range.StartInclusive.Line == last.Range.StartInclusive.Line)
+        if (last.PrecedingNewLineCount == 0)
         {
-            if (lastBut1.Range.StartInclusive.Line == lastBut1.Range.EndExclusive.Line)
-            {
-                lastBut1.Length = lastBut1.Range.EndExclusive.Offset - lastBut1.Range.StartInclusive.Offset;
-            }
-            else
-            {
-                lastBut1.Length = (uint)Source[last.Range.StartInclusive.Line].Count - lastBut1.Range.StartInclusive.Offset;
-            }
+            TokenList[TokenList.LastIndex - 1].Length += last.Length + last.PrecedingWhitespaceCount;
+            TokenList.RemoveLast();
         }
-
-        TokenList.RemoveLast();
+        else
+        {
+            this.ErrorAdd_LastAndLastBut1MustBeOneLine();
+        }
     }
 
     public bool IsEndOfLine(uint tokenIndex)
     {
-        ref var range = ref TokenList[tokenIndex].Range;
-        if (range.EndExclusive.Line >= Source.Count)
+        ref var token = ref TokenList[tokenIndex];
+        ref var position = ref token.Position;
+        if (position.Line >= Source.Count)
         {
             return true;
         }
 
-        return range.EndExclusive.Offset >= Source[range.StartInclusive.Line].Count;
+        return position.Offset + token.Length >= Source[position.Line].Count;
     }
 
     public Span<char> GetSpan(uint tokenIndex)
     {
         ref var token = ref TokenList[tokenIndex];
-        ref var start = ref token.Range.StartInclusive;
+        ref var start = ref token.Position;
         return Source[start.Line].AsSpan(start.Offset, token.Length);
     }
 

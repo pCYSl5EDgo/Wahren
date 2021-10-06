@@ -2,7 +2,7 @@
 
 public struct Token
 {
-    public Range Range;
+    public Position Position;
     public uint Length;
     public uint PrecedingNewLineCount;
     public uint PrecedingWhitespaceCount;
@@ -14,8 +14,8 @@ public struct Token
 
     public override string ToString()
     {
-        return $"Start: {{{Range.StartInclusive.Line}, {Range.StartInclusive.Offset}}}, Kind: {Kind}, End: {{{Range.EndExclusive.Line}, {Range.EndExclusive.Offset}}}";
+        return $"Start: {{{Position.Line}, {Position.Offset}}}, Kind: {Kind}}}";
     }
 
-    public bool IsFirstTokenInTheLine => PrecedingWhitespaceCount == Range.StartInclusive.Offset;
+    public bool IsFirstTokenInTheLine => PrecedingWhitespaceCount == Position.Offset;
 }

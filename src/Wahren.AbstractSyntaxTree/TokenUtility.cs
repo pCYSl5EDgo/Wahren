@@ -4,24 +4,23 @@ public static partial class TokenUtility
 {
     public static bool Equals(ref this Token token, ref DualList<char> source, char other)
     {
-        if (!token.Range.OneLine || token.Length != 1)
+        if (token.Length != 1)
         {
             return false;
         }
 
-        return source[token.Range.StartInclusive.Line][token.Range.StartInclusive.Offset] == other;
+        return source[token.Position.Line][token.Position.Offset] == other;
     }
 
     public static bool Equals(ref this Token token, ref DualList<char> source, ReadOnlySpan<char> other)
     {
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        return (start.Line == end.Line && start.Offset + other.Length == end.Offset) || (start.Line + 1 == end.Line && end.Offset == 0) && source[start.Line].AsSpan(start.Offset).SequenceEqual(other);
+        ref var start = ref token.Position;
+        return source[start.Line].AsSpan(start.Offset, token.Length).SequenceEqual(other);
     }
 
     public static bool IsOperator(ref this Token token, ref DualList<char> source)
     {
-        var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.Length);
+        var span = source[token.Position.Line].AsSpan(token.Position.Offset, token.Length);
         switch (span.Length)
         {
             case 1:

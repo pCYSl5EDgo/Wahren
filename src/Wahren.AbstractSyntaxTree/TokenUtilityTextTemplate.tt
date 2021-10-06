@@ -13,9 +13,9 @@ foreach (var type in types)
 #>
     public static bool TryParse(ref this Token token, ref DualList<char> source, out <#= type #> result)
     {
-        if (!token.Range.IsEmpty && token.Range.OneLine)
+        if (token.Length != 0)
         {
-            var span = source[token.Range.StartInclusive.Line].AsSpan(token.Range.StartInclusive.Offset, token.Length);
+            var span = source[token.Position.Line].AsSpan(token.Position.Offset, token.Length);
             return <#= type #>.TryParse(span, out result);
         }
 
@@ -92,26 +92,8 @@ for (int i = 2; i < maxLength + 1; i++)
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return <#for (int j = i - 1; j > 0; --j) {#>span[<#= j #>] == other<#= j #> && <#}#>span[0] == other0;
     }
 
@@ -124,26 +106,8 @@ for (int i = 2; i < maxLength + 1; i++)
             return false;
         }
 
-        ref var start = ref token.Range.StartInclusive;
-        ref var end = ref token.Range.EndExclusive;
-        Span<char> span;
-        if (start.Line == end.Line && start.Offset + size == end.Offset)
-        {
-            span = source[start.Line].AsSpan(start.Offset, size);
-        }
-        else if (start.Line + 1 == end.Line && end.Offset == 0)
-        {
-            span = source[start.Line].AsSpan(start.Offset);
-            if (span.Length != size)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
+        ref var start = ref token.Position;
+        var span = source[start.Line].AsSpan(start.Offset, size);
         return <#for (int j = i - 1; j > 2; --j) {#>span[<#= j #>] == other<#= j #> && <#}#>span[2] == other2;
     }
 

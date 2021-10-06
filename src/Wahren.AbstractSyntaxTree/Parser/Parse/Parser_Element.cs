@@ -42,7 +42,7 @@ public static partial class Parser
 
             if (!tokenList.Last.IsMul(ref source))
             {
-                if (tokenList.Last.Range.StartInclusive.Line == tokenList[tokenList.LastIndex - 1].Range.StartInclusive.Line)
+                if (tokenList.Last.PrecedingNewLineCount == 0)
                 {
                     result.UnionLast2Tokens();
                     continue;
@@ -100,7 +100,7 @@ public static partial class Parser
 
         ref var source = ref result.Source;
         element.HasValue = true;
-        ref var thisLine = ref source[tokenList.Last.Range.StartInclusive.Line];
+        ref var thisLine = ref source[tokenList.Last.Position.Line];
         do
         {
             element.Value.Add(new());
@@ -114,7 +114,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.Range.StartInclusive.Line != tokenList[tokenList.LastIndex - 1].Range.StartInclusive.Line)
+            if (tokenList.Last.Position.Line != tokenList[tokenList.LastIndex - 1].Position.Line)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
@@ -161,26 +161,9 @@ public static partial class Parser
         element.Value.HasText = true;
         element.Value.Text = tokenList.LastIndex;
         tokenList.Last.Kind = TokenKind.Content;
-        var processingLine = tokenList.Last.Range.StartInclusive.Line;
+        var processingLine = tokenList.Last.Position.Line;
         if (element.Value.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Number))
         {
-            ref var end = ref tokenList.Last.Range.EndExclusive;
-            if (processingLine == end.Line)
-            {
-                var span = source[end.Line].AsSpan(end.Offset);
-                if (!span.IsEmpty)
-                {
-                    foreach (var item in span)
-                    {
-                        if (item != ' ' && item != '\t')
-                        {
-                            result.ErrorAdd($"Line feed is needed immediately after number text({element.Value.Number}).", element.ElementTokenId);
-                            return false;
-                        }
-                    }
-                }
-            }
-
             goto TRUE;
         }
 
@@ -192,7 +175,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (processingLine != tokenList.Last.Range.StartInclusive.Line)
+            if (processingLine != tokenList.Last.Position.Line)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
@@ -247,7 +230,7 @@ public static partial class Parser
         element.HasValue = true;
         if (!AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
         {
-            result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.LastIndex);
+            result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Position.Line][tokenList.Last.Position.Offset]} appears. Text is expected.", tokenList.LastIndex);
             return false;
         }
 
@@ -260,7 +243,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList[element.Value.Last.Text].Range.StartInclusive.Line != tokenList.Last.Range.StartInclusive.Line)
+            if (tokenList[element.Value.Last.Text].Position.Line != tokenList.Last.Position.Line)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
@@ -279,7 +262,7 @@ public static partial class Parser
                     continue;
                 }
 
-                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.LastIndex);
+                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Position.Line][tokenList.Last.Position.Offset]} appears. Text is expected.", tokenList.LastIndex);
                 return false;
             }
 
@@ -321,14 +304,14 @@ public static partial class Parser
                 result.ErrorAdd_NumberIsExpected(element.ElementTokenId);
             }
 
-            var processingLineIndex = tokenList.Last.Range.StartInclusive.Line;
+            var processingLineIndex = tokenList.Last.Position.Line;
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
                 return false;
             }
 
-            if (processingLineIndex != tokenList.Last.Range.StartInclusive.Line)
+            if (processingLineIndex != tokenList.Last.Position.Line)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
@@ -348,7 +331,7 @@ public static partial class Parser
 
             if (!AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
             {
-                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Range.StartInclusive.Line][tokenList.Last.Range.StartInclusive.Offset]} appears. Text is expected.", tokenList.LastIndex);
+                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Position.Line][tokenList.Last.Position.Offset]} appears. Text is expected.", tokenList.LastIndex);
                 return false;
             }
         } while (true);
@@ -411,14 +394,14 @@ public static partial class Parser
                         return false;
                     }
 
-                    var processingLine = tokenList.Last.Range.StartInclusive.Line;
+                    var processingLine = tokenList.Last.Position.Line;
                     if (!ReadToken(ref context, ref result))
                     {
                         result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
                         return false;
                     }
 
-                    if (tokenList.Last.Range.StartInclusive.Line != processingLine)
+                    if (tokenList.Last.Position.Line != processingLine)
                     {
                         CancelTokenReadback(ref context, ref result);
                         goto TRUE;
@@ -438,7 +421,7 @@ public static partial class Parser
                     break;
                 }
 
-                if (tokenList.Last.Range.StartInclusive.Line != tokenList[tokenList.LastIndex - 1].Range.StartInclusive.Line)
+                if (tokenList.Last.Position.Line != tokenList[tokenList.LastIndex - 1].Position.Line)
                 {
                     CancelTokenReadback(ref context, ref result);
                     goto TRUE;
@@ -484,7 +467,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.Range.StartInclusive.Line != tokenList[tokenList.LastIndex - 1].Range.StartInclusive.Line)
+            if (tokenList.Last.Position.Line != tokenList[tokenList.LastIndex - 1].Position.Line)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;

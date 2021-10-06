@@ -276,7 +276,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -308,7 +308,7 @@ public static partial class Parser
                 pair_TEXT.ElementScenarioId = variant;
                 pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_TEXT.ElementKeyRange.Line = start.Line;
                     pair_TEXT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -340,7 +340,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -372,7 +372,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -404,7 +404,7 @@ public static partial class Parser
                 pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_OFFSET.ElementKeyRange.Line = start.Line;
                     pair_OFFSET.ElementKeyRange.Offset = start.Offset;
                 }
@@ -436,7 +436,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1061,7 +1061,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1093,7 +1093,7 @@ public static partial class Parser
                 pair_TEXT.ElementScenarioId = variant;
                 pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_TEXT.ElementKeyRange.Line = start.Line;
                     pair_TEXT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1125,7 +1125,7 @@ public static partial class Parser
                 pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_LOYAL.ElementKeyRange.Line = start.Line;
                     pair_LOYAL.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1157,7 +1157,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1189,7 +1189,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1221,7 +1221,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1253,7 +1253,7 @@ public static partial class Parser
                 pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_OFFSET.ElementKeyRange.Line = start.Line;
                     pair_OFFSET.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1501,7 +1501,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1533,7 +1533,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1565,7 +1565,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1754,7 +1754,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1786,7 +1786,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1818,7 +1818,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1963,7 +1963,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -1995,7 +1995,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2236,7 +2236,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2268,7 +2268,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2300,7 +2300,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2332,7 +2332,7 @@ public static partial class Parser
                 pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_LOYAL.ElementKeyRange.Line = start.Line;
                     pair_LOYAL.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2494,7 +2494,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2526,7 +2526,7 @@ public static partial class Parser
                 pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_LOYAL.ElementKeyRange.Line = start.Line;
                     pair_LOYAL.ElementKeyRange.Offset = start.Offset;
                 }
@@ -2558,7 +2558,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3226,7 +3226,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3258,7 +3258,7 @@ public static partial class Parser
                 pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_LOYAL.ElementKeyRange.Line = start.Line;
                     pair_LOYAL.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3290,7 +3290,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3322,7 +3322,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3354,7 +3354,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3386,7 +3386,7 @@ public static partial class Parser
                 pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_OFFSET.ElementKeyRange.Line = start.Line;
                     pair_OFFSET.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3531,7 +3531,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3563,7 +3563,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3810,7 +3810,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3842,7 +3842,7 @@ public static partial class Parser
                 pair_TEXT.ElementScenarioId = variant;
                 pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_TEXT.ElementKeyRange.Line = start.Line;
                     pair_TEXT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3874,7 +3874,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -3906,7 +3906,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4609,7 +4609,7 @@ public static partial class Parser
                 pair_DEFAULT.ElementScenarioId = variant;
                 pair_DEFAULT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_DEFAULT.ElementKeyRange.Line = start.Line;
                     pair_DEFAULT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4641,7 +4641,7 @@ public static partial class Parser
                 pair_TEXT.ElementScenarioId = variant;
                 pair_TEXT.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_TEXT.ElementKeyRange.Line = start.Line;
                     pair_TEXT.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4673,7 +4673,7 @@ public static partial class Parser
                 pair_LOYAL.ElementScenarioId = variant;
                 pair_LOYAL.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_LOYAL.ElementKeyRange.Line = start.Line;
                     pair_LOYAL.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4705,7 +4705,7 @@ public static partial class Parser
                 pair_CONSTI.ElementScenarioId = variant;
                 pair_CONSTI.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_CONSTI.ElementKeyRange.Line = start.Line;
                     pair_CONSTI.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4737,7 +4737,7 @@ public static partial class Parser
                 pair_RAY.ElementScenarioId = variant;
                 pair_RAY.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_RAY.ElementKeyRange.Line = start.Line;
                     pair_RAY.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4769,7 +4769,7 @@ public static partial class Parser
                 pair_MEMBER.ElementScenarioId = variant;
                 pair_MEMBER.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_MEMBER.ElementKeyRange.Line = start.Line;
                     pair_MEMBER.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4801,7 +4801,7 @@ public static partial class Parser
                 pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_OFFSET.ElementKeyRange.Line = start.Line;
                     pair_OFFSET.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4962,7 +4962,7 @@ public static partial class Parser
                 pair_OFFSET.ElementScenarioId = variant;
                 pair_OFFSET.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_OFFSET.ElementKeyRange.Line = start.Line;
                     pair_OFFSET.ElementKeyRange.Offset = start.Offset;
                 }
@@ -4994,7 +4994,7 @@ public static partial class Parser
                 pair_ROAM.ElementScenarioId = variant;
                 pair_ROAM.ElementKeyRange.Length = (uint)originalLength;
                 {
-                    ref var start = ref tokenList[currentIndex].Range.StartInclusive;
+                    ref var start = ref tokenList[currentIndex].Position;
                     pair_ROAM.ElementKeyRange.Line = start.Line;
                     pair_ROAM.ElementKeyRange.Offset = start.Offset;
                 }

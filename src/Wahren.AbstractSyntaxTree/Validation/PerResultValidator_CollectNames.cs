@@ -93,7 +93,7 @@ public static partial class PerResultValidator
             foreach ((int resultId, _, var kind, uint index) in tracks)
             {
                 ref var result = ref results[resultId];
-                ref var position = ref result.TokenList[index].Range.StartInclusive;
+                ref var position = ref result.TokenList[index].Position;
                 builder.Append($"\n    {result.FilePath}({position.Line + 1}, {position.Offset + 1})");
             }
             errorBag.Add(new(builder.ToString()));
