@@ -158,7 +158,7 @@ public struct CallableInfo
         new("doskill", 5, 5, ReferenceKind.Skill, NumReader, NumReader, NumReader, ReferenceKind.Boolean),
         new("fadeout", 0, 1, NumReader),
         new("loopBGM", 1, int.MaxValue, ReferenceKind.bgm),
-        new("minimap", 0, 0),
+        new("minimap", 1, 1, ReferenceKind.Boolean),
         new("playBGM", 0, 1, ReferenceKind.bgm),
         new("pushCon", 3, 3, SSpo, SUni | ReferenceKind.Class, ReferenceKind.NumberVariableWriter),
         new("pushSex", 2, 2, SUni, ReferenceKind.NumberVariableWriter),

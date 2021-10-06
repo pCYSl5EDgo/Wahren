@@ -4375,6 +4375,17 @@ public static partial class PerResultValidator
                 }
 
                 break;
+            case ActionKind.minimap:
+                if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                {
+                    argument.ReferenceKind = ReferenceKind.Boolean;
+                }
+                else
+                {
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("minimap", 1, "Boolean", argument.TokenId);
+                }
+
+                break;
             case ActionKind.routine:
                 argument.ReferenceKind = ReferenceKind.Event;
                 argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
@@ -7204,7 +7215,6 @@ public static partial class PerResultValidator
             case ActionKind.win:
             case ActionKind.save:
             case ActionKind.erase:
-            case ActionKind.minimap:
             case ActionKind.stopBGM:
             case ActionKind.openGoal:
             case ActionKind.hideSpotMark:
@@ -7232,6 +7242,7 @@ public static partial class PerResultValidator
             case ActionKind.playSE:
             case ActionKind.volume:
             case ActionKind.addItem:
+            case ActionKind.minimap:
             case ActionKind.routine:
             case ActionKind.scroll2:
             case ActionKind.shuffle:
