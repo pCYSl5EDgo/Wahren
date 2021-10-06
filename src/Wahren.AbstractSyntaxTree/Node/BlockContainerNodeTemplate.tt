@@ -28,6 +28,9 @@ public partial struct <#= node.Name #>Node : IInheritableNode
     public uint Name { get; set; }
 
     public List<IStatement> Statements = new();
+<# foreach (var additionalField in node.Fields) { #>
+	public <#= additionalField.Type #> <#= additionalField.Name #> = new();
+<# } #>
 <# foreach (var item in array) { #>
 	public VariantPair<<#= item.name.GetCorrespondingType() #>> <#= item.name.Escape() #> = new();
 <# } #>
@@ -35,6 +38,11 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 	public void Dispose()
 	{
 		Statements.Dispose();
+<#	foreach (var additionalField in node.Fields) { #>
+<#		if (additionalField.IsDisposable) { #>
+		<#= additionalField.Name #>.Dispose();
+<#		} #>
+<#	} #>
 <# foreach (var item in array) { #>
 		<#= item.name.Escape() #>.Dispose();
 <# } #>

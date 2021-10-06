@@ -16,11 +16,6 @@
     </T4ParameterValues>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ActionKindTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActionKindTemplate.tt</DependentUpon>
-    </None>
     <None Include="Formatter\BinaryFormatterTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -31,10 +26,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
     </None>
-    <None Include="FunctionKindTemplate.cs">
+    <None Include="ActionFunctionKindTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>FunctionKindTemplate.tt</DependentUpon>
+      <DependentUpon>ActionFunctionKindTemplate.tt</DependentUpon>
     </None>
     <None Include="Node\AttributeNodeTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -97,10 +92,6 @@
     <ProjectReference Include="..\Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="ActionKindTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionKindTemplate.cs</LastGenOutput>
-    </None>
     <None Update="Formatter\BinaryFormatterContextTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BinaryFormatterContextTemplate.cs</LastGenOutput>
@@ -117,9 +108,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UnicodeFormatterHelperTemplate.cs</LastGenOutput>
     </None>
-    <None Update="FunctionKindTemplate.tt">
+    <None Update="ActionFunctionKindTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FunctionKindTemplate.cs</LastGenOutput>
+      <LastGenOutput>ActionFunctionKindTemplate.cs</LastGenOutput>
     </None>
     <None Update="Node\AttributeNodeTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -170,10 +161,10 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ActionKindTemplate.cs">
+    <Compile Update="ActionFunctionKindTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ActionKindTemplate.tt</DependentUpon>
+      <DependentUpon>ActionFunctionKindTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Formatter\BinaryFormatterContextTemplate.cs">
       <DesignTime>True</DesignTime>

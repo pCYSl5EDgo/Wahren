@@ -21,8 +21,8 @@ public partial struct <#= node.Name #>Node : IInheritableNode
     public uint BracketRight { get; set; }
     public uint? Super { get; set; }
     public uint Name { get; set; }
-<# if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
-	public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> Others = new();
+<# foreach (var additionalField in node.Fields) { #>
+	public <#= additionalField.Type #> <#= additionalField.Name #> = new();
 <# } #>
 
 <# foreach (var (type, groups) in array) { 
@@ -40,11 +40,13 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 		foreach (var item in items) { #>
 		<#= item.name.Escape() #>.Dispose();
 <#		}
-	}
-	if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
-		Others.Dispose();
-<#	}
-} #>
+	} #>
+<#	foreach (var additionalField in node.Fields) { #>
+<#		if (additionalField.IsDisposable) { #>
+		<#= additionalField.Name #>.Dispose();
+<#		} #>
+<#	} #>
+<# } #>
 	}
 }
 <# } #>

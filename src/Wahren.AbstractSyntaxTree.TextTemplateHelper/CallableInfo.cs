@@ -39,15 +39,17 @@ public struct CallableInfo
         max = Max;
     }
 
-    public static readonly string[] Specials = new string[]
+    public new ulong GetHashCode() => StringHashUtility.Calc(Name);
+
+    public static readonly CallableInfo[] Specials = new CallableInfo[]
     {
-        "if",
-        "rif",
-        "while",
-        "next",
-        "return",
-        "break",
-        "continue",
+        new("if", 0, 0),
+        new("rif", 0, 0),
+        new("while", 0, 0),
+        new("next", 0, 0),
+        new("return", 0, 0),
+        new("break", 0, 0),
+        new("continue", 0, 0),
     };
 
     private const ReferenceKind NumReader = ReferenceKind.NumberVariableReader | ReferenceKind.Number;

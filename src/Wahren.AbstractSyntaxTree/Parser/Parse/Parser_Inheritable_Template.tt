@@ -101,7 +101,7 @@ public static partial class Parser
 <#      } #>
                     }
 <#  }
-    if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
+    if(node.IsAllowedUndefinedContent) { #>
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     key = ((ulong)byteSpan[0]) | ((ulong)byteSpan[1] << 8);
@@ -120,7 +120,7 @@ public static partial class Parser
                             goto <#= trailer #>;
 <#      } #>
                     }
-<#  }if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
+<#  }if(node.IsAllowedUndefinedContent) { #>
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     span = Span<char>.Empty;
@@ -139,7 +139,7 @@ public static partial class Parser
 <#      } #>
                     }
 <#  }
-    if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
+    if(node.IsAllowedUndefinedContent) { #>
                     goto DEFAULT_OTHERS;
 <#  } else { #>
                     span = Span<char>.Empty;
@@ -165,7 +165,7 @@ public static partial class Parser
                     goto default;
 <#  } #>
                 default:
-<#  if(Helper.IsAllowedUndefinedContent(node.Name)) { #>
+<#  if(node.IsAllowedUndefinedContent) { #>
                     span = MemoryMarshal.Cast<byte, char>(byteSpan);
                     goto DEFAULT_OTHERS;
 <#  } else { #>
@@ -211,7 +211,7 @@ public static partial class Parser
             }
 <#      }
     } #>
-<#  if (Helper.IsAllowedUndefinedContent(node.Name)) { #>
+<#  if (node.IsAllowedUndefinedContent) { #>
         DEFAULT_OTHERS:
             foreach (ref var other in node.Others)
             {

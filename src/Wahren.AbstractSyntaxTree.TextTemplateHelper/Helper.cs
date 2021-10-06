@@ -4,90 +4,38 @@ namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
 public static partial class Helper
 {
-    public static readonly string[] Inheritables = new string[]
-    {
-        nameof(ElementInfo.Voice),
-        nameof(ElementInfo.Spot),
-        nameof(ElementInfo.Unit),
-        nameof(ElementInfo.Race),
-        nameof(ElementInfo.Class),
-        nameof(ElementInfo.Field),
-        nameof(ElementInfo.Skill),
-        nameof(ElementInfo.Power),
-        nameof(ElementInfo.Object),
-        nameof(ElementInfo.Dungeon),
-        nameof(ElementInfo.Movetype),
-        nameof(ElementInfo.Skillset),
-    };
-
-    public static readonly string[] BlockContainers = new string[]
-    {
-        nameof(ElementInfo.Event),
-        nameof(ElementInfo.Scenario),
-        nameof(ElementInfo.Story),
-    };
-
-    public static bool IsBlockContainer(this string name)
-    {
-        switch (name)
-        {
-            case nameof(ElementInfo.Event):
-            case nameof(ElementInfo.Scenario):
-            case nameof(ElementInfo.Story):
-                return true;
-            default: return false;
-        }
-    }
-
-    public static bool IsAllowedUndefinedContent(string name)
-    {
-        switch (name)
-        {
-            case nameof(ElementInfo.Power):
-            case nameof(ElementInfo.Workspace):
-                return true;
-            default: return false;
-        }
-    }
-
     public static void Deconstruct(this IGrouping<UsagePair, ElementInfo> group, out UsagePair pair, out IEnumerable<ElementInfo> names)
     {
         pair = group.Key;
         names = group;
     }
 
-    public static string Escape(this string element)
+    public static string Escape(this string element) => element switch
     {
-        switch (element)
-        {
-            case "event": return "@event";
-            case "break": return "@break";
-            case "continue": return "@continue";
-            case "while": return "@while";
-            case "if": return "@if";
-            case "class": return "@class";
-            case "struct": return "@struct";
-            case "record": return "@record";
-            case "for": return "@for";
-            case "return": return "@return";
-            case "foreach": return "@foreach";
-            case "picture@cutin": return "picture_atmark_cutin";
-            case "object": return "@object";
-            default: return element;
-        }
-    }
+        "event" => "@event",
+        "break" => "@break",
+        "continue" => "@continue",
+        "while" => "@while",
+        "if" => "@if",
+        "class" => "@class",
+        "struct" => "@struct",
+        "record" => "@record",
+        "for" => "@for",
+        "return" => "@return",
+        "foreach" => "@foreach",
+        "picture@cutin" => "picture_atmark_cutin",
+        "object" => "@object",
+        _ => element,
+    };
 
-    public static ulong GetKey(this string element)
+    public static ulong GetKey(this string element) => element.Length switch
     {
-        switch (element.Length)
-        {
-            case 0: return 0;
-            case 1: return element[0];
-            case 2: return (element[0]) | (((ulong)element[1]) << 16);
-            case 3: return (element[0]) | (((ulong)element[1]) << 16) | (((ulong)element[2]) << 32);
-            default: return (element[0]) | (((ulong)element[1]) << 16) | (((ulong)element[2]) << 32) | (((ulong)element[3]) << 48);
-        }
-    }
+        0 => 0,
+        1 => element[0],
+        2 => (element[0]) | (((ulong)element[1]) << 16),
+        3 => (element[0]) | (((ulong)element[1]) << 16) | (((ulong)element[2]) << 32),
+        _ => (element[0]) | (((ulong)element[1]) << 16) | (((ulong)element[2]) << 32) | (((ulong)element[3]) << 48),
+    };
 
     public static SwitchGroupOuter[] MakeGroup(this ElementInfo[] elements)
     {
@@ -105,136 +53,23 @@ public static partial class Helper
            (type, xs) => new UsageGroup(type, xs.GroupBy(x => new UsagePair(x.name.GetCorrespondingTrailer(), x.name.GetCorrespondingParserFunction())).ToArray())).ToArray();
     }
 
-    public static string GetCorrespondingTrailer(this string element)
+    public static string GetCorrespondingTrailer(this string element) => element switch
     {
-        switch (element)
-        {
-            case "str":
-            case "fkey":
-            case "loyal":
-            case "brave":
-            case "arbeit":
-            case "change":
-            case "ground":
-            case "gun_delay":
-                return nameof(Trailer.LOYAL);
-            case "enemy":
-            case "staff":
-            case "friend":
-            case "offset":
-            case "delskill":
-            case "delskill2":
-            case "voice_type":
-                return nameof(Trailer.OFFSET);
-            case "ray":
-            case "poli":
-            case "camp":
-            case "home":
-            case "multi":
-            case "learn":
-            case "color":
-            case "joint":
-            case "skill":
-            case "skill2":
-            case "weapon":
-            case "weapon2":
-            case "activenum":
-            case "friend_ex":
-                return nameof(Trailer.RAY);
-            case "add2":
-            case "item":
-            case "merce":
-            case "next2":
-            case "next3":
-            case "sound":
-            case "member":
-            case "monster":
-            case "item_hold":
-            case "item_sale":
-            case "just_next":
-            case "castle_guard":
-                return nameof(Trailer.MEMBER);
-            case "roam":
-            case "spot":
-            case "power":
-                return nameof(Trailer.ROAM);
-            case "icon":
-            case "wave":
-            case "cutin":
-            case "diplo":
-            case "consti":
-            case "league":
-            case "loyals":
-            case "merits":
-            case "yorozu":
-            case "enemy_power":
-            case "leader_skill":
-            case "assist_skill":
-                return nameof(Trailer.CONSTI);
-            case "text":
-                return nameof(Trailer.TEXT);
-            default:
-                return nameof(Trailer.DEFAULT);
-        }
-    }
+        "str" or "fkey" or "loyal" or "brave" or "arbeit" or "change" or "ground" or "gun_delay" => nameof(Trailer.LOYAL),
+        "enemy" or "staff" or "friend" or "offset" or "delskill" or "delskill2" or "voice_type" => nameof(Trailer.OFFSET),
+        "ray" or "poli" or "camp" or "home" or "multi" or "learn" or "color" or "joint" or "skill" or "skill2" or "weapon" or "weapon2" or "activenum" or "friend_ex" => nameof(Trailer.RAY),
+        "add2" or "item" or "merce" or "next2" or "next3" or "sound" or "member" or "monster" or "item_hold" or "item_sale" or "just_next" or "castle_guard" => nameof(Trailer.MEMBER),
+        "roam" or "spot" or "power" => nameof(Trailer.ROAM),
+        "icon" or "wave" or "cutin" or "diplo" or "consti" or "league" or "loyals" or "merits" or "yorozu" or "enemy_power" or "leader_skill" or "assist_skill" => nameof(Trailer.CONSTI),
+        "text" => nameof(Trailer.TEXT),
+        _ => nameof(Trailer.DEFAULT),
+    };
 
     public static string GetCorrespondingParserFunction(this string element) => "Parse_Element_" + element.GetCorrespondingTrailer();
 
-    public static string GetCorrespondingType(this string element)
+    public static string GetCorrespondingType(this string element) => element switch
     {
-        switch (element)
-        {
-            case "enemy":
-            case "staff":
-            case "friend":
-            case "offset":
-            case "delskill":
-            case "delskill2":
-            case "voice_type":
-            case "roam":
-            case "spot":
-            case "power":
-            case "multi":
-            case "ray":
-            case "poli":
-            case "camp":
-            case "home":
-            case "learn":
-            case "color":
-            case "joint":
-            case "skill":
-            case "skill2":
-            case "weapon":
-            case "weapon2":
-            case "activenum":
-            case "friend_ex":
-            case "add2":
-            case "item":
-            case "merce":
-            case "next2":
-            case "next3":
-            case "sound":
-            case "member":
-            case "monster":
-            case "item_hold":
-            case "item_sale":
-            case "just_next":
-            case "castle_guard":
-            case "icon":
-            case "wave":
-            case "cutin":
-            case "diplo":
-            case "consti":
-            case "league":
-            case "loyals":
-            case "merits":
-            case "yorozu":
-            case "enemy_power":
-            case "leader_skill":
-            case "assist_skill":
-                return "Pair_NullableString_NullableInt_ArrayElement";
-            default:
-                return "Pair_NullableString_NullableIntElement";
-        }
-    }
+        "enemy" or "staff" or "friend" or "offset" or "delskill" or "delskill2" or "voice_type" or "roam" or "spot" or "power" or "multi" or "ray" or "poli" or "camp" or "home" or "learn" or "color" or "joint" or "skill" or "skill2" or "weapon" or "weapon2" or "activenum" or "friend_ex" or "add2" or "item" or "merce" or "next2" or "next3" or "sound" or "member" or "monster" or "item_hold" or "item_sale" or "just_next" or "castle_guard" or "icon" or "wave" or "cutin" or "diplo" or "consti" or "league" or "loyals" or "merits" or "yorozu" or "enemy_power" or "leader_skill" or "assist_skill" => "Pair_NullableString_NullableInt_ArrayElement",
+        _ => "Pair_NullableString_NullableIntElement",
+    };
 }
