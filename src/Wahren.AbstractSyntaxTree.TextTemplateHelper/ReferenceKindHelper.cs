@@ -87,6 +87,7 @@ public static class ReferenceKindHelper
             ReferenceKind.Skill | ReferenceKind.Boolean or
             ReferenceKind.Status | ReferenceKind.Number or
             ReferenceKind.Boolean | ReferenceKind.Number or
+            ReferenceKind.Special | ReferenceKind.Number or
             ReferenceKind.NumberVariableReader | ReferenceKind.Number or
             ReferenceKind.StringVariableReader or
             ReferenceKind.StringVariableWriter or
@@ -157,14 +158,7 @@ public static class ReferenceKindHelper
             builder.AppendLine("];");
             Inden();
         }
-        if (i < 0)
-        {
-            builder.Append("AddReferenceAndValidate_CompoundText(ref result, i, ref argument);").AppendLine();
-        }
-        else
-        {
-            builder.Append("AddReferenceAndValidate_CompoundText(ref result, ").Append(i).Append(", ref argument);").AppendLine();
-        }
+        builder.Append("AddReferenceAndValidate_CompoundText(ref result, ref argument);").AppendLine();
     }
 
     private static void ProcessLateSkillSkillset(ReferenceKind reference, bool hasSkill, bool hasSkillset, int i, string name, int indent, StringBuilder builder)

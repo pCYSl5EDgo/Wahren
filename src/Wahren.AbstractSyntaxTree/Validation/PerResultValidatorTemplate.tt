@@ -93,6 +93,7 @@ public static partial class PerResultValidator
 		Validate<#= element.referenceKind ^ ReferenceKind.Number #>Number(ref result, ref node.<#= element.name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.name #>");
 <#				break;#>
 <#			case ReferenceKind.Special: #>
+<#			case ReferenceKind.Special | ReferenceKind.Number: #>
 		SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.<#= element.name.Escape() #>);
 <#				break;#>
 <#			case ReferenceKind.Text: #>
@@ -102,7 +103,7 @@ public static partial class PerResultValidator
 <#	}#>
 	}
 <#	foreach (var element in elements) { #>
-<#	    if (element.referenceKind == ReferenceKind.Special && element.specialStringArray is { Length: > 0 }) { #>
+<#	    if ((element.referenceKind & ReferenceKind.Special) == ReferenceKind.Special && element.specialStringArray is { Length: > 0 }) { #>
 
 	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref VariantPair<<#= element.name.GetCorrespondingType() #>> pair)
 	{
@@ -124,7 +125,14 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
+<# if ((element.referenceKind & ReferenceKind.Number) == ReferenceKind.Number) { #>
+                if (!value.HasNumber)
+                {
+                    result.ErrorAdd_UnexpectedElementSpecialValue("<#= nodeInfo.Name #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
+                }
+<# } else { #>
                 result.ErrorAdd_UnexpectedElementSpecialValue("<#= nodeInfo.Name #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
+<# } #>
             }
         }
 

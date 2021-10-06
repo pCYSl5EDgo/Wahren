@@ -2945,9 +2945,6 @@ public static partial class Parser
                 case 5:
                     switch (key)
                     {
-                        case 0x00630072006F0066UL when span.SequenceEqual("e_ray"):
-                            pair_DEFAULT = ref node.force_ray.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
-                            goto DEFAULT;
                         case 0x005F006E00750067UL when span.SequenceEqual("delay"):
                             pair_LOYAL = ref node.gun_delay.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
                             goto LOYAL;
@@ -2962,6 +2959,9 @@ public static partial class Parser
                             goto DEFAULT;
                         case 0x0074006900610077UL when span.SequenceEqual("_time"):
                             pair_DEFAULT = ref node.wait_time.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            goto DEFAULT;
+                        case 0x00630072006F0066UL when span.SequenceEqual("e_ray"):
+                            pair_DEFAULT = ref node.force_ray.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
                             goto DEFAULT;
                         case 0x006C006C006F0063UL when span.SequenceEqual("ision"):
                             pair_DEFAULT = ref node.collision.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));

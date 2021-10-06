@@ -32,7 +32,11 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 	public <#= additionalField.Type #> <#= additionalField.Name #> = new();
 <# } #>
 <# foreach (var item in array) { #>
+<#		if (item.variantType == "") { #>
+	public <#= item.name.GetCorrespondingType() #>? <#= item.name.Escape() #> = default;
+<#		} else { #>
 	public VariantPair<<#= item.name.GetCorrespondingType() #>> <#= item.name.Escape() #> = new();
+<#		} #>
 <# } #>
 
 	public void Dispose()
@@ -44,8 +48,12 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 <#		} #>
 <#	} #>
 <# foreach (var item in array) { #>
+<#		if (item.variantType == "") { #>
+		<#= item.name.Escape() #>?.Dispose();
+<#		} else { #>
 		<#= item.name.Escape() #>.Dispose();
-<# } #>
+<# 		}
+ 	} #>
 	}
 }
 <#}#>

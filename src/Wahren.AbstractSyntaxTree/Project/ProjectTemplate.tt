@@ -313,10 +313,10 @@ public sealed partial class Project
 <#      if (isArray) { #>
             foreach (ref var value in node.<#= element.Name #>.Value.Value.AsSpan())
             {
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node, ref value);
             }
 <#      } else { #>
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.Value.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node, ref node.<#= element.Name #>.Value.Value);
 <#      } #>
         }
         if (node.<#= element.Name #>.VariantArray is { Length: > 0 })
@@ -330,10 +330,10 @@ public sealed partial class Project
 <#      if (isArray) { #>
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref value);
+                    SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node, ref value);
                 }
 <#      } else { #>
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref element.Value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node, ref element.Value);
 <#      } #>
             }
         }
@@ -346,7 +346,7 @@ public sealed partial class Project
 <#      ref var element = ref elements[elementIndex]; #>
 <#      if (element.referenceKind == ReferenceKind.SpecialLate) continue; #>
 
-    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref <#= node.Name #>Node node, ref Pair_NullableString_NullableInt value)
     {
         <#= ReferenceKindHelper.ProcessElementLate(node.Name, ref element, 2) #>
     }

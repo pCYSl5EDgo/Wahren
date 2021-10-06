@@ -792,7 +792,6 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillNode node)
 	{
-		ValidateBoolean(ref result, ref node.force_ray, "Skill", "force_ray");
 		ValidateBoolean(ref result, ref node.bright, "Skill", "bright");
 		SpecialTreatment_skill_func(ref result, ref node.func);
 		// Ignore Text Skill name
@@ -801,35 +800,34 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.sortkey, "Skill", "sortkey");
 		ValidateBooleanNumber(ref result, ref node.special, "Skill", "special");
 		ValidateNumber(ref result, ref node.delay, "Skill", "delay");
-		// Ignore Unknown Skill gun_delay
+		SpecialTreatment_skill_gun_delay(ref result, ref node.gun_delay);
 		ValidateBoolean(ref result, ref node.quickreload, "Skill", "quickreload");
 		// Ignore Text Skill help
 		ValidateBoolean(ref result, ref node.hide_help, "Skill", "hide_help");
 		AddReference(ref result, ref node.sound, ref result.soundSet, ReferenceKind.sound);
 		// Ignore Text Skill msg
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		// Ignore Unknown Skill cutin
+		SpecialTreatment_skill_cutin(ref result, ref node.cutin);
 		ValidateNumber(ref result, ref node.value, "Skill", "value");
 		AddReferenceSkillBoolean(ref result, ref node.talent, "Skill", "talent");
 		ValidateBooleanNumber(ref result, ref node.exp_per, "Skill", "exp_per");
-		// Ignore Unknown Skill movetype
-		// Ignore Unknown Skill type
+		SpecialTreatment_skill_movetype(ref result, ref node.movetype);
+		ValidateNumber(ref result, ref node.type, "Skill", "type");
 		ValidateNumber(ref result, ref node.color, "Skill", "color");
 		ValidateNumber(ref result, ref node.w, "Skill", "w");
 		ValidateNumber(ref result, ref node.h, "Skill", "h");
 		ValidateNumber(ref result, ref node.a, "Skill", "a");
 		ValidateNumber(ref result, ref node.mp, "Skill", "mp");
-		// Ignore imagedata2 Skill image
-		// Ignore Unknown Skill alpha_tip
-		// Ignore Unknown Skill alpha_butt
+		ValidateNumber(ref result, ref node.alpha_tip, "Skill", "alpha_tip");
+		ValidateNumber(ref result, ref node.alpha_butt, "Skill", "alpha_butt");
 		ValidateNumber(ref result, ref node.anime, "Skill", "anime");
 		ValidateNumber(ref result, ref node.anime_interval, "Skill", "anime_interval");
-		// Ignore Unknown Skill center
-		// Ignore Unknown Skill ground
-		// Ignore Unknown Skill d360
-		// Ignore Unknown Skill d360_adj
-		// Ignore Unknown Skill rotate
-		// Ignore Unknown Skill direct
+		SpecialTreatment_skill_center(ref result, ref node.center);
+		ValidateNumber(ref result, ref node.ground, "Skill", "ground");
+		ValidateBoolean(ref result, ref node.d360, "Skill", "d360");
+		ValidateNumber(ref result, ref node.d360_adj, "Skill", "d360_adj");
+		ValidateNumber(ref result, ref node.rotate, "Skill", "rotate");
+		SpecialTreatment_skill_direct(ref result, ref node.direct);
 		ValidateNumber(ref result, ref node.resize_interval, "Skill", "resize_interval");
 		ValidateNumber(ref result, ref node.resize_start, "Skill", "resize_start");
 		ValidateNumber(ref result, ref node.resize_reverse, "Skill", "resize_reverse");
@@ -857,89 +855,83 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.resize_s_max, "Skill", "resize_s_max");
 		ValidateNumber(ref result, ref node.resize_a_min, "Skill", "resize_a_min");
 		ValidateNumber(ref result, ref node.resize_s_min, "Skill", "resize_s_min");
-		// Ignore Unknown Skill force_fire
-		// Ignore Unknown Skill slow_per
-		// Ignore Unknown Skill slow_time
-		// Ignore Unknown Skill slide
-		// Ignore Unknown Skill slide_speed
-		// Ignore Unknown Skill slide_delay
-		// Ignore Unknown Skill slide_stamp
-		// Ignore Unknown Skill wait_time
-		// Ignore Unknown Skill wait_time2
-		// Ignore Unknown Skill shake
-		// Ignore Unknown Skill ray
-		// Ignore Unknown Skill flash
-		// Ignore Unknown Skill flash_anime
-		// Ignore Unknown Skill flash_image
-		// Ignore Unknown Skill collision
-		// Ignore Unknown Skill afterdeath
-		// Ignore Unknown Skill afterhit
-		// Ignore Unknown Skill yorozu
-		// Ignore Unknown Skill str
-		// Ignore Unknown Skill str_ratio
-		// Ignore Unknown Skill attr
-		// Ignore Unknown Skill add
-		// Ignore Unknown Skill add2
-		// Ignore Unknown Skill add_all
-		// Ignore Unknown Skill add_per
-		// Ignore Unknown Skill damage
-		// Ignore Unknown Skill damage_range_adjust
-		// Ignore Unknown Skill attack_us
-		// Ignore Unknown Skill allfunc
-		// Ignore Unknown Skill bom
-		// Ignore Unknown Skill homing
-		// Ignore Unknown Skill homing2
-		// Ignore Unknown Skill forward
-		// Ignore Unknown Skill far
-		// Ignore Unknown Skill hard
-		// Ignore Unknown Skill hard2
-		// Ignore Unknown Skill onehit
-		// Ignore Unknown Skill offset
-		// Ignore Unknown Skill offset_attr
-		// Ignore Unknown Skill knock
-		// Ignore Unknown Skill knock_speed
-		// Ignore Unknown Skill knock_power
-		// Ignore Unknown Skill range
-		// Ignore Unknown Skill range_min
-		// Ignore Unknown Skill check
-		// Ignore Unknown Skill speed
-		// Ignore Unknown Skill wave
-		// Ignore Unknown Skill origin
-		// Ignore Unknown Skill random_space
-		// Ignore Unknown Skill random_space_min
-		// Ignore Unknown Skill time
-		// Ignore Unknown Skill height
-		// Ignore Unknown Skill rush
-		// Ignore Unknown Skill rush_interval
-		// Ignore Unknown Skill rush_degree
-		// Ignore Unknown Skill rush_random_degree
-		// Ignore Unknown Skill follow
+		ValidateBoolean(ref result, ref node.force_fire, "Skill", "force_fire");
+		ValidateNumber(ref result, ref node.slow_per, "Skill", "slow_per");
+		ValidateNumber(ref result, ref node.slow_time, "Skill", "slow_time");
+		ValidateNumber(ref result, ref node.slide, "Skill", "slide");
+		ValidateNumber(ref result, ref node.slide_speed, "Skill", "slide_speed");
+		ValidateNumber(ref result, ref node.slide_delay, "Skill", "slide_delay");
+		ValidateBooleanNumber(ref result, ref node.slide_stamp, "Skill", "slide_stamp");
+		ValidateNumber(ref result, ref node.wait_time, "Skill", "wait_time");
+		ValidateNumber(ref result, ref node.wait_time2, "Skill", "wait_time2");
+		ValidateBooleanNumber(ref result, ref node.shake, "Skill", "shake");
+		ValidateNumber(ref result, ref node.ray, "Skill", "ray");
+		ValidateBoolean(ref result, ref node.force_ray, "Skill", "force_ray");
+		ValidateNumber(ref result, ref node.flash, "Skill", "flash");
+		ValidateNumber(ref result, ref node.flash_anime, "Skill", "flash_anime");
+		// Ignore imagedata2 Skill flash_image
+		AddReference(ref result, ref node.collision, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.afterdeath, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.afterhit, ref result.SkillSet, ReferenceKind.Skill);
+		SpecialTreatment_skill_str(ref result, ref node.str);
+		ValidateNumber(ref result, ref node.str_ratio, "Skill", "str_ratio");
+		ValidateBoolean(ref result, ref node.add_all, "Skill", "add_all");
+		ValidateNumber(ref result, ref node.add_per, "Skill", "add_per");
+		SpecialTreatment_skill_damage(ref result, ref node.damage);
+		ValidateNumber(ref result, ref node.damage_range_adjust, "Skill", "damage_range_adjust");
+		ValidateNumber(ref result, ref node.attack_us, "Skill", "attack_us");
+		ValidateBoolean(ref result, ref node.allfunc, "Skill", "allfunc");
+		ValidateBoolean(ref result, ref node.bom, "Skill", "bom");
+		ValidateNumber(ref result, ref node.homing2, "Skill", "homing2");
+		ValidateBoolean(ref result, ref node.forward, "Skill", "forward");
+		ValidateBoolean(ref result, ref node.far, "Skill", "far");
+		ValidateNumber(ref result, ref node.hard, "Skill", "hard");
+		ValidateBooleanNumber(ref result, ref node.hard2, "Skill", "hard2");
+		ValidateBoolean(ref result, ref node.onehit, "Skill", "onehit");
+		AddReference(ref result, ref node.offset_attr, ref result.SkillSet, ReferenceKind.Skill);
+		ValidateNumber(ref result, ref node.knock, "Skill", "knock");
+		ValidateNumber(ref result, ref node.knock_speed, "Skill", "knock_speed");
+		ValidateNumber(ref result, ref node.knock_power, "Skill", "knock_power");
+		ValidateNumber(ref result, ref node.range, "Skill", "range");
+		ValidateNumber(ref result, ref node.range_min, "Skill", "range_min");
+		ValidateNumber(ref result, ref node.check, "Skill", "check");
+		ValidateNumber(ref result, ref node.speed, "Skill", "speed");
+		SpecialTreatment_skill_wave(ref result, ref node.wave);
+		ValidateBoolean(ref result, ref node.origin, "Skill", "origin");
+		ValidateNumber(ref result, ref node.random_space, "Skill", "random_space");
+		ValidateNumber(ref result, ref node.random_space_min, "Skill", "random_space_min");
+		ValidateNumber(ref result, ref node.time, "Skill", "time");
+		ValidateNumber(ref result, ref node.height, "Skill", "height");
+		ValidateNumber(ref result, ref node.rush, "Skill", "rush");
+		ValidateNumber(ref result, ref node.rush_interval, "Skill", "rush_interval");
+		ValidateNumber(ref result, ref node.rush_degree, "Skill", "rush_degree");
+		ValidateNumber(ref result, ref node.rush_random_degree, "Skill", "rush_random_degree");
+		ValidateBooleanNumber(ref result, ref node.follow, "Skill", "follow");
 		ValidateNumber(ref result, ref node.start_degree, "Skill", "start_degree");
-		// Ignore Unknown Skill start_degree_fix
-		// Ignore Unknown Skill start_degree_turnunit
-		// Ignore Unknown Skill start_degree_type
+		ValidateNumber(ref result, ref node.start_degree_fix, "Skill", "start_degree_fix");
+		ValidateBoolean(ref result, ref node.start_degree_turnunit, "Skill", "start_degree_turnunit");
+		ValidateNumber(ref result, ref node.start_degree_type, "Skill", "start_degree_type");
 		ValidateNumber(ref result, ref node.start_random_degree, "Skill", "start_random_degree");
-		// Ignore Unknown Skill drop_degree
-		// Ignore Unknown Skill drop_degree2
-		// Ignore Unknown Skill joint_skill
-		// Ignore Unknown Skill send_target
-		// Ignore Unknown Skill send_image_degree
-		// Ignore Unknown Skill next
-		// Ignore Unknown Skill next2
-		// Ignore Unknown Skill next3
-		// Ignore Unknown Skill next4
-		// Ignore Unknown Skill next_order
-		// Ignore Unknown Skill next_last
-		// Ignore Unknown Skill next_first
-		// Ignore Unknown Skill next_interval
-		// Ignore Unknown Skill just_next
-		// Ignore Unknown Skill pair_next
-		// Ignore Unknown Skill item_type
-		// Ignore Unknown Skill item_sort
-		// Ignore Unknown Skill item_nosell
-		// Ignore Unknown Skill price
-		// Ignore Unknown Skill friend
-		// Ignore Unknown Skill summon_level
+		ValidateNumber(ref result, ref node.drop_degree, "Skill", "drop_degree");
+		ValidateNumber(ref result, ref node.drop_degree2, "Skill", "drop_degree2");
+		ValidateBoolean(ref result, ref node.joint_skill, "Skill", "joint_skill");
+		ValidateBoolean(ref result, ref node.send_target, "Skill", "send_target");
+		ValidateBoolean(ref result, ref node.send_image_degree, "Skill", "send_image_degree");
+		AddReference(ref result, ref node.next, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next2, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next3, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next4, ref result.SkillSet, ReferenceKind.Skill);
+		ValidateBoolean(ref result, ref node.next_order, "Skill", "next_order");
+		ValidateBoolean(ref result, ref node.next_last, "Skill", "next_last");
+		ValidateBoolean(ref result, ref node.next_first, "Skill", "next_first");
+		ValidateNumber(ref result, ref node.next_interval, "Skill", "next_interval");
+		AddReference(ref result, ref node.just_next, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.pair_next, ref result.SkillSet, ReferenceKind.Skill);
+		ValidateNumber(ref result, ref node.item_type, "Skill", "item_type");
+		ValidateNumber(ref result, ref node.item_sort, "Skill", "item_sort");
+		ValidateBoolean(ref result, ref node.item_nosell, "Skill", "item_nosell");
+		ValidateNumber(ref result, ref node.price, "Skill", "price");
+		ValidateNumber(ref result, ref node.summon_level, "Skill", "summon_level");
 	}
 
 	private static void SpecialTreatment_skill_func(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
@@ -992,6 +984,405 @@ public static partial class PerResultValidator
                 if (item is { HasValue: true, Value.HasText: true })
                 {
                     Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_cutin(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("type"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("top"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("y"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("y2"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("stop"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("wake_time"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("flash"))
+            {
+                value.ReferenceId = 6;
+            }
+            else if (span.SequenceEqual("phantom"))
+            {
+                value.ReferenceId = 7;
+            }
+            else if (span.SequenceEqual("alpha"))
+            {
+                value.ReferenceId = 8;
+            }
+            else if (span.SequenceEqual("zoom"))
+            {
+                value.ReferenceId = 9;
+            }
+            else if (span.SequenceEqual("inflate"))
+            {
+                value.ReferenceId = 10;
+            }
+            else if (span.SequenceEqual("slide"))
+            {
+                value.ReferenceId = 11;
+            }
+            else if (span.SequenceEqual("trans"))
+            {
+                value.ReferenceId = 12;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "cutin", "type, top, y, y2, stop, wake_time, flash, phantom, alpha, zoom, inflate, slide, trans", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in pair.Value.Value.AsSpan())
+            {
+                Validate(ref result, ref value);
+            }
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.Count: > 0 })
+                {
+                    foreach (ref var value in item.Value.AsSpan())
+                    {
+                        Validate(ref result, ref value);
+                    }
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_movetype(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("arc"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("drop"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("throw"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("circle"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("swing"))
+            {
+                value.ReferenceId = 4;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "movetype", "arc, drop, throw, circle, swing", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_center(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("end"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "center", "off, on, end", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_direct(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("roll"))
+            {
+                value.ReferenceId = 2;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "direct", "off, on, roll", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_str(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("none"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("attack"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("magic"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("attack_magic"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("attack_dext"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("magic_dext"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("fix"))
+            {
+                value.ReferenceId = 6;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "str", "none, attack, magic, attack_magic, attack_dext, magic_dext, fix", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_damage(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("off"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("pass"))
+            {
+                value.ReferenceId = 1;
+            }
+            else
+            {
+                value.HasReference = false;
+                if (!value.HasNumber)
+                {
+                    result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "damage", "off, pass", value.Text);
+                }
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
+
+	private static void SpecialTreatment_skill_wave(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("on"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("free"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("interval"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("hold"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("fix"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("max"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("min"))
+            {
+                value.ReferenceId = 6;
+            }
+            else if (span.SequenceEqual("rotate"))
+            {
+                value.ReferenceId = 7;
+            }
+            else
+            {
+                value.HasReference = false;
+                if (!value.HasNumber)
+                {
+                    result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "wave", "on, free, interval, hold, fix, max, min, rotate", value.Text);
+                }
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in pair.Value.Value.AsSpan())
+            {
+                Validate(ref result, ref value);
+            }
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.Count: > 0 })
+                {
+                    foreach (ref var value in item.Value.AsSpan())
+                    {
+                        Validate(ref result, ref value);
+                    }
                 }
             }
         }

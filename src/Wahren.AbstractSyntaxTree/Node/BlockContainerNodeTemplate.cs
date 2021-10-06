@@ -147,6 +147,7 @@ public partial struct EventNode : IInheritableNode
     public uint Name { get; set; }
 
     public List<IStatement> Statements = new();
+	public EventKind EventKind = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> disperse = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle_battle = new();

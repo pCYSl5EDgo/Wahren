@@ -612,8 +612,8 @@ public partial struct SkillNode : IInheritableNode
     public uint BracketRight { get; set; }
     public uint? Super { get; set; }
     public uint Name { get; set; }
+	public SkillKind SkillKind = new();
 
-	public VariantPair<Pair_NullableString_NullableIntElement> force_ray = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> bright = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> func = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
@@ -681,6 +681,7 @@ public partial struct SkillNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> wait_time = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> wait_time2 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> shake = new();
+	public VariantPair<Pair_NullableString_NullableIntElement> force_ray = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> flash = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> flash_anime = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> flash_image = new();
@@ -764,7 +765,6 @@ public partial struct SkillNode : IInheritableNode
 
 	public void Dispose()
 	{
-		force_ray.Dispose();
 		bright.Dispose();
 		func.Dispose();
 		name.Dispose();
@@ -832,6 +832,7 @@ public partial struct SkillNode : IInheritableNode
 		wait_time.Dispose();
 		wait_time2.Dispose();
 		shake.Dispose();
+		force_ray.Dispose();
 		flash.Dispose();
 		flash_anime.Dispose();
 		flash_image.Dispose();

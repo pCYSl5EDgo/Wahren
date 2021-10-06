@@ -2281,7 +2281,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2320,7 +2320,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -2329,7 +2329,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2368,7 +2368,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -2588,7 +2588,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2627,7 +2627,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 3:
@@ -2671,7 +2671,7 @@ public sealed partial class Project
                         argument.HasReference = true;
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -2680,7 +2680,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2719,7 +2719,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 3:
@@ -2763,7 +2763,7 @@ public sealed partial class Project
                         argument.HasReference = true;
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -2772,7 +2772,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2811,7 +2811,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 3:
@@ -2855,7 +2855,7 @@ public sealed partial class Project
                         argument.HasReference = true;
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -2864,7 +2864,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2903,7 +2903,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 3:
@@ -2947,7 +2947,7 @@ public sealed partial class Project
                         argument.HasReference = true;
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -2956,7 +2956,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -2995,7 +2995,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 3:
@@ -3039,7 +3039,7 @@ public sealed partial class Project
                         argument.HasReference = true;
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -3048,7 +3048,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 2:
@@ -3087,7 +3087,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                     case 3:
@@ -3131,7 +3131,7 @@ public sealed partial class Project
                         argument.HasReference = true;
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, 2, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                         break;
                 }
@@ -3291,7 +3291,7 @@ public sealed partial class Project
                 argument.HasReference = true;
 
                 argument = ref arguments[1];
-                AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                 break;
             case ActionKind.setPM:
@@ -4074,12 +4074,12 @@ public sealed partial class Project
                 argument.HasReference = true;
 
                 argument = ref arguments[1];
-                AddReferenceAndValidate_CompoundText(ref result, 1, ref argument);
+                AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                 for (int i = 2; i < arguments.Length; ++i)
                 {
                     argument = ref arguments[i];
-                    AddReferenceAndValidate_CompoundText(ref result, i, ref argument);
+                    AddReferenceAndValidate_CompoundText(ref result, ref argument);
 
                 }
                 break;
@@ -4852,7 +4852,7 @@ public sealed partial class Project
                 }
                 else
                 {
-                    AddReferenceAndValidate_CompoundText(ref result, 0, ref argument);
+                    AddReferenceAndValidate_CompoundText(ref result, ref argument);
                 }
 
                 break;
@@ -7195,7 +7195,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                SpecialTreatment_power_staff(ref result, ref value);
+                SpecialTreatment_power_staff(ref result, ref node, ref value);
             }
         }
         if (node.staff.VariantArray is { Length: > 0 })
@@ -7208,7 +7208,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_power_staff(ref result, ref value);
+                    SpecialTreatment_power_staff(ref result, ref node, ref value);
                 }
             }
         }
@@ -7216,7 +7216,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_power_merce(ref result, ref value);
+                SpecialTreatment_power_merce(ref result, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -7229,7 +7229,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_power_merce(ref result, ref value);
+                    SpecialTreatment_power_merce(ref result, ref node, ref value);
                 }
             }
         }
@@ -7241,7 +7241,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_member(ref result, ref value);
+                SpecialTreatment_class_member(ref result, ref node, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -7254,7 +7254,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_member(ref result, ref value);
+                    SpecialTreatment_class_member(ref result, ref node, ref value);
                 }
             }
         }
@@ -7262,7 +7262,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_friend(ref result, ref value);
+                SpecialTreatment_class_friend(ref result, ref node, ref value);
             }
         }
         if (node.friend.VariantArray is { Length: > 0 })
@@ -7275,7 +7275,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_friend(ref result, ref value);
+                    SpecialTreatment_class_friend(ref result, ref node, ref value);
                 }
             }
         }
@@ -7283,7 +7283,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_merce(ref result, ref value);
+                SpecialTreatment_class_merce(ref result, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -7296,7 +7296,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_merce(ref result, ref value);
+                    SpecialTreatment_class_merce(ref result, ref node, ref value);
                 }
             }
         }
@@ -7304,7 +7304,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_skill(ref result, ref value);
+                SpecialTreatment_class_skill(ref result, ref node, ref value);
             }
         }
         if (node.skill.VariantArray is { Length: > 0 })
@@ -7317,7 +7317,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_skill(ref result, ref value);
+                    SpecialTreatment_class_skill(ref result, ref node, ref value);
                 }
             }
         }
@@ -7325,7 +7325,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_skill2(ref result, ref value);
+                SpecialTreatment_class_skill2(ref result, ref node, ref value);
             }
         }
         if (node.skill2.VariantArray is { Length: > 0 })
@@ -7338,7 +7338,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_skill2(ref result, ref value);
+                    SpecialTreatment_class_skill2(ref result, ref node, ref value);
                 }
             }
         }
@@ -7346,7 +7346,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_learn(ref result, ref value);
+                SpecialTreatment_class_learn(ref result, ref node, ref value);
             }
         }
         if (node.learn.VariantArray is { Length: > 0 })
@@ -7359,7 +7359,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_learn(ref result, ref value);
+                    SpecialTreatment_class_learn(ref result, ref node, ref value);
                 }
             }
         }
@@ -7367,7 +7367,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_delskill(ref result, ref value);
+                SpecialTreatment_class_delskill(ref result, ref node, ref value);
             }
         }
         if (node.delskill.VariantArray is { Length: > 0 })
@@ -7380,7 +7380,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_delskill(ref result, ref value);
+                    SpecialTreatment_class_delskill(ref result, ref node, ref value);
                 }
             }
         }
@@ -7388,7 +7388,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_delskill2(ref result, ref value);
+                SpecialTreatment_class_delskill2(ref result, ref node, ref value);
             }
         }
         if (node.delskill2.VariantArray is { Length: > 0 })
@@ -7401,7 +7401,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_delskill2(ref result, ref value);
+                    SpecialTreatment_class_delskill2(ref result, ref node, ref value);
                 }
             }
         }
@@ -7409,7 +7409,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend_ex.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_friend_ex(ref result, ref value);
+                SpecialTreatment_class_friend_ex(ref result, ref node, ref value);
             }
         }
         if (node.friend_ex.VariantArray is { Length: > 0 })
@@ -7422,7 +7422,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_friend_ex(ref result, ref value);
+                    SpecialTreatment_class_friend_ex(ref result, ref node, ref value);
                 }
             }
         }
@@ -7434,7 +7434,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
-                SpecialTreatment_dungeon_monster(ref result, ref value);
+                SpecialTreatment_dungeon_monster(ref result, ref node, ref value);
             }
         }
         if (node.monster.VariantArray is { Length: > 0 })
@@ -7447,7 +7447,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_dungeon_monster(ref result, ref value);
+                    SpecialTreatment_dungeon_monster(ref result, ref node, ref value);
                 }
             }
         }
@@ -7471,24 +7471,31 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref SkillNode node)
     {
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref SkillsetNode node)
-    {
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref SpotNode node)
-    {
-        if (node.merce.Value is { HasValue: true })
+        if (node.image.Value is { HasValue: true })
         {
-            foreach (ref var value in node.merce.Value.Value.AsSpan())
+            SpecialTreatment_skill_image(ref result, ref node, ref node.image.Value.Value);
+        }
+        if (node.image.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.image.VariantArray)
             {
-                SpecialTreatment_spot_merce(ref result, ref value);
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                SpecialTreatment_skill_image(ref result, ref node, ref element.Value);
             }
         }
-        if (node.merce.VariantArray is { Length: > 0 })
+        if (node.yorozu.Value is { HasValue: true })
         {
-            foreach (var element in node.merce.VariantArray)
+            foreach (ref var value in node.yorozu.Value.Value.AsSpan())
+            {
+                SpecialTreatment_skill_yorozu(ref result, ref node, ref value);
+            }
+        }
+        if (node.yorozu.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.yorozu.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7496,20 +7503,50 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_spot_merce(ref result, ref value);
+                    SpecialTreatment_skill_yorozu(ref result, ref node, ref value);
                 }
             }
         }
-        if (node.monster.Value is { HasValue: true })
+        if (node.attr.Value is { HasValue: true })
         {
-            foreach (ref var value in node.monster.Value.Value.AsSpan())
+            SpecialTreatment_skill_attr(ref result, ref node, ref node.attr.Value.Value);
+        }
+        if (node.attr.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.attr.VariantArray)
             {
-                SpecialTreatment_spot_monster(ref result, ref value);
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                SpecialTreatment_skill_attr(ref result, ref node, ref element.Value);
             }
         }
-        if (node.monster.VariantArray is { Length: > 0 })
+        if (node.add.Value is { HasValue: true })
         {
-            foreach (var element in node.monster.VariantArray)
+            SpecialTreatment_skill_add(ref result, ref node, ref node.add.Value.Value);
+        }
+        if (node.add.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.add.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                SpecialTreatment_skill_add(ref result, ref node, ref element.Value);
+            }
+        }
+        if (node.add2.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.add2.Value.Value.AsSpan())
+            {
+                SpecialTreatment_skill_add2(ref result, ref node, ref value);
+            }
+        }
+        if (node.add2.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.add2.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7517,20 +7554,35 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_spot_monster(ref result, ref value);
+                    SpecialTreatment_skill_add2(ref result, ref node, ref value);
                 }
             }
         }
-        if (node.member.Value is { HasValue: true })
+        if (node.homing.Value is { HasValue: true })
         {
-            foreach (ref var value in node.member.Value.Value.AsSpan())
+            SpecialTreatment_skill_homing(ref result, ref node, ref node.homing.Value.Value);
+        }
+        if (node.homing.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.homing.VariantArray)
             {
-                SpecialTreatment_spot_member(ref result, ref value);
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                SpecialTreatment_skill_homing(ref result, ref node, ref element.Value);
             }
         }
-        if (node.member.VariantArray is { Length: > 0 })
+        if (node.offset.Value is { HasValue: true })
         {
-            foreach (var element in node.member.VariantArray)
+            foreach (ref var value in node.offset.Value.Value.AsSpan())
+            {
+                SpecialTreatment_skill_offset(ref result, ref node, ref value);
+            }
+        }
+        if (node.offset.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.offset.VariantArray)
             {
                 if (element is not { HasValue: true })
                 {
@@ -7538,32 +7590,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_spot_member(ref result, ref value);
-                }
-            }
-        }
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref UnitNode node)
-    {
-        if (node.member.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.member.Value.Value.AsSpan())
-            {
-                SpecialTreatment_unit_member(ref result, ref value);
-            }
-        }
-        if (node.member.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.member.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_unit_member(ref result, ref value);
+                    SpecialTreatment_skill_offset(ref result, ref node, ref value);
                 }
             }
         }
@@ -7571,7 +7598,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_friend(ref result, ref value);
+                SpecialTreatment_skill_friend(ref result, ref node, ref value);
             }
         }
         if (node.friend.VariantArray is { Length: > 0 })
@@ -7584,15 +7611,23 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_friend(ref result, ref value);
+                    SpecialTreatment_skill_friend(ref result, ref node, ref value);
                 }
             }
         }
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref SkillsetNode node)
+    {
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref SpotNode node)
+    {
         if (node.merce.Value is { HasValue: true })
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_merce(ref result, ref value);
+                SpecialTreatment_spot_merce(ref result, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -7605,7 +7640,116 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_merce(ref result, ref value);
+                    SpecialTreatment_spot_merce(ref result, ref node, ref value);
+                }
+            }
+        }
+        if (node.monster.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.monster.Value.Value.AsSpan())
+            {
+                SpecialTreatment_spot_monster(ref result, ref node, ref value);
+            }
+        }
+        if (node.monster.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.monster.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_spot_monster(ref result, ref node, ref value);
+                }
+            }
+        }
+        if (node.member.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.member.Value.Value.AsSpan())
+            {
+                SpecialTreatment_spot_member(ref result, ref node, ref value);
+            }
+        }
+        if (node.member.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.member.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_spot_member(ref result, ref node, ref value);
+                }
+            }
+        }
+    }
+
+    private void AddReferenceAndValidate(ref Result result, ref UnitNode node)
+    {
+        if (node.member.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.member.Value.Value.AsSpan())
+            {
+                SpecialTreatment_unit_member(ref result, ref node, ref value);
+            }
+        }
+        if (node.member.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.member.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_unit_member(ref result, ref node, ref value);
+                }
+            }
+        }
+        if (node.friend.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.friend.Value.Value.AsSpan())
+            {
+                SpecialTreatment_unit_friend(ref result, ref node, ref value);
+            }
+        }
+        if (node.friend.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.friend.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_unit_friend(ref result, ref node, ref value);
+                }
+            }
+        }
+        if (node.merce.Value is { HasValue: true })
+        {
+            foreach (ref var value in node.merce.Value.Value.AsSpan())
+            {
+                SpecialTreatment_unit_merce(ref result, ref node, ref value);
+            }
+        }
+        if (node.merce.VariantArray is { Length: > 0 })
+        {
+            foreach (var element in node.merce.VariantArray)
+            {
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
+                foreach (ref var value in element.Value.AsSpan())
+                {
+                    SpecialTreatment_unit_merce(ref result, ref node, ref value);
                 }
             }
         }
@@ -7613,7 +7757,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_skill(ref result, ref value);
+                SpecialTreatment_unit_skill(ref result, ref node, ref value);
             }
         }
         if (node.skill.VariantArray is { Length: > 0 })
@@ -7626,7 +7770,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_skill(ref result, ref value);
+                    SpecialTreatment_unit_skill(ref result, ref node, ref value);
                 }
             }
         }
@@ -7634,7 +7778,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_skill2(ref result, ref value);
+                SpecialTreatment_unit_skill2(ref result, ref node, ref value);
             }
         }
         if (node.skill2.VariantArray is { Length: > 0 })
@@ -7647,7 +7791,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_skill2(ref result, ref value);
+                    SpecialTreatment_unit_skill2(ref result, ref node, ref value);
                 }
             }
         }
@@ -7655,7 +7799,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_learn(ref result, ref value);
+                SpecialTreatment_unit_learn(ref result, ref node, ref value);
             }
         }
         if (node.learn.VariantArray is { Length: > 0 })
@@ -7668,7 +7812,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_learn(ref result, ref value);
+                    SpecialTreatment_unit_learn(ref result, ref node, ref value);
                 }
             }
         }
@@ -7676,7 +7820,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_delskill(ref result, ref value);
+                SpecialTreatment_unit_delskill(ref result, ref node, ref value);
             }
         }
         if (node.delskill.VariantArray is { Length: > 0 })
@@ -7689,7 +7833,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_delskill(ref result, ref value);
+                    SpecialTreatment_unit_delskill(ref result, ref node, ref value);
                 }
             }
         }
@@ -7697,7 +7841,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_delskill2(ref result, ref value);
+                SpecialTreatment_unit_delskill2(ref result, ref node, ref value);
             }
         }
         if (node.delskill2.VariantArray is { Length: > 0 })
@@ -7710,7 +7854,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_delskill2(ref result, ref value);
+                    SpecialTreatment_unit_delskill2(ref result, ref node, ref value);
                 }
             }
         }
@@ -7718,7 +7862,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.leader_skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_leader_skill(ref result, ref value);
+                SpecialTreatment_unit_leader_skill(ref result, ref node, ref value);
             }
         }
         if (node.leader_skill.VariantArray is { Length: > 0 })
@@ -7731,7 +7875,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_leader_skill(ref result, ref value);
+                    SpecialTreatment_unit_leader_skill(ref result, ref node, ref value);
                 }
             }
         }
@@ -7739,7 +7883,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.assist_skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_assist_skill(ref result, ref value);
+                SpecialTreatment_unit_assist_skill(ref result, ref node, ref value);
             }
         }
         if (node.assist_skill.VariantArray is { Length: > 0 })
@@ -7752,7 +7896,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_assist_skill(ref result, ref value);
+                    SpecialTreatment_unit_assist_skill(ref result, ref node, ref value);
                 }
             }
         }
@@ -7760,7 +7904,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_staff(ref result, ref value);
+                SpecialTreatment_unit_staff(ref result, ref node, ref value);
             }
         }
         if (node.staff.VariantArray is { Length: > 0 })
@@ -7773,7 +7917,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_staff(ref result, ref value);
+                    SpecialTreatment_unit_staff(ref result, ref node, ref value);
                 }
             }
         }
@@ -7781,7 +7925,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.castle_guard.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_castle_guard(ref result, ref value);
+                SpecialTreatment_unit_castle_guard(ref result, ref node, ref value);
             }
         }
         if (node.castle_guard.VariantArray is { Length: > 0 })
@@ -7794,7 +7938,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_castle_guard(ref result, ref value);
+                    SpecialTreatment_unit_castle_guard(ref result, ref node, ref value);
                 }
             }
         }
@@ -7837,7 +7981,7 @@ public sealed partial class Project
 		}
     }
 
-    private void SpecialTreatment_power_staff(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_power_staff(ref Result result, ref PowerNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -7878,7 +8022,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_power_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_power_merce(ref Result result, ref PowerNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -7919,7 +8063,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_member(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_member(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -7955,7 +8099,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_merce(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -7991,7 +8135,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_skill(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8027,7 +8171,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_skill2(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8063,7 +8207,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_learn(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_learn(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8099,7 +8243,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_delskill(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8135,7 +8279,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_delskill2(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8171,7 +8315,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_friend_ex(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_friend_ex(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8212,7 +8356,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_dungeon_monster(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_dungeon_monster(ref Result result, ref DungeonNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8248,7 +8392,43 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_spot_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_friend(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "friend", "Unit, Class", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "friend", "Unit, Class", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+            case ReferenceKind.Unit:
+                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Unit;
+                value.HasReference = true;
+                break;
+            case ReferenceKind.Class:
+                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Class;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "friend", "Unit, Class", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_spot_merce(ref Result result, ref SpotNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8284,7 +8464,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_spot_monster(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_spot_monster(ref Result result, ref SpotNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8320,7 +8500,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_spot_member(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_spot_member(ref Result result, ref SpotNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8356,7 +8536,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_member(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_member(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8392,7 +8572,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_merce(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_merce(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8428,7 +8608,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_skill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8464,7 +8644,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_skill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_skill2(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8500,7 +8680,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_learn(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_learn(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8536,7 +8716,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_delskill(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_delskill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8572,7 +8752,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_delskill2(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_delskill2(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8608,7 +8788,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_leader_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_leader_skill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8644,7 +8824,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_assist_skill(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_assist_skill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8680,7 +8860,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_staff(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_staff(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -8716,7 +8896,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_castle_guard(ref Result result, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_castle_guard(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {

@@ -632,4 +632,38 @@ public static partial class PerResultValidator
                 return false;
         }
     }
+
+    private static void SpecialTreatment_skill_gun_delay(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+    {
+        static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            if (value.HasText)
+            {
+                var span = result.GetSpan(value.Text);
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Skill;
+                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+            }
+            if (!value.HasNumber)
+            {
+                result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "gun_delay", "Skill, Number", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+    }
 }
