@@ -461,7 +461,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsParenRight(ref source) && tokenList.Last.Position.EndExclusive.Offset == 0)
+            if (tokenList.Last.IsParenRight(ref source) && tokenList.Last.Range.EndExclusive.Offset == 0)
             {
                 return true;
             }
