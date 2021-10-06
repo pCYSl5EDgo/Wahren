@@ -1,7 +1,10 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Memory" #>
 <#@ assembly name="NetStandard" #>
 <#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
+<#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.Basic.dll" #>
+<#@ import namespace="Wahren.AbstractSyntaxTree" #>
 <#@ import namespace="Wahren.AbstractSyntaxTree.TextTemplateHelper" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -18,36 +21,18 @@ ElementInfo[] array = ElementInfo.Discards;
 
 public static partial class Parser
 {
-	public static bool Parse_Discard(ref Context context, ref Result result, uint elementTokenId, ReadOnlySpan<char> elementRest, ulong element4)
+	public static bool Parse_Discard(ref Context context, ref Result result, uint elementTokenId, ulong hash)
 	{
-		switch (elementRest.Length)
+		switch (hash)
 		{
-			case 0:
-				switch (element4)
-				{
-<# foreach (var (len, items) in array.MakeGroup()) { if (len > 4) continue;
-	foreach (var (item, key, rest) in items) { #>
-					case 0x<#= key #>UL: goto <#= item.name.GetCorrespondingTrailer() #>; // <#= item #>
-<#	}
-}#>
-				}
-				goto default;
-<# foreach (var (len, items) in array.MakeGroup()) { if (len <= 4) continue; #>
-			case <#= len - 4 #>:
-				switch (element4)
-				{
-<#	foreach (var (item, key, rest) in items) { #>
-					case 0x<#= key #>UL when elementRest<# if (len == 5) { #>[0] == '<#= rest[0] #>'<# } else{ #>.SequenceEqual("<#= rest #>")<# } #>: goto <#= item.name.GetCorrespondingTrailer() #>; // <#= item.name #>
+<#	foreach (var (trailer, elementArray) in array.GroupBy(x => x.name.GetCorrespondingTrailer(), x => x, (hash, xs) => (hash, xs.ToArray()))) { #>
+<#		foreach (var element in elementArray) { #>
+			case 0x<#= StringHashUtility.Calc(element.name).ToString("X16") #>UL: // <#= element.name #>
+<#		} #>
+				return Parse_Discard_<#= trailer #>(ref context, ref result, elementTokenId);
 <#	} #>
-				}
-				goto default;
-<#}#>			default: return Parse_Discard_DEFAULT(ref context, ref result, elementTokenId);
+			default:
+				return Parse_Discard_DEFAULT(ref context, ref result, elementTokenId);
 		}
-<# foreach (var (type, outers) in array.MakeUsageGroup()) {
-    foreach (var ((trailer, func), _) in outers) { #>
-    <#= trailer #>: 
-		return Parse_Discard_<#= trailer #>(ref context, ref result, elementTokenId);
-<#  }
-}#>
 	}
 }

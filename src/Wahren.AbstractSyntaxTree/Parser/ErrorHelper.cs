@@ -57,6 +57,16 @@ public static class ErrorHelper
         result.ErrorAdd(error, tokenId);
     }
 
+    public static void ErrorAdd_UnexpectedEndOfFile_AssignmentOrParenLeftIsExpected(ref this Result result)
+    {
+#if DEBUG
+        var error = $"予期せぬファイル終端です。'='か'('が求められていました。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}。";
+#else
+        var error = $"Unexpected End Of File. '=' or '(' is expected. Last Token: {result.GetSpan(result.TokenList.LastIndex)}.";
+#endif
+        result.ErrorAdd(error, result.TokenList.LastIndex);
+    }
+
     public static void ErrorAdd_UnexpectedOperatorToken(ref this Result result, uint elementId, string? text = null)
     {
         if (string.IsNullOrEmpty(text))

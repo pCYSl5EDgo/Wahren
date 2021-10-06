@@ -49,7 +49,10 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 <#	} #>
 <# foreach (var item in array) { #>
 <#		if (item.variantType == "") { #>
+<#				if (item.name.GetCorrespondingType() == "Pair_NullableString_NullableInt_ArrayElement") { #>
 		<#= item.name.Escape() #>?.Dispose();
+<#				} #>
+		<#= item.name.Escape() #> = default;
 <#		} else { #>
 		<#= item.name.Escape() #>.Dispose();
 <# 		}

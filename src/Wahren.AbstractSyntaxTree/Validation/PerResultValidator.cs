@@ -104,6 +104,71 @@ public static partial class PerResultValidator
         }
     }
 
+    private static void AddReference(ref Result result, ref Pair_NullableString_NullableIntElement? value, ref StringSpanKeySlowSet set, ReferenceKind kind)
+    {
+        if (value is not { HasValue: true })
+        {
+            return;
+        }
+
+        ref var v = ref value.Value;
+        v.ReferenceKind = kind;
+        v.HasReference = true;
+        v.ReferenceId = set.GetOrAdd(result.GetSpan(v.Text), v.Text);
+    }
+
+    private static void ValidateBooleanNumber(ref Result result, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    {
+        if (value is not { HasValue: true })
+        {
+            return;
+        }
+
+        ref var v = ref value.Value;
+        if (IsBoolean(result.GetSpan(v.Text), out v.ReferenceId))
+        {
+            v.ReferenceKind = ReferenceKind.Boolean;
+            v.HasReference = true;
+        }
+        else if (!v.HasNumber)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Boolean, Number", v.Text);
+        }
+    }
+
+    private static void ValidateBoolean(ref Result result, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    {
+        if (value is not { HasValue: true })
+        {
+            return;
+        }
+
+        ref var v = ref value.Value;
+        if (v.HasReference = IsBoolean(result.GetSpan(v.Text), out v.ReferenceId))
+        {
+            v.ReferenceKind = ReferenceKind.Boolean;
+        }
+        else
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Boolean", v.Text);
+        }
+    }
+
+    private static void AddReference(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value, ref StringSpanKeySlowSet set, ReferenceKind kind)
+    {
+        if (value is not { HasValue: true, Value.Count: > 0 })
+        {
+            return;
+        }
+
+        foreach (ref var v in value.Value.AsSpan())
+        {
+            v.ReferenceKind = kind;
+            v.HasReference = true;
+            v.ReferenceId = set.GetOrAdd(result.GetSpan(v.Text), v.Text);
+        }
+    }
+
     public static void AddReferenceSkillBoolean(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
         if (pair.Value is { HasValue: true })
@@ -160,41 +225,36 @@ public static partial class PerResultValidator
             }
         }
     }
-    public static void ValidateNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+
+    private static void ValidateNumber(ref Result result, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
-        if (pair.Value is not null && pair.Value.HasValue)
+        if (value is not { HasValue: true })
         {
-            ref var value = ref pair.Value.Value;
-            if (!value.HasNumber)
-            {
-                result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Number", value.Text);
-                return;
-            }
+            return;
         }
+
+        if (!value.Value.HasNumber)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Number", value.Value.Text);
+        }
+    }
+
+    private static void ValidateNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    {
+        ValidateNumber(ref result, ref pair.Value, nodeKind, elementName);
 
         if (pair.VariantArray is null)
         {
             return;
         }
 
-        foreach (var item in pair.VariantArray)
+        foreach (ref var item in pair.VariantArray.AsSpan())
         {
-            if (item is null || !item.HasValue)
-            {
-                continue;
-            }
-
-            ref var value = ref item.Value;
-            if (value.HasNumber)
-            {
-                continue;
-            }
-
-            result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Number", value.Text);
+            ValidateNumber(ref result, ref item, nodeKind, elementName);
         }
     }
 
-    public static void ValidateNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    private static void ValidateNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
         if (pair.Value is not null && pair.Value.HasValue)
         {
@@ -501,17 +561,6 @@ public static partial class PerResultValidator
 
     internal static bool IsStatus(ReadOnlySpan<char> span, out uint referenceId)
     {
-        // hp 0
-        // mp 1
-        // dext 7
-        // move 8
-        // magic 4
-        // speed 6
-        // hprec 9
-        // mprec a
-        // attack 2
-        // magdef 5
-        // defense 3
         switch (span.Length)
         {
             case 2 when span[1] == 'p':

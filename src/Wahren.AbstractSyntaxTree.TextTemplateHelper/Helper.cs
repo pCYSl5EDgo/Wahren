@@ -28,20 +28,13 @@ public static partial class Helper
         _ => element,
     };
 
-    public static ulong GetKey(this string element) => element.Length switch
-    {
-        0 => 0,
-        1 => element[0],
-        2 => (element[0]) | (((ulong)element[1]) << 16),
-        3 => (element[0]) | (((ulong)element[1]) << 16) | (((ulong)element[2]) << 32),
-        _ => (element[0]) | (((ulong)element[1]) << 16) | (((ulong)element[2]) << 32) | (((ulong)element[3]) << 48),
-    };
+    public static ulong GetKey(this string element) => StringHashUtility.Calc(element);
 
     public static SwitchGroupOuter[] MakeGroup(this ElementInfo[] elements)
     {
         return elements.GroupBy(
             x => x.name.Length,
-            item => new SwitchGroupInner(item, item.name.GetKey().ToString("X16"), item.name.Length > 4 ? item.name.Substring(4) : ""),
+            item => new SwitchGroupInner(item, item.name.GetKey().ToString("X16"), item.name.Length > StringHashUtility.HashLengthMax ? item.name.Substring(StringHashUtility.HashLengthMax) : ""),
             (len, items) => new SwitchGroupOuter(len, items)).OrderBy(x => x.len).ToArray();
     }
 

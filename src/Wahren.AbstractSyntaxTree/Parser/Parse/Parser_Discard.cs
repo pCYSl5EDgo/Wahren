@@ -15,15 +15,7 @@ public static partial class Parser
             return false;
         }
 
-        Span<byte> byteSpan = MemoryMarshal.Cast<char, byte>(span);
-        switch (span.Length)
-        {
-            case 0: return false;
-            case 1: return Parse_Discard(ref context, ref result, elementTokenId, ReadOnlySpan<char>.Empty, BinaryPrimitives.ReadUInt16LittleEndian(byteSpan));
-            case 2: return Parse_Discard(ref context, ref result, elementTokenId, ReadOnlySpan<char>.Empty, BinaryPrimitives.ReadUInt32LittleEndian(byteSpan));
-            case 3: return Parse_Discard(ref context, ref result, elementTokenId, ReadOnlySpan<char>.Empty, BinaryPrimitives.ReadUInt32LittleEndian(byteSpan) | ((ulong)BinaryPrimitives.ReadUInt16LittleEndian(byteSpan.Slice(4)) << 32));
-            default: return Parse_Discard(ref context, ref result, elementTokenId, span.Slice(4), BinaryPrimitives.ReadUInt64LittleEndian(byteSpan));
-        }
+        return Parse_Discard(ref context, ref result, elementTokenId, StringHashUtility.Calc(span));
     }
 
     /// <summary>

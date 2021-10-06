@@ -2140,7 +2140,7 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.enable_talent, "Scenario", "enable_talent");
 		ValidateBoolean(ref result, ref node.party, "Scenario", "party");
 		ValidateBoolean(ref result, ref node.no_autosave, "Scenario", "no_autosave");
-		// Ignore Unknown Scenario zone
+		// Ignore Text Scenario zone
 		ValidateBoolean(ref result, ref node.nozone, "Scenario", "nozone");
 		ValidateBooleanNumber(ref result, ref node.item0, "Scenario", "item0");
 		ValidateBooleanNumber(ref result, ref node.item1, "Scenario", "item1");
@@ -2163,7 +2163,7 @@ public static partial class PerResultValidator
 		// Ignore Unknown Scenario offset
 	}
 
-	private static void SpecialTreatment_scenario_power_order(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_scenario_power_order(ref Result result, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -2189,20 +2189,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is not null)
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
 	}
 
