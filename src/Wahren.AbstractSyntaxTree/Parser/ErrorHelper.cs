@@ -68,6 +68,16 @@ public static class ErrorHelper
         result.ErrorAdd(text, elementId);
     }
 
+    public static void ErrorAdd_AssignmentInConditionalBlock(ref this Result result, uint tokenId)
+    {
+#if DEBUG
+        var text = $"ブロック{{}}の中での要素'{result.GetSpan(tokenId)}'への代入は意図通りには動作しません。";
+#else
+        var text = $"Assignment to '{result.GetSpan(tokenId)}' in the conditional block does not behave as you expected.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
     public static void ErrorAdd_TooManyArguments(ref this Result result, ActionKind callName, int count, int max, uint callTokenId)
     {
 #if DEBUG
@@ -132,6 +142,30 @@ public static class ErrorHelper
         result.ErrorAdd(text, elementId);
     }
 
+    public static void ErrorAdd_UnexpectedCall(ref this Result result, uint callId)
+    {
+        string text;
+        var name = result.GetSpan(callId);
+        if (name.Length != 0 && char.IsWhiteSpace(name[0]))
+        {
+#if DEBUG
+            text = $"'{name}'が空白文字列から始まってはいませんか？ {name}関数という関数は存在しません。";
+#else
+            text = $"'{name}' starts with whitespace(s). function/action '{name}' does not exist.";
+#endif
+        }
+        else
+        {
+#if DEBUG
+            text = $"{name}関数という関数は存在しません。";
+#else
+            text = $"function/action '{name}' does not exist.";
+#endif
+        }
+
+        result.ErrorAdd(text, callId);
+    }
+
     public static void ErrorAdd_UnexpectedElementReferenceKind(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
 #if DEBUG
@@ -160,6 +194,16 @@ public static class ErrorHelper
         var text = $"The value '{result.GetSpan(tokenId)}' of the action {action}'s {argumentIndex}-th argument is not {referenceKind}.";
 #endif
         result.ErrorAdd(text, tokenId);
+    }
+
+    public static void WarningAdd_MustBeInWhileBlock(ref this Result result, ReadOnlySpan<char> kind, uint tokenId)
+    {
+#if DEBUG
+        var text = $"{kind}()はwhileブロック内に記述されるべきです。";
+#else
+        var text = $"{kind}() statement must be in while loop.";
+#endif
+        result.WarningAdd(text, tokenId);
     }
 
     public static void WarningAdd_UnexpectedElementName(ref this Result result, uint kindId, uint elementId)
@@ -242,6 +286,16 @@ public static class ErrorHelper
         var error = $"ここには','が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
 #else
         var error = $"',' is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
+#endif
+        result.ErrorAdd(error, tokenId);
+    }
+
+    public static void ErrorAdd_ParenRightIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
+    {
+#if DEBUG
+        var error = $"ここには')'が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
+#else
+        var error = $"')' is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
 #endif
         result.ErrorAdd(error, tokenId);
     }
