@@ -934,7 +934,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.summon_level, "Skill", "summon_level");
 	}
 
-	private static void SpecialTreatment_skill_func(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_skill_func(ref Result result, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -972,20 +972,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is not null)
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
 	}
 

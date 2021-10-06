@@ -240,6 +240,16 @@ public static class ErrorHelper
         result.WarningAdd(text, elementId);
     }
 
+    public static void ErrorAdd_VariantNotAllowed(ref this Result result, uint kindId, uint elementId)
+    {
+#if DEBUG
+        var error = $"{result.GetSpan(kindId)}構造体の要素'{result.GetSpan(elementId)}'は'@'以下にバリエーションを持ってはなりません。";
+#else
+        var error = $"{result.GetSpan(kindId)}'s element '{result.GetSpan(elementId)}' must not have variation after '@'.";
+#endif
+        result.ErrorAdd(error, elementId);
+    }
+
     public static void ErrorAdd_BracketRightNotFound(ref this Result result, uint kindId)
     {
 #if DEBUG

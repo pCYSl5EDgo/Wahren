@@ -615,7 +615,7 @@ public partial struct SkillNode : IInheritableNode
 	public SkillKind SkillKind = new();
 
 	public VariantPair<Pair_NullableString_NullableIntElement> bright = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> func = new();
+	public Pair_NullableString_NullableIntElement? func = default;
 	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> sortkey = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> special = new();
@@ -766,7 +766,7 @@ public partial struct SkillNode : IInheritableNode
 	public void Dispose()
 	{
 		bright.Dispose();
-		func.Dispose();
+		func = null;
 		name.Dispose();
 		sortkey.Dispose();
 		special.Dispose();

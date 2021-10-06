@@ -2720,7 +2720,11 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0063006E00750066UL:
-                            pair_DEFAULT = ref node.func.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            pair_DEFAULT = ref node.func;
                             goto DEFAULT;
                         case 0x0065006D0061006EUL:
                             pair_DEFAULT = ref node.name.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));

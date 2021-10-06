@@ -163,7 +163,7 @@ public struct ElementInfo
     internal static readonly ElementInfo[] Skill = new ElementInfo[]
     {
         new("bright", ReferenceKind.Boolean),
-        new("func", ReferenceKind.Special) { specialStringArray = new[] { nameof(SkillKind.missile), nameof(SkillKind.sword), nameof(SkillKind.heal), nameof(SkillKind.summon), nameof(SkillKind.charge), nameof(SkillKind.status), } },
+        new("func", ReferenceKind.Special, variantType: "") { specialStringArray = new[] { nameof(SkillKind.missile), nameof(SkillKind.sword), nameof(SkillKind.heal), nameof(SkillKind.summon), nameof(SkillKind.charge), nameof(SkillKind.status), } },
         new("name", ReferenceKind.Text),
         new("icon", ReferenceKind.icon),
         new("fkey", ReferenceKind.SkillGroupReader),

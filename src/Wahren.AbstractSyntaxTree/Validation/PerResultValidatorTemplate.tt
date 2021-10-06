@@ -105,7 +105,11 @@ public static partial class PerResultValidator
 <#	foreach (var element in elements) { #>
 <#	    if ((element.referenceKind & ReferenceKind.Special) == ReferenceKind.Special && element.specialStringArray is { Length: > 0 }) { #>
 
+<#          if (element.variantType == "") { #>
+	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref <#= element.name.GetCorrespondingType() #>? value)
+<#          } else { #>
 	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref VariantPair<<#= element.name.GetCorrespondingType() #>> pair)
+<#          } #>
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -116,27 +120,33 @@ public static partial class PerResultValidator
             {
                 value.ReferenceId = 0;
             }
-<#              for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>
+<#          for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>
             else if (span.SequenceEqual("<#= element.specialStringArray[speIndex] #>"))
             {
                 value.ReferenceId = <#= speIndex #>;
             }
-<#              } #>
+<#          } #>
             else
             {
                 value.HasReference = false;
-<# if ((element.referenceKind & ReferenceKind.Number) == ReferenceKind.Number) { #>
+<#          if ((element.referenceKind & ReferenceKind.Number) == ReferenceKind.Number) { #>
                 if (!value.HasNumber)
                 {
                     result.ErrorAdd_UnexpectedElementSpecialValue("<#= nodeInfo.Name #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
                 }
-<# } else { #>
+<#          } else { #>
                 result.ErrorAdd_UnexpectedElementSpecialValue("<#= nodeInfo.Name #>", "<#= element.name #>", "<#= element.specialStringArray[0] #><# for (int speIndex = 1; speIndex < element.specialStringArray.Length; ++speIndex) { #>, <#= element.specialStringArray[speIndex] #><# } #>", value.Text);
-<# } #>
+<#          } #>
             }
         }
 
-<#              if (element.name.GetCorrespondingType() == "Pair_NullableString_NullableIntElement") { #>
+<#          if (element.variantType == "") { #>
+        if (value is not null)
+        {
+            Validate(ref result, ref value.Value);
+        }
+<#          } else { #>
+<#             if (element.name.GetCorrespondingType() == "Pair_NullableString_NullableIntElement") { #>
         if (pair.Value is { HasValue: true, Value.HasText: true })
         {
             Validate(ref result, ref pair.Value.Value);
@@ -174,9 +184,10 @@ public static partial class PerResultValidator
                 }
             }
         }
-<#              }#>
+<#              } #>
+<#	        } #>
 	}
 <#	    } #>
-<#	}#>
+<#  } #>
 <# } #>
 }

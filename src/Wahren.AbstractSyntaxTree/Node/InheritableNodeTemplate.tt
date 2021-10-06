@@ -43,8 +43,11 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 	foreach (var (usagePair, items) in groups) {
 		foreach (var item in items) { #>
 <#			if (item.variantType == "") { #>
+<#				if (item.name.GetCorrespondingType() == "Pair_NullableString_NullableInt_ArrayElement") { #>
 		<#= item.name.Escape() #>?.Dispose();
-<#		} else { #>
+<#				} #>
+		<#= item.name.Escape() #> = null;
+<#			} else { #>
 		<#= item.name.Escape() #>.Dispose();
 <#			}
 		}

@@ -370,7 +370,7 @@ public static partial class Parser
                 HasText = true,
                 Text = tokenList.LastIndex,
             });
-
+            element.Value.Last.HasNumber = int.TryParse(result.GetSpan(tokenList.LastIndex), out element.Value.Last.Number);
             do
             {
                 if (!ReadToken(ref context, ref result))
