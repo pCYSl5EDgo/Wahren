@@ -13,7 +13,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.LOYAL;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
+            result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
@@ -94,7 +94,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.RAY;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
+            result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
@@ -204,7 +204,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.MEMBER;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
+            result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
@@ -510,7 +510,7 @@ public static partial class Parser
         tokenList[element.ElementTokenId].Kind = TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd("Element must have value. There is no value text after '='.", element.ElementTokenId);
+            result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 

@@ -887,7 +887,7 @@ public static partial class Parser
                         
                     if (nextStatement is null)
                     {
-                        result.ErrorAdd("'battle{}' block does not have corresponding 'next()' statement.", currentIndex);
+                        result.ErrorAdd_CoresspondingNextDoesNotExist(currentIndex);
                     }
 
                     var battleStatement = new BattleStatement(currentIndex, nextStatement);

@@ -28,7 +28,7 @@ public static class ErrorHelper
 
     public static void WarningAdd_MultipleAssignment(ref this Result result, uint tokenId)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"要素'{result.GetSpan(tokenId)}'への多重代入は深刻なエラーの原因となりえます。この代入は無視されます。";
 #else
         var error = $"Multiple assignment to '{result.GetSpan(tokenId)}' can cause serious error.";
@@ -39,7 +39,7 @@ public static class ErrorHelper
     public static void ErrorAdd_LastAndLastBut1MustBeOneLine(ref this Result result)
     {
         var lastIndex = result.TokenList.LastIndex;
-#if DEBUG
+#if JAPANESE
         var error = $"最後のトークンとその１つ前のトークンは同じ行になくてはいけませんでした。最後のトークン: '{result.GetSpan(lastIndex)}'。その１つ前のトークン: '{result.GetSpan(lastIndex - 1U)}'。";
 #else
         var error = $"The last token and the last but 1 token must be on the same line. Last Token: '{result.GetSpan(lastIndex)}'. Last But 1 Token: '{result.GetSpan(lastIndex - 1U)}'.";
@@ -49,7 +49,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_UnexpectedEndOfFile(ref this Result result, uint tokenId, ReadOnlySpan<char> text = default)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"予期せぬファイル終端です。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}。{text}";
 #else
         var error = $"Unexpected End Of File. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}";
@@ -59,7 +59,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_UnexpectedEndOfFile_AssignmentOrParenLeftIsExpected(ref this Result result)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"予期せぬファイル終端です。'='か'('が求められていました。最後のトークン: {result.GetSpan(result.TokenList.LastIndex)}。";
 #else
         var error = $"Unexpected End Of File. '=' or '(' is expected. Last Token: {result.GetSpan(result.TokenList.LastIndex)}.";
@@ -71,7 +71,7 @@ public static class ErrorHelper
     {
         if (string.IsNullOrEmpty(text))
         {
-#if DEBUG
+#if JAPANESE
             text = $"予期せぬ演算子です。最後のトークン: '{result.GetSpan(result.TokenList.LastIndex)}'。";
 #else
             text = $"Unexpected Operator. Last Token: {result.GetSpan(result.TokenList.LastIndex)}";
@@ -79,7 +79,7 @@ public static class ErrorHelper
         }
         else
         {
-#if DEBUG
+#if JAPANESE
             text = $"予期せぬ演算子です。最後のトークン: '{result.GetSpan(result.TokenList.LastIndex)}'。{text}";
 #else
             text = $"Unexpected Operator. Last Token: {result.GetSpan(result.TokenList.LastIndex)}. {text}";
@@ -91,7 +91,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_AssignmentInConditionalBlock(ref this Result result, uint tokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"ブロック{{}}の中での要素'{result.GetSpan(tokenId)}'への代入は意図通りには動作しません。";
 #else
         var text = $"Assignment to '{result.GetSpan(tokenId)}' in the conditional block does not behave as you expected.";
@@ -101,7 +101,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_TooManyArguments(ref this Result result, ActionKind callName, int count, int max, uint callTokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{callName}関数の引数の個数は最大{max}個までですが、{count}個もあります。";
 #else
         var text = $"There are too many arguments({count}) for '{callName}'. Max: {max}";
@@ -111,7 +111,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_TooManyArguments(ref this Result result, FunctionKind callName, int count, int max, uint callTokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{callName}関数の引数の個数は最大{max}個までですが、{count}個もあります。";
 #else
         var text = $"There are too many arguments({count}) for '{callName}'. Max: {max}";
@@ -121,7 +121,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_TooLessArguments(ref this Result result, FunctionKind callName, int count, int min, uint callTokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{callName}関数の引数の個数は最低{min}個必要ですが、{count}個しかありません。";
 #else
         var text = $"There are too less arguments({count}) for '{callName}'. Min: {min}";
@@ -131,12 +131,52 @@ public static class ErrorHelper
 
     public static void ErrorAdd_TooLessArguments(ref this Result result, ActionKind callName, int count, int min, uint callTokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{callName}関数の引数の個数は最低{min}個必要ですが、{count}個しかありません。";
 #else
         var text = $"There are too less arguments({count}) for '{callName}'. Min: {min}";
 #endif
         result.ErrorAdd(text, callTokenId);
+    }
+
+    public static void ErrorAdd_CoresspondingNextDoesNotExist(ref this Result result, uint tokenId)
+    {
+#if JAPANESE
+        var text = $"battleブロックを記述する場合、先行してnext()関数の呼び出しが必要とwikiに記述されていますが見当たりません。";
+#else
+        var text = $"'battle{}' block does not have corresponding 'next()' statement.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
+    public static void ErrorAdd_ValueDoesNotExistAfterAssignment(ref this Result result, uint elementId)
+    {
+#if JAPANESE
+        var text = $"要素'{result.GetSpan(elementId)}'の'='の後に値が記述されていません。";
+#else
+        var text = $"Element must have value. There is no value text after '='.";
+#endif
+        result.ErrorAdd(text, elementId);
+    }
+
+    public static void ErrorAdd_StructureKindOrCommentIsExpected(ref this Result result)
+    {
+#if JAPANESE
+        var text = $"構造体の種別か、あるいはコメント(//, /+, /*)が記述されているべきですが、実際は'{result.GetSpan(result.TokenList.LastIndex)}'と記述されていました。";
+#else
+        var text = $"Structure kind or comment start is necessary.";
+#endif
+        result.ErrorAdd(text, result.TokenList.LastIndex);
+    }
+
+    public static void ErrorAdd_TooManyBracketRight(ref this Result result)
+    {
+#if JAPANESE
+        var text = $"'{{'と対応しない'}}'が見つかりました。括弧の対応関係を見直してください。";
+#else
+        var text = $"Too many '}}'. It does not have corresponding '{{'.";
+#endif
+        result.ErrorAdd(text, result.TokenList.LastIndex);
     }
 
     public static void ErrorAdd_UnexpectedElementName(ref this Result result, uint kindId, uint elementId)
@@ -145,7 +185,7 @@ public static class ErrorHelper
         var name = result.GetSpan(elementId);
         if (name.Length != 0 && char.IsWhiteSpace(name[0]))
         {
-#if DEBUG
+#if JAPANESE
             text = $"'{name}'が空白文字列から始まってはいませんか？ {result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
 #else
             text = $"'{name}' starts with whitespace(s). '{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
@@ -153,7 +193,7 @@ public static class ErrorHelper
         }
         else
         {
-#if DEBUG
+#if JAPANESE
             text = $"{result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
 #else
             text = $"'{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
@@ -169,7 +209,7 @@ public static class ErrorHelper
         var name = result.GetSpan(callId);
         if (name.Length != 0 && char.IsWhiteSpace(name[0]))
         {
-#if DEBUG
+#if JAPANESE
             text = $"'{name}'が空白文字列から始まってはいませんか？ {name}関数という関数は存在しません。";
 #else
             text = $"'{name}' starts with whitespace(s). function/action '{name}' does not exist.";
@@ -177,7 +217,7 @@ public static class ErrorHelper
         }
         else
         {
-#if DEBUG
+#if JAPANESE
             text = $"{name}関数という関数は存在しません。";
 #else
             text = $"function/action '{name}' does not exist.";
@@ -189,7 +229,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_UnexpectedElementReferenceKind(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は期待される型{referenceKind}ではありません。";
 #else
         var text = $"Value '{result.GetSpan(tokenId)}' is not {referenceKind} required by element '{elementName}' of struct {nodeKind}.";
@@ -199,7 +239,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_UnexpectedElementSpecialValue(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> values, uint tokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は期待される値{values}ではありません。";
 #else
         var text = $"Value '{result.GetSpan(tokenId)}' is not {values} required by element '{elementName}' of struct {nodeKind}.";
@@ -209,7 +249,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_UnexpectedArgumentReferenceKind(ref this Result result, ReadOnlySpan<char> action, int argumentIndex, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{action}関数の{argumentIndex}番目の引数の値'{result.GetSpan(tokenId)}'は期待される型{referenceKind}ではありません。";
 #else
         var text = $"The value '{result.GetSpan(tokenId)}' of the action {action}'s {argumentIndex}-th argument is not {referenceKind}.";
@@ -219,7 +259,7 @@ public static class ErrorHelper
 
     public static void WarningAdd_MustBeInWhileBlock(ref this Result result, ReadOnlySpan<char> kind, uint tokenId)
     {
-#if DEBUG
+#if JAPANESE
         var text = $"{kind}()はwhileブロック内に記述されるべきです。";
 #else
         var text = $"{kind}() statement must be in while loop.";
@@ -233,7 +273,7 @@ public static class ErrorHelper
         var name = result.GetSpan(elementId);
         if (name.Length != 0 && char.IsWhiteSpace(name[0]))
         {
-#if DEBUG
+#if JAPANESE
             text = $"'{name}'が空白文字列から始まってはいませんか？ {result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
 #else
             text = $"'{name}' starts with whitespace(s). '{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
@@ -241,7 +281,7 @@ public static class ErrorHelper
         }
         else
         {
-#if DEBUG
+#if JAPANESE
             text = $"{result.GetSpan(kindId)}構造体は要素'{name}'を持たないはずです。";
 #else
             text = $"'{result.GetSpan(kindId)}' structure cannot have element '{name}'.";
@@ -252,7 +292,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_VariantNotAllowed(ref this Result result, uint kindId, uint elementId)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"{result.GetSpan(kindId)}構造体の要素'{result.GetSpan(elementId)}'は'@'以下にバリエーションを持ってはなりません。";
 #else
         var error = $"{result.GetSpan(kindId)}'s element '{result.GetSpan(elementId)}' must not have variation after '@'.";
@@ -262,7 +302,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_BracketRightNotFound(ref this Result result, uint kindId)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"{result.GetSpan(kindId)}構造体の '}}' がファイル末尾まで探しても見つかりませんでした。";
 #else
         var error = $"{result.GetSpan(kindId)}'s '}}' is not found. Unexpected End Of File.";
@@ -272,7 +312,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_BracketRightNotFound(ref this Result result, uint kindId, uint nameId)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"{result.GetSpan(kindId)}構造体 '{result.GetSpan(nameId)}'の '}}' がファイル末尾まで探しても見つかりませんでした。";
 #else
         var error = $"{result.GetSpan(kindId)} {result.GetSpan(nameId)}'s '}}' is not found. Unexpected End Of File.";
@@ -283,7 +323,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_Statement_BracketRightNotFound(ref this Result result, uint statementId, ReadOnlySpan<char> statement)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"{statement}文の '}}' がファイル末尾まで探しても見つかりませんでした。";
 #else
         var error = $"{statement}'s '}}' is not found. Unexpected End Of File.";
@@ -293,7 +333,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_NumberIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"ここには数値が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
 #else
         var error = $"Number text is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
@@ -303,7 +343,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_BooleanIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"ここにはon/offが記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
 #else
         var error = $"Boolean text is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
@@ -313,7 +353,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_CommaIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"ここには','が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
 #else
         var error = $"',' is expected but actually '{result.GetSpan(tokenId)}'.{postText}";
@@ -323,7 +363,7 @@ public static class ErrorHelper
 
     public static void ErrorAdd_ParenRightIsExpected(ref this Result result, uint tokenId, ReadOnlySpan<char> postText = default)
     {
-#if DEBUG
+#if JAPANESE
         var error = $"ここには')'が記述されるべきでしたが、実際は'{result.GetSpan(tokenId)}'と書いてありました。{postText}";
 #else
         var error = $"')' is expected but actually '{result.GetSpan(tokenId)}'.{postText}";

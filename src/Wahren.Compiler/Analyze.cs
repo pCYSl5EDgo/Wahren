@@ -376,7 +376,7 @@ public partial class Program
         var length = RandomAccess.GetLength(handle);
         if (length == 0 && hashSet.Count != 0)
         {
-#if DEBUG
+#if JAPANESE
             project.ErrorBag.Add(new($"{datFileName}が空です。"));
 #else
             project.ErrorBag.Add(new($"{datFileName} is empty."));
@@ -422,7 +422,7 @@ public partial class Program
             var index = buffer.AsSpan(offset).IndexOf<byte>(0x00);
             if (index <= 0)
             {
-#if DEBUG
+#if JAPANESE
                 project.ErrorBag.Add(new($"不正なデータフォーマットをしています。\n  {datFileName}"));
 #else
                 project.ErrorBag.Add(new($"Invalid data format error.\n  {datFileName}"));

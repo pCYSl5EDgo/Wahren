@@ -28,11 +28,11 @@ public static partial class Parser
             {
                 if (last.IsBracketRight(ref source))
                 {
-                    result.ErrorAdd("Too many '}'. It does not have corresponding '{'.", tokenList.LastIndex);
+                    result.ErrorAdd_TooManyBracketRight();
                 }
                 else
                 {
-                    result.ErrorAdd("Structure kind or comment start is necessary. This is too short.", tokenList.LastIndex);
+                    result.ErrorAdd_StructureKindOrCommentIsExpected();
                 }
 
                 return false;
@@ -274,7 +274,7 @@ public static partial class Parser
 
                     goto default;
                 default:
-                    result.ErrorAdd($"Structure kind or comment start is necessary. {result.GetSpan(tokenList.LastIndex)}.", tokenList.LastIndex);
+                    result.ErrorAdd_StructureKindOrCommentIsExpected();
                     return false;
             }
 
