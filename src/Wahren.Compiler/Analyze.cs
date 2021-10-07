@@ -16,13 +16,9 @@ namespace Wahren.Compiler;
 
 public partial class Program
 {
-    public async ValueTask<int> Run(
-        [Option(0, "input folder")] string rootFolder = ".",
-        [Option("s")] PseudoDiagnosticSeverity severity = PseudoDiagnosticSeverity.Error,
-        [Option("t")] bool time = true
-    )
+    public async ValueTask<int> Run()
     {
-        var result = await Analyze(rootFolder, false, severity, time);
+        var result = await Analyze(".", false, PseudoDiagnosticSeverity.Error, true);
         Console.WriteLine("Press Enter Key...");
         Console.ReadLine();
         return result;
@@ -450,11 +446,7 @@ public partial class Program
 
     private static bool CheckSync(Project project)
     {
-        Stopwatch watch = new();
-        watch.Start();
         var success = project.CheckExistance();
-        watch.Stop();
-        Console.WriteLine("CHECK EXISTANCE " + watch.ElapsedMilliseconds + " milli seconds.");
         if (!success)
         {
             foreach (var error in project.ErrorBag)
