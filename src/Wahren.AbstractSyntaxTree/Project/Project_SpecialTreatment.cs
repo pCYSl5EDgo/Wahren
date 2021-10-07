@@ -1,8 +1,6 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Project;
 
 using Parser;
-using Statement;
-using Statement.Expression;
 
 public sealed partial class Project
 {

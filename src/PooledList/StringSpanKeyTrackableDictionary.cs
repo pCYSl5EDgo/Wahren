@@ -269,7 +269,7 @@ public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
             ++count;
             valueArray[index] = value;
         }
-        
+
         RegisterTrackId(index, id, ref item);
     }
 

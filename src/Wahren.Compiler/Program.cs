@@ -1,16 +1,16 @@
-﻿global using System.Threading.Tasks;
-global using ConsoleAppFramework;
+﻿global using ConsoleAppFramework;
+global using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
 namespace Wahren.Compiler;
 
 public partial class Program : ConsoleAppBase
 {
-    public async static Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
         await Host.CreateDefaultBuilder().RunConsoleAppFrameworkAsync<Program>(args);
     }
-    
+
     [Command(new string[] {
         "help",
     })]

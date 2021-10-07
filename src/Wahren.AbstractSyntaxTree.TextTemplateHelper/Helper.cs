@@ -33,17 +33,17 @@ public static partial class Helper
     public static SwitchGroupOuter[] MakeGroup(this ElementInfo[] elements)
     {
         return elements.GroupBy(
-            x => x.name.Length,
-            item => new SwitchGroupInner(item, item.name.GetKey().ToString("X16"), item.name.Length > StringHashUtility.HashLengthMax ? item.name.Substring(StringHashUtility.HashLengthMax) : ""),
+            x => x.Name.Length,
+            item => new SwitchGroupInner(item, item.Name.GetKey().ToString("X16"), item.Name.Length > StringHashUtility.HashLengthMax ? item.Name.Substring(StringHashUtility.HashLengthMax) : ""),
             (len, items) => new SwitchGroupOuter(len, items)).OrderBy(x => x.len).ToArray();
     }
 
     public static UsageGroup[] MakeUsageGroup(this ElementInfo[] elements)
     {
         return elements.GroupBy(
-           x => x.name.GetCorrespondingType(),
+           x => x.Name.GetCorrespondingType(),
            x => x,
-           (type, xs) => new UsageGroup(type, xs.GroupBy(x => new UsagePair(x.name.GetCorrespondingTrailer(), x.name.GetCorrespondingParserFunction())).ToArray())).ToArray();
+           (type, xs) => new UsageGroup(type, xs.GroupBy(x => new UsagePair(x.Name.GetCorrespondingTrailer(), x.Name.GetCorrespondingParserFunction())).ToArray())).ToArray();
     }
 
     public static string GetCorrespondingTrailer(this string element) => element switch

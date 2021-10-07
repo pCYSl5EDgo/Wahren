@@ -41,15 +41,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ContextNodeTemplate.tt</DependentUpon>
     </None>
-    <None Include="Node\InheritableNodeTemplate.cs">
+    <None Include="Node\NodeTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>InheritableNodeTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Node\BlockContainerNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BlockContainerNodeTemplate.tt</DependentUpon>
+      <DependentUpon>NodeTemplate.tt</DependentUpon>
     </None>
     <None Include="Parser\Parse\Parser_Discard_Template.cs">
       <DesignTime>True</DesignTime>
@@ -71,12 +66,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ProjectTemplate.tt</DependentUpon>
     </None>
-    <None Include="Validation\PerResultValidatorActionTemplate.cs">
+    <None Include="PerResultValidator\PerResultValidatorActionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
     </None>
-    <None Include="Validation\PerResultValidatorTemplate.cs">
+    <None Include="PerResultValidator\PerResultValidatorTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
@@ -120,13 +115,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ContextNodeTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Node\InheritableNodeTemplate.tt">
+    <None Update="Node\NodeTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InheritableNodeTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Node\BlockContainerNodeTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BlockContainerNodeTemplate.cs</LastGenOutput>
+      <LastGenOutput>NodeTemplate.cs</LastGenOutput>
     </None>
     <None Update="Parser\Parse\Parser_Discard_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -144,11 +135,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ProjectTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Validation\PerResultValidatorActionTemplate.tt">
+    <None Update="PerResultValidator\PerResultValidatorActionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PerResultValidatorActionTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Validation\PerResultValidatorTemplate.tt">
+    <None Update="PerResultValidator\PerResultValidatorTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PerResultValidatorTemplate.cs</LastGenOutput>
     </None>
@@ -206,10 +197,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ContextNodeTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Node\InheritableNodeTemplate.cs">
+    <Compile Update="Node\NodeTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>InheritableNodeTemplate.tt</DependentUpon>
+      <DependentUpon>NodeTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Node\PowerNodeTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -256,17 +247,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SolutionTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Validation\PerResultValidator.cs">
+    <Compile Update="PerResultValidator\PerResultValidator.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidator.tt</DependentUpon>
     </Compile>
-    <Compile Update="Validation\PerResultValidatorActionTemplate.cs">
+    <Compile Update="PerResultValidator\PerResultValidatorActionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="Validation\PerResultValidatorTemplate.cs">
+    <Compile Update="PerResultValidator\PerResultValidatorTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>

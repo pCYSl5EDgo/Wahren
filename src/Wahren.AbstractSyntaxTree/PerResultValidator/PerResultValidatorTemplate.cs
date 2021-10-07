@@ -257,7 +257,7 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
 		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		// Ignore Unknown Class picture_atmark_cutin
+		// Ignore Unknown Class picture@cutin
 		SpecialTreatment_class_picture_detail(ref result, ref node.picture_detail);
 		ValidateNumber(ref result, ref node.picture_menu, "Class", "picture_menu");
 		SpecialTreatment_class_picture_floor(ref result, ref node.picture_floor);
@@ -972,13 +972,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (value is not null)
+        if (value is { HasValue: true })
         {
             Validate(ref result, ref value.Value);
         }
 	}
 
-	private static void SpecialTreatment_skill_cutin(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	private static void SpecialTreatment_skill_cutin(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1044,25 +1044,11 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        if (value is { HasValue: true, Value.Count: > 0 })
         {
-            foreach (ref var value in pair.Value.Value.AsSpan())
+            foreach (ref var v in value.Value.AsSpan())
             {
-                Validate(ref result, ref value);
-            }
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.Count: > 0 })
-                {
-                    foreach (ref var value in item.Value.AsSpan())
-                    {
-                        Validate(ref result, ref value);
-                    }
-                }
+                Validate(ref result, ref v);
             }
         }
 	}
@@ -1118,7 +1104,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_skill_center(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_skill_center(ref Result result, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1144,24 +1130,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is { HasValue: true })
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
 	}
 
-	private static void SpecialTreatment_skill_direct(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_skill_direct(ref Result result, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1187,24 +1162,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is { HasValue: true })
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
 	}
 
-	private static void SpecialTreatment_skill_str(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_skill_str(ref Result result, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1246,24 +1210,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is { HasValue: true })
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
 	}
 
-	private static void SpecialTreatment_skill_damage(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_skill_damage(ref Result result, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1288,24 +1241,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is { HasValue: true })
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
 	}
 
-	private static void SpecialTreatment_skill_wave(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	private static void SpecialTreatment_skill_wave(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1354,25 +1296,11 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.Count: > 0 })
+        if (value is { HasValue: true, Value.Count: > 0 })
         {
-            foreach (ref var value in pair.Value.Value.AsSpan())
+            foreach (ref var v in value.Value.AsSpan())
             {
-                Validate(ref result, ref value);
-            }
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.Count: > 0 })
-                {
-                    foreach (ref var value in item.Value.AsSpan())
-                    {
-                        Validate(ref result, ref value);
-                    }
-                }
+                Validate(ref result, ref v);
             }
         }
 	}
@@ -1531,7 +1459,7 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
 		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		// Ignore Unknown Unit picture_atmark_cutin
+		// Ignore Unknown Unit picture@cutin
 		SpecialTreatment_unit_picture_detail(ref result, ref node.picture_detail);
 		ValidateNumber(ref result, ref node.picture_menu, "Unit", "picture_menu");
 		SpecialTreatment_unit_picture_floor(ref result, ref node.picture_floor);
@@ -2189,7 +2117,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (value is not null)
+        if (value is { HasValue: true })
         {
             Validate(ref result, ref value.Value);
         }

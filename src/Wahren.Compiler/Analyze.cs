@@ -1,13 +1,13 @@
 ﻿global using System;
 global using System.Buffers;
+global using System.Diagnostics;
 global using System.IO;
 global using System.Runtime.InteropServices;
+global using System.Text;
 global using System.Threading;
 global using Wahren.AbstractSyntaxTree.Parser;
 global using Wahren.AbstractSyntaxTree.Project;
 global using Wahren.FileLoader;
-global using System.Diagnostics;
-global using System.Text;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Wahren.Map;

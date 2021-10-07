@@ -15,8 +15,8 @@ namespace Wahren.AbstractSyntaxTree.Node;
 
 using Statement;
 <#
-foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
-    ElementInfo[] array = node.Elements;
+foreach (var node in NodeInfo.Nodes) {
+    ElementInfo[] elements = node.Elements;
 #>
 
 public partial struct <#= node.Name #>Node : IInheritableNode
@@ -27,34 +27,38 @@ public partial struct <#= node.Name #>Node : IInheritableNode
     public uint? Super { get; set; }
     public uint Name { get; set; }
 
+<# if (node.HasBlock) { #>
     public List<IStatement> Statements = new();
+<# } #>
 <# foreach (var additionalField in node.Fields) { #>
 	public <#= additionalField.Type #> <#= additionalField.Name #> = new();
 <# } #>
-<# foreach (var item in array) { #>
-<#		if (item.variantType == "") { #>
-	public <#= item.name.GetCorrespondingType() #>? <#= item.name.Escape() #> = default;
+<# foreach (var item in elements) { #>
+<#		if (item.VariantType == "") { #>
+	public <#= item.Type #>? <#= item.Name.Escape() #> = default;
 <#		} else { #>
-	public VariantPair<<#= item.name.GetCorrespondingType() #>> <#= item.name.Escape() #> = new();
+	public VariantPair<<#= item.Type #>> <#= item.Name.Escape() #> = new();
 <#		} #>
 <# } #>
 
 	public void Dispose()
 	{
+<# if (node.HasBlock) { #>
 		Statements.Dispose();
+<# } #>
 <#	foreach (var additionalField in node.Fields) { #>
 <#		if (additionalField.IsDisposable) { #>
 		<#= additionalField.Name #>.Dispose();
 <#		} #>
 <#	} #>
-<# foreach (var item in array) { #>
-<#		if (item.variantType == "") { #>
-<#				if (item.name.GetCorrespondingType() == "Pair_NullableString_NullableInt_ArrayElement") { #>
-		<#= item.name.Escape() #>?.Dispose();
+<# foreach (var item in elements) { #>
+<#		if (item.VariantType == "") { #>
+<#				if (item.Type == "Pair_NullableString_NullableInt_ArrayElement") { #>
+		<#= item.Name.Escape() #>?.Dispose();
 <#				} #>
-		<#= item.name.Escape() #> = default;
+		<#= item.Name.Escape() #> = default;
 <#		} else { #>
-		<#= item.name.Escape() #>.Dispose();
+		<#= item.Name.Escape() #>.Dispose();
 <# 		}
  	} #>
 	}

@@ -11,6 +11,309 @@ using Statement.Expression;
 
 public sealed partial class Project
 {
+	public ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Power.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Power)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Class.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Class)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Dungeon.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.DungeonNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    Dungeon.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Field.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.FieldNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    Field.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Movetype.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.MovetypeNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    Movetype.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Object.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.ObjectNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    Object.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Race.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Race)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Skill.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skill)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Skillset.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skillset)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Spot.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Spot)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Unit.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Unit)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+	public ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Voice.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.VoiceNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    Voice.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Scenario.TryGetTrack(name, queryFileId);
@@ -113,313 +416,214 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
-	public ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Movetype.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.MovetypeNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Movetype.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Skill.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skill)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Skillset.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skillset)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Race.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Race)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Unit.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Unit)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Class.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Class)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Power.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Power)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Spot.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
-        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Spot)
-        {
-            index = (uint)track.NodeIndex;
-            return ref Files[track.ResultId];
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Field.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.FieldNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Field.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Object.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.ObjectNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Object.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Dungeon.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.DungeonNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Dungeon.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
-	public ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
-    {
-        ref var pair = ref Voice.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.VoiceNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Voice.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
-        }
-
-        index = 0;
-        return ref Unsafe.NullRef<Result>();
-    }
-
     public bool CheckExistance()
     {
         var fileSpan = Files.AsSpan();
         var success = true;
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.PowerSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetPowerNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("power", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.ClassSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetClassNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("class", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.DungeonSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetDungeonNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("dungeon", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.FieldSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetFieldNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("field", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.MovetypeSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetMovetypeNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("movetype", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.ObjectSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetObjectNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("object", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.RaceSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetRaceNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("race", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.SkillSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetSkillNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("skill", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.SkillsetSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetSkillsetNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("skillset", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.SpotSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetSpotNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("spot", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.UnitSet;
+            for (uint i = 2, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetUnitNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("unit", name, ref file, set.References[i].AsSpan());
+            }
+        }
+
+        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
+        {
+            ref var file = ref fileSpan[(int)fileIndex];
+            ref var set = ref file.VoiceSet;
+            for (uint i = 0, end = set.Count; i != end ; i++)
+            {
+                var name = set[i];
+                if (!Unsafe.IsNullRef(ref TryGetVoiceNode(fileIndex, name, out _)))
+                {
+                    continue;
+                }
+
+                success = false;
+                this.ErrorAdd_NameStructureNotFound("voice", name, ref file, set.References[i].AsSpan());
+            }
+        }
 
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
@@ -469,210 +673,6 @@ public sealed partial class Project
 
                 success = false;
                 this.ErrorAdd_NameStructureNotFound("story", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.MovetypeSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetMovetypeNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("movetype", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.SkillSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetSkillNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("skill", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.SkillsetSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetSkillsetNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("skillset", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.RaceSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetRaceNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("race", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.UnitSet;
-            for (uint i = 2, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetUnitNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("unit", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.ClassSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetClassNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("class", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.PowerSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetPowerNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("power", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.SpotSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetSpotNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("spot", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.FieldSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetFieldNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("field", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.ObjectSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetObjectNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("object", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.DungeonSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetDungeonNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("dungeon", name, ref file, set.References[i].AsSpan());
-            }
-        }
-
-        for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
-        {
-            ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.VoiceSet;
-            for (uint i = 0, end = set.Count; i != end ; i++)
-            {
-                var name = set[i];
-                if (!Unsafe.IsNullRef(ref TryGetVoiceNode(fileIndex, name, out _)))
-                {
-                    continue;
-                }
-
-                success = false;
-                this.ErrorAdd_NameStructureNotFound("voice", name, ref file, set.References[i].AsSpan());
             }
         }
 
@@ -7471,148 +7471,48 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref SkillNode node)
     {
-        if (node.image.Value is { HasValue: true })
+        if (node.image is { HasValue: true })
         {
-            SpecialTreatment_skill_image(ref result, ref node, ref node.image.Value.Value);
+            SpecialTreatment_skill_image(ref result, ref node, ref node.image.Value);
         }
-        if (node.image.VariantArray is { Length: > 0 })
+        if (node.yorozu is { HasValue: true })
         {
-            foreach (var element in node.image.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                SpecialTreatment_skill_image(ref result, ref node, ref element.Value);
-            }
-        }
-        if (node.yorozu.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.yorozu.Value.Value.AsSpan())
+            foreach (ref var value in node.yorozu.Value.AsSpan())
             {
                 SpecialTreatment_skill_yorozu(ref result, ref node, ref value);
             }
         }
-        if (node.yorozu.VariantArray is { Length: > 0 })
+        if (node.attr is { HasValue: true })
         {
-            foreach (var element in node.yorozu.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_skill_yorozu(ref result, ref node, ref value);
-                }
-            }
+            SpecialTreatment_skill_attr(ref result, ref node, ref node.attr.Value);
         }
-        if (node.attr.Value is { HasValue: true })
+        if (node.add is { HasValue: true })
         {
-            SpecialTreatment_skill_attr(ref result, ref node, ref node.attr.Value.Value);
+            SpecialTreatment_skill_add(ref result, ref node, ref node.add.Value);
         }
-        if (node.attr.VariantArray is { Length: > 0 })
+        if (node.add2 is { HasValue: true })
         {
-            foreach (var element in node.attr.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                SpecialTreatment_skill_attr(ref result, ref node, ref element.Value);
-            }
-        }
-        if (node.add.Value is { HasValue: true })
-        {
-            SpecialTreatment_skill_add(ref result, ref node, ref node.add.Value.Value);
-        }
-        if (node.add.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.add.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                SpecialTreatment_skill_add(ref result, ref node, ref element.Value);
-            }
-        }
-        if (node.add2.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.add2.Value.Value.AsSpan())
+            foreach (ref var value in node.add2.Value.AsSpan())
             {
                 SpecialTreatment_skill_add2(ref result, ref node, ref value);
             }
         }
-        if (node.add2.VariantArray is { Length: > 0 })
+        if (node.homing is { HasValue: true })
         {
-            foreach (var element in node.add2.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_skill_add2(ref result, ref node, ref value);
-                }
-            }
+            SpecialTreatment_skill_homing(ref result, ref node, ref node.homing.Value);
         }
-        if (node.homing.Value is { HasValue: true })
+        if (node.offset is { HasValue: true })
         {
-            SpecialTreatment_skill_homing(ref result, ref node, ref node.homing.Value.Value);
-        }
-        if (node.homing.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.homing.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                SpecialTreatment_skill_homing(ref result, ref node, ref element.Value);
-            }
-        }
-        if (node.offset.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.offset.Value.Value.AsSpan())
+            foreach (ref var value in node.offset.Value.AsSpan())
             {
                 SpecialTreatment_skill_offset(ref result, ref node, ref value);
             }
         }
-        if (node.offset.VariantArray is { Length: > 0 })
+        if (node.friend is { HasValue: true })
         {
-            foreach (var element in node.offset.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_skill_offset(ref result, ref node, ref value);
-                }
-            }
-        }
-        if (node.friend.Value is { HasValue: true })
-        {
-            foreach (ref var value in node.friend.Value.Value.AsSpan())
+            foreach (ref var value in node.friend.Value.AsSpan())
             {
                 SpecialTreatment_skill_friend(ref result, ref node, ref value);
-            }
-        }
-        if (node.friend.VariantArray is { Length: > 0 })
-        {
-            foreach (var element in node.friend.VariantArray)
-            {
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_skill_friend(ref result, ref node, ref value);
-                }
             }
         }
     }

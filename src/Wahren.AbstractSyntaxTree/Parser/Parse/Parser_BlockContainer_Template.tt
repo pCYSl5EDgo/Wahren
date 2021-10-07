@@ -131,20 +131,20 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                     switch (key)
                     {
 <#      foreach (var (item, key, rest) in items) {
-            var type = item.name.GetCorrespondingType();
-            var trailer = item.name.GetCorrespondingTrailer(); #>
+            var type = item.Type;
+            var trailer = item.Name.GetCorrespondingTrailer(); #>
                         case 0x<#= key #>UL<# if (len == StringHashUtility.HashLengthMax + 1) { #> when span[StringHashUtility.HashLengthMax] == '<#= rest[0] #>'<# } else if (len > StringHashUtility.HashLengthMax + 1) { #> when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("<#= rest #>")<# } #>:
-<#          if (item.variantType == "") { #>
+<#          if (item.VariantType == "") { #>
                             if (variantSpan.Length != 0)
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
                             variant = uint.MaxValue;
-                            pair_<#= type #> = ref node.<#= item.name.Escape() #>;
+                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>;
 <#          } else if (node.IsAllScenarioVariant) { #>
-                            pair_<#= type #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant);
+                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant);
 <#          } else { #>
-                            pair_<#= type #> = ref node.<#= item.name.Escape() #>.EnsureGet(variant = result.<#= item.variantType #>Set.GetOrAdd(variantSpan, currentIndex));
+                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant = result.<#= item.VariantType #>Set.GetOrAdd(variantSpan, currentIndex));
 <#          } #>
                             goto <#= trailer #>;
 <#      } #>

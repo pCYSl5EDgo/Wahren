@@ -2,9 +2,9 @@ global using System;
 global using System.Buffers;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Runtime.CompilerServices;
-global using Wahren.PooledList;
 global using Wahren.AbstractSyntaxTree.Element;
 global using Wahren.AbstractSyntaxTree.Node;
+global using Wahren.PooledList;
 
 [module: SkipLocalsInit]
 
@@ -293,7 +293,7 @@ public static partial class Parser
         {
             return true;
         }
-        
+
         var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Position.Line + 1}, Offset : {last.Position.Offset + 1}) appears.";
         result.ErrorAdd(text, kindIndex);
         return false;

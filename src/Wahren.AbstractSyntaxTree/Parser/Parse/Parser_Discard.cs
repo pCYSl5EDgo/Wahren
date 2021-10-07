@@ -1,7 +1,4 @@
-﻿using System.Buffers.Binary;
-using System.Runtime.InteropServices;
-
-namespace Wahren.AbstractSyntaxTree.Parser;
+﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
 {

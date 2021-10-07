@@ -435,7 +435,7 @@ public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
             for (int i = 0; i < end; i++)
             {
                 ulong c = key[i];
-                
+
                 answer *= 37;
                 if (c >= '0' && c <= '9')
                 {

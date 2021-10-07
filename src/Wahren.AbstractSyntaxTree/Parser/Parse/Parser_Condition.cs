@@ -33,7 +33,7 @@ public static partial class Parser
                     CancelTokenReadback(ref context, ref result);
                     result.ErrorAdd("'{' of while/if/rif statement is not found.", statementTokenId);
                 }
-                
+
                 return condition;
             }
 
@@ -629,7 +629,7 @@ public static partial class Parser
             result.ErrorAdd("Function argument must be number, identifier, string variable, 1-word-length text.", tokenList.LastIndex);
             return false;
         } while (true);
-        
+
         if (callFunctionExpression.Kind == FunctionKind.isInterval && statementKind != ConditionStatementKind.Rif)
         {
             result.ErrorAdd("'isInterval' can only be called inside of 'rif' condition expression.", callFunctionExpression.TokenId);

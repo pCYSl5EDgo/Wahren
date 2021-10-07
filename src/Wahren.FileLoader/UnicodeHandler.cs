@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Wahren.FileLoader;
 
-public unsafe static class UnicodeHandler
+public static unsafe class UnicodeHandler
 {
     public static void LoadFromString(ReadOnlySpan<char> content, out DualList<char> source)
     {

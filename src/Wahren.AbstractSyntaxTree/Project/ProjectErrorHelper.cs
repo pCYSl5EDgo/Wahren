@@ -26,7 +26,7 @@ public static class ProjectErrorHelper
                 handler.AppendFormatted(')');
             }
         }
-        
+
         project.ErrorBag.Add(new(handler.ToStringAndClear()));
     }
 
@@ -38,7 +38,7 @@ public static class ProjectErrorHelper
 #else
         handler = $"file {folder} '{fileName}' is not found in this project.";
 #endif
-        
+
         project.ErrorBag.Add(new(handler.ToStringAndClear()));
     }
 

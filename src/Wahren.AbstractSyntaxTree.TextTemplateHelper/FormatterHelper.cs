@@ -38,7 +38,7 @@ public static class FormatterHelper
         "unit",
         "race",
         "class",
-        "field", 
+        "field",
         "skill",
         "power",
         "voice",
@@ -119,7 +119,7 @@ public static class FormatterHelper
         {
             pairs.Add(new(x.Name + "_ParenLeft", x.Name + "("));
         }
-        
+
         Pairs = pairs.ToArray();
 
         var pairs_NewLine = new List<NameContentPair>
@@ -149,7 +149,7 @@ public static class FormatterHelper
 
         Pairs_NewLine_Pairs = pairs_NewLine_Pairs.ToArray();
     }
-    
+
     public static readonly NameContentPair[] Pairs;
     public static readonly NameContentPair[] Pairs_NewLine;
     public static readonly NameContentPair2[] Pairs_NewLine_Pairs;

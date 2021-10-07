@@ -1,5 +1,5 @@
-﻿using Wahren.PooledList;
-using Wahren.AbstractSyntaxTree.Formatter;
+﻿using Wahren.AbstractSyntaxTree.Formatter;
+using Wahren.PooledList;
 namespace Wahren.Compiler;
 
 public partial class Program

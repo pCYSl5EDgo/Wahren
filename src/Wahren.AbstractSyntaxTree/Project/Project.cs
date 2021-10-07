@@ -340,7 +340,7 @@ public sealed partial class Project : IDisposable
                 continue;
             }
 
-            argument.HasReference = true; 
+            argument.HasReference = true;
             ref var reference = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
             if (!Unsafe.IsNullRef(ref reference))
             {

@@ -25,9 +25,9 @@ public static partial class Parser
 	{
 		switch (hash)
 		{
-<#	foreach (var (trailer, elementArray) in array.GroupBy(x => x.name.GetCorrespondingTrailer(), x => x, (hash, xs) => (hash, xs.ToArray()))) { #>
+<#	foreach (var (trailer, elementArray) in array.GroupBy(x => x.Name.GetCorrespondingTrailer(), x => x, (hash, xs) => (hash, xs.ToArray()))) { #>
 <#		foreach (var element in elementArray) { #>
-			case 0x<#= StringHashUtility.Calc(element.name).ToString("X16") #>UL: // <#= element.name #>
+			case 0x<#= StringHashUtility.Calc(element.Name).ToString("X16") #>UL: // <#= element.Name #>
 <#		} #>
 				return Parse_Discard_<#= trailer #>(ref context, ref result, elementTokenId);
 <#	} #>

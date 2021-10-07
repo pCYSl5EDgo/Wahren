@@ -1,5 +1,4 @@
 namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
-using Wahren;
 using Wahren.AbstractSyntaxTree;
 
 public struct ArgumentInfo

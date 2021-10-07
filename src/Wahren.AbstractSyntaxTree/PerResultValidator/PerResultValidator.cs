@@ -1,8 +1,6 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
 using Element;
-using Statement;
-using Statement.Expression;
 
 public static partial class PerResultValidator
 {
@@ -116,6 +114,24 @@ public static partial class PerResultValidator
         v.HasReference = true;
         v.ReferenceId = set.GetOrAdd(result.GetSpan(v.Text), v.Text);
     }
+
+    private static void ValidateNumber(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    {
+        if (value is not { HasValue: true, Value.Count: > 0 })
+        {
+            return;
+        }
+
+        foreach (ref var v in value.Value.AsSpan())
+        {
+            if (!v.HasNumber)
+            {
+                result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Number", v.Text);
+                return;
+            }
+        }
+    }
+
 
     private static void ValidateBooleanNumber(ref Result result, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
@@ -682,7 +698,7 @@ public static partial class PerResultValidator
         }
     }
 
-    private static void SpecialTreatment_skill_gun_delay(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+    private static void SpecialTreatment_skill_gun_delay(ref Result result, ref Pair_NullableString_NullableIntElement? value)
     {
         static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -699,20 +715,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        if (value is { HasValue: true })
         {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
+            Validate(ref result, ref value.Value);
         }
     }
 }

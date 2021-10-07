@@ -116,13 +116,28 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.zone;
                             goto DEFAULT;
                         case 0x000000000013D608UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.poli.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.poli;
                             goto RAY;
                         case 0x0000000000097F1DUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.camp.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.camp;
                             goto RAY;
                         case 0x00000000000E86BBUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item;
                             goto MEMBER;
                         case 0x000000000016B9C9UL:
                             if (variantSpan.Length != 0)
@@ -242,7 +257,12 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.item6;
                             goto DEFAULT;
                         case 0x00000000028CC92CUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.multi.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.multi;
                             goto RAY;
                         case 0x0000000002DE2982UL:
                             if (variantSpan.Length != 0)
@@ -266,7 +286,12 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.ws_red;
                             goto DEFAULT;
                         case 0x0000000037D4068DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.discus.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.discus;
                             goto DEFAULT;
                         case 0x000000003C772DD9UL:
                             if (variantSpan.Length != 0)
@@ -285,7 +310,12 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.nozone;
                             goto DEFAULT;
                         case 0x0000000064EBA9E9UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.offset.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.offset;
                             goto OFFSET;
                     }
                     break;
@@ -805,11 +835,11 @@ public static partial class Parser
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         uint variant = uint.MaxValue;
-        ulong key = 0UL;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
+        ulong key = 0UL;
         do
         {
             if (!ReadUsefulToken(ref context, ref result))
@@ -1164,11 +1194,11 @@ public static partial class Parser
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         uint variant = uint.MaxValue;
-        ulong key = 0UL;
         ref var source = ref result.Source;
         List<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
+        ulong key = 0UL;
         do
         {
             if (!ReadUsefulToken(ref context, ref result))
