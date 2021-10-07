@@ -290,7 +290,7 @@ public static partial class Parser
                 result.TokenList.Last.Other = (uint)functionId;
                 if (functionId == FunctionKind.None)
                 {
-                    result.ErrorAdd($"{span} is not registered function.", currentIndex);
+                    result.ErrorAdd_UnexpectedCall(currentIndex);
                     return null;
                 }
 

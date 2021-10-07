@@ -698,7 +698,7 @@ public static partial class PerResultValidator
         }
     }
 
-    private static void SpecialTreatment_skill_gun_delay(ref Result result, ref Pair_NullableString_NullableIntElement? value)
+    private static void SpecialTreatment_skill_gun_delay(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
     {
         static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -720,4 +720,129 @@ public static partial class PerResultValidator
             Validate(ref result, ref value.Value);
         }
     }
+
+    private static void SpecialTreatment_skill_func(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("missile"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("sword"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("heal"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("summon"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("charge"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("status"))
+            {
+                value.ReferenceId = 5;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "func", "missile, sword, heal, summon, charge, status", value.Text);
+            }
+        }
+
+        if (value is null)
+        {
+            if (node.Super.HasValue)
+            {
+                var superSpan = result.SkillSet[node.Super.Value];
+                node.SkillKind = SkillKind.Unknown;
+                foreach(ref var other in result.SkillNodeList.AsSpan())
+                {
+                    if (other.Name == node.Name || !superSpan.SequenceEqual(result.GetSpan(other.Name)))
+                    {
+                        continue;
+                    }
+
+                    node.SkillKind = other.SkillKind;
+                    break;
+                }
+            }
+            else
+            {
+                node.SkillKind = SkillKind.missile;
+            }
+        }
+        else
+        {
+            if (value.HasValue)
+            {
+                Validate(ref result, ref value.Value);
+                node.SkillKind = (SkillKind)value.Value.ReferenceId;
+            }
+            else
+            {
+                node.SkillKind = SkillKind.missile;
+            }
+        }
+	}
+
+    private static void SpecialTreatment_skill_movetype(ref Result result, ref SkillNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("arc"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("drop"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("throw"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("circle"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("swing"))
+            {
+                value.ReferenceId = 4;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "movetype", "arc, drop, throw, circle, swing", value.Text);
+            }
+        }
+
+        if (pair.Value is { HasValue: true, Value.HasText: true })
+        {
+            Validate(ref result, ref pair.Value.Value);
+        }
+
+        if (pair.VariantArray is not null)
+        {
+            foreach (var item in pair.VariantArray)
+            {
+                if (item is { HasValue: true, Value.HasText: true })
+                {
+                    Validate(ref result, ref item.Value);
+                }
+            }
+        }
+	}
 }

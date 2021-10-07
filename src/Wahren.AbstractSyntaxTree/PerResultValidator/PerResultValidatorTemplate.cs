@@ -87,7 +87,7 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.free_raise, "Power", "free_raise");
 		ValidateNumber(ref result, ref node.money, "Power", "money");
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
-		SpecialTreatment_power_fix(ref result, ref node.fix);
+		SpecialTreatment_power_fix(ref result, ref node, ref node.fix);
 		AddReference(ref result, ref node.diplo, ref result.PowerSet, ReferenceKind.Power);
 		AddReference(ref result, ref node.league, ref result.PowerSet, ReferenceKind.Power);
 		AddReference(ref result, ref node.enemy_power, ref result.PowerSet, ReferenceKind.Power);
@@ -117,7 +117,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.training_up, "Power", "training_up");
 	}
 
-	private static void SpecialTreatment_power_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_power_fix(ref Result result, ref PowerNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -179,13 +179,13 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.free_move, "Class", "free_move");
 		// Ignore Text Class name
 		// Ignore Text Class help
-		SpecialTreatment_class_sex(ref result, ref node.sex);
+		SpecialTreatment_class_sex(ref result, ref node, ref node.sex);
 		ValidateNumber(ref result, ref node.a, "Class", "a");
 		ValidateNumber(ref result, ref node.h, "Class", "h");
 		ValidateNumber(ref result, ref node.w, "Class", "w");
 		// Ignore Text Class text
 		ValidateBoolean(ref result, ref node.sub_image_even, "Class", "sub_image_even");
-		SpecialTreatment_class_yorozu(ref result, ref node.yorozu);
+		SpecialTreatment_class_yorozu(ref result, ref node, ref node.yorozu);
 		ValidateNumber(ref result, ref node.radius, "Class", "radius");
 		ValidateNumber(ref result, ref node.radius_press, "Class", "radius_press");
 		ValidateBoolean(ref result, ref node.no_escape, "Class", "no_escape");
@@ -258,9 +258,9 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
 		// Ignore Unknown Class picture@cutin
-		SpecialTreatment_class_picture_detail(ref result, ref node.picture_detail);
+		SpecialTreatment_class_picture_detail(ref result, ref node, ref node.picture_detail);
 		ValidateNumber(ref result, ref node.picture_menu, "Class", "picture_menu");
-		SpecialTreatment_class_picture_floor(ref result, ref node.picture_floor);
+		SpecialTreatment_class_picture_floor(ref result, ref node, ref node.picture_floor);
 		ValidateNumber(ref result, ref node.picture_shift, "Class", "picture_shift");
 		ValidateNumber(ref result, ref node.picture_shift_up, "Class", "picture_shift_up");
 		ValidateNumber(ref result, ref node.picture_center, "Class", "picture_center");
@@ -272,7 +272,7 @@ public static partial class PerResultValidator
 		ValidateBooleanNumber(ref result, ref node.keep_form, "Class", "keep_form");
 		ValidateNumber(ref result, ref node.breast_width, "Class", "breast_width");
 		ValidateNumber(ref result, ref node.medical, "Class", "medical");
-		SpecialTreatment_class_active(ref result, ref node.active);
+		SpecialTreatment_class_active(ref result, ref node, ref node.active);
 		// Ignore Unknown Class activenum
 		ValidateBoolean(ref result, ref node.handle, "Class", "handle");
 		ValidateBoolean(ref result, ref node.red, "Class", "red");
@@ -286,16 +286,16 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.exp, "Class", "exp");
 		ValidateNumber(ref result, ref node.exp_mul, "Class", "exp_mul");
 		ValidateNumber(ref result, ref node.exp_max, "Class", "exp_max");
-		SpecialTreatment_class_line(ref result, ref node.line);
+		SpecialTreatment_class_line(ref result, ref node, ref node.line);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
-		SpecialTreatment_class_politics(ref result, ref node.politics);
+		SpecialTreatment_class_politics(ref result, ref node, ref node.politics);
 		ValidateBoolean(ref result, ref node.element_lost, "Class", "element_lost");
 		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
 		ValidateStatusNumber(ref result, ref node.multi, "Class", "multi");
 		ValidateNumber(ref result, ref node.lost_corpse, "Class", "lost_corpse");
-		SpecialTreatment_class_add_vassal(ref result, ref node.add_vassal);
+		SpecialTreatment_class_add_vassal(ref result, ref node, ref node.add_vassal);
 		ValidateNumber(ref result, ref node.value, "Class", "value");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.scream, ref result.soundSet, ReferenceKind.sound);
@@ -307,7 +307,7 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.change, ref result.ClassSet, ReferenceKind.Class);
 	}
 
-	private static void SpecialTreatment_class_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_sex(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -350,7 +350,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	private static void SpecialTreatment_class_yorozu(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -403,7 +403,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_picture_detail(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -454,7 +454,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_picture_floor(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -501,7 +501,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_active(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -572,7 +572,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_line(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -611,7 +611,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_politics(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -658,7 +658,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_class_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_class_add_vassal(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -793,25 +793,25 @@ public static partial class PerResultValidator
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillNode node)
 	{
 		ValidateBoolean(ref result, ref node.bright, "Skill", "bright");
-		SpecialTreatment_skill_func(ref result, ref node.func);
+		SpecialTreatment_skill_func(ref result, ref node, ref node.func);
 		// Ignore Text Skill name
 		// Ignore icon Skill icon
 		AddReference(ref result, ref node.fkey, ref result.SkillGroupReaderSet, ReferenceKind.SkillGroupReader);
 		ValidateNumber(ref result, ref node.sortkey, "Skill", "sortkey");
 		ValidateBooleanNumber(ref result, ref node.special, "Skill", "special");
 		ValidateNumber(ref result, ref node.delay, "Skill", "delay");
-		SpecialTreatment_skill_gun_delay(ref result, ref node.gun_delay);
+		SpecialTreatment_skill_gun_delay(ref result, ref node, ref node.gun_delay);
 		ValidateBoolean(ref result, ref node.quickreload, "Skill", "quickreload");
 		// Ignore Text Skill help
 		ValidateBoolean(ref result, ref node.hide_help, "Skill", "hide_help");
 		AddReference(ref result, ref node.sound, ref result.soundSet, ReferenceKind.sound);
 		// Ignore Text Skill msg
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
-		SpecialTreatment_skill_cutin(ref result, ref node.cutin);
+		SpecialTreatment_skill_cutin(ref result, ref node, ref node.cutin);
 		ValidateNumber(ref result, ref node.value, "Skill", "value");
 		AddReferenceSkillBoolean(ref result, ref node.talent, "Skill", "talent");
 		ValidateBooleanNumber(ref result, ref node.exp_per, "Skill", "exp_per");
-		SpecialTreatment_skill_movetype(ref result, ref node.movetype);
+		SpecialTreatment_skill_movetype(ref result, ref node, ref node.movetype);
 		ValidateNumber(ref result, ref node.type, "Skill", "type");
 		ValidateNumber(ref result, ref node.color, "Skill", "color");
 		ValidateNumber(ref result, ref node.w, "Skill", "w");
@@ -822,12 +822,12 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.alpha_butt, "Skill", "alpha_butt");
 		ValidateNumber(ref result, ref node.anime, "Skill", "anime");
 		ValidateNumber(ref result, ref node.anime_interval, "Skill", "anime_interval");
-		SpecialTreatment_skill_center(ref result, ref node.center);
+		SpecialTreatment_skill_center(ref result, ref node, ref node.center);
 		ValidateNumber(ref result, ref node.ground, "Skill", "ground");
 		ValidateBoolean(ref result, ref node.d360, "Skill", "d360");
 		ValidateNumber(ref result, ref node.d360_adj, "Skill", "d360_adj");
 		ValidateNumber(ref result, ref node.rotate, "Skill", "rotate");
-		SpecialTreatment_skill_direct(ref result, ref node.direct);
+		SpecialTreatment_skill_direct(ref result, ref node, ref node.direct);
 		ValidateNumber(ref result, ref node.resize_interval, "Skill", "resize_interval");
 		ValidateNumber(ref result, ref node.resize_start, "Skill", "resize_start");
 		ValidateNumber(ref result, ref node.resize_reverse, "Skill", "resize_reverse");
@@ -873,11 +873,11 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.collision, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.afterdeath, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.afterhit, ref result.SkillSet, ReferenceKind.Skill);
-		SpecialTreatment_skill_str(ref result, ref node.str);
+		SpecialTreatment_skill_str(ref result, ref node, ref node.str);
 		ValidateNumber(ref result, ref node.str_ratio, "Skill", "str_ratio");
 		ValidateBoolean(ref result, ref node.add_all, "Skill", "add_all");
 		ValidateNumber(ref result, ref node.add_per, "Skill", "add_per");
-		SpecialTreatment_skill_damage(ref result, ref node.damage);
+		SpecialTreatment_skill_damage(ref result, ref node, ref node.damage);
 		ValidateNumber(ref result, ref node.damage_range_adjust, "Skill", "damage_range_adjust");
 		ValidateNumber(ref result, ref node.attack_us, "Skill", "attack_us");
 		ValidateBoolean(ref result, ref node.allfunc, "Skill", "allfunc");
@@ -896,7 +896,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.range_min, "Skill", "range_min");
 		ValidateNumber(ref result, ref node.check, "Skill", "check");
 		ValidateNumber(ref result, ref node.speed, "Skill", "speed");
-		SpecialTreatment_skill_wave(ref result, ref node.wave);
+		SpecialTreatment_skill_wave(ref result, ref node, ref node.wave);
 		ValidateBoolean(ref result, ref node.origin, "Skill", "origin");
 		ValidateNumber(ref result, ref node.random_space, "Skill", "random_space");
 		ValidateNumber(ref result, ref node.random_space_min, "Skill", "random_space_min");
@@ -934,51 +934,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.summon_level, "Skill", "summon_level");
 	}
 
-	private static void SpecialTreatment_skill_func(ref Result result, ref Pair_NullableString_NullableIntElement? value)
-	{
-		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
-        {
-            var span = result.GetSpan(value.Text);
-			value.HasReference = true;
-			value.ReferenceKind = ReferenceKind.Special;
-            if (span.SequenceEqual("missile"))
-            {
-                value.ReferenceId = 0;
-            }
-            else if (span.SequenceEqual("sword"))
-            {
-                value.ReferenceId = 1;
-            }
-            else if (span.SequenceEqual("heal"))
-            {
-                value.ReferenceId = 2;
-            }
-            else if (span.SequenceEqual("summon"))
-            {
-                value.ReferenceId = 3;
-            }
-            else if (span.SequenceEqual("charge"))
-            {
-                value.ReferenceId = 4;
-            }
-            else if (span.SequenceEqual("status"))
-            {
-                value.ReferenceId = 5;
-            }
-            else
-            {
-                value.HasReference = false;
-                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "func", "missile, sword, heal, summon, charge, status", value.Text);
-            }
-        }
-
-        if (value is { HasValue: true })
-        {
-            Validate(ref result, ref value.Value);
-        }
-	}
-
-	private static void SpecialTreatment_skill_cutin(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value)
+	private static void SpecialTreatment_skill_cutin(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt_ArrayElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1053,58 +1009,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_skill_movetype(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
-	{
-		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
-        {
-            var span = result.GetSpan(value.Text);
-			value.HasReference = true;
-			value.ReferenceKind = ReferenceKind.Special;
-            if (span.SequenceEqual("arc"))
-            {
-                value.ReferenceId = 0;
-            }
-            else if (span.SequenceEqual("drop"))
-            {
-                value.ReferenceId = 1;
-            }
-            else if (span.SequenceEqual("throw"))
-            {
-                value.ReferenceId = 2;
-            }
-            else if (span.SequenceEqual("circle"))
-            {
-                value.ReferenceId = 3;
-            }
-            else if (span.SequenceEqual("swing"))
-            {
-                value.ReferenceId = 4;
-            }
-            else
-            {
-                value.HasReference = false;
-                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "movetype", "arc, drop, throw, circle, swing", value.Text);
-            }
-        }
-
-        if (pair.Value is { HasValue: true, Value.HasText: true })
-        {
-            Validate(ref result, ref pair.Value.Value);
-        }
-
-        if (pair.VariantArray is not null)
-        {
-            foreach (var item in pair.VariantArray)
-            {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
-            }
-        }
-	}
-
-	private static void SpecialTreatment_skill_center(ref Result result, ref Pair_NullableString_NullableIntElement? value)
+	private static void SpecialTreatment_skill_center(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1136,7 +1041,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_skill_direct(ref Result result, ref Pair_NullableString_NullableIntElement? value)
+	private static void SpecialTreatment_skill_direct(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1168,7 +1073,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_skill_str(ref Result result, ref Pair_NullableString_NullableIntElement? value)
+	private static void SpecialTreatment_skill_str(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1216,7 +1121,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_skill_damage(ref Result result, ref Pair_NullableString_NullableIntElement? value)
+	private static void SpecialTreatment_skill_damage(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1247,7 +1152,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_skill_wave(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value)
+	private static void SpecialTreatment_skill_wave(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt_ArrayElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1315,7 +1220,7 @@ public static partial class PerResultValidator
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SpotNode node)
 	{
 		ValidateNumber(ref result, ref node.value, "Spot", "value");
-		SpecialTreatment_spot_politics(ref result, ref node.politics);
+		SpecialTreatment_spot_politics(ref result, ref node, ref node.politics);
 		// Ignore Text Spot name
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		ValidateNumber(ref result, ref node.x, "Spot", "x");
@@ -1339,7 +1244,7 @@ public static partial class PerResultValidator
 		// Ignore Text Spot text
 	}
 
-	private static void SpecialTreatment_spot_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_spot_politics(ref Result result, ref SpotNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1381,13 +1286,13 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.free_move, "Unit", "free_move");
 		// Ignore Text Unit name
 		// Ignore Text Unit help
-		SpecialTreatment_unit_sex(ref result, ref node.sex);
+		SpecialTreatment_unit_sex(ref result, ref node, ref node.sex);
 		ValidateNumber(ref result, ref node.a, "Unit", "a");
 		ValidateNumber(ref result, ref node.h, "Unit", "h");
 		ValidateNumber(ref result, ref node.w, "Unit", "w");
 		// Ignore Text Unit text
 		ValidateBoolean(ref result, ref node.sub_image_even, "Unit", "sub_image_even");
-		SpecialTreatment_unit_yorozu(ref result, ref node.yorozu);
+		SpecialTreatment_unit_yorozu(ref result, ref node, ref node.yorozu);
 		ValidateNumber(ref result, ref node.radius, "Unit", "radius");
 		ValidateNumber(ref result, ref node.radius_press, "Unit", "radius_press");
 		ValidateBoolean(ref result, ref node.no_escape, "Unit", "no_escape");
@@ -1460,9 +1365,9 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
 		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
 		// Ignore Unknown Unit picture@cutin
-		SpecialTreatment_unit_picture_detail(ref result, ref node.picture_detail);
+		SpecialTreatment_unit_picture_detail(ref result, ref node, ref node.picture_detail);
 		ValidateNumber(ref result, ref node.picture_menu, "Unit", "picture_menu");
-		SpecialTreatment_unit_picture_floor(ref result, ref node.picture_floor);
+		SpecialTreatment_unit_picture_floor(ref result, ref node, ref node.picture_floor);
 		ValidateNumber(ref result, ref node.picture_shift, "Unit", "picture_shift");
 		ValidateNumber(ref result, ref node.picture_shift_up, "Unit", "picture_shift_up");
 		ValidateNumber(ref result, ref node.picture_center, "Unit", "picture_center");
@@ -1474,7 +1379,7 @@ public static partial class PerResultValidator
 		ValidateBooleanNumber(ref result, ref node.keep_form, "Unit", "keep_form");
 		ValidateNumber(ref result, ref node.breast_width, "Unit", "breast_width");
 		ValidateNumber(ref result, ref node.medical, "Unit", "medical");
-		SpecialTreatment_unit_active(ref result, ref node.active);
+		SpecialTreatment_unit_active(ref result, ref node, ref node.active);
 		// Ignore Unknown Unit activenum
 		ValidateBoolean(ref result, ref node.handle, "Unit", "handle");
 		ValidateBoolean(ref result, ref node.red, "Unit", "red");
@@ -1488,16 +1393,16 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.exp, "Unit", "exp");
 		ValidateNumber(ref result, ref node.exp_mul, "Unit", "exp_mul");
 		ValidateNumber(ref result, ref node.exp_max, "Unit", "exp_max");
-		SpecialTreatment_unit_line(ref result, ref node.line);
+		SpecialTreatment_unit_line(ref result, ref node, ref node.line);
 		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
 		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
-		SpecialTreatment_unit_politics(ref result, ref node.politics);
+		SpecialTreatment_unit_politics(ref result, ref node, ref node.politics);
 		ValidateBoolean(ref result, ref node.element_lost, "Unit", "element_lost");
 		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
 		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
 		ValidateStatusNumber(ref result, ref node.multi, "Unit", "multi");
 		ValidateNumber(ref result, ref node.lost_corpse, "Unit", "lost_corpse");
-		SpecialTreatment_unit_add_vassal(ref result, ref node.add_vassal);
+		SpecialTreatment_unit_add_vassal(ref result, ref node, ref node.add_vassal);
 		ValidateNumber(ref result, ref node.value, "Unit", "value");
 		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
 		AddReference(ref result, ref node.scream, ref result.soundSet, ReferenceKind.sound);
@@ -1519,12 +1424,12 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.enable, "Unit", "enable");
 		ValidateBoolean(ref result, ref node.enable_select, "Unit", "enable_select");
 		ValidateNumber(ref result, ref node.enable_max, "Unit", "enable_max");
-		SpecialTreatment_unit_fix(ref result, ref node.fix);
+		SpecialTreatment_unit_fix(ref result, ref node, ref node.fix);
 		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
 		ValidateBoolean(ref result, ref node.noremove_unit, "Unit", "noremove_unit");
 		ValidateBoolean(ref result, ref node.noemploy_unit, "Unit", "noemploy_unit");
 		ValidateBoolean(ref result, ref node.noitem_unit, "Unit", "noitem_unit");
-		SpecialTreatment_unit_arbeit(ref result, ref node.arbeit);
+		SpecialTreatment_unit_arbeit(ref result, ref node, ref node.arbeit);
 		ValidateNumber(ref result, ref node.arbeit_capacity, "Unit", "arbeit_capacity");
 		// Ignore Text Unit join
 		// Ignore Text Unit dead
@@ -1532,7 +1437,7 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
 	}
 
-	private static void SpecialTreatment_unit_sex(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_sex(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1575,7 +1480,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_yorozu(ref Result result, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
+	private static void SpecialTreatment_unit_yorozu(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableInt_ArrayElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1628,7 +1533,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_picture_detail(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_picture_detail(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1679,7 +1584,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_picture_floor(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_picture_floor(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1726,7 +1631,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_active(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_active(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1797,7 +1702,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_line(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_line(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1836,7 +1741,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_politics(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_politics(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1883,7 +1788,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_add_vassal(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_add_vassal(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1926,7 +1831,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_fix(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_fix(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1969,7 +1874,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	private static void SpecialTreatment_unit_arbeit(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+	private static void SpecialTreatment_unit_arbeit(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {
@@ -1995,7 +1900,10 @@ public static partial class PerResultValidator
             else
             {
                 value.HasReference = false;
-                result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "arbeit", "off, on, power, fix", value.Text);
+                if (!value.HasNumber)
+                {
+                    result.ErrorAdd_UnexpectedElementSpecialValue("Unit", "arbeit", "off, on, power, fix", value.Text);
+                }
             }
         }
 
@@ -2063,7 +1971,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.actor_per, "Scenario", "actor_per");
 		ValidateNumber(ref result, ref node.sortkey, "Scenario", "sortkey");
 		ValidateBoolean(ref result, ref node.default_ending, "Scenario", "default_ending");
-		SpecialTreatment_scenario_power_order(ref result, ref node.power_order);
+		SpecialTreatment_scenario_power_order(ref result, ref node, ref node.power_order);
 		ValidateBoolean(ref result, ref node.enable, "Scenario", "enable");
 		ValidateBoolean(ref result, ref node.enable_talent, "Scenario", "enable_talent");
 		ValidateBoolean(ref result, ref node.party, "Scenario", "party");
@@ -2091,7 +1999,7 @@ public static partial class PerResultValidator
 		// Ignore Unknown Scenario offset
 	}
 
-	private static void SpecialTreatment_scenario_power_order(ref Result result, ref Pair_NullableString_NullableIntElement? value)
+	private static void SpecialTreatment_scenario_power_order(ref Result result, ref ScenarioNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
         {

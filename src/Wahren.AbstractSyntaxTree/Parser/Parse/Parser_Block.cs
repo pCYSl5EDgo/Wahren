@@ -403,7 +403,7 @@ public static partial class Parser
 
             if (tokenList.Last.IsComma(ref source))
             {
-                result.ErrorAdd($"{statement.Kind} {i}-th argument does not exist.", tokenList.LastIndex);
+                result.ErrorAdd_ArgumentDoesNotExist(',', ',', tokenList.LastIndex);
                 return true;
             }
 
@@ -445,7 +445,7 @@ public static partial class Parser
 
         if (tokenList.Last.IsParenRight(ref source))
         {
-            result.ErrorAdd("Argument does not exists between ',' and ')'.", tokenList.LastIndex - 1);
+            result.ErrorAdd_ArgumentDoesNotExist(',', ')', tokenList.LastIndex - 1);
             return true;
         }
 
@@ -516,7 +516,7 @@ public static partial class Parser
             {
                 if (!arguments.IsEmpty)
                 {
-                    result.ErrorAdd("Argument does not exists between ',' and ')'.", tokenList.LastIndex - 1);
+                    result.ErrorAdd_ArgumentDoesNotExist(',', ')', tokenList.LastIndex - 1);
                 }
 
                 goto TRUE;
@@ -524,7 +524,7 @@ public static partial class Parser
 
             if (tokenList.Last.IsComma(ref source))
             {
-                result.ErrorAdd("Between ',' and ',' nothing is written.", currentIndex);
+                result.ErrorAdd_ArgumentDoesNotExist(',', ',', currentIndex);
                 continue;
             }
 

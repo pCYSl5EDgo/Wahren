@@ -50,7 +50,7 @@ public struct NodeInfo
     public static readonly NodeInfo Movetype = new("Movetype", ElementInfo.Movetype);
     public static readonly NodeInfo Object = new("Object", ElementInfo.Object);
     public static readonly NodeInfo Race = new("Race", ElementInfo.Race);
-    public static readonly NodeInfo Skill = new("Skill", ElementInfo.Skill) { Fields = new AdditionalField[] { new(nameof(SkillKind), nameof(SkillKind), false) } };
+    public static readonly NodeInfo Skill = new("Skill", ElementInfo.Skill) { Fields = new AdditionalField[] { new(nameof(SkillKind), nameof(SkillKind), false), new(nameof(SkillMovetype), nameof(SkillMovetype), false) } };
     public static readonly NodeInfo Skillset = new("Skillset", ElementInfo.Skillset);
     public static readonly NodeInfo Spot = new("Spot", ElementInfo.Spot);
     public static readonly NodeInfo Unit = new("Unit", ElementInfo.Unit);

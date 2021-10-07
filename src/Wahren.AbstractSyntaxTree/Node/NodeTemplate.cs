@@ -631,6 +631,7 @@ public partial struct SkillNode : IInheritableNode
     public uint Name { get; set; }
 
 	public SkillKind SkillKind = new();
+	public SkillMovetype SkillMovetype = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> bright = new();
 	public Pair_NullableString_NullableIntElement? func = default;
 	public Pair_NullableString_NullableIntElement? name = default;

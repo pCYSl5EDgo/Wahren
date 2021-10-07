@@ -149,6 +149,26 @@ public static class ErrorHelper
         result.ErrorAdd(text, tokenId);
     }
 
+    public static void ErrorAdd_EssentialElementDoesNotExist(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, uint tokenId)
+    {
+#if JAPANESE
+        var text = $"{nodeKind}構造体'{result.GetSpan(tokenId)}'に必須である要素'{elementName}'が記述されていません。";
+#else
+        var text = $"'{elementName}' does not exist in the {nodeKind} structure '{result.GetSpan(tokenId)}'.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
+    public static void ErrorAdd_ArgumentDoesNotExist(ref this Result result, char c0, char c1, uint tokenId)
+    {
+#if JAPANESE
+        var text = $"'{c0}'と'{c1}'の間に引数が記述されていません。";
+#else
+        var text = $"Argument does not exists between '{c0}' and '{c1}'.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
     public static void ErrorAdd_ValueDoesNotExistAfterAssignment(ref this Result result, uint elementId)
     {
 #if JAPANESE

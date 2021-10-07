@@ -94,7 +94,7 @@ public static partial class PerResultValidator
 <#				break;#>
 <#			case ReferenceKind.Special: #>
 <#			case ReferenceKind.Special | ReferenceKind.Number: #>
-		SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node.<#= element.Name.Escape() #>);
+		SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, ref node, ref node.<#= element.Name.Escape() #>);
 <#				break;#>
 <#			case ReferenceKind.Text: #>
 		// Ignore Text <#= nodeInfo.Name #> <#= element.Name #>
@@ -106,9 +106,9 @@ public static partial class PerResultValidator
 <#	    if ((element.ReferenceKind & ReferenceKind.Special) == ReferenceKind.Special && element.SpecialStringArray is { Length: > 0 }) { #>
 
 <#          if (element.VariantType == "") { #>
-	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref <#= element.Type #>? value)
+	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref <#= nodeInfo.Name #>Node node, ref <#= element.Type #>? value)
 <#          } else { #>
-	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref VariantPair<<#= element.Type #>> pair)
+	private static void SpecialTreatment_<#= nodeInfo.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, ref <#= nodeInfo.Name #>Node node, ref VariantPair<<#= element.Type #>> pair)
 <#          } #>
 	{
 		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)

@@ -165,7 +165,7 @@ public struct ElementInfo
     internal static readonly ElementInfo[] Skill = new ElementInfo[]
     {
         new("bright", ReferenceKind.Boolean),
-        new("func", ReferenceKind.Special, variantType: "") { SpecialStringArray = new[] { nameof(SkillKind.missile), nameof(SkillKind.sword), nameof(SkillKind.heal), nameof(SkillKind.summon), nameof(SkillKind.charge), nameof(SkillKind.status), } },
+        new("func", ReferenceKind.Special, variantType: ""), // { SpecialStringArray = new[] { nameof(SkillKind.missile), nameof(SkillKind.sword), nameof(SkillKind.heal), nameof(SkillKind.summon), nameof(SkillKind.charge), nameof(SkillKind.status), } },
         new("name", ReferenceKind.Text, variantType: ""),
         new("icon", ReferenceKind.icon, variantType: ""),
         new("fkey", ReferenceKind.SkillGroupReader, variantType: ""),
@@ -183,7 +183,7 @@ public struct ElementInfo
         new("value", ReferenceKind.Number, variantType: ""),
         new("talent", ReferenceKind.Boolean | ReferenceKind.Skill),
         new("exp_per", ReferenceKind.Number | ReferenceKind.Boolean, variantType: ""),
-        new("movetype", ReferenceKind.Special) { SpecialStringArray = new[] { "arc", "drop", "throw", "circle", "swing", } },
+        new("movetype", ReferenceKind.Special), // { SpecialStringArray = new[] { "arc", "drop", "throw", "circle", "swing", } },
         new("type", ReferenceKind.Number, variantType: ""),
         new("color", ReferenceKind.Number, variantType: ""),
         new("w", ReferenceKind.Number, variantType: ""),
@@ -517,7 +517,7 @@ public struct ElementInfo
         new("noremove_unit", ReferenceKind.Boolean),
         new("noemploy_unit", ReferenceKind.Boolean),
         new("noitem_unit", ReferenceKind.Boolean),
-        new("arbeit", ReferenceKind.Special) { SpecialStringArray = new[] { "off", "on", "power", "fix", } },
+        new("arbeit", ReferenceKind.Special | ReferenceKind.Number) { SpecialStringArray = new[] { "off", "on", "power", "fix", } },
         new("arbeit_capacity", ReferenceKind.Number),
         new("join", ReferenceKind.Text),
         new("dead", ReferenceKind.Text),
