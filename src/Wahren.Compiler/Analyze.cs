@@ -195,6 +195,8 @@ public partial class Program
             HashSet<string> hashSet = new();
             switch (index)
             {
+                /*
+                NOTIMPLEMENTED YET
                 case 0:
                     foreach (ref var file in project.Files.AsSpan())
                     {
@@ -214,6 +216,7 @@ public partial class Program
                     }
                     hashSet.Remove("@@");
                     return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata2.dat", "chip2", token);
+                */
                 case 2:
                     foreach (ref var file in project.Files.AsSpan())
                     {
@@ -228,7 +231,14 @@ public partial class Program
                         var original = $"{contentsFolder}/face/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            project.ErrorAdd_FileNotFound("face", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.faceSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("face", name, ref file, file.faceSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -246,7 +256,14 @@ public partial class Program
                         var original = $"{contentsFolder}/icon/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            project.ErrorAdd_FileNotFound("icon", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.iconSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("icon", name, ref file, file.iconSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -264,7 +281,14 @@ public partial class Program
                         var original = $"{contentsFolder}/sound/{name}.wav";
                         if (!File.Exists(original))
                         {
-                            project.ErrorAdd_FileNotFound("sound", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.soundSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("sound", name, ref file, file.soundSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -282,7 +306,14 @@ public partial class Program
                         var original = $"{contentsFolder}/picture/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            project.ErrorAdd_FileNotFound("picture", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.pictureSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("picture", name, ref file, file.pictureSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -300,7 +331,14 @@ public partial class Program
                         var original = $"{contentsFolder}/image/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            project.ErrorAdd_FileNotFound("image", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.image_fileSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("image", name, ref file, file.image_fileSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -318,7 +356,14 @@ public partial class Program
                         var original = $"{contentsFolder}/flag/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            project.ErrorAdd_FileNotFound("flag", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.flagSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("flag", name, ref file, file.flagSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -336,7 +381,14 @@ public partial class Program
                         var original = $"{contentsFolder}/stage/{name}.map";
                         if (!File.Exists(original))
                         {
-                            project.ErrorAdd_FileNotFound("stage", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.mapSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("stage", name, ref file, file.mapSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
@@ -354,12 +406,17 @@ public partial class Program
                         var original = $"{contentsFolder}/bgm/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".mp3") && !File.Exists(original + ".ogg") && !File.Exists(original + ".mid"))
                         {
-                            project.ErrorAdd_FileNotFound("bgm", name);
+                            foreach (ref var file in project.Files.AsSpan())
+                            {
+                                if (!file.bgmSet.TryGet(name.AsSpan(), out var setId))
+                                {
+                                    continue;
+                                }
+                                project.ErrorAdd_FileNotFound("bgm", name, ref file, file.bgmSet.References[setId].AsSpan());
+                            }
                         }
                     }
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
             }
             return ValueTask.CompletedTask;
         });
@@ -404,9 +461,22 @@ public partial class Program
         {
             ArrayPool<byte>.Shared.Return(buffer);
         }
-        foreach (var item in hashSet)
+        foreach (var name in hashSet)
         {
-            project.ErrorAdd_FileNotFound(chipFolderName, item);
+            static void Process(Project project, string chipFolderName, string name)
+            {
+                foreach (ref var file in project.Files.AsSpan())
+                {
+                    ref var set = ref (chipFolderName == "chip" ? ref file.imagedataSet : ref file.imagedata2Set);
+                    if (!set.TryGet(name.AsSpan(), out var setId))
+                    {
+                        continue;
+                    }
+                    project.ErrorAdd_FileNotFound(chipFolderName, name, ref file, set.References[setId].AsSpan());
+                }
+            }
+
+            Process(project, chipFolderName, name);
         }
     }
 
@@ -462,13 +532,22 @@ public partial class Program
     private static bool CompileResultSync(Project project)
     {
         bool isSuccess = true;
-        foreach (ref var file in project.Files.AsSpan())
+        var files = project.Files.AsSpan();
+        foreach (ref var file in files)
         {
             isSuccess &= file.NoError();
         }
         if (isSuccess)
         {
             project.AddReferenceAndValidate();
+            foreach (ref var file in files)
+            {
+                isSuccess &= file.NoError();
+            }
+            if (isSuccess)
+            {
+                isSuccess &= project.DetectInfiniteLoop();
+            }
         }
 
         StringBuilder? stringBuilder = null;
@@ -503,6 +582,7 @@ public partial class Program
     private static void AppendResultError(StringBuilder stringBuilder, bool showNotError, string? filePath, Error error)
     {
         stringBuilder.AppendLine(error.Text);
+        stringBuilder.Append("  ");
         stringBuilder.Append(filePath);
         stringBuilder.Append('(');
         stringBuilder.Append(error.Position.Line + 1);

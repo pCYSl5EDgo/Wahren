@@ -2924,7 +2924,7 @@ public class UnicodeFormatter : IFormatter<char>
             {
                 return false;
             }
-            
+
             if (TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces: 1))
             {
                 continue;

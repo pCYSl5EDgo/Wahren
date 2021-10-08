@@ -10,16 +10,3 @@ public enum SkillKind
     charge,
     status,
 }
-
-public enum SkillMovetype
-{
-    Unknown,
-    arc,
-    drop,
-    @throw,
-    circle,
-    swing,
-    DropUpper,
-    Straight,
-    Stop,
-}

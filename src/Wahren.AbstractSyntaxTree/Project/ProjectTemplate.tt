@@ -82,6 +82,48 @@ public sealed partial class Project
         index = 0;
         return ref Unsafe.NullRef<Result>();
     }
+
+    public ref Result TryGet<#= node.Name #>Node(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref <#= node.Name #>.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+<#  if (node.IsDetail5 || node.IsSkillOrSkillset) { #>
+        ref var track = ref AmbiguousDictionary_<#= node.IsDetail5 ? "UnitClassPowerSpotRace" : "SkillSkillset" #>.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.<#= node.Name #>)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+<#  } else { #>
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.<#= node.Name #>NodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    return ref file;
+                }
+            }
+        }
+<#  } #>
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
 <# } #>
 
     public bool CheckExistance()
@@ -291,43 +333,53 @@ public sealed partial class Project
 <#      ref var element = ref elements[elementIndex]; #>
 <#      bool isArray = element.Type == "Pair_NullableString_NullableInt_ArrayElement"; #>
 <#      if (element.VariantType == "") { #>
-        if (node.<#= element.CSharpableName #> is { HasValue: true })
-        {
 <#          if (isArray) { #>
+        if (node.<#= element.CSharpableName #> is { HasValue: true, Value.Count: > 0 })
+        {
             foreach (ref var value in node.<#= element.CSharpableName #>.Value.AsSpan())
             {
                 SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref value);
             }
-<#          } else { #>
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref node.<#= element.CSharpableName #>.Value);
-<#          } #>
         }
-<#      } else { #>
-        if (node.<#= element.CSharpableName #>.Value is { HasValue: true })
+<#          } else { #>
+        if (node.<#= element.CSharpableName #> is { HasValue: true })
         {
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref node.<#= element.CSharpableName #>.Value);
+        }
+<#          } #>
+<#      } else { #>
 <#          if (isArray) { #>
+        if (node.<#= element.CSharpableName #>.Value is { HasValue: true, Value.Count: > 0 })
+        {
             foreach (ref var value in node.<#= element.CSharpableName #>.Value.Value.AsSpan())
             {
                 SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref value);
             }
-<#          } else { #>
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref node.<#= element.CSharpableName #>.Value.Value);
-<#          } #>
         }
+<#          } else { #>
+        if (node.<#= element.CSharpableName #>.Value is { HasValue: true })
+        {
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref node.<#= element.CSharpableName #>.Value.Value);
+        }
+<#          } #>
         if (node.<#= element.CSharpableName #>.VariantArray is { Length: > 0 })
         {
             foreach (var element in node.<#= element.CSharpableName #>.VariantArray)
             {
-                if (element is not { HasValue: true })
+<#          if (isArray) { #>
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
-<#          if (isArray) { #>
                 foreach (ref var value in element.Value.AsSpan())
                 {
                     SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref value);
                 }
 <#          } else { #>
+                if (element is not { HasValue: true })
+                {
+                    continue;
+                }
                 SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref element.Value);
 <#          } #>
             }

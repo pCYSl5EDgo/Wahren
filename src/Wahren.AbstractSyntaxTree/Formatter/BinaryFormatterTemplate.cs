@@ -919,11 +919,11 @@ public class BinaryFormatter : IFormatter<byte>
     {
         Converter = converter;
         Assumption = assumption;
-        
+
         Span<byte> spanNewLine = stackalloc byte[Assumption(newLine.Length)];
         NewLine_Count = Converter(newLine, spanNewLine);
         spanNewLine = spanNewLine.Slice(0, NewLine_Count);
-        
+
         Span<char> spanIndentSource = stackalloc char[indentCount];
         Span<byte> spanIndent = stackalloc byte[Assumption(indentCount)];
         spanIndentSource.Fill(indentChar);
@@ -5556,7 +5556,7 @@ public class BinaryFormatter : IFormatter<byte>
             {
                 return false;
             }
-            
+
             if (TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces: 1))
             {
                 continue;

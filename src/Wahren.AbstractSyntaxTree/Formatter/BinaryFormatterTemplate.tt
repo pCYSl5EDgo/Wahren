@@ -80,11 +80,11 @@ public class BinaryFormatter : IFormatter<byte>
     {
         Converter = converter;
         Assumption = assumption;
-        
+
         Span<byte> spanNewLine = stackalloc byte[Assumption(newLine.Length)];
         NewLine_Count = Converter(newLine, spanNewLine);
         spanNewLine = spanNewLine.Slice(0, NewLine_Count);
-        
+
         Span<char> spanIndentSource = stackalloc char[indentCount];
         Span<byte> spanIndent = stackalloc byte[Assumption(indentCount)];
         spanIndentSource.Fill(indentChar);
@@ -282,7 +282,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
             {
                 return false;
             }
-            
+
             if (TryFormat_Block(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces: 1))
             {
                 continue;

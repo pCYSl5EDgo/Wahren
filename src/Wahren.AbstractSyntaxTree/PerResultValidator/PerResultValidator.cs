@@ -28,7 +28,11 @@ public static partial class PerResultValidator
 
             ref var value = ref item.Value;
             value.ReferenceKind = kind;
-            value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+            var span = result.GetSpan(value.Text);
+            if (span.Length != 1 || span[0] != '@')
+            {
+                value.ReferenceId = set.GetOrAdd(span, value.Text);
+            }
             value.HasReference = true;
         }
     }
@@ -56,7 +60,11 @@ public static partial class PerResultValidator
                 }
 
                 value.ReferenceKind = kind;
-                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                var span = result.GetSpan(value.Text);
+                if (span.Length != 1 || span[0] != '@')
+                {
+                    value.ReferenceId = set.GetOrAdd(span, value.Text);
+                }
                 value.HasReference = true;
             }
         }
@@ -82,7 +90,11 @@ public static partial class PerResultValidator
             {
                 ref var value = ref list[0];
                 value.ReferenceKind = kind;
-                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                var span = result.GetSpan(value.Text);
+                if (span.Length != 1 || span[0] != '@')
+                {
+                    value.ReferenceId = set.GetOrAdd(span, value.Text);
+                }
                 value.HasReference = true;
             }
 
@@ -96,7 +108,11 @@ public static partial class PerResultValidator
                 }
 
                 value.ReferenceKind = kind;
-                value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
+                var span = result.GetSpan(value.Text);
+                if (span.Length != 1 || span[0] != '@')
+                {
+                    value.ReferenceId = set.GetOrAdd(span, value.Text);
+                }
                 value.HasReference = true;
             }
         }
@@ -112,7 +128,11 @@ public static partial class PerResultValidator
         ref var v = ref value.Value;
         v.ReferenceKind = kind;
         v.HasReference = true;
-        v.ReferenceId = set.GetOrAdd(result.GetSpan(v.Text), v.Text);
+        var span = result.GetSpan(v.Text);
+        if (span.Length != 1 || span[0] != '@')
+        {
+            v.ReferenceId = set.GetOrAdd(span, v.Text);
+        }
     }
 
     private static void ValidateNumber(ref Result result, ref Pair_NullableString_NullableInt_ArrayElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
@@ -181,63 +201,40 @@ public static partial class PerResultValidator
         {
             v.ReferenceKind = kind;
             v.HasReference = true;
-            v.ReferenceId = set.GetOrAdd(result.GetSpan(v.Text), v.Text);
+            var span = result.GetSpan(v.Text);
+            if (span.Length != 1 || span[0] != '@')
+            {
+                v.ReferenceId = set.GetOrAdd(span, v.Text);
+            }
         }
     }
 
-    public static void AddReferenceSkillBoolean(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    public static void AddReferenceSkillBoolean(ref Result result, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
-        if (pair.Value is { HasValue: true })
-        {
-            ref var value = ref pair.Value.Value;
-            if (value.HasNumber)
-            {
-                result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Skill, Boolean", value.Text);
-                return;
-            }
-
-            var span = result.GetSpan(value.Text);
-            value.HasReference = true;
-            if (IsBoolean(span, out value.ReferenceId))
-            {
-                value.ReferenceKind = ReferenceKind.Boolean;
-            }
-            else
-            {
-                value.ReferenceKind = ReferenceKind.Skill;
-                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-            }
-        }
-
-        if (pair.VariantArray is null)
+        if (value is not { HasValue: true })
         {
             return;
         }
 
-        foreach (var item in pair.VariantArray)
+        ref var v = ref value.Value;
+        if (v.HasNumber)
         {
-            if (item is null || !item.HasValue)
-            {
-                continue;
-            }
+            result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Skill, Boolean", v.Text);
+            return;
+        }
 
-            ref var value = ref item.Value;
-            if (value.HasNumber)
+        var span = result.GetSpan(v.Text);
+        v.HasReference = true;
+        if (IsBoolean(span, out v.ReferenceId))
+        {
+            v.ReferenceKind = ReferenceKind.Boolean;
+        }
+        else
+        {
+            v.ReferenceKind = ReferenceKind.Skill;
+            if (span.Length != 1 || span[0] != '@')
             {
-                result.ErrorAdd_UnexpectedElementReferenceKind(nodeKind, elementName, "Skill, Boolean", value.Text);
-                return;
-            }
-
-            var span = result.GetSpan(value.Text);
-            value.HasReference = true;
-            if (IsBoolean(span, out value.ReferenceId))
-            {
-                value.ReferenceKind = ReferenceKind.Boolean;
-            }
-            else
-            {
-                value.ReferenceKind = ReferenceKind.Skill;
-                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+                v.ReferenceId = result.SkillSet.GetOrAdd(span, v.Text);
             }
         }
     }
@@ -575,6 +572,50 @@ public static partial class PerResultValidator
         }
     }
 
+    internal static bool IsAbnormalAttribute(ReadOnlySpan<char> span, out uint referenceId)
+    {
+        if (span.SequenceEqual("poi"))
+        {
+            referenceId = 0;
+            return true;
+        }
+        else if (span.SequenceEqual("para"))
+        {
+            referenceId = 1;
+            return true;
+        }
+        else if (span.SequenceEqual("ill"))
+        {
+            referenceId = 2;
+            return true;
+        }
+        else if (span.SequenceEqual("conf"))
+        {
+            referenceId = 3;
+            return true;
+        }
+        else if (span.SequenceEqual("sil"))
+        {
+            referenceId = 4;
+            return true;
+        }
+        else if (span.SequenceEqual("stone"))
+        {
+            referenceId = 5;
+            return true;
+        }
+        else if (span.SequenceEqual("fear"))
+        {
+            referenceId = 6;
+            return true;
+        }
+        else
+        {
+            referenceId = 0;
+            return false;
+        }
+    }
+
     internal static bool IsStatus(ReadOnlySpan<char> span, out uint referenceId)
     {
         switch (span.Length)
@@ -700,65 +741,35 @@ public static partial class PerResultValidator
 
     private static void SpecialTreatment_skill_gun_delay(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
     {
-        static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
-        {
-            if (value.HasText)
-            {
-                var span = result.GetSpan(value.Text);
-                value.HasReference = true;
-                value.ReferenceKind = ReferenceKind.Skill;
-                value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
-            }
-            if (!value.HasNumber)
-            {
-                result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "gun_delay", "Skill, Number", value.Text);
-            }
-        }
-
         if (value is { HasValue: true })
         {
-            Validate(ref result, ref value.Value);
+            ref var v = ref value.Value;
+            if (v.HasText)
+            {
+                var span = result.GetSpan(v.Text);
+                if (int.TryParse(span, out _))
+                {
+                    return;
+                }
+                else
+                {
+                    v.HasReference = true;
+                    v.ReferenceKind = ReferenceKind.Skill;
+                    if (span.Length != 1 || span[0] != '@')
+                    {
+                        v.ReferenceId = result.SkillSet.GetOrAdd(span, v.Text);
+                    }
+                }
+            }
+            if (!v.HasNumber)
+            {
+                result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "gun_delay", "Skill, Number", v.Text);
+            }
         }
     }
 
     private static void SpecialTreatment_skill_func(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
-		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
-        {
-            var span = result.GetSpan(value.Text);
-			value.HasReference = true;
-			value.ReferenceKind = ReferenceKind.Special;
-            if (span.SequenceEqual("missile"))
-            {
-                value.ReferenceId = 0;
-            }
-            else if (span.SequenceEqual("sword"))
-            {
-                value.ReferenceId = 1;
-            }
-            else if (span.SequenceEqual("heal"))
-            {
-                value.ReferenceId = 2;
-            }
-            else if (span.SequenceEqual("summon"))
-            {
-                value.ReferenceId = 3;
-            }
-            else if (span.SequenceEqual("charge"))
-            {
-                value.ReferenceId = 4;
-            }
-            else if (span.SequenceEqual("status"))
-            {
-                value.ReferenceId = 5;
-            }
-            else
-            {
-                value.HasReference = false;
-                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "func", "missile, sword, heal, summon, charge, status", value.Text);
-            }
-        }
-
         if (value is null)
         {
             if (node.Super.HasValue)
@@ -785,8 +796,46 @@ public static partial class PerResultValidator
         {
             if (value.HasValue)
             {
-                Validate(ref result, ref value.Value);
-                node.SkillKind = (SkillKind)value.Value.ReferenceId;
+                ref var v = ref value.Value;
+                var span = result.GetSpan(v.Text);
+                v.HasReference = true;
+                v.ReferenceKind = ReferenceKind.Special;
+                if (span.SequenceEqual("missile"))
+                {
+                    v.ReferenceId = 0;
+                    node.SkillKind = SkillKind.missile;
+                }
+                else if (span.SequenceEqual("sword"))
+                {
+                    v.ReferenceId = 1;
+                    node.SkillKind = SkillKind.sword;
+                }
+                else if (span.SequenceEqual("heal"))
+                {
+                    v.ReferenceId = 2;
+                    node.SkillKind = SkillKind.heal;
+                }
+                else if (span.SequenceEqual("summon"))
+                {
+                    v.ReferenceId = 3;
+                    node.SkillKind = SkillKind.summon;
+                }
+                else if (span.SequenceEqual("charge"))
+                {
+                    v.ReferenceId = 4;
+                    node.SkillKind = SkillKind.charge;
+                }
+                else if (span.SequenceEqual("status"))
+                {
+                    v.ReferenceId = 5;
+                    node.SkillKind = SkillKind.status;
+                }
+                else
+                {
+                    v.HasReference = false;
+                    result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "func", "missile, sword, heal, summon, charge, status", v.Text);
+                    node.SkillKind = SkillKind.Unknown;
+                }
             }
             else
             {
@@ -795,54 +844,58 @@ public static partial class PerResultValidator
         }
 	}
 
-    private static void SpecialTreatment_skill_movetype(ref Result result, ref SkillNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
+    private static void SpecialTreatment_skill_movetype(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
 	{
-		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        node.SkillMovetype = SkillMovetype.Unknown;
+        if (value is not { HasValue: true })
         {
-            var span = result.GetSpan(value.Text);
-			value.HasReference = true;
-			value.ReferenceKind = ReferenceKind.Special;
-            if (span.SequenceEqual("arc"))
+            if (node.speed is { HasValue: true, Value.HasNumber: true })
             {
-                value.ReferenceId = 0;
+                node.SkillMovetype = node.speed.Value.Number == 0 ? SkillMovetype.Stop : SkillMovetype.Straight;
             }
-            else if (span.SequenceEqual("drop"))
-            {
-                value.ReferenceId = 1;
-            }
-            else if (span.SequenceEqual("throw"))
-            {
-                value.ReferenceId = 2;
-            }
-            else if (span.SequenceEqual("circle"))
-            {
-                value.ReferenceId = 3;
-            }
-            else if (span.SequenceEqual("swing"))
-            {
-                value.ReferenceId = 4;
-            }
-            else
-            {
-                value.HasReference = false;
-                result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "movetype", "arc, drop, throw, circle, swing", value.Text);
-            }
+            return;
         }
 
-        if (pair.Value is { HasValue: true, Value.HasText: true })
+        ref var v = ref value.Value;
+        var span = result.GetSpan(v.Text);
+        v.HasReference = true;
+        v.ReferenceKind = ReferenceKind.Special;
+        if (span.SequenceEqual("arc"))
         {
-            Validate(ref result, ref pair.Value.Value);
+            v.ReferenceId = 0;
+            node.SkillMovetype = SkillMovetype.arc;
         }
-
-        if (pair.VariantArray is not null)
+        else if (span.SequenceEqual("drop"))
         {
-            foreach (var item in pair.VariantArray)
+            v.ReferenceId = 1;
+            if (node.speed is { HasValue: true, Value.HasNumber: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
+                var speed = node.speed.Value.Number;
+                if (speed != 0)
                 {
-                    Validate(ref result, ref item.Value);
+                    node.SkillMovetype = speed > 0 ? SkillMovetype.drop : SkillMovetype.DropUpper;
                 }
             }
+        }
+        else if (span.SequenceEqual("throw"))
+        {
+            v.ReferenceId = 2;
+            node.SkillMovetype = SkillMovetype.@throw;
+        }
+        else if (span.SequenceEqual("circle"))
+        {
+            v.ReferenceId = 3;
+            node.SkillMovetype = SkillMovetype.circle;
+        }
+        else if (span.SequenceEqual("swing"))
+        {
+            v.ReferenceId = 4;
+            node.SkillMovetype = SkillMovetype.swing;
+        }
+        else
+        {
+            v.HasReference = false;
+            result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "movetype", "arc, drop, throw, circle, swing", v.Text);
         }
 	}
 }

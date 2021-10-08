@@ -81,6 +81,62 @@ public sealed partial class Project
 
     private void SpecialTreatment_skill_attr(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
+        var kind = GetRecursive_SkillKind(ref result, ref node);
+        var span = result.GetSpan(value.Text);
+        switch (kind)
+        {
+            case SkillKind.heal:
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.Special;
+                if (PerResultValidator.IsStatus(span, out value.ReferenceId))
+                {
+                }
+                else if (PerResultValidator.IsAbnormalAttribute(span, out value.ReferenceId))
+                {
+                    value.ReferenceId += 11;
+                }
+                else if (span.SequenceEqual("all"))
+                {
+                    value.ReferenceId = 18;
+                }
+                else
+                {
+                    value.HasReference = false;
+                    result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "attr", "heal -> Status, AbnormalAttribute, all", value.Text);
+                }
+                break;
+            case SkillKind.status:
+                if (PerResultValidator.IsStatus(span, out value.ReferenceId))
+                {
+                }
+                else if (PerResultValidator.IsAbnormalAttribute(span, out value.ReferenceId))
+                {
+                    value.ReferenceId += 11;
+                }
+                else if (span.SequenceEqual("summon_max"))
+                {
+                    value.ReferenceId = 18;
+                }
+                else if (span.SequenceEqual("training"))
+                {
+                    value.ReferenceId = 19;
+                }
+                else if (span.SequenceEqual("movetype"))
+                {
+                    value.ReferenceId = 20;
+                }
+                else
+                {
+                    value.HasReference = false;
+                    result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "attr", "status -> Status, AbnormalAttribute, summon_max, training, movetype", value.Text);
+                }
+                break;
+            default:
+                value.ReferenceId = result.AttributeTypeSet.GetOrAdd(span, value.Text);
+                value.HasReference = true;
+                value.ReferenceKind = ReferenceKind.AttributeType;
+                break;
+        }
     }
 
     private void SpecialTreatment_skill_image(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
@@ -98,12 +154,80 @@ public sealed partial class Project
 
     private SkillMovetype GetRecursive_SkillMovetype(ref Result result, ref SkillNode node)
     {
-        return default;
+        if (node.SkillMovetype != SkillMovetype.Unknown)
+        {
+            return node.SkillMovetype;
+        }
+
+        if (node.movetype is not null)
+        {
+            if (node.movetype.HasValue)
+            {
+                if (node.movetype.Value.ReferenceId == 1)
+                {
+                    var speed = GetRecursive_speed(ref result, ref node);
+                    if (!speed.HasValue || speed.Value == 0)
+                    {
+                        if (GetRecursive_SkillKind(ref result, ref node) != SkillKind.heal)
+                        {
+                            result.ErrorAdd_ElementValueInvalid_NotEqual("Skill", "speed", 0, node.speed!.Value.Text);
+                        }
+                        return node.SkillMovetype = SkillMovetype.drop;
+                    }
+                    else if (speed.Value > 0)
+                    {
+                        return node.SkillMovetype = SkillMovetype.drop;
+                    }
+                    else
+                    {
+                        return node.SkillMovetype = SkillMovetype.DropUpper;
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_ElementValueInvalid_Equal("Skill", "movetype", "drop", node.movetype.Value.Text);
+                    return default;
+                }
+            }
+            else
+            {
+                var speed = GetRecursive_speed(ref result, ref node);
+                return node.SkillMovetype = !speed.HasValue || speed.Value == 0 ? SkillMovetype.Stop : SkillMovetype.Straight;
+            }
+        }
+
+        if (!node.Super.HasValue)
+        {
+            return default;
+        }
+
+        var superSpan = result.SkillSet[node.Super.Value];
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
+        ref var superResult = ref Files[track.ResultId];
+        return node.SkillMovetype = GetRecursive_SkillMovetype(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
     }
 
     private int? GetRecursive_speed(ref Result result, ref SkillNode node)
     {
-        return default;
+        if (node.speed is not null)
+        {
+            if (!node.speed.HasValue || !node.speed.Value.HasNumber)
+            {
+                return default;
+            }
+
+            return node.speed.Value.Number;
+        }
+
+        if (!node.Super.HasValue)
+        {
+            return default;
+        }
+
+        var superSpan = result.SkillSet[node.Super.Value];
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
+        ref var superResult = ref Files[track.ResultId];
+        return GetRecursive_speed(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
     }
 
     private SkillKind GetRecursive_SkillKind(ref Result result, ref SkillNode node)

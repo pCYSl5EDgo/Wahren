@@ -50,7 +50,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -278,7 +278,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -310,7 +310,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -342,7 +342,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -374,7 +374,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -406,7 +406,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -438,7 +438,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -494,7 +494,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1038,7 +1038,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1070,7 +1070,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1102,7 +1102,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1134,7 +1134,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1166,7 +1166,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1198,7 +1198,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1230,7 +1230,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1286,7 +1286,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1453,7 +1453,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1485,7 +1485,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1517,7 +1517,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1573,7 +1573,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1743,7 +1743,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1775,7 +1775,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1807,7 +1807,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1863,7 +1863,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -1941,7 +1941,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1973,7 +1973,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2029,7 +2029,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2310,7 +2310,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2342,7 +2342,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2374,7 +2374,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2406,7 +2406,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2462,7 +2462,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2541,7 +2541,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2573,7 +2573,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2605,7 +2605,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -2661,7 +2661,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -2797,7 +2797,12 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.fkey;
                             goto LOYAL;
                         case 0x00000000000D71ADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.help;
                             goto DEFAULT;
                         case 0x0000000000172386UL:
                             if (variantSpan.Length != 0)
@@ -3034,10 +3039,20 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000030898A3EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.bright.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.bright;
                             goto DEFAULT;
                         case 0x00000000790B8CFAUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.talent.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.talent;
                             goto DEFAULT;
                         case 0x00000000333C033BUL:
                             if (variantSpan.Length != 0)
@@ -3221,7 +3236,12 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000001F51C769275UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.movetype;
                             goto DEFAULT;
                         case 0x000001213AA5A784UL:
                             if (variantSpan.Length != 0)
@@ -3309,7 +3329,12 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.gun_delay;
                             goto LOYAL;
                         case 0x000037E4AE67E147UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hide_help.EnsureGet(variant = result.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.hide_help;
                             goto DEFAULT;
                         case 0x000021D1819F24E7UL:
                             if (variantSpan.Length != 0)
@@ -3954,7 +3979,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -3986,7 +4011,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4018,7 +4043,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4050,7 +4075,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4082,7 +4107,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4114,7 +4139,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4170,7 +4195,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -4248,7 +4273,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4280,7 +4305,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4336,7 +4361,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -4503,7 +4528,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4535,7 +4560,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4567,7 +4592,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4599,7 +4624,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -4655,7 +4680,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -5277,7 +5302,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5309,7 +5334,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5341,7 +5366,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_LOYAL(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5373,7 +5398,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_CONSTI(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5405,7 +5430,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5437,7 +5462,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5469,7 +5494,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5524,7 +5549,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -5603,7 +5628,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -5635,7 +5660,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_ROAM(ref context, ref result, currentIndex))
             {
                 continue;

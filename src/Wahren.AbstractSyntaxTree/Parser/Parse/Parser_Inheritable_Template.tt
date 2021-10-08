@@ -70,7 +70,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
@@ -157,7 +157,7 @@ public static partial class Parser
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
             }
-                
+
             if (Parse_Discard_<#= trailer #>(ref context, ref result, currentIndex))
             {
                 continue;

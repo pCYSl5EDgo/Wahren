@@ -30,9 +30,47 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetPowerNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Power.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Power)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Class.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Class)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetClassNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Class.TryGet(name, out _);
         if (!Unsafe.IsNullRef(ref pair))
         {
             index = pair.Id;
@@ -83,6 +121,39 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetDungeonNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Dungeon.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.DungeonNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Field.TryGetTrack(name, queryFileId);
@@ -108,6 +179,39 @@ public sealed partial class Project
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
                     Field.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetFieldNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Field.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.FieldNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
                     return ref file;
                 }
             }
@@ -151,6 +255,39 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetMovetypeNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Movetype.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.MovetypeNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Object.TryGetTrack(name, queryFileId);
@@ -185,9 +322,61 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetObjectNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Object.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.ObjectNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Race.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Race)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetRaceNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Race.TryGet(name, out _);
         if (!Unsafe.IsNullRef(ref pair))
         {
             index = pair.Id;
@@ -223,9 +412,47 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetSkillNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Skill.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skill)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Skillset.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skillset)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetSkillsetNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Skillset.TryGet(name, out _);
         if (!Unsafe.IsNullRef(ref pair))
         {
             index = pair.Id;
@@ -261,9 +488,47 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetSpotNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Spot.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Spot)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Unit.TryGetTrack(name, queryFileId);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Unit)
+        {
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetUnitNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Unit.TryGet(name, out _);
         if (!Unsafe.IsNullRef(ref pair))
         {
             index = pair.Id;
@@ -314,6 +579,39 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetVoiceNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Voice.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.VoiceNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Scenario.TryGetTrack(name, queryFileId);
@@ -339,6 +637,39 @@ public sealed partial class Project
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
                     Scenario.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetScenarioNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Scenario.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.ScenarioNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
                     return ref file;
                 }
             }
@@ -382,6 +713,39 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
+    public ref Result TryGetEventNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Event.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.EventNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
 	public ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
         ref var pair = ref Story.TryGetTrack(name, queryFileId);
@@ -407,6 +771,39 @@ public sealed partial class Project
                 if (name.SequenceEqual(file.GetSpan(node.Name)))
                 {
                     Story.TryRegisterTrack(name, ((uint)i, index), queryFileId);
+                    return ref file;
+                }
+            }
+        }
+
+        index = 0;
+        return ref Unsafe.NullRef<Result>();
+    }
+
+    public ref Result TryGetStoryNode(ReadOnlySpan<char> name, out uint index)
+    {
+        ref var pair = ref Story.TryGet(name, out _);
+        if (!Unsafe.IsNullRef(ref pair))
+        {
+            index = pair.Id;
+            return ref Files[pair.FileId];
+        }
+        var files = Files.AsSpan();
+        for (int i = 0; i < files.Length; ++i)
+        {
+            ref var file = ref files[i];
+            ref var list = ref file.StoryNodeList;
+            uint end = (uint)list.Count;
+            if (end == 0)
+            {
+                continue;
+            }
+
+            for (index = 0; index != end; ++index)
+            {
+                ref var node = ref list[index];
+                if (name.SequenceEqual(file.GetSpan(node.Name)))
+                {
                     return ref file;
                 }
             }
@@ -7191,7 +7588,7 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref PowerNode node)
     {
-        if (node.staff.Value is { HasValue: true })
+        if (node.staff.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
@@ -7202,7 +7599,7 @@ public sealed partial class Project
         {
             foreach (var element in node.staff.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7212,7 +7609,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.merce.Value is { HasValue: true })
+        if (node.merce.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
@@ -7223,7 +7620,7 @@ public sealed partial class Project
         {
             foreach (var element in node.merce.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7237,7 +7634,7 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref ClassNode node)
     {
-        if (node.member.Value is { HasValue: true })
+        if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
@@ -7248,7 +7645,7 @@ public sealed partial class Project
         {
             foreach (var element in node.member.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7258,7 +7655,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.friend.Value is { HasValue: true })
+        if (node.friend.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
@@ -7269,7 +7666,7 @@ public sealed partial class Project
         {
             foreach (var element in node.friend.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7279,7 +7676,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.merce.Value is { HasValue: true })
+        if (node.merce.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
@@ -7290,7 +7687,7 @@ public sealed partial class Project
         {
             foreach (var element in node.merce.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7300,7 +7697,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.skill.Value is { HasValue: true })
+        if (node.skill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
@@ -7311,7 +7708,7 @@ public sealed partial class Project
         {
             foreach (var element in node.skill.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7321,7 +7718,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.skill2.Value is { HasValue: true })
+        if (node.skill2.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
@@ -7332,7 +7729,7 @@ public sealed partial class Project
         {
             foreach (var element in node.skill2.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7342,7 +7739,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.learn.Value is { HasValue: true })
+        if (node.learn.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
@@ -7353,7 +7750,7 @@ public sealed partial class Project
         {
             foreach (var element in node.learn.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7363,7 +7760,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.delskill.Value is { HasValue: true })
+        if (node.delskill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
@@ -7374,7 +7771,7 @@ public sealed partial class Project
         {
             foreach (var element in node.delskill.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7384,7 +7781,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.delskill2.Value is { HasValue: true })
+        if (node.delskill2.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
@@ -7395,7 +7792,7 @@ public sealed partial class Project
         {
             foreach (var element in node.delskill2.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7405,7 +7802,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.friend_ex.Value is { HasValue: true })
+        if (node.friend_ex.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.friend_ex.Value.Value.AsSpan())
             {
@@ -7416,7 +7813,7 @@ public sealed partial class Project
         {
             foreach (var element in node.friend_ex.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7430,7 +7827,7 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref DungeonNode node)
     {
-        if (node.monster.Value is { HasValue: true })
+        if (node.monster.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
@@ -7441,7 +7838,7 @@ public sealed partial class Project
         {
             foreach (var element in node.monster.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7475,7 +7872,7 @@ public sealed partial class Project
         {
             SpecialTreatment_skill_image(ref result, ref node, ref node.image.Value);
         }
-        if (node.yorozu is { HasValue: true })
+        if (node.yorozu is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.yorozu.Value.AsSpan())
             {
@@ -7490,7 +7887,7 @@ public sealed partial class Project
         {
             SpecialTreatment_skill_add(ref result, ref node, ref node.add.Value);
         }
-        if (node.add2 is { HasValue: true })
+        if (node.add2 is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.add2.Value.AsSpan())
             {
@@ -7501,14 +7898,14 @@ public sealed partial class Project
         {
             SpecialTreatment_skill_homing(ref result, ref node, ref node.homing.Value);
         }
-        if (node.offset is { HasValue: true })
+        if (node.offset is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.offset.Value.AsSpan())
             {
                 SpecialTreatment_skill_offset(ref result, ref node, ref value);
             }
         }
-        if (node.friend is { HasValue: true })
+        if (node.friend is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.friend.Value.AsSpan())
             {
@@ -7523,7 +7920,7 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref SpotNode node)
     {
-        if (node.merce.Value is { HasValue: true })
+        if (node.merce.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
@@ -7534,7 +7931,7 @@ public sealed partial class Project
         {
             foreach (var element in node.merce.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7544,7 +7941,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.monster.Value is { HasValue: true })
+        if (node.monster.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
@@ -7555,7 +7952,7 @@ public sealed partial class Project
         {
             foreach (var element in node.monster.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7565,7 +7962,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.member.Value is { HasValue: true })
+        if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
@@ -7576,7 +7973,7 @@ public sealed partial class Project
         {
             foreach (var element in node.member.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7590,7 +7987,7 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, ref UnitNode node)
     {
-        if (node.member.Value is { HasValue: true })
+        if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
@@ -7601,7 +7998,7 @@ public sealed partial class Project
         {
             foreach (var element in node.member.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7611,7 +8008,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.friend.Value is { HasValue: true })
+        if (node.friend.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
@@ -7622,7 +8019,7 @@ public sealed partial class Project
         {
             foreach (var element in node.friend.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7632,7 +8029,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.merce.Value is { HasValue: true })
+        if (node.merce.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
@@ -7643,7 +8040,7 @@ public sealed partial class Project
         {
             foreach (var element in node.merce.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7653,7 +8050,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.skill.Value is { HasValue: true })
+        if (node.skill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
@@ -7664,7 +8061,7 @@ public sealed partial class Project
         {
             foreach (var element in node.skill.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7674,7 +8071,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.skill2.Value is { HasValue: true })
+        if (node.skill2.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
@@ -7685,7 +8082,7 @@ public sealed partial class Project
         {
             foreach (var element in node.skill2.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7695,7 +8092,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.learn.Value is { HasValue: true })
+        if (node.learn.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
@@ -7706,7 +8103,7 @@ public sealed partial class Project
         {
             foreach (var element in node.learn.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7716,7 +8113,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.delskill.Value is { HasValue: true })
+        if (node.delskill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
@@ -7727,7 +8124,7 @@ public sealed partial class Project
         {
             foreach (var element in node.delskill.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7737,7 +8134,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.delskill2.Value is { HasValue: true })
+        if (node.delskill2.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
@@ -7748,7 +8145,7 @@ public sealed partial class Project
         {
             foreach (var element in node.delskill2.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7758,7 +8155,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.leader_skill.Value is { HasValue: true })
+        if (node.leader_skill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.leader_skill.Value.Value.AsSpan())
             {
@@ -7769,7 +8166,7 @@ public sealed partial class Project
         {
             foreach (var element in node.leader_skill.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7779,7 +8176,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.assist_skill.Value is { HasValue: true })
+        if (node.assist_skill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.assist_skill.Value.Value.AsSpan())
             {
@@ -7790,7 +8187,7 @@ public sealed partial class Project
         {
             foreach (var element in node.assist_skill.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7800,7 +8197,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.staff.Value is { HasValue: true })
+        if (node.staff.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
@@ -7811,7 +8208,7 @@ public sealed partial class Project
         {
             foreach (var element in node.staff.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }
@@ -7821,7 +8218,7 @@ public sealed partial class Project
                 }
             }
         }
-        if (node.castle_guard.Value is { HasValue: true })
+        if (node.castle_guard.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.castle_guard.Value.Value.AsSpan())
             {
@@ -7832,7 +8229,7 @@ public sealed partial class Project
         {
             foreach (var element in node.castle_guard.VariantArray)
             {
-                if (element is not { HasValue: true })
+                if (element is not { HasValue: true, Value.Count: > 0 })
                 {
                     continue;
                 }

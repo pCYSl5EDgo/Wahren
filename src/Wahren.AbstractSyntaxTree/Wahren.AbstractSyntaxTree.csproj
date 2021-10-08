@@ -61,6 +61,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
     </None>
+    <None Include="Project\Proect_InfiniteLoopTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Proect_InfiniteLoopTemplate.tt</DependentUpon>
+    </None>
     <None Include="Project\ProjectTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -130,6 +135,10 @@
     <None Update="Parser\Parse\Parser_BlockContainer_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
+    </None>
+    <None Update="Project\Proect_InfiniteLoopTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Proect_InfiniteLoopTemplate.cs</LastGenOutput>
     </None>
     <None Update="Project\ProjectTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -236,6 +245,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Project\Proect_InfiniteLoopTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Proect_InfiniteLoopTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Project\ProjectTemplate.cs">
       <DesignTime>True</DesignTime>

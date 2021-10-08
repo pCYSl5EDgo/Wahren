@@ -36,6 +36,47 @@ public static class ErrorHelper
         result.WarningAdd(error, tokenId);
     }
 
+    public static void ErrorAdd_SucceedingSuperIsExpected(ref this Result result, uint nodeNameTokenId)
+    {
+#if JAPANESE
+        var error = "':'が記述されていますので、継承元の構造体名が記述されなくてはなりませんが、見当たりません。";
+#else
+        var error = "After ':', name of the super is needed.";
+#endif
+        result.ErrorAdd(error, nodeNameTokenId);
+    }
+
+    public static void ErrorAdd_InfiniteLoop(ref this Result result, ReadOnlySpan<char> kindSpan, ReadOnlySpan<char> nodeNameSpan, ReadOnlySpan<char> superSpan, uint nodeNameTokenId)
+    {
+#if JAPANESE
+        var error = $"{kindSpan}構造体である'{nodeNameSpan}'と'{superSpan}'の継承関係において無限ループが存在します。";
+#else
+        var error = $"There is an infinite loop between '{nodeNameSpan}' and '{superSpan}' of structure '{kindSpan}'.";
+#endif
+        result.ErrorAdd(error, nodeNameTokenId);
+    }
+
+    public static void ErrorAdd_BracketLeftNotFound(ref this Result result, ReadOnlySpan<char> kindSpan)
+    {
+#if JAPANESE
+        var error = $"{kindSpan}構造体に必要な'{{'が見当たりません。";
+#else
+        var error = $"Structure {kindSpan} needs '{{'.";
+#endif
+        result.ErrorAdd(error, result.TokenList.LastIndex);
+    }
+
+    public static void WarningAdd_InvalidIdentifier(ref this Result result, uint tokenId)
+    {
+        var span = result.GetSpan(tokenId);
+#if JAPANESE
+        var error = $"'{span}'は識別子として不適切です。識別子は'0-9', 'A-Z', 'a-z', '_'から構成されます。";
+#else
+        var error = $"'{span}' is invalid as identifier.";
+#endif
+        result.WarningAdd(error, tokenId);
+    }
+
     public static void ErrorAdd_LastAndLastBut1MustBeOneLine(ref this Result result)
     {
         var lastIndex = result.TokenList.LastIndex;
@@ -169,6 +210,36 @@ public static class ErrorHelper
         result.ErrorAdd(text, tokenId);
     }
 
+    public static void ErrorAdd_ElementValueInvalid_NotEqual(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, int value, uint tokenId)
+    {
+#if JAPANESE
+        var text = $"{nodeKind}構造体の要素'{elementName}'の値は{value}であってはなりません。";
+#else
+        var text = $"Element '{elementName}' of structure {nodeKind} must not be {value}.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
+    public static void ErrorAdd_ElementValueInvalid_Equal(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> value, uint tokenId)
+    {
+#if JAPANESE
+        var text = $"{nodeKind}構造体の要素'{elementName}'の値は{value}でなくてはなりません。";
+#else
+        var text = $"Element '{elementName}' of structure {nodeKind} must be {value}.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
+    public static void ErrorAdd_AssignmentDoesNotExist(ref this Result result, uint elementId)
+    {
+#if JAPANESE
+        var text = $"要素'{result.GetSpan(elementId)}'の'='が記述されていません。";
+#else
+        var text = $"Element must have assignment '='.";
+#endif
+        result.ErrorAdd(text, elementId);
+    }
+
     public static void ErrorAdd_ValueDoesNotExistAfterAssignment(ref this Result result, uint elementId)
     {
 #if JAPANESE
@@ -187,6 +258,27 @@ public static class ErrorHelper
         var text = $"Structure kind or comment start is necessary.";
 #endif
         result.ErrorAdd(text, result.TokenList.LastIndex);
+    }
+
+    public static void ErrorAdd_MultiLineCommentEndIsExpected(ref this Result result)
+    {
+        var lastIndex = result.TokenList.LastIndex;
+#if JAPANESE
+        var text = $"コメントの終了部分'*/'が記述されているべきですが、実際は'{result.GetSpan(lastIndex)}'と記述されていました。";
+#else
+        var text = $"Multi line comment end part is necessary.";
+#endif
+        result.ErrorAdd(text, lastIndex);
+    }
+
+    public static void ErrorAdd_EmptyElementKey(ref this Result result, uint elementTokenId)
+    {
+#if JAPANESE
+        var text = $"要素'{result.GetSpan(elementTokenId)}'を要素名とバリエーションに分割してみましたが、要素名部分が空文字列でした。";
+#else
+        var text = $"Element key consists of plain key and scenario name. The length of plain key must not be zero.";
+#endif
+        result.ErrorAdd(text, elementTokenId);
     }
 
     public static void ErrorAdd_TooManyBracketRight(ref this Result result)

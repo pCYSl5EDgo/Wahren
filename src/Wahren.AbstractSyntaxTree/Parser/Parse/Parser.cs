@@ -107,7 +107,7 @@ public static partial class Parser
             return true;
         }
 
-        result.ErrorAdd("Multiline comment \"/*\" needs corresponding \"*/\". But it is not found in this file.", tokenList.LastIndex);
+        result.ErrorAdd_MultiLineCommentEndIsExpected();
         return false;
     }
 
@@ -128,7 +128,7 @@ public static partial class Parser
 
         if (span.IsEmpty)
         {
-            result.ErrorAdd("Element key consists of plain key and scenario name. The length of plain key must not be zero.", tokenId);
+            result.ErrorAdd_EmptyElementKey(tokenId);
             return false;
         }
 
@@ -152,7 +152,7 @@ public static partial class Parser
 
         if (span.IsEmpty)
         {
-            result.ErrorAdd("Element key consists of plain key and scenario name. The length of plain key must not be zero.", tokenId);
+            result.ErrorAdd_EmptyElementKey(tokenId);
             return false;
         }
 
@@ -181,7 +181,7 @@ public static partial class Parser
 
         if (elementKey.Length == 0)
         {
-            result.ErrorAdd("Element key consists of plain key and scenario name. The length of plain key must not be zero.", element.ElementTokenId);
+            result.ErrorAdd_EmptyElementKey(element.ElementTokenId);
             return false;
         }
 
@@ -204,7 +204,8 @@ public static partial class Parser
             ushort c = span[0];
             if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != '_')
             {
-                result.WarningAdd("Identifier should start with alphabet or underscore.", tokenIndex);
+                result.WarningAdd_InvalidIdentifier(tokenIndex);
+                return true;
             }
 
             for (int i = 1; i < span.Length; ++i)
@@ -212,7 +213,7 @@ public static partial class Parser
                 c = span[i];
                 if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != '_' && (c < '0' || c > '9'))
                 {
-                    result.WarningAdd("Identifier should consist of alphabet, underscore or digit.", tokenIndex);
+                    result.WarningAdd_InvalidIdentifier(tokenIndex);
                     break;
                 }
             }
@@ -242,36 +243,18 @@ public static partial class Parser
 
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{' but not found.", node.Kind);
+            result.ErrorAdd_BracketLeftNotFound(result.GetSpan(node.Kind));
             return false;
         }
 
-        if (tokenList.Last.IsColon(ref source))
+        if (tokenList.Last.IsColon(ref source) && !ProcessSuper(ref context, ref result, ref node, ref superSet))
         {
-            if (!ReadUsefulToken(ref context, ref result))
-            {
-                result.ErrorAdd($"After ':', name of the super is needed.", node.Name);
-                return false;
-            }
-
-            tokenList.Last.Kind = TokenKind.Super;
-            var superIndex = superSet.GetOrAdd(result.GetSpan(tokenList.LastIndex), tokenList.LastIndex);
-            node.Super = superIndex;
-            if (context.CreateError(DiagnosticSeverity.Warning) && !IsValidIdentifier(ref context, ref result, tokenList.LastIndex))
-            {
-                result.ErrorAdd($"Not appropriate super name '{superSet[superIndex]}' of struct {result.GetSpan(node.Kind)} '{result.GetSpan(node.Name)}'.", tokenList.LastIndex);
-            }
-
-            if (!ReadUsefulToken(ref context, ref result))
-            {
-                result.ErrorAdd($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} : {superSet[superIndex]} should start with '{{' but not found.", node.Kind);
-                return false;
-            }
+            return false;
         }
 
         if (!tokenList.Last.IsBracketLeft(ref source))
         {
-            result.ErrorAdd($"{result.GetSpan(node.Kind)} {result.GetSpan(node.Name)} should start with '{{'.", tokenList.LastIndex);
+            result.ErrorAdd_BracketLeftNotFound(result.GetSpan(node.Kind));
             return false;
         }
 
@@ -279,32 +262,45 @@ public static partial class Parser
         return true;
     }
 
-    private static bool ParseNamelessUniqueToBracketLeft(ref Context context, ref Result result, uint kindIndex)
+    private static bool ProcessSuper<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet)
+        where T : struct, IInheritableNode
     {
-        ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", kindIndex);
-            return false;
-        }
-
-        ref var last = ref result.TokenList.Last;
-        if (last.IsBracketLeft(ref source))
-        {
+            result.ErrorAdd_SucceedingSuperIsExpected(node.Name);
             return true;
         }
 
-        var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Position.Line + 1}, Offset : {last.Position.Offset + 1}) appears.";
-        result.ErrorAdd(text, kindIndex);
-        return false;
+        ref var tokenList = ref result.TokenList;
+        tokenList.Last.Kind = TokenKind.Super;
+        var superSpan = result.GetSpan(tokenList.LastIndex);
+        var nodeNameSpan = result.GetSpan(node.Name);
+        if (superSpan.SequenceEqual(nodeNameSpan))
+        {
+            result.ErrorAdd_InfiniteLoop(result.GetSpan(node.Kind), nodeNameSpan, superSpan, node.Name);
+        }
+        var superIndex = superSet.GetOrAdd(superSpan, tokenList.LastIndex);
+        node.Super = superIndex;
+        if (context.CreateError(DiagnosticSeverity.Warning) && !IsValidIdentifier(ref context, ref result, tokenList.LastIndex))
+        {
+            result.WarningAdd_InvalidIdentifier(tokenList.LastIndex);
+        }
+
+        if (!ReadUsefulToken(ref context, ref result))
+        {
+            result.ErrorAdd_UnexpectedEndOfFile(node.Kind);
+            return false;
+        }
+
+        return true;
     }
 
-    private static bool ParseNamelessUbiquitousToBracketLeft(ref Context context, ref Result result, uint kindIndex)
+    private static bool ParseNamelessToBracketLeft(ref Context context, ref Result result, uint kindIndex)
     {
         ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd($"{result.GetSpan(kindIndex)} needs '{{' but no token exists.", kindIndex);
+            result.ErrorAdd_UnexpectedEndOfFile(kindIndex);
             return false;
         }
 
@@ -314,8 +310,7 @@ public static partial class Parser
             return true;
         }
 
-        var text = $"{result.GetSpan(kindIndex)} needs '{{' but {result.GetSpan(result.TokenList.LastIndex)} (Line : {last.Position.Line + 1}, Offset : {last.Position.Offset + 1}) appears.";
-        result.ErrorAdd(text, kindIndex);
+        result.ErrorAdd_BracketLeftNotFound(result.GetSpan(kindIndex));
         return false;
     }
 
@@ -331,14 +326,14 @@ public static partial class Parser
     {
         if (!ReadUsefulToken(ref context, ref result))
         {
-            result.ErrorAdd("Element must have '=' but not found", elementTokenId);
+            result.ErrorAdd_AssignmentDoesNotExist(elementTokenId);
             return false;
         }
 
         ref var last = ref result.TokenList.Last;
         if (!last.IsAssign(ref result.Source))
         {
-            result.ErrorAdd("Element must have '=' but first found token is not '='.", result.TokenList.LastIndex);
+            result.ErrorAdd_AssignmentDoesNotExist(elementTokenId);
             return false;
         }
 

@@ -18,7 +18,7 @@ namespace Wahren.AbstractSyntaxTree;
 <# foreach (var (prefix, infos) in new (string, IEnumerable<CallableInfo>)[] {
     ("Function", CallableInfo.FunctionInfoNormals),
     ("Action", CallableInfo.Specials.Concat(CallableInfo.ActionInfoNormals)),
-}) { 
+}) {
 int nameMaxLength = 0; int nameMinLength = int.MaxValue; #>
 
 public enum <#= prefix #>Kind : uint

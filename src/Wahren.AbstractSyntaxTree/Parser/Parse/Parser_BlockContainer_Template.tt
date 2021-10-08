@@ -67,7 +67,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                 result.ErrorAdd_UnexpectedEndOfFile_AssignmentOrParenLeftIsExpected();
                 goto FALSE;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 if (tokenList.Last.IsParenLeft(ref source))
@@ -90,7 +90,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                             break;
                         }
                     }
-                        
+
                     if (nextStatement is null)
                     {
                         result.ErrorAdd_CoresspondingNextDoesNotExist(currentIndex);
@@ -105,11 +105,11 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                     {
                         continue;
                     }
-                        
+
                     goto FALSE;
                 }
-<#  } #> 
-                   
+<#  } #>
+
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
                 goto FALSE;
             }
@@ -185,7 +185,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);

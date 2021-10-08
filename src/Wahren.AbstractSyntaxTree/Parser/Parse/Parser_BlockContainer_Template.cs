@@ -49,7 +49,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile_AssignmentOrParenLeftIsExpected();
                 goto FALSE;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 if (tokenList.Last.IsParenLeft(ref source))
@@ -61,8 +61,7 @@ public static partial class Parser
 
                     goto FALSE;
                 }
- 
-                   
+
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
                 goto FALSE;
             }
@@ -631,7 +630,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -665,7 +664,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -699,7 +698,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -733,7 +732,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -767,7 +766,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -801,7 +800,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -862,7 +861,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile_AssignmentOrParenLeftIsExpected();
                 goto FALSE;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 if (tokenList.Last.IsParenLeft(ref source))
@@ -884,7 +883,7 @@ public static partial class Parser
                             break;
                         }
                     }
-                        
+
                     if (nextStatement is null)
                     {
                         result.ErrorAdd_CoresspondingNextDoesNotExist(currentIndex);
@@ -899,11 +898,10 @@ public static partial class Parser
                     {
                         continue;
                     }
-                        
+
                     goto FALSE;
                 }
- 
-                   
+
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
                 goto FALSE;
             }
@@ -1092,7 +1090,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -1126,7 +1124,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -1160,7 +1158,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -1221,7 +1219,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile_AssignmentOrParenLeftIsExpected();
                 goto FALSE;
             }
-            
+
             if (!tokenList.Last.IsAssign(ref source))
             {
                 if (tokenList.Last.IsParenLeft(ref source))
@@ -1233,8 +1231,7 @@ public static partial class Parser
 
                     goto FALSE;
                 }
- 
-                   
+
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
                 goto FALSE;
             }
@@ -1295,7 +1292,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);
@@ -1329,7 +1326,7 @@ public static partial class Parser
                     goto FALSE;
                 }
             }
-            
+
             if (createErrorWarning)
             {
                 result.WarningAdd_MultipleAssignment(currentIndex);

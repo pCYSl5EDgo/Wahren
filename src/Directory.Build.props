@@ -2,7 +2,7 @@
     <PropertyGroup>
         <Authors>pCYSl5EDgo</Authors>
         <Copyright>pCYSl5EDgo</Copyright>
-        <Version>0.2.6</Version>
+        <Version>0.2.7</Version>
         <TargetFramework>net6.0</TargetFramework>
         <InvariantGlobalization>true</InvariantGlobalization>
         <Deterministic>true</Deterministic>
@@ -12,11 +12,11 @@
         <NoWarn>CS0105</NoWarn>
         <DefineConstants>JAPANESE</DefineConstants>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <None Include="../.editorconfig" Link=".editorconfig" />
         <None Include="../../README.md" />

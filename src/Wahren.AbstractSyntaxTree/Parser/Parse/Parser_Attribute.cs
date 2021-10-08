@@ -7,7 +7,7 @@ public static partial class Parser
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
-        if (!ParseNamelessUniqueToBracketLeft(ref context, ref result, kindIndex))
+        if (!ParseNamelessToBracketLeft(ref context, ref result, kindIndex))
         {
             return false;
         }

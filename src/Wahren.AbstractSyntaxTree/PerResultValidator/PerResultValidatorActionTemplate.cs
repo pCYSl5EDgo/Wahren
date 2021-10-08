@@ -815,7 +815,7 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.title:
-                
+
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
@@ -855,7 +855,7 @@ public static partial class PerResultValidator
                     argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                 }
 
-                
+
                 break;
             case ActionKind.addVar:
                 span = result.GetSpan(argument.TokenId);
@@ -978,7 +978,7 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.title2:
-                
+
                 argument = ref arguments[1];
                 if (!argument.IsNumber)
                 {
@@ -2468,7 +2468,7 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
-                
+
                 break;
             case ActionKind.pushBattleHome:
                 argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
@@ -2514,7 +2514,7 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
-                
+
                 break;
             case ActionKind.changeSpotImage:
                 span = result.GetSpan(argument.TokenId);
@@ -3715,7 +3715,7 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.choiceTitle:
-                
+
                 break;
             case ActionKind.changePlayer:
                 span = result.GetSpan(argument.TokenId);

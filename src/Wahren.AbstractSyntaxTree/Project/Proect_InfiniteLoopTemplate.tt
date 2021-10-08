@@ -1,0 +1,81 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="NetStandard" #>
+<#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
+<#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.Basic.dll" #>
+<#@ import namespace="Wahren" #>
+<#@ import namespace="Wahren.AbstractSyntaxTree" #>
+<#@ import namespace="Wahren.AbstractSyntaxTree.TextTemplateHelper" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using Wahren.AbstractSyntaxTree.Parser;
+
+namespace Wahren.AbstractSyntaxTree.Project;
+
+public sealed partial class Project
+{
+    public bool DetectInfiniteLoop()
+    {
+        var files = Files.AsSpan();
+        DualList<byte> dualList = new();
+        const byte Processed = 2;
+        const byte Processing = 1;
+        const byte NotYet = 0;
+<# foreach (var node in NodeInfo.Nodes) { #>
+        for (int i = 0; i < files.Length; i++)
+        {
+            ref var file = ref files[i];
+            dualList.AddEmpty();
+            var nodes = file.<#= node.Name #>NodeList.AsSpan();
+            ref var list = ref dualList.Last;
+            list.PrepareAddRange(nodes.Length);
+            for (int j = 0; j < nodes.Length; j++)
+            {
+                ref var node = ref nodes[j];
+                list.Add(node.Super.HasValue ? NotYet : Processed);
+            }
+        }
+        for (int i = 0; i < files.Length; i++)
+        {
+            ref var file = ref files[i];
+            var nodes = file.<#= node.Name #>NodeList.AsSpan();
+            ref var superSet = ref file.<#= node.Name #>Set;
+            var listSpan = dualList[i].AsSpan();
+            for (int j = 0; j < listSpan.Length; j++)
+            {
+                if (listSpan[j] != NotYet)
+                {
+                    continue;
+                }
+
+                listSpan[j] = Processing;
+                ref var node = ref nodes[j];
+                var superSpan = superSet[node.Super!.Value];
+                ref var superFile = ref TryGet<#= node.Name #>Node(superSpan, out var superNodeIndex);
+                do
+                {
+                    ref var superStatus = ref dualList[superFile.Id][superNodeIndex];
+                    if (superStatus == Processed)
+                    {
+                        break;
+                    }
+
+                    if (superStatus == Processing)
+                    {
+                        file.ErrorAdd_InfiniteLoop("<#= node.Name #>", file.GetSpan(node.Name), superSpan, node.Name);
+                        return false;
+                    }
+
+                    superStatus = Processing;
+                    superSpan = superFile.<#= node.Name #>Set[superFile.<#= node.Name #>NodeList[superNodeIndex].Super!.Value];
+                    superFile = ref TryGet<#= node.Name #>Node(superSpan, out superNodeIndex);
+                } while (true);
+            }
+        }
+        dualList.Dispose();
+<# } #>
+        return true;
+    }
+}

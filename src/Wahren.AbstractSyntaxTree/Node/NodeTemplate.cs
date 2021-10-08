@@ -632,7 +632,7 @@ public partial struct SkillNode : IInheritableNode
 
 	public SkillKind SkillKind = new();
 	public SkillMovetype SkillMovetype = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> bright = new();
+	public Pair_NullableString_NullableIntElement? bright = default;
 	public Pair_NullableString_NullableIntElement? func = default;
 	public Pair_NullableString_NullableIntElement? name = default;
 	public Pair_NullableString_NullableInt_ArrayElement? icon = default;
@@ -642,16 +642,16 @@ public partial struct SkillNode : IInheritableNode
 	public Pair_NullableString_NullableIntElement? delay = default;
 	public Pair_NullableString_NullableIntElement? gun_delay = default;
 	public Pair_NullableString_NullableIntElement? quickreload = default;
-	public VariantPair<Pair_NullableString_NullableIntElement> help = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> hide_help = new();
+	public Pair_NullableString_NullableIntElement? help = default;
+	public Pair_NullableString_NullableIntElement? hide_help = default;
 	public Pair_NullableString_NullableInt_ArrayElement? sound = default;
 	public VariantPair<Pair_NullableString_NullableIntElement> msg = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture = new();
 	public Pair_NullableString_NullableInt_ArrayElement? cutin = default;
 	public Pair_NullableString_NullableIntElement? value = default;
-	public VariantPair<Pair_NullableString_NullableIntElement> talent = new();
+	public Pair_NullableString_NullableIntElement? talent = default;
 	public Pair_NullableString_NullableIntElement? exp_per = default;
-	public VariantPair<Pair_NullableString_NullableIntElement> movetype = new();
+	public Pair_NullableString_NullableIntElement? movetype = default;
 	public Pair_NullableString_NullableIntElement? type = default;
 	public Pair_NullableString_NullableInt_ArrayElement? color = default;
 	public Pair_NullableString_NullableIntElement? w = default;
@@ -783,7 +783,7 @@ public partial struct SkillNode : IInheritableNode
 
 	public void Dispose()
 	{
-		bright.Dispose();
+		bright = default;
 		func = default;
 		name = default;
 		icon?.Dispose();
@@ -794,8 +794,8 @@ public partial struct SkillNode : IInheritableNode
 		delay = default;
 		gun_delay = default;
 		quickreload = default;
-		help.Dispose();
-		hide_help.Dispose();
+		help = default;
+		hide_help = default;
 		sound?.Dispose();
 		sound = default;
 		msg.Dispose();
@@ -803,9 +803,9 @@ public partial struct SkillNode : IInheritableNode
 		cutin?.Dispose();
 		cutin = default;
 		value = default;
-		talent.Dispose();
+		talent = default;
 		exp_per = default;
-		movetype.Dispose();
+		movetype = default;
 		type = default;
 		color?.Dispose();
 		color = default;

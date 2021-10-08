@@ -30,18 +30,6 @@ public static class ProjectErrorHelper
         project.ErrorBag.Add(new(handler.ToStringAndClear()));
     }
 
-    public static void ErrorAdd_FileNotFound(this Project project, ReadOnlySpan<char> folder, ReadOnlySpan<char> fileName)
-    {
-        DefaultInterpolatedStringHandler handler;
-#if JAPANESE
-        handler = $"{folder}フォルダに'{fileName}'という名前のファイルが見つかりません。";
-#else
-        handler = $"file {folder} '{fileName}' is not found in this project.";
-#endif
-
-        project.ErrorBag.Add(new(handler.ToStringAndClear()));
-    }
-
     public static void ErrorAdd_NameStructureNotFound(this Project project, ReadOnlySpan<char> kind, ReadOnlySpan<char> name, ref Result result, ReadOnlySpan<uint> references)
     {
         DefaultInterpolatedStringHandler handler;
