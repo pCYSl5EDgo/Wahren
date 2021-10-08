@@ -185,7 +185,7 @@ public static class ErrorHelper
 #if JAPANESE
         var text = $"battleブロックを記述する場合、先行してnext()関数の呼び出しが必要とwikiに記述されていますが見当たりません。";
 #else
-        var text = $"'battle{}' block does not have corresponding 'next()' statement.";
+        var text = $"'battle{{}}' block does not have corresponding 'next()' statement.";
 #endif
         result.ErrorAdd(text, tokenId);
     }
