@@ -339,6 +339,27 @@ public static class ErrorHelper
         result.ErrorAdd(text, callId);
     }
 
+    public static void ErrorAdd_InvalidMultipleTokenArgument(ref this Result result, ReadOnlySpan<char> callName, uint argumentTokenId, uint argumentTrailingTokenCount)
+    {
+#if JAPANESE
+        DefaultInterpolatedStringHandler handler = $"関数'{callName}'の引数が不正です。おそらく','を記述し忘れていませんか？　不正な引数: '{result.GetSpan(argumentTokenId)}";
+        ref var tokenList = ref result.TokenList;
+        for (uint i = 1; i <= argumentTrailingTokenCount; i++)
+        {
+            var count = tokenList.GetPrecedingWhitespaceCount(argumentTokenId + i);
+            for (uint j = 0; j < count; j++)
+            {
+                handler.AppendFormatted(' ');
+            }
+            handler.AppendFormatted(result.GetSpan(argumentTokenId + i));
+        }
+        handler.AppendLiteral("'。");
+#else
+        DefaultInterpolatedStringHandler handler = $"The argument of '{callName}' must be single ifentifier.";
+#endif
+        result.ErrorAdd(handler.ToStringAndClear(), argumentTokenId);
+    }
+
     public static void ErrorAdd_UnexpectedElementReferenceKind(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> referenceKind, uint tokenId)
     {
 #if JAPANESE

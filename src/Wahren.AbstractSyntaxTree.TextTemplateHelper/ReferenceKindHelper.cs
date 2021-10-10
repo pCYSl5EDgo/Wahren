@@ -181,62 +181,69 @@ public static class ReferenceKindHelper
             builder.AppendLine("];");
             Inden();
         }
-        builder.Append("span = result.GetSpan(argument.TokenId);").AppendLine();
-        Inden().Append("if (span.IsEmpty)").AppendLine();
+        builder.Append("if (argument.TrailingTokenCount == 0)").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-        Inden().Append("}").AppendLine();
-        Inden().Append("else if (span[0] == '@')").AppendLine();
-        Inden().Append("{").AppendLine();
-        Inden().Append("    if (span.Length == 1)").AppendLine();
+        Inden().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+        Inden().Append("    if (span.IsEmpty)").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
         builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("    }").AppendLine();
+        Inden().Append("    else if (span[0] == '@')").AppendLine();
+        Inden().Append("    {").AppendLine();
+        Inden().Append("        if (span.Length == 1)").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        Inden().Append("        }").AppendLine();
+        Inden().Append("        else").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+        Inden().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
+        Inden().Append("            argument.HasReference = true;").AppendLine();
+        Inden().Append("        }").AppendLine();
+        Inden().Append("    }").AppendLine();
         Inden().Append("    else").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
-        Inden().Append("        argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
-        Inden().Append("        argument.HasReference = true;").AppendLine();
+        Inden().Append("        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);").AppendLine();
+        Inden().Append("        if (Unsafe.IsNullRef(ref track))").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        Inden().Append("        }").AppendLine();
+        Inden().Append("        else").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            switch (track.Kind)").AppendLine();
+        Inden().Append("            {").AppendLine();
+        if (hasSkill)
+        {
+            Inden().Append("                case ReferenceKind.Skill:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Skill;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        if (hasSkillset)
+        {
+            Inden().Append("                case ReferenceKind.Skillset:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Skillset;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+
+        Inden().Append("                default:").AppendLine();
+        Inden().Append("                    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        Inden().Append("                    argument.HasReference = false;").AppendLine();
+        Inden().Append("                    break;").AppendLine();
+        Inden().Append("            }").AppendLine();
+        Inden().Append("        }").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("}").AppendLine();
         Inden().Append("else").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(span);").AppendLine();
-        Inden().Append("    if (Unsafe.IsNullRef(ref track))").AppendLine();
-        Inden().Append("    {").AppendLine();
-        Inden().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-        Inden().Append("    }").AppendLine();
-        Inden().Append("    else").AppendLine();
-        Inden().Append("    {").AppendLine();
-        Inden().Append("        switch (track.Kind)").AppendLine();
-        Inden().Append("        {").AppendLine();
-        if (hasSkill)
-        {
-            Inden().Append("            case ReferenceKind.Skill:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Skill;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        if (hasSkillset)
-        {
-            Inden().Append("            case ReferenceKind.Skillset:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Skillset;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-
-        Inden().Append("            default:").AppendLine();
-        Inden().Append("                result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-        Inden().Append("                argument.HasReference = false;").AppendLine();
-        Inden().Append("                break;").AppendLine();
-        Inden().Append("        }").AppendLine();
-        Inden().Append("    }").AppendLine();
+        Inden().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
         Inden().Append("}").AppendLine();
     }
 
@@ -261,91 +268,98 @@ public static class ReferenceKindHelper
             builder.AppendLine("];");
             Inden();
         }
-        builder.Append("span = result.GetSpan(argument.TokenId);").AppendLine();
-        Inden().Append("if (span.IsEmpty)").AppendLine();
+        builder.Append("if (argument.TrailingTokenCount == 0)").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-        Inden().Append("}").AppendLine();
-        Inden().Append("else if (span[0] == '@')").AppendLine();
-        Inden().Append("{").AppendLine();
-        Inden().Append("    if (span.Length == 1)").AppendLine();
+        Inden().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+        Inden().Append("    if (span.IsEmpty)").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+        builder.Append("    , "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        Inden().Append("    }").AppendLine();
+        Inden().Append("    else if (span[0] == '@')").AppendLine();
+        Inden().Append("    {").AppendLine();
+        Inden().Append("        if (span.Length == 1)").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
         builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        Inden().Append("        }").AppendLine();
+        Inden().Append("        else").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+        Inden().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
+        Inden().Append("            argument.HasReference = true;").AppendLine();
+        Inden().Append("        }").AppendLine();
         Inden().Append("    }").AppendLine();
         Inden().Append("    else").AppendLine();
         Inden().Append("    {").AppendLine();
-        Inden().Append("        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
-        Inden().Append("        argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
-        Inden().Append("        argument.HasReference = true;").AppendLine();
+        Inden().Append("        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);").AppendLine();
+        Inden().Append("        if (!Unsafe.IsNullRef(ref track))").AppendLine();
+        Inden().Append("        {").AppendLine();
+        Inden().Append("            switch (track.Kind)").AppendLine();
+        Inden().Append("            {").AppendLine();
+        if (hasUnit)
+        {
+            Inden().Append("                case ReferenceKind.Unit:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Unit;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        if (hasClass)
+        {
+            Inden().Append("                case ReferenceKind.Class:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Class;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        if (hasPower)
+        {
+            Inden().Append("                case ReferenceKind.Power:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Power;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        if (hasSpot)
+        {
+            Inden().Append("                case ReferenceKind.Spot:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Spot;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        if (hasRace)
+        {
+            Inden().Append("                case ReferenceKind.Race:").AppendLine();
+            Inden().Append("                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceKind = ReferenceKind.Race;").AppendLine();
+            Inden().Append("                    argument.HasReference = true;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        if (!hasText)
+        {
+            Inden().Append("                default:").AppendLine();
+            Inden().Append("                    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+            builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+            Inden().Append("                    argument.HasReference = false;").AppendLine();
+            Inden().Append("                    break;").AppendLine();
+        }
+        Inden().Append("            }").AppendLine();
+        Inden().Append("        }").AppendLine();
+        if (!hasText)
+        {
+            Inden().Append("        else").AppendLine();
+            Inden().Append("        {").AppendLine();
+            Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+            builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+            Inden().Append("        }").AppendLine();
+        }
         Inden().Append("    }").AppendLine();
         Inden().Append("}").AppendLine();
         Inden().Append("else").AppendLine();
         Inden().Append("{").AppendLine();
-        Inden().Append("    ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);").AppendLine();
-        Inden().Append("    if (!Unsafe.IsNullRef(ref track))").AppendLine();
-        Inden().Append("    {").AppendLine();
-        Inden().Append("        switch (track.Kind)").AppendLine();
-        Inden().Append("        {").AppendLine();
-        if (hasUnit)
-        {
-            Inden().Append("            case ReferenceKind.Unit:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Unit;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        if (hasClass)
-        {
-            Inden().Append("            case ReferenceKind.Class:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Class;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        if (hasPower)
-        {
-            Inden().Append("            case ReferenceKind.Power:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Power;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        if (hasSpot)
-        {
-            Inden().Append("            case ReferenceKind.Spot:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Spot;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        if (hasRace)
-        {
-            Inden().Append("            case ReferenceKind.Race:").AppendLine();
-            Inden().Append("                argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);").AppendLine();
-            Inden().Append("                argument.ReferenceKind = ReferenceKind.Race;").AppendLine();
-            Inden().Append("                argument.HasReference = true;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        if (!hasText)
-        {
-            Inden().Append("            default:").AppendLine();
-            Inden().Append("                result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-            builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-            Inden().Append("                argument.HasReference = false;").AppendLine();
-            Inden().Append("                break;").AppendLine();
-        }
-        Inden().Append("        }").AppendLine();
-        Inden().Append("    }").AppendLine();
-        if (!hasText)
-        {
-            Inden().Append("    else").AppendLine();
-            Inden().Append("    {").AppendLine();
-            Inden().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-            builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-            Inden().Append("    }").AppendLine();
-        }
+        Inden().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
         Inden().Append("}").AppendLine();
     }
 
@@ -483,12 +497,19 @@ public static class ReferenceKindHelper
             case ReferenceKind.image_file:
             case ReferenceKind.flag:
             case ReferenceKind.font:
-                F().Append("argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
-                I().Append("argument.ReferenceId = result.").Append(reference).AppendLine("Set.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);");
-                I().Append("argument.HasReference = true;").AppendLine();
+                F().Append("if (argument.TrailingTokenCount == 0)").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
+                I().Append("    argument.ReferenceId = result.").Append(reference).AppendLine("Set.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);");
+                I().Append("    argument.HasReference = true;").AppendLine();
+                I().Append("}").AppendLine();
+                I().Append("else").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
+                I().Append("}").AppendLine();
                 break;
             case ReferenceKind.Number:
-                F().Append("if (!argument.IsNumber)").AppendLine();
+                F().Append("if (argument.TrailingTokenCount != 0 || !argument.IsNumber)").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
@@ -497,7 +518,11 @@ public static class ReferenceKindHelper
             case ReferenceKind.Boolean:
             case ReferenceKind.Status:
             case ReferenceKind.RedBlue:
-                F().Append("if (!argument.IsNumber && (argument.HasReference = PerResultValidator.Is").Append(reference).AppendLine("(result.GetSpan(argument.TokenId), out argument.ReferenceId)))");
+                F().Append("if (argument.TrailingTokenCount != 0)").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
+                I().Append("}").AppendLine();
+                I().Append("else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.Is").Append(reference).AppendLine("(result.GetSpan(argument.TokenId), out argument.ReferenceId)))");
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
                 I().Append("}").AppendLine();
@@ -508,7 +533,11 @@ public static class ReferenceKindHelper
                 I().Append("}").AppendLine();
                 break;
             case ReferenceKind.NumberVariableReader | ReferenceKind.Number:
-                F().Append("if (!argument.IsNumber)").AppendLine();
+                F().Append("if (argument.TrailingTokenCount != 0)").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
+                I().Append("}").AppendLine();
+                I().Append("else if (!argument.IsNumber)").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.NumberVariableReader;").AppendLine();
                 I().Append("    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);").AppendLine();
@@ -516,64 +545,78 @@ public static class ReferenceKindHelper
                 I().Append("}").AppendLine();
                 break;
             case ReferenceKind.StringVariableReader:
-                F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
-                I().Append("if (span.IsEmpty)").AppendLine();
+                F().Append("if (argument.TrailingTokenCount != 0)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-                I().Append("}").AppendLine();
-                I().Append("else if (span[0] == '@')").AppendLine();
-                I().Append("{").AppendLine();
-                I().Append("    if (span.Length != 1)").AppendLine();
-                I().Append("    {").AppendLine();
-                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
-                I().Append("        argument.HasReference = true;").AppendLine();
-                I().Append("    }").AppendLine();
-                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    if (").Append(severityCheck).Append(")").AppendLine();
+                I().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+                I().Append("    if (span.IsEmpty)").AppendLine();
                 I().Append("    {").AppendLine();
                 I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
                 I().Append("    }").AppendLine();
-                I().Append("    argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
-                I().Append("    argument.HasReference = true;").AppendLine();
-                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
-                I().Append("}").AppendLine();
-                break;
-            case ReferenceKind.StringVariableWriter:
-                F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
-                I().Append("if (span.IsEmpty)").AppendLine();
-                I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-                I().Append("}").AppendLine();
-                I().Append("else if (span[0] == '@')").AppendLine();
-                I().Append("{").AppendLine();
-                I().Append("    if (span.Length == 1)").AppendLine();
+                I().Append("    else if (span[0] == '@')").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("        if (span.Length != 1)").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.HasReference = true;").AppendLine();
+                I().Append("        }").AppendLine();
+                I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
                 I().Append("    }").AppendLine();
                 I().Append("    else").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("        if (").Append(severityCheck).Append(")").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("        }").AppendLine();
+                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
                 I().Append("        argument.HasReference = true;").AppendLine();
+                I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
                 I().Append("    }").AppendLine();
-                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
+                I().Append("}").AppendLine();
+                break;
+            case ReferenceKind.StringVariableWriter:
+                F().Append("if (argument.TrailingTokenCount != 0)").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    if (").Append(severityCheck).Append(")").AppendLine();
+                I().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+                I().Append("    if (span.IsEmpty)").AppendLine();
                 I().Append("    {").AppendLine();
                 I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
                 I().Append("    }").AppendLine();
-                I().Append("    argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
-                I().Append("    argument.HasReference = true;").AppendLine();
-                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
+                I().Append("    else if (span[0] == '@')").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        if (span.Length == 1)").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("        }").AppendLine();
+                I().Append("        else").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.HasReference = true;").AppendLine();
+                I().Append("        }").AppendLine();
+                I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
+                I().Append("    }").AppendLine();
+                I().Append("    else").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        if (").Append(severityCheck).Append(")").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("        }").AppendLine();
+                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
+                I().Append("        argument.HasReference = true;").AppendLine();
+                I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
+                I().Append("    }").AppendLine();
                 I().Append("}").AppendLine();
                 break;
             case ReferenceKind.StringVariableReader | ReferenceKind.Spot:
@@ -587,26 +630,33 @@ public static class ReferenceKindHelper
             case ReferenceKind.StringVariableReader | ReferenceKind.GlobalVariableWriter:
             case ReferenceKind.StringVariableReader | ReferenceKind.GlobalVariableReader:
                 reference ^= ReferenceKind.StringVariableReader;
-                F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
-                I().Append("if (span.IsEmpty)").AppendLine();
+                F().Append("if (argument.TrailingTokenCount != 0)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-                I().Append("}").AppendLine();
-                I().Append("else if (span[0] == '@')").AppendLine();
-                I().Append("{").AppendLine();
-                I().Append("    if (span.Length != 1)").AppendLine();
-                I().Append("    {").AppendLine();
-                I().Append("        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
-                I().Append("        argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
-                I().Append("        argument.HasReference = true;").AppendLine();
-                I().Append("    }").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
-                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
-                I().Append("    argument.HasReference = true;").AppendLine();
+                I().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+                I().Append("    if (span.IsEmpty)").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("    }").AppendLine();
+                I().Append("    else if (span[0] == '@')").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        if (span.Length != 1)").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
+                I().Append("            argument.HasReference = true;").AppendLine();
+                I().Append("        }").AppendLine();
+                I().Append("    }").AppendLine();
+                I().Append("    else").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
+                I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
+                I().Append("        argument.HasReference = true;").AppendLine();
+                I().Append("    }").AppendLine();
                 I().Append("}").AppendLine();
                 break;
             case ReferenceKind.StringVariableReader | ReferenceKind.Text:
@@ -621,39 +671,46 @@ public static class ReferenceKindHelper
             case ReferenceKind.StringVariableReader | ReferenceKind.Status:
             case ReferenceKind.StringVariableReader | ReferenceKind.RedBlue:
             case ReferenceKind.StringVariableReader | ReferenceKind.Boolean:
-                F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
-                I().Append("if (argument.IsNumber)").AppendLine();
+                F().Append("if (argument.TrailingTokenCount != 0)").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
                 I().Append("}").AppendLine();
-                I().Append("else if (span.IsEmpty)").AppendLine();
+                I().Append("else").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
-                I().Append("}").AppendLine();
-                I().Append("else if (span[0] == '@')").AppendLine();
-                I().Append("{").AppendLine();
-                I().Append("    if (span.Length == 1)").AppendLine();
+                I().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+                I().Append("    if (argument.IsNumber)").AppendLine();
                 I().Append("    {").AppendLine();
                 I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
                 I().Append("    }").AppendLine();
+                I().Append("    else if (span.IsEmpty)").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("    }").AppendLine();
+                I().Append("    else if (span[0] == '@')").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        if (span.Length == 1)").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("        }").AppendLine();
+                I().Append("        else").AppendLine();
+                I().Append("        {").AppendLine();
+                I().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
+                I().Append("            argument.HasReference = true;").AppendLine();
+                I().Append("        }").AppendLine();
+                I().Append("    }").AppendLine();
+                I().Append("    else if (argument.HasReference = PerResultValidator.Is").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine("(span, out argument.ReferenceId))");
+                I().Append("    {").AppendLine();
+                I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine(";");
+                I().Append("    }").AppendLine();
                 I().Append("    else").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
-                I().Append("        argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
-                I().Append("        argument.HasReference = true;").AppendLine();
-                I().Append("    }").AppendLine();
-                I().Append("}").AppendLine();
-                I().Append("else if (argument.HasReference = PerResultValidator.Is").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine("(span, out argument.ReferenceId))");
-                I().Append("{").AppendLine();
-                I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference ^ ReferenceKind.StringVariableReader).AppendLine(";");
-                I().Append("}").AppendLine();
-                I().Append("else").AppendLine();
-                I().Append("{").AppendLine();
-                I().Append("    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
+                I().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+                I().Append("    }").AppendLine();
                 I().Append("}").AppendLine();
                 break;
         }
