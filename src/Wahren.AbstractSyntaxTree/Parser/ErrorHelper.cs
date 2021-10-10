@@ -4,26 +4,26 @@ public static class ErrorHelper
 {
     public static void ErrorAdd(ref this Result result, string text, uint tokenId)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Position, token.Length));
+        ref var tokenList = ref result.TokenList;
+        result.ErrorList.Add(new(text, tokenList.GetLine(tokenId), tokenList.GetOffset(tokenId), tokenList.GetLength(tokenId)));
     }
 
     public static void WarningAdd(ref this Result result, string text, uint tokenId)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Position, token.Length, DiagnosticSeverity.Warning));
+        ref var tokenList = ref result.TokenList;
+        result.ErrorList.Add(new(text, tokenList.GetLine(tokenId), tokenList.GetOffset(tokenId), tokenList.GetLength(tokenId), DiagnosticSeverity.Warning));
     }
 
     public static void InfoAdd(ref this Result result, string text, uint tokenId)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Position, token.Length, DiagnosticSeverity.Info));
+        ref var tokenList = ref result.TokenList;
+        result.ErrorList.Add(new(text, tokenList.GetLine(tokenId), tokenList.GetOffset(tokenId), tokenList.GetLength(tokenId), DiagnosticSeverity.Info));
     }
 
     public static void HintAdd(ref this Result result, string text, uint tokenId)
     {
-        ref var token = ref result.TokenList[tokenId];
-        result.ErrorList.Add(new(text, token.Position, token.Length, DiagnosticSeverity.Hint));
+        ref var tokenList = ref result.TokenList;
+        result.ErrorList.Add(new(text, tokenList.GetLine(tokenId), tokenList.GetOffset(tokenId), tokenList.GetLength(tokenId), DiagnosticSeverity.Hint));
     }
 
     public static void WarningAdd_MultipleAssignment(ref this Result result, uint tokenId)
@@ -422,6 +422,8 @@ public static class ErrorHelper
         result.ErrorAdd(error, kindId);
     }
 
+
+
     public static void ErrorAdd_BracketRightNotFound(ref this Result result, uint kindId, uint nameId)
     {
 #if JAPANESE
@@ -429,7 +431,6 @@ public static class ErrorHelper
 #else
         var error = $"{result.GetSpan(kindId)} {result.GetSpan(nameId)}'s '}}' is not found. Unexpected End Of File.";
 #endif
-        ref var token = ref result.TokenList[kindId];
         result.ErrorAdd(error, kindId);
     }
 

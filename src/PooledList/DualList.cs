@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Wahren.PooledList;
+﻿namespace Wahren.PooledList;
 
 public struct DualList<T> : IDisposable
 {
@@ -65,20 +62,6 @@ public struct DualList<T> : IDisposable
         count = 0;
     }
 
-    public int IndexOf(ref List<T> item)
-    {
-        var span = new ReadOnlySpan<List<T>>(array, 0, count);
-        for (int i = 0; i < span.Length; i++)
-        {
-            if (span[i].Equals(ref item))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
     public void AddEmpty()
     {
         if (array.Length == 0)
@@ -98,37 +81,38 @@ public struct DualList<T> : IDisposable
 
     public int Count => count;
 
-    public Enumerator GetEnumerator() => new(ref this);
-
-    public struct Enumerator : IEnumerator<List<T>>
+    public void InsertEmpty(int index)
     {
-        private readonly DualList<T> parent;
-        private int index;
-
-        public Enumerator(ref DualList<T> parent)
+        if (index < 0)
         {
-            this.parent = parent;
-            index = -1;
+            throw new ArgumentOutOfRangeException();
         }
 
-        public ref List<T> Current => ref parent.array[index];
-
-        List<T> IEnumerator<List<T>>.Current => Current;
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
+        AddEmpty();
+        if (index == count - 1)
         {
+            return;
         }
 
-        public bool MoveNext()
+        var last = array[count - 1];
+        Array.Copy(array, index, array, index + 1, count - index - 1);
+        array[index] = last;
+    }
+
+    public void RemoveAt(int index)
+    {
+        if (index < 0 || index >= count)
         {
-            return ++index < parent.count;
+            throw new ArgumentOutOfRangeException();
         }
 
-        public void Reset()
+        array[index].Dispose();
+        --count;
+        if (index == count)
         {
-            index = -1;
+            return;
         }
+
+        Array.Copy(array, index + 1, array, index, count - index);
     }
 }

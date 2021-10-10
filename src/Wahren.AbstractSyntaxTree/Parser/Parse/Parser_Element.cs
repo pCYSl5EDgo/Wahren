@@ -10,16 +10,15 @@ public static partial class Parser
     public static bool Parse_Element_LOYAL(ref Context context, ref Result result, Pair_NullableString_NullableIntElement element)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.LOYAL;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.LOYAL;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
-        ref var source = ref result.Source;
-        tokenList.Last.Kind = TokenKind.Content;
-        if (element.Value.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Number))
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        if (element.Value.HasNumber = result.TryParse(tokenList.LastIndex, out element.Value.Number))
         {
             if (!result.IsEndOfLine(tokenList.LastIndex))
             {
@@ -40,9 +39,9 @@ public static partial class Parser
                 return false;
             }
 
-            if (!tokenList.Last.IsMul(ref source))
+            if (!result.IsMul(tokenList.LastIndex))
             {
-                if (tokenList.Last.PrecedingNewLineCount == 0)
+                if (tokenList.GetPrecedingNewLineCount(tokenList.LastIndex) == 0)
                 {
                     result.UnionLast2Tokens();
                     continue;
@@ -60,8 +59,8 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
-            element.Value.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Number);
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            element.Value.HasNumber = result.TryParse(tokenList.LastIndex, out element.Value.Number);
             if (!element.Value.HasNumber)
             {
                 result.ErrorAdd("Number text must follows '*'.", textIndex);
@@ -76,7 +75,7 @@ public static partial class Parser
             return false;
         }
 
-        if (tokenList[textIndex].IsAtmark(ref source))
+        if (result.IsAtmark(textIndex))
         {
             element.HasValue = false;
         }
@@ -91,21 +90,19 @@ public static partial class Parser
     private static bool Parse_Element_RAY(ref Context context, ref Result result, IElement<List<Pair_NullableString_NullableInt>> element)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.RAY;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.RAY;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
-        ref var source = ref result.Source;
         element.HasValue = true;
-        ref var thisLine = ref source[tokenList.Last.Position.Line];
         do
         {
             element.Value.Add(new());
             ref var elementLastValue = ref element.Value.Last;
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             elementLastValue.HasText = !(elementLastValue.HasNumber = int.TryParse(result.GetSpan(elementLastValue.Text = tokenList.LastIndex), out elementLastValue.Number));
 
             if (!ReadToken(ref context, ref result))
@@ -114,13 +111,13 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.Position.Line != tokenList[tokenList.LastIndex - 1].Position.Line)
+            if (tokenList.GetPrecedingNewLineCount(tokenList.LastIndex) != 0)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
             }
 
-            if (!tokenList.Last.IsComma(ref source))
+            if (!result.IsComma(tokenList.LastIndex))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(element.ElementTokenId);
                 return false;
@@ -134,7 +131,7 @@ public static partial class Parser
         } while (true);
 
     TRUE:
-        if (element.HasValue && element.Value.Count == 1 && element.Value[0].HasText && tokenList[element.Value[0].Text].IsAtmark(ref source))
+        if (element.HasValue && element.Value.Count == 1 && element.Value[0].HasText && result.IsAtmark(element.Value[0].Text))
         {
             element.Value.Clear();
         }
@@ -149,7 +146,7 @@ public static partial class Parser
     private static bool Parse_Element_DEFAULT(ref Context context, ref Result result, IElement<Pair_NullableString_NullableInt> element)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.DEFAULT;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.DEFAULT;
         if (!ReadToken(ref context, ref result))
         {
             result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
@@ -160,9 +157,9 @@ public static partial class Parser
         element.HasValue = true;
         element.Value.HasText = true;
         element.Value.Text = tokenList.LastIndex;
-        tokenList.Last.Kind = TokenKind.Content;
-        var processingLine = tokenList.Last.Position.Line;
-        if (element.Value.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Number))
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        var processingLine = tokenList.GetLine(tokenList.LastIndex);
+        if (element.Value.HasNumber = result.TryParse(tokenList.LastIndex, out element.Value.Number))
         {
             goto TRUE;
         }
@@ -175,7 +172,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (processingLine != tokenList.Last.Position.Line)
+            if (processingLine != tokenList.GetLine(tokenList.LastIndex))
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
@@ -185,7 +182,7 @@ public static partial class Parser
         } while (true);
 
     TRUE:
-        if (tokenList[element.Value.Text].IsAtmark(ref source))
+        if (result.IsAtmark(element.Value.Text))
         {
             element.HasValue = false;
         }
@@ -201,36 +198,36 @@ public static partial class Parser
     private static bool Parse_Element_MEMBER(ref Context context, ref Result result, IElement<List<Pair_NullableString_NullableInt>> element)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.MEMBER;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.MEMBER;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
-        static bool AddValue_Pair_NullableString_NullableInt(IElement<List<Pair_NullableString_NullableInt>> element, ref DualList<char> source, ref List<Token> tokenList)
+        static bool AddValue_Pair_NullableString_NullableInt(IElement<List<Pair_NullableString_NullableInt>> element, ref Result result, ref TokenList tokenList)
         {
-            if (tokenList.Last.IsOperator(ref source))
+            if (result.IsOperator(tokenList.LastIndex))
             {
                 return false;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             var item = new Pair_NullableString_NullableInt()
             {
                 HasText = true,
                 Text = tokenList.LastIndex,
             };
-            item.HasNumber = tokenList.Last.TryParse(ref source, out item.Number);
+            item.HasNumber = result.TryParse(tokenList.LastIndex, out item.Number);
             element.Value.Add(ref item);
             return true;
         }
 
         ref var source = ref result.Source;
         element.HasValue = true;
-        if (!AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
+        if (!AddValue_Pair_NullableString_NullableInt(element, ref result, ref tokenList))
         {
-            result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Position.Line][tokenList.Last.Position.Offset]} appears. Text is expected.", tokenList.LastIndex);
+            result.ErrorAdd($"Unexpected operator char {result.GetSpan(tokenList.LastIndex)} appears. Text is expected.", tokenList.LastIndex);
             return false;
         }
 
@@ -243,13 +240,13 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList[element.Value.Last.Text].Position.Line != tokenList.Last.Position.Line)
+            if (tokenList.GetLine(element.Value.Last.Text) != tokenList.GetLine(tokenList.LastIndex))
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
             }
 
-            if (tokenList.Last.IsComma(ref source))
+            if (result.IsComma(tokenList.LastIndex))
             {
                 if (!ReadToken(ref context, ref result))
                 {
@@ -257,16 +254,16 @@ public static partial class Parser
                     return false;
                 }
 
-                if (AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
+                if (AddValue_Pair_NullableString_NullableInt(element, ref result, ref tokenList))
                 {
                     continue;
                 }
 
-                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Position.Line][tokenList.Last.Position.Offset]} appears. Text is expected.", tokenList.LastIndex);
+                result.ErrorAdd($"Unexpected operator char {result.GetSpan(tokenList.LastIndex)} appears. Text is expected.", tokenList.LastIndex);
                 return false;
             }
 
-            if (!tokenList.Last.IsMul(ref source))
+            if (!result.IsMul(tokenList.LastIndex))
             {
                 result.UnionLast2Tokens();
                 continue;
@@ -278,8 +275,8 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
-            if (tokenList.Last.TryParse(ref source, out int repeatCount))
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            if (result.TryParse(tokenList.LastIndex, out int repeatCount))
             {
                 if (createWarning)
                 {
@@ -304,20 +301,20 @@ public static partial class Parser
                 result.ErrorAdd_NumberIsExpected(element.ElementTokenId);
             }
 
-            var processingLineIndex = tokenList.Last.Position.Line;
+            var processingLineIndex = tokenList.GetLine(tokenList.LastIndex);
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
                 return false;
             }
 
-            if (processingLineIndex != tokenList.Last.Position.Line)
+            if (processingLineIndex != tokenList.GetLine(tokenList.LastIndex))
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
             }
 
-            if (!tokenList.Last.IsComma(ref source))
+            if (!result.IsComma(tokenList.LastIndex))
             {
                 result.ErrorAdd_CommaIsExpected(element.ElementTokenId);
                 return false;
@@ -329,15 +326,15 @@ public static partial class Parser
                 return false;
             }
 
-            if (!AddValue_Pair_NullableString_NullableInt(element, ref source, ref tokenList))
+            if (!AddValue_Pair_NullableString_NullableInt(element, ref result, ref tokenList))
             {
-                result.ErrorAdd($"Unexpected operator char{source[tokenList.Last.Position.Line][tokenList.Last.Position.Offset]} appears. Text is expected.", tokenList.LastIndex);
+                result.ErrorAdd($"Unexpected operator char {result.GetSpan(tokenList.LastIndex)} appears. Text is expected.", tokenList.LastIndex);
                 return false;
             }
         } while (true);
 
     TRUE:
-        if (element.HasValue && element.Value.Count == 1 && element.Value[0].HasText && tokenList[element.Value[0].Text].IsAtmark(ref source))
+        if (element.HasValue && element.Value.Count == 1 && element.Value[0].HasText && result.IsAtmark(element.Value[0].Text))
         {
             element.Value.Clear();
         }
@@ -353,7 +350,7 @@ public static partial class Parser
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.CONSTI;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.CONSTI;
         element.HasValue = true;
 
         do
@@ -364,7 +361,7 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             element.Value.Add(new()
             {
                 HasText = true,
@@ -379,7 +376,7 @@ public static partial class Parser
                     return false;
                 }
 
-                if (tokenList.Last.IsMul(ref source))
+                if (result.IsMul(tokenList.LastIndex))
                 {
                     if (!ReadToken(ref context, ref result))
                     {
@@ -387,27 +384,27 @@ public static partial class Parser
                         return false;
                     }
 
-                    tokenList.Last.Kind = TokenKind.Content;
-                    if (!(element.Value.Last.HasNumber = tokenList.Last.TryParse(ref source, out element.Value.Last.Number)))
+                    tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+                    if (!(element.Value.Last.HasNumber = result.TryParse(tokenList.LastIndex, out element.Value.Last.Number)))
                     {
                         result.ErrorAdd_NumberIsExpected(element.ElementTokenId);
                         return false;
                     }
 
-                    var processingLine = tokenList.Last.Position.Line;
+                    var processingLine = tokenList.GetLine(tokenList.LastIndex);
                     if (!ReadToken(ref context, ref result))
                     {
                         result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId);
                         return false;
                     }
 
-                    if (tokenList.Last.Position.Line != processingLine)
+                    if (tokenList.GetLine(tokenList.LastIndex) != processingLine)
                     {
                         CancelTokenReadback(ref context, ref result);
                         goto TRUE;
                     }
 
-                    if (tokenList.Last.IsComma(ref source))
+                    if (result.IsComma(tokenList.LastIndex))
                     {
                         break;
                     }
@@ -416,12 +413,12 @@ public static partial class Parser
                     return false;
                 }
 
-                if (tokenList.Last.IsComma(ref source))
+                if (result.IsComma(tokenList.LastIndex))
                 {
                     break;
                 }
 
-                if (tokenList.Last.Position.Line != tokenList[tokenList.LastIndex - 1].Position.Line)
+                if (tokenList.GetPrecedingNewLineCount(tokenList.LastIndex) != 0)
                 {
                     CancelTokenReadback(ref context, ref result);
                     goto TRUE;
@@ -432,7 +429,7 @@ public static partial class Parser
         } while (true);
 
     TRUE:
-        if (element.HasValue && element.Value.Count == 1 && element.Value[0].HasText && tokenList[element.Value[0].Text].IsAtmark(ref source))
+        if (element.HasValue && element.Value.Count == 1 && element.Value[0].HasText && result.IsAtmark(element.Value[0].Text))
         {
             element.Value.Clear();
         }
@@ -446,16 +443,15 @@ public static partial class Parser
     /// </summary>
     private static bool Parse_Element_OFFSET(ref Context context, ref Result result, Pair_NullableString_NullableInt_ArrayElement element)
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.OFFSET;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.OFFSET;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_UnexpectedEndOfFile(element.ElementTokenId, "Element must have value. There is no value text after '='.");
             return false;
         }
 
-        tokenList.Last.Kind = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
         element.HasValue = true;
         element.Value.Add(new(tokenList.LastIndex));
 
@@ -467,13 +463,13 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.Position.Line != tokenList[tokenList.LastIndex - 1].Position.Line)
+            if (tokenList.GetPrecedingNewLineCount(tokenList.LastIndex) != 0)
             {
                 CancelTokenReadback(ref context, ref result);
                 goto TRUE;
             }
 
-            if (!tokenList.Last.IsComma(ref source))
+            if (!result.IsComma(tokenList.LastIndex))
             {
                 result.UnionLast2Tokens();
                 continue;
@@ -485,12 +481,12 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             element.Value.Add(new(tokenList.LastIndex));
         } while (true);
 
     TRUE:
-        if (element.Value.Count == 1 && tokenList[element.Value[0].Text].IsAtmark(ref source))
+        if (element.Value.Count == 1 && result.IsAtmark(element.Value[0].Text))
         {
             element.Value.Clear();
             element.HasValue = false;
@@ -505,16 +501,15 @@ public static partial class Parser
     /// </summary>
     private static bool Parse_Element_ROAM(ref Context context, ref Result result, Pair_NullableString_NullableInt_ArrayElement element)
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.ROAM;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
-        tokenList.Last.Kind = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
         element.HasValue = true;
         element.Value.Add(new(tokenList.LastIndex));
 
@@ -526,12 +521,12 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsSemicolon(ref source))
+            if (result.IsSemicolon(tokenList.LastIndex))
             {
                 goto TRUE;
             }
 
-            if (tokenList.Last.IsComma(ref source))
+            if (result.IsComma(tokenList.LastIndex))
             {
                 if (!ReadToken(ref context, ref result))
                 {
@@ -539,12 +534,12 @@ public static partial class Parser
                     return false;
                 }
 
-                if (tokenList.Last.IsSemicolon(ref source))
+                if (result.IsSemicolon(tokenList.LastIndex))
                 {
                     goto TRUE;
                 }
 
-                tokenList.Last.Kind = TokenKind.Content;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
                 element.Value.Add(new(tokenList.LastIndex));
             }
             else
@@ -554,7 +549,7 @@ public static partial class Parser
         } while (true);
 
     TRUE:
-        if (element.Value.Count == 1 && tokenList[element.Value[0].Text].IsAtmark(ref source))
+        if (element.Value.Count == 1 && result.IsAtmark(element.Value[0].Text))
         {
             element.Value.Clear();
             element.HasValue = false;
@@ -570,9 +565,8 @@ public static partial class Parser
     /// </summary>
     private static bool Parse_Element_TEXT(ref Context context, ref Result result, Pair_NullableString_NullableIntElement element)
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.TEXT;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.TEXT;
 
         if (!ReadToken(ref context, ref result))
         {
@@ -580,7 +574,7 @@ public static partial class Parser
             return false;
         }
 
-        if (tokenList.Last.IsSemicolon(ref source))
+        if (result.IsSemicolon(tokenList.LastIndex))
         {
             element.HasValue = false;
             return true;
@@ -588,7 +582,7 @@ public static partial class Parser
 
         element.HasValue = true;
         element.Value = new(tokenList.LastIndex);
-        tokenList.Last.Kind = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
 
         do
         {
@@ -598,12 +592,12 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsSemicolon(ref source))
+            if (result.IsSemicolon(tokenList.LastIndex))
             {
                 return true;
             }
 
-            tokenList.Last.Kind = TokenKind.ContentTrailing;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
             element.Value.HasNumber = false;
             element.Value.TrailingTokenCount++;
         } while (true);

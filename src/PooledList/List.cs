@@ -248,6 +248,20 @@ public struct List<T> : IDisposable, System.Collections.Generic.IList<T>, IEquat
         array[index] = item;
     }
 
+    public void InsertRange(int index, ReadOnlySpan<T> span)
+    {
+        if (index == count)
+        {
+            AddRange(span);
+            return;
+        }
+
+        PrepareAddRange(span.Length);
+        Array.Copy(array, index, array, index + span.Length, count - index);
+        count += span.Length;
+        span.CopyTo(array.AsSpan(index));
+    }
+
     public void RemoveAt(int index)
     {
         if (index >= count)

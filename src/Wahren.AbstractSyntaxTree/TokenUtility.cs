@@ -1,75 +1,74 @@
-﻿namespace Wahren.AbstractSyntaxTree;
+﻿namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class TokenUtility
 {
-    public static bool Equals(ref this Token token, ref DualList<char> source, char other)
+    public static bool Equals(ref this Result result, uint tokenIndex, char other)
     {
-        if (token.Length != 1)
+        if (result.TokenList.GetLength(tokenIndex) != 1)
         {
             return false;
         }
 
-        return source[token.Position.Line][token.Position.Offset] == other;
+        return result.GetSpan(tokenIndex)[0] == other;
     }
 
-    public static bool Equals(ref this Token token, ref DualList<char> source, ReadOnlySpan<char> other)
+    public static bool TryParse(ref this Result result, uint tokenIndex, out int value)
     {
-        ref var start = ref token.Position;
-        return source[start.Line].AsSpan(start.Offset, token.Length).SequenceEqual(other);
+        return int.TryParse(result.GetSpan(tokenIndex), out value);
     }
 
-    public static bool IsOperator(ref this Token token, ref DualList<char> source)
+    public static bool IsOperator(ref this Result result, uint tokenIndex)
     {
-        var span = source[token.Position.Line].AsSpan(token.Position.Offset, token.Length);
+        var span = result.GetSpan(tokenIndex);
         switch (span.Length)
         {
             case 1:
                 switch (span[0])
                 {
                     case '=':
-                        token.Kind = TokenKind.Assign;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Assign;
                         return true;
                     case '>':
-                        token.Kind = TokenKind.CompareGreaterThan;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.CompareGreaterThan;
                         return true;
                     case '<':
-                        token.Kind = TokenKind.CompareLessThan;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.CompareLessThan;
                         return true;
                     case ',':
-                        token.Kind = TokenKind.Comma;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Comma;
                         return true;
                     case ':':
-                        token.Kind = TokenKind.Colon;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Colon;
                         return true;
                     case ';':
-                        token.Kind = TokenKind.Semicolon;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Semicolon;
                         return true;
                     case '+':
-                        token.Kind = TokenKind.Add;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Add;
                         return true;
                     case '-':
-                        token.Kind = TokenKind.Sub;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Sub;
                         return true;
                     case '*':
-                        token.Kind = TokenKind.Mul;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Mul;
                         return true;
                     case '/':
-                        token.Kind = TokenKind.Div;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Div;
                         return true;
                     case '%':
-                        token.Kind = TokenKind.Percent;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Percent;
                         return true;
                     case '{':
-                        token.Kind = TokenKind.BracketLeft;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.BracketLeft;
                         return true;
                     case '}':
-                        token.Kind = TokenKind.BracketRight;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.BracketRight;
                         return true;
                     case '(':
-                        token.Kind = TokenKind.ParenLeft;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.ParenLeft;
                         return true;
                     case ')':
-                        token.Kind = TokenKind.ParenRight;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.ParenRight;
                         return true;
                 }
                 break;
@@ -77,22 +76,22 @@ public static partial class TokenUtility
                 switch (span[0])
                 {
                     case '=' when span[1] == '=':
-                        token.Kind = TokenKind.CompareEqual;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.CompareEqual;
                         return true;
                     case '!' when span[1] == '=':
-                        token.Kind = TokenKind.CompareNotEqual;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.CompareNotEqual;
                         return true;
                     case '>' when span[1] == '=':
-                        token.Kind = TokenKind.CompareGreaterThanOrEqualTo;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.CompareGreaterThanOrEqualTo;
                         return true;
                     case '<' when span[1] == '=':
-                        token.Kind = TokenKind.CompareLessThanOrEqualTo;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.CompareLessThanOrEqualTo;
                         return true;
                     case '&' when span[1] == '&':
-                        token.Kind = TokenKind.And;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.And;
                         return true;
                     case '|' when span[1] == '|':
-                        token.Kind = TokenKind.Or;
+                        result.TokenList.GetKind(tokenIndex) = TokenKind.Or;
                         return true;
                     case '/' when span[1] == '/':
                     case '/' when span[1] == '*':
@@ -106,156 +105,156 @@ public static partial class TokenUtility
         return false;
     }
 
-    public static bool IsAtmark(ref this Token token, ref DualList<char> source) => Equals(ref token, ref source, '@');
+    public static bool IsAtmark(ref this Result result, uint tokenIndex) => Equals(ref result, tokenIndex, '@');
 
-    public static bool IsAssign(ref this Token token, ref DualList<char> source)
+    public static bool IsAssign(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '='))
+        if (Equals(ref result, tokenIndex, '='))
         {
-            token.Kind = TokenKind.Assign;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Assign;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsComparerEqual(ref this Token token, ref DualList<char> source)
+    public static bool IsComparerEqual(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '=', '='))
+        if (result.GetSpan(tokenIndex).SequenceEqual("=="))
         {
-            token.Kind = TokenKind.CompareEqual;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.CompareEqual;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsComparerNotEqual(ref this Token token, ref DualList<char> source)
+    public static bool IsComparerNotEqual(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '!', '='))
+        if (result.GetSpan(tokenIndex).SequenceEqual("!="))
         {
-            token.Kind = TokenKind.CompareNotEqual;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.CompareNotEqual;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsComma(ref this Token token, ref DualList<char> source)
+    public static bool IsComma(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, ','))
+        if (Equals(ref result, tokenIndex, ','))
         {
-            token.Kind = TokenKind.Comma;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Comma;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsMul(ref this Token token, ref DualList<char> source)
+    public static bool IsMul(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '*'))
+        if (Equals(ref result, tokenIndex, '*'))
         {
-            token.Kind = TokenKind.Mul;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Mul;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsSingleLineComment(ref this Token token, ref DualList<char> source)
+    public static bool IsSingleLineComment(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '/', '/'))
+        if (result.GetSpan(tokenIndex).SequenceEqual("//"))
         {
-            token.Kind = TokenKind.Comment;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Comment;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsSingleLineCommentSlashPlus(ref this Token token, ref DualList<char> source)
+    public static bool IsSingleLineCommentSlashPlus(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '/', '+'))
+        if (result.GetSpan(tokenIndex).SequenceEqual("/+"))
         {
-            token.Kind = TokenKind.Comment;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Comment;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsMultiLineCommentStart(ref this Token token, ref DualList<char> source)
+    public static bool IsMultiLineCommentStart(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '/', '*'))
+        if (result.GetSpan(tokenIndex).SequenceEqual("/*"))
         {
-            token.Kind = TokenKind.Comment;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Comment;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsBracketLeft(ref this Token token, ref DualList<char> source)
+    public static bool IsBracketLeft(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '{'))
+        if (Equals(ref result, tokenIndex, '{'))
         {
-            token.Kind = TokenKind.BracketLeft;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.BracketLeft;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsBracketRight(ref this Token token, ref DualList<char> source)
+    public static bool IsBracketRight(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '}'))
+        if (Equals(ref result, tokenIndex, '}'))
         {
-            token.Kind = TokenKind.BracketRight;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.BracketRight;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsParenLeft(ref this Token token, ref DualList<char> source)
+    public static bool IsParenLeft(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, '('))
+        if (Equals(ref result, tokenIndex, '('))
         {
-            token.Kind = TokenKind.ParenLeft;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.ParenLeft;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsParenRight(ref this Token token, ref DualList<char> source)
+    public static bool IsParenRight(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, ')'))
+        if (Equals(ref result, tokenIndex, ')'))
         {
-            token.Kind = TokenKind.ParenRight;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.ParenRight;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsColon(ref this Token token, ref DualList<char> source)
+    public static bool IsColon(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, ':'))
+        if (Equals(ref result, tokenIndex, ':'))
         {
-            token.Kind = TokenKind.Colon;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Colon;
             return true;
         }
 
         return false;
     }
 
-    public static bool IsSemicolon(ref this Token token, ref DualList<char> source)
+    public static bool IsSemicolon(ref this Result result, uint tokenIndex)
     {
-        if (Equals(ref token, ref source, ';'))
+        if (Equals(ref result, tokenIndex, ';'))
         {
-            token.Kind = TokenKind.Semicolon;
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Semicolon;
             return true;
         }
 

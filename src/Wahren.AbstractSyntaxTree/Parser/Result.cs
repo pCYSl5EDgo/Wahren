@@ -6,7 +6,7 @@ using System;
 public struct Result : IDisposable
 {
     public DualList<char> Source = new();
-    public List<Token> TokenList = new();
+    public TokenList TokenList = new();
     public List<Error> ErrorList = new();
 
     public DisposableList<ScenarioNode> ScenarioNodeList = new();
@@ -209,10 +209,9 @@ public struct Result : IDisposable
 
     public void UnionLast2Tokens()
     {
-        ref var last = ref TokenList.Last;
-        if (last.PrecedingNewLineCount == 0)
+        if (TokenList.GetPrecedingNewLineCount(TokenList.LastIndex) == 0)
         {
-            TokenList[TokenList.LastIndex - 1].Length += last.Length + last.PrecedingWhitespaceCount;
+            TokenList.GetLength(TokenList.LastIndex - 1) += TokenList.GetLength(TokenList.LastIndex) + TokenList.GetPrecedingWhitespaceCount(TokenList.LastIndex);
             TokenList.RemoveLast();
         }
         else
@@ -223,22 +222,16 @@ public struct Result : IDisposable
 
     public bool IsEndOfLine(uint tokenIndex)
     {
-        ref var token = ref TokenList[tokenIndex];
-        ref var position = ref token.Position;
-        if (position.Line >= Source.Count)
+        uint lineIndex = TokenList.GetLine(tokenIndex);
+        if (lineIndex >= Source.Count)
         {
             return true;
         }
 
-        return position.Offset + token.Length >= Source[position.Line].Count;
+        return TokenList.GetOffset(tokenIndex) + TokenList.GetLength(tokenIndex) >= Source[lineIndex].Count;
     }
 
-    public Span<char> GetSpan(uint tokenIndex)
-    {
-        ref var token = ref TokenList[tokenIndex];
-        ref var start = ref token.Position;
-        return Source[start.Line].AsSpan(start.Offset, token.Length);
-    }
+    public Span<char> GetSpan(uint tokenIndex) => Source[TokenList.GetLine(tokenIndex)].AsSpan(TokenList.GetOffset(tokenIndex), TokenList.GetLength(tokenIndex));
 
     public override string ToString() => ToString("");
 

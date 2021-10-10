@@ -48,7 +48,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsBracketRight(ref source))
+            if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
                 canContinue = true;
@@ -71,7 +71,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (!tokenList.Last.IsAssign(ref source))
+            if (!result.IsAssign(tokenList.LastIndex))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' is expected but not found.");
                 return false;
@@ -141,9 +141,8 @@ public static partial class Parser
                 pair_<#= type #>.ElementScenarioId = variant;
                 pair_<#= type #>.ElementKeyRange.Length = (uint)span.Length;
                 {
-                    ref var start = ref tokenList[currentIndex].Position;
-                    pair_<#= type #>.ElementKeyRange.Line = start.Line;
-                    pair_<#= type #>.ElementKeyRange.Offset = start.Offset;
+                    pair_<#= type #>.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
+                    pair_<#= type #>.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
                 }
                 if (<#= func #>(ref context, ref result, pair_<#= type #>))
                 {

@@ -21,14 +21,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.PowerNodeList.AsSpan();
-            ref var superSet = ref file.PowerSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -39,7 +38,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetPowerNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -56,7 +55,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.PowerSet[superFile.PowerNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.PowerNodeList[superNodeIndex].Super);
                     superFile = ref TryGetPowerNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -72,14 +71,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.ClassNodeList.AsSpan();
-            ref var superSet = ref file.ClassSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -90,7 +88,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetClassNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -107,7 +105,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.ClassSet[superFile.ClassNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.ClassNodeList[superNodeIndex].Super);
                     superFile = ref TryGetClassNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -123,14 +121,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.DungeonNodeList.AsSpan();
-            ref var superSet = ref file.DungeonSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -141,7 +138,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetDungeonNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -158,7 +155,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.DungeonSet[superFile.DungeonNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.DungeonNodeList[superNodeIndex].Super);
                     superFile = ref TryGetDungeonNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -174,14 +171,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.FieldNodeList.AsSpan();
-            ref var superSet = ref file.FieldSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -192,7 +188,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetFieldNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -209,7 +205,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.FieldSet[superFile.FieldNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.FieldNodeList[superNodeIndex].Super);
                     superFile = ref TryGetFieldNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -225,14 +221,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.MovetypeNodeList.AsSpan();
-            ref var superSet = ref file.MovetypeSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -243,7 +238,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetMovetypeNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -260,7 +255,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.MovetypeSet[superFile.MovetypeNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.MovetypeNodeList[superNodeIndex].Super);
                     superFile = ref TryGetMovetypeNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -276,14 +271,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.ObjectNodeList.AsSpan();
-            ref var superSet = ref file.ObjectSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -294,7 +288,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetObjectNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -311,7 +305,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.ObjectSet[superFile.ObjectNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.ObjectNodeList[superNodeIndex].Super);
                     superFile = ref TryGetObjectNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -327,14 +321,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.RaceNodeList.AsSpan();
-            ref var superSet = ref file.RaceSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -345,7 +338,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetRaceNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -362,7 +355,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.RaceSet[superFile.RaceNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.RaceNodeList[superNodeIndex].Super);
                     superFile = ref TryGetRaceNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -378,14 +371,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.SkillNodeList.AsSpan();
-            ref var superSet = ref file.SkillSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -396,7 +388,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetSkillNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -413,7 +405,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.SkillSet[superFile.SkillNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.SkillNodeList[superNodeIndex].Super);
                     superFile = ref TryGetSkillNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -429,14 +421,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.SkillsetNodeList.AsSpan();
-            ref var superSet = ref file.SkillsetSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -447,7 +438,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetSkillsetNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -464,7 +455,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.SkillsetSet[superFile.SkillsetNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.SkillsetNodeList[superNodeIndex].Super);
                     superFile = ref TryGetSkillsetNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -480,14 +471,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.SpotNodeList.AsSpan();
-            ref var superSet = ref file.SpotSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -498,7 +488,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetSpotNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -515,7 +505,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.SpotSet[superFile.SpotNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.SpotNodeList[superNodeIndex].Super);
                     superFile = ref TryGetSpotNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -531,14 +521,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.UnitNodeList.AsSpan();
-            ref var superSet = ref file.UnitSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -549,7 +538,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetUnitNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -566,7 +555,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.UnitSet[superFile.UnitNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.UnitNodeList[superNodeIndex].Super);
                     superFile = ref TryGetUnitNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -582,14 +571,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.VoiceNodeList.AsSpan();
-            ref var superSet = ref file.VoiceSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -600,7 +588,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetVoiceNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -617,7 +605,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.VoiceSet[superFile.VoiceNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.VoiceNodeList[superNodeIndex].Super);
                     superFile = ref TryGetVoiceNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -633,14 +621,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.ScenarioNodeList.AsSpan();
-            ref var superSet = ref file.ScenarioSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -651,7 +638,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetScenarioNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -668,7 +655,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.ScenarioSet[superFile.ScenarioNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.ScenarioNodeList[superNodeIndex].Super);
                     superFile = ref TryGetScenarioNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -684,14 +671,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.EventNodeList.AsSpan();
-            ref var superSet = ref file.EventSet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -702,7 +688,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetEventNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -719,7 +705,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.EventSet[superFile.EventNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.EventNodeList[superNodeIndex].Super);
                     superFile = ref TryGetEventNode(superSpan, out superNodeIndex);
                 } while (true);
             }
@@ -735,14 +721,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.StoryNodeList.AsSpan();
-            ref var superSet = ref file.StorySet;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -753,7 +738,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGetStoryNode(superSpan, out var superNodeIndex);
                 do
                 {
@@ -770,7 +755,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.StorySet[superFile.StoryNodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.StoryNodeList[superNodeIndex].Super);
                     superFile = ref TryGetStoryNode(superSpan, out superNodeIndex);
                 } while (true);
             }

@@ -54,7 +54,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (tokenList.Last.IsBracketRight(ref source))
+            if (result.IsBracketRight(currentIndex))
             {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
@@ -68,9 +68,9 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                 goto FALSE;
             }
 
-            if (!tokenList.Last.IsAssign(ref source))
+            if (!result.IsAssign(tokenList.LastIndex))
             {
-                if (tokenList.Last.IsParenLeft(ref source))
+                if (result.IsParenLeft(tokenList.LastIndex))
                 {
                     if (Parse_RootBlock(ref context, ref result, currentIndex, ref node.Statements, ref blockStack))
                     {
@@ -80,7 +80,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                     goto FALSE;
                 }
 <#  if (node.Name == "Event") { #>
-                else if (tokenList.Last.IsBracketLeft(ref source) && result.GetSpan(currentIndex).SequenceEqual("battle"))
+                else if (result.IsBracketLeft(tokenList.LastIndex) && result.GetSpan(currentIndex).SequenceEqual("battle"))
                 {
                     NextStatement? nextStatement = null;
                     foreach (ref var statement in node.Statements)
@@ -97,7 +97,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                     }
 
                     var battleStatement = new BattleStatement(currentIndex, nextStatement);
-                    tokenList[currentIndex].Kind = TokenKind.battle;
+                    tokenList.GetKind(currentIndex) = TokenKind.battle;
                     blockStack.Add(battleStatement);
                     var answer = Parse_Block(ref context, ref result, ref battleStatement.Statements, ref blockStack);
                     blockStack.RemoveLast();
@@ -172,9 +172,8 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                 pair_<#= type #>.ElementScenarioId = variant;
                 pair_<#= type #>.ElementKeyRange.Length = (uint)span.Length;
                 {
-                    ref var start = ref tokenList[currentIndex].Position;
-                    pair_<#= type #>.ElementKeyRange.Line = start.Line;
-                    pair_<#= type #>.ElementKeyRange.Offset = start.Offset;
+                    pair_<#= type #>.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
+                    pair_<#= type #>.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
                 }
                 if (<#= func #>(ref context, ref result, pair_<#= type #>))
                 {

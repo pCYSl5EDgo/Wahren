@@ -14,19 +14,18 @@ public static class ProjectErrorHelper
 #endif
         if (result.FilePath is not null)
         {
+            ref var tokenList = ref result.TokenList;
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
-                handler.AppendFormatted(position.Line + 1);
+                handler.AppendFormatted(tokenList.GetLine(reference) + 1);
                 handler.AppendLiteral(", ");
-                handler.AppendFormatted(position.Offset + 1);
+                handler.AppendFormatted(tokenList.GetOffset(reference) + 1);
                 handler.AppendFormatted(')');
             }
         }
-
         project.ErrorBag.Add(new(handler.ToStringAndClear()));
     }
 
@@ -40,15 +39,15 @@ public static class ProjectErrorHelper
 #endif
         if (result.FilePath is not null)
         {
+            ref var tokenList = ref result.TokenList;
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
-                handler.AppendFormatted(position.Line + 1);
+                handler.AppendFormatted(tokenList.GetLine(reference) + 1);
                 handler.AppendLiteral(", ");
-                handler.AppendFormatted(position.Offset + 1);
+                handler.AppendFormatted(tokenList.GetOffset(reference) + 1);
                 handler.AppendFormatted(')');
             }
         }
@@ -65,19 +64,18 @@ public static class ProjectErrorHelper
 #endif
         if (result.FilePath is not null)
         {
+            ref var tokenList = ref result.TokenList;
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
-                handler.AppendFormatted(position.Line + 1);
+                handler.AppendFormatted(tokenList.GetLine(reference) + 1);
                 handler.AppendLiteral(", ");
-                handler.AppendFormatted(position.Offset + 1);
+                handler.AppendFormatted(tokenList.GetOffset(reference) + 1);
                 handler.AppendFormatted(')');
             }
         }
-
         project.ErrorBag.Add(new(handler.ToStringAndClear()));
     }
 
@@ -91,19 +89,18 @@ public static class ProjectErrorHelper
 #endif
         if (result.FilePath is not null)
         {
+            ref var tokenList = ref result.TokenList;
             foreach (var reference in references)
             {
-                ref var position = ref result.TokenList[reference].Position;
                 handler.AppendLiteral("\n  ");
                 handler.AppendLiteral(result.FilePath);
                 handler.AppendFormatted('(');
-                handler.AppendFormatted(position.Line + 1);
+                handler.AppendFormatted(tokenList.GetLine(reference) + 1);
                 handler.AppendLiteral(", ");
-                handler.AppendFormatted(position.Offset + 1);
+                handler.AppendFormatted(tokenList.GetOffset(reference) + 1);
                 handler.AppendFormatted(')');
             }
         }
-
         project.ErrorBag.Add(new(handler.ToStringAndClear()));
     }
 

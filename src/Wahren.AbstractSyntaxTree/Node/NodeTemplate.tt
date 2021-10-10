@@ -24,8 +24,9 @@ public partial struct <#= node.Name #>Node : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 <# if (node.HasBlock) { #>
     public List<IStatement> Statements = new();

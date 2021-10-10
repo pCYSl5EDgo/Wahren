@@ -1,9 +1,10 @@
 ﻿namespace Wahren.AbstractSyntaxTree;
 
-public enum TokenKind
+public enum TokenKind : byte
 {
     Unknown,
     Comment,
+    Deleted,
     spot,
     unit,
     race,

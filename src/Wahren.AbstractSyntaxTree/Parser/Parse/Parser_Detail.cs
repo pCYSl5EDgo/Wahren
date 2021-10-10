@@ -22,7 +22,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsBracketRight(ref source))
+            if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
                 return true;

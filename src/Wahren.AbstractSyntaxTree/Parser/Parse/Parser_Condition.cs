@@ -28,7 +28,7 @@ public static partial class Parser
                     return null;
                 }
 
-                if (!result.TokenList.Last.IsBracketLeft(ref source))
+                if (!result.IsBracketLeft(tokenList.LastIndex))
                 {
                     CancelTokenReadback(ref context, ref result);
                     result.ErrorAdd("'{' of while/if/rif statement is not found.", statementTokenId);
@@ -49,7 +49,7 @@ public static partial class Parser
                     result.ErrorAdd_UnexpectedEndOfFile(statementTokenId, "'{' of while/if/rif statement is not found.");
                     return null;
                 }
-            } while (!tokenList.Last.IsBracketLeft(ref source));
+            } while (!result.IsBracketLeft(tokenList.LastIndex));
             return condition;
         }
         finally
@@ -82,7 +82,7 @@ public static partial class Parser
                     switch (span[0])
                     {
                         case ')':
-                            tokenList.Last.Kind = TokenKind.ParenRight;
+                            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ParenRight;
                             return reduce(ref result, ref expressionList, expressionListStartIndex, true);
                         case '@':
                             if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new StringVariableExpression(currentIndex)))
@@ -92,7 +92,7 @@ public static partial class Parser
                             }
                             continue;
                         case '(':
-                            tokenList.Last.Kind = TokenKind.ParenLeft;
+                            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ParenLeft;
                             if (expressionList.Count < expressionListStartIndex)
                             {
                                 result.ErrorAdd($"{nameof(expressionList)}.Count: {expressionList.Count}, ${nameof(expressionListStartIndex)}: ${expressionListStartIndex}", tokenList.LastIndex);
@@ -182,17 +182,17 @@ public static partial class Parser
                                 return null;
                             }
                             continue;
-                        case '>': tokenList.Last.Kind = TokenKind.CompareGreaterThan; comparerOperator = NumberComparerOperator.GreaterThan; goto COMPARE_OPERATOR;
-                        case '<': tokenList.Last.Kind = TokenKind.CompareLessThan; comparerOperator = NumberComparerOperator.LessThan; goto COMPARE_OPERATOR;
-                        case '+': tokenList.Last.Kind = TokenKind.Add; calculatorOperator = NumberCalculatorOperator.Add; goto CALC_OPERATOR;
-                        case '-': tokenList.Last.Kind = TokenKind.Sub; calculatorOperator = NumberCalculatorOperator.Sub; goto CALC_OPERATOR;
-                        case '*': tokenList.Last.Kind = TokenKind.Mul; calculatorOperator = NumberCalculatorOperator.Mul; goto CALC_OPERATOR;
-                        case '/': tokenList.Last.Kind = TokenKind.Div; calculatorOperator = NumberCalculatorOperator.Div; goto CALC_OPERATOR;
-                        case '%': tokenList.Last.Kind = TokenKind.Percent; calculatorOperator = NumberCalculatorOperator.Percent; goto CALC_OPERATOR;
-                        case '}': tokenList.Last.Kind = TokenKind.BracketRight; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
-                        case ':': tokenList.Last.Kind = TokenKind.Colon; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
-                        case ';': tokenList.Last.Kind = TokenKind.Semicolon; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
-                        case ',': tokenList.Last.Kind = TokenKind.Comma; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
+                        case '>': tokenList.GetKind(tokenList.LastIndex) = TokenKind.CompareGreaterThan; comparerOperator = NumberComparerOperator.GreaterThan; goto COMPARE_OPERATOR;
+                        case '<': tokenList.GetKind(tokenList.LastIndex) = TokenKind.CompareLessThan; comparerOperator = NumberComparerOperator.LessThan; goto COMPARE_OPERATOR;
+                        case '+': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Add; calculatorOperator = NumberCalculatorOperator.Add; goto CALC_OPERATOR;
+                        case '-': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Sub; calculatorOperator = NumberCalculatorOperator.Sub; goto CALC_OPERATOR;
+                        case '*': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Mul; calculatorOperator = NumberCalculatorOperator.Mul; goto CALC_OPERATOR;
+                        case '/': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Div; calculatorOperator = NumberCalculatorOperator.Div; goto CALC_OPERATOR;
+                        case '%': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Percent; calculatorOperator = NumberCalculatorOperator.Percent; goto CALC_OPERATOR;
+                        case '}': tokenList.GetKind(tokenList.LastIndex) = TokenKind.BracketRight; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
+                        case ':': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Colon; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
+                        case ';': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Semicolon; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
+                        case ',': tokenList.GetKind(tokenList.LastIndex) = TokenKind.Comma; result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex); return null;
                         case '{':
                             CancelTokenReadback(ref context, ref result);
                             return null;
@@ -209,10 +209,10 @@ public static partial class Parser
 
                             switch (span[0])
                             {
-                                case '=': tokenList.Last.Kind = TokenKind.CompareEqual; comparerOperator = NumberComparerOperator.Equal; goto COMPARE_OPERATOR;
-                                case '!': tokenList.Last.Kind = TokenKind.CompareNotEqual; comparerOperator = NumberComparerOperator.NotEqual; goto COMPARE_OPERATOR;
-                                case '>': tokenList.Last.Kind = TokenKind.CompareGreaterThanOrEqualTo; comparerOperator = NumberComparerOperator.GreaterThanOrEqualTo; goto COMPARE_OPERATOR;
-                                case '<': tokenList.Last.Kind = TokenKind.CompareLessThanOrEqualTo; comparerOperator = NumberComparerOperator.LessThanOrEqualTo; goto COMPARE_OPERATOR;
+                                case '=': tokenList.GetKind(tokenList.LastIndex) = TokenKind.CompareEqual; comparerOperator = NumberComparerOperator.Equal; goto COMPARE_OPERATOR;
+                                case '!': tokenList.GetKind(tokenList.LastIndex) = TokenKind.CompareNotEqual; comparerOperator = NumberComparerOperator.NotEqual; goto COMPARE_OPERATOR;
+                                case '>': tokenList.GetKind(tokenList.LastIndex) = TokenKind.CompareGreaterThanOrEqualTo; comparerOperator = NumberComparerOperator.GreaterThanOrEqualTo; goto COMPARE_OPERATOR;
+                                case '<': tokenList.GetKind(tokenList.LastIndex) = TokenKind.CompareLessThanOrEqualTo; comparerOperator = NumberComparerOperator.LessThanOrEqualTo; goto COMPARE_OPERATOR;
                                 default:
                                     result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                                     return null;
@@ -220,7 +220,7 @@ public static partial class Parser
                         case '&':
                             if (span[0] == '&')
                             {
-                                tokenList.Last.Kind = TokenKind.And;
+                                tokenList.GetKind(tokenList.LastIndex) = TokenKind.And;
                                 if (AddOperatorReduce(ref context, ref result, ref expressionList, expressionListStartIndex, currentIndex, isOrExpression: false))
                                 {
                                     continue;
@@ -237,7 +237,7 @@ public static partial class Parser
                         case '|':
                             if (span[0] == '|')
                             {
-                                tokenList.Last.Kind = TokenKind.Or;
+                                tokenList.GetKind(tokenList.LastIndex) = TokenKind.Or;
                                 if (AddOperatorReduce(ref context, ref result, ref expressionList, expressionListStartIndex, currentIndex, isOrExpression: true))
                                 {
                                     continue;
@@ -259,8 +259,8 @@ public static partial class Parser
                     break;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
-            if (tokenList.Last.TryParse(ref source, out int number))
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            if (result.TryParse(tokenList.LastIndex, out int number))
             {
                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new NumberExpression(currentIndex, number)))
                 {
@@ -282,12 +282,12 @@ public static partial class Parser
                 return null;
             }
 
-            if (result.TokenList.Last.IsParenLeft(ref source))
+            if (result.IsParenLeft(tokenList.LastIndex))
             {
                 var functionId = FunctionKindHelper.Convert(span);
                 result.UnionLast2Tokens();
-                result.TokenList.Last.Kind = TokenKind.CallFunction;
-                result.TokenList.Last.Other = (uint)functionId;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.CallFunction;
+                tokenList.GetOther(tokenList.LastIndex) = (uint)functionId;
                 if (functionId == FunctionKind.None)
                 {
                     result.ErrorAdd_UnexpectedCall(currentIndex);
@@ -308,7 +308,7 @@ public static partial class Parser
                 continue;
             }
 
-            if (result.TokenList.Last.IsOperator(ref source))
+            if (result.IsOperator(tokenList.LastIndex))
             {
                 if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new IdentifierExpression(currentIndex) as IReturnNumberExpression))
                 {
@@ -328,23 +328,23 @@ public static partial class Parser
                     return null;
                 }
 
-                ref var last = ref result.TokenList.Last;
-                if (last.Length == 2)
+                var lastIndex = tokenList.LastIndex;
+                if (tokenList.GetLength(lastIndex) == 2)
                 {
-                    var stringSpan = source[last.Position.Line].AsSpan(last.Position.Offset, 2);
+                    var stringSpan = result.GetSpan(lastIndex);
                     if (stringSpan[1] == '=')
                     {
-                        var operatorIndex = result.TokenList.LastIndex;
+                        var operatorIndex = tokenList.LastIndex;
                         EqualityComparerOperator @operator;
                         if (stringSpan[0] == '!')
                         {
                             @operator = EqualityComparerOperator.NotEqual;
-                            last.Kind = TokenKind.CompareNotEqual;
+                            tokenList.GetKind(lastIndex) = TokenKind.CompareNotEqual;
                         }
                         else
                         {
                             @operator = EqualityComparerOperator.Equal;
-                            last.Kind = TokenKind.CompareEqual;
+                            tokenList.GetKind(lastIndex) = TokenKind.CompareEqual;
                         }
 
                         if (!ExpressionParseString(ref context, ref result, statementTokenId, out var right))
@@ -361,7 +361,7 @@ public static partial class Parser
                     }
                 }
 
-                if (last.IsOperator(ref source))
+                if (result.IsOperator(lastIndex))
                 {
                     if (!AddValueReduce(ref result, ref expressionList, expressionListStartIndex, new StringExpression(currentIndex)))
                     {
@@ -589,24 +589,23 @@ public static partial class Parser
                 return false;
             }
 
-            ref var last = ref tokenList.Last;
             if (isNotFirstArgument)
             {
-                if (last.IsOperator(ref source))
+                if (result.IsOperator(tokenList.LastIndex))
                 {
                     result.ErrorAdd("Function argument is not written.", callFunctionExpression.TokenId);
                     return false;
                 }
             }
-            else if (last.IsParenRight(ref source))
+            else if (result.IsParenRight(tokenList.LastIndex))
             {
                 break;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             argument = new();
             argument.TokenId = tokenList.LastIndex;
-            argument.IsNumber = last.TryParse(ref source, out argument.Number);
+            argument.IsNumber = result.TryParse(tokenList.LastIndex, out argument.Number);
             callFunctionExpression.Arguments.Add(ref argument);
 
             if (!ReadToken(ref context, ref result))
@@ -614,16 +613,16 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsComma(ref source))
+            if (result.IsComma(tokenList.LastIndex))
             {
                 continue;
             }
-            else if (tokenList.Last.IsParenRight(ref source))
+            else if (result.IsParenRight(tokenList.LastIndex))
             {
                 break;
             }
 
-            tokenList.Last.Kind = TokenKind.ContentTrailing;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
             argument.IsNumber = false;
             argument.TrailingTokenCount++;
             result.ErrorAdd("Function argument must be number, identifier, string variable, 1-word-length text.", tokenList.LastIndex);
@@ -776,7 +775,7 @@ public static partial class Parser
         }
 
         ref var tokenList = ref result.TokenList;
-        tokenList.Last.Kind = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
         ref var source = ref result.Source;
         var span = result.GetSpan(tokenList.LastIndex);
         switch (span[0])
@@ -802,7 +801,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsOperator(ref source))
+            if (result.IsOperator(tokenList.LastIndex))
             {
                 CancelTokenReadback(ref context, ref result);
                 return true;

@@ -34,14 +34,13 @@ public sealed partial class Project
             for (int j = 0; j < nodes.Length; j++)
             {
                 ref var node = ref nodes[j];
-                list.Add(node.Super.HasValue ? NotYet : Processed);
+                list.Add(node.HasSuper ? NotYet : Processed);
             }
         }
         for (int i = 0; i < files.Length; i++)
         {
             ref var file = ref files[i];
             var nodes = file.<#= node.Name #>NodeList.AsSpan();
-            ref var superSet = ref file.<#= node.Name #>Set;
             var listSpan = dualList[i].AsSpan();
             for (int j = 0; j < listSpan.Length; j++)
             {
@@ -52,7 +51,7 @@ public sealed partial class Project
 
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
-                var superSpan = superSet[node.Super!.Value];
+                var superSpan = file.GetSpan(node.Super);
                 ref var superFile = ref TryGet<#= node.Name #>Node(superSpan, out var superNodeIndex);
                 do
                 {
@@ -69,7 +68,7 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
-                    superSpan = superFile.<#= node.Name #>Set[superFile.<#= node.Name #>NodeList[superNodeIndex].Super!.Value];
+                    superSpan = superFile.GetSpan(superFile.<#= node.Name #>NodeList[superNodeIndex].Super);
                     superFile = ref TryGet<#= node.Name #>Node(superSpan, out superNodeIndex);
                 } while (true);
             }

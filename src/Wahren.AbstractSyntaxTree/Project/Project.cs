@@ -289,13 +289,13 @@ public sealed partial class Project : IDisposable
             }
 
             ref var tokenList = ref result.TokenList;
-            ref var latter = ref tokenList[i++];
-            if (latter.PrecedingWhitespaceCount != 0 || latter.PrecedingNewLineCount != 0)
+            if (tokenList.GetPrecedingWhitespaceCount(i) != 0 || tokenList.GetPrecedingNewLineCount(i) != 0)
             {
+                i++;
                 continue;
             }
-            ref var token = ref tokenList[i - 2U];
-            if (token.PrecedingWhitespaceCount != 0 || token.PrecedingNewLineCount != 0)
+            i++;
+            if (tokenList.GetPrecedingWhitespaceCount(i -2U) != 0 || tokenList.GetPrecedingNewLineCount(i - 2U) != 0)
             {
                 continue;
             }

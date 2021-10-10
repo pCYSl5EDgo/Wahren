@@ -11,8 +11,9 @@ public partial struct PowerNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> Others = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle_battle = new();
@@ -115,8 +116,9 @@ public partial struct ClassNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableIntElement> troop_sort = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> stealth = new();
@@ -409,8 +411,9 @@ public partial struct DungeonNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> max = new();
@@ -475,8 +478,9 @@ public partial struct FieldNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public Pair_NullableString_NullableIntElement? type = default;
 	public Pair_NullableString_NullableIntElement? attr = default;
@@ -517,8 +521,9 @@ public partial struct MovetypeNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public Pair_NullableString_NullableIntElement? name = default;
 	public Pair_NullableString_NullableIntElement? help = default;
@@ -538,8 +543,9 @@ public partial struct ObjectNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public Pair_NullableString_NullableInt_ArrayElement? skill = default;
 	public Pair_NullableString_NullableIntElement? front = default;
@@ -603,8 +609,9 @@ public partial struct RaceNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> align = new();
@@ -627,8 +634,9 @@ public partial struct SkillNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public SkillKind SkillKind = new();
 	public SkillMovetype SkillMovetype = new();
@@ -952,8 +960,9 @@ public partial struct SkillsetNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public Pair_NullableString_NullableIntElement? name = default;
 	public Pair_NullableString_NullableIntElement? back = default;
@@ -973,8 +982,9 @@ public partial struct SpotNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableIntElement> value = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> politics = new();
@@ -1039,8 +1049,9 @@ public partial struct UnitNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableIntElement> troop_sort = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> stealth = new();
@@ -1385,8 +1396,9 @@ public partial struct VoiceNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> voice_type = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill = new();
@@ -1409,8 +1421,9 @@ public partial struct ScenarioNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
     public List<IStatement> Statements = new();
 	public Pair_NullableString_NullableIntElement? ws_red = default;
@@ -1551,8 +1564,9 @@ public partial struct EventNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
     public List<IStatement> Statements = new();
 	public EventKind EventKind = new();
@@ -1624,8 +1638,9 @@ public partial struct StoryNode : IInheritableNode
     public uint Kind { get; set; }
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
-    public uint? Super { get; set; }
     public uint Name { get; set; }
+    public uint Super { get; set; }
+	public bool HasSuper { get; set; }
 
     public List<IStatement> Statements = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();

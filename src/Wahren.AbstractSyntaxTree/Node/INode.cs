@@ -11,9 +11,10 @@ public interface INode : IDisposable
 public interface IInheritableNode : INode
 {
     /// <summary>
-    /// SuperId
+    /// SuperTokenId
     /// </summary>
-    uint? Super { get; set; }
+    uint Super { get; set; }
+    bool HasSuper { get; set; }
     /// <summary>
     /// TokenId
     /// </summary>

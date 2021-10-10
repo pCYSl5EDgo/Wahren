@@ -196,12 +196,12 @@ public sealed partial class Project
             }
         }
 
-        if (!node.Super.HasValue)
+        if (!node.HasSuper)
         {
             return default;
         }
 
-        var superSpan = result.SkillSet[node.Super.Value];
+        var superSpan = result.GetSpan(node.Super);
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
         ref var superResult = ref Files[track.ResultId];
         return node.SkillMovetype = GetRecursive_SkillMovetype(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
@@ -219,12 +219,12 @@ public sealed partial class Project
             return node.speed.Value.Number;
         }
 
-        if (!node.Super.HasValue)
+        if (!node.HasSuper)
         {
             return default;
         }
 
-        var superSpan = result.SkillSet[node.Super.Value];
+        var superSpan = result.GetSpan(node.Super);
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
         ref var superResult = ref Files[track.ResultId];
         return GetRecursive_speed(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
@@ -237,12 +237,12 @@ public sealed partial class Project
             return node.SkillKind;
         }
 
-        if (!node.Super.HasValue)
+        if (!node.HasSuper)
         {
             return node.SkillKind = SkillKind.missile;
         }
 
-        var superSpan = result.SkillSet[node.Super.Value];
+        var superSpan = result.GetSpan(node.Super);
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
         ref var superResult = ref Files[track.ResultId];
         return node.SkillKind = GetRecursive_SkillKind(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
@@ -260,12 +260,12 @@ public sealed partial class Project
             return node.ground.Value.Number == 0;
         }
 
-        if (!node.Super.HasValue)
+        if (!node.HasSuper)
         {
             return default;
         }
 
-        var superSpan = result.SkillSet[node.Super.Value];
+        var superSpan = result.GetSpan(node.Super);
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
         ref var superResult = ref Files[track.ResultId];
         return GetRecursive_IsGround0(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);

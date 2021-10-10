@@ -14,14 +14,14 @@ public static partial class Parser
 
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
-        tokenList[element.ElementTokenId].Kind = TokenKind.ROAM;
+        tokenList.GetKind(element.ElementTokenId) = TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(element.ElementTokenId);
             return false;
         }
 
-        tokenList.Last.Kind = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
         element.HasValue = true;
         element.Value.Add(new(tokenList.LastIndex));
 
@@ -33,9 +33,9 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsSemicolon(ref source))
+            if (result.IsSemicolon(tokenList.LastIndex))
             {
-                if (element.Value.Count == 1 && tokenList[element.Value[0].Text].IsAtmark(ref source))
+                if (element.Value.Count == 1 && result.IsAtmark(element.Value[0].Text))
                 {
                     element.Value.Clear();
                     element.HasValue = false;
@@ -44,7 +44,7 @@ public static partial class Parser
                 return true;
             }
 
-            if (tokenList.Last.IsComma(ref source) && result.IsEndOfLine(tokenList.LastIndex))
+            if (result.IsComma(tokenList.LastIndex) && result.IsEndOfLine(tokenList.LastIndex))
             {
                 if (!ReadToken(ref context, ref result))
                 {
@@ -52,7 +52,7 @@ public static partial class Parser
                     return false;
                 }
 
-                tokenList.Last.Kind = TokenKind.Content;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
                 element.Value.Add(new(tokenList.LastIndex));
             }
             else

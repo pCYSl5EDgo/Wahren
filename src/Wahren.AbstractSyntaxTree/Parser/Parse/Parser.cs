@@ -14,13 +14,13 @@ public static partial class Parser
 {
     private static bool ReadToken(ref Context context, ref Result result)
     {
-        result.TokenList.Add(new());
-        if (!Lexer.ReadToken(ref result.Source, ref context.Position, ref result.TokenList.Last))
+        Token token = new();
+        if (!Lexer.ReadToken(ref result.Source, ref context.Position, ref token))
         {
-            result.TokenList.RemoveLast();
             return false;
         }
 
+        result.TokenList.Add(ref token);
         return true;
     }
 
@@ -39,27 +39,29 @@ public static partial class Parser
                 return false;
             }
 
-            ref var last = ref tokenList.Last;
-            if (last.IsSingleLineComment(ref source))
+            ref var lastLength = ref tokenList.GetLength(tokenList.LastIndex);
+            ref var lastOffset = ref tokenList.GetOffset(tokenList.LastIndex);
+            ref var lastLine = ref tokenList.GetLine(tokenList.LastIndex);
+            if (result.IsSingleLineComment(tokenList.LastIndex))
             {
-                last.Length = (uint)source[last.Position.Line].Count - last.Position.Offset;
-                position.Offset = (uint)source[last.Position.Line].Count;
+                lastLength = (uint)source[lastLine].Count - lastOffset;
+                position.Offset = (uint)source[lastLine].Count;
             }
-            else if (last.IsSingleLineCommentSlashPlus(ref source))
+            else if (result.IsSingleLineCommentSlashPlus(tokenList.LastIndex))
             {
                 if (context.TreatSlashPlusAsSingleLineComment)
                 {
-                    last.Length = (uint)source[last.Position.Line].Count - last.Position.Offset;
-                    position.Offset = (uint)source[last.Position.Line].Count;
+                    lastLength = (uint)source[lastLine].Count - lastOffset;
+                    position.Offset = (uint)source[lastLine].Count;
                 }
             }
-            else if (last.IsMultiLineCommentStart(ref source))
+            else if (result.IsMultiLineCommentStart(tokenList.LastIndex))
             {
-                var mulslashIndex = source[last.Position.Line].AsSpan(last.Position.Offset + 2).IndexOf("*/");
+                var mulslashIndex = source[lastLine].AsSpan(lastOffset + 2).IndexOf("*/");
                 if (mulslashIndex == -1)
                 {
-                    last.Length = (uint)source[last.Position.Line].Count - last.Position.Offset;
-                    position.Offset = (uint)source[last.Position.Line].Count;
+                    lastLength = (uint)source[lastLine].Count - lastOffset;
+                    position.Offset = (uint)source[lastLine].Count;
                     position.Line++;
                     position.Offset = 0;
                     if (!ParseMultiLineComment(ref position, ref result))
@@ -69,7 +71,7 @@ public static partial class Parser
                 }
                 else
                 {
-                    last.Length += (uint)mulslashIndex + 2U;
+                    lastLength += (uint)mulslashIndex + 2U;
                     position.Offset = (uint)mulslashIndex + 2U;
                 }
             }
@@ -86,11 +88,12 @@ public static partial class Parser
         ref var tokenList = ref result.TokenList;
         while (position.Line < source.Count)
         {
-            tokenList.Add(new());
-            ref var last = ref tokenList.Last;
-            last.Kind = TokenKind.Comment;
-            last.PrecedingNewLineCount = 1;
-            last.Position = position;
+            var last = new Token
+            {
+                Kind = TokenKind.Comment,
+                PrecedingNewLineCount = 1,
+                Position = position
+            };
             ref var line = ref source[position.Line];
             var span = line.AsSpan(position.Offset);
             var index = span.IndexOf("*/");
@@ -99,11 +102,13 @@ public static partial class Parser
                 last.Length = (uint)span.Length;
                 position.Offset = 0;
                 position.Line++;
+                tokenList.Add(ref last);
                 continue;
             }
 
             position.Offset += (uint)index + 2U;
             last.Length = (uint)index + 2U;
+            tokenList.Add(ref last);
             return true;
         }
 
@@ -163,14 +168,14 @@ public static partial class Parser
     {
         var span = result.GetSpan(element.ElementTokenId);
         var index = span.LastIndexOf('@');
-        ref var token = ref result.TokenList[element.ElementTokenId];
+        ref var tokenList = ref result.TokenList;
         ref var elementKey = ref element.ElementKeyRange;
-        elementKey.Line = token.Position.Line;
-        elementKey.Offset = token.Position.Offset;
+        elementKey.Line = tokenList.GetLine(element.ElementTokenId);
+        elementKey.Offset = tokenList.GetOffset(element.ElementTokenId);
         switch (index)
         {
             case -1:
-                elementKey.Length = token.Length;
+                elementKey.Length = tokenList.GetLength(element.ElementTokenId);
                 element.ElementScenarioId = uint.MaxValue;
                 break;
             default:
@@ -190,7 +195,7 @@ public static partial class Parser
 
     private static bool IsValidIdentifier(ref Context context, ref Result result, uint tokenIndex)
     {
-        ref var token = ref result.TokenList[tokenIndex];
+        ref var tokenList = ref result.TokenList;
         var span = result.GetSpan(tokenIndex);
         var invalidIndex = span.IndexOfAny(" \t@:;^|+-*/.,");
         if (invalidIndex != -1)
@@ -235,7 +240,7 @@ public static partial class Parser
         }
 
         node.Name = tokenList.LastIndex;
-        tokenList.Last.Kind = TokenKind.Name;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Name;
         if (!IsValidIdentifier(ref context, ref result, tokenList.LastIndex))
         {
             return false;
@@ -247,12 +252,12 @@ public static partial class Parser
             return false;
         }
 
-        if (tokenList.Last.IsColon(ref source) && !ProcessSuper(ref context, ref result, ref node, ref superSet))
+        if (result.IsColon(tokenList.LastIndex) && !ProcessSuper(ref context, ref result, ref node, ref superSet))
         {
             return false;
         }
 
-        if (!tokenList.Last.IsBracketLeft(ref source))
+        if (!result.IsBracketLeft(tokenList.LastIndex))
         {
             result.ErrorAdd_BracketLeftNotFound(result.GetSpan(node.Kind));
             return false;
@@ -272,15 +277,18 @@ public static partial class Parser
         }
 
         ref var tokenList = ref result.TokenList;
-        tokenList.Last.Kind = TokenKind.Super;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Super;
+        node.HasSuper = true;
+        node.Super = tokenList.LastIndex;
         var superSpan = result.GetSpan(tokenList.LastIndex);
+        superSet.GetOrAdd(superSpan, node.Super);
+
         var nodeNameSpan = result.GetSpan(node.Name);
         if (superSpan.SequenceEqual(nodeNameSpan))
         {
             result.ErrorAdd_InfiniteLoop(result.GetSpan(node.Kind), nodeNameSpan, superSpan, node.Name);
         }
-        var superIndex = superSet.GetOrAdd(superSpan, tokenList.LastIndex);
-        node.Super = superIndex;
+
         if (context.CreateError(DiagnosticSeverity.Warning) && !IsValidIdentifier(ref context, ref result, tokenList.LastIndex))
         {
             result.WarningAdd_InvalidIdentifier(tokenList.LastIndex);
@@ -304,8 +312,7 @@ public static partial class Parser
             return false;
         }
 
-        ref var last = ref result.TokenList.Last;
-        if (last.IsBracketLeft(ref source))
+        if (result.IsBracketLeft(result.TokenList.LastIndex))
         {
             return true;
         }
@@ -316,10 +323,10 @@ public static partial class Parser
 
     private static void CancelTokenReadback(ref Context context, ref Result result)
     {
-        result.TokenList.RemoveLast();
-        ref var last = ref result.TokenList.Last;
-        context.Position = last.Position;
-        context.Position.Offset += last.Length;
+        ref var tokenList = ref result.TokenList;
+        tokenList.RemoveLast();
+        context.Position.Line = tokenList.GetLine(tokenList.LastIndex);
+        context.Position.Offset = tokenList.GetOffset(tokenList.LastIndex) + tokenList.GetLength(tokenList.LastIndex);
     }
 
     private static bool ReadAssign(ref Context context, ref Result result, uint elementTokenId)
@@ -330,8 +337,7 @@ public static partial class Parser
             return false;
         }
 
-        ref var last = ref result.TokenList.Last;
-        if (!last.IsAssign(ref result.Source))
+        if (!result.IsAssign(result.TokenList.LastIndex))
         {
             result.ErrorAdd_AssignmentDoesNotExist(elementTokenId);
             return false;

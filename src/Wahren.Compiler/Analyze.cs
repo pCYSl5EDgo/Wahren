@@ -56,7 +56,11 @@ public partial class Program
 
         if (contentsFolder is null || !Directory.Exists(contentsFolder))
         {
+#if JAPANESE
+            Console.Error.WriteLine("コンテンツが含まれるフォルダが見つかりませんでした。'script'/'image'/'stage'などが含まれるフォルダをa_deaultという名前で設置してみてください。");
+#else
             Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
+#endif
             return 1;
         }
 
@@ -585,9 +589,9 @@ public partial class Program
         stringBuilder.Append("  ");
         stringBuilder.Append(filePath);
         stringBuilder.Append('(');
-        stringBuilder.Append(error.Position.Line + 1);
+        stringBuilder.Append(error.Line + 1);
         stringBuilder.Append(", ");
-        stringBuilder.Append(error.Position.Offset + 1);
+        stringBuilder.Append(error.Offset + 1);
         stringBuilder.Append(')');
         if (showNotError)
         {

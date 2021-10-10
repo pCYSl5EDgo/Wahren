@@ -772,9 +772,9 @@ public static partial class PerResultValidator
 	{
         if (value is null)
         {
-            if (node.Super.HasValue)
+            if (node.HasSuper)
             {
-                var superSpan = result.SkillSet[node.Super.Value];
+                var superSpan = result.GetSpan(node.Super);
                 node.SkillKind = SkillKind.Unknown;
                 foreach(ref var other in result.SkillNodeList.AsSpan())
                 {

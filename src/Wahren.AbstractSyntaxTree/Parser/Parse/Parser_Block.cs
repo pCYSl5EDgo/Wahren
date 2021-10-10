@@ -18,14 +18,14 @@ public static partial class Parser
             case ActionKind.@while:
                 return Parse_While(ref context, ref result, currentIndex, ref statements, ref blockStack);
             case ActionKind.next:
-                tokenList.Last.Kind = TokenKind.next;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.next;
                 if (!ReadToken(ref context, ref result))
                 {
                     result.ErrorAdd_UnexpectedEndOfFile(currentIndex);
                     return false;
                 }
 
-                if (tokenList.Last.IsParenRight(ref source))
+                if (result.IsParenRight(tokenList.LastIndex))
                 {
                     result.UnionLast2Tokens();
                 }
@@ -37,14 +37,14 @@ public static partial class Parser
                 statements.Add(new NextStatement(currentIndex));
                 return true;
             case ActionKind.@return:
-                tokenList.Last.Kind = TokenKind.@return;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.@return;
                 if (!ReadToken(ref context, ref result))
                 {
                     result.ErrorAdd_UnexpectedEndOfFile(currentIndex);
                     return false;
                 }
 
-                if (tokenList.Last.IsParenRight(ref source))
+                if (result.IsParenRight(tokenList.LastIndex))
                 {
                     result.UnionLast2Tokens();
                 }
@@ -57,14 +57,14 @@ public static partial class Parser
                 statements.Add(new ReturnStatement(currentIndex));
                 return true;
             case ActionKind.@break:
-                tokenList.Last.Kind = TokenKind.@break;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.@break;
                 if (!ReadToken(ref context, ref result))
                 {
                     result.ErrorAdd_UnexpectedEndOfFile(currentIndex);
                     return false;
                 }
 
-                if (tokenList.Last.IsParenRight(ref source))
+                if (result.IsParenRight(tokenList.LastIndex))
                 {
                     result.UnionLast2Tokens();
                 }
@@ -82,14 +82,14 @@ public static partial class Parser
                 statements.Add(new BreakStatement(currentIndex, null));
                 return true;
             case ActionKind.@continue:
-                tokenList.Last.Kind = TokenKind.@continue;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.@continue;
                 if (!ReadToken(ref context, ref result))
                 {
                     result.ErrorAdd_UnexpectedEndOfFile(currentIndex);
                     return false;
                 }
 
-                if (tokenList.Last.IsParenRight(ref source))
+                if (result.IsParenRight(tokenList.LastIndex))
                 {
                     result.UnionLast2Tokens();
                 }
@@ -147,7 +147,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsBracketRight(ref source))
+            if (result.IsBracketRight(tokenList.LastIndex))
             {
                 return true;
             }
@@ -159,7 +159,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsAssign(ref source))
+            if (result.IsAssign(tokenList.LastIndex))
             {
                 if (Parse_Discard(ref context, ref result, currentIndex))
                 {
@@ -172,7 +172,7 @@ public static partial class Parser
                 }
             }
 
-            if (!tokenList.Last.IsParenLeft(ref source))
+            if (!result.IsParenLeft(tokenList.LastIndex))
             {
                 result.ErrorAdd_UnexpectedOperatorToken(currentIndex);
                 return false;
@@ -183,14 +183,14 @@ public static partial class Parser
             switch (actionKind)
             {
                 case ActionKind.@return:
-                    tokenList.Last.Kind = TokenKind.@return;
+                    tokenList.GetKind(tokenList.LastIndex) = TokenKind.@return;
                     if (!ReadToken(ref context, ref result))
                     {
                         result.ErrorAdd_UnexpectedEndOfFile(currentIndex);
                         return false;
                     }
 
-                    if (tokenList.Last.IsParenRight(ref source))
+                    if (result.IsParenRight(tokenList.LastIndex))
                     {
                         result.UnionLast2Tokens();
                     }
@@ -202,14 +202,14 @@ public static partial class Parser
                     statements.Add(new ReturnStatement(currentIndex));
                     continue;
                 case ActionKind.next:
-                    tokenList.Last.Kind = TokenKind.next;
+                    tokenList.GetKind(tokenList.LastIndex) = TokenKind.next;
                     if (!ReadToken(ref context, ref result))
                     {
                         result.ErrorAdd_UnexpectedEndOfFile(currentIndex);
                         return false;
                     }
 
-                    if (tokenList.Last.IsParenRight(ref source))
+                    if (result.IsParenRight(tokenList.LastIndex))
                     {
                         result.UnionLast2Tokens();
                     }
@@ -230,7 +230,7 @@ public static partial class Parser
                         return false;
                     }
                 case ActionKind.@break:
-                    tokenList.Last.Kind = TokenKind.@break;
+                    tokenList.GetKind(tokenList.LastIndex) = TokenKind.@break;
                     @while = GetWhile(ref blockStack);
                     if (@while is null && createWarning)
                     {
@@ -242,7 +242,7 @@ public static partial class Parser
                         return false;
                     }
 
-                    if (tokenList.Last.IsParenRight(ref source))
+                    if (result.IsParenRight(tokenList.LastIndex))
                     {
                         result.UnionLast2Tokens();
                     }
@@ -254,7 +254,7 @@ public static partial class Parser
                     statements.Add(new BreakStatement(currentIndex, @while));
                     continue;
                 case ActionKind.@continue:
-                    tokenList.Last.Kind = TokenKind.@continue;
+                    tokenList.GetKind(tokenList.LastIndex) = TokenKind.@continue;
                     @while = GetWhile(ref blockStack);
                     if (@while is null && createWarning)
                     {
@@ -266,7 +266,7 @@ public static partial class Parser
                         return false;
                     }
 
-                    if (tokenList.Last.IsParenRight(ref source))
+                    if (result.IsParenRight(tokenList.LastIndex))
                     {
                         result.UnionLast2Tokens();
                     }
@@ -305,7 +305,8 @@ public static partial class Parser
 
     private static bool Parse_While(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ref List<IBlockStatement> blockStack)
     {
-        result.TokenList.Last.Kind = TokenKind.@while;
+        ref var tokenList = ref result.TokenList;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.@while;
         var condition = ParseCondition(ref context, ref result, currentIndex, ConditionStatementKind.While);
         if (condition is null)
         {
@@ -322,7 +323,8 @@ public static partial class Parser
 
     private static bool Parse_If(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ref List<IBlockStatement> blockStack, bool isRepeatIf)
     {
-        result.TokenList.Last.Kind = isRepeatIf ? TokenKind.rif : TokenKind.@if;
+        ref var tokenList = ref result.TokenList;
+        tokenList.GetKind(tokenList.LastIndex) = isRepeatIf ? TokenKind.rif : TokenKind.@if;
         var condition = ParseCondition(ref context, ref result, currentIndex, isRepeatIf ? ConditionStatementKind.Rif : ConditionStatementKind.If);
         if (condition is null)
         {
@@ -344,13 +346,13 @@ public static partial class Parser
             return true;
         }
 
-        if (!result.TokenList.Last.Is_else(ref result.Source))
+        if (!result.Is_else(tokenList.LastIndex))
         {
             CancelTokenReadback(ref context, ref result);
             return true;
         }
 
-        result.TokenList.Last.Kind = TokenKind.Else;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Else;
         statement.ElseTokenId = result.TokenList.LastIndex;
         statement.HasElseStatement = true;
         if (!ReadToken(ref context, ref result))
@@ -360,14 +362,14 @@ public static partial class Parser
         }
 
         blockStack.Add(statement);
-        if (result.TokenList.Last.IsBracketLeft(ref result.Source))
+        if (result.IsBracketLeft(tokenList.LastIndex))
         {
             answer = Parse_Block(ref context, ref result, ref statement.ElseStatements, ref blockStack);
         }
         else
         {
             var elseifIndex = result.TokenList.LastIndex;
-            if (!ReadToken(ref context, ref result) || !result.TokenList.Last.IsParenLeft(ref result.Source))
+            if (!ReadToken(ref context, ref result) || !result.IsParenLeft(tokenList.LastIndex))
             {
                 result.ErrorAdd("'(' of else (r)if statement is not found.", elseifIndex);
                 return false;
@@ -395,21 +397,21 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsParenRight(ref source))
+            if (result.IsParenRight(tokenList.LastIndex))
             {
                 result.ErrorAdd_TooLessArguments(statement.Kind, i + 1, beforeLastCompoundTextArgumentCount + 1, tokenList.LastIndex);
                 return true;
             }
 
-            if (tokenList.Last.IsComma(ref source))
+            if (result.IsComma(tokenList.LastIndex))
             {
                 result.ErrorAdd_ArgumentDoesNotExist(',', ',', tokenList.LastIndex);
                 return true;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             argument.TokenId = tokenList.LastIndex;
-            argument.IsNumber = tokenList.Last.TryParse(ref source, out argument.Number);
+            argument.IsNumber = result.TryParse(argument.TokenId, out argument.Number);
             arguments.Add(ref argument);
             ref var lastArgument = ref arguments.Last;
             do
@@ -420,12 +422,12 @@ public static partial class Parser
                     return false;
                 }
 
-                if (tokenList.Last.IsComma(ref source))
+                if (result.IsComma(tokenList.LastIndex))
                 {
                     break;
                 }
 
-                if (tokenList.Last.IsParenRight(ref source))
+                if (result.IsParenRight(tokenList.LastIndex))
                 {
                     result.ErrorAdd_TooLessArguments(statement.Kind, i + 1, beforeLastCompoundTextArgumentCount + 1, tokenList.LastIndex);
                     return true;
@@ -433,7 +435,7 @@ public static partial class Parser
 
                 lastArgument.IsNumber = false;
                 lastArgument.TrailingTokenCount++;
-                tokenList.Last.Kind = TokenKind.ContentTrailing;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
             } while (true);
         }
 
@@ -443,13 +445,13 @@ public static partial class Parser
             return false;
         }
 
-        if (tokenList.Last.IsParenRight(ref source))
+        if (result.IsParenRight(tokenList.LastIndex))
         {
             result.ErrorAdd_ArgumentDoesNotExist(',', ')', tokenList.LastIndex - 1);
             return true;
         }
 
-        tokenList.Last.Kind = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
         argument.TokenId = tokenList.LastIndex;
         arguments.Add(ref argument);
 
@@ -461,14 +463,14 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsParenRight(ref source) && result.IsEndOfLine(tokenList.LastIndex))
+            if (result.IsParenRight(tokenList.LastIndex) && result.IsEndOfLine(tokenList.LastIndex))
             {
                 return true;
             }
 
             arguments.Last.IsNumber = false;
             arguments.Last.TrailingTokenCount++;
-            tokenList.Last.Kind = TokenKind.ContentTrailing;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
         } while (true);
     }
 
@@ -478,8 +480,8 @@ public static partial class Parser
     private static bool Parse_CallAction(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ActionKind actionKind)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList[currentIndex].Kind = TokenKind.CallAction;
-        tokenList[currentIndex].Other = (uint)actionKind;
+        tokenList.GetKind(currentIndex) = TokenKind.CallAction;
+        tokenList.GetOther(currentIndex) = (uint)actionKind;
         var statement = new CallActionStatement(currentIndex, actionKind);
         statements.Add(statement);
         if (context.IsEnglishMode)
@@ -512,7 +514,7 @@ public static partial class Parser
                 return false;
             }
 
-            if (tokenList.Last.IsParenRight(ref source))
+            if (result.IsParenRight(tokenList.LastIndex))
             {
                 if (!arguments.IsEmpty)
                 {
@@ -522,15 +524,15 @@ public static partial class Parser
                 goto TRUE;
             }
 
-            if (tokenList.Last.IsComma(ref source))
+            if (result.IsComma(tokenList.LastIndex))
             {
                 result.ErrorAdd_ArgumentDoesNotExist(',', ',', currentIndex);
                 continue;
             }
 
-            tokenList.Last.Kind = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             argument.TokenId = tokenList.LastIndex;
-            argument.IsNumber = tokenList.Last.TryParse(ref source, out argument.Number);
+            argument.IsNumber = result.TryParse(argument.TokenId, out argument.Number);
 
             if (!ReadToken(ref context, ref result))
             {
@@ -539,18 +541,18 @@ public static partial class Parser
             }
 
             arguments.Add(ref argument);
-            if (tokenList.Last.IsComma(ref source))
+            if (result.IsComma(tokenList.LastIndex))
             {
                 continue;
             }
-            else if (tokenList.Last.IsParenRight(ref source))
+            else if (result.IsParenRight(tokenList.LastIndex))
             {
                 goto TRUE;
             }
 
             arguments.Last.IsNumber = false;
             arguments.Last.TrailingTokenCount++;
-            tokenList.Last.Kind = TokenKind.ContentTrailing;
+            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
 
             do
             {
@@ -560,17 +562,17 @@ public static partial class Parser
                     return false;
                 }
 
-                if (tokenList.Last.IsComma(ref source))
+                if (result.IsComma(tokenList.LastIndex))
                 {
                     break;
                 }
-                else if (tokenList.Last.IsParenRight(ref source))
+                else if (result.IsParenRight(tokenList.LastIndex))
                 {
                     goto TRUE;
                 }
 
                 arguments.Last.TrailingTokenCount++;
-                tokenList.Last.Kind = TokenKind.ContentTrailing;
+                tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
             } while (true);
         } while (true);
 
