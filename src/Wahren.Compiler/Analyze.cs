@@ -44,14 +44,11 @@ public partial class Program
             args.Cancel = true;
         });
         var debugPaper = await GetDebugPaper(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
-        string? contentsFolder;
-        if (debugPaper.Folder is null)
+        string? contentsFolder = DetectContentsFolder(rootFolder); ;
+        if (debugPaper.Folder is not null)
         {
-            contentsFolder = DetectContentsFolder(rootFolder);
-        }
-        else
-        {
-            contentsFolder = Path.Combine(rootFolder, debugPaper.Folder);
+            var debugFolder = Path.Combine(rootFolder, debugPaper.Folder);
+            contentsFolder ??= debugFolder;
         }
 
         if (contentsFolder is null || !Directory.Exists(contentsFolder))
