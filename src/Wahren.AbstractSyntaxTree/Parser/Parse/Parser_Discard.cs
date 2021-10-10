@@ -23,14 +23,14 @@ public static partial class Parser
     private static bool Parse_Discard_LOYAL(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.LOYAL;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.LOYAL;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(elementTokenId);
             return false;
         }
 
-        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         if (result.TryParse(tokenList.LastIndex, out _))
         {
             if (!result.IsEndOfLine(tokenList.LastIndex))
@@ -69,7 +69,7 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             if (!result.TryParse(tokenList.LastIndex, out _))
             {
                 result.ErrorAdd("Number text must follows '*'.", textIndex);
@@ -94,7 +94,7 @@ public static partial class Parser
     private static bool Parse_Discard_RAY(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.RAY;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.RAY;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(elementTokenId);
@@ -103,7 +103,7 @@ public static partial class Parser
 
         do
         {
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             if (!ReadToken(ref context, ref result))
             {
                 result.ErrorAdd_UnexpectedEndOfFile(elementTokenId);
@@ -138,7 +138,7 @@ public static partial class Parser
     private static bool Parse_Discard_TEXT(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.TEXT;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.TEXT;
         if (!ReadToken(ref context, ref result))
         {
             result.ErrorAdd_UnexpectedEndOfFile(elementTokenId);
@@ -150,7 +150,7 @@ public static partial class Parser
             return true;
         }
 
-        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         do
         {
             if (!ReadToken(ref context, ref result))
@@ -158,7 +158,7 @@ public static partial class Parser
                 result.ErrorAdd_UnexpectedEndOfFile(elementTokenId);
                 return false;
             }
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.ContentTrailing;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.ContentTrailing;
         } while (!result.IsSemicolon(tokenList.LastIndex));
         return true;
     }
@@ -170,7 +170,7 @@ public static partial class Parser
     private static bool Parse_Discard_CONSTI(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.CONSTI;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.CONSTI;
         do
         {
             if (!ReadToken(ref context, ref result))
@@ -179,7 +179,7 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             do
             {
                 if (!ReadToken(ref context, ref result))
@@ -196,7 +196,7 @@ public static partial class Parser
                         return false;
                     }
 
-                    tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+                    tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
                     if (!result.TryParse(tokenList.LastIndex, out _))
                     {
                         result.ErrorAdd_NumberIsExpected(elementTokenId);
@@ -247,14 +247,14 @@ public static partial class Parser
     private static bool Parse_Discard_ROAM(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.ROAM;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(elementTokenId);
             return false;
         }
 
-        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         ref var source = ref result.Source;
         do
         {
@@ -282,7 +282,7 @@ public static partial class Parser
                     return true;
                 }
 
-                tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+                tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             }
             else
             {
@@ -299,7 +299,7 @@ public static partial class Parser
     private static bool Parse_Discard_MEMBER(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.MEMBER;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.MEMBER;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_ValueDoesNotExistAfterAssignment(elementTokenId);
@@ -307,7 +307,7 @@ public static partial class Parser
         }
 
         uint lastAddIndex = tokenList.LastIndex;
-        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         if (result.IsOperator(tokenList.LastIndex))
         {
             result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
@@ -338,7 +338,7 @@ public static partial class Parser
                 }
 
                 lastAddIndex = tokenList.LastIndex;
-                tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+                tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
                 if (result.IsOperator(tokenList.LastIndex))
                 {
                     result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
@@ -360,7 +360,7 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             if (result.TryParse(tokenList.LastIndex, out int repeatCount))
             {
                 if (createWarning)
@@ -409,7 +409,7 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             lastAddIndex = tokenList.LastIndex;
             if (result.IsOperator(tokenList.LastIndex))
             {
@@ -426,14 +426,14 @@ public static partial class Parser
     private static bool Parse_Discard_OFFSET(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.OFFSET;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.OFFSET;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_UnexpectedEndOfFile(elementTokenId, "Element must have value. There is no value text after '='.");
             return false;
         }
 
-        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         ref var source = ref result.Source;
         var processingLineIndex = tokenList.GetLine(tokenList.LastIndex);
         do
@@ -462,7 +462,7 @@ public static partial class Parser
                 return false;
             }
 
-            tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+            tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
             if (tokenList.GetLine(tokenList.LastIndex) != processingLineIndex)
             {
                 result.ErrorAdd("Unexpected Line Feed. ',' needs succeding token on the same line.", tokenList.LastIndex - 1);
@@ -478,7 +478,7 @@ public static partial class Parser
     private static bool Parse_Discard_DEFAULT(ref Context context, ref Result result, uint elementTokenId)
     {
         ref var tokenList = ref result.TokenList;
-        tokenList.GetKind(elementTokenId) = TokenKind.DEFAULT;
+        tokenList.GetKind(elementTokenId) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.DEFAULT;
         if (!ReadToken(ref context, ref result))
         {
             result.ErrorAdd_UnexpectedEndOfFile(elementTokenId);
@@ -486,7 +486,7 @@ public static partial class Parser
         }
 
         ref var source = ref result.Source;
-        tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+        tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         var processingLine = tokenList.GetLine(tokenList.LastIndex);
         var hasNumber = result.TryParse(tokenList.LastIndex, out _);
         if (hasNumber)

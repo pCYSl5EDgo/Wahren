@@ -11,7 +11,8 @@ public partial class Program
         [Option(0, "input folder")] string rootFolder = ".",
         [Option("switch")] bool @switch = false,
         [Option("t")] bool time = false,
-        [Option("unicode")] bool forceUnicode = false
+        [Option("unicode")] bool forceUnicode = false,
+        [Option("delete")] bool deleteDiscardedToken = false
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
@@ -44,7 +45,7 @@ public partial class Program
             await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token,
                 (path, token) =>
                 {
-                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, forceUnicode, token);
+                    return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, forceUnicode, deleteDiscardedToken, token);
                 }).ConfigureAwait(false);
             await toUnicodeFolderStructureTask.ConfigureAwait(false);
         }
@@ -153,7 +154,7 @@ public partial class Program
         return ToUnicodeFolderStructure(cancellationTokenSource, scriptFolderPath, path_dot_gitattributes);
     }
 
-    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, bool forceUnicode, CancellationToken token)
+    private static async ValueTask ProcessEachFilesOverwrite(string path, bool @switch, bool isUnicode, bool isEnglish, bool forceUnicode, bool deleteDiscardedToken, CancellationToken token)
     {
         Result result;
         byte[]? rental;
@@ -195,7 +196,7 @@ public partial class Program
             handle.Dispose();
         }
 
-        Context context = new(treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, DiagnosticSeverity.Error);
+        Context context = new(treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, deleteDiscardedToken, DiagnosticSeverity.Error);
         Parser.Parse(ref context, ref result);
         var byteList = new List<byte>();
         try

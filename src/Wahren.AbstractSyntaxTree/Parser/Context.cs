@@ -6,16 +6,18 @@ public struct Context
 
     public bool TreatSlashPlusAsSingleLineComment;
     public bool IsEnglishMode;
+    public bool DeleteDiscardedToken;
 
     public DiagnosticSeverity RequiredSeverity;
 
-    public Context(bool treatSlashPlusAsSingleLineComment = false, bool isEnglishMode = false, DiagnosticSeverity requiredSeverity = DiagnosticSeverity.Warning)
+    public Context(bool treatSlashPlusAsSingleLineComment = false, bool isEnglishMode = false, bool deleteDiscardedToken = false, DiagnosticSeverity requiredSeverity = DiagnosticSeverity.Warning)
     {
         Position = default;
 
         TreatSlashPlusAsSingleLineComment = treatSlashPlusAsSingleLineComment;
         IsEnglishMode = isEnglishMode;
         RequiredSeverity = requiredSeverity;
+        DeleteDiscardedToken = deleteDiscardedToken;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -613,7 +613,7 @@ public partial class Program
             Cp932Handler.Load(input, out result.Source);
         }
 
-        Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, severity);
+        Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, false, severity);
         result.Success = Parser.Parse(ref context, ref result);
         PerResultValidator.AddReferenceAndValidate(ref context, ref result);
         if (result.Success)
