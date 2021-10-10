@@ -66,7 +66,11 @@ public partial class Program
             try
             {
                 var actual = await RandomAccess.ReadAsync(handle, rental.AsMemory(0, (int)count), 0, token).ConfigureAwait(false);
-                var answer = DebugPaper.DebugPaper.CreateFromSpan(rental.AsSpan(0, actual), true);
+                var answer = DebugPaper.DebugPaper.CreateFromSpan(rental.AsSpan(0, actual), true, out var error);
+                if (error is not null)
+                {
+                    Console.WriteLine(error);
+                }
                 return answer ?? DebugPaper.DebugPaper.DefaultDebug;
             }
             finally
@@ -89,7 +93,11 @@ public partial class Program
             try
             {
                 var actual = await RandomAccess.ReadAsync(handle, rental.AsMemory(0, (int)count), 0, token).ConfigureAwait(false);
-                var answer = DebugPaper.DebugPaper.CreateFromSpan(rental.AsSpan(0, actual), false);
+                var answer = DebugPaper.DebugPaper.CreateFromSpan(rental.AsSpan(0, actual), false, out var error);
+                if (error is not null)
+                {
+                    Console.WriteLine(error);
+                }
                 return answer ?? DebugPaper.DebugPaper.DefaultRelease;
             }
             finally

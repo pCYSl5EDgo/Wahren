@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
@@ -17,10 +18,15 @@ public sealed record class DebugPaper(string? Folder, bool IsDebugMode, bool Enc
     public static readonly DebugPaper DefaultDebug = new("a_default", true, false, false, false, false, default, default, default, default, default, default);
     public static readonly DebugPaper DefaultRelease = new("a_default", false, false, false, false, false, default, default, default, default, default, default);
 
-    public static DebugPaper? CreateFromSpan(ReadOnlySpan<byte> span, bool isDebugMode)
+    public static DebugPaper? CreateFromSpan(ReadOnlySpan<byte> span, bool isDebugMode, out string? error)
     {
         if (span.IsEmpty)
         {
+#if JAPANESE
+            error = "debug_paper.txtが空です。";
+#else
+            error = "Nothing is written in debug_paper.txt";
+#endif
             return null;
         }
 
@@ -32,11 +38,11 @@ public sealed record class DebugPaper(string? Folder, bool IsDebugMode, bool Enc
                 rental[i] = (char)span[i];
                 if (span[i] > 0x7f)
                 {
-                    return ParseNotAscii(span, isDebugMode);
+                    return ParseNotAscii(span, isDebugMode, out error);
                 }
             }
 
-            return Parse(rental.AsSpan(0, span.Length), isDebugMode);
+            return Parse(rental.AsSpan(0, span.Length), isDebugMode, out error);
         }
         finally
         {
@@ -44,7 +50,7 @@ public sealed record class DebugPaper(string? Folder, bool IsDebugMode, bool Enc
         }
     }
 
-    private static DebugPaper? Parse(ReadOnlySpan<char> span, bool isDebugMode)
+    private static DebugPaper? Parse(ReadOnlySpan<char> span, bool isDebugMode, out string? error)
     {
         string? scenario = null;
         Reinterpret reinterpret = new();
@@ -64,6 +70,16 @@ public sealed record class DebugPaper(string? Folder, bool IsDebugMode, bool Enc
             if (crlf == 0 && span.Length == 2)
             {
                 break;
+            }
+
+            if (crlf == -1)
+            {
+#if JAPANESE
+                error = "debug_paper.txtの末尾は改行(CRLF)でなくてはなりません。";
+#else
+                error = "debug_paper.txt must end with CRLF.";
+#endif
+                return null;
             }
 
             var thisLine = span.Slice(0, crlf);
@@ -258,18 +274,24 @@ public sealed record class DebugPaper(string? Folder, bool IsDebugMode, bool Enc
             scenario ??= thisLine.ToString();
         }
 
+        error = null;
         return new DebugPaper(scenario, isDebugMode, encode, margin, testmap, skillcheckoff, zoom, zoomMax, zoomTick, width, height, midi)
         {
             Reinterpret = reinterpret,
         };
     }
 
-    private static DebugPaper? ParseNotAscii(ReadOnlySpan<byte> span, bool isDebugMode)
+    private static DebugPaper? ParseNotAscii(ReadOnlySpan<byte> span, bool isDebugMode, out string? error)
     {
         var encoding = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.ANSICodePage);
         var count = encoding.GetCharCount(span);
         if (count <= 0)
         {
+#if JAPANESE
+            error = "debug_paper.txtが空です。";
+#else
+            error = "Nothing is written in debug_paper.txt";
+#endif
             return null;
         }
 
@@ -278,7 +300,7 @@ public sealed record class DebugPaper(string? Folder, bool IsDebugMode, bool Enc
         try
         {
             encoding.GetChars(span, chars);
-            return Parse(chars, isDebugMode);
+            return Parse(chars, isDebugMode, out error);
         }
         finally
         {
