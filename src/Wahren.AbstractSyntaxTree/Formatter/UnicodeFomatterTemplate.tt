@@ -458,7 +458,7 @@ public class UnicodeFormatter : IFormatter<char>
                         Append_NewLine(ref destination, ref JustChangeLine);
                     }
 
-                    for (uint i = 0, end = tokenList.GetPrecedingNewLineCount(tokenIndex); i < end; ++i)
+                    for (uint i = 0, end = tokenList.GetPrecedingWhitespaceCount(tokenIndex); i < end; ++i)
                     {
                         Append_Space(ref destination, ref JustChangeLine);
                     }
