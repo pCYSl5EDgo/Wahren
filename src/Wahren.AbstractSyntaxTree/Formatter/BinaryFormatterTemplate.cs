@@ -311,6 +311,8 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int playSE_ParenLeft_Count;
     private readonly int scroll_ParenLeft_Offset;
     private readonly int scroll_ParenLeft_Count;
+    private readonly int scroll2_ParenLeft_Offset;
+    private readonly int scroll2_ParenLeft_Count;
     private readonly int setVar_ParenLeft_Offset;
     private readonly int setVar_ParenLeft_Count;
     private readonly int shadow_ParenLeft_Offset;
@@ -349,8 +351,6 @@ public class BinaryFormatter : IFormatter<byte>
     private readonly int pushVar_ParenLeft_Count;
     private readonly int routine_ParenLeft_Offset;
     private readonly int routine_ParenLeft_Count;
-    private readonly int scroll2_ParenLeft_Offset;
-    private readonly int scroll2_ParenLeft_Count;
     private readonly int setCapa_ParenLeft_Offset;
     private readonly int setCapa_ParenLeft_Count;
     private readonly int setDone_ParenLeft_Offset;
@@ -1481,6 +1481,10 @@ public class BinaryFormatter : IFormatter<byte>
         scroll_ParenLeft_Count = Converter("scroll(", registeredBytes.AsSpan(accum));
         accum += scroll_ParenLeft_Count;
 
+        scroll2_ParenLeft_Offset = accum;
+        scroll2_ParenLeft_Count = Converter("scroll2(", registeredBytes.AsSpan(accum));
+        accum += scroll2_ParenLeft_Count;
+
         setVar_ParenLeft_Offset = accum;
         setVar_ParenLeft_Count = Converter("setVar(", registeredBytes.AsSpan(accum));
         accum += setVar_ParenLeft_Count;
@@ -1556,10 +1560,6 @@ public class BinaryFormatter : IFormatter<byte>
         routine_ParenLeft_Offset = accum;
         routine_ParenLeft_Count = Converter("routine(", registeredBytes.AsSpan(accum));
         accum += routine_ParenLeft_Count;
-
-        scroll2_ParenLeft_Offset = accum;
-        scroll2_ParenLeft_Count = Converter("scroll2(", registeredBytes.AsSpan(accum));
-        accum += scroll2_ParenLeft_Count;
 
         setCapa_ParenLeft_Offset = accum;
         setCapa_ParenLeft_Count = Converter("setCapa(", registeredBytes.AsSpan(accum));
@@ -3531,6 +3531,12 @@ public class BinaryFormatter : IFormatter<byte>
         destination.AddRange(registeredBytes.AsSpan(scroll_ParenLeft_Offset, scroll_ParenLeft_Count));
     }
 
+    private void Append_scroll2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange(registeredBytes.AsSpan(scroll2_ParenLeft_Offset, scroll2_ParenLeft_Count));
+    }
+
     private void Append_setVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -3643,12 +3649,6 @@ public class BinaryFormatter : IFormatter<byte>
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(routine_ParenLeft_Offset, routine_ParenLeft_Count));
-    }
-
-    private void Append_scroll2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange(registeredBytes.AsSpan(scroll2_ParenLeft_Offset, scroll2_ParenLeft_Count));
     }
 
     private void Append_setCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
@@ -5982,6 +5982,10 @@ public class BinaryFormatter : IFormatter<byte>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_scroll_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.scroll2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_scroll2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.setVar:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setVar_ParenLeft(ref destination, ref JustChangeLine);
@@ -6057,10 +6061,6 @@ public class BinaryFormatter : IFormatter<byte>
                         case ActionKind.routine:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_routine_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.scroll2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_scroll2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setCapa:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

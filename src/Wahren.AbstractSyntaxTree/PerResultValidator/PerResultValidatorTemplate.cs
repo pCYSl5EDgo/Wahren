@@ -1937,7 +1937,7 @@ public static partial class PerResultValidator
 	{
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, statement);
 		}
 		ValidateNumber(ref result, ref node.ws_red, "Scenario", "ws_red");
 		ValidateNumber(ref result, ref node.ws_blue, "Scenario", "ws_blue");
@@ -2035,7 +2035,7 @@ public static partial class PerResultValidator
 	{
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, statement);
 		}
 		ValidateBoolean(ref result, ref node.disperse, "Event", "disperse");
 		ValidateNumber(ref result, ref node.castle, "Event", "castle");
@@ -2071,7 +2071,7 @@ public static partial class PerResultValidator
 	{
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, statement);
 		}
 		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
 		ValidateBoolean(ref result, ref node.fight, "Story", "fight");

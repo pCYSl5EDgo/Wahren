@@ -886,6 +886,7 @@ public static partial class Parser
                     var battleStatement = new BattleStatement(currentIndex, nextStatement);
                     tokenList.GetKind(currentIndex) = TokenKind.battle;
                     blockStack.Add(battleStatement);
+                    node.Statements.Add(battleStatement);
                     var answer = Parse_Block(ref context, ref result, ref battleStatement.Statements, ref blockStack);
                     blockStack.RemoveLast();
                     if (answer)

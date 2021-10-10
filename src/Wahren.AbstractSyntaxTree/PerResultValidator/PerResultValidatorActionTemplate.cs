@@ -10,7 +10,7 @@ using Statement.Expression;
 
 public static partial class PerResultValidator
 {
-    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallActionStatement call)
+    public static void AddReferenceAndValidateCallAction(ref Context context, ref Result result, CallActionStatement call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -9408,6 +9408,7 @@ public static partial class PerResultValidator
             case ActionKind.bg:
             case ActionKind.locate:
             case ActionKind.scroll:
+            case ActionKind.scroll2:
             case ActionKind.addSpot:
             case ActionKind.showSpotMark:
             case ActionKind.resetTruce:
@@ -9640,7 +9641,6 @@ public static partial class PerResultValidator
             case ActionKind.addItem:
             case ActionKind.minimap:
             case ActionKind.routine:
-            case ActionKind.scroll2:
             case ActionKind.shuffle:
             case ActionKind.addLimit:
             case ActionKind.addPower:
@@ -9862,7 +9862,7 @@ public static partial class PerResultValidator
         return true;
 	}
 
-    public static void AddReferenceAndValidate(ref Context context, ref Result result, CallFunctionExpression call)
+    public static void AddReferenceAndValidateCallFunction(ref Context context, ref Result result, CallFunctionExpression call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)

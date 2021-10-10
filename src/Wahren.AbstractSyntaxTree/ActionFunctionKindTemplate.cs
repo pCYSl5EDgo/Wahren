@@ -369,6 +369,7 @@ public enum ActionKind : uint
     locate,
     playSE,
     scroll,
+    scroll2,
     setVar,
     shadow,
     subVar,
@@ -388,7 +389,6 @@ public enum ActionKind : uint
     pushSex,
     pushVar,
     routine,
-    scroll2,
     setCapa,
     setDone,
     setGain,
@@ -775,6 +775,8 @@ public static class ActionKindHelper
                 return ActionKind.playSE;
             case 0x0000000075277C5DUL:
                 return ActionKind.scroll;
+            case 0x00000010EEB4F973UL:
+                return ActionKind.scroll2;
             case 0x0000000075625DD7UL:
                 return ActionKind.setVar;
             case 0x0000000075A91B0CUL:
@@ -813,8 +815,6 @@ public static class ActionKindHelper
                 return ActionKind.pushVar;
             case 0x0000001087B9F315UL:
                 return ActionKind.routine;
-            case 0x00000010EEB4F973UL:
-                return ActionKind.scroll2;
             case 0x00000010F728E06CUL:
                 return ActionKind.setCapa;
             case 0x00000010F729F0E1UL:

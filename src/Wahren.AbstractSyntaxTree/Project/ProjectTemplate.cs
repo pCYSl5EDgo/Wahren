@@ -3173,6 +3173,97 @@ public sealed partial class Project
                         break;
                 }
                 break;
+            case ActionKind.scroll2:
+                switch (arguments.Length)
+                {
+                    case 1:
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1    , "Unit, Class, Spot, StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length == 1)
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1, "Unit, Class, Spot, StringVariableReader", argument.TokenId);
+                                }
+                                else
+                                {
+                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                                if (!Unsafe.IsNullRef(ref track))
+                                {
+                                    switch (track.Kind)
+                                    {
+                                        case ReferenceKind.Unit:
+                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Unit;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Class:
+                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Class;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Spot:
+                                            argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Spot;
+                                            argument.HasReference = true;
+                                            break;
+                                        default:
+                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1, "Unit, Class, Spot, StringVariableReader", argument.TokenId);
+                                            argument.HasReference = false;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1, "Unit, Class, Spot, StringVariableReader", argument.TokenId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("scroll2", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("scroll2", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("scroll2", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                }
+                break;
             case ActionKind.showSpotMark:
                 if (argument.TrailingTokenCount == 0)
                 {
@@ -5984,67 +6075,6 @@ public sealed partial class Project
                 else
                 {
                     AddReferenceAndValidate_CompoundText(ref result, ref argument);
-                }
-
-                break;
-            case ActionKind.scroll2:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1    , "Unit, Class, Spot, StringVariableReader", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length == 1)
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1, "Unit, Class, Spot, StringVariableReader", argument.TokenId);
-                        }
-                        else
-                        {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (!Unsafe.IsNullRef(ref track))
-                        {
-                            switch (track.Kind)
-                            {
-                                case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Unit;
-                                    argument.HasReference = true;
-                                    break;
-                                case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Class;
-                                    argument.HasReference = true;
-                                    break;
-                                case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Spot;
-                                    argument.HasReference = true;
-                                    break;
-                                default:
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1, "Unit, Class, Spot, StringVariableReader", argument.TokenId);
-                                    argument.HasReference = false;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("scroll2", 1, "Unit, Class, Spot, StringVariableReader", argument.TokenId);
-                        }
-                    }
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("scroll2", argument.TokenId, argument.TrailingTokenCount);
                 }
 
                 break;

@@ -35,7 +35,7 @@ public static partial class PerResultValidator
 <#  if (nodeInfo.HasBlock) { #>
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, statement);
 		}
 <#  } #>
 <#	foreach (var element in elements) {

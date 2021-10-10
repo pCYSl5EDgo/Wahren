@@ -894,6 +894,12 @@ public class UnicodeFormatter : IFormatter<char>
         destination.AddRange("scroll(");
     }
 
+    public void Append_scroll2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    {
+        JustChangeLine = false;
+        destination.AddRange("scroll2(");
+    }
+
     public void Append_setVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
@@ -1006,12 +1012,6 @@ public class UnicodeFormatter : IFormatter<char>
     {
         JustChangeLine = false;
         destination.AddRange("routine(");
-    }
-
-    public void Append_scroll2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
-    {
-        JustChangeLine = false;
-        destination.AddRange("scroll2(");
     }
 
     public void Append_setCapa_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
@@ -3350,6 +3350,10 @@ public class UnicodeFormatter : IFormatter<char>
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_scroll_ParenLeft(ref destination, ref JustChangeLine);
                             break;
+                        case ActionKind.scroll2:
+                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
+                            Append_scroll2_ParenLeft(ref destination, ref JustChangeLine);
+                            break;
                         case ActionKind.setVar:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_setVar_ParenLeft(ref destination, ref JustChangeLine);
@@ -3425,10 +3429,6 @@ public class UnicodeFormatter : IFormatter<char>
                         case ActionKind.routine:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
                             Append_routine_ParenLeft(ref destination, ref JustChangeLine);
-                            break;
-                        case ActionKind.scroll2:
-                            Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);
-                            Append_scroll2_ParenLeft(ref destination, ref JustChangeLine);
                             break;
                         case ActionKind.setCapa:
                             Ensure_NewLine_Indent(ref destination, ref JustChangeLine, spaces);

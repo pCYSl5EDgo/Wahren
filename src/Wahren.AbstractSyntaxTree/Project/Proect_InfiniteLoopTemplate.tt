@@ -20,6 +20,7 @@ public sealed partial class Project
     {
         var files = Files.AsSpan();
         DualList<byte> dualList = new();
+        List<(uint fileId, uint nodeId)> trackingList = new();
         const byte Processed = 2;
         const byte Processing = 1;
         const byte NotYet = 0;
@@ -49,6 +50,7 @@ public sealed partial class Project
                     continue;
                 }
 
+                trackingList.Clear();
                 listSpan[j] = Processing;
                 ref var node = ref nodes[j];
                 var superSpan = file.GetSpan(node.Super);
@@ -58,6 +60,10 @@ public sealed partial class Project
                     ref var superStatus = ref dualList[superFile.Id][superNodeIndex];
                     if (superStatus == Processed)
                     {
+                        foreach (var (fileId, nodeId) in trackingList.AsSpan())
+                        {
+                            dualList[fileId][nodeId] = Processed;
+                        }
                         break;
                     }
 
@@ -68,12 +74,15 @@ public sealed partial class Project
                     }
 
                     superStatus = Processing;
+                    trackingList.Add((superFile.Id, superNodeIndex));
                     superSpan = superFile.GetSpan(superFile.<#= node.Name #>NodeList[superNodeIndex].Super);
                     superFile = ref TryGet<#= node.Name #>Node(superSpan, out superNodeIndex);
                 } while (true);
+                listSpan[j] = Processed;
             }
         }
         dualList.Dispose();
+        trackingList.Dispose();
 <# } #>
         return true;
     }
