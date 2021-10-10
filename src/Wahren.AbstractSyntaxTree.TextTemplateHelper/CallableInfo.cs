@@ -58,6 +58,7 @@ public struct CallableInfo
     private const ReferenceKind SUni = ReferenceKind.StringVariableReader | ReferenceKind.Unit;
     private const ReferenceKind SUniCla = ReferenceKind.StringVariableReader | ReferenceKind.Unit | ReferenceKind.Class;
     private const ReferenceKind SPowUni = SPow | ReferenceKind.Unit;
+    private const ReferenceKind SPowUniCla = SPowUni | ReferenceKind.Class;
     private const ReferenceKind SSki = ReferenceKind.StringVariableReader | ReferenceKind.Skill;
     private const ReferenceKind SSpo = ReferenceKind.StringVariableReader | ReferenceKind.Spot;
     private const ReferenceKind SSpoUni = ReferenceKind.StringVariableReader | ReferenceKind.Spot | ReferenceKind.Unit;
@@ -398,7 +399,7 @@ public struct CallableInfo
         new("isWorld", 0, 0),
         new("countVar", 1, 1, ReferenceKind.StringVariableReader),
         new("getLimit", 0, 0),
-        new("inBattle", 1, int.MaxValue, SPowUni),
+        new("inBattle", 1, int.MaxValue, SPowUniCla),
         new("isActive", 1, 1, SUni),
         new("isArbeit", 1, 1, SUni),
         new("isEnable", 1, 1, SUni),
@@ -408,7 +409,7 @@ public struct CallableInfo
         new("isLeague", 2, 2, SPow, SPow),
         new("isMaster", 1, 1, SUni),
         new("isPlayer", 1, 1, SPowUni),
-        new("isPostIn", 3, 5, new[] { SUniCla, SUniCla, NumReader }, new[] { SUniCla, NumReader, NumReader, NumReader }, new[] { SUniCla, NumReader, NumReader, NumReader, NumReader }),
+        new("isPostIn", 3, 5, new[] { ReferenceKind.RedBlue, SUniCla, NumReader }, new[] { ReferenceKind.RedBlue, NumReader, NumReader, NumReader }, new[] { ReferenceKind.RedBlue, NumReader, NumReader, NumReader, NumReader }),
         new("isRoamer", 1, 1, SUni),
         new("isTalent", 1, 1, SUni),
         new("isVassal", 1, 1, SUni),

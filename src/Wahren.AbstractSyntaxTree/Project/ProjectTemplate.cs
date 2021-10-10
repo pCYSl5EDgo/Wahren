@@ -2081,13 +2081,13 @@ public sealed partial class Project
                     span = result.GetSpan(argument.TokenId);
                     if (span.IsEmpty)
                     {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1    , "Unit, Power, StringVariableReader", argument.TokenId);
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1    , "Unit, Class, Power, StringVariableReader", argument.TokenId);
                     }
                     else if (span[0] == '@')
                     {
                         if (span.Length == 1)
                         {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1, "Unit, Power, StringVariableReader", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1, "Unit, Class, Power, StringVariableReader", argument.TokenId);
                         }
                         else
                         {
@@ -2108,20 +2108,25 @@ public sealed partial class Project
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
+                                case ReferenceKind.Class:
+                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Class;
+                                    argument.HasReference = true;
+                                    break;
                                 case ReferenceKind.Power:
                                     argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 default:
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1, "Unit, Power, StringVariableReader", argument.TokenId);
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1, "Unit, Class, Power, StringVariableReader", argument.TokenId);
                                     argument.HasReference = false;
                                     break;
                             }
                         }
                         else
                         {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1, "Unit, Power, StringVariableReader", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", 1, "Unit, Class, Power, StringVariableReader", argument.TokenId);
                         }
                     }
                 }
@@ -2138,13 +2143,13 @@ public sealed partial class Project
                         span = result.GetSpan(argument.TokenId);
                         if (span.IsEmpty)
                         {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1    , "Unit, Power, StringVariableReader", argument.TokenId);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1    , "Unit, Class, Power, StringVariableReader", argument.TokenId);
                         }
                         else if (span[0] == '@')
                         {
                             if (span.Length == 1)
                             {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1, "Unit, Power, StringVariableReader", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1, "Unit, Class, Power, StringVariableReader", argument.TokenId);
                             }
                             else
                             {
@@ -2165,20 +2170,25 @@ public sealed partial class Project
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
+                                    case ReferenceKind.Class:
+                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceKind = ReferenceKind.Class;
+                                        argument.HasReference = true;
+                                        break;
                                     case ReferenceKind.Power:
                                         argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Power;
                                         argument.HasReference = true;
                                         break;
                                     default:
-                                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1, "Unit, Power, StringVariableReader", argument.TokenId);
+                                        result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1, "Unit, Class, Power, StringVariableReader", argument.TokenId);
                                         argument.HasReference = false;
                                         break;
                                 }
                             }
                             else
                             {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1, "Unit, Power, StringVariableReader", argument.TokenId);
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("inBattle", i + 1, "Unit, Class, Power, StringVariableReader", argument.TokenId);
                             }
                         }
                     }
@@ -2518,58 +2528,17 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 3:
-                        if (argument.TrailingTokenCount == 0)
+                        if (argument.TrailingTokenCount != 0)
                         {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1    , "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
+                            result.ErrorAdd_InvalidMultipleTokenArgument("isPostIn", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                        {
+                            argument.ReferenceKind = ReferenceKind.RedBlue;
                         }
                         else
                         {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("isPostIn", argument.TokenId, argument.TrailingTokenCount);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "RedBlue", argument.TokenId);
                         }
 
                         argument = ref arguments[1];
@@ -2641,58 +2610,17 @@ public sealed partial class Project
 
                         break;
                     case 4:
-                        if (argument.TrailingTokenCount == 0)
+                        if (argument.TrailingTokenCount != 0)
                         {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1    , "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
+                            result.ErrorAdd_InvalidMultipleTokenArgument("isPostIn", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                        {
+                            argument.ReferenceKind = ReferenceKind.RedBlue;
                         }
                         else
                         {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("isPostIn", argument.TokenId, argument.TrailingTokenCount);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "RedBlue", argument.TokenId);
                         }
 
                         argument = ref arguments[1];
@@ -2733,58 +2661,17 @@ public sealed partial class Project
 
                         break;
                     case 5:
-                        if (argument.TrailingTokenCount == 0)
+                        if (argument.TrailingTokenCount != 0)
                         {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1    , "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
+                            result.ErrorAdd_InvalidMultipleTokenArgument("isPostIn", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsRedBlue(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                        {
+                            argument.ReferenceKind = ReferenceKind.RedBlue;
                         }
                         else
                         {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("isPostIn", argument.TokenId, argument.TrailingTokenCount);
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("isPostIn", 1, "RedBlue", argument.TokenId);
                         }
 
                         argument = ref arguments[1];
