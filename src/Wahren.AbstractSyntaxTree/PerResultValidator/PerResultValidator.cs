@@ -751,19 +751,10 @@ public static partial class PerResultValidator
                 {
                     return;
                 }
-                else
-                {
-                    v.HasReference = true;
-                    v.ReferenceKind = ReferenceKind.Skill;
-                    if (span.Length != 1 || span[0] != '@')
-                    {
-                        v.ReferenceId = result.SkillSet.GetOrAdd(span, v.Text);
-                    }
-                }
             }
             if (!v.HasNumber)
             {
-                result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "gun_delay", "Skill, Number", v.Text);
+                result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "gun_delay", "Number", v.Text);
             }
         }
     }
