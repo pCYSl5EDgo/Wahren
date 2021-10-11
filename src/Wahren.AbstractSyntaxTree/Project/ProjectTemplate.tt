@@ -144,7 +144,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.<#= node.Name #>Set;
+            ref var set = ref FileAnalysisList[fileIndex].<#= node.Name #>Set;
             for (uint i = <#= offset #>, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -163,11 +163,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.<#= name #>ReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].<#= name #>ReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.<#= name #>WriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].<#= name #>WriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -177,7 +177,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].<#= name #>WriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].<#= name #>WriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -196,7 +196,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.AttributeTypeSet;
+            ref var set = ref FileAnalysisList[fileIndex].AttributeTypeSet;
             for (uint i = <#= Enum.GetNames(typeof(AttributeTypeKind)).Length #>, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -214,7 +214,7 @@ public sealed partial class Project
     }
 <# foreach (var (func, expres, infos) in new (string, string, CallableInfo[])[] { ("Function", "Expression", CallableInfo.FunctionInfoNormals), ("Action", "Statement", CallableInfo.ActionInfoNormals) }) { #>
 
-    private void AddReferenceAndValidate_Call(ref Result result, Call<#= func #><#= expres #> call)
+    private void AddReferenceAndValidate_Call(ref Result result, AnalysisResult analysisResult, Call<#= func #><#= expres #> call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -318,14 +318,14 @@ public sealed partial class Project
 <# foreach (var node in NodeInfo.Nodes) { #>
 <#	var elements = node.Elements.Where(x => !x.ReferenceKind.CanProcessEarly()).ToArray(); #>
 
-    private void AddReferenceAndValidate(ref Result result, ref <#= node.Name #>Node node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref <#= node.Name #>Node node)
     {
 <#  if (node.HasBlock) { #>
         foreach (var statement in node.Statements.AsSpan())
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate_Statement(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, analysisResult, statement);
             }
 		}
 <#  } #>
@@ -338,13 +338,13 @@ public sealed partial class Project
         {
             foreach (ref var value in node.<#= element.CSharpableName #>.Value.AsSpan())
             {
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
             }
         }
 <#          } else { #>
         if (node.<#= element.CSharpableName #> is { HasValue: true })
         {
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref node.<#= element.CSharpableName #>.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref node.<#= element.CSharpableName #>.Value);
         }
 <#          } #>
 <#      } else { #>
@@ -353,13 +353,13 @@ public sealed partial class Project
         {
             foreach (ref var value in node.<#= element.CSharpableName #>.Value.Value.AsSpan())
             {
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
             }
         }
 <#          } else { #>
         if (node.<#= element.CSharpableName #>.Value is { HasValue: true })
         {
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref node.<#= element.CSharpableName #>.Value.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref node.<#= element.CSharpableName #>.Value.Value);
         }
 <#          } #>
         if (node.<#= element.CSharpableName #>.VariantArray is { Length: > 0 })
@@ -373,14 +373,14 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref value);
+                    SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
                 }
 <#          } else { #>
                 if (element is not { HasValue: true })
                 {
                     continue;
                 }
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, ref node, ref element.Value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref element.Value);
 <#          } #>
             }
         }
@@ -394,7 +394,7 @@ public sealed partial class Project
 <#      ref var element = ref elements[elementIndex]; #>
 <#      if (element.ReferenceKind == ReferenceKind.SpecialLate) continue; #>
 
-    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref Result result, ref <#= node.Name #>Node node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref Result result, AnalysisResult analysisResult, ref <#= node.Name #>Node node, ref Pair_NullableString_NullableInt value)
     {
         <#= ReferenceKindHelper.ProcessElementLate(node.Name, ref element, 2) #>
     }

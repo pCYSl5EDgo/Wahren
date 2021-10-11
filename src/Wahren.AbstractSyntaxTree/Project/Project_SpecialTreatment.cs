@@ -4,17 +4,17 @@ using Parser;
 
 public sealed partial class Project
 {
-    private void SpecialTreatment_unit_friend(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_friend(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
-        SpecialTreatment_unit_class_friend(ref result, ref value, "Unit");
+        SpecialTreatment_unit_class_friend(ref result, analysisResult, ref value, "Unit");
     }
 
-    private void SpecialTreatment_class_friend(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_friend(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
-        SpecialTreatment_unit_class_friend(ref result, ref value, "Class");
+        SpecialTreatment_unit_class_friend(ref result, analysisResult, ref value, "Class");
     }
 
-    private void SpecialTreatment_unit_class_friend(ref Result result, ref Pair_NullableString_NullableInt value, string kind)
+    private void SpecialTreatment_unit_class_friend(ref Result result, AnalysisResult analysisResult, ref Pair_NullableString_NullableInt value, string kind)
     {
         if (!value.HasText)
         {
@@ -43,17 +43,17 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Race;
                 value.HasReference = true;
                 break;
@@ -63,23 +63,23 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_skill_offset(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_offset(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
     }
 
-    private void SpecialTreatment_skill_homing(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_homing(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
     }
 
-    private void SpecialTreatment_skill_add2(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_add2(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
     }
 
-    private void SpecialTreatment_skill_add(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_add(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
     }
 
-    private void SpecialTreatment_skill_attr(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_attr(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
         var kind = GetRecursive_SkillKind(ref result, ref node);
         var span = result.GetSpan(value.Text);
@@ -132,23 +132,23 @@ public sealed partial class Project
                 }
                 break;
             default:
-                value.ReferenceId = result.AttributeTypeSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.AttributeTypeSet.GetOrAdd(span, value.Text);
                 value.HasReference = true;
                 value.ReferenceKind = ReferenceKind.AttributeType;
                 break;
         }
     }
 
-    private void SpecialTreatment_skill_image(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_image(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
         var isGround0 = GetRecursive_IsGround0(ref result, ref node);
-        ref var set = ref (isGround0 ? ref result.imagedata2Set : ref result.imagedataSet);
+        ref var set = ref (isGround0 ? ref analysisResult.imagedata2Set : ref analysisResult.imagedataSet);
         value.ReferenceId = set.GetOrAdd(result.GetSpan(value.Text), value.Text);
         value.HasReference = true;
         value.ReferenceKind = isGround0 ? ReferenceKind.imagedata2 : ReferenceKind.imagedata;
     }
 
-    private void SpecialTreatment_skill_yorozu(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_yorozu(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
     }
 

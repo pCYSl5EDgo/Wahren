@@ -209,7 +209,7 @@ public static partial class PerResultValidator
         }
     }
 
-    public static void AddReferenceSkillBoolean(ref Result result, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
+    public static void AddReferenceSkillBoolean(ref Result result, AnalysisResult analysisResult, ref Pair_NullableString_NullableIntElement? value, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
         if (value is not { HasValue: true })
         {
@@ -234,7 +234,7 @@ public static partial class PerResultValidator
             v.ReferenceKind = ReferenceKind.Skill;
             if (span.Length != 1 || span[0] != '@')
             {
-                v.ReferenceId = result.SkillSet.GetOrAdd(span, v.Text);
+                v.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, v.Text);
             }
         }
     }

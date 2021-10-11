@@ -116,7 +116,7 @@ public static partial class Parser
         return false;
     }
 
-    private static bool SplitElement(ref this Result result, uint tokenId, out Span<char> span, out uint scenarioId)
+    private static bool SplitElement(ref this Result result, AnalysisResult analysisResult, uint tokenId, out Span<char> span, out uint scenarioId)
     {
         span = result.GetSpan(tokenId);
         var index = span.LastIndexOf('@');
@@ -126,7 +126,7 @@ public static partial class Parser
                 scenarioId = uint.MaxValue;
                 break;
             default:
-                scenarioId = result.ScenarioSet.GetOrAdd(span.Slice(index + 1), tokenId);
+                scenarioId = analysisResult.ScenarioSet.GetOrAdd(span.Slice(index + 1), tokenId);
                 span = span.Slice(0, index);
                 break;
         }
@@ -164,7 +164,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool SplitElement(ref this Result result, IElement element)
+    private static bool SplitElement(ref this Result result, AnalysisResult analysisResult, IElement element)
     {
         var span = result.GetSpan(element.ElementTokenId);
         var index = span.LastIndexOf('@');
@@ -180,7 +180,7 @@ public static partial class Parser
                 break;
             default:
                 elementKey.Length = (uint)index;
-                element.ElementScenarioId = result.ScenarioSet.GetOrAdd(span.Slice(index + 1), element.ElementTokenId);
+                element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(span.Slice(index + 1), element.ElementTokenId);
                 break;
         }
 

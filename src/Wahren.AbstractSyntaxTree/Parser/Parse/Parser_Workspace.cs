@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseWorkspace(ref Context context, ref Result result)
+    private static bool ParseWorkspace(ref Context context, ref Result result, AnalysisResult analysisResult)
     {
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
@@ -31,7 +31,7 @@ public static partial class Parser
             }
 
             var element = new Pair_NullableString_NullableInt_ArrayElement(tokenList.LastIndex);
-            if (!result.SplitElement(element))
+            if (!result.SplitElement(analysisResult, element))
             {
                 return false;
             }

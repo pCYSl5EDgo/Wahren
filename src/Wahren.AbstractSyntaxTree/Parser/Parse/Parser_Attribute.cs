@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseAttribute(ref Context context, ref Result result)
+    private static bool ParseAttribute(ref Context context, ref Result result, AnalysisResult analysisResult)
     {
         ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
@@ -30,7 +30,7 @@ public static partial class Parser
             }
 
             var element = new Pair_NullableString_NullableIntElement(tokenList.LastIndex);
-            if (!SplitElement(ref result, element))
+            if (!SplitElement(ref result, analysisResult, element))
             {
                 return false;
             }

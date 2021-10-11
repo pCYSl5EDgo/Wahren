@@ -6,14 +6,14 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
 {
-    private static bool ParsePower(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParsePower(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.PowerNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.PowerNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.PowerSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.PowerSet))
         {
             return false;
         }
@@ -40,7 +40,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }
@@ -444,14 +444,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseClass(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseClass(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.ClassNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ClassNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ClassSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.ClassSet))
         {
             return false;
         }
@@ -478,7 +478,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }
@@ -1229,14 +1229,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseDungeon(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseDungeon(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.DungeonNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.DungeonNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.DungeonSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.DungeonSet))
         {
             return false;
         }
@@ -1263,7 +1263,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }
@@ -1513,14 +1513,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseField(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseField(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.FieldNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.FieldNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.FieldSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.FieldSet))
         {
             return false;
         }
@@ -1800,14 +1800,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseMovetype(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseMovetype(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.MovetypeNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.MovetypeNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.MovetypeSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.MovetypeSet))
         {
             return false;
         }
@@ -1964,14 +1964,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseObject(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseObject(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.ObjectNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ObjectNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.ObjectSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.ObjectSet))
         {
             return false;
         }
@@ -2393,14 +2393,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseRace(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseRace(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.RaceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.RaceNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.RaceSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.RaceSet))
         {
             return false;
         }
@@ -2427,7 +2427,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }
@@ -2589,14 +2589,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkill(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseSkill(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.SkillNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SkillSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.SkillSet))
         {
             return false;
         }
@@ -2689,7 +2689,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000000079C2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.msg.EnsureGet(variant = result.UnitSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.msg.EnsureGet(variant = analysisResult.UnitSet.GetOrAdd(variantSpan, currentIndex));
                             goto DEFAULT;
                         case 0x00000000000091F7UL:
                             if (variantSpan.Length != 0)
@@ -3152,7 +3152,7 @@ public static partial class Parser
                             pair_Pair_NullableString_NullableIntElement = ref node.special;
                             goto DEFAULT;
                         case 0x0000000F3B0F1053UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variant = result.UnitSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variant = analysisResult.UnitSet.GetOrAdd(variantSpan, currentIndex));
                             goto DEFAULT;
                         case 0x00000008E84F0AE2UL:
                             if (variantSpan.Length != 0)
@@ -4117,14 +4117,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkillset(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseSkillset(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.SkillsetNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillsetNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SkillsetSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.SkillsetSet))
         {
             return false;
         }
@@ -4281,14 +4281,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSpot(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseSpot(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.SpotNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SpotNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.SpotSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.SpotSet))
         {
             return false;
         }
@@ -4315,7 +4315,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }
@@ -4596,14 +4596,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseUnit(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseUnit(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.UnitNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.UnitNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.UnitSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.UnitSet))
         {
             return false;
         }
@@ -4630,7 +4630,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }
@@ -5459,14 +5459,14 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseVoice(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseVoice(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.VoiceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.VoiceNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.VoiceSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.VoiceSet))
         {
             return false;
         }
@@ -5492,7 +5492,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
             {
                 return false;
             }

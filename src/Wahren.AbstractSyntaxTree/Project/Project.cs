@@ -9,6 +9,7 @@ public sealed partial class Project : IDisposable
 {
     public DiagnosticSeverity RequiredSeverity;
     public DisposableList<Result> Files = new();
+    public DisposableList<AnalysisResult> FileAnalysisList = new();
     public System.Collections.Concurrent.ConcurrentBag<ProjectError> ErrorBag = new();
 
     public StringSpanKeyTrackableDictionary<(uint FileId, uint Id), uint> Scenario = new();
@@ -34,6 +35,7 @@ public sealed partial class Project : IDisposable
     public void Dispose()
     {
         Files.Dispose();
+        FileAnalysisList.Dispose();
         ErrorBag.Clear();
 
         Scenario.Dispose();
@@ -144,12 +146,13 @@ public sealed partial class Project : IDisposable
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
+            var analysisResult = FileAnalysisList[fileIndex];
             {
                 var nodes = file.ScenarioNodeList.AsSpan();
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -157,7 +160,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -165,7 +168,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -173,7 +176,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -181,7 +184,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -189,7 +192,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -197,7 +200,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -205,7 +208,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -213,7 +216,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -221,7 +224,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -229,7 +232,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -237,7 +240,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -245,7 +248,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -253,7 +256,7 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
             {
@@ -261,13 +264,13 @@ public sealed partial class Project : IDisposable
                 for (int nodeIndex = 0; nodeIndex < nodes.Length; ++nodeIndex)
                 {
                     ref var node = ref nodes[nodeIndex];
-                    AddReferenceAndValidate(ref file, ref node);
+                    AddReferenceAndValidate(ref file, analysisResult, ref node);
                 }
             }
         }
     }
 
-    private void AddReferenceAndValidate_CompoundText(ref Result result, ref Argument argument)
+    private void AddReferenceAndValidate_CompoundText(ref Result result, AnalysisResult analysisResult, ref Argument argument)
     {
         if (argument.IsNumber)
         {
@@ -331,7 +334,7 @@ public sealed partial class Project : IDisposable
                 }
 
                 argument.HasReference = true;
-                result.StringVariableReaderSet.GetOrAdd(span, i - 2U);
+                analysisResult.StringVariableReaderSet.GetOrAdd(span, i - 2U);
                 i++;
                 continue;
             }
@@ -347,89 +350,89 @@ public sealed partial class Project : IDisposable
                 switch (reference.Kind)
                 {
                     case ReferenceKind.Unit:
-                        result.UnitSet.GetOrAdd(span, i - 2U);
+                        analysisResult.UnitSet.GetOrAdd(span, i - 2U);
                         continue;
                     case ReferenceKind.Class:
-                        result.ClassSet.GetOrAdd(span, i - 2U);
+                        analysisResult.ClassSet.GetOrAdd(span, i - 2U);
                         continue;
                     case ReferenceKind.Power:
-                        result.PowerSet.GetOrAdd(span, i - 2U);
+                        analysisResult.PowerSet.GetOrAdd(span, i - 2U);
                         continue;
                     case ReferenceKind.Spot:
-                        result.SpotSet.GetOrAdd(span, i - 2U);
+                        analysisResult.SpotSet.GetOrAdd(span, i - 2U);
                         continue;
                 }
             }
 
-            result.NumberVariableReaderSet.GetOrAdd(span, i - 2U);
+            analysisResult.NumberVariableReaderSet.GetOrAdd(span, i - 2U);
         }
     }
 
-    private void AddReferenceAndValidate_Statement(ref Result result, IStatement statement)
+    private void AddReferenceAndValidate_Statement(ref Result result, AnalysisResult analysisResult, IStatement statement)
     {
         switch (statement)
         {
             case CallActionStatement call:
-                AddReferenceAndValidate_Call(ref result, call);
+                AddReferenceAndValidate_Call(ref result, analysisResult, call);
                 break;
             case WhileStatement @while:
-                AddReferenceAndValidate_Condition(ref result, @while.Condition);
+                AddReferenceAndValidate_Condition(ref result, analysisResult, @while.Condition);
                 foreach (var item in @while.Statements.AsSpan())
                 {
-                    AddReferenceAndValidate_Statement(ref result, item);
+                    AddReferenceAndValidate_Statement(ref result, analysisResult, item);
                 }
                 break;
             case IfStatement @if:
-                AddReferenceAndValidate_Condition(ref result, @if.Condition);
+                AddReferenceAndValidate_Condition(ref result, analysisResult, @if.Condition);
                 foreach (var item in @if.Statements.AsSpan())
                 {
-                    AddReferenceAndValidate_Statement(ref result, item);
+                    AddReferenceAndValidate_Statement(ref result, analysisResult, item);
                 }
                 if (@if.HasElseStatement)
                 {
                     foreach (var item in @if.ElseStatements.AsSpan())
                     {
-                        AddReferenceAndValidate_Statement(ref result, item);
+                        AddReferenceAndValidate_Statement(ref result, analysisResult, item);
                     }
                 }
                 break;
             case BattleStatement battle:
                 foreach (var item in battle.Statements.AsSpan())
                 {
-                    AddReferenceAndValidate_Statement(ref result, item);
+                    AddReferenceAndValidate_Statement(ref result, analysisResult, item);
                 }
                 break;
         }
     }
 
-    private void AddReferenceAndValidate_Condition(ref Result result, IReturnBooleanExpression? expression)
+    private void AddReferenceAndValidate_Condition(ref Result result, AnalysisResult analysisResult, IReturnBooleanExpression? expression)
     {
         switch (expression)
         {
             case CallFunctionExpression call:
-                AddReferenceAndValidate_Call(ref result, call);
+                AddReferenceAndValidate_Call(ref result, analysisResult, call);
                 break;
             case LogicOperatorExpression logic:
-                AddReferenceAndValidate_Condition(ref result, logic.Left);
-                AddReferenceAndValidate_Condition(ref result, logic.Right);
+                AddReferenceAndValidate_Condition(ref result, analysisResult, logic.Left);
+                AddReferenceAndValidate_Condition(ref result, analysisResult, logic.Right);
                 break;
             case NumberComparerExpression numberCompare:
-                AddReferenceAndValidate_Number(ref result, numberCompare.Left);
-                AddReferenceAndValidate_Number(ref result, numberCompare.Right);
+                AddReferenceAndValidate_Number(ref result, analysisResult, numberCompare.Left);
+                AddReferenceAndValidate_Number(ref result, analysisResult, numberCompare.Right);
                 break;
         }
     }
 
-    private void AddReferenceAndValidate_Number(ref Result result, IReturnNumberExpression? expression)
+    private void AddReferenceAndValidate_Number(ref Result result, AnalysisResult analysisResult, IReturnNumberExpression? expression)
     {
         switch (expression)
         {
             case CallFunctionExpression call:
-                AddReferenceAndValidate_Call(ref result, call);
+                AddReferenceAndValidate_Call(ref result, analysisResult, call);
                 break;
             case NumberCalculatorOperatorExpression numberCalculator:
-                AddReferenceAndValidate_Number(ref result, numberCalculator.Left);
-                AddReferenceAndValidate_Number(ref result, numberCalculator.Right);
+                AddReferenceAndValidate_Number(ref result, analysisResult, numberCalculator.Left);
+                AddReferenceAndValidate_Number(ref result, analysisResult, numberCalculator.Right);
                 break;
         }
     }

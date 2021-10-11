@@ -10,7 +10,7 @@ using Statement.Expression;
 
 public static partial class PerResultValidator
 {
-    public static void AddReferenceAndValidateCallAction(ref Context context, ref Result result, CallActionStatement call)
+    public static void AddReferenceAndValidateCallAction(ref Context context, ref Result result, AnalysisResult analysisResult, CallActionStatement call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -92,7 +92,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -113,14 +113,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -130,7 +130,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -139,7 +139,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -148,7 +148,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -157,7 +157,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -182,14 +182,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -215,14 +215,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -233,7 +233,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = result.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -253,7 +253,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -262,7 +262,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -282,7 +282,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -291,7 +291,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = result.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -311,7 +311,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -320,7 +320,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = result.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -363,14 +363,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -396,14 +396,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -429,7 +429,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -440,7 +440,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("resetTruce", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -462,14 +462,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -490,14 +490,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -524,7 +524,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -535,7 +535,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("resetLeague", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -557,14 +557,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -585,14 +585,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -616,14 +616,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -649,14 +649,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -667,7 +667,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Event;
-                    argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -683,7 +683,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Power;
-                    argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -699,7 +699,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Power;
-                    argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -712,7 +712,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -728,7 +728,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -737,7 +737,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -753,7 +753,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -762,7 +762,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -778,7 +778,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -787,7 +787,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -803,7 +803,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -812,7 +812,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -828,7 +828,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -837,7 +837,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -853,7 +853,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -862,7 +862,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -878,7 +878,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -903,7 +903,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -914,7 +914,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("addv", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -924,7 +924,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -950,7 +950,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -961,7 +961,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("setv", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -971,7 +971,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -997,7 +997,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1008,7 +1008,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("subv", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1018,7 +1018,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -1028,7 +1028,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.GlobalStringVariableWriter;
-                    argument.ReferenceId = result.GlobalStringVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.GlobalStringVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -1040,7 +1040,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -1050,7 +1050,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.GlobalStringVariableReader;
-                    argument.ReferenceId = result.GlobalStringVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.GlobalStringVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -1078,7 +1078,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1089,7 +1089,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeud", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1106,7 +1106,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1131,7 +1131,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1142,7 +1142,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("addstr", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1170,7 +1170,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1181,7 +1181,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("addVar", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1191,7 +1191,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -1217,7 +1217,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1228,7 +1228,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("setVar", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1238,7 +1238,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -1264,7 +1264,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1275,7 +1275,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("subVar", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1285,7 +1285,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -1301,7 +1301,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1322,14 +1322,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1343,7 +1343,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1364,14 +1364,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1385,7 +1385,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1406,14 +1406,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1423,7 +1423,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -1448,7 +1448,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -1459,7 +1459,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -1469,7 +1469,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -1494,14 +1494,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1515,7 +1515,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1536,14 +1536,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1580,14 +1580,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1601,7 +1601,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1622,14 +1622,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1655,7 +1655,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -1666,7 +1666,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePM", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -1689,14 +1689,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1710,7 +1710,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1731,14 +1731,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1752,7 +1752,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1773,14 +1773,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1794,7 +1794,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1815,14 +1815,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -1836,7 +1836,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -1857,14 +1857,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1886,14 +1886,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1916,14 +1916,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -1933,7 +1933,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -1958,14 +1958,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -1975,7 +1975,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2000,14 +2000,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2017,7 +2017,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2042,14 +2042,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2059,7 +2059,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2084,14 +2084,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2105,7 +2105,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2126,14 +2126,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2155,14 +2155,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2185,14 +2185,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2206,7 +2206,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2227,14 +2227,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2248,7 +2248,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2269,14 +2269,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2286,7 +2286,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.map;
-                    argument.ReferenceId = result.mapSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.mapSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2311,14 +2311,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2328,7 +2328,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2353,14 +2353,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2370,7 +2370,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2395,14 +2395,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2412,7 +2412,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2437,14 +2437,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2458,7 +2458,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2479,14 +2479,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2508,14 +2508,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Race;
                         argument.HasReference = true;
                     }
@@ -2538,14 +2538,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2555,7 +2555,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2580,14 +2580,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2597,7 +2597,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2622,14 +2622,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2639,7 +2639,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Dungeon;
-                    argument.ReferenceId = result.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2664,14 +2664,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2693,14 +2693,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2723,14 +2723,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2744,7 +2744,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2765,14 +2765,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -2794,14 +2794,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Class;
                         argument.HasReference = true;
                     }
@@ -2824,14 +2824,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2841,7 +2841,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -2866,14 +2866,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2887,7 +2887,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2908,14 +2908,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -2929,7 +2929,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2950,14 +2950,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -2971,7 +2971,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -2992,14 +2992,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3013,7 +3013,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -3034,14 +3034,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3055,7 +3055,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -3076,14 +3076,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3093,7 +3093,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Dungeon;
-                    argument.ReferenceId = result.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3118,14 +3118,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3135,7 +3135,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3160,14 +3160,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3181,7 +3181,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -3202,14 +3202,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -3235,7 +3235,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3246,7 +3246,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNextSpot", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3269,14 +3269,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skillset;
                         argument.HasReference = true;
                     }
@@ -3302,7 +3302,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3313,7 +3313,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillset", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3336,14 +3336,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3355,7 +3355,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3367,7 +3367,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3380,7 +3380,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3392,7 +3392,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3417,14 +3417,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -3448,14 +3448,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -3465,7 +3465,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.imagedata;
-                    argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -3490,14 +3490,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.DungeonSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Dungeon;
                         argument.HasReference = true;
                     }
@@ -3511,7 +3511,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -3532,14 +3532,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -3565,7 +3565,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3576,7 +3576,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRaceOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3599,14 +3599,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -3632,7 +3632,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3643,7 +3643,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3666,14 +3666,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -3699,7 +3699,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3710,7 +3710,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3733,14 +3733,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -3766,7 +3766,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3777,7 +3777,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3800,14 +3800,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -3833,7 +3833,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3844,7 +3844,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfSpot", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3867,14 +3867,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -3900,7 +3900,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3911,7 +3911,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -3934,14 +3934,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -3967,7 +3967,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -3978,7 +3978,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSkillOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4001,14 +4001,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -4034,7 +4034,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4045,7 +4045,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfPower", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4056,7 +4056,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Unit;
-                    argument.ReferenceId = result.UnitSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4084,7 +4084,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4095,7 +4095,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeTalentPower", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4118,14 +4118,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -4151,7 +4151,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4162,7 +4162,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeUnitOfPower", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4185,14 +4185,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -4218,7 +4218,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4229,7 +4229,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfSpot", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4252,14 +4252,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4285,7 +4285,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4296,7 +4296,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4319,14 +4319,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4352,7 +4352,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4363,7 +4363,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMemberOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4378,7 +4378,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4402,7 +4402,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4413,7 +4413,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfForce", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4436,14 +4436,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -4469,7 +4469,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4480,7 +4480,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeLeaderOfPower", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4503,14 +4503,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -4536,7 +4536,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4547,7 +4547,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeMasterOfPower", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4570,14 +4570,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -4603,7 +4603,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4614,7 +4614,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeRoamUnitOfSpot", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4637,14 +4637,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4670,7 +4670,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4681,7 +4681,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBaseClassOfUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4704,14 +4704,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4733,14 +4733,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -4764,14 +4764,14 @@ public static partial class PerResultValidator
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Skill;
                             argument.HasReference = true;
                         }
@@ -4795,14 +4795,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4824,14 +4824,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -4855,14 +4855,14 @@ public static partial class PerResultValidator
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Skill;
                             argument.HasReference = true;
                         }
@@ -4878,7 +4878,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4899,14 +4899,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4921,7 +4921,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4934,7 +4934,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4947,7 +4947,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4956,7 +4956,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.bgm;
-                    argument.ReferenceId = result.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4999,14 +4999,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -5032,7 +5032,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = result.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5052,7 +5052,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5068,7 +5068,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5084,7 +5084,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5100,7 +5100,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5109,7 +5109,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = result.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5129,7 +5129,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5145,7 +5145,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5161,7 +5161,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5177,7 +5177,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5186,7 +5186,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = result.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5206,7 +5206,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5222,7 +5222,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5238,7 +5238,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5254,7 +5254,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5263,7 +5263,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5283,7 +5283,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5299,7 +5299,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5315,7 +5315,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5331,7 +5331,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5340,7 +5340,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5360,7 +5360,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5376,7 +5376,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5392,7 +5392,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5408,7 +5408,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5417,7 +5417,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5437,7 +5437,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5453,7 +5453,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5469,7 +5469,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5485,7 +5485,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5494,7 +5494,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = result.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5514,7 +5514,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5530,7 +5530,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5546,7 +5546,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5562,7 +5562,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5571,7 +5571,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = result.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5591,7 +5591,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5607,7 +5607,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5623,7 +5623,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5639,7 +5639,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5648,7 +5648,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = result.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5668,7 +5668,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5684,7 +5684,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5700,7 +5700,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5716,7 +5716,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5725,7 +5725,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = result.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5745,7 +5745,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5761,7 +5761,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5777,7 +5777,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5793,7 +5793,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5802,7 +5802,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Event;
-                    argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5819,7 +5819,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5844,7 +5844,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -5855,7 +5855,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("clear", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -5866,7 +5866,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.sound;
-                    argument.ReferenceId = result.soundSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.soundSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5883,7 +5883,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -5904,14 +5904,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -5937,7 +5937,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Event;
-                    argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5962,7 +5962,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -5973,7 +5973,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("shuffle", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -5988,7 +5988,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -6009,14 +6009,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -6039,7 +6039,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -6050,7 +6050,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("clearVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -6073,14 +6073,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -6103,14 +6103,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -6121,7 +6121,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6134,7 +6134,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6159,14 +6159,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -6189,14 +6189,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -6211,7 +6211,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -6232,14 +6232,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -6277,14 +6277,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -6307,14 +6307,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -6337,14 +6337,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -6355,7 +6355,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.imagedata;
-                    argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6368,7 +6368,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6381,7 +6381,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6394,7 +6394,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Event;
-                    argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6419,14 +6419,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -6449,14 +6449,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -6479,7 +6479,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -6490,7 +6490,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("shuffleVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -6501,7 +6501,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Event;
-                    argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6518,7 +6518,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -6539,14 +6539,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.DungeonSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Dungeon;
                         argument.HasReference = true;
                     }
@@ -6557,7 +6557,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.imagedata;
-                    argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6601,7 +6601,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6612,7 +6612,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllSpot", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6639,7 +6639,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6650,7 +6650,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllPower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6677,7 +6677,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6688,7 +6688,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeComPower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6715,7 +6715,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6726,7 +6726,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNowPower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6737,7 +6737,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6766,7 +6766,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6777,7 +6777,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAllTalent", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6800,14 +6800,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -6830,14 +6830,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -6864,7 +6864,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6875,7 +6875,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeBattleSpot", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6902,7 +6902,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6913,7 +6913,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerUnit", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6940,7 +6940,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6951,7 +6951,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAttackPower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -6978,7 +6978,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -6989,7 +6989,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNeutralSpot", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7016,7 +7016,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7027,7 +7027,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePlayerPower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7054,7 +7054,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7065,7 +7065,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeDefensePower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7092,7 +7092,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7103,7 +7103,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeSpotOfBattle", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7130,7 +7130,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7141,7 +7141,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfAttack", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7168,7 +7168,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7179,7 +7179,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeNonPlayerPower", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7206,7 +7206,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7217,7 +7217,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storePowerOfDefense", 1, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7228,7 +7228,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.font;
-                    argument.ReferenceId = result.fontSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.fontSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -7300,14 +7300,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.GlobalVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.GlobalVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.GlobalVariableReader;
                         argument.HasReference = true;
                     }
@@ -7317,7 +7317,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -7349,7 +7349,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -7360,7 +7360,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -7383,14 +7383,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.GlobalVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.GlobalVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.GlobalVariableWriter;
                         argument.HasReference = true;
                     }
@@ -7404,7 +7404,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -7416,7 +7416,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -7441,7 +7441,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -7452,7 +7452,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -7461,7 +7461,7 @@ public static partial class PerResultValidator
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                            argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -7485,7 +7485,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -7496,7 +7496,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -7505,7 +7505,7 @@ public static partial class PerResultValidator
                         span = result.GetSpan(argument.TokenId);
                         if (span.Length > 1 && span[0] == '@')
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -7513,7 +7513,7 @@ public static partial class PerResultValidator
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                            argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -7545,7 +7545,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -7556,7 +7556,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -7569,7 +7569,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -7589,14 +7589,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -7617,14 +7617,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -7637,7 +7637,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -7662,7 +7662,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -7673,7 +7673,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -7686,7 +7686,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -7706,14 +7706,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -7734,14 +7734,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -7754,7 +7754,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -7779,7 +7779,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -7790,7 +7790,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -7803,7 +7803,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -7823,14 +7823,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -7851,14 +7851,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -7871,7 +7871,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -7893,14 +7893,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -7922,14 +7922,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -7973,7 +7973,7 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.HasReference = true;
                                 }
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -7984,7 +7984,7 @@ public static partial class PerResultValidator
                                 {
                                     result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
                                 }
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                                 argument.HasReference = true;
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             }
@@ -7997,7 +7997,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -8017,14 +8017,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -8045,14 +8045,14 @@ public static partial class PerResultValidator
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Power;
                                 argument.HasReference = true;
                             }
@@ -8065,7 +8065,7 @@ public static partial class PerResultValidator
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         break;
@@ -8090,7 +8090,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -8101,7 +8101,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -8115,7 +8115,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8139,7 +8139,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -8150,7 +8150,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("index", 3, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -8173,7 +8173,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -8184,7 +8184,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -8198,7 +8198,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8222,7 +8222,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -8233,7 +8233,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndex", 3, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -8256,7 +8256,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -8267,7 +8267,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -8281,7 +8281,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8305,7 +8305,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -8316,7 +8316,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeIndexVar", 3, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -8339,14 +8339,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -8376,7 +8376,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -8399,7 +8399,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8420,14 +8420,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -8449,14 +8449,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -8466,7 +8466,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -8491,14 +8491,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -8520,14 +8520,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -8541,7 +8541,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8562,14 +8562,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -8599,7 +8599,7 @@ public static partial class PerResultValidator
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -8622,7 +8622,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8643,14 +8643,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -8674,7 +8674,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -8699,14 +8699,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -8716,7 +8716,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -8728,7 +8728,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -8753,14 +8753,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -8782,14 +8782,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -8803,7 +8803,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8869,7 +8869,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Skill;
-                    argument.ReferenceId = result.SkillSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -8885,7 +8885,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8897,7 +8897,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8909,7 +8909,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8950,7 +8950,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8962,7 +8962,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8974,7 +8974,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8986,7 +8986,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8994,7 +8994,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -9007,7 +9007,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.bgm;
-                    argument.ReferenceId = result.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -9021,7 +9021,7 @@ public static partial class PerResultValidator
                     if (argument.TrailingTokenCount == 0)
                     {
                         argument.ReferenceKind = ReferenceKind.bgm;
-                        argument.ReferenceId = result.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                        argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                         argument.HasReference = true;
                     }
                     else
@@ -9084,14 +9084,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -9113,14 +9113,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -9134,7 +9134,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.imagedata;
-                    argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -9169,14 +9169,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -9198,14 +9198,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -9219,7 +9219,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.imagedata;
-                    argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -9242,7 +9242,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.imagedata;
-                    argument.ReferenceId = result.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.imagedataSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -9258,7 +9258,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -9270,7 +9270,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -9286,7 +9286,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -9302,7 +9302,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -9323,14 +9323,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -9344,7 +9344,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -9356,7 +9356,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -9862,7 +9862,7 @@ public static partial class PerResultValidator
         return true;
 	}
 
-    public static void AddReferenceAndValidateCallFunction(ref Context context, ref Result result, CallFunctionExpression call)
+    public static void AddReferenceAndValidateCallFunction(ref Context context, ref Result result, AnalysisResult analysisResult, CallFunctionExpression call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -9908,7 +9908,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -9919,7 +9919,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("has", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -9929,7 +9929,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -9940,7 +9940,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.Length > 1 && span[0] == '@')
                     {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                         argument.HasReference = true;
                     }
@@ -9963,7 +9963,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -9974,7 +9974,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("inVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -9984,7 +9984,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -9995,7 +9995,7 @@ public static partial class PerResultValidator
                     span = result.GetSpan(argument.TokenId);
                     if (span.Length > 1 && span[0] == '@')
                     {
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                         argument.HasReference = true;
                     }
@@ -10018,14 +10018,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -10047,14 +10047,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10078,14 +10078,14 @@ public static partial class PerResultValidator
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Unit;
                             argument.HasReference = true;
                         }
@@ -10109,14 +10109,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -10138,14 +10138,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10169,14 +10169,14 @@ public static partial class PerResultValidator
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Unit;
                             argument.HasReference = true;
                         }
@@ -10188,7 +10188,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Event;
-                    argument.ReferenceId = result.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.EventSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -10213,7 +10213,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -10224,7 +10224,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("count", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -10247,7 +10247,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -10258,7 +10258,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("amount", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -10281,7 +10281,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -10292,7 +10292,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("conVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -10315,14 +10315,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10345,14 +10345,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10375,7 +10375,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -10386,7 +10386,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("countVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -10409,14 +10409,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10439,14 +10439,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10469,14 +10469,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10499,14 +10499,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -10529,14 +10529,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10559,14 +10559,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10589,14 +10589,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10619,14 +10619,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10649,14 +10649,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10679,14 +10679,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -10709,14 +10709,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -10739,14 +10739,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10769,14 +10769,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -10799,14 +10799,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -10829,14 +10829,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -10859,14 +10859,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Skill;
                         argument.HasReference = true;
                     }
@@ -10889,14 +10889,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10911,7 +10911,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -10920,7 +10920,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Scenario;
-                    argument.ReferenceId = result.ScenarioSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.ScenarioSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -10945,14 +10945,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -10963,7 +10963,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Dungeon;
-                    argument.ReferenceId = result.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -10988,7 +10988,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -10999,7 +10999,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("equal", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -11009,7 +11009,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -11031,7 +11031,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -11042,7 +11042,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("eqVar", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -11052,7 +11052,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -11074,14 +11074,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -11091,7 +11091,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Power;
-                    argument.ReferenceId = result.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -11104,7 +11104,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Spot;
-                    argument.ReferenceId = result.SpotSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -11116,7 +11116,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Unit;
-                    argument.ReferenceId = result.UnitSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -11141,7 +11141,7 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
@@ -11152,7 +11152,7 @@ public static partial class PerResultValidator
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("reckon", 1, "StringVariableReader", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     }
@@ -11162,7 +11162,7 @@ public static partial class PerResultValidator
                 span = result.GetSpan(argument.TokenId);
                 if (span.Length > 1 && span[0] == '@')
                 {
-                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
@@ -11184,14 +11184,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -11213,14 +11213,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -11243,14 +11243,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -11273,14 +11273,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -11304,14 +11304,14 @@ public static partial class PerResultValidator
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Unit;
                             argument.HasReference = true;
                         }
@@ -11335,14 +11335,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -11366,14 +11366,14 @@ public static partial class PerResultValidator
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Unit;
                             argument.HasReference = true;
                         }
@@ -11397,14 +11397,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -11426,14 +11426,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -11451,7 +11451,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -11486,14 +11486,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -11507,7 +11507,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -11519,7 +11519,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -11531,7 +11531,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -11543,7 +11543,7 @@ public static partial class PerResultValidator
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -11564,14 +11564,14 @@ public static partial class PerResultValidator
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -11582,7 +11582,7 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.Dungeon;
-                    argument.ReferenceId = result.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else

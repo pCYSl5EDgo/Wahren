@@ -7,95 +7,95 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class PerResultValidator
 {
-	public static void AddReferenceAndValidate(ref Context context, ref Result result)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult)
 	{
 		foreach (ref var node in result.PowerNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.ClassNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.DungeonNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.FieldNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.MovetypeNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.ObjectNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.RaceNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.SkillNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.SkillsetNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.SpotNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.UnitNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.VoiceNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.ScenarioNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.EventNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 		foreach (ref var node in result.StoryNodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref PowerNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref PowerNode node)
 	{
 		ValidateBoolean(ref result, ref node.castle_battle, "Power", "castle_battle");
 		ValidateBoolean(ref result, ref node.@event, "Power", "event");
 		// Ignore Text Power name
 		// Ignore Text Power help
-		AddReference(ref result, ref node.master, ref result.UnitSet, ReferenceKind.Unit);
-		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
-		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
+		AddReference(ref result, ref node.master, ref analysisResult.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.flag, ref analysisResult.flagSet, ReferenceKind.flag);
+		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
 		ValidateNumber(ref result, ref node.volume, "Power", "volume");
 		ValidateBoolean(ref result, ref node.diplomacy, "Power", "diplomacy");
 		ValidateBoolean(ref result, ref node.enable_select, "Power", "enable_select");
 		ValidateBoolean(ref result, ref node.enable_talent, "Power", "enable_talent");
 		ValidateBoolean(ref result, ref node.free_raise, "Power", "free_raise");
 		ValidateNumber(ref result, ref node.money, "Power", "money");
-		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.home, ref analysisResult.SpotSet, ReferenceKind.Spot);
 		SpecialTreatment_power_fix(ref result, ref node, ref node.fix);
-		AddReference(ref result, ref node.diplo, ref result.PowerSet, ReferenceKind.Power);
-		AddReference(ref result, ref node.league, ref result.PowerSet, ReferenceKind.Power);
-		AddReference(ref result, ref node.enemy_power, ref result.PowerSet, ReferenceKind.Power);
+		AddReference(ref result, ref node.diplo, ref analysisResult.PowerSet, ReferenceKind.Power);
+		AddReference(ref result, ref node.league, ref analysisResult.PowerSet, ReferenceKind.Power);
+		AddReference(ref result, ref node.enemy_power, ref analysisResult.PowerSet, ReferenceKind.Power);
 		ValidateNumber(ref result, ref node.training_average, "Power", "training_average");
 		ValidateNumber(ref result, ref node.base_merits, "Power", "base_merits");
-		AddReference(ref result, ref node.merits, ref result.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.merits, ref analysisResult.UnitSet, ReferenceKind.Unit);
 		ValidateNumber(ref result, ref node.base_loyal, "Power", "base_loyal");
-		AddReference(ref result, ref node.loyals, ref result.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.loyals, ref analysisResult.UnitSet, ReferenceKind.Unit);
 		// Ignore Text Power head
 		// Ignore Text Power head2
 		// Ignore Text Power head3
@@ -106,8 +106,8 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.yabo, "Power", "yabo");
 		ValidateNumber(ref result, ref node.kosen, "Power", "kosen");
 		// Ignore Text Power text
-		AddReference(ref result, ref node.member, ref result.SpotSet, ReferenceKind.Spot);
-		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
+		AddReference(ref result, ref node.member, ref analysisResult.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.friend, ref analysisResult.ScenarioSet, ReferenceKind.Scenario);
 		// Ignore Text Power master2
 		// Ignore Text Power master3
 		// Ignore Text Power master4
@@ -172,7 +172,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ClassNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref ClassNode node)
 	{
 		ValidateNumber(ref result, ref node.troop_sort, "Class", "troop_sort");
 		ValidateNumber(ref result, ref node.stealth, "Class", "stealth");
@@ -192,7 +192,7 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.no_regular, "Class", "no_regular");
 		ValidateBooleanNumber(ref result, ref node.no_knock, "Class", "no_knock");
 		ValidateBoolean(ref result, ref node.no_cover, "Class", "no_cover");
-		AddReference(ref result, ref node.dead_event, ref result.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.dead_event, ref analysisResult.EventSet, ReferenceKind.Event);
 		ValidateBoolean(ref result, ref node.beast_unit, "Class", "beast_unit");
 		ValidateNumber(ref result, ref node.summon_max, "Class", "summon_max");
 		ValidateNumber(ref result, ref node.summon_level, "Class", "summon_level");
@@ -231,7 +231,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.move_max, "Class", "move_max");
 		ValidateNumber(ref result, ref node.hprec_max, "Class", "hprec_max");
 		ValidateNumber(ref result, ref node.mprec_max, "Class", "mprec_max");
-		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
+		AddReference(ref result, ref node.movetype, ref analysisResult.MovetypeSet, ReferenceKind.Movetype);
 		ValidateNumber(ref result, ref node.hpUp, "Class", "hpUp");
 		ValidateNumber(ref result, ref node.mpUp, "Class", "mpUp");
 		ValidateNumber(ref result, ref node.attackUp, "Class", "attackUp");
@@ -254,9 +254,9 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.moveMax, "Class", "moveMax");
 		ValidateNumber(ref result, ref node.hprecMax, "Class", "hprecMax");
 		ValidateNumber(ref result, ref node.mprecMax, "Class", "mprecMax");
-		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
+		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
 		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
-		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
+		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
 		// Ignore Unknown Class picture@cutin
 		SpecialTreatment_class_picture_detail(ref result, ref node, ref node.picture_detail);
 		ValidateNumber(ref result, ref node.picture_menu, "Class", "picture_menu");
@@ -279,7 +279,7 @@ public static partial class PerResultValidator
 		// Ignore Text Class rank_text
 		ValidateBoolean(ref result, ref node.no_training, "Class", "no_training");
 		ValidateBoolean(ref result, ref node.force_voice, "Class", "force_voice");
-		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
+		AddReference(ref result, ref node.face, ref analysisResult.faceSet, ReferenceKind.face);
 		ValidateBoolean(ref result, ref node.same_friend, "Class", "same_friend");
 		ValidateBoolean(ref result, ref node.same_call, "Class", "same_call");
 		ValidateNumber(ref result, ref node.level_max, "Class", "level_max");
@@ -287,24 +287,24 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.exp_mul, "Class", "exp_mul");
 		ValidateNumber(ref result, ref node.exp_max, "Class", "exp_max");
 		SpecialTreatment_class_line(ref result, ref node, ref node.line);
-		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
-		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.sub_image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
 		SpecialTreatment_class_politics(ref result, ref node, ref node.politics);
 		ValidateBoolean(ref result, ref node.element_lost, "Class", "element_lost");
-		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
-		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
+		AddReference(ref result, ref node.fkey, ref analysisResult.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
+		AddReference(ref result, ref node.consti, ref analysisResult.AttributeTypeSet, ReferenceKind.AttributeType);
 		ValidateStatusNumber(ref result, ref node.multi, "Class", "multi");
 		ValidateNumber(ref result, ref node.lost_corpse, "Class", "lost_corpse");
 		SpecialTreatment_class_add_vassal(ref result, ref node, ref node.add_vassal);
 		ValidateNumber(ref result, ref node.value, "Class", "value");
-		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.scream, ref result.soundSet, ReferenceKind.sound);
-		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.image2, ref result.imagedataSet, ReferenceKind.imagedata);
-		AddReference(ref result, ref node.sub_image2, ref result.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.@break, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.scream, ref analysisResult.soundSet, ReferenceKind.sound);
+		AddReference(ref result, ref node.item, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.image2, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.sub_image2, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
 		ValidateBoolean(ref result, ref node.unique, "Class", "unique");
 		ValidateBoolean(ref result, ref node.same_sex, "Class", "same_sex");
-		AddReference(ref result, ref node.change, ref result.ClassSet, ReferenceKind.Class);
+		AddReference(ref result, ref node.change, ref analysisResult.ClassSet, ReferenceKind.Class);
 	}
 
 	private static void SpecialTreatment_class_sex(ref Result result, ref ClassNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
@@ -701,7 +701,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref DungeonNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref DungeonNode node)
 	{
 		// Ignore Text Dungeon name
 		ValidateNumber(ref result, ref node.max, "Dungeon", "max");
@@ -711,18 +711,18 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.lv_adjust, "Dungeon", "lv_adjust");
 		ValidateBoolean(ref result, ref node.open, "Dungeon", "open");
 		ValidateNumber(ref result, ref node.limit, "Dungeon", "limit");
-		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
+		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
 		ValidateNumber(ref result, ref node.volume, "Dungeon", "volume");
 		ValidateNumber(ref result, ref node.blind, "Dungeon", "blind");
 		ValidateNumber(ref result, ref node.base_level, "Dungeon", "base_level");
 		ValidateNumber(ref result, ref node.color, "Dungeon", "color");
-		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
-		AddReference(ref result, ref node.floor, ref result.FieldSet, ReferenceKind.Field);
-		AddReference(ref result, ref node.wall, ref result.ObjectSet, ReferenceKind.Object);
-		AddReference(ref result, ref node.start, ref result.ObjectSet, ReferenceKind.Object);
-		AddReference(ref result, ref node.goal, ref result.ObjectSet, ReferenceKind.Object);
+		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
+		AddReference(ref result, ref node.floor, ref analysisResult.FieldSet, ReferenceKind.Field);
+		AddReference(ref result, ref node.wall, ref analysisResult.ObjectSet, ReferenceKind.Object);
+		AddReference(ref result, ref node.start, ref analysisResult.ObjectSet, ReferenceKind.Object);
+		AddReference(ref result, ref node.goal, ref analysisResult.ObjectSet, ReferenceKind.Object);
 		ValidateNumber(ref result, ref node.monster_num, "Dungeon", "monster_num");
-		AddReference(ref result, ref node.box, ref result.ObjectSet, ReferenceKind.Object);
+		AddReference(ref result, ref node.box, ref analysisResult.ObjectSet, ReferenceKind.Object);
 		// Ignore Unknown Dungeon item
 		ValidateNumber(ref result, ref node.item_num, "Dungeon", "item_num");
 		ValidateBoolean(ref result, ref node.item_text, "Dungeon", "item_text");
@@ -730,12 +730,12 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.ray, "Dungeon", "ray");
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref FieldNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref FieldNode node)
 	{
 		// Ignore Unknown Field type
-		AddReference(ref result, ref node.attr, ref result.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeTypeWriter);
+		AddReference(ref result, ref node.attr, ref analysisResult.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeTypeWriter);
 		ValidateNumber(ref result, ref node.color, "Field", "color");
-		AddReference(ref result, ref node.id, ref result.FieldIdWriterSet, ReferenceKind.FieldIdWriter);
+		AddReference(ref result, ref node.id, ref analysisResult.FieldIdWriterSet, ReferenceKind.FieldIdWriter);
 		ValidateBoolean(ref result, ref node.edge, "Field", "edge");
 		// Ignore Unknown Field joint
 		// Ignore Unknown Field image
@@ -746,14 +746,14 @@ public static partial class PerResultValidator
 		// Ignore Unknown Field smooth
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref MovetypeNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref MovetypeNode node)
 	{
 		// Ignore Text Movetype name
 		// Ignore Text Movetype help
-		AddReference(ref result, ref node.consti, ref result.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeTypeReader);
+		AddReference(ref result, ref node.consti, ref analysisResult.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeTypeReader);
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ObjectNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref ObjectNode node)
 	{
 		// Ignore Unknown Object skill
 		// Ignore Unknown Object front
@@ -772,8 +772,8 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.w, "Object", "w");
 		ValidateNumber(ref result, ref node.h, "Object", "h");
 		ValidateNumber(ref result, ref node.a, "Object", "a");
-		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
-		AddReference(ref result, ref node.image2, ref result.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.image2, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
 		ValidateNumber(ref result, ref node.image2_w, "Object", "image2_w");
 		ValidateNumber(ref result, ref node.image2_h, "Object", "image2_h");
 		ValidateNumber(ref result, ref node.image2_a, "Object", "image2_a");
@@ -781,22 +781,22 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.ground, "Object", "ground");
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref RaceNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref RaceNode node)
 	{
 		// Ignore Text Race name
 		ValidateNumber(ref result, ref node.align, "Race", "align");
 		ValidateNumber(ref result, ref node.brave, "Race", "brave");
-		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
-		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
+		AddReference(ref result, ref node.consti, ref analysisResult.AttributeTypeSet, ReferenceKind.AttributeType);
+		AddReference(ref result, ref node.movetype, ref analysisResult.MovetypeSet, ReferenceKind.Movetype);
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref SkillNode node)
 	{
 		ValidateBoolean(ref result, ref node.bright, "Skill", "bright");
 		SpecialTreatment_skill_func(ref result, ref node, ref node.func);
 		// Ignore Text Skill name
 		// Ignore icon Skill icon
-		AddReference(ref result, ref node.fkey, ref result.SkillGroupReaderSet, ReferenceKind.SkillGroupReader);
+		AddReference(ref result, ref node.fkey, ref analysisResult.SkillGroupReaderSet, ReferenceKind.SkillGroupReader);
 		ValidateNumber(ref result, ref node.sortkey, "Skill", "sortkey");
 		ValidateBooleanNumber(ref result, ref node.special, "Skill", "special");
 		ValidateNumber(ref result, ref node.delay, "Skill", "delay");
@@ -804,12 +804,12 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.quickreload, "Skill", "quickreload");
 		// Ignore Text Skill help
 		ValidateBoolean(ref result, ref node.hide_help, "Skill", "hide_help");
-		AddReference(ref result, ref node.sound, ref result.soundSet, ReferenceKind.sound);
+		AddReference(ref result, ref node.sound, ref analysisResult.soundSet, ReferenceKind.sound);
 		// Ignore Text Skill msg
-		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
+		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
 		SpecialTreatment_skill_cutin(ref result, ref node, ref node.cutin);
 		ValidateNumber(ref result, ref node.value, "Skill", "value");
-		AddReferenceSkillBoolean(ref result, ref node.talent, "Skill", "talent");
+		AddReferenceSkillBoolean(ref result, analysisResult, ref node.talent, "Skill", "talent");
 		ValidateBooleanNumber(ref result, ref node.exp_per, "Skill", "exp_per");
 		SpecialTreatment_skill_movetype(ref result, ref node, ref node.movetype);
 		ValidateNumber(ref result, ref node.type, "Skill", "type");
@@ -870,9 +870,9 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.flash, "Skill", "flash");
 		ValidateNumber(ref result, ref node.flash_anime, "Skill", "flash_anime");
 		// Ignore imagedata2 Skill flash_image
-		AddReference(ref result, ref node.collision, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.afterdeath, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.afterhit, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.collision, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.afterdeath, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.afterhit, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		SpecialTreatment_skill_str(ref result, ref node, ref node.str);
 		ValidateNumber(ref result, ref node.str_ratio, "Skill", "str_ratio");
 		ValidateBoolean(ref result, ref node.add_all, "Skill", "add_all");
@@ -888,7 +888,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.hard, "Skill", "hard");
 		ValidateBooleanNumber(ref result, ref node.hard2, "Skill", "hard2");
 		ValidateBoolean(ref result, ref node.onehit, "Skill", "onehit");
-		AddReference(ref result, ref node.offset_attr, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.offset_attr, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		ValidateNumber(ref result, ref node.knock, "Skill", "knock");
 		ValidateNumber(ref result, ref node.knock_speed, "Skill", "knock_speed");
 		ValidateNumber(ref result, ref node.knock_power, "Skill", "knock_power");
@@ -917,16 +917,16 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.joint_skill, "Skill", "joint_skill");
 		ValidateBoolean(ref result, ref node.send_target, "Skill", "send_target");
 		ValidateBoolean(ref result, ref node.send_image_degree, "Skill", "send_image_degree");
-		AddReference(ref result, ref node.next, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.next2, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.next3, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.next4, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next2, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next3, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.next4, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		ValidateBoolean(ref result, ref node.next_order, "Skill", "next_order");
 		ValidateBoolean(ref result, ref node.next_last, "Skill", "next_last");
 		ValidateBoolean(ref result, ref node.next_first, "Skill", "next_first");
 		ValidateNumber(ref result, ref node.next_interval, "Skill", "next_interval");
-		AddReference(ref result, ref node.just_next, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.pair_next, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.just_next, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.pair_next, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		ValidateNumber(ref result, ref node.item_type, "Skill", "item_type");
 		ValidateNumber(ref result, ref node.item_sort, "Skill", "item_sort");
 		ValidateBoolean(ref result, ref node.item_nosell, "Skill", "item_nosell");
@@ -1210,34 +1210,34 @@ public static partial class PerResultValidator
         }
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SkillsetNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref SkillsetNode node)
 	{
 		// Ignore Text Skillset name
 		// Ignore icon Skillset back
-		AddReference(ref result, ref node.member, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.member, ref analysisResult.SkillSet, ReferenceKind.Skill);
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref SpotNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref SpotNode node)
 	{
 		ValidateNumber(ref result, ref node.value, "Spot", "value");
 		SpecialTreatment_spot_politics(ref result, ref node, ref node.politics);
 		// Ignore Text Spot name
-		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
 		ValidateNumber(ref result, ref node.x, "Spot", "x");
 		ValidateNumber(ref result, ref node.y, "Spot", "y");
 		ValidateNumber(ref result, ref node.w, "Spot", "w");
 		ValidateNumber(ref result, ref node.h, "Spot", "h");
 		// Ignore Unknown Spot big
-		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
+		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
 		ValidateBoolean(ref result, ref node.castle_battle, "Spot", "castle_battle");
-		AddReference(ref result, ref node.yorozu, ref result.ClassSet, ReferenceKind.Class);
+		AddReference(ref result, ref node.yorozu, ref analysisResult.ClassSet, ReferenceKind.Class);
 		ValidateNumber(ref result, ref node.limit, "Spot", "limit");
-		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
+		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
 		ValidateNumber(ref result, ref node.volume, "Spot", "volume");
 		ValidateNumber(ref result, ref node.gain, "Spot", "gain");
 		ValidateNumber(ref result, ref node.castle, "Spot", "castle");
 		ValidateNumber(ref result, ref node.capacity, "Spot", "capacity");
-		AddReference(ref result, ref node.dungeon, ref result.DungeonSet, ReferenceKind.Dungeon);
+		AddReference(ref result, ref node.dungeon, ref analysisResult.DungeonSet, ReferenceKind.Dungeon);
 		ValidateBoolean(ref result, ref node.no_home, "Spot", "no_home");
 		ValidateBoolean(ref result, ref node.no_raise, "Spot", "no_raise");
 		ValidateNumber(ref result, ref node.castle_lot, "Spot", "castle_lot");
@@ -1279,7 +1279,7 @@ public static partial class PerResultValidator
         }
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref UnitNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref UnitNode node)
 	{
 		ValidateNumber(ref result, ref node.troop_sort, "Unit", "troop_sort");
 		ValidateNumber(ref result, ref node.stealth, "Unit", "stealth");
@@ -1299,7 +1299,7 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.no_regular, "Unit", "no_regular");
 		ValidateBooleanNumber(ref result, ref node.no_knock, "Unit", "no_knock");
 		ValidateBoolean(ref result, ref node.no_cover, "Unit", "no_cover");
-		AddReference(ref result, ref node.dead_event, ref result.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.dead_event, ref analysisResult.EventSet, ReferenceKind.Event);
 		ValidateBoolean(ref result, ref node.beast_unit, "Unit", "beast_unit");
 		ValidateNumber(ref result, ref node.summon_max, "Unit", "summon_max");
 		ValidateNumber(ref result, ref node.summon_level, "Unit", "summon_level");
@@ -1338,7 +1338,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.move_max, "Unit", "move_max");
 		ValidateNumber(ref result, ref node.hprec_max, "Unit", "hprec_max");
 		ValidateNumber(ref result, ref node.mprec_max, "Unit", "mprec_max");
-		AddReference(ref result, ref node.movetype, ref result.MovetypeSet, ReferenceKind.Movetype);
+		AddReference(ref result, ref node.movetype, ref analysisResult.MovetypeSet, ReferenceKind.Movetype);
 		ValidateNumber(ref result, ref node.hpUp, "Unit", "hpUp");
 		ValidateNumber(ref result, ref node.mpUp, "Unit", "mpUp");
 		ValidateNumber(ref result, ref node.attackUp, "Unit", "attackUp");
@@ -1361,9 +1361,9 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.moveMax, "Unit", "moveMax");
 		ValidateNumber(ref result, ref node.hprecMax, "Unit", "hprecMax");
 		ValidateNumber(ref result, ref node.mprecMax, "Unit", "mprecMax");
-		AddReference(ref result, ref node.race, ref result.RaceSet, ReferenceKind.Race);
+		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
 		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
-		AddReference(ref result, ref node.picture, ref result.pictureSet, ReferenceKind.picture);
+		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
 		// Ignore Unknown Unit picture@cutin
 		SpecialTreatment_unit_picture_detail(ref result, ref node, ref node.picture_detail);
 		ValidateNumber(ref result, ref node.picture_menu, "Unit", "picture_menu");
@@ -1386,7 +1386,7 @@ public static partial class PerResultValidator
 		// Ignore Text Unit rank_text
 		ValidateBoolean(ref result, ref node.no_training, "Unit", "no_training");
 		ValidateBoolean(ref result, ref node.force_voice, "Unit", "force_voice");
-		AddReference(ref result, ref node.face, ref result.faceSet, ReferenceKind.face);
+		AddReference(ref result, ref node.face, ref analysisResult.faceSet, ReferenceKind.face);
 		ValidateBoolean(ref result, ref node.same_friend, "Unit", "same_friend");
 		ValidateBoolean(ref result, ref node.same_call, "Unit", "same_call");
 		ValidateNumber(ref result, ref node.level_max, "Unit", "level_max");
@@ -1394,38 +1394,38 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.exp_mul, "Unit", "exp_mul");
 		ValidateNumber(ref result, ref node.exp_max, "Unit", "exp_max");
 		SpecialTreatment_unit_line(ref result, ref node, ref node.line);
-		AddReference(ref result, ref node.image, ref result.imagedataSet, ReferenceKind.imagedata);
-		AddReference(ref result, ref node.sub_image, ref result.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+		AddReference(ref result, ref node.sub_image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
 		SpecialTreatment_unit_politics(ref result, ref node, ref node.politics);
 		ValidateBoolean(ref result, ref node.element_lost, "Unit", "element_lost");
-		AddReference(ref result, ref node.fkey, ref result.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
-		AddReference(ref result, ref node.consti, ref result.AttributeTypeSet, ReferenceKind.AttributeType);
+		AddReference(ref result, ref node.fkey, ref analysisResult.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
+		AddReference(ref result, ref node.consti, ref analysisResult.AttributeTypeSet, ReferenceKind.AttributeType);
 		ValidateStatusNumber(ref result, ref node.multi, "Unit", "multi");
 		ValidateNumber(ref result, ref node.lost_corpse, "Unit", "lost_corpse");
 		SpecialTreatment_unit_add_vassal(ref result, ref node, ref node.add_vassal);
 		ValidateNumber(ref result, ref node.value, "Unit", "value");
-		AddReference(ref result, ref node.@break, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.scream, ref result.soundSet, ReferenceKind.sound);
-		AddReference(ref result, ref node.item, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.@break, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.scream, ref analysisResult.soundSet, ReferenceKind.sound);
+		AddReference(ref result, ref node.item, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		ValidateBoolean(ref result, ref node.talent, "Unit", "talent");
-		AddReference(ref result, ref node.@class, ref result.ClassSet, ReferenceKind.Class);
-		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
+		AddReference(ref result, ref node.@class, ref analysisResult.ClassSet, ReferenceKind.Class);
+		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
 		ValidateNumber(ref result, ref node.volume, "Unit", "volume");
 		ValidateNumber(ref result, ref node.alive_per, "Unit", "alive_per");
 		ValidateNumber(ref result, ref node.yabo, "Unit", "yabo");
 		ValidateNumber(ref result, ref node.kosen, "Unit", "kosen");
 		ValidateNumber(ref result, ref node.align, "Unit", "align");
-		AddReference(ref result, ref node.loyal, ref result.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.loyal, ref analysisResult.UnitSet, ReferenceKind.Unit);
 		// Ignore Text Unit power_name
-		AddReference(ref result, ref node.enemy, ref result.UnitSet, ReferenceKind.Unit);
-		AddReference(ref result, ref node.flag, ref result.flagSet, ReferenceKind.flag);
+		AddReference(ref result, ref node.enemy, ref analysisResult.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.flag, ref analysisResult.flagSet, ReferenceKind.flag);
 		ValidateBoolean(ref result, ref node.diplomacy, "Unit", "diplomacy");
 		ValidateBoolean(ref result, ref node.actor, "Unit", "actor");
 		ValidateNumber(ref result, ref node.enable, "Unit", "enable");
 		ValidateBoolean(ref result, ref node.enable_select, "Unit", "enable_select");
 		ValidateNumber(ref result, ref node.enable_max, "Unit", "enable_max");
 		SpecialTreatment_unit_fix(ref result, ref node, ref node.fix);
-		AddReference(ref result, ref node.home, ref result.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.home, ref analysisResult.SpotSet, ReferenceKind.Spot);
 		ValidateBoolean(ref result, ref node.noremove_unit, "Unit", "noremove_unit");
 		ValidateBoolean(ref result, ref node.noemploy_unit, "Unit", "noemploy_unit");
 		ValidateBoolean(ref result, ref node.noitem_unit, "Unit", "noitem_unit");
@@ -1434,7 +1434,7 @@ public static partial class PerResultValidator
 		// Ignore Text Unit join
 		// Ignore Text Unit dead
 		// Ignore Text Unit retreat
-		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
+		AddReference(ref result, ref node.voice_type, ref analysisResult.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
 	}
 
 	private static void SpecialTreatment_unit_sex(ref Result result, ref UnitNode node, ref VariantPair<Pair_NullableString_NullableIntElement> pair)
@@ -1924,20 +1924,20 @@ public static partial class PerResultValidator
         }
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref VoiceNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref VoiceNode node)
 	{
-		AddReference(ref result, ref node.voice_type, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
-		AddReference(ref result, ref node.delskill, ref result.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
+		AddReference(ref result, ref node.voice_type, ref analysisResult.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
+		AddReference(ref result, ref node.delskill, ref analysisResult.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
 		// Ignore Text Voice spot
 		// Ignore Text Voice roam
 		// Ignore Text Voice power
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref ScenarioNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref ScenarioNode node)
 	{
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidateStatement(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
 		ValidateNumber(ref result, ref node.ws_red, "Scenario", "ws_red");
 		ValidateNumber(ref result, ref node.ws_blue, "Scenario", "ws_blue");
@@ -1951,14 +1951,14 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.max_unit, "Scenario", "max_unit");
 		ValidateNumber(ref result, ref node.blind, "Scenario", "blind");
 		// Ignore Text Scenario name
-		AddReference(ref result, ref node.map, ref result.image_fileSet, ReferenceKind.image_file);
+		AddReference(ref result, ref node.map, ref analysisResult.image_fileSet, ReferenceKind.image_file);
 		// Ignore Text Scenario help
 		ValidateNumber(ref result, ref node.locate_x, "Scenario", "locate_x");
 		ValidateNumber(ref result, ref node.locate_y, "Scenario", "locate_y");
 		// Ignore Text Scenario begin_text
-		AddReference(ref result, ref node.world, ref result.EventSet, ReferenceKind.Event);
-		AddReference(ref result, ref node.fight, ref result.EventSet, ReferenceKind.Event);
-		AddReference(ref result, ref node.politics, ref result.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.world, ref analysisResult.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.fight, ref analysisResult.EventSet, ReferenceKind.Event);
+		AddReference(ref result, ref node.politics, ref analysisResult.EventSet, ReferenceKind.Event);
 		ValidateNumber(ref result, ref node.war_capacity, "Scenario", "war_capacity");
 		ValidateNumber(ref result, ref node.spot_capacity, "Scenario", "spot_capacity");
 		ValidateNumber(ref result, ref node.gain_per, "Scenario", "gain_per");
@@ -1990,12 +1990,12 @@ public static partial class PerResultValidator
 		// Ignore Unknown Scenario camp
 		// Ignore Unknown Scenario multi
 		// Ignore Unknown Scenario item
-		AddReference(ref result, ref node.item_sale, ref result.SkillSet, ReferenceKind.Skill);
-		AddReference(ref result, ref node.item_hold, ref result.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.item_sale, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		AddReference(ref result, ref node.item_hold, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		// Ignore Text Scenario text
-		AddReference(ref result, ref node.roam, ref result.UnitSet, ReferenceKind.Unit);
-		AddReference(ref result, ref node.spot, ref result.SpotSet, ReferenceKind.Spot);
-		AddReference(ref result, ref node.power, ref result.PowerSet, ReferenceKind.Power);
+		AddReference(ref result, ref node.roam, ref analysisResult.UnitSet, ReferenceKind.Unit);
+		AddReference(ref result, ref node.spot, ref analysisResult.SpotSet, ReferenceKind.Spot);
+		AddReference(ref result, ref node.power, ref analysisResult.PowerSet, ReferenceKind.Power);
 		// Ignore Unknown Scenario offset
 	}
 
@@ -2031,11 +2031,11 @@ public static partial class PerResultValidator
         }
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref EventNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref EventNode node)
 	{
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidateStatement(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
 		ValidateBoolean(ref result, ref node.disperse, "Event", "disperse");
 		ValidateNumber(ref result, ref node.castle, "Event", "castle");
@@ -2045,8 +2045,8 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.h, "Event", "h");
 		// Ignore Unknown Event bg
 		// Ignore Unknown Event bcg
-		AddReference(ref result, ref node.bgm, ref result.bgmSet, ReferenceKind.bgm);
-		AddReference(ref result, ref node.map, ref result.mapSet, ReferenceKind.map);
+		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
+		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
 		// Ignore Text Event name
 		// Ignore Unknown Event size
 		ValidateNumber(ref result, ref node.color, "Event", "color");
@@ -2067,13 +2067,13 @@ public static partial class PerResultValidator
 		// Ignore Unknown Event last_second
 	}
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref StoryNode node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref StoryNode node)
 	{
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidateStatement(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
-		AddReference(ref result, ref node.friend, ref result.ScenarioSet, ReferenceKind.Scenario);
+		AddReference(ref result, ref node.friend, ref analysisResult.ScenarioSet, ReferenceKind.Scenario);
 		ValidateBoolean(ref result, ref node.fight, "Story", "fight");
 	}
 }

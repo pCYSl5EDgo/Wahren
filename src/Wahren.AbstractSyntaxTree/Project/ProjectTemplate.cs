@@ -821,7 +821,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.PowerSet;
+            ref var set = ref FileAnalysisList[fileIndex].PowerSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -838,7 +838,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.ClassSet;
+            ref var set = ref FileAnalysisList[fileIndex].ClassSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -855,7 +855,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.DungeonSet;
+            ref var set = ref FileAnalysisList[fileIndex].DungeonSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -872,7 +872,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.FieldSet;
+            ref var set = ref FileAnalysisList[fileIndex].FieldSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -889,7 +889,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.MovetypeSet;
+            ref var set = ref FileAnalysisList[fileIndex].MovetypeSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -906,7 +906,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.ObjectSet;
+            ref var set = ref FileAnalysisList[fileIndex].ObjectSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -923,7 +923,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.RaceSet;
+            ref var set = ref FileAnalysisList[fileIndex].RaceSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -940,7 +940,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.SkillSet;
+            ref var set = ref FileAnalysisList[fileIndex].SkillSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -957,7 +957,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.SkillsetSet;
+            ref var set = ref FileAnalysisList[fileIndex].SkillsetSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -974,7 +974,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.SpotSet;
+            ref var set = ref FileAnalysisList[fileIndex].SpotSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -991,7 +991,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.UnitSet;
+            ref var set = ref FileAnalysisList[fileIndex].UnitSet;
             for (uint i = 2, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -1008,7 +1008,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.VoiceSet;
+            ref var set = ref FileAnalysisList[fileIndex].VoiceSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -1025,7 +1025,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.ScenarioSet;
+            ref var set = ref FileAnalysisList[fileIndex].ScenarioSet;
             for (uint i = 10, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -1042,7 +1042,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.EventSet;
+            ref var set = ref FileAnalysisList[fileIndex].EventSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -1059,7 +1059,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.StorySet;
+            ref var set = ref FileAnalysisList[fileIndex].StorySet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -1076,11 +1076,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.NumberVariableReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].NumberVariableReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.NumberVariableWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].NumberVariableWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1090,7 +1090,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].NumberVariableWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].NumberVariableWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1108,11 +1108,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.StringVariableReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].StringVariableReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.StringVariableWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].StringVariableWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1122,7 +1122,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].StringVariableWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].StringVariableWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1140,11 +1140,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.GlobalVariableReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].GlobalVariableReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.GlobalVariableWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].GlobalVariableWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1154,7 +1154,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].GlobalVariableWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].GlobalVariableWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1172,11 +1172,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.GlobalStringVariableReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].GlobalStringVariableReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.GlobalStringVariableWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].GlobalStringVariableWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1186,7 +1186,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].GlobalStringVariableWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].GlobalStringVariableWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1204,11 +1204,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.ClassTypeReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].ClassTypeReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.ClassTypeWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].ClassTypeWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1218,7 +1218,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].ClassTypeWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].ClassTypeWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1236,11 +1236,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.VoiceTypeReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].VoiceTypeReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.VoiceTypeWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].VoiceTypeWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1250,7 +1250,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].VoiceTypeWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].VoiceTypeWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1268,11 +1268,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.FieldIdReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].FieldIdReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.FieldIdWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].FieldIdWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1282,7 +1282,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].FieldIdWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].FieldIdWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1300,11 +1300,11 @@ public sealed partial class Project
         for (int fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[fileIndex];
-            ref var set = ref file.FieldAttributeTypeReaderSet;
+            ref var set = ref FileAnalysisList[fileIndex].FieldAttributeTypeReaderSet;
             for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
-                bool notFound = !file.FieldAttributeTypeWriterSet.TryGet(name, out _);
+                bool notFound = !FileAnalysisList[fileIndex].FieldAttributeTypeWriterSet.TryGet(name, out _);
                 if (notFound)
                 {
                     for (int anotherFileIndex = 0; anotherFileIndex < fileSpan.Length; ++anotherFileIndex)
@@ -1314,7 +1314,7 @@ public sealed partial class Project
                             continue;
                         }
 
-                        if (fileSpan[anotherFileIndex].FieldAttributeTypeWriterSet.TryGet(name, out _))
+                        if (FileAnalysisList[anotherFileIndex].FieldAttributeTypeWriterSet.TryGet(name, out _))
                         {
                             notFound = false;
                             break;
@@ -1332,7 +1332,7 @@ public sealed partial class Project
         for (uint fileIndex = 0; fileIndex < fileSpan.Length; ++fileIndex)
         {
             ref var file = ref fileSpan[(int)fileIndex];
-            ref var set = ref file.AttributeTypeSet;
+            ref var set = ref FileAnalysisList[fileIndex].AttributeTypeSet;
             for (uint i = 12, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
@@ -1349,7 +1349,7 @@ public sealed partial class Project
         return success;
     }
 
-    private void AddReferenceAndValidate_Call(ref Result result, CallFunctionExpression call)
+    private void AddReferenceAndValidate_Call(ref Result result, AnalysisResult analysisResult, CallFunctionExpression call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -1386,14 +1386,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -1415,7 +1415,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1428,12 +1428,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -1472,7 +1472,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -1485,12 +1485,12 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Spot:
-                                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Spot;
                                         argument.HasReference = true;
                                         break;
@@ -1529,7 +1529,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1542,12 +1542,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -1585,7 +1585,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1598,12 +1598,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -1641,7 +1641,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1654,12 +1654,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -1696,7 +1696,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1709,12 +1709,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -1752,7 +1752,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1765,12 +1765,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -1807,7 +1807,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1820,12 +1820,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -1863,7 +1863,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1876,12 +1876,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -1920,7 +1920,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -1933,12 +1933,12 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Power:
-                                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Power;
                                         argument.HasReference = true;
                                         break;
@@ -1977,7 +1977,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -1990,12 +1990,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -2034,7 +2034,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -2047,12 +2047,12 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Power:
-                                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Power;
                                         argument.HasReference = true;
                                         break;
@@ -2091,7 +2091,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -2104,17 +2104,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -2153,7 +2153,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -2166,17 +2166,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Power:
-                                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Power;
                                         argument.HasReference = true;
                                         break;
@@ -2215,7 +2215,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -2228,12 +2228,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -2270,7 +2270,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -2283,12 +2283,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -2347,7 +2347,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2360,12 +2360,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -2402,7 +2402,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2415,12 +2415,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -2458,7 +2458,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2471,12 +2471,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -2505,7 +2505,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2517,7 +2517,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2557,7 +2557,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2570,12 +2570,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -2604,7 +2604,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2631,7 +2631,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2643,7 +2643,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2655,7 +2655,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2682,7 +2682,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2694,7 +2694,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2706,7 +2706,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2718,7 +2718,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2728,7 +2728,7 @@ public sealed partial class Project
         }
     }
 
-    private void AddReferenceAndValidate_Call(ref Result result, CallActionStatement call)
+    private void AddReferenceAndValidate_Call(ref Result result, AnalysisResult analysisResult, CallActionStatement call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)
@@ -2777,7 +2777,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -2796,7 +2796,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2809,7 +2809,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -2823,7 +2823,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -2832,7 +2832,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -2851,7 +2851,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2864,7 +2864,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -2878,7 +2878,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -2902,7 +2902,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -2915,12 +2915,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Spot:
-                                            argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Spot;
                                             argument.HasReference = true;
                                             break;
@@ -2950,7 +2950,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2962,7 +2962,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -2988,7 +2988,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3001,17 +3001,17 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Spot:
-                                            argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Spot;
                                             argument.HasReference = true;
                                             break;
@@ -3041,7 +3041,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -3053,7 +3053,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -3079,7 +3079,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3092,17 +3092,17 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Spot:
-                                            argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Spot;
                                             argument.HasReference = true;
                                             break;
@@ -3132,7 +3132,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -3144,7 +3144,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -3167,7 +3167,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -3180,17 +3180,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -3226,7 +3226,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -3245,7 +3245,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3258,7 +3258,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3272,7 +3272,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 3:
@@ -3291,7 +3291,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3304,7 +3304,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3321,7 +3321,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -3330,7 +3330,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -3339,7 +3339,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -3358,7 +3358,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3371,7 +3371,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3385,7 +3385,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 3:
@@ -3404,7 +3404,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3417,7 +3417,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3434,7 +3434,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -3443,7 +3443,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -3452,7 +3452,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -3471,7 +3471,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3484,7 +3484,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3498,7 +3498,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 3:
@@ -3517,7 +3517,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3530,7 +3530,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3547,7 +3547,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -3556,7 +3556,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -3565,7 +3565,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -3584,7 +3584,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3597,7 +3597,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3611,7 +3611,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 3:
@@ -3630,7 +3630,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3643,7 +3643,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3660,7 +3660,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -3669,7 +3669,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -3678,7 +3678,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -3697,7 +3697,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3710,7 +3710,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3724,7 +3724,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 3:
@@ -3743,7 +3743,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3756,7 +3756,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3773,7 +3773,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -3782,7 +3782,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -3791,7 +3791,7 @@ public sealed partial class Project
                 switch (arguments.Length)
                 {
                     case 1:
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 2:
@@ -3810,7 +3810,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3823,7 +3823,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3837,7 +3837,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                     case 3:
@@ -3856,7 +3856,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3869,7 +3869,7 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
@@ -3886,7 +3886,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = result.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -3895,7 +3895,7 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                        AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                         break;
                 }
@@ -3919,14 +3919,14 @@ public sealed partial class Project
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                             }
@@ -3949,7 +3949,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -3962,12 +3962,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Power:
-                                            argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Power;
                                             argument.HasReference = true;
                                             break;
@@ -4004,14 +4004,14 @@ public sealed partial class Project
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                             }
@@ -4034,14 +4034,14 @@ public sealed partial class Project
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                             }
@@ -4063,14 +4063,14 @@ public sealed partial class Project
                             {
                                 if (span.Length != 1)
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
                             }
                             else
                             {
-                                argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.Unit;
                                 argument.HasReference = true;
                             }
@@ -4080,7 +4080,7 @@ public sealed partial class Project
                         if (argument.TrailingTokenCount == 0)
                         {
                             argument.ReferenceKind = ReferenceKind.flag;
-                            argument.ReferenceId = result.flagSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.flagSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
                         else
@@ -4095,7 +4095,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4104,7 +4104,7 @@ public sealed partial class Project
                 }
 
                 argument = ref arguments[1];
-                AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                 break;
             case ActionKind.setPM:
@@ -4123,14 +4123,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4152,7 +4152,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4165,17 +4165,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -4213,7 +4213,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4226,12 +4226,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -4260,7 +4260,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4281,7 +4281,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4294,12 +4294,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -4324,7 +4324,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4349,7 +4349,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4362,12 +4362,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -4396,7 +4396,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4417,7 +4417,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4430,12 +4430,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -4464,7 +4464,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4485,7 +4485,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4498,12 +4498,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -4528,7 +4528,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4553,7 +4553,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4566,12 +4566,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -4596,7 +4596,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4621,7 +4621,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4634,12 +4634,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
@@ -4664,7 +4664,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -4689,7 +4689,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4702,12 +4702,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -4736,7 +4736,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -4757,14 +4757,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -4786,7 +4786,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4803,12 +4803,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Skill:
-                                    argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Skill;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Skillset:
-                                    argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Skillset;
                                     argument.HasReference = true;
                                     break;
@@ -4842,7 +4842,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4855,12 +4855,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -4901,7 +4901,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -4912,7 +4912,7 @@ public sealed partial class Project
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeTodoUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -4935,7 +4935,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -4948,12 +4948,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -4994,7 +4994,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.HasReference = true;
                         }
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
@@ -5005,7 +5005,7 @@ public sealed partial class Project
                         {
                             result.ErrorAdd_UnexpectedArgumentReferenceKind("storeAliveUnit", 2, "StringVariableWriter", argument.TokenId);
                         }
-                        argument.ReferenceId = result.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
                         argument.HasReference = true;
                         argument.ReferenceKind = ReferenceKind.StringVariableWriter;
                     }
@@ -5028,14 +5028,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -5048,7 +5048,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -5057,12 +5057,12 @@ public sealed partial class Project
                 }
 
                 argument = ref arguments[1];
-                AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                 for (int i = 2; i < arguments.Length; ++i)
                 {
                     argument = ref arguments[i];
-                    AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                    AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
 
                 }
                 break;
@@ -5082,14 +5082,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -5111,7 +5111,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5124,17 +5124,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -5173,7 +5173,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -5186,17 +5186,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Race:
-                                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Race;
                                         argument.HasReference = true;
                                         break;
@@ -5235,7 +5235,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5248,12 +5248,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -5290,14 +5290,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -5321,14 +5321,14 @@ public sealed partial class Project
                         {
                             if (span.Length != 1)
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
                         }
                         else
                         {
-                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.Unit;
                             argument.HasReference = true;
                         }
@@ -5352,14 +5352,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -5381,7 +5381,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5394,17 +5394,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -5443,7 +5443,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -5456,17 +5456,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Race:
-                                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Race;
                                         argument.HasReference = true;
                                         break;
@@ -5505,14 +5505,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -5534,7 +5534,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5547,17 +5547,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -5596,7 +5596,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -5609,17 +5609,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Race:
-                                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Race;
                                         argument.HasReference = true;
                                         break;
@@ -5658,14 +5658,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -5687,7 +5687,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5700,17 +5700,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -5749,7 +5749,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -5762,17 +5762,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Race:
-                                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Race;
                                         argument.HasReference = true;
                                         break;
@@ -5811,14 +5811,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
                         argument.HasReference = true;
                     }
@@ -5840,7 +5840,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5853,17 +5853,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -5902,7 +5902,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -5915,17 +5915,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Race:
-                                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Race;
                                         argument.HasReference = true;
                                         break;
@@ -5961,7 +5961,7 @@ public sealed partial class Project
                 }
                 else
                 {
-                    AddReferenceAndValidate_CompoundText(ref result, ref argument);
+                    AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
                 }
 
                 break;
@@ -5981,7 +5981,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -5994,12 +5994,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6037,7 +6037,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6050,12 +6050,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6093,7 +6093,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6106,12 +6106,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6149,7 +6149,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6162,12 +6162,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6205,7 +6205,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6218,12 +6218,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6261,7 +6261,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6274,12 +6274,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6317,7 +6317,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6330,12 +6330,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6373,7 +6373,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6386,12 +6386,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6429,7 +6429,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6442,12 +6442,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6485,7 +6485,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6498,12 +6498,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6544,7 +6544,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -6557,12 +6557,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -6599,7 +6599,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -6612,12 +6612,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -6655,7 +6655,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -6668,12 +6668,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -6702,7 +6702,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -6714,7 +6714,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -6737,14 +6737,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
@@ -6766,7 +6766,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6779,12 +6779,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6809,7 +6809,7 @@ public sealed partial class Project
                 if (argument.TrailingTokenCount == 0)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = result.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
                 else
@@ -6834,7 +6834,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6847,12 +6847,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6881,7 +6881,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -6893,7 +6893,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -6905,7 +6905,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -6927,7 +6927,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -6940,12 +6940,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -6984,7 +6984,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -6997,12 +6997,12 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
@@ -7041,14 +7041,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -7074,7 +7074,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -7091,12 +7091,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Skill:
-                                    argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Skill;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Skillset:
-                                    argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Skillset;
                                     argument.HasReference = true;
                                     break;
@@ -7131,7 +7131,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -7148,12 +7148,12 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Skill:
-                                        argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Skill;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Skillset:
-                                        argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Skillset;
                                         argument.HasReference = true;
                                         break;
@@ -7188,14 +7188,14 @@ public sealed partial class Project
                     {
                         if (span.Length != 1)
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
                     }
                     else
                     {
-                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Unit;
                         argument.HasReference = true;
                     }
@@ -7221,7 +7221,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -7234,17 +7234,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Race:
-                                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Race;
                                     argument.HasReference = true;
                                     break;
@@ -7283,7 +7283,7 @@ public sealed partial class Project
                             }
                             else
                             {
-                                argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                 argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                 argument.HasReference = true;
                             }
@@ -7296,17 +7296,17 @@ public sealed partial class Project
                                 switch (track.Kind)
                                 {
                                     case ReferenceKind.Unit:
-                                        argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Unit;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Class:
-                                        argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Class;
                                         argument.HasReference = true;
                                         break;
                                     case ReferenceKind.Race:
-                                        argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);
+                                        argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);
                                         argument.ReferenceKind = ReferenceKind.Race;
                                         argument.HasReference = true;
                                         break;
@@ -7348,7 +7348,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7361,12 +7361,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7403,7 +7403,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7416,12 +7416,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7459,7 +7459,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7472,12 +7472,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7506,7 +7506,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7518,7 +7518,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7539,7 +7539,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7552,12 +7552,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7586,7 +7586,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7598,7 +7598,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7610,7 +7610,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7636,7 +7636,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7649,12 +7649,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7691,7 +7691,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7704,12 +7704,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7747,7 +7747,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7760,12 +7760,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7794,7 +7794,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7806,7 +7806,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7827,7 +7827,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7840,12 +7840,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7874,7 +7874,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7886,7 +7886,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7898,7 +7898,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -7924,7 +7924,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7937,12 +7937,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -7979,7 +7979,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -7992,12 +7992,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8035,7 +8035,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -8048,12 +8048,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8082,7 +8082,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8094,7 +8094,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8115,7 +8115,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -8128,12 +8128,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8162,7 +8162,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8174,7 +8174,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8186,7 +8186,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8212,7 +8212,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -8225,12 +8225,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8267,7 +8267,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -8280,12 +8280,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8323,7 +8323,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -8336,12 +8336,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8370,7 +8370,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8382,7 +8382,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8403,7 +8403,7 @@ public sealed partial class Project
                                 }
                                 else
                                 {
-                                    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.StringVariableReader;
                                     argument.HasReference = true;
                                 }
@@ -8416,12 +8416,12 @@ public sealed partial class Project
                                     switch (track.Kind)
                                     {
                                         case ReferenceKind.Unit:
-                                            argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Unit;
                                             argument.HasReference = true;
                                             break;
                                         case ReferenceKind.Class:
-                                            argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                             argument.ReferenceKind = ReferenceKind.Class;
                                             argument.HasReference = true;
                                             break;
@@ -8450,7 +8450,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8462,7 +8462,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8474,7 +8474,7 @@ public sealed partial class Project
                         else if (!argument.IsNumber)
                         {
                             argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                             argument.HasReference = true;
                         }
 
@@ -8501,7 +8501,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -8514,17 +8514,17 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Power:
-                                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Power;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Spot:
-                                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Spot;
                                     argument.HasReference = true;
                                     break;
@@ -8572,7 +8572,7 @@ public sealed partial class Project
                         }
                         else
                         {
-                            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
                             argument.ReferenceKind = ReferenceKind.StringVariableReader;
                             argument.HasReference = true;
                         }
@@ -8585,12 +8585,12 @@ public sealed partial class Project
                             switch (track.Kind)
                             {
                                 case ReferenceKind.Unit:
-                                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Unit;
                                     argument.HasReference = true;
                                     break;
                                 case ReferenceKind.Class:
-                                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
                                     argument.ReferenceKind = ReferenceKind.Class;
                                     argument.HasReference = true;
                                     break;
@@ -8619,7 +8619,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8631,7 +8631,7 @@ public sealed partial class Project
                 else if (!argument.IsNumber)
                 {
                     argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
                 }
 
@@ -8657,13 +8657,13 @@ public sealed partial class Project
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref PowerNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref PowerNode node)
     {
         if (node.staff.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                SpecialTreatment_power_staff(ref result, ref node, ref value);
+                SpecialTreatment_power_staff(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.staff.VariantArray is { Length: > 0 })
@@ -8676,7 +8676,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_power_staff(ref result, ref node, ref value);
+                    SpecialTreatment_power_staff(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8684,7 +8684,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_power_merce(ref result, ref node, ref value);
+                SpecialTreatment_power_merce(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -8697,19 +8697,19 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_power_merce(ref result, ref node, ref value);
+                    SpecialTreatment_power_merce(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref ClassNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref ClassNode node)
     {
         if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_member(ref result, ref node, ref value);
+                SpecialTreatment_class_member(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -8722,7 +8722,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_member(ref result, ref node, ref value);
+                    SpecialTreatment_class_member(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8730,7 +8730,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_friend(ref result, ref node, ref value);
+                SpecialTreatment_class_friend(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.friend.VariantArray is { Length: > 0 })
@@ -8743,7 +8743,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_friend(ref result, ref node, ref value);
+                    SpecialTreatment_class_friend(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8751,7 +8751,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_merce(ref result, ref node, ref value);
+                SpecialTreatment_class_merce(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -8764,7 +8764,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_merce(ref result, ref node, ref value);
+                    SpecialTreatment_class_merce(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8772,7 +8772,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_skill(ref result, ref node, ref value);
+                SpecialTreatment_class_skill(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.skill.VariantArray is { Length: > 0 })
@@ -8785,7 +8785,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_skill(ref result, ref node, ref value);
+                    SpecialTreatment_class_skill(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8793,7 +8793,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_skill2(ref result, ref node, ref value);
+                SpecialTreatment_class_skill2(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.skill2.VariantArray is { Length: > 0 })
@@ -8806,7 +8806,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_skill2(ref result, ref node, ref value);
+                    SpecialTreatment_class_skill2(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8814,7 +8814,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_learn(ref result, ref node, ref value);
+                SpecialTreatment_class_learn(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.learn.VariantArray is { Length: > 0 })
@@ -8827,7 +8827,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_learn(ref result, ref node, ref value);
+                    SpecialTreatment_class_learn(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8835,7 +8835,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_delskill(ref result, ref node, ref value);
+                SpecialTreatment_class_delskill(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.delskill.VariantArray is { Length: > 0 })
@@ -8848,7 +8848,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_delskill(ref result, ref node, ref value);
+                    SpecialTreatment_class_delskill(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8856,7 +8856,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_delskill2(ref result, ref node, ref value);
+                SpecialTreatment_class_delskill2(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.delskill2.VariantArray is { Length: > 0 })
@@ -8869,7 +8869,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_delskill2(ref result, ref node, ref value);
+                    SpecialTreatment_class_delskill2(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -8877,7 +8877,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend_ex.Value.Value.AsSpan())
             {
-                SpecialTreatment_class_friend_ex(ref result, ref node, ref value);
+                SpecialTreatment_class_friend_ex(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.friend_ex.VariantArray is { Length: > 0 })
@@ -8890,19 +8890,19 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_class_friend_ex(ref result, ref node, ref value);
+                    SpecialTreatment_class_friend_ex(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref DungeonNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref DungeonNode node)
     {
         if (node.monster.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
-                SpecialTreatment_dungeon_monster(ref result, ref node, ref value);
+                SpecialTreatment_dungeon_monster(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.monster.VariantArray is { Length: > 0 })
@@ -8915,87 +8915,87 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_dungeon_monster(ref result, ref node, ref value);
+                    SpecialTreatment_dungeon_monster(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref FieldNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref FieldNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref MovetypeNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref MovetypeNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref ObjectNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref ObjectNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref RaceNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref RaceNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref SkillNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref SkillNode node)
     {
         if (node.image is { HasValue: true })
         {
-            SpecialTreatment_skill_image(ref result, ref node, ref node.image.Value);
+            SpecialTreatment_skill_image(ref result, analysisResult, ref node, ref node.image.Value);
         }
         if (node.yorozu is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.yorozu.Value.AsSpan())
             {
-                SpecialTreatment_skill_yorozu(ref result, ref node, ref value);
+                SpecialTreatment_skill_yorozu(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.attr is { HasValue: true })
         {
-            SpecialTreatment_skill_attr(ref result, ref node, ref node.attr.Value);
+            SpecialTreatment_skill_attr(ref result, analysisResult, ref node, ref node.attr.Value);
         }
         if (node.add is { HasValue: true })
         {
-            SpecialTreatment_skill_add(ref result, ref node, ref node.add.Value);
+            SpecialTreatment_skill_add(ref result, analysisResult, ref node, ref node.add.Value);
         }
         if (node.add2 is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.add2.Value.AsSpan())
             {
-                SpecialTreatment_skill_add2(ref result, ref node, ref value);
+                SpecialTreatment_skill_add2(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.homing is { HasValue: true })
         {
-            SpecialTreatment_skill_homing(ref result, ref node, ref node.homing.Value);
+            SpecialTreatment_skill_homing(ref result, analysisResult, ref node, ref node.homing.Value);
         }
         if (node.offset is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.offset.Value.AsSpan())
             {
-                SpecialTreatment_skill_offset(ref result, ref node, ref value);
+                SpecialTreatment_skill_offset(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.friend is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.friend.Value.AsSpan())
             {
-                SpecialTreatment_skill_friend(ref result, ref node, ref value);
+                SpecialTreatment_skill_friend(ref result, analysisResult, ref node, ref value);
             }
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref SkillsetNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref SkillsetNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref SpotNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref SpotNode node)
     {
         if (node.merce.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_spot_merce(ref result, ref node, ref value);
+                SpecialTreatment_spot_merce(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -9008,7 +9008,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_spot_merce(ref result, ref node, ref value);
+                    SpecialTreatment_spot_merce(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9016,7 +9016,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.monster.Value.Value.AsSpan())
             {
-                SpecialTreatment_spot_monster(ref result, ref node, ref value);
+                SpecialTreatment_spot_monster(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.monster.VariantArray is { Length: > 0 })
@@ -9029,7 +9029,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_spot_monster(ref result, ref node, ref value);
+                    SpecialTreatment_spot_monster(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9037,7 +9037,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                SpecialTreatment_spot_member(ref result, ref node, ref value);
+                SpecialTreatment_spot_member(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -9050,19 +9050,19 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_spot_member(ref result, ref node, ref value);
+                    SpecialTreatment_spot_member(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref UnitNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref UnitNode node)
     {
         if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_member(ref result, ref node, ref value);
+                SpecialTreatment_unit_member(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.member.VariantArray is { Length: > 0 })
@@ -9075,7 +9075,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_member(ref result, ref node, ref value);
+                    SpecialTreatment_unit_member(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9083,7 +9083,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.friend.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_friend(ref result, ref node, ref value);
+                SpecialTreatment_unit_friend(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.friend.VariantArray is { Length: > 0 })
@@ -9096,7 +9096,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_friend(ref result, ref node, ref value);
+                    SpecialTreatment_unit_friend(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9104,7 +9104,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.merce.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_merce(ref result, ref node, ref value);
+                SpecialTreatment_unit_merce(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.merce.VariantArray is { Length: > 0 })
@@ -9117,7 +9117,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_merce(ref result, ref node, ref value);
+                    SpecialTreatment_unit_merce(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9125,7 +9125,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_skill(ref result, ref node, ref value);
+                SpecialTreatment_unit_skill(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.skill.VariantArray is { Length: > 0 })
@@ -9138,7 +9138,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_skill(ref result, ref node, ref value);
+                    SpecialTreatment_unit_skill(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9146,7 +9146,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.skill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_skill2(ref result, ref node, ref value);
+                SpecialTreatment_unit_skill2(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.skill2.VariantArray is { Length: > 0 })
@@ -9159,7 +9159,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_skill2(ref result, ref node, ref value);
+                    SpecialTreatment_unit_skill2(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9167,7 +9167,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.learn.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_learn(ref result, ref node, ref value);
+                SpecialTreatment_unit_learn(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.learn.VariantArray is { Length: > 0 })
@@ -9180,7 +9180,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_learn(ref result, ref node, ref value);
+                    SpecialTreatment_unit_learn(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9188,7 +9188,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_delskill(ref result, ref node, ref value);
+                SpecialTreatment_unit_delskill(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.delskill.VariantArray is { Length: > 0 })
@@ -9201,7 +9201,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_delskill(ref result, ref node, ref value);
+                    SpecialTreatment_unit_delskill(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9209,7 +9209,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.delskill2.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_delskill2(ref result, ref node, ref value);
+                SpecialTreatment_unit_delskill2(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.delskill2.VariantArray is { Length: > 0 })
@@ -9222,7 +9222,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_delskill2(ref result, ref node, ref value);
+                    SpecialTreatment_unit_delskill2(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9230,7 +9230,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.leader_skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_leader_skill(ref result, ref node, ref value);
+                SpecialTreatment_unit_leader_skill(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.leader_skill.VariantArray is { Length: > 0 })
@@ -9243,7 +9243,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_leader_skill(ref result, ref node, ref value);
+                    SpecialTreatment_unit_leader_skill(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9251,7 +9251,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.assist_skill.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_assist_skill(ref result, ref node, ref value);
+                SpecialTreatment_unit_assist_skill(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.assist_skill.VariantArray is { Length: > 0 })
@@ -9264,7 +9264,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_assist_skill(ref result, ref node, ref value);
+                    SpecialTreatment_unit_assist_skill(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9272,7 +9272,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.staff.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_staff(ref result, ref node, ref value);
+                SpecialTreatment_unit_staff(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.staff.VariantArray is { Length: > 0 })
@@ -9285,7 +9285,7 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_staff(ref result, ref node, ref value);
+                    SpecialTreatment_unit_staff(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
@@ -9293,7 +9293,7 @@ public sealed partial class Project
         {
             foreach (ref var value in node.castle_guard.Value.Value.AsSpan())
             {
-                SpecialTreatment_unit_castle_guard(ref result, ref node, ref value);
+                SpecialTreatment_unit_castle_guard(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.castle_guard.VariantArray is { Length: > 0 })
@@ -9306,50 +9306,50 @@ public sealed partial class Project
                 }
                 foreach (ref var value in element.Value.AsSpan())
                 {
-                    SpecialTreatment_unit_castle_guard(ref result, ref node, ref value);
+                    SpecialTreatment_unit_castle_guard(ref result, analysisResult, ref node, ref value);
                 }
             }
         }
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref VoiceNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref VoiceNode node)
     {
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref ScenarioNode node)
-    {
-        foreach (var statement in node.Statements.AsSpan())
-		{
-            if (statement is not null)
-            {
-			    AddReferenceAndValidate_Statement(ref result, statement);
-            }
-		}
-    }
-
-    private void AddReferenceAndValidate(ref Result result, ref EventNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref ScenarioNode node)
     {
         foreach (var statement in node.Statements.AsSpan())
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate_Statement(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, analysisResult, statement);
             }
 		}
     }
 
-    private void AddReferenceAndValidate(ref Result result, ref StoryNode node)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref EventNode node)
     {
         foreach (var statement in node.Statements.AsSpan())
 		{
             if (statement is not null)
             {
-			    AddReferenceAndValidate_Statement(ref result, statement);
+			    AddReferenceAndValidate_Statement(ref result, analysisResult, statement);
             }
 		}
     }
 
-    private void SpecialTreatment_power_staff(ref Result result, ref PowerNode node, ref Pair_NullableString_NullableInt value)
+    private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref StoryNode node)
+    {
+        foreach (var statement in node.Statements.AsSpan())
+		{
+            if (statement is not null)
+            {
+			    AddReferenceAndValidate_Statement(ref result, analysisResult, statement);
+            }
+		}
+    }
+
+    private void SpecialTreatment_power_staff(ref Result result, AnalysisResult analysisResult, ref PowerNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9370,17 +9370,17 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Race;
                 value.HasReference = true;
                 break;
@@ -9390,7 +9390,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_power_merce(ref Result result, ref PowerNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_power_merce(ref Result result, AnalysisResult analysisResult, ref PowerNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9411,17 +9411,17 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Race;
                 value.HasReference = true;
                 break;
@@ -9431,7 +9431,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_member(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_member(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9452,12 +9452,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9467,7 +9467,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_merce(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_merce(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9488,12 +9488,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9503,7 +9503,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_skill(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_skill(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9524,12 +9524,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -9539,7 +9539,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_skill2(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_skill2(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9560,12 +9560,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -9575,7 +9575,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_learn(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_learn(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9596,12 +9596,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -9611,7 +9611,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_delskill(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_delskill(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9632,12 +9632,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -9647,7 +9647,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_delskill2(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_delskill2(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9668,12 +9668,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -9683,7 +9683,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_class_friend_ex(ref Result result, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_class_friend_ex(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9704,17 +9704,17 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Race;
                 value.HasReference = true;
                 break;
@@ -9724,7 +9724,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_dungeon_monster(ref Result result, ref DungeonNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_dungeon_monster(ref Result result, AnalysisResult analysisResult, ref DungeonNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9745,12 +9745,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9760,7 +9760,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_skill_friend(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_skill_friend(ref Result result, AnalysisResult analysisResult, ref SkillNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9781,12 +9781,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9796,7 +9796,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_spot_merce(ref Result result, ref SpotNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_spot_merce(ref Result result, AnalysisResult analysisResult, ref SpotNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9817,12 +9817,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9832,7 +9832,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_spot_monster(ref Result result, ref SpotNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_spot_monster(ref Result result, AnalysisResult analysisResult, ref SpotNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9853,12 +9853,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9868,7 +9868,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_spot_member(ref Result result, ref SpotNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_spot_member(ref Result result, AnalysisResult analysisResult, ref SpotNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9889,12 +9889,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9904,7 +9904,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_member(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_member(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9925,12 +9925,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9940,7 +9940,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_merce(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_merce(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9961,12 +9961,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
@@ -9976,7 +9976,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_skill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_skill(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -9997,12 +9997,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10012,7 +10012,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_skill2(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_skill2(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10033,12 +10033,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10048,7 +10048,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_learn(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_learn(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10069,12 +10069,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10084,7 +10084,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_delskill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_delskill(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10105,12 +10105,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10120,7 +10120,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_delskill2(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_delskill2(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10141,12 +10141,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10156,7 +10156,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_leader_skill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_leader_skill(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10177,12 +10177,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10192,7 +10192,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_assist_skill(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_assist_skill(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10213,12 +10213,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
            case ReferenceKind.Skill:
-               value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
                value.ReferenceKind = ReferenceKind.Skill;
                value.HasReference = true;
                break;
             case ReferenceKind.Skillset:
-                value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Skillset;
                 value.HasReference = true;
                 break;
@@ -10228,7 +10228,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_staff(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_staff(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10249,12 +10249,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Race:
-                value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Race;
                 value.HasReference = true;
                 break;
@@ -10264,7 +10264,7 @@ public sealed partial class Project
         }
     }
 
-    private void SpecialTreatment_unit_castle_guard(ref Result result, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_unit_castle_guard(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
         if (!value.HasText)
         {
@@ -10285,12 +10285,12 @@ public sealed partial class Project
         switch (reference.Kind)
         {
             case ReferenceKind.Unit:
-                value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Unit;
                 value.HasReference = true;
                 break;
             case ReferenceKind.Class:
-                value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);
+                value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);
                 value.ReferenceKind = ReferenceKind.Class;
                 value.HasReference = true;
                 break;

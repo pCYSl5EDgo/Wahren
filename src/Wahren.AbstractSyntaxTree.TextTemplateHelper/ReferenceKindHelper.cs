@@ -157,7 +157,7 @@ public static class ReferenceKindHelper
             builder.AppendLine("];");
             Inden();
         }
-        builder.Append("AddReferenceAndValidate_CompoundText(ref result, ref argument);").AppendLine();
+        builder.Append("AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);").AppendLine();
     }
 
     private static void ProcessLateSkillSkillset(ReferenceKind reference, bool hasSkill, bool hasSkillset, int i, string name, int indent, StringBuilder builder)
@@ -198,7 +198,7 @@ public static class ReferenceKindHelper
         Inden().Append("        }").AppendLine();
         Inden().Append("        else").AppendLine();
         Inden().Append("        {").AppendLine();
-        Inden().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+        Inden().Append("            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
         Inden().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
         Inden().Append("            argument.HasReference = true;").AppendLine();
         Inden().Append("        }").AppendLine();
@@ -218,7 +218,7 @@ public static class ReferenceKindHelper
         if (hasSkill)
         {
             Inden().Append("                case ReferenceKind.Skill:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.SkillSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Skill;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -226,7 +226,7 @@ public static class ReferenceKindHelper
         if (hasSkillset)
         {
             Inden().Append("                case ReferenceKind.Skillset:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.SkillsetSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Skillset;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -285,7 +285,7 @@ public static class ReferenceKindHelper
         Inden().Append("        }").AppendLine();
         Inden().Append("        else").AppendLine();
         Inden().Append("        {").AppendLine();
-        Inden().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+        Inden().Append("            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
         Inden().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
         Inden().Append("            argument.HasReference = true;").AppendLine();
         Inden().Append("        }").AppendLine();
@@ -300,7 +300,7 @@ public static class ReferenceKindHelper
         if (hasUnit)
         {
             Inden().Append("                case ReferenceKind.Unit:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.UnitSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Unit;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -308,7 +308,7 @@ public static class ReferenceKindHelper
         if (hasClass)
         {
             Inden().Append("                case ReferenceKind.Class:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.ClassSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Class;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -316,7 +316,7 @@ public static class ReferenceKindHelper
         if (hasPower)
         {
             Inden().Append("                case ReferenceKind.Power:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.PowerSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Power;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -324,7 +324,7 @@ public static class ReferenceKindHelper
         if (hasSpot)
         {
             Inden().Append("                case ReferenceKind.Spot:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.SpotSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Spot;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -332,7 +332,7 @@ public static class ReferenceKindHelper
         if (hasRace)
         {
             Inden().Append("                case ReferenceKind.Race:").AppendLine();
-            Inden().Append("                    argument.ReferenceId = result.RaceSet.GetOrAdd(span, argument.TokenId);").AppendLine();
+            Inden().Append("                    argument.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, argument.TokenId);").AppendLine();
             Inden().Append("                    argument.ReferenceKind = ReferenceKind.Race;").AppendLine();
             Inden().Append("                    argument.HasReference = true;").AppendLine();
             Inden().Append("                    break;").AppendLine();
@@ -500,7 +500,7 @@ public static class ReferenceKindHelper
                 F().Append("if (argument.TrailingTokenCount == 0)").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
-                I().Append("    argument.ReferenceId = result.").Append(reference).AppendLine("Set.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);");
+                I().Append("    argument.ReferenceId = analysisResult.").Append(reference).AppendLine("Set.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);");
                 I().Append("    argument.HasReference = true;").AppendLine();
                 I().Append("}").AppendLine();
                 I().Append("else").AppendLine();
@@ -540,7 +540,7 @@ public static class ReferenceKindHelper
                 I().Append("else if (!argument.IsNumber)").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.NumberVariableReader;").AppendLine();
-                I().Append("    argument.ReferenceId = result.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);").AppendLine();
+                I().Append("    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);").AppendLine();
                 I().Append("    argument.HasReference = true;").AppendLine();
                 I().Append("}").AppendLine();
                 break;
@@ -561,7 +561,7 @@ public static class ReferenceKindHelper
                 I().Append("    {").AppendLine();
                 I().Append("        if (span.Length != 1)").AppendLine();
                 I().Append("        {").AppendLine();
-                I().Append("            argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.ReferenceId = analysisResult.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
                 I().Append("            argument.HasReference = true;").AppendLine();
                 I().Append("        }").AppendLine();
                 I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
@@ -573,7 +573,7 @@ public static class ReferenceKindHelper
                 I().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
                 I().Append("        }").AppendLine();
-                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
+                I().Append("        argument.ReferenceId = analysisResult.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
                 I().Append("        argument.HasReference = true;").AppendLine();
                 I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
                 I().Append("    }").AppendLine();
@@ -601,7 +601,7 @@ public static class ReferenceKindHelper
                 I().Append("        }").AppendLine();
                 I().Append("        else").AppendLine();
                 I().Append("        {").AppendLine();
-                I().Append("            argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.ReferenceId = analysisResult.").Append(reference).Append("Set.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
                 I().Append("            argument.HasReference = true;").AppendLine();
                 I().Append("        }").AppendLine();
                 I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
@@ -613,7 +613,7 @@ public static class ReferenceKindHelper
                 I().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
                 builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
                 I().Append("        }").AppendLine();
-                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
+                I().Append("        argument.ReferenceId = analysisResult.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
                 I().Append("        argument.HasReference = true;").AppendLine();
                 I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
                 I().Append("    }").AppendLine();
@@ -646,14 +646,14 @@ public static class ReferenceKindHelper
                 I().Append("    {").AppendLine();
                 I().Append("        if (span.Length != 1)").AppendLine();
                 I().Append("        {").AppendLine();
-                I().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
                 I().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
                 I().Append("            argument.HasReference = true;").AppendLine();
                 I().Append("        }").AppendLine();
                 I().Append("    }").AppendLine();
                 I().Append("    else").AppendLine();
                 I().Append("    {").AppendLine();
-                I().Append("        argument.ReferenceId = result.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
+                I().Append("        argument.ReferenceId = analysisResult.").Append(reference).Append("Set.GetOrAdd(span, argument.TokenId);").AppendLine();
                 I().Append("        argument.ReferenceKind = ReferenceKind.").Append(reference).Append(";").AppendLine();
                 I().Append("        argument.HasReference = true;").AppendLine();
                 I().Append("    }").AppendLine();
@@ -663,7 +663,7 @@ public static class ReferenceKindHelper
                 F().Append("span = result.GetSpan(argument.TokenId);").AppendLine();
                 I().Append("if (span.Length > 1 && span[0] == '@')").AppendLine();
                 I().Append("{").AppendLine();
-                I().Append("    argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
                 I().Append("    argument.HasReference = true;").AppendLine();
                 I().Append("}").AppendLine();
@@ -697,7 +697,7 @@ public static class ReferenceKindHelper
                 I().Append("        }").AppendLine();
                 I().Append("        else").AppendLine();
                 I().Append("        {").AppendLine();
-                I().Append("            argument.ReferenceId = result.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
+                I().Append("            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);").AppendLine();
                 I().Append("            argument.ReferenceKind = ReferenceKind.StringVariableReader;").AppendLine();
                 I().Append("            argument.HasReference = true;").AppendLine();
                 I().Append("        }").AppendLine();
@@ -803,7 +803,7 @@ public static class ReferenceKindHelper
         if (hasSkill)
         {
             Inden().Append("   case ReferenceKind.Skill:").AppendLine();
-            Inden().Append("       value.ReferenceId = result.SkillSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("       value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("       value.ReferenceKind = ReferenceKind.Skill;").AppendLine();
             Inden().Append("       value.HasReference = true;").AppendLine();
             Inden().Append("       break;").AppendLine();
@@ -811,7 +811,7 @@ public static class ReferenceKindHelper
         if (hasSkillset)
         {
             Inden().Append("    case ReferenceKind.Skillset:").AppendLine();
-            Inden().Append("        value.ReferenceId = result.SkillsetSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("        value.ReferenceKind = ReferenceKind.Skillset;").AppendLine();
             Inden().Append("        value.HasReference = true;").AppendLine();
             Inden().Append("        break;").AppendLine();
@@ -853,7 +853,7 @@ public static class ReferenceKindHelper
         if (hasUnit)
         {
             Inden().Append("    case ReferenceKind.Unit:").AppendLine();
-            Inden().Append("        value.ReferenceId = result.UnitSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("        value.ReferenceKind = ReferenceKind.Unit;").AppendLine();
             Inden().Append("        value.HasReference = true;").AppendLine();
             Inden().Append("        break;").AppendLine();
@@ -861,7 +861,7 @@ public static class ReferenceKindHelper
         if (hasSpot)
         {
             Inden().Append("    case ReferenceKind.Spot:").AppendLine();
-            Inden().Append("        value.ReferenceId = result.SpotSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("        value.ReferenceKind = ReferenceKind.Spot;").AppendLine();
             Inden().Append("        value.HasReference = true;").AppendLine();
             Inden().Append("        break;").AppendLine();
@@ -869,7 +869,7 @@ public static class ReferenceKindHelper
         if (hasClass)
         {
             Inden().Append("    case ReferenceKind.Class:").AppendLine();
-            Inden().Append("        value.ReferenceId = result.ClassSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("        value.ReferenceKind = ReferenceKind.Class;").AppendLine();
             Inden().Append("        value.HasReference = true;").AppendLine();
             Inden().Append("        break;").AppendLine();
@@ -877,7 +877,7 @@ public static class ReferenceKindHelper
         if (hasPower)
         {
             Inden().Append("    case ReferenceKind.Power:").AppendLine();
-            Inden().Append("        value.ReferenceId = result.PowerSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("        value.ReferenceKind = ReferenceKind.Power;").AppendLine();
             Inden().Append("        value.HasReference = true;").AppendLine();
             Inden().Append("        break;").AppendLine();
@@ -885,7 +885,7 @@ public static class ReferenceKindHelper
         if (hasRace)
         {
             Inden().Append("    case ReferenceKind.Race:").AppendLine();
-            Inden().Append("        value.ReferenceId = result.RaceSet.GetOrAdd(span, value.Text);").AppendLine();
+            Inden().Append("        value.ReferenceId = analysisResult.RaceSet.GetOrAdd(span, value.Text);").AppendLine();
             Inden().Append("        value.ReferenceKind = ReferenceKind.Race;").AppendLine();
             Inden().Append("        value.HasReference = true;").AppendLine();
             Inden().Append("        break;").AppendLine();

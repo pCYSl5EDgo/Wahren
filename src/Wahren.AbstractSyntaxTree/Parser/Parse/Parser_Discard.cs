@@ -7,7 +7,7 @@ public static partial class Parser
     /// </summary>
     private static bool Parse_Discard(ref Context context, ref Result result, uint elementTokenId)
     {
-        if (!SplitElement(ref result, elementTokenId, out var span, out _))
+        if (!SplitElementPlain(ref result, elementTokenId, out var span, out _))
         {
             return false;
         }

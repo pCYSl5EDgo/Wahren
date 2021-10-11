@@ -18,24 +18,24 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class PerResultValidator
 {
-	public static void AddReferenceAndValidate(ref Context context, ref Result result)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult)
 	{
 <# foreach (var nodeInfo in NodeInfo.Nodes) { #>
 		foreach (ref var node in result.<#= nodeInfo.Name #>NodeList.AsSpan())
 		{
-			AddReferenceAndValidate(ref context, ref result, ref node);
+			AddReferenceAndValidate(ref context, ref result, analysisResult, ref node);
 		}
 <# } #>
 	}
 <# foreach (var nodeInfo in NodeInfo.Nodes) {
 	var elements = nodeInfo.Elements.Where(x => x.ReferenceKind.CanProcessEarly()); #>
 
-	public static void AddReferenceAndValidate(ref Context context, ref Result result, ref <#= nodeInfo.Name #>Node node)
+	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref <#= nodeInfo.Name #>Node node)
 	{
 <#  if (nodeInfo.HasBlock) { #>
 		foreach (var statement in node.Statements.AsSpan())
 		{
-			AddReferenceAndValidateStatement(ref context, ref result, statement);
+			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
 <#  } #>
 <#	foreach (var element in elements) {
@@ -77,7 +77,7 @@ public static partial class PerResultValidator
 <#			case ReferenceKind.image_file				: #>
 <#			case ReferenceKind.flag						: #>
 <#			case ReferenceKind.font						: #>
-		AddReference(ref result, ref node.<#= element.Name.Escape() #>, ref result.<#= element.ReferenceKind #>Set, ReferenceKind.<#= element.ReferenceKind #>);
+		AddReference(ref result, ref node.<#= element.Name.Escape() #>, ref analysisResult.<#= element.ReferenceKind #>Set, ReferenceKind.<#= element.ReferenceKind #>);
 <#				break;#>
 <#			case ReferenceKind.Number: #>
 <#			case ReferenceKind.Boolean: #>
@@ -86,7 +86,7 @@ public static partial class PerResultValidator
 		Validate<#= element.ReferenceKind #>(ref result, ref node.<#= element.Name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.Name #>");
 <#				break;#>
 <#			case ReferenceKind.Skill | ReferenceKind.Boolean: #>
-		AddReferenceSkillBoolean(ref result, ref node.<#= element.Name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.Name #>");
+		AddReferenceSkillBoolean(ref result, analysisResult, ref node.<#= element.Name.Escape() #>, "<#= nodeInfo.Name #>", "<#= element.Name #>");
 <#				break;#>
 <#			case ReferenceKind.Status | ReferenceKind.Number: #>
 <#			case ReferenceKind.Boolean | ReferenceKind.Number: #>

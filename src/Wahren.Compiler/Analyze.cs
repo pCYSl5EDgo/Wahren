@@ -74,6 +74,7 @@ public partial class Program
             for (int i = 0; i < files.Length; i++)
             {
                 project.Files.Add(new((uint)i));
+                project.FileAnalysisList.Add(new());
                 project.Files.Last.FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[i]);
             }
 
@@ -177,7 +178,7 @@ public partial class Program
                     return;
                 }
                 token.ThrowIfCancellationRequested();
-                LoadAndParse(project.RequiredSeverity, @switch, isUnicode, isEnglish, ref project.Files[index], rental.AsSpan(0, actual));
+                LoadAndParse(project.RequiredSeverity, @switch, isUnicode, isEnglish, ref project.Files[index], project.FileAnalysisList[index], rental.AsSpan(0, actual));
             }
             finally
             {
@@ -199,7 +200,7 @@ public partial class Program
                 /*
                 NOTIMPLEMENTED YET
                 case 0:
-                    foreach (ref var file in project.Files.AsSpan())
+                    for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                     {
                         for (uint i = 0, count = file.imagedataSet.Count; i != count; ++i)
                         {
@@ -208,7 +209,7 @@ public partial class Program
                     }
                     return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata.dat", "chip", token);
                 case 1:
-                    foreach (ref var file in project.Files.AsSpan())
+                    for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                     {
                         for (uint i = 0, count = file.imagedata2Set.Count; i != count; ++i)
                         {
@@ -219,11 +220,11 @@ public partial class Program
                     return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata2.dat", "chip2", token);
                 */
                 case 2:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.faceSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.faceSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.faceSet[i]));
+                            hashSet.Add(new(analysisResult.faceSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -232,23 +233,23 @@ public partial class Program
                         var original = $"{contentsFolder}/face/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.faceSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].faceSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("face", name, ref file, file.faceSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("face", name, ref project.Files[i], project.FileAnalysisList[i].faceSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 3:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.iconSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.iconSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.iconSet[i]));
+                            hashSet.Add(new(analysisResult.iconSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -257,23 +258,23 @@ public partial class Program
                         var original = $"{contentsFolder}/icon/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.iconSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].iconSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("icon", name, ref file, file.iconSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("icon", name, ref project.Files[i], project.FileAnalysisList[i].iconSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 4:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.soundSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.soundSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.soundSet[i]));
+                            hashSet.Add(new(analysisResult.soundSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -282,23 +283,23 @@ public partial class Program
                         var original = $"{contentsFolder}/sound/{name}.wav";
                         if (!File.Exists(original))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.soundSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].soundSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("sound", name, ref file, file.soundSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("sound", name, ref project.Files[i], project.FileAnalysisList[i].soundSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 5:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.pictureSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.pictureSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.pictureSet[i]));
+                            hashSet.Add(new(analysisResult.pictureSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -307,23 +308,23 @@ public partial class Program
                         var original = $"{contentsFolder}/picture/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.pictureSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].pictureSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("picture", name, ref file, file.pictureSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("picture", name, ref project.Files[i], project.FileAnalysisList[i].pictureSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 6:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.image_fileSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.image_fileSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.image_fileSet[i]));
+                            hashSet.Add(new(analysisResult.image_fileSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -332,23 +333,23 @@ public partial class Program
                         var original = $"{contentsFolder}/image/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.image_fileSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].image_fileSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("image", name, ref file, file.image_fileSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("image", name, ref project.Files[i], project.FileAnalysisList[i].image_fileSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 7:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.flagSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.flagSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.flagSet[i]));
+                            hashSet.Add(new(analysisResult.flagSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -357,23 +358,23 @@ public partial class Program
                         var original = $"{contentsFolder}/flag/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".png") && !File.Exists(original + ".bmp") && !File.Exists(original + ".jpg"))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.flagSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].flagSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("flag", name, ref file, file.flagSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("flag", name, ref project.Files[i], project.FileAnalysisList[i].flagSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 8:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.mapSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.mapSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.mapSet[i]));
+                            hashSet.Add(new(analysisResult.mapSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -382,23 +383,23 @@ public partial class Program
                         var original = $"{contentsFolder}/stage/{name}.map";
                         if (!File.Exists(original))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.mapSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].mapSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("stage", name, ref file, file.mapSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("stage", name, ref project.Files[i], project.FileAnalysisList[i].mapSet.References[setId].AsSpan());
                             }
                         }
                     }
                     break;
                 case 9:
-                    foreach (ref var file in project.Files.AsSpan())
+                    foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = file.bgmSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.bgmSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(file.bgmSet[i]));
+                            hashSet.Add(new(analysisResult.bgmSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -407,13 +408,13 @@ public partial class Program
                         var original = $"{contentsFolder}/bgm/{name}";
                         if (!File.Exists(original) && !File.Exists(original + ".mp3") && !File.Exists(original + ".ogg") && !File.Exists(original + ".mid"))
                         {
-                            foreach (ref var file in project.Files.AsSpan())
+                            for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!file.bgmSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].bgmSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("bgm", name, ref file, file.bgmSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("bgm", name, ref project.Files[i], project.FileAnalysisList[i].bgmSet.References[setId].AsSpan());
                             }
                         }
                     }
@@ -466,9 +467,11 @@ public partial class Program
         {
             static void Process(Project project, string chipFolderName, string name)
             {
-                foreach (ref var file in project.Files.AsSpan())
+                for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                 {
-                    ref var set = ref (chipFolderName == "chip" ? ref file.imagedataSet : ref file.imagedata2Set);
+                    ref var file = ref project.Files[i];
+                    var analysisResult = project.FileAnalysisList[i];
+                    ref var set = ref (chipFolderName == "chip" ? ref analysisResult.imagedataSet : ref analysisResult.imagedata2Set);
                     if (!set.TryGet(name.AsSpan(), out var setId))
                     {
                         continue;
@@ -599,7 +602,7 @@ public partial class Program
         stringBuilder.AppendLine();
     }
 
-    private static void LoadAndParse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isUnicode, bool isEnglish, ref Result result, Span<byte> input)
+    private static void LoadAndParse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isUnicode, bool isEnglish, ref Result result, AnalysisResult analysisResult, Span<byte> input)
     {
         if (isUnicode)
         {
@@ -611,8 +614,8 @@ public partial class Program
         }
 
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, false, severity);
-        result.Success = Parser.Parse(ref context, ref result);
-        PerResultValidator.AddReferenceAndValidate(ref context, ref result);
+        result.Success = Parser.Parse(ref context, ref result, analysisResult);
+        PerResultValidator.AddReferenceAndValidate(ref context, ref result, analysisResult);
         if (result.Success)
         {
             ref var errorList = ref result.ErrorList;

@@ -22,7 +22,7 @@ using Statement.Expression;
 public static partial class PerResultValidator
 {<# foreach ((string callableKind, string callableTrailer, CallableInfo[] callableInfoArray) in new (string, string, CallableInfo[])[] { ("Action", "Statement", CallableInfo.ActionInfoNormals), ("Function", "Expression", CallableInfo.FunctionInfoNormals) }) { #>
 
-    public static void AddReferenceAndValidateCall<#= callableKind #>(ref Context context, ref Result result, Call<#= callableKind #><#= callableTrailer #> call)
+    public static void AddReferenceAndValidateCall<#= callableKind #>(ref Context context, ref Result result, AnalysisResult analysisResult, Call<#= callableKind #><#= callableTrailer #> call)
     {
         var arguments = call.Arguments.AsSpan();
         if (arguments.IsEmpty)

@@ -21,14 +21,14 @@ public static partial class Parser
 <# foreach (var node in NodeInfo.Nodes.Where(x => !x.HasBlock)) {
     ElementInfo[] elements = node.Elements;
     var usageGroup = elements.MakeUsageGroup(); #>
-    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, out bool canContinue)
+    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
     {
         result.<#= node.Name #>NodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.<#= node.Name #>NodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref result.<#= node.Name #>Set))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.<#= node.Name #>Set))
         {
             return false;
         }
@@ -57,7 +57,7 @@ public static partial class Parser
 
             var currentIndex = tokenList.LastIndex;
 <# if (node.IsAllScenarioVariant) { #>
-            if (!result.SplitElement(currentIndex, out var span, out variant))
+            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
 <# } else { #>
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
 <# } #>
@@ -98,7 +98,7 @@ public static partial class Parser
 <#          } else if (node.IsAllScenarioVariant) { #>
                             pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant);
 <#          } else { #>
-                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant = result.<#= item.VariantType #>Set.GetOrAdd(variantSpan, currentIndex));
+                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant = analysisResult.<#= item.VariantType #>Set.GetOrAdd(variantSpan, currentIndex));
 <#          } #>
                             goto <#= trailer #>;
 <#      } #>
