@@ -3364,6 +3364,14 @@ public static partial class Parser
                             variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.attack_us;
                             goto DEFAULT;
+                        case 0x00004E007932BF38UL:
+                            if (variantSpan.Length != 0)
+                            {
+                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
+                            }
+                            variant = uint.MaxValue;
+                            pair_Pair_NullableString_NullableIntElement = ref node.offset_on;
+                            goto DEFAULT;
                         case 0x0000572BFB6B6835UL:
                             if (variantSpan.Length != 0)
                             {

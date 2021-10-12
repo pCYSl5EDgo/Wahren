@@ -889,6 +889,7 @@ public static partial class PerResultValidator
 		ValidateBooleanNumber(ref result, ref node.hard2, "Skill", "hard2");
 		ValidateBoolean(ref result, ref node.onehit, "Skill", "onehit");
 		AddReference(ref result, ref node.offset_attr, ref analysisResult.SkillSet, ReferenceKind.Skill);
+		ValidateBoolean(ref result, ref node.offset_on, "Skill", "offset_on");
 		ValidateNumber(ref result, ref node.knock, "Skill", "knock");
 		ValidateNumber(ref result, ref node.knock_speed, "Skill", "knock_speed");
 		ValidateNumber(ref result, ref node.knock_power, "Skill", "knock_power");
@@ -2040,6 +2041,7 @@ public static partial class PerResultValidator
 		ValidateBoolean(ref result, ref node.disperse, "Event", "disperse");
 		ValidateNumber(ref result, ref node.castle, "Event", "castle");
 		ValidateBoolean(ref result, ref node.castle_battle, "Event", "castle_battle");
+		ValidateBoolean(ref result, ref node.personal_battle, "Event", "personal_battle");
 		ValidateBooleanNumber(ref result, ref node.blind, "Event", "blind");
 		ValidateNumber(ref result, ref node.w, "Event", "w");
 		ValidateNumber(ref result, ref node.h, "Event", "h");

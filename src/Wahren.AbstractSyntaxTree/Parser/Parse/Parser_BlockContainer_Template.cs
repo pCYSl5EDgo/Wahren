@@ -1053,6 +1053,14 @@ public static partial class Parser
                             goto DEFAULT;
                     }
                     break;
+                case 15:
+                    switch (key)
+                    {
+                        case 0x3EB640AB3681C78AUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("tle"):
+                            pair_Pair_NullableString_NullableIntElement = ref node.personal_battle.EnsureGet(variant);
+                            goto DEFAULT;
+                    }
+                    break;
             }
 
             if (Parse_Discard(ref context, ref result, currentIndex, key))
