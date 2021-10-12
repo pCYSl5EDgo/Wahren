@@ -342,7 +342,7 @@ public static class ErrorHelper
     public static void ErrorAdd_InvalidMultipleTokenArgument(ref this Result result, ReadOnlySpan<char> callName, uint argumentTokenId, uint argumentTrailingTokenCount)
     {
 #if JAPANESE
-        DefaultInterpolatedStringHandler handler = $"関数'{callName}'の引数が不正です。おそらく','を記述し忘れていませんか？　不正な引数: '{result.GetSpan(argumentTokenId)}";
+        DefaultInterpolatedStringHandler handler = $"{callName}関数の引数が不正です。おそらく','を記述し忘れていませんか？　不正な引数: '{result.GetSpan(argumentTokenId)}";
         ref var tokenList = ref result.TokenList;
         for (uint i = 1; i <= argumentTrailingTokenCount; i++)
         {
