@@ -3318,16 +3318,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("msg", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         argument = ref arguments[2];
                         AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
@@ -3431,16 +3424,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("msg2", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         argument = ref arguments[2];
                         AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
@@ -3544,16 +3530,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("talk", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         argument = ref arguments[2];
                         AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
@@ -3657,16 +3636,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("talk2", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         argument = ref arguments[2];
                         AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
@@ -3770,16 +3742,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("chat", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         argument = ref arguments[2];
                         AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
@@ -3883,16 +3848,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.face;
-                            argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("chat2", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.face;
+                        argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         argument = ref arguments[2];
                         AddReferenceAndValidate_CompoundText(ref result, analysisResult, ref argument);
@@ -4077,16 +4035,9 @@ public sealed partial class Project
                         }
 
                         argument = ref arguments[2];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.flag;
-                            argument.ReferenceId = analysisResult.flagSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("changeMaster", argument.TokenId, argument.TrailingTokenCount);
-                        }
+                        argument.ReferenceKind = ReferenceKind.flag;
+                        argument.ReferenceId = analysisResult.flagSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                        argument.HasReference = true;
 
                         break;
                 }

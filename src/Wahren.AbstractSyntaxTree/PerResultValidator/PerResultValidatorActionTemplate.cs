@@ -230,16 +230,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.hideImage:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("hideImage", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.image_file;
+                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -259,16 +252,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.hideFace:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("hideFace", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.face;
+                argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -288,16 +274,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.hidePicture:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("hidePicture", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.picture;
+                argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -317,16 +296,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.bg:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("bg", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.image_file;
+                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -2283,16 +2255,9 @@ public static partial class PerResultValidator
                 }
 
                 argument = ref arguments[1];
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.map;
-                    argument.ReferenceId = analysisResult.mapSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("changeMap", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.map;
+                argument.ReferenceId = analysisResult.mapSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 break;
             case ActionKind.pushLevel:
@@ -4953,16 +4918,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.playBGM:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.bgm;
-                    argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("playBGM", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.bgm;
+                argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 break;
             case ActionKind.reloadMenu:
@@ -5029,16 +4987,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.image:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("image", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.image_file;
+                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5106,16 +5057,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.image2:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("image2", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.image_file;
+                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5183,16 +5127,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.showImage:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.image_file;
-                    argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("showImage", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.image_file;
+                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5260,16 +5197,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.face:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("face", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.face;
+                argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5337,16 +5267,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.face2:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("face2", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.face;
+                argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5414,16 +5337,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.showFace:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.face;
-                    argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("showFace", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.face;
+                argument.ReferenceId = analysisResult.faceSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5491,16 +5407,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.picture:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("picture", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.picture;
+                argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5568,16 +5477,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.picture2:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("picture2", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.picture;
+                argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5645,16 +5547,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.showPict:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("showPict", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.picture;
+                argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5722,16 +5617,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.showPicture:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.picture;
-                    argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("showPicture", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.picture;
+                argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -5863,16 +5751,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.playSE:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.sound;
-                    argument.ReferenceId = analysisResult.soundSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("playSE", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.sound;
+                argument.ReferenceId = analysisResult.soundSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 break;
             case ActionKind.volume:
@@ -7225,16 +7106,9 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.font:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.font;
-                    argument.ReferenceId = analysisResult.fontSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("font", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.font;
+                argument.ReferenceId = analysisResult.fontSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 if (arguments.Length <= 1)
                 {
@@ -9004,30 +8878,16 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.loopBGM:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.bgm;
-                    argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("loopBGM", argument.TokenId, argument.TrailingTokenCount);
-                }
+                argument.ReferenceKind = ReferenceKind.bgm;
+                argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.HasReference = true;
 
                 for (int i = 1; i < arguments.Length; ++i)
                 {
                     argument = ref arguments[i];
-                    if (argument.TrailingTokenCount == 0)
-                    {
-                        argument.ReferenceKind = ReferenceKind.bgm;
-                        argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                        argument.HasReference = true;
-                    }
-                    else
-                    {
-                        result.ErrorAdd_InvalidMultipleTokenArgument("loopBGM", argument.TokenId, argument.TrailingTokenCount);
-                    }
+                    argument.ReferenceKind = ReferenceKind.bgm;
+                    argument.ReferenceId = analysisResult.bgmSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                    argument.HasReference = true;
 
                 }
                 break;

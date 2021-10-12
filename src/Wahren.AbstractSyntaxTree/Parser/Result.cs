@@ -96,6 +96,20 @@ public struct Result : IDisposable
     }
 
     public Span<char> GetSpan(uint tokenIndex) => Source[TokenList.GetLine(tokenIndex)].AsSpan(TokenList.GetOffset(tokenIndex), TokenList.GetLength(tokenIndex));
+    public Span<char> GetSpan(uint tokenIndex, uint trailingTokenCount)
+    {
+        if (trailingTokenCount == 0)
+        {
+            return GetSpan(tokenIndex);
+        }
+
+        var line = TokenList.GetLine(tokenIndex);
+        var offset = TokenList.GetOffset(tokenIndex);
+        var lastIndex = tokenIndex + trailingTokenCount;
+        var offsetLast = TokenList.GetOffset(lastIndex);
+        var lengthLast = TokenList.GetLength(lastIndex);
+        return Source[line].AsSpan(offset, offsetLast + lengthLast - offset);
+    }
 
     public override string ToString() => ToString("");
 

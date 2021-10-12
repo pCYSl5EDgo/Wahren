@@ -486,17 +486,8 @@ public static class ReferenceKindHelper
             case ReferenceKind.ClassTypeWriter:
             case ReferenceKind.GlobalStringVariableReader:
             case ReferenceKind.GlobalStringVariableWriter:
-            case ReferenceKind.map:
-            case ReferenceKind.bgm:
             case ReferenceKind.imagedata:
             case ReferenceKind.imagedata2:
-            case ReferenceKind.icon:
-            case ReferenceKind.face:
-            case ReferenceKind.sound:
-            case ReferenceKind.picture:
-            case ReferenceKind.image_file:
-            case ReferenceKind.flag:
-            case ReferenceKind.font:
                 F().Append("if (argument.TrailingTokenCount == 0)").AppendLine();
                 I().Append("{").AppendLine();
                 I().Append("    argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
@@ -507,6 +498,19 @@ public static class ReferenceKindHelper
                 I().Append("{").AppendLine();
                 I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
                 I().Append("}").AppendLine();
+                break;
+            case ReferenceKind.map:
+            case ReferenceKind.bgm:
+            case ReferenceKind.icon:
+            case ReferenceKind.face:
+            case ReferenceKind.sound:
+            case ReferenceKind.picture:
+            case ReferenceKind.image_file:
+            case ReferenceKind.flag:
+            case ReferenceKind.font:
+                F().Append("argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");
+                I().Append("argument.ReferenceId = analysisResult.").Append(reference).AppendLine("Set.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);");
+                I().Append("argument.HasReference = true;").AppendLine();
                 break;
             case ReferenceKind.Number:
                 F().Append("if (argument.TrailingTokenCount != 0 || !argument.IsNumber)").AppendLine();
