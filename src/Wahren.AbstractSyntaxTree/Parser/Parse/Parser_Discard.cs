@@ -255,7 +255,6 @@ public static partial class Parser
         }
 
         tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
-        ref var source = ref result.Source;
         do
         {
             if (!ReadToken(ref context, ref result))
@@ -434,7 +433,6 @@ public static partial class Parser
         }
 
         tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
-        ref var source = ref result.Source;
         var processingLineIndex = tokenList.GetLine(tokenList.LastIndex);
         do
         {
@@ -485,7 +483,6 @@ public static partial class Parser
             return false;
         }
 
-        ref var source = ref result.Source;
         tokenList.GetKind(tokenList.LastIndex) = context.DeleteDiscardedToken ? TokenKind.Deleted : TokenKind.Content;
         var processingLine = tokenList.GetLine(tokenList.LastIndex);
         var hasNumber = result.TryParse(tokenList.LastIndex, out _);

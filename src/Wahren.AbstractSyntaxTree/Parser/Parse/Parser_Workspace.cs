@@ -31,11 +31,15 @@ public static partial class Parser
             }
 
             var element = new Pair_NullableString_NullableInt_ArrayElement(tokenList.LastIndex);
-            if (!result.SplitElement(analysisResult, element))
+            if (!result.SplitElementPlain(element.ElementTokenId, out var span, out var variantSpan))
             {
                 return false;
             }
 
+            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
+            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
+            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
+            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
                 return false;

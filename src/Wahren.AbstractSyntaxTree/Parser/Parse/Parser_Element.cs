@@ -153,7 +153,6 @@ public static partial class Parser
             return false;
         }
 
-        ref var source = ref result.Source;
         element.HasValue = true;
         element.Value.HasText = true;
         element.Value.Text = tokenList.LastIndex;
@@ -223,7 +222,6 @@ public static partial class Parser
             return true;
         }
 
-        ref var source = ref result.Source;
         element.HasValue = true;
         if (!AddValue_Pair_NullableString_NullableInt(element, ref result, ref tokenList))
         {
@@ -348,7 +346,6 @@ public static partial class Parser
     /// </summary>
     private static bool Parse_Element_CONSTI(ref Context context, ref Result result, IElement<List<Pair_NullableString_NullableInt>> element)
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.CONSTI;
         element.HasValue = true;

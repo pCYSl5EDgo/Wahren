@@ -35,7 +35,6 @@ public static partial class Parser
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         uint variant = uint.MaxValue;
-        ref var source = ref result.Source;
 <#  foreach (var (type, _) in usageGroup) { #>
         ref var pair_<#= type #> = ref Unsafe.NullRef<<#= type #>?>();
 <#  } #>
@@ -56,11 +55,7 @@ public static partial class Parser
             }
 
             var currentIndex = tokenList.LastIndex;
-<# if (node.IsAllScenarioVariant) { #>
-            if (!result.SplitElement(analysisResult, currentIndex, out var span, out variant))
-<# } else { #>
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
-<# } #>
             {
                 return false;
             }
@@ -95,8 +90,6 @@ public static partial class Parser
                             }
                             variant = uint.MaxValue;
                             pair_<#= type #> = ref node.<#= item.Name.Escape() #>;
-<#          } else if (node.IsAllScenarioVariant) { #>
-                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant);
 <#          } else { #>
                             pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant = analysisResult.<#= item.VariantType #>Set.GetOrAdd(variantSpan, currentIndex));
 <#          } #>
@@ -140,10 +133,8 @@ public static partial class Parser
                 pair_<#= type #> = new(currentIndex);
                 pair_<#= type #>.ElementScenarioId = variant;
                 pair_<#= type #>.ElementKeyRange.Length = (uint)span.Length;
-                {
-                    pair_<#= type #>.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                    pair_<#= type #>.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
-                }
+                pair_<#= type #>.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
+                pair_<#= type #>.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
                 if (<#= func #>(ref context, ref result, pair_<#= type #>))
                 {
                    continue;

@@ -12,7 +12,6 @@ public static partial class Parser
             return Parse_Element_ROAM(ref context, ref result, element);
         }
 
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.ROAM;
         if (!ReadUsefulToken(ref context, ref result))

@@ -10,7 +10,6 @@ public static partial class Parser
     private static bool Parse_RootBlock(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ref List<IBlockStatement> blockStack)
     {
         ref var tokenList = ref result.TokenList;
-        ref var source = ref result.Source;
         var actionKind = ActionKindHelper.Convert(result.GetSpan(currentIndex));
         result.UnionLast2Tokens();
         switch (actionKind)
@@ -136,7 +135,6 @@ public static partial class Parser
         }
 
         ref var tokenList = ref result.TokenList;
-        ref var source = ref result.Source;
         WhileStatement? @while;
         var createWarning = context.CreateError(DiagnosticSeverity.Warning);
         do
@@ -385,7 +383,6 @@ public static partial class Parser
     private static bool Parse_CallAction_English(ref Context context, ref Result result, CallActionStatement statement, int beforeLastCompoundTextArgumentCount)
     {
         ref var tokenList = ref result.TokenList;
-        ref var source = ref result.Source;
         Argument argument = new();
         ref var arguments = ref statement.Arguments;
 
@@ -503,7 +500,6 @@ public static partial class Parser
             }
         }
 
-        ref var source = ref result.Source;
         Argument argument = new();
         ref var arguments = ref statement.Arguments;
         do

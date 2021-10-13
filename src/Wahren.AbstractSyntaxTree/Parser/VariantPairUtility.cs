@@ -6,6 +6,7 @@ public static class VariantPairUtility
         where T : class, IElement
     {
         uint element;
+        int length;
         if (pair.Value is null)
         {
             if (pair.VariantArray is null)
@@ -18,6 +19,7 @@ public static class VariantPairUtility
                 ref T? item = ref pair.VariantArray[i];
                 if (item is not null)
                 {
+                    length = (int)item.ElementKeyRange.Length;
                     element = item.ElementTokenId;
                     goto EQUALITY_COMPARE;
                 }
@@ -27,11 +29,12 @@ public static class VariantPairUtility
         }
         else
         {
+            length = (int)pair.Value.ElementKeyRange.Length;
             element = pair.Value.ElementTokenId;
         }
 
     EQUALITY_COMPARE:
-        return span.SequenceEqual(result.GetSpan(element));
+        return span.SequenceEqual(result.GetSpan(element).Slice(0, length));
     }
 
     public static ref T? EnsureGet<T>(ref this VariantPair<T> pair, uint scenario)

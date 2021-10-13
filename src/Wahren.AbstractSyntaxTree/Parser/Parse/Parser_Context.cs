@@ -4,7 +4,6 @@ public static partial class Parser
 {
     private static bool ParseContext(ref Context context, ref Result result, AnalysisResult analysisResult)
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
         if (!ParseNamelessToBracketLeft(ref context, ref result, kindIndex))
@@ -29,14 +28,22 @@ public static partial class Parser
             }
 
             var element = new Pair_NullableString_NullableInt_ArrayElement(tokenList.LastIndex);
-            if (!result.SplitElement(analysisResult, element))
+            if (!result.SplitElementPlain(element.ElementTokenId, out var elementSpan, out var variantSpan))
             {
                 return false;
             }
 
-            if (element.ElementScenarioId != uint.MaxValue)
+            element.ElementKeyRange.Length = (uint)elementSpan.Length;
+            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
+            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
+
+            if (!variantSpan.IsEmpty)
             {
-                result.ErrorAdd("'@scenario' is not allowed in structure context.", element.ElementTokenId);
+#if JAPANESE
+                result.ErrorAdd($"context構造体の要素'{elementSpan}'はバリエーション'@{variantSpan}'を持ってはなりません。", element.ElementTokenId);
+#else
+                result.ErrorAdd($"'@{variantSpan}' is not allowed in structure context.", element.ElementTokenId);
+#endif
                 return false;
             }
 
@@ -50,7 +57,6 @@ public static partial class Parser
                 return false;
             }
 
-            var elementSpan = source[element.ElementKeyRange.Line].AsSpan(element.ElementKeyRange.Offset, element.ElementKeyRange.Length);
             ref var elementReference = ref node.TryGet(elementSpan, out var validElement);
             if (validElement)
             {

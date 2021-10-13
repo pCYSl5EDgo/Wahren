@@ -15,7 +15,6 @@ public static partial class Parser
     internal static IReturnBooleanExpression? ParseCondition(ref Context context, ref Result result, uint statementTokenId, ConditionStatementKind statementKind)
     {
         ref var tokenList = ref result.TokenList;
-        ref var source = ref result.Source;
         List<IExpression> expressionList = new();
         try
         {
@@ -66,7 +65,6 @@ public static partial class Parser
         where T : class, IExpression
     {
         ref var tokenList = ref result.TokenList;
-        ref var source = ref result.Source;
         NumberComparerOperator comparerOperator = default;
         NumberCalculatorOperator calculatorOperator = default;
         do
@@ -583,7 +581,6 @@ public static partial class Parser
     private static bool ExpressionParseCallFunction(ref Context context, ref Result result, CallFunctionExpression callFunctionExpression, ConditionStatementKind statementKind)
     {
         Argument argument = default;
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         bool isNotFirstArgument = false;
         do
@@ -780,7 +777,6 @@ public static partial class Parser
 
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
-        ref var source = ref result.Source;
         var span = result.GetSpan(tokenList.LastIndex);
         switch (span[0])
         {

@@ -11,7 +11,6 @@ public static partial class Parser
             return false;
         }
 
-        ref var source = ref result.Source;
         var node = new DetailNode() { Kind = kindIndex, BracketLeft = tokenList.LastIndex };
         result.DetailNodeList.Add(node);
         do
@@ -29,10 +28,15 @@ public static partial class Parser
             }
 
             Pair_NullableString_NullableIntElement element = new(tokenList.LastIndex);
-            if (!SplitElement(ref result, analysisResult, element))
+            if (!SplitElementPlain(ref result, element.ElementTokenId, out var keySpan, out var variantSpan))
             {
                 return false;
             }
+
+            element.ElementKeyRange.Length = (uint)keySpan.Length;
+            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
+            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
+            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
 
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
@@ -44,7 +48,6 @@ public static partial class Parser
                 return false;
             }
 
-            ReadOnlySpan<char> keySpan = source[element.ElementKeyRange.Line].AsSpan(element.ElementKeyRange.Offset, element.ElementKeyRange.Length);
             foreach (ref var itr in node.StringElementList)
             {
                 if (!itr.EqualsKey(keySpan, ref result))

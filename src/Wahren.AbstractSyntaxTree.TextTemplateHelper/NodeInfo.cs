@@ -4,7 +4,6 @@ public struct NodeInfo
 {
     public string Name;
     public bool HasBlock;
-    public bool IsAllScenarioVariant;
     public ElementInfo[] Elements;
     public AdditionalField[] Fields;
     public bool IsAllowedUndefinedContent => Name == "Power";
@@ -13,15 +12,6 @@ public struct NodeInfo
     {
         Name = name;
         HasBlock = hasBlock;
-        IsAllScenarioVariant = true;
-        foreach (var item in elements)
-        {
-            if (item.VariantType != "Scenario")
-            {
-                IsAllScenarioVariant = false;
-                break;
-            }
-        }
         Elements = elements;
         Fields = System.Array.Empty<AdditionalField>();
     }

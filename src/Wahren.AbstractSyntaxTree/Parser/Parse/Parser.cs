@@ -116,30 +116,6 @@ public static partial class Parser
         return false;
     }
 
-    private static bool SplitElement(ref this Result result, AnalysisResult analysisResult, uint tokenId, out Span<char> span, out uint scenarioId)
-    {
-        span = result.GetSpan(tokenId);
-        var index = span.LastIndexOf('@');
-        switch (index)
-        {
-            case -1:
-                scenarioId = uint.MaxValue;
-                break;
-            default:
-                scenarioId = analysisResult.ScenarioSet.GetOrAdd(span.Slice(index + 1), tokenId);
-                span = span.Slice(0, index);
-                break;
-        }
-
-        if (span.IsEmpty)
-        {
-            result.ErrorAdd_EmptyElementKey(tokenId);
-            return false;
-        }
-
-        return true;
-    }
-
     private static bool SplitElementPlain(ref this Result result, uint tokenId, out Span<char> span, out Span<char> afterAtmark)
     {
         span = result.GetSpan(tokenId);
@@ -158,35 +134,6 @@ public static partial class Parser
         if (span.IsEmpty)
         {
             result.ErrorAdd_EmptyElementKey(tokenId);
-            return false;
-        }
-
-        return true;
-    }
-
-    private static bool SplitElement(ref this Result result, AnalysisResult analysisResult, IElement element)
-    {
-        var span = result.GetSpan(element.ElementTokenId);
-        var index = span.LastIndexOf('@');
-        ref var tokenList = ref result.TokenList;
-        ref var elementKey = ref element.ElementKeyRange;
-        elementKey.Line = tokenList.GetLine(element.ElementTokenId);
-        elementKey.Offset = tokenList.GetOffset(element.ElementTokenId);
-        switch (index)
-        {
-            case -1:
-                elementKey.Length = tokenList.GetLength(element.ElementTokenId);
-                element.ElementScenarioId = uint.MaxValue;
-                break;
-            default:
-                elementKey.Length = (uint)index;
-                element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(span.Slice(index + 1), element.ElementTokenId);
-                break;
-        }
-
-        if (elementKey.Length == 0)
-        {
-            result.ErrorAdd_EmptyElementKey(element.ElementTokenId);
             return false;
         }
 
@@ -230,7 +177,6 @@ public static partial class Parser
     private static bool ParseNameAndSuperAndBracketLeft<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet)
         where T : struct, IInheritableNode
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         ref var errorList = ref result.ErrorList;
         if (!ReadUsefulToken(ref context, ref result))
@@ -305,7 +251,6 @@ public static partial class Parser
 
     private static bool ParseNamelessToBracketLeft(ref Context context, ref Result result, uint kindIndex)
     {
-        ref var source = ref result.Source;
         if (!ReadUsefulToken(ref context, ref result))
         {
             result.ErrorAdd_UnexpectedEndOfFile(kindIndex);

@@ -4,7 +4,6 @@ public static partial class Parser
 {
     private static bool ParseAttribute(ref Context context, ref Result result, AnalysisResult analysisResult)
     {
-        ref var source = ref result.Source;
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
         if (!ParseNamelessToBracketLeft(ref context, ref result, kindIndex))
@@ -30,10 +29,15 @@ public static partial class Parser
             }
 
             var element = new Pair_NullableString_NullableIntElement(tokenList.LastIndex);
-            if (!SplitElement(ref result, analysisResult, element))
+            if (!SplitElementPlain(ref result, element.ElementTokenId, out var span, out var variantSpan))
             {
                 return false;
             }
+
+            element.ElementKeyRange.Length = (uint)span.Length;
+            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
+            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
+            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
 
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
@@ -45,7 +49,7 @@ public static partial class Parser
                 return false;
             }
 
-            ref var destination = ref Specific_Attribute_GetOrAddPair(ref result, ref element.ElementKeyRange, node).EnsureGet(element.ElementScenarioId);
+            ref var destination = ref Specific_Attribute_GetOrAddPair(ref result, span, node).EnsureGet(element.ElementScenarioId);
             if (destination is not null)
             {
                 if (context.CreateError(DiagnosticSeverity.Warning))
@@ -60,16 +64,15 @@ public static partial class Parser
         } while (true);
     }
 
-    private static ref VariantPair<Pair_NullableString_NullableIntElement> Specific_Attribute_GetOrAddPair(ref Result result, ref SingleLineRange key, AttributeNode node)
+    private static ref VariantPair<Pair_NullableString_NullableIntElement> Specific_Attribute_GetOrAddPair(ref Result result, Span<char> span, AttributeNode node)
     {
-        if (key.IsEmpty)
+        if (span.IsEmpty)
         {
             return ref Unsafe.NullRef<VariantPair<Pair_NullableString_NullableIntElement>>();
         }
 
-        var span = result.Source[key.Line].AsSpan(key.Offset, key.Length);
         var sliced = span.Slice(1);
-        switch (key.Length)
+        switch (span.Length)
         {
             case 3:
                 switch (span[0])

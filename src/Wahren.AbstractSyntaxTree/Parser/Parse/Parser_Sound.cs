@@ -11,7 +11,6 @@ public static partial class Parser
             return false;
         }
 
-        ref var source = ref result.Source;
         var node = result.SoundNode = new SoundNode();
         node.Kind = tokenList.LastIndex;
         do
@@ -29,11 +28,12 @@ public static partial class Parser
             }
 
             var element = new Pair_NullableString_NullableIntElement(tokenList.LastIndex);
-            if (!result.SplitElement(analysisResult, element))
+            if (!result.SplitElementPlain(element.ElementTokenId, out var span, out var variantSpan))
             {
                 return false;
             }
 
+            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
             if (element.ElementScenarioId != uint.MaxValue)
             {
                 result.ErrorAdd("'@scenario' is not allowed in structure sound.", element.ElementTokenId);
@@ -50,8 +50,7 @@ public static partial class Parser
                 return false;
             }
 
-            var elementSpan = source[element.ElementKeyRange.Line].AsSpan(element.ElementKeyRange.Offset, element.ElementKeyRange.Length);
-            if (!node.Others.TryAdd(elementSpan, element))
+            if (!node.Others.TryAdd(span, element))
             {
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
