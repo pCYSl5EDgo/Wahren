@@ -16,14 +16,6 @@ namespace Wahren.Compiler;
 
 public partial class Program
 {
-    public async ValueTask<int> Run()
-    {
-        var result = await Analyze(".", false, PseudoDiagnosticSeverity.Error, true);
-        Console.WriteLine("Press Enter Key...");
-        Console.ReadLine();
-        return result;
-    }
-
     [Command(new string[] {
         "analyze",
     })]
@@ -37,7 +29,7 @@ public partial class Program
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
-        CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
+        using CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
         Console.CancelKeyPress += new((object? _, ConsoleCancelEventArgs args) =>
         {
             cancellationTokenSource?.Cancel();

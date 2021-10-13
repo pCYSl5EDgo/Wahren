@@ -8,7 +8,17 @@ public partial class Program : ConsoleAppBase
 {
     public static async Task Main(string[] args)
     {
-        await Host.CreateDefaultBuilder().RunConsoleAppFrameworkAsync<Program>(args);
+        await Host.CreateDefaultBuilder().RunConsoleAppFrameworkAsync<Program>(args).ConfigureAwait(false);
+    }
+
+
+    public async ValueTask<int> Run()
+    {
+        var task = Analyze(".", false, PseudoDiagnosticSeverity.Error, true);
+        var result = await task.ConfigureAwait(false);
+        Console.WriteLine("Press Enter Key...");
+        Console.ReadLine();
+        return result;
     }
 
     [Command(new string[] {
