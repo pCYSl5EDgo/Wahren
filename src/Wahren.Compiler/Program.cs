@@ -24,6 +24,7 @@ public partial class Program : ConsoleAppBase
         {
         }
         var result = await task.ConfigureAwait(false);
+
         Console.WriteLine("Press Enter Key...");
         Console.ReadLine();
         return result;
@@ -32,7 +33,7 @@ public partial class Program : ConsoleAppBase
     private static async ValueTask CheckUpdateAsync()
     {
         var processPath = Environment.ProcessPath;
-        if (processPath is null)
+        if (processPath is null || processPath.Contains("Wahren.new"))
         {
             return;
         }
@@ -75,13 +76,19 @@ public partial class Program : ConsoleAppBase
             if (asset.name == fileName)
             {
                 await LoadNewFileAsync(processPath, client, asset, cancellationTokenSource.Token).ConfigureAwait(false);
-                break;
             }
         }
     }
 
     private static async ValueTask LoadNewFileAsync(string processPath, HttpClient client, GitHubLatestReleaseResponseAsset asset, CancellationToken token)
     {
+        const string batFileName = "WahrenUpdatePatch.bat";
+        var dirName = Path.GetDirectoryName(processPath);
+        if (dirName is null)
+        {
+            return;
+        }
+
         using var getMessage = new HttpRequestMessage(HttpMethod.Get, asset.url);
         getMessage.Headers.Accept.Add(new("application/octet-stream"));
         getMessage.Headers.UserAgent.Add(new("Wahren", null));
@@ -92,8 +99,20 @@ public partial class Program : ConsoleAppBase
         }
 
         var contents = await responseMessage.Content.ReadAsByteArrayAsync(token).ConfigureAwait(false);
-        File.WriteAllBytes(processPath, contents);
-        Console.WriteLine($"Update: {processPath}");
+        var newPath = Path.Combine(dirName, "Wahren.new.exe");
+        File.WriteAllBytes(newPath, contents);
+        Console.WriteLine($"Update Exists: {newPath}");
+        var builder = new StringBuilder();
+        builder.AppendLine("timeout /t 5 /nobreak > nul");
+        builder.Append("del ").Append(processPath).AppendLine(" > nul");
+        builder.AppendLine($"del \"{batFileName}\" > nul");
+        builder.AppendLine("exit");
+        File.WriteAllText(Path.Combine(dirName, batFileName), builder.ToString());
+        using Process process = new();
+        process.StartInfo.FileName = batFileName;
+        process.StartInfo.CreateNoWindow = true;
+        process.Start();
+        process.Close();
     }
 }
 
