@@ -10,7 +10,7 @@ public partial class Program
             return (false, File.Exists(Path.Combine(scriptFolderPath, "english.txt")));
         }
 
-        using var handle = File.OpenHandle(unicode, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
+        using var handle = File.OpenHandle(unicode, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous);
         var length = RandomAccess.GetLength(handle);
         if (length == 0)
         {
@@ -55,7 +55,7 @@ public partial class Program
         var path_debug_paper_txt = Path.Combine(rootFolder, "debug_paper.txt");
         if (File.Exists(path_debug_paper_txt))
         {
-            using var handle = File.OpenHandle(path_debug_paper_txt, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
+            using var handle = File.OpenHandle(path_debug_paper_txt, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous);
             var count = RandomAccess.GetLength(handle);
             if (count > int.MaxValue)
             {
@@ -82,7 +82,7 @@ public partial class Program
         var path_a_system_debug_paper_txt = Path.Combine(rootFolder, "a_system", "debug_paper.txt");
         if (File.Exists(path_a_system_debug_paper_txt))
         {
-            using var handle = File.OpenHandle(path_a_system_debug_paper_txt, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
+            using var handle = File.OpenHandle(path_a_system_debug_paper_txt, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous);
             var count = RandomAccess.GetLength(handle);
             if (count > int.MaxValue)
             {

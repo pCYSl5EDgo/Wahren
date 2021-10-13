@@ -1,6 +1,7 @@
 ﻿global using ConsoleAppFramework;
 global using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 
 namespace Wahren.Compiler;
 
@@ -15,45 +16,96 @@ public partial class Program : ConsoleAppBase
     public async ValueTask<int> Run()
     {
         var task = Analyze(".", false, PseudoDiagnosticSeverity.Error, true);
+        try
+        {
+            await CheckUpdateAsync().ConfigureAwait(false);
+        }
+        catch
+        {
+        }
         var result = await task.ConfigureAwait(false);
         Console.WriteLine("Press Enter Key...");
         Console.ReadLine();
         return result;
     }
 
-    [Command(new string[] {
-        "help",
-    })]
-    public void Help()
+    private static async ValueTask CheckUpdateAsync()
     {
-        Console.WriteLine("Use --help instead.\n\n");
-        Console.WriteLine(@"Copyright 2017-2021 pCYSl5EDgo
+        var processPath = Environment.ProcessPath;
+        if (processPath is null)
+        {
+            return;
+        }
+        
+        var version = typeof(Program).Assembly.GetName().Version;
+        if (version is null)
+        {
+            return;
+        }
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
-        Console.WriteLine("\n\n==== Dependency Licenses ====\n\n");
-        Console.WriteLine(@"= CySharp/ConsoleAppFramework =
-MIT License
+        using CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
+        Console.CancelKeyPress += new((object? _, ConsoleCancelEventArgs args) =>
+        {
+            cancellationTokenSource?.Cancel();
+            args.Cancel = true;
+        });
 
-Copyright (c) 2020 Cysharp, Inc.
+        using var client = new HttpClient();
+        using var getMessage = new HttpRequestMessage(HttpMethod.Get, "https://api.github.com/repos/pCYSl5EDgo/Wahren/releases/latest");
+        getMessage.Headers.Accept.Add(new("application/vnd.github.v3+json"));
+        getMessage.Headers.UserAgent.Add(new("Wahren", null));
+        using var responseMessage = await client.SendAsync(getMessage, cancellationTokenSource.Token).ConfigureAwait(false);
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            return;
+        }
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the ""Software""), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+        var currentTag = $"v{version.Major}.{version.Minor}.{version.Build}";
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+        using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+        var latestResponse = await System.Text.Json.JsonSerializer.DeserializeAsync<GitHubLatestReleaseResponse>(stream, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
+        if (latestResponse is null || latestResponse.tag_name == currentTag)
+        {
+            return;
+        }
 
-THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.");
+        var fileName = Path.GetFileName(processPath);
+        foreach (var asset in latestResponse.assets)
+        {
+            if (asset.name == fileName)
+            {
+                await LoadNewFileAsync(processPath, client, asset, cancellationTokenSource.Token).ConfigureAwait(false);
+                break;
+            }
+        }
     }
+
+    private static async ValueTask LoadNewFileAsync(string processPath, HttpClient client, GitHubLatestReleaseResponseAsset asset, CancellationToken token)
+    {
+        using var getMessage = new HttpRequestMessage(HttpMethod.Get, asset.url);
+        getMessage.Headers.Accept.Add(new("application/octet-stream"));
+        getMessage.Headers.UserAgent.Add(new("Wahren", null));
+        using var responseMessage = await client.SendAsync(getMessage, token).ConfigureAwait(false);
+        if ((int)responseMessage.StatusCode != 200)
+        {
+            return;
+        }
+
+        var contents = await responseMessage.Content.ReadAsByteArrayAsync(token).ConfigureAwait(false);
+        File.WriteAllBytes(processPath, contents);
+        Console.WriteLine($"Update: {processPath}");
+    }
+}
+
+internal class GitHubLatestReleaseResponse
+{
+    public string tag_name { get; set; } = "";
+    public GitHubLatestReleaseResponseAsset[] assets { get; set; } = Array.Empty<GitHubLatestReleaseResponseAsset>();
+}
+
+internal class GitHubLatestReleaseResponseAsset
+{
+    public string name { get; set; } = "";
+    public string url { get; set; } = "";
+    public int size { get; set; }
 }
