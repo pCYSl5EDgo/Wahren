@@ -10,7 +10,6 @@ public sealed class ContextNode : INode
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
 
-    public StringSpanKeyDictionary<Pair_NullableString_NullableInt_ArrayElement> Others = new();
     public Pair_NullableString_NullableInt_ArrayElement? _war;
     public Pair_NullableString_NullableInt_ArrayElement? camp;
     public Pair_NullableString_NullableInt_ArrayElement? _help;
@@ -338,7 +337,6 @@ public sealed class ContextNode : INode
     public Pair_NullableString_NullableInt_ArrayElement? unit_castle_forcefire;
     public void Dispose()
     {
-        Others.Dispose();
         _war?.Dispose();
         _war = null;
         camp?.Dispose();
@@ -991,7 +989,7 @@ public sealed class ContextNode : INode
         unit_castle_forcefire = null;
     }
 
-    public ref Pair_NullableString_NullableInt_ArrayElement? TryGet(ReadOnlySpan<char> key, out bool success)
+    public ref Pair_NullableString_NullableInt_ArrayElement? TryGet(ReadOnlySpan<char> key)
     {
         if (key.Length < 4)
         {
@@ -1005,10 +1003,8 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x00000000001C7FC1UL:
-                        success = true;
                         return ref _war;
                     case 0x0000000000097F1DUL:
-                        success = true;
                         return ref camp;
                 }
                 break;
@@ -1016,31 +1012,22 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x000000000412F391UL:
-                        success = true;
                         return ref _help;
                     case 0x0000000004163EDCUL:
-                        success = true;
                         return ref _load;
                     case 0x000000000416D131UL:
-                        success = true;
                         return ref _menu;
                     case 0x0000000004178175UL:
-                        success = true;
                         return ref _name;
                     case 0x00000000041B6013UL:
-                        success = true;
                         return ref _save;
                     case 0x00000000041BAF56UL:
-                        success = true;
                         return ref _spot;
                     case 0x00000000041C6FD2UL:
-                        success = true;
                         return ref _tool;
                     case 0x00000000041E76E7UL:
-                        success = true;
                         return ref _war2;
                     case 0x00000000014B5162UL:
-                        success = true;
                         return ref bloom;
                 }
                 break;
@@ -1048,55 +1035,38 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x0000000096361214UL:
-                        success = true;
                         return ref _corps;
                     case 0x00000000964DFC8DUL:
-                        success = true;
                         return ref _diplo;
                     case 0x0000000096BD33F7UL:
-                        success = true;
                         return ref _help2;
                     case 0x00000000973715CEUL:
-                        success = true;
                         return ref _load2;
                     case 0x00000000974C3C17UL:
-                        success = true;
                         return ref _menu2;
                     case 0x00000000974C4EEDUL:
-                        success = true;
                         return ref _merce;
                     case 0x000000009765B5EBUL:
-                        success = true;
                         return ref _name2;
                     case 0x0000000097F4E2C1UL:
-                        success = true;
                         return ref _save2;
                     case 0x0000000098005770UL:
-                        success = true;
                         return ref _spot2;
                     case 0x00000000981C295CUL:
-                        success = true;
                         return ref _tool2;
                     case 0x0000000037D4068DUL:
-                        success = true;
                         return ref discus;
                     case 0x0000000040C04B28UL:
-                        success = true;
                         return ref font10;
                     case 0x0000000040C04B2AUL:
-                        success = true;
                         return ref font12;
                     case 0x0000000040C04B2CUL:
-                        success = true;
                         return ref font14;
                     case 0x0000000040C04B2EUL:
-                        success = true;
                         return ref font16;
                     case 0x0000000040C04B4DUL:
-                        success = true;
                         return ref font20;
                     case 0x000000005C8FE96EUL:
-                        success = true;
                         return ref member;
                 }
                 break;
@@ -1104,28 +1074,20 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x00000015B01FC50AUL:
-                        success = true;
                         return ref _battle;
                     case 0x00000015B5D09CE6UL:
-                        success = true;
                         return ref _corps2;
                     case 0x00000015B8D5F875UL:
-                        success = true;
                         return ref _detail;
                     case 0x00000015B939E87EUL:
-                        success = true;
                         return ref _dialog;
                     case 0x00000015B9458063UL:
-                        success = true;
                         return ref _diplo2;
                     case 0x00000015DE076843UL:
-                        success = true;
                         return ref _merce2;
                     case 0x00000015F80CA332UL:
-                        success = true;
                         return ref _spot22;
                     case 0x00000015F8743906UL:
-                        success = true;
                         return ref _status;
                 }
                 break;
@@ -1133,67 +1095,46 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x0000032274977A74UL:
-                        success = true;
                         return ref _battle2;
                     case 0x00000322BEEEDB39UL:
-                        success = true;
                         return ref _bstatus;
                     case 0x000003234695173BUL:
-                        success = true;
                         return ref _commenu;
                     case 0x00000323B6ECE8EBUL:
-                        success = true;
                         return ref _detail2;
                     case 0x00000323C55E9A38UL:
-                        success = true;
                         return ref _dialog2;
                     case 0x00000329173AF520UL:
-                        success = true;
                         return ref _message;
                     case 0x0000032CE8CC3DE0UL:
-                        success = true;
                         return ref _status2;
                     case 0x00000104CFFCEB0AUL:
-                        success = true;
                         return ref btl_auto;
                     case 0x00000167EC769431UL:
-                        success = true;
                         return ref gain_per;
                     case 0x000001DF0E02DEB1UL:
-                        success = true;
                         return ref loyal_up;
                     case 0x000001ECCA2E2BEDUL:
-                        success = true;
                         return ref max_unit;
                     case 0x000001FB2BD0B92EUL:
-                        success = true;
                         return ref my_range;
                     case 0x0000020BAD04C474UL:
-                        success = true;
                         return ref npm_play;
                     case 0x0000023742B809ABUL:
-                        success = true;
                         return ref politics;
                     case 0x0000025B0D88AF53UL:
-                        success = true;
                         return ref raid_bdr;
                     case 0x0000025B0D88B636UL:
-                        success = true;
                         return ref raid_coe;
                     case 0x0000025B0D88E9BDUL:
-                        success = true;
                         return ref raid_max;
                     case 0x0000025B0D88EADBUL:
-                        success = true;
                         return ref raid_min;
                     case 0x0000025FE9F85C3EUL:
-                        success = true;
                         return ref ring_red;
                     case 0x000002919D58EDFAUL:
-                        success = true;
                         return ref trust_up;
                     case 0x000002CE700BF0C4UL:
-                        success = true;
                         return ref win_gain;
                 }
                 break;
@@ -1201,70 +1142,48 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x000074059885AF3FUL:
-                        success = true;
                         return ref _bstatus2;
                     case 0x00007419338C5B89UL:
-                        success = true;
                         return ref _commenu2;
                     case 0x00007481D312BADBUL:
-                        success = true;
                         return ref _heromenu;
                     case 0x000074F05B856DA2UL:
-                        success = true;
                         return ref _message2;
                     case 0x000075738D866180UL:
-                        success = true;
                         return ref _scenario;
                     case 0x0000210D16BE1074UL:
-                        success = true;
                         return ref actor_per;
                     case 0x000025B210BF1E41UL:
-                        success = true;
                         return ref btl_limit;
                     case 0x000028752C0F172EUL:
-                        success = true;
                         return ref color_red;
                     case 0x0000320BE3CB61B2UL:
-                        success = true;
                         return ref font_face;
                     case 0x0000320BE3CB8DC7UL:
-                        success = true;
                         return ref font_file;
                     case 0x0000320BE3D64C44UL:
-                        success = true;
                         return ref font_text;
                     case 0x000032AE2DC6EE9AUL:
-                        success = true;
                         return ref fv_hp_per;
                     case 0x000032AE427174C3UL:
-                        success = true;
                         return ref fv_mp_per;
                     case 0x000048625D21C80BUL:
-                        success = true;
                         return ref mode_easy;
                     case 0x000048625D241968UL:
-                        success = true;
                         return ref mode_hard;
                     case 0x000048625D279B39UL:
-                        success = true;
                         return ref mode_luna;
                     case 0x00004A6705963C2BUL:
-                        success = true;
                         return ref narabijun;
                     case 0x000057DCD0D91F18UL:
-                        success = true;
                         return ref ring_blue;
                     case 0x000057DCD0DA279FUL:
-                        success = true;
                         return ref ring_cyan;
                     case 0x00005E4418E30620UL:
-                        success = true;
                         return ref title_bgm;
                     case 0x0000683EBBB3852FUL:
-                        success = true;
                         return ref wnd_alpha;
                     case 0x0000685CF578D28EUL:
-                        success = true;
                         return ref world_bgm;
                 }
                 break;
@@ -1272,97 +1191,66 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x0010D6C381B501A9UL:
-                        success = true;
                         return ref _heromenu2;
                     case 0x0010F131DE1EE4E2UL:
-                        success = true;
                         return ref _powerinfo;
                     case 0x0010F9B3746C1782UL:
-                        success = true;
                         return ref _scenario2;
                     case 0x000536B69E0C02B3UL:
-                        success = true;
                         return ref battle_bgm;
                     case 0x0005494B1ED50257UL:
-                        success = true;
                         return ref bgm_volume;
                     case 0x000572BC5A9B57ECUL:
-                        success = true;
                         return ref btl_healer;
                     case 0x0005AD0A8DEFC5B9UL:
-                        success = true;
                         return ref cavalry_ai;
                     case 0x0005D8EF5E2223C8UL:
-                        success = true;
                         return ref color_blue;
                     case 0x0005D8EF5E232C4FUL:
-                        success = true;
                         return ref color_cyan;
                     case 0x0005D8EF5E2B2E29UL:
-                        success = true;
                         return ref color_name;
                     case 0x0005D8EF5E2FE861UL:
-                        success = true;
                         return ref color_text;
                     case 0x000622769DBB114EUL:
-                        success = true;
                         return ref damage_max;
                     case 0x000622769DBB126CUL:
-                        success = true;
                         return ref damage_min;
                     case 0x00063C4E23450A79UL:
-                        success = true;
                         return ref diplo_down;
                     case 0x00073BB7EDFC06CAUL:
-                        success = true;
                         return ref font_title;
                     case 0x00073C05D58D6262UL:
-                        success = true;
                         return ref force_fire;
                     case 0x0007447D7AA41397UL:
-                        success = true;
                         return ref free_raise;
                     case 0x000A01D1ED4BBC3AUL:
-                        success = true;
                         return ref loyal_down;
                     case 0x000C632A52F23E3EUL:
-                        success = true;
                         return ref quota_view;
                     case 0x000C98675BB1D9B4UL:
-                        success = true;
                         return ref race_label;
                     case 0x000CB2EA2F44CB43UL:
-                        success = true;
                         return ref ring_alpha;
                     case 0x000CB2EA2FF4C8E2UL:
-                        success = true;
                         return ref ring_green;
                     case 0x000CC4F94E76DD07UL:
-                        success = true;
                         return ref roam_avoid;
                     case 0x000D1C5704722E6DUL:
-                        success = true;
                         return ref senior_bdr;
                     case 0x000D3F97D23EA689UL:
-                        success = true;
                         return ref spot_fire1;
                     case 0x000D3F97D23EA68AUL:
-                        success = true;
                         return ref spot_fire2;
                     case 0x000D3F97D39A8746UL:
-                        success = true;
                         return ref spot_route;
                     case 0x000D9FD798D908F4UL:
-                        success = true;
                         return ref title_name;
                     case 0x000F1111261914D6UL:
-                        success = true;
                         return ref wnd_button;
                     case 0x000F219A60B473C1UL:
-                        success = true;
                         return ref wskin_cell;
                     case 0x001077AC78A14F1FUL:
-                        success = true;
                         return ref zone_alpha;
                 }
                 break;
@@ -1370,109 +1258,74 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x0272BBDCC6D02A15UL:
-                        success = true;
                         return ref _personinfo;
                     case 0x0272DC351A7714ACUL:
-                        success = true;
                         return ref _powerinfo2;
                     case 0x00B771999AEDD6C4UL:
-                        success = true;
                         return ref arbeit_gain;
                     case 0x00B771999AF84F3EUL:
-                        success = true;
                         return ref arbeit_turn;
                     case 0x00C0E864D7BF5C38UL:
-                        success = true;
                         return ref battle_fast;
                     case 0x00C9953647612A80UL:
-                        success = true;
                         return ref btl_counter;
                     case 0x00C9953B8E08CED9UL:
-                        success = true;
                         return ref btl_limit_c;
                     case 0x00C9953C27131F6FUL:
-                        success = true;
                         return ref btl_minimap;
                     case 0x00C9953C4FA869F6UL:
-                        success = true;
                         return ref btl_msgtime;
                     case 0x00C9953FC934304CUL:
-                        success = true;
                         return ref btl_slowper;
                     case 0x00C9953FE8AD746DUL:
-                        success = true;
                         return ref btl_standby;
                     case 0x00C9954102A62FB2UL:
-                        success = true;
                         return ref btl_unitmax;
                     case 0x00C99542205C5B97UL:
-                        success = true;
                         return ref btl_wingmax;
                     case 0x00D85A989B827652UL:
-                        success = true;
                         return ref color_green;
                     case 0x00D85A989D446246UL:
-                        success = true;
                         return ref color_white;
                     case 0x00D85DD641807312UL:
-                        success = true;
                         return ref compati_bad;
                     case 0x00E2FB24CC098048UL:
-                        success = true;
                         return ref damage_max2;
                     case 0x00E2FB24CC09A99EUL:
-                        success = true;
                         return ref damage_min2;
                     case 0x010BA19522D8AFF4UL:
-                        success = true;
                         return ref font_detail;
                     case 0x010F05E0A1F765EBUL:
-                        success = true;
                         return ref fv_move_per;
                     case 0x0141135F2B2CEE4DUL:
-                        success = true;
                         return ref item_window;
                     case 0x0183160430690CFCUL:
-                        success = true;
                         return ref mode_normal;
                     case 0x018FC4FC014B33D3UL:
-                        success = true;
                         return ref neutral_max;
                     case 0x018FC4FC014B34F1UL:
-                        success = true;
                         return ref neutral_min;
                     case 0x01B692D6D9A99993UL:
-                        success = true;
                         return ref power_order;
                     case 0x01D206F05FE2422AUL:
-                        success = true;
                         return ref race_suffix;
                     case 0x01D5DBD90F6EF70AUL:
-                        success = true;
                         return ref ring_orange;
                     case 0x01D5DBD913F40BCAUL:
-                        success = true;
                         return ref ring_purple;
                     case 0x01D5DBD93758B626UL:
-                        success = true;
                         return ref ring_yellow;
                     case 0x01E51893A481B6B3UL:
-                        success = true;
                         return ref senior_cost;
                     case 0x01E9CD572AB94D48UL:
-                        success = true;
                         return ref sound_count;
                     case 0x01F44E6C8838B52BUL:
-                        success = true;
                         return ref talent_mode;
                     case 0x01F81A29160BC670UL:
-                        success = true;
                         return ref title_bgm_s;
                     case 0x020B5C2433D9FD9FUL:
-                        success = true;
                         return ref unit_vanish;
                     case 0x02614BEDB4506742UL:
-                        success = true;
                         return ref zone_radius;
                 }
                 break;
@@ -1480,100 +1333,68 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x5A9526E8BC16150BUL:
-                        success = true;
                         return ref _personinfo2;
                     case 0x5A99D3ACFB8E17F8UL:
-                        success = true;
                         return ref _powerselect;
                     case 0x1D2291B5119A3C5CUL:
-                        success = true;
                         return ref btl_mode_coe;
                     case 0x1D22921B4CF9F0DAUL:
-                        success = true;
                         return ref btl_raidback;
                     case 0x1D229233DC2A00A4UL:
-                        success = true;
                         return ref btl_semiauto;
                     case 0x1F45180E9AE9083AUL:
-                        success = true;
                         return ref color_orange;
                     case 0x1F45180EC2D2C756UL:
-                        success = true;
                         return ref color_yellow;
                     case 0x210D22C97A3455DAUL:
-                        success = true;
                         return ref dead_penalty;
                     case 0x21587DDAA4C09C1BUL:
-                        success = true;
                         return ref diplo_frd_up;
                     case 0x21587DDADADB0A1BUL:
-                        success = true;
                         return ref diplo_sup_up;
                     case 0x2414EA835CB0BAF6UL:
-                        success = true;
                         return ref employ_range;
                     case 0x26AE5A8CC6111AF1UL:
-                        success = true;
                         return ref font_balloon;
                     case 0x26B001E33B46CFD1UL:
-                        success = true;
                         return ref foreign_test;
                     case 0x272BC9920C52B96FUL:
-                        success = true;
                         return ref fv_hprec_per;
                     case 0x272BD5688F378901UL:
-                        success = true;
                         return ref fv_level_per;
                     case 0x272BECAE3958B7D6UL:
-                        success = true;
                         return ref fv_speed_per;
                     case 0x34CE137DC1C1F69BUL:
-                        success = true;
                         return ref leave_period;
                     case 0x3583BB9DF1B94BD6UL:
-                        success = true;
                         return ref loyal_border;
                     case 0x374DDBC3D0204922UL:
-                        success = true;
                         return ref merits_bonus;
                     case 0x37FA7CF785A6700AUL:
-                        success = true;
                         return ref movement_num;
                     case 0x389EDBEF16230D03UL:
-                        success = true;
                         return ref myhelp_range;
                     case 0x3EF3ACED2648544FUL:
-                        success = true;
                         return ref picture_fade;
                     case 0x4237D1BDA4E2A7CAUL:
-                        success = true;
                         return ref quarter_view;
                     case 0x4680C7FA7A9DBD2DUL:
-                        success = true;
                         return ref skill_offset;
                     case 0x46CAAD997B4958ECUL:
-                        success = true;
                         return ref sound_volume;
                     case 0x472EE6363A04BEBBUL:
-                        success = true;
                         return ref support_gain;
                     case 0x48DBC7F08341A799UL:
-                        success = true;
                         return ref title_volume;
                     case 0x4976163BD4441FA1UL:
-                        success = true;
                         return ref trust_morale;
                     case 0x4BA419D8C1B22332UL:
-                        success = true;
                         return ref unicode_test;
                     case 0x4BA4513B2F05DEBEUL:
-                        success = true;
                         return ref unit_use_coe;
                     case 0x4FBAA5928BD7F723UL:
-                        success = true;
                         return ref war_capacity;
                     case 0x50A9A12636E3C88FUL:
-                        success = true;
                         return ref world_volume;
                 }
                 break;
@@ -1581,106 +1402,72 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x5A9526E8BD2D385EUL when key[StringHashUtility.HashLengthMax] == 't':
-                        success = true;
                         return ref _personselect;
                     case 0x5A99D3ACFB8E17F8UL when key[StringHashUtility.HashLengthMax] == '2':
-                        success = true;
                         return ref _powerselect2;
                     case 0x5AC750A9960A48BCUL when key[StringHashUtility.HashLengthMax] == 't':
-                        success = true;
                         return ref _scenariotext;
                     case 0x1A836B336569C229UL when key[StringHashUtility.HashLengthMax] == 'r':
-                        success = true;
                         return ref arbeit_player;
                     case 0x1D9D3D21A41A08B2UL when key[StringHashUtility.HashLengthMax] == 't':
-                        success = true;
                         return ref b_sound_count;
                     case 0x1BE19693307C900AUL when key[StringHashUtility.HashLengthMax] == 'e':
-                        success = true;
                         return ref battle_volume;
                     case 0x1CCCDE8A6E522FCBUL when key[StringHashUtility.HashLengthMax] == 'h':
-                        success = true;
                         return ref bold_spotpath;
                     case 0x1D22915C51411E83UL when key[StringHashUtility.HashLengthMax] == 't':
-                        success = true;
                         return ref btl_intercept;
                     case 0x1D22919B8AF471E3UL when key[StringHashUtility.HashLengthMax] == 't':
-                        success = true;
                         return ref btl_lineshift;
                     case 0x1D2291B1A5C38B2FUL when key[StringHashUtility.HashLengthMax] == 'w':
-                        success = true;
                         return ref btl_minimap_w;
                     case 0x1F45180E6C0C8709UL when key[StringHashUtility.HashLengthMax] == '1':
-                        success = true;
                         return ref color_detail1;
                     case 0x1F45180E6C0C8709UL when key[StringHashUtility.HashLengthMax] == '2':
-                        success = true;
                         return ref color_detail2;
                     case 0x1F45180E6C0C8709UL when key[StringHashUtility.HashLengthMax] == '3':
-                        success = true;
                         return ref color_detail3;
                     case 0x1F45180E90C31EAEUL when key[StringHashUtility.HashLengthMax] == 'a':
-                        success = true;
                         return ref color_magenta;
                     case 0x20CE4C517C4C3179UL when key[StringHashUtility.HashLengthMax] == 'i':
-                        success = true;
                         return ref damage_consti;
                     case 0x24A99D949BFBB13BUL when key[StringHashUtility.HashLengthMax] == 'e':
-                        success = true;
                         return ref event_bg_size;
                     case 0x24CBA5464C30FE33UL when key[StringHashUtility.HashLengthMax] == 'r':
-                        success = true;
                         return ref executive_bdr;
                     case 0x25B9EB17735E4C61UL when key[StringHashUtility.HashLengthMax] == 'y':
-                        success = true;
                         return ref face_colorkey;
                     case 0x26AE5A9569ACF7C6UL when key[StringHashUtility.HashLengthMax] == 'e':
-                        success = true;
                         return ref font_prologue;
                     case 0x272BB38EE67E5E47UL when key[StringHashUtility.HashLengthMax] == 'r':
-                        success = true;
                         return ref fv_attack_per;
                     case 0x272BB980B97C4CF4UL when key[StringHashUtility.HashLengthMax] == 'l':
-                        success = true;
                         return ref fv_consti_mul;
                     case 0x272BED21A6F0C827UL when key[StringHashUtility.HashLengthMax] == 'l':
-                        success = true;
                         return ref fv_summon_mul;
                     case 0x2E67CCBEC90BBEE6UL when key[StringHashUtility.HashLengthMax] == 'r':
-                        success = true;
                         return ref item_sell_per;
                     case 0x39C857D5CD954FF9UL when key[StringHashUtility.HashLengthMax] == 'g':
-                        success = true;
                         return ref newpower_flag;
                     case 0x3A719AD669AF6D5EUL when key[StringHashUtility.HashLengthMax] == 'n':
-                        success = true;
                         return ref notalent_down;
                     case 0x3EF3ACED264890C3UL when key[StringHashUtility.HashLengthMax] == 'r':
-                        success = true;
                         return ref picture_floor;
                     case 0x3EF3ACED265380E8UL when key[StringHashUtility.HashLengthMax] == 's':
-                        success = true;
                         return ref picture_trans;
                     case 0x4680C7EF89526694UL when key[StringHashUtility.HashLengthMax] == 'd':
-                        success = true;
                         return ref skillicon_add;
                     case 0x4680C7EF8952669CUL when key[StringHashUtility.HashLengthMax] == 'l':
-                        success = true;
                         return ref skillicon_all;
                     case 0x46D912E164F20DD2UL when key[StringHashUtility.HashLengthMax] == 'y':
-                        success = true;
                         return ref spot_capacity;
                     case 0x472EE6363A0D3FECUL when key[StringHashUtility.HashLengthMax] == 'e':
-                        success = true;
                         return ref support_range;
                     case 0x4BA45139BC6B2835UL when key[StringHashUtility.HashLengthMax] == 'm':
-                        success = true;
                         return ref unit_scream_m;
                     case 0x4BA45139BC6B2835UL when key[StringHashUtility.HashLengthMax] == 'n':
-                        success = true;
                         return ref unit_scream_n;
                     case 0x4BA45139E156C3CCUL when key[StringHashUtility.HashLengthMax] == 'r':
-                        success = true;
                         return ref unit_slow_per;
                 }
                 break;
@@ -1688,106 +1475,72 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x5A9526E8BD2D385EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("t2"):
-                        success = true;
                         return ref _personselect2;
                     case 0x5AC750A9960A48BCUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("t2"):
-                        success = true;
                         return ref _scenariotext2;
                     case 0x1D9D3D21A428B6D3UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("me"):
-                        success = true;
                         return ref b_sound_volume;
                     case 0x1CCCDE8A6E521A55UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("el"):
-                        success = true;
                         return ref bold_spotlabel;
                     case 0x1D2290AF134AAB09UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("de"):
-                        success = true;
                         return ref btl_attackmode;
                     case 0x1D2290B9D62AA7BDUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("de"):
-                        success = true;
                         return ref btl_battlemode;
                     case 0x1D2290CFEC6A0BF8UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ot"):
-                        success = true;
                         return ref btl_castle_lot;
                     case 0x1D2290D3D0483D47UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("de"):
-                        success = true;
                         return ref btl_chargemode;
                     case 0x1D2291B1A7BF56D3UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ge"):
-                        success = true;
                         return ref btl_min_damage;
                     case 0x1E5A23AC1E33ADF6UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("st"):
-                        success = true;
                         return ref caution_adjust;
                     case 0x1F45180E94E9DBC4UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("lp"):
-                        success = true;
                         return ref color_namehelp;
                     case 0x1F45180E9F15EB9DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ue"):
-                        success = true;
                         return ref color_prologue;
                     case 0x210F67ACA811C6DCUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ng"):
-                        success = true;
                         return ref default_ending;
                     case 0x21587DDA980FF42BUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er"):
-                        success = true;
                         return ref diplo_cost_per;
                     case 0x21587DDAA4C099A5UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("wn"):
-                        success = true;
                         return ref diplo_frd_down;
                     case 0x21587DDAC159184CUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("tv"):
-                        success = true;
                         return ref diplo_mode_itv;
                     case 0x24CBA5464C30FE63UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("st"):
-                        success = true;
                         return ref executive_cost;
                     case 0x26AE5A972C388263UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("el"):
-                        success = true;
                         return ref font_spotlabel;
                     case 0x26AE5A9798B0EF56UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ze"):
-                        success = true;
                         return ref font_text_size;
                     case 0x2713D2C22179C454UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ak"):
-                        success = true;
                         return ref fullbody_speak;
                     case 0x37F22E95651AED42UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("xt"):
-                        success = true;
                         return ref mode_easy_text;
                     case 0x37F22E972FB7BB8BUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("xt"):
-                        success = true;
                         return ref mode_hard_text;
                     case 0x37F22E99E5A4A1F8UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("xt"):
-                        success = true;
                         return ref mode_luna_text;
                     case 0x3EF3ACED2646199DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er"):
-                        success = true;
                         return ref picture_center;
                     case 0x435DF0C843FDB663UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("dr"):
-                        success = true;
                         return ref raise_yabo_bdr;
                     case 0x4680C7EF895267CCUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("em"):
-                        success = true;
                         return ref skillicon_item;
                     case 0x4A0EDD8CC634AD1DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("me"):
-                        success = true;
                         return ref t_sound_volume;
                     case 0x4852207ED808E97DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("oe"):
-                        success = true;
                         return ref target_way_coe;
                     case 0x48DBC7F05CF24A81UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("op"):
-                        success = true;
                         return ref title_menu_top;
                     case 0x4976163BAF155330UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er"):
-                        success = true;
                         return ref trust_down_per;
                     case 0x4BA451310297C5D9UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ul"):
-                        success = true;
                         return ref unit_drain_mul;
                     case 0x4BA45134FBD59DD4UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rm"):
-                        success = true;
                         return ref unit_keep_form;
                     case 0x4BA4513596A0D8EFUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ax"):
-                        success = true;
                         return ref unit_level_max;
                     case 0x4BA4513A00D4CC1EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("hp"):
-                        success = true;
                         return ref unit_status_hp;
                 }
                 break;
@@ -1795,73 +1548,50 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x1D9D3D21A41EC6CFUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("max"):
-                        success = true;
                         return ref b_sound_itv_max;
                     case 0x1D9D3D21A41EC6CFUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("min"):
-                        success = true;
                         return ref b_sound_itv_min;
                     case 0x1CCCDE821C505B29UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ath"):
-                        success = true;
                         return ref bold_escapepath;
                     case 0x1D2290C03A3AD892UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("pha"):
-                        success = true;
                         return ref btl_blind_alpha;
                     case 0x1D2291F930D13977UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("max"):
-                        success = true;
                         return ref btl_prepare_max;
                     case 0x1D2291F930D13977UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("min"):
-                        success = true;
                         return ref btl_prepare_min;
                     case 0x1D22921DDFBB4C6FUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("coe"):
-                        success = true;
                         return ref btl_retreat_coe;
                     case 0x1F45180EAB43348DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("bel"):
-                        success = true;
                         return ref color_spotlabel;
                     case 0x21587DDAA4C09B57UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ace"):
-                        success = true;
                         return ref diplo_frd_peace;
                     case 0x21587DDABC16BC46UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_up"):
-                        success = true;
                         return ref diplo_league_up;
                     case 0x2713D2C221797295UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ail"):
-                        success = true;
                         return ref fullbody_detail;
                     case 0x4BA4512EFBEDEE6CUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("bdr"):
-                        success = true;
                         return ref unit_action_bdr;
                     case 0x4BA451319FDACC03UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("run"):
-                        success = true;
                         return ref unit_escape_run;
                     case 0x4BA45133217BABF0UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("nge"):
-                        success = true;
                         return ref unit_hand_range;
                     case 0x4BA45134FBD59D65UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("lor"):
-                        success = true;
                         return ref unit_keep_color;
                     case 0x4BA4513822448476UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("per"):
-                        success = true;
                         return ref unit_poison_per;
                     case 0x4BA45139C2D34C10UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("bdr"):
-                        success = true;
                         return ref unit_search_bdr;
                     case 0x4BA4513A00D4CC1EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("min"):
-                        success = true;
                         return ref unit_status_min;
                     case 0x4BA4513A00D4CC1EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rec"):
-                        success = true;
                         return ref unit_status_rec;
                     case 0x4BA4513A05294311UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("mit"):
-                        success = true;
                         return ref unit_suck_limit;
                     case 0x4BA4513A06488865UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("min"):
-                        success = true;
                         return ref unit_summon_min;
                     case 0x4BA4513B9E9C1C84UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("nge"):
-                        success = true;
                         return ref unit_view_range;
                     case 0x4FBB45C0742A393FUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("lay"):
-                        success = true;
                         return ref watching_replay;
                 }
                 break;
@@ -1869,85 +1599,58 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x1A836B3364600A78UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("lose"):
-                        success = true;
                         return ref arbeit_gain_lose;
                     case 0x1A836B33656E8CF1UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_coe"):
-                        success = true;
                         return ref arbeit_price_coe;
                     case 0x1D2290C3BDDD6408UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("idth"):
-                        success = true;
                         return ref btl_breast_width;
                     case 0x1D22912858710A53UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ough"):
-                        success = true;
                         return ref btl_gate_through;
                     case 0x1D2291CB27616662UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_bdr"):
-                        success = true;
                         return ref btl_nocastle_bdr;
                     case 0x1D22921DCE843C88UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("line"):
-                        success = true;
                         return ref btl_replace_line;
                     case 0x1EE1360EF6802B2FUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_per"):
-                        success = true;
                         return ref circle_alpha_per;
                     case 0x1F45180EAB43348DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("bel2"):
-                        success = true;
                         return ref color_spotlabel2;
                     case 0x21587DDA92CFDCE5UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("iend"):
-                        success = true;
                         return ref diplo_bestfriend;
                     case 0x21587DDA948D8E5AUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_per"):
-                        success = true;
                         return ref diplo_budget_per;
                     case 0x21587DDAC165007DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ower"):
-                        success = true;
                         return ref diplo_most_power;
                     case 0x2414EA835C849170UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_coe"):
-                        success = true;
                         return ref employ_price_coe;
                     case 0x3583BB9DFE8659A5UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_bdr"):
-                        success = true;
                         return ref loyal_escape_bdr;
                     case 0x37F22E9AFF2EE090UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("text"):
-                        success = true;
                         return ref mode_normal_text;
                     case 0x435DF0C81402100DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ower"):
-                        success = true;
                         return ref raise_most_power;
                     case 0x45F6498AD80D0307UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ect2"):
-                        success = true;
                         return ref scenario_select2;
                     case 0x4680C7EF895266A3UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("sist"):
-                        success = true;
                         return ref skillicon_assist;
                     case 0x4680C7EF8952682CUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ader"):
-                        success = true;
                         return ref skillicon_leader;
                     case 0x48DBC7F05CF24A7FUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ight"):
-                        success = true;
                         return ref title_menu_right;
                     case 0x48DBC7F05CF24A80UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("pace"):
-                        success = true;
                         return ref title_menu_space;
                     case 0x496CB9BCD4EC5D87UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rage"):
-                        success = true;
                         return ref training_average;
                     case 0x4BA4512F8CA008B2UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("cram"):
-                        success = true;
                         return ref unit_battle_cram;
                     case 0x4BA451302571508AUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("cram"):
-                        success = true;
                         return ref unit_castle_cram;
                     case 0x4BA45133EA90E7C7UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ight"):
-                        success = true;
                         return ref unit_image_right;
                     case 0x4BA45135221C29FFUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("peed"):
-                        success = true;
                         return ref unit_knock_speed;
                     case 0x4BA4513A0EC99448UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("lide"):
-                        success = true;
                         return ref unit_sword_slide;
                     case 0x4D42EAEF45A80A9CUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_coe"):
-                        success = true;
                         return ref vassal_price_coe;
                 }
                 break;
@@ -1955,52 +1658,36 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x1A836B3365168BA2UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_mini"):
-                        success = true;
                         return ref arbeit_money_mini;
                     case 0x1A836B33660D36B0UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("l_coe"):
-                        success = true;
                         return ref arbeit_vassal_coe;
                     case 0x1D9D3D21A4228A13UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("epeat"):
-                        success = true;
                         return ref b_sound_no_repeat;
                     case 0x21587DDADAD07B3DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("s_frd"):
-                        success = true;
                         return ref diplo_success_frd;
                     case 0x21587DDADAD07B3DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("s_leg"):
-                        success = true;
                         return ref diplo_success_leg;
                     case 0x21587DDADAD07B3DUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("s_sup"):
-                        success = true;
                         return ref diplo_success_sup;
                     case 0x4680C7EF8952693AUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ecial"):
-                        success = true;
                         return ref skillicon_special;
                     case 0x46D912E2DFC03319UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("route"):
-                        success = true;
                         return ref spot_escape_route;
                     case 0x472EE6363A04BEBBUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_lose"):
-                        success = true;
                         return ref support_gain_lose;
                     case 0x472EE6363A0F279EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("t_bdr"):
-                        success = true;
                         return ref support_trust_bdr;
                     case 0x4BA4512F422B470EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("range"):
-                        success = true;
                         return ref unit_attack_range;
                     case 0x4BA45130405BA4F4UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("slide"):
-                        success = true;
                         return ref unit_charge_slide;
                     case 0x4BA45131832E4EE1UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_heal"):
-                        success = true;
                         return ref unit_element_heal;
                     case 0x4BA451319FDACC03UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("range"):
-                        success = true;
                         return ref unit_escape_range;
                     case 0x4BA4513A00D4CC1EUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("death"):
-                        success = true;
                         return ref unit_status_death;
                     case 0x4BA4513A06488865UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("level"):
-                        success = true;
                         return ref unit_summon_level;
                 }
                 break;
@@ -2008,31 +1695,22 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x1F458FF777A01925UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("al_bdr"):
-                        success = true;
                         return ref compati_vassal_bdr;
                     case 0x21587DDAA4C09BFBUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rndown"):
-                        success = true;
                         return ref diplo_frd_turndown;
                     case 0x21587DDADADB09FBUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rndown"):
-                        success = true;
                         return ref diplo_sup_turndown;
                     case 0x39C7786C2FDE9157UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er_max"):
-                        success = true;
                         return ref neutral_member_max;
                     case 0x39C7786C2FDE9157UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er_min"):
-                        success = true;
                         return ref neutral_member_min;
                     case 0x4976163BAF155333UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("upport"):
-                        success = true;
                         return ref trust_down_support;
                     case 0x4BA45133E7B479A4UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("n_miss"):
-                        success = true;
                         return ref unit_illusion_miss;
                     case 0x4BA451363FCC1A11UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_slide"):
-                        success = true;
                         return ref unit_missile_slide;
                     case 0x4BA451392C04CED2UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_speed"):
-                        success = true;
                         return ref unit_retreat_speed;
                 }
                 break;
@@ -2040,16 +1718,12 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x4BA451305EB52B7AUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("on_miss"):
-                        success = true;
                         return ref unit_confusion_miss;
                     case 0x4BA45135A55F7BFCUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_height"):
-                        success = true;
                         return ref unit_lifebar_height;
                     case 0x4BA451392C04CED2UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_damage"):
-                        success = true;
                         return ref unit_retreat_damage;
                     case 0x4BA45139F0B15E0CUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("use_per"):
-                        success = true;
                         return ref unit_specialuse_per;
                 }
                 break;
@@ -2057,14 +1731,12 @@ public sealed class ContextNode : INode
                 switch (keyULong)
                 {
                     case 0x4BA451302571508AUL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("forcefire"):
-                        success = true;
                         return ref unit_castle_forcefire;
                 }
                 break;
         }
 
     FALSE:
-        success = false;
         return ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
     }
 }

@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseContext(ref Context context, ref Result result, AnalysisResult analysisResult)
+    private static bool ParseContext(ref Context context, ref Result result)
     {
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
@@ -27,59 +27,63 @@ public static partial class Parser
                 return true;
             }
 
-            var element = new Pair_NullableString_NullableInt_ArrayElement(tokenList.LastIndex);
-            if (!result.SplitElementPlain(element.ElementTokenId, out var elementSpan, out var variantSpan))
+            if (!result.SplitElementPlain(tokenList.LastIndex, out var elementSpan, out var variantSpan))
             {
                 return false;
             }
-
-            element.ElementKeyRange.Length = (uint)elementSpan.Length;
-            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
-            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
 
             if (!variantSpan.IsEmpty)
             {
-#if JAPANESE
-                result.ErrorAdd($"context構造体の要素'{elementSpan}'はバリエーション'@{variantSpan}'を持ってはなりません。", element.ElementTokenId);
-#else
-                result.ErrorAdd($"'@{variantSpan}' is not allowed in structure context.", element.ElementTokenId);
-#endif
+                result.ErrorAdd_NoVariation("context", tokenList.LastIndex);
                 return false;
             }
 
-            if (!ReadAssign(ref context, ref result, element.ElementTokenId))
+            var elementIndex = tokenList.LastIndex;
+
+            if (!ReadAssign(ref context, ref result, elementIndex))
             {
                 return false;
             }
 
-            if (!Parse_Element_MEMBER(ref context, ref result, element))
+            ref var elementReference = ref node.TryGet(elementSpan);
+            if (Unsafe.IsNullRef(ref elementReference))
             {
-                return false;
-            }
-
-            ref var elementReference = ref node.TryGet(elementSpan, out var validElement);
-            if (validElement)
-            {
-                if (elementReference is null)
+                result.ErrorAdd_UnexpectedElementName(kindIndex, elementIndex);
+                if (Parse_Discard_MEMBER(ref context, ref result, elementIndex))
                 {
-                    elementReference = element;
+                    continue;
                 }
-                else
+
+                return false;
+            }
+
+            if (elementReference is null)
+            {
+                elementReference = new Pair_NullableString_NullableInt_ArrayElement(elementIndex);
+                elementReference.ElementKeyRange.Length = (uint)elementSpan.Length;
+                elementReference.ElementKeyRange.Line = tokenList.GetLine(elementIndex);
+                elementReference.ElementKeyRange.Offset = tokenList.GetOffset(elementIndex);
+
+                if (Parse_Element_MEMBER(ref context, ref result, elementReference))
                 {
-                    if (context.CreateError(DiagnosticSeverity.Warning))
-                    {
-                        result.WarningAdd_MultipleAssignment(element.ElementTokenId);
-                    }
+                    continue;
                 }
+                
+                return false;
             }
             else
             {
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
-                    result.WarningAdd_UnexpectedElementName(kindIndex, element.ElementTokenId);
+                    result.WarningAdd_MultipleAssignment(elementIndex);
                 }
 
-                node.Others.TryAdd(elementSpan, element);
+                if (Parse_Discard_MEMBER(ref context, ref result, elementIndex))
+                {
+                    continue;
+                }
+
+                return false;
             }
         } while (true);
     }

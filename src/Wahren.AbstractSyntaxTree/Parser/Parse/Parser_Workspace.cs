@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseWorkspace(ref Context context, ref Result result, AnalysisResult analysisResult)
+    private static bool ParseWorkspace(ref Context context, ref Result result)
     {
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
@@ -36,10 +36,15 @@ public static partial class Parser
                 return false;
             }
 
-            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
+            if (!variantSpan.IsEmpty)
+            {
+                result.ErrorAdd_NoVariation("workspace", element.ElementTokenId);
+                return false;
+            }
+
+            element.ElementKeyRange.Length = (uint)span.Length;
             element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
             element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
-            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
                 return false;
@@ -49,8 +54,8 @@ public static partial class Parser
             {
                 return false;
             }
-
-            if (!node.TryAdd(ref source, element) && context.CreateError(DiagnosticSeverity.Warning))
+            
+            if (!node.Dictionary.TryAdd(span, element) && context.CreateError(DiagnosticSeverity.Warning))
             {
                 result.WarningAdd_MultipleAssignment(element.ElementTokenId);
             }

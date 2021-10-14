@@ -10,34 +10,88 @@ public sealed class AttributeNode : INode
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
 
-    public VariantPair<Pair_NullableString_NullableIntElement> poi = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> para = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> sil = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> ill = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> conf = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> stone = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> fear = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> suck = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> magsuck = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> drain = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> death = new();
-    public VariantPair<Pair_NullableString_NullableIntElement> wall = new();
-    public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> Others = new();
+    public Pair_NullableString_NullableIntElement? poi = null;
+    public Pair_NullableString_NullableIntElement? para = null;
+    public Pair_NullableString_NullableIntElement? sil = null;
+    public Pair_NullableString_NullableIntElement? ill = null;
+    public Pair_NullableString_NullableIntElement? conf = null;
+    public Pair_NullableString_NullableIntElement? stone = null;
+    public Pair_NullableString_NullableIntElement? fear = null;
+    public Pair_NullableString_NullableIntElement? suck = null;
+    public Pair_NullableString_NullableIntElement? magsuck = null;
+    public Pair_NullableString_NullableIntElement? drain = null;
+    public Pair_NullableString_NullableIntElement? death = null;
+    public Pair_NullableString_NullableIntElement? wall = null;
+    public StringSpanKeyDictionary<Pair_NullableString_NullableIntElement> Others = new();
 
     public void Dispose()
     {
-        poi.Dispose();
-        para.Dispose();
-        sil.Dispose();
-        ill.Dispose();
-        conf.Dispose();
-        stone.Dispose();
-        fear.Dispose();
-        suck.Dispose();
-        magsuck.Dispose();
-        drain.Dispose();
-        death.Dispose();
-        wall.Dispose();
+        poi = null;
+        para = null;
+        sil = null;
+        ill = null;
+        conf = null;
+        stone = null;
+        fear = null;
+        suck = null;
+        magsuck = null;
+        drain = null;
+        death = null;
+        wall = null;
         Others.Dispose();
+    }
+
+    public ref Pair_NullableString_NullableIntElement? TryGet(ReadOnlySpan<char> key)
+    {
+        var keyULong = StringHashUtility.Calc(key);
+        switch (key.Length)
+        {
+            case 3:
+                switch (keyULong)
+                {
+                    case 0x000000000000893BUL:
+                        return ref poi;
+                    case 0x000000000000986BUL:
+                        return ref sil;
+                    case 0x0000000000006360UL:
+                        return ref ill;
+                }
+                break;
+            case 4:
+                switch (keyULong)
+                {
+                    case 0x0000000000138C00UL:
+                        return ref para;
+                    case 0x000000000009CA16UL:
+                        return ref conf;
+                    case 0x00000000000BE45EUL:
+                        return ref fear;
+                    case 0x000000000016466AUL:
+                        return ref suck;
+                    case 0x000000000018F438UL:
+                        return ref wall;
+                }
+                break;
+            case 5:
+                switch (keyULong)
+                {
+                    case 0x000000000337A81EUL:
+                        return ref stone;
+                    case 0x000000000188DAB7UL:
+                        return ref drain;
+                    case 0x00000000017ED00FUL:
+                        return ref death;
+                }
+                break;
+            case 7:
+                switch (keyULong)
+                {
+                    case 0x0000000D4FA63312UL:
+                        return ref magsuck;
+                }
+                break;
+        }
+
+        return ref Others.TryGetRef(key);
     }
 }

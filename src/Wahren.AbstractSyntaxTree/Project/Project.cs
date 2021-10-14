@@ -74,44 +74,11 @@ public sealed partial class Project : IDisposable
                 continue;
             }
 
-
-            foreach (ref var other in node.Others)
+            ref var value = ref node.Others.TryGetRef(name);
+            if (!Unsafe.IsNullRef(ref value) && value is not null)
             {
-                if (other.Value is not null)
-                {
-                    ref var range = ref other.Value.ElementKeyRange;
-                    var span = file.Source[range.Line].AsSpan(range.Offset, range.Length);
-                    if (name.SequenceEqual(span))
-                    {
-                        return true;
-                    }
-
-                    continue;
-                }
-
-                if (other.VariantArray is null)
-                {
-                    continue;
-                }
-
-                foreach (var item in other.VariantArray)
-                {
-                    if (item is null)
-                    {
-                        continue;
-                    }
-
-                    ref var range = ref item.ElementKeyRange;
-                    var span = file.Source[range.Line].AsSpan(range.Offset, range.Length);
-                    if (name.SequenceEqual(span))
-                    {
-                        return true;
-                    }
-
-                    break;
-                }
+                return true;
             }
-            break;
         }
 
         return Enum.TryParse<AttributeTypeKind>(name, out _);

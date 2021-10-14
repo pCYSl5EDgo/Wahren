@@ -208,7 +208,7 @@ public struct StringSpanKeyDictionary<T> : IDisposable
         originalKeyDualList = new();
     }
 
-    public bool TryGet(ReadOnlySpan<char> key, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? value)
+    public ref T? TryGetRef(ReadOnlySpan<char> key)
     {
         if (key.IsEmpty)
         {
@@ -229,19 +229,17 @@ public struct StringSpanKeyDictionary<T> : IDisposable
         {
             if (key.SequenceEqual(keys.AsSpan(keyList[i], keyIndex + 1)))
             {
-                value = valueList[i];
-                return value is not null;
+                return ref valueList[i];
             }
         }
 
     FALSE:
-        value = null;
-        return false;
+        return ref Unsafe.NullRef<T?>();
     }
 
-    public bool TryAdd(ReadOnlySpan<char> key, T? value)
+    public bool TryAdd(ReadOnlySpan<char> key, T value)
     {
-        if (key.IsEmpty || value is null)
+        if (key.IsEmpty)
         {
             return false;
         }

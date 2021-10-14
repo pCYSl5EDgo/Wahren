@@ -36,6 +36,16 @@ public static class ErrorHelper
         result.WarningAdd(error, tokenId);
     }
 
+    public static void ErrorAdd_NoVariation(ref this Result result, ReadOnlySpan<char> kind, uint tokenId)
+    {
+#if JAPANESE
+        var error = $"{kind}構造体は'{result.GetSpan(tokenId)}'のようにバリエーションを持つことはできません。";
+#else
+        var error = $"Structure {kind} cannnot have a variation.";
+#endif
+        result.ErrorAdd(error, tokenId);
+    }
+
     public static void ErrorAdd_SucceedingSuperIsExpected(ref this Result result, uint nodeNameTokenId)
     {
 #if JAPANESE

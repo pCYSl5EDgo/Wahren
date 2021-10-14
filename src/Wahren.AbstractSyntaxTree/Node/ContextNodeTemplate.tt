@@ -374,7 +374,6 @@ public sealed class ContextNode : INode
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
 
-    public StringSpanKeyDictionary<Pair_NullableString_NullableInt_ArrayElement> Others = new();
 <# foreach (var t in array) {
       foreach (var item in t) { #>
     public Pair_NullableString_NullableInt_ArrayElement? <#= item.Escape() #>;
@@ -382,7 +381,6 @@ public sealed class ContextNode : INode
 } #>
     public void Dispose()
     {
-        Others.Dispose();
 <# foreach (var t in array) {
       foreach (var item in t) { #>
         <#= item.Escape() #>?.Dispose();
@@ -391,7 +389,7 @@ public sealed class ContextNode : INode
 } #>
     }
 
-    public ref Pair_NullableString_NullableInt_ArrayElement? TryGet(ReadOnlySpan<char> key, out bool success)
+    public ref Pair_NullableString_NullableInt_ArrayElement? TryGet(ReadOnlySpan<char> key)
     {
         if (key.Length < 4)
         {
@@ -413,7 +411,6 @@ public sealed class ContextNode : INode
 <# } else { #>
                     case 0x<#= item.GetKey().ToString("X16") #>UL:
 <# } #>
-                        success = true;
                         return ref <#= item #>;
 <#  } #>
                 }
@@ -422,7 +419,6 @@ public sealed class ContextNode : INode
         }
 
     FALSE:
-        success = false;
         return ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
     }
 }

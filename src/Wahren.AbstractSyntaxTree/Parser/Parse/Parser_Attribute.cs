@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseAttribute(ref Context context, ref Result result, AnalysisResult analysisResult)
+    private static bool ParseAttribute(ref Context context, ref Result result)
     {
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
@@ -28,111 +28,62 @@ public static partial class Parser
                 return true;
             }
 
-            var element = new Pair_NullableString_NullableIntElement(tokenList.LastIndex);
-            if (!SplitElementPlain(ref result, element.ElementTokenId, out var span, out var variantSpan))
+            var elementIndex = tokenList.LastIndex;
+            if (!SplitElementPlain(ref result, elementIndex, out var span, out var variantSpan))
             {
                 return false;
             }
 
-            element.ElementKeyRange.Length = (uint)span.Length;
-            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
-            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
-            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
+            if (!variantSpan.IsEmpty)
+            {
+                result.ErrorAdd_NoVariation("attribute", elementIndex);
+                return false;
+            }
 
-            if (!ReadAssign(ref context, ref result, element.ElementTokenId))
+            if (!ReadAssign(ref context, ref result, elementIndex))
             {
                 return false;
             }
 
-            if (!Parse_Element_LOYAL(ref context, ref result, element))
+            ref var elementReference = ref node.TryGet(span);
+            if (Unsafe.IsNullRef(ref elementReference))
             {
-                return false;
-            }
+                var element = new Pair_NullableString_NullableIntElement(elementIndex);
+                element.ElementKeyRange.Length = (uint)span.Length;
+                element.ElementKeyRange.Line = tokenList.GetLine(elementIndex);
+                element.ElementKeyRange.Offset = tokenList.GetOffset(elementIndex);
 
-            ref var destination = ref Specific_Attribute_GetOrAddPair(ref result, span, node).EnsureGet(element.ElementScenarioId);
-            if (destination is not null)
-            {
-                if (context.CreateError(DiagnosticSeverity.Warning))
+                if (!Parse_Element_LOYAL(ref context, ref result, element))
                 {
-                    result.WarningAdd_MultipleAssignment(element.ElementTokenId);
+                    return false;
+                }
+
+                node.Others.TryAdd(span, element);
+            }
+            else if (elementReference is null)
+            {
+                elementReference = new Pair_NullableString_NullableIntElement(elementIndex);
+                elementReference.ElementKeyRange.Length = (uint)span.Length;
+                elementReference.ElementKeyRange.Line = tokenList.GetLine(elementIndex);
+                elementReference.ElementKeyRange.Offset = tokenList.GetOffset(elementIndex);
+
+                if (!Parse_Element_LOYAL(ref context, ref result, elementReference))
+                {
+                    return false;
                 }
             }
             else
             {
-                destination = element;
+                if (context.CreateError(DiagnosticSeverity.Warning))
+                {
+                    result.WarningAdd_MultipleAssignment(elementIndex);
+                }
+
+                if (!Parse_Discard_LOYAL(ref context, ref result, elementIndex))
+                {
+                    return false;
+                }
             }
         } while (true);
-    }
-
-    private static ref VariantPair<Pair_NullableString_NullableIntElement> Specific_Attribute_GetOrAddPair(ref Result result, Span<char> span, AttributeNode node)
-    {
-        if (span.IsEmpty)
-        {
-            return ref Unsafe.NullRef<VariantPair<Pair_NullableString_NullableIntElement>>();
-        }
-
-        var sliced = span.Slice(1);
-        switch (span.Length)
-        {
-            case 3:
-                switch (span[0])
-                {
-                    case 'p' when sliced.SequenceEqual("oi"):
-                        return ref node.poi;
-                    case 'i' when sliced.SequenceEqual("ll"):
-                        return ref node.ill;
-                    case 's' when sliced.SequenceEqual("il"):
-                        return ref node.sil;
-                }
-
-                break;
-            case 4:
-                switch (span[0])
-                {
-                    case 'p' when sliced.SequenceEqual("ara"):
-                        return ref node.para;
-                    case 'c' when sliced.SequenceEqual("onf"):
-                        return ref node.conf;
-                    case 'f' when sliced.SequenceEqual("ear"):
-                        return ref node.fear;
-                    case 's' when sliced.SequenceEqual("uck"):
-                        return ref node.suck;
-                    case 'w' when sliced.SequenceEqual("all"):
-                        return ref node.wall;
-                }
-
-                break;
-            case 5:
-                switch (span[0])
-                {
-                    case 'd':
-                        if (sliced.SequenceEqual("rain"))
-                        {
-                            return ref node.drain;
-                        }
-                        else if (sliced.SequenceEqual("eath"))
-                        {
-                            return ref node.death;
-                        }
-                        break;
-                    case 's' when sliced.SequenceEqual("tone"):
-                        return ref node.stone;
-                }
-
-                break;
-            case 7 when span.SequenceEqual("magsuck"):
-                return ref node.magsuck;
-        }
-
-        foreach (ref var other in node.Others)
-        {
-            if (other.EqualsKey(span, ref result))
-            {
-                return ref other;
-            }
-        }
-
-        node.Others.Add(new());
-        return ref node.Others.Last;
     }
 }

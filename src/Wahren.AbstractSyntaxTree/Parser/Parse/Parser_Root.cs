@@ -43,7 +43,7 @@ public static partial class Parser
             {
                 case 'a' when next == 't' && result.Is_attribute_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.attribute;
-                    if (ParseAttribute(ref context, ref result, analysisResult))
+                    if (ParseAttribute(ref context, ref result))
                     {
                         continue;
                     }
@@ -54,7 +54,7 @@ public static partial class Parser
                     {
                         case 'o' when result.Is_context_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.context;
-                            if (ParseContext(ref context, ref result, analysisResult))
+                            if (ParseContext(ref context, ref result))
                             {
                                 continue;
                             }
@@ -253,7 +253,7 @@ public static partial class Parser
                     if (result.Is_workspace_Skip2(tokenList.LastIndex))
                     {
                         lastKind = TokenKind.workspace;
-                        if (ParseWorkspace(ref context, ref result, analysisResult))
+                        if (ParseWorkspace(ref context, ref result))
                         {
                             continue;
                         }

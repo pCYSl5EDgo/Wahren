@@ -1,5 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Memory" #>
 <#@ assembly name="NetStandard" #>
 <#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.TextTemplateHelper.dll" #>
 <#@ assembly name="$(t4LibFolder)\Wahren.AbstractSyntaxTree.Basic.dll" #>
@@ -24,15 +25,42 @@ public sealed class AttributeNode : INode
 
 <# var names = Enum.GetNames(typeof(AttributeTypeKind)); #>
 <# foreach (var name in names) { #>
-    public VariantPair<Pair_NullableString_NullableIntElement> <#= name #> = new();
+    public Pair_NullableString_NullableIntElement? <#= name #> = null;
 <# } #>
-    public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> Others = new();
+    public StringSpanKeyDictionary<Pair_NullableString_NullableIntElement> Others = new();
 
     public void Dispose()
     {
 <# foreach (var name in names) { #>
-        <#= name #>.Dispose();
+        <#= name #> = null;
 <# } #>
         Others.Dispose();
+    }
+
+    public ref Pair_NullableString_NullableIntElement? TryGet(ReadOnlySpan<char> key)
+    {
+        var keyULong = StringHashUtility.Calc(key);
+        switch (key.Length)
+        {
+<# foreach (var (len, t) in names.GroupBy(x => x.Length, x => x, (len, xs) => (len, xs.ToArray()))) { #>
+            case <#= len #>:
+                switch (keyULong)
+                {
+<#  foreach (var item in t) { #>
+<# if (len > StringHashUtility.HashLengthMax + 1) {#>
+                    case 0x<#= item.GetKey().ToString("X16") #>UL when key.Slice(StringHashUtility.HashLengthMax).SequenceEqual("<#= item.Substring(StringHashUtility.HashLengthMax) #>"):
+<# } else if (len == StringHashUtility.HashLengthMax + 1) { #>
+                    case 0x<#= item.GetKey().ToString("X16") #>UL when key[StringHashUtility.HashLengthMax] == '<#= item[StringHashUtility.HashLengthMax] #>':
+<# } else { #>
+                    case 0x<#= item.GetKey().ToString("X16") #>UL:
+<# } #>
+                        return ref <#= item #>;
+<#  } #>
+                }
+                break;
+<# } #>
+        }
+
+        return ref Others.TryGetRef(key);
     }
 }
