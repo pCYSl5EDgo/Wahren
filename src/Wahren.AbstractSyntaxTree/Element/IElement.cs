@@ -4,12 +4,10 @@ public interface IElement
 {
     uint ElementTokenId { get; }
     
-    uint ElementKeyLength { get; set; }
+    int ElementKeyLength { get; set; }
 
     bool HasElementVariant { get; set; }
     
-    ref uint ElementScenarioId { get; }
-
     bool HasValue { get; set; }
 }
 

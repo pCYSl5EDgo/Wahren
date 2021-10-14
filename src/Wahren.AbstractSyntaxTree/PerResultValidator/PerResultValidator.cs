@@ -4,6 +4,28 @@ using Element;
 
 public static partial class PerResultValidator
 {
+    private static void Collect<T>(ref Result result, ref StringSpanKeySlowSet set, ref VariantPair<T> pair)
+        where T : class, IElement
+    {
+        foreach (ref T variant in pair.Variants)
+        {
+            set.GetOrAdd(result.GetSpan(variant.ElementTokenId).Slice(variant.ElementKeyLength + 1), variant.ElementTokenId);
+        }
+    }
+
+    private static void CollectNumber<T>(ref Result result, ref StringSpanKeySlowSet set, ref VariantPair<T> pair)
+        where T : class, IElement
+    {
+        foreach (ref T variant in pair.Variants)
+        {
+            var variantSpan = result.GetSpan(variant.ElementTokenId).Slice(variant.ElementKeyLength + 1);
+            if (!int.TryParse(variantSpan, out _))
+            {
+                set.GetOrAdd(variantSpan, variant.ElementTokenId);
+            }
+        }
+    }
+
     public static void AddReference(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
     {
         if (pair.Value is not null && pair.Value.HasValue)
@@ -14,7 +36,7 @@ public static partial class PerResultValidator
             value.HasReference = true;
         }
 
-        if (pair.VariantArray is null)
+        if (pair.VariantArray is not { Length: > 0 })
         {
             return;
         }
@@ -69,7 +91,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
+        if (pair.VariantArray is not { Length: > 0 })
         {
             return;
         }
@@ -760,14 +782,14 @@ public static partial class PerResultValidator
     }
 
     private static void SpecialTreatment_skill_func(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
-	{
+    {
         if (value is null)
         {
             if (node.HasSuper)
             {
                 var superSpan = result.GetSpan(node.Super);
                 node.SkillKind = SkillKind.Unknown;
-                foreach(ref var other in result.SkillNodeList.AsSpan())
+                foreach (ref var other in result.SkillNodeList.AsSpan())
                 {
                     if (other.Name == node.Name || !superSpan.SequenceEqual(result.GetSpan(other.Name)))
                     {
@@ -833,10 +855,10 @@ public static partial class PerResultValidator
                 node.SkillKind = SkillKind.missile;
             }
         }
-	}
+    }
 
     private static void SpecialTreatment_skill_movetype(ref Result result, ref SkillNode node, ref Pair_NullableString_NullableIntElement? value)
-	{
+    {
         node.SkillMovetype = SkillMovetype.Unknown;
         if (value is not { HasValue: true })
         {
@@ -888,5 +910,5 @@ public static partial class PerResultValidator
             v.HasReference = false;
             result.ErrorAdd_UnexpectedElementSpecialValue("Skill", "movetype", "arc, drop, throw, circle, swing", v.Text);
         }
-	}
+    }
 }

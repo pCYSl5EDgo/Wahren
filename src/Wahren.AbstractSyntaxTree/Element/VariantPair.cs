@@ -3,23 +3,68 @@
 public struct VariantPair<T> : IDisposable
     where T : class, IElement
 {
-    public T? Value;
-    public T?[]? VariantArray;
+    public T? Value = null;
+    public T[] VariantArray = Array.Empty<T>();
+    public ulong[] HashArray = Array.Empty<ulong>();
+    public int Count = 0;
 
-    public VariantPair()
+    public Span<T> Variants => VariantArray.AsSpan(0, Count);
+    public Span<ulong> HashSpan => HashArray.AsSpan(0, Count);
+
+    public void EnsureCapacity()
     {
-        Value = default;
-        VariantArray = null;
+        if (Count == VariantArray.Length)
+        {
+            var tmp = ArrayPool<T>.Shared.Rent(Count + 1);
+            if (VariantArray.Length != 0)
+            {
+                VariantArray.CopyTo(tmp, 0);
+                Array.Clear(VariantArray);
+            }
+            VariantArray = tmp;
+        }
+
+        if (Count == HashArray.Length)
+        {
+            var tmp = ArrayPool<ulong>.Shared.Rent(Count + 1);
+            if (HashArray.Length != 0)
+            {
+                HashArray.CopyTo(tmp, 0);
+            }
+            HashArray = tmp;
+        }
     }
 
     public void Dispose()
     {
-        Value = null;
-        if (VariantArray is not null)
+        if (Value is IDisposable disposable)
         {
-            Array.Clear(VariantArray);
-            ArrayPool<T?>.Shared.Return(VariantArray);
-            VariantArray = null;
+            disposable.Dispose();
         }
+
+        Value = default;
+
+        if (VariantArray is { Length: > 0 })
+        {
+            foreach (ref var variant in Variants)
+            {
+                if (variant is IDisposable variantDispoable)
+                {
+                    variantDispoable.Dispose();
+                }
+            }
+
+            Variants.Clear();
+            ArrayPool<T>.Shared.Return(VariantArray);
+            VariantArray = Array.Empty<T>();
+        }
+
+        if (HashArray is { Length: > 0 })
+        {
+            ArrayPool<ulong>.Shared.Return(HashArray);
+            HashArray = Array.Empty<ulong>();
+        }
+
+        Count = 0;
     }
 }

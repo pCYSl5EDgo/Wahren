@@ -42,7 +42,7 @@ public static partial class Parser
                 return false;
             }
 
-            element.ElementKeyLength = (uint)span.Length;
+            element.ElementKeyLength = span.Length;
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
                 return false;

@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseDetail(ref Context context, ref Result result, AnalysisResult analysisResult)
+    private static bool ParseDetail(ref Context context, ref Result result)
     {
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
@@ -33,9 +33,8 @@ public static partial class Parser
                 return false;
             }
 
-            element.ElementKeyLength = (uint)keySpan.Length;
+            element.ElementKeyLength = keySpan.Length;
             element.HasElementVariant = !variantSpan.IsEmpty;
-            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
 
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
@@ -54,7 +53,7 @@ public static partial class Parser
                     continue;
                 }
 
-                ref var destination = ref itr.EnsureGet(element.ElementScenarioId);
+                ref var destination = ref itr.EnsureGet(variantSpan, ref result);
                 if (destination is null)
                 {
                     destination = element;
@@ -70,7 +69,7 @@ public static partial class Parser
             }
 
             node.StringElementList.Add(new());
-            ref var destinationLast = ref node.StringElementList.Last.EnsureGet(element.ElementScenarioId);
+            ref var destinationLast = ref node.StringElementList.Last.EnsureGet(variantSpan, ref result);
             if (destinationLast is null)
             {
                 destinationLast = element;

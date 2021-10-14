@@ -606,7 +606,7 @@ public partial class Program
         }
 
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, false, severity);
-        result.Success = Parser.Parse(ref context, ref result, analysisResult);
+        result.Success = Parser.Parse(ref context, ref result);
         PerResultValidator.AddReferenceAndValidate(ref context, ref result, analysisResult);
         if (result.Success)
         {

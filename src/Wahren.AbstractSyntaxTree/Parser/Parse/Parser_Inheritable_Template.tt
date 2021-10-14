@@ -21,20 +21,19 @@ public static partial class Parser
 <# foreach (var node in NodeInfo.Nodes.Where(x => !x.HasBlock)) {
     ElementInfo[] elements = node.Elements;
     var usageGroup = elements.MakeUsageGroup(); #>
-    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, out bool canContinue)
     {
         result.<#= node.Name #>NodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.<#= node.Name #>NodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.<#= node.Name #>Set))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
 <#  foreach (var (type, _) in usageGroup) { #>
         ref var pair_<#= type #> = ref Unsafe.NullRef<<#= type #>?>();
 <#  } #>
@@ -88,10 +87,9 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_<#= type #> = ref node.<#= item.Name.Escape() #>;
 <#          } else { #>
-                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variant = analysisResult.<#= item.VariantType #>Set.GetOrAdd(variantSpan, currentIndex));
+                            pair_<#= type #> = ref node.<#= item.Name.Escape() #>.EnsureGet(variantSpan, ref result);
 <#          } #>
                             goto <#= trailer #>;
 <#      } #>
@@ -105,13 +103,13 @@ public static partial class Parser
             {
                 if (other.EqualsKey(span, ref result))
                 {
-                    pair_Pair_NullableString_NullableIntElement = ref other.EnsureGet(variant);
+                    pair_Pair_NullableString_NullableIntElement = ref other.EnsureGet(variantSpan, ref result);
                     goto DEFAULT;
                 }
             }
 
             node.Others.Add(new());
-            pair_Pair_NullableString_NullableIntElement = ref node.Others.Last.EnsureGet(variant);
+            pair_Pair_NullableString_NullableIntElement = ref node.Others.Last.EnsureGet(variantSpan, ref result);
 <#  } else { #>
             if (Parse_Discard(ref context, ref result, currentIndex, key))
             {
@@ -131,8 +129,7 @@ public static partial class Parser
             if (pair_<#= type #> is null)
             {
                 pair_<#= type #> = new(currentIndex);
-                pair_<#= type #>.ElementScenarioId = variant;
-                pair_<#= type #>.ElementKeyLength = (uint)span.Length;
+                pair_<#= type #>.ElementKeyLength = span.Length;
                 pair_<#= type #>.HasElementVariant = !variantSpan.IsEmpty;
                 if (<#= func #>(ref context, ref result, pair_<#= type #>))
                 {

@@ -39,7 +39,7 @@ public static partial class Parser
             if (result.ErrorList.IsEmpty || result.ErrorList.Last.Severity != DiagnosticSeverity.Error)
             {
 #if JAPANESE
-                result.ErrorAdd("C条件式の解釈に失敗しました。", statementTokenId);
+                result.ErrorAdd("条件式の解釈に失敗しました。", statementTokenId);
 #else
                 result.ErrorAdd("Condition Parse Failed.", statementTokenId);
 #endif

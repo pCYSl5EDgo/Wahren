@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    private static bool ParseSound(ref Context context, ref Result result, AnalysisResult analysisResult)
+    private static bool ParseSound(ref Context context, ref Result result)
     {
         ref var tokenList = ref result.TokenList;
         var kindIndex = tokenList.LastIndex;
@@ -27,24 +27,27 @@ public static partial class Parser
                 return true;
             }
 
-            var element = new Pair_NullableString_NullableIntElement(tokenList.LastIndex);
-            if (!result.SplitElementPlain(element.ElementTokenId, out var span, out var variantSpan))
+            var elementIndex = tokenList.LastIndex;
+            if (!result.SplitElementPlain(elementIndex, out var span, out var variantSpan))
             {
                 return false;
             }
 
-            element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
-            if (element.ElementScenarioId != uint.MaxValue)
+            if (!variantSpan.IsEmpty)
             {
-                result.ErrorAdd("'@scenario' is not allowed in structure sound.", element.ElementTokenId);
+                result.ErrorAdd_NoVariation("sound", elementIndex);
                 return false;
             }
 
-            if (!ReadAssign(ref context, ref result, element.ElementTokenId))
+            if (!ReadAssign(ref context, ref result, elementIndex))
             {
                 return false;
             }
 
+            var element = new Pair_NullableString_NullableIntElement(elementIndex)
+            {
+                ElementKeyLength = span.Length,
+            };
             if (!Parse_Element_DEFAULT(ref context, ref result, element))
             {
                 return false;

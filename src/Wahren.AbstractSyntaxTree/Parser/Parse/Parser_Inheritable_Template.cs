@@ -6,20 +6,19 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
 {
-    private static bool ParsePower(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParsePower(ref Context context, ref Result result, out bool canContinue)
     {
         result.PowerNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.PowerNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.PowerSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -63,10 +62,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000000003D39UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000052F2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.fix.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.fix.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -74,28 +73,28 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000011FF91UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000D71ADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000C09C2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.flag.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.flag.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000DA741UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.home.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.home.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x00000000000D700AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.head.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.head.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000A6EB5UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.diff.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.diff.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000001A7E83UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.yabo.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.yabo.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000016B9C9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variantSpan, ref result);
                             goto TEXT;
                     }
                     break;
@@ -103,37 +102,37 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000001A8A13FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.@event.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.@event.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000002882E95UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.money.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.money.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001823699UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.diplo.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.diplo.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x0000000003375C19UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.staff.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.staff.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x00000000028088F9UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x0000000001F13174UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.head2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.head2.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001F13175UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.head3.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.head3.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001F13176UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.head4.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.head4.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001F13177UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.head5.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.head5.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001F13178UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.head6.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.head6.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000024F1765UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.kosen.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.kosen.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -141,28 +140,28 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000005C22891AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.master.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.master.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000082E0752EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005864A53DUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.league.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.league.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x000000005C93EE5AUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merits.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merits.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x0000000059950A0AUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.loyals.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.loyals.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x000000005C8FE96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x000000004111EBAEUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x000000003C772DD9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.enable.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.enable.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -170,19 +169,19 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000D50FDD0C4UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.master2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.master2.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D50FDD0C5UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.master3.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.master3.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D50FDD0C6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.master4.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.master4.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D50FDD0C7UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.master5.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.master5.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D50FDD0C8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.master6.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.master6.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -190,7 +189,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00002B24B4CD765FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.diplomacy.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.diplomacy.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -198,10 +197,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0007447D7AA41397UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.free_raise.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.free_raise.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00053697CC794EB5UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.base_loyal.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.base_loyal.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -209,13 +208,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00F9F8A46910BCA5UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.enemy_power.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.enemy_power.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x00C0E3F090874495UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.base_merits.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.base_merits.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x01FC05051A82F0A3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.training_up.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.training_up.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -223,13 +222,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x1E5937828052AC7AUL when span[StringHashUtility.HashLengthMax] == 'e':
-                            pair_Pair_NullableString_NullableIntElement = ref node.castle_battle.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.castle_battle.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x241EF2A6A38DA426UL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.enable_select.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.enable_select.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x241EF2A6A3A725AEUL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.enable_talent.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.enable_talent.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -237,7 +236,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x496CB9BCD4EC5D87UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rage"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.training_average.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.training_average.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -247,19 +246,18 @@ public static partial class Parser
             {
                 if (other.EqualsKey(span, ref result))
                 {
-                    pair_Pair_NullableString_NullableIntElement = ref other.EnsureGet(variant);
+                    pair_Pair_NullableString_NullableIntElement = ref other.EnsureGet(variantSpan, ref result);
                     goto DEFAULT;
                 }
             }
 
             node.Others.Add(new());
-            pair_Pair_NullableString_NullableIntElement = ref node.Others.Last.EnsureGet(variant);
+            pair_Pair_NullableString_NullableIntElement = ref node.Others.Last.EnsureGet(variantSpan, ref result);
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -286,8 +284,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -314,8 +311,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -342,8 +338,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -370,8 +365,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -398,8 +392,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -425,20 +418,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseClass(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseClass(ref Context context, ref Result result, out bool canContinue)
     {
         result.ClassNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ClassNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.ClassSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -482,13 +474,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000000000AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.a.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.a.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000011UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.h.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.h.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000020UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.w.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.w.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -496,10 +488,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000000028EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000347UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -507,13 +499,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000000097E3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sex.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sex.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000009276UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.red.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.red.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000004FBCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.exp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.exp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -521,43 +513,43 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000011FF91UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000D71ADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000016B9C9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variantSpan, ref result);
                             goto TEXT;
                         case 0x00000000000A5BF9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dext.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dext.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000001185DFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.move.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.move.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000DADCDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hpUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hpUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000118B1EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mpUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mpUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000151593UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.race.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.race.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000009CADDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.cost.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.cost.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000BCF37UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.face.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.face.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000109EC4UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.line.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.line.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000C050FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.fkey.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.fkey.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                         case 0x00000000000E86BBUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                     }
                     break;
@@ -565,55 +557,55 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000014FAAADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.brave.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.brave.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                         case 0x00000000026405BDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.level.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.level.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000027D378EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magic.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magic.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000033459E2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speed.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speed.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001FA0D0BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprec.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprec.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000028909C0UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprec.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprec.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001F9F1CFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hpMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hpMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000288EE84UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mpMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mpMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000002E02FE4UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.price.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.price.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000034D4C76UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.tkool.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.tkool.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000213F9C8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000028088F9UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x00000000028CC92CUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.multi.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.multi.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x00000000037EB482UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.value.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.value.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000014FBD0EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.@break.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.@break.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000003309300UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x0000000002639753UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.learn.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.learn.EnsureGet(variantSpan, ref result);
                             goto RAY;
                     }
                     break;
@@ -621,55 +613,55 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000008F4B4AB6UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x0000000070C13ECEUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.radius.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.radius.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000004777B577UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hasexp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hasexp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000002CA900F2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attack.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attack.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005C18ED22UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdef.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdef.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000003765DB00UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dextUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dextUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005DB4E9F6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.moveUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.moveUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000002AC30672UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.active.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.active.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000004773D106UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.handle.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.handle.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005C8FE96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x000000004111EBAEUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x000000003459F96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x000000007527454DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.scream.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.scream.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000076053F02UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill2.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x000000004CE319EAUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.image2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.image2.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000007E9F5B95UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.unique.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.unique.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000003387A1FCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.change.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.change.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                     }
                     break;
@@ -677,46 +669,46 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000011337A2C7CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.stealth.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.stealth.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000007FFAA2929UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defense.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defense.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D4F9E1ACDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magicUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magicUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000001122F4AE01UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speedUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speedUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000A922FC442UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprecUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprecUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D8ED5282FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprecUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprecUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000801B87A2EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dextMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dextMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D8B25A3BCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.moveMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.moveMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000001120521284UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sortkey.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sortkey.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000F3B0F1053UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000942F003D3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.finance.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.finance.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D5FD0B866UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.medical.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.medical.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000008E84EFD21UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.exp_mul.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.exp_mul.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000008E84EFA49UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.exp_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.exp_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -724,49 +716,49 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000020B4C2950CEUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_knock.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_knock.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000020B4B4574E3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_cover.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_cover.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000018049457B3FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.heal_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.heal_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001283FB4B7B6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dext_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dext_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001F51C7BB93CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.move_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.move_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001F51C769275UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000EED3C61291UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attackUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attackUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001EC814C1F41UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdefUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdefUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001EC81D9B2CFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magicMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magicMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000027A0D5CF953UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speedMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speedMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000018720E730B8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprecMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprecMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001F5A4CEA1F9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprecMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprecMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000023742B809ABUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.politics.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.politics.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001280DF26B20UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x00000271388F8BB9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.same_sex.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.same_sex.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -774,61 +766,61 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00003248949915F5UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.free_move.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.free_move.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00004BA1E9B1B936UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_escape.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_escape.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000649EF308E947UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.view_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.view_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005A61598E0CF0UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.satellite.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.satellite.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000472EC481E6FBUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magic_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magic_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005BA3EE7B180FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speed_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speed_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00003887C17519A8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprec_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprec_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00004880D1E8780DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprec_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprec_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00002AC634F620B0UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defenseUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defenseUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000022849BA08223UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attackMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attackMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000472EB0005793UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdefMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdefMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000041227B8AD841UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.keep_form.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.keep_form.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000210CFE52C9D5UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.activenum.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.activenum.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x0000572C0E63669DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.rank_text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.rank_text.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005A5D2CB2BCE2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.same_call.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.same_call.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000445E4459E93AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.level_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.level_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005C11030B2081UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00002ACA04097BA2UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill2.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x0000324AF6D61DE1UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend_ex.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend_ex.EnsureGet(variantSpan, ref result);
                             goto RAY;
                     }
                     break;
@@ -836,46 +828,46 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000DBC2B5E063415UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.troop_sort.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.troop_sort.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000AEE6E51687A88UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_regular.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_regular.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00062E36BEF534F9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dead_event.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dead_event.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000541D973BFBE24UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.beast_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.beast_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000D4F604EC7393AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.summon_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.summon_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0006D14D70144C37UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.escape_run.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.escape_run.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0007FB5B2446E55DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hand_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hand_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000EE81790163CCAUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.wake_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.wake_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000E8AF91FE9F921UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.view_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.view_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0004FD2A7E3DDE1FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attack_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attack_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000A49BF7017B74FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdef_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdef_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00062EA5A7928C9EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defenseMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defenseMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0004C8BBAC41A930UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.add_vassal.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.add_vassal.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000D4E75709BB2A7UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image2.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -883,19 +875,19 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00E4BDF1383961E6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defense_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defense_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x01947625A2CF03ABUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_training.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_training.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x010BACD7DF3D3A0BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.force_voice.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.force_voice.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x01E33C44161E196CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.same_friend.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.same_friend.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x017231D8F49E722CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.lost_corpse.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.lost_corpse.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -903,28 +895,28 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x435B8333AB107290UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.radius_press.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.radius_press.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x472D7A0547477D16UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.summon_level.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.summon_level.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x1AADD83D19679D60UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attack_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attack_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x2475471C5C7C1F39UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.escape_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.escape_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED264DD440UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_menu.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_menu.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED26453CBCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_back.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_back.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x1CFCD904CD15E648UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.breast_width.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.breast_width.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x23FEC33DD6C8760BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.element_lost.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.element_lost.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -932,16 +924,16 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x1E5A5D7107455699UL when span[StringHashUtility.HashLengthMax] == 'e':
-                            pair_Pair_NullableString_NullableIntElement = ref node.cavalry_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.cavalry_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0xFFFFFFFFFFFFFFFFUL when span[StringHashUtility.HashLengthMax] == 'n':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_atmark_cutin.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_atmark_cutin.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED264890C3UL when span[StringHashUtility.HashLengthMax] == 'r':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_floor.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_floor.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED265286B1UL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -949,13 +941,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x47289207309F1706UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("en"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image_even.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image_even.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED2646E045UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("il"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_detail.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_detail.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED2646199DUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_center.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_center.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -963,7 +955,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x26AFFB33432B24BDUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("nit"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.force_view_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.force_view_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -971,10 +963,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x26AFFB32F0D9BAF2UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("unit"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.force_blind_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.force_blind_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED265286B1UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("t_up"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift_up.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift_up.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -993,8 +985,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -1021,8 +1012,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -1049,8 +1039,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -1077,8 +1066,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1105,8 +1093,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1133,8 +1120,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1161,8 +1147,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1188,20 +1173,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseDungeon(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseDungeon(ref Context context, ref Result result, out bool canContinue)
     {
         result.DungeonNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.DungeonNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.DungeonSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -1245,19 +1229,19 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000000007739UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000003D39UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000007731UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.map.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.map.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000003E6CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.box.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.box.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000091F7UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.ray.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.ray.EnsureGet(variantSpan, ref result);
                             goto RAY;
                     }
                     break;
@@ -1265,22 +1249,22 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000011FF91UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000131486UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.open.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.open.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000018F438UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.wall.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.wall.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000CDFAFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.goal.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.goal.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000E86BBUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x00000000000DA741UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.home.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.home.EnsureGet(variantSpan, ref result);
                             goto RAY;
                     }
                     break;
@@ -1288,19 +1272,19 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000266EDACUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.limit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.limit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000014B311EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.blind.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.blind.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000016A2BE4UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.color.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.color.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x0000000001BDB52BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.floor.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.floor.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000003375DE3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.start.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.start.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -1308,13 +1292,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000006A63E540UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.prefix.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.prefix.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000007720C66FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.suffix.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.suffix.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000082E0752EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -1322,7 +1306,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000D8A4BD447UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.monster.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.monster.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                     }
                     break;
@@ -1330,7 +1314,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000019F6A3C308AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.item_num.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.item_num.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -1338,10 +1322,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000045D8EFFE71D9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.lv_adjust.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.lv_adjust.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00003C0A5AB75344UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.item_text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.item_text.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -1349,10 +1333,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000A77C552585BEDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.move_speed.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.move_speed.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00053697CC71849CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.base_level.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.base_level.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -1360,7 +1344,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x018337276F4D5156UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.monster_num.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.monster_num.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -1379,8 +1363,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -1407,8 +1390,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1435,8 +1417,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1462,20 +1443,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseField(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseField(ref Context context, ref Result result, out bool canContinue)
     {
         result.FieldNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.FieldNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.FieldSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -1523,7 +1503,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.id;
                             goto DEFAULT;
                     }
@@ -1536,7 +1515,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.alt;
                             goto DEFAULT;
                     }
@@ -1549,7 +1527,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.type;
                             goto DEFAULT;
                         case 0x0000000000085A03UL:
@@ -1557,7 +1534,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.attr;
                             goto DEFAULT;
                         case 0x00000000000B19F9UL:
@@ -1565,7 +1541,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.edge;
                             goto DEFAULT;
                         case 0x000000000008020AUL:
@@ -1573,7 +1548,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.add2;
                             goto MEMBER;
                     }
@@ -1586,7 +1560,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.color;
                             goto RAY;
                         case 0x0000000002324A4DUL:
@@ -1594,7 +1567,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.joint;
                             goto RAY;
                         case 0x000000000213F9C8UL:
@@ -1602,7 +1574,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image;
                             goto DEFAULT;
                     }
@@ -1615,7 +1586,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member;
                             goto MEMBER;
                         case 0x0000000076432554UL:
@@ -1623,7 +1593,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.smooth;
                             goto DEFAULT;
                     }
@@ -1636,7 +1605,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.alt_max;
                             goto DEFAULT;
                     }
@@ -1656,8 +1624,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -1684,8 +1651,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1712,8 +1678,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1739,20 +1704,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseMovetype(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseMovetype(ref Context context, ref Result result, out bool canContinue)
     {
         result.MovetypeNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.MovetypeNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.MovetypeSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -1800,7 +1764,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.name;
                             goto DEFAULT;
                         case 0x00000000000D71ADUL:
@@ -1808,7 +1771,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.help;
                             goto DEFAULT;
                     }
@@ -1821,7 +1783,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti;
                             goto CONSTI;
                     }
@@ -1841,8 +1802,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -1869,8 +1829,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -1896,20 +1855,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseObject(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseObject(ref Context context, ref Result result, out bool canContinue)
     {
         result.ObjectNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ObjectNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.ObjectSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ulong key = 0UL;
@@ -1957,7 +1915,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.w;
                             goto DEFAULT;
                         case 0x0000000000000011UL:
@@ -1965,7 +1922,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.h;
                             goto DEFAULT;
                         case 0x000000000000000AUL:
@@ -1973,7 +1929,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.a;
                             goto DEFAULT;
                     }
@@ -1986,7 +1941,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.blk;
                             goto DEFAULT;
                     }
@@ -1999,7 +1953,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.type;
                             goto DEFAULT;
                     }
@@ -2012,7 +1965,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill;
                             goto RAY;
                         case 0x0000000001C25836UL:
@@ -2020,7 +1972,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.front;
                             goto DEFAULT;
                         case 0x0000000003A15171UL:
@@ -2028,7 +1979,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.width;
                             goto DEFAULT;
                         case 0x00000000012EBCBBUL:
@@ -2036,7 +1986,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.alpha;
                             goto DEFAULT;
                         case 0x00000000016A2BE4UL:
@@ -2044,7 +1993,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.color;
                             goto RAY;
                         case 0x000000000213F9C8UL:
@@ -2052,7 +2000,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image;
                             goto DEFAULT;
                     }
@@ -2065,7 +2012,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.height;
                             goto DEFAULT;
                         case 0x0000000070C13ECEUL:
@@ -2073,7 +2019,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.radius;
                             goto DEFAULT;
                         case 0x000000004CE319EAUL:
@@ -2081,7 +2026,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image2;
                             goto DEFAULT;
                         case 0x000000005C8FE96EUL:
@@ -2089,7 +2033,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member;
                             goto MEMBER;
                         case 0x000000004538FF41UL:
@@ -2097,7 +2040,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.ground;
                             goto LOYAL;
                     }
@@ -2110,7 +2052,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.no_stop;
                             goto DEFAULT;
                     }
@@ -2123,7 +2064,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.no_wall2;
                             goto DEFAULT;
                         case 0x0000019B2A7599AEUL:
@@ -2131,7 +2071,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image2_w;
                             goto DEFAULT;
                         case 0x0000019B2A75999FUL:
@@ -2139,7 +2078,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image2_h;
                             goto DEFAULT;
                         case 0x0000019B2A759998UL:
@@ -2147,7 +2085,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image2_a;
                             goto DEFAULT;
                     }
@@ -2160,7 +2097,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.breakfire;
                             goto DEFAULT;
                         case 0x0000440110DC39CEUL:
@@ -2168,7 +2104,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.land_base;
                             goto DEFAULT;
                     }
@@ -2181,7 +2116,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.no_arc_hit;
                             goto DEFAULT;
                     }
@@ -2201,8 +2135,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -2229,8 +2162,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -2257,8 +2189,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -2285,8 +2216,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -2312,20 +2242,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseRace(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseRace(ref Context context, ref Result result, out bool canContinue)
     {
         result.RaceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.RaceNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.RaceSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -2369,7 +2298,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000011FF91UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -2377,10 +2306,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000012E9734UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.align.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.align.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000014FAAADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.brave.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.brave.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                     }
                     break;
@@ -2388,7 +2317,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000003459F96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                     }
                     break;
@@ -2396,7 +2325,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000001F51C769275UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -2415,8 +2344,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -2443,8 +2371,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -2471,8 +2398,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -2498,20 +2424,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkill(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseSkill(ref Context context, ref Result result, out bool canContinue)
     {
         result.SkillNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.SkillSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -2559,7 +2484,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.w;
                             goto DEFAULT;
                         case 0x0000000000000011UL:
@@ -2567,7 +2491,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.h;
                             goto DEFAULT;
                         case 0x000000000000000AUL:
@@ -2575,7 +2498,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.a;
                             goto DEFAULT;
                     }
@@ -2588,7 +2510,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.mp;
                             goto DEFAULT;
                     }
@@ -2597,14 +2518,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000000079C2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.msg.EnsureGet(variant = analysisResult.UnitSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.msg.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000091F7UL:
                             if (variantSpan.Length != 0)
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.ray;
                             goto RAY;
                         case 0x0000000000009A08UL:
@@ -2612,7 +2532,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.str;
                             goto LOYAL;
                         case 0x0000000000003768UL:
@@ -2620,7 +2539,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.add;
                             goto DEFAULT;
                         case 0x0000000000003E61UL:
@@ -2628,7 +2546,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.bom;
                             goto DEFAULT;
                         case 0x00000000000051C4UL:
@@ -2636,7 +2553,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.far;
                             goto DEFAULT;
                     }
@@ -2649,7 +2565,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.func;
                             goto DEFAULT;
                         case 0x000000000011FF91UL:
@@ -2657,7 +2572,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.name;
                             goto DEFAULT;
                         case 0x00000000000E2D45UL:
@@ -2665,7 +2579,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.icon;
                             goto CONSTI;
                         case 0x00000000000C050FUL:
@@ -2673,7 +2586,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.fkey;
                             goto LOYAL;
                         case 0x00000000000D71ADUL:
@@ -2681,7 +2593,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.help;
                             goto DEFAULT;
                         case 0x0000000000172386UL:
@@ -2689,7 +2600,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.type;
                             goto DEFAULT;
                         case 0x00000000000A1D22UL:
@@ -2697,7 +2607,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.d360;
                             goto DEFAULT;
                         case 0x0000000000085A03UL:
@@ -2705,7 +2614,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.attr;
                             goto DEFAULT;
                         case 0x000000000008020AUL:
@@ -2713,7 +2621,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.add2;
                             goto MEMBER;
                         case 0x00000000000D5D1BUL:
@@ -2721,7 +2628,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.hard;
                             goto DEFAULT;
                         case 0x000000000018F5A3UL:
@@ -2729,7 +2635,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.wave;
                             goto CONSTI;
                         case 0x000000000016CD87UL:
@@ -2737,7 +2642,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.time;
                             goto DEFAULT;
                         case 0x00000000001582DAUL:
@@ -2745,7 +2649,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.rush;
                             goto DEFAULT;
                         case 0x000000000012169BUL:
@@ -2753,7 +2656,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.next;
                             goto DEFAULT;
                     }
@@ -2766,7 +2668,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.delay;
                             goto DEFAULT;
                         case 0x000000000333EAE2UL:
@@ -2774,7 +2675,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.sound;
                             goto MEMBER;
                         case 0x00000000016EF8F8UL:
@@ -2782,7 +2682,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.cutin;
                             goto CONSTI;
                         case 0x00000000037EB482UL:
@@ -2790,7 +2689,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.value;
                             goto DEFAULT;
                         case 0x00000000016A2BE4UL:
@@ -2798,7 +2696,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.color;
                             goto RAY;
                         case 0x000000000213F9C8UL:
@@ -2806,7 +2703,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.image;
                             goto DEFAULT;
                         case 0x00000000013023C3UL:
@@ -2814,7 +2710,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.anime;
                             goto DEFAULT;
                         case 0x00000000033157AEUL:
@@ -2822,7 +2717,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.slide;
                             goto DEFAULT;
                         case 0x00000000032E1675UL:
@@ -2830,7 +2724,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.shake;
                             goto DEFAULT;
                         case 0x0000000001BD6AD7UL:
@@ -2838,7 +2731,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.flash;
                             goto DEFAULT;
                         case 0x0000000001EE74E9UL:
@@ -2846,7 +2738,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.hard2;
                             goto DEFAULT;
                         case 0x00000000024E3BD7UL:
@@ -2854,7 +2745,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.knock;
                             goto DEFAULT;
                         case 0x00000000030C596AUL:
@@ -2862,7 +2752,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.range;
                             goto DEFAULT;
                         case 0x0000000001649BA7UL:
@@ -2870,7 +2759,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.check;
                             goto DEFAULT;
                         case 0x00000000033459E2UL:
@@ -2878,7 +2766,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.speed;
                             goto DEFAULT;
                         case 0x00000000029D4469UL:
@@ -2886,7 +2773,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.next2;
                             goto MEMBER;
                         case 0x00000000029D446AUL:
@@ -2894,7 +2780,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.next3;
                             goto MEMBER;
                         case 0x00000000029D446BUL:
@@ -2902,7 +2787,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.next4;
                             goto DEFAULT;
                         case 0x0000000002E02FE4UL:
@@ -2910,7 +2794,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.price;
                             goto DEFAULT;
                     }
@@ -2923,7 +2806,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.bright;
                             goto DEFAULT;
                         case 0x00000000790B8CFAUL:
@@ -2931,7 +2813,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.talent;
                             goto DEFAULT;
                         case 0x00000000333C033BUL:
@@ -2939,7 +2820,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.center;
                             goto DEFAULT;
                         case 0x000000004538FF41UL:
@@ -2947,7 +2827,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.ground;
                             goto LOYAL;
                         case 0x00000000725DCED1UL:
@@ -2955,7 +2834,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.rotate;
                             goto DEFAULT;
                         case 0x0000000037D348C9UL:
@@ -2963,7 +2841,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.direct;
                             goto DEFAULT;
                         case 0x000000008F4B4AB6UL:
@@ -2971,7 +2848,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu;
                             goto CONSTI;
                         case 0x0000000036EA8F11UL:
@@ -2979,7 +2855,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.damage;
                             goto DEFAULT;
                         case 0x0000000049038360UL:
@@ -2987,7 +2862,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.homing;
                             goto DEFAULT;
                         case 0x0000000065CF7155UL:
@@ -2995,7 +2869,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.onehit;
                             goto DEFAULT;
                         case 0x0000000064EBA9E9UL:
@@ -3003,7 +2876,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.offset;
                             goto OFFSET;
                         case 0x000000006644E72EUL:
@@ -3011,7 +2883,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.origin;
                             goto DEFAULT;
                         case 0x0000000047E266FFUL:
@@ -3019,7 +2890,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.height;
                             goto DEFAULT;
                         case 0x0000000040BE9819UL:
@@ -3027,7 +2897,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.follow;
                             goto DEFAULT;
                         case 0x000000004111EBAEUL:
@@ -3035,7 +2904,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend;
                             goto OFFSET;
                     }
@@ -3048,7 +2916,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.sortkey;
                             goto DEFAULT;
                         case 0x0000001122F33A1CUL:
@@ -3056,18 +2923,16 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.special;
                             goto DEFAULT;
                         case 0x0000000F3B0F1053UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variant = analysisResult.UnitSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000008E84F0AE2UL:
                             if (variantSpan.Length != 0)
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.exp_per;
                             goto DEFAULT;
                         case 0x000000063095F494UL:
@@ -3075,7 +2940,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.add_all;
                             goto DEFAULT;
                         case 0x00000006309643CEUL:
@@ -3083,7 +2947,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.add_per;
                             goto DEFAULT;
                         case 0x00000006527BC2D8UL:
@@ -3091,7 +2954,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.allfunc;
                             goto DEFAULT;
                         case 0x0000000A8D81FCE2UL:
@@ -3099,7 +2961,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.homing2;
                             goto DEFAULT;
                         case 0x000000095C3FC638UL:
@@ -3107,7 +2968,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.forward;
                             goto DEFAULT;
                     }
@@ -3120,7 +2980,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.movetype;
                             goto DEFAULT;
                         case 0x000001213AA5A784UL:
@@ -3128,7 +2987,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.d360_adj;
                             goto DEFAULT;
                         case 0x0000025D9B238904UL:
@@ -3136,7 +2994,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_w;
                             goto DEFAULT;
                         case 0x0000025D9B2388F5UL:
@@ -3144,7 +3001,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_h;
                             goto DEFAULT;
                         case 0x0000025D9B238905UL:
@@ -3152,7 +3008,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_x;
                             goto DEFAULT;
                         case 0x0000025D9B238906UL:
@@ -3160,7 +3015,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_y;
                             goto DEFAULT;
                         case 0x0000025D9B2388EEUL:
@@ -3168,7 +3022,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_a;
                             goto DEFAULT;
                         case 0x0000025D9B238900UL:
@@ -3176,7 +3029,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_s;
                             goto DEFAULT;
                         case 0x00000277D50F1AE7UL:
@@ -3184,7 +3036,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.slow_per;
                             goto DEFAULT;
                         case 0x000000E67741B187UL:
@@ -3192,7 +3043,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.afterhit;
                             goto DEFAULT;
                     }
@@ -3205,7 +3055,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.gun_delay;
                             goto LOYAL;
                         case 0x000037E4AE67E147UL:
@@ -3213,7 +3062,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.hide_help;
                             goto DEFAULT;
                         case 0x000021D1819F24E7UL:
@@ -3221,7 +3069,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.alpha_tip;
                             goto DEFAULT;
                         case 0x00005B51CB320F90UL:
@@ -3229,7 +3076,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.slow_time;
                             goto DEFAULT;
                         case 0x0000672247646650UL:
@@ -3237,7 +3083,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.wait_time;
                             goto DEFAULT;
                         case 0x0000320DFEDA8DCFUL:
@@ -3245,7 +3090,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.force_ray;
                             goto DEFAULT;
                         case 0x000028751EA108A9UL:
@@ -3253,7 +3097,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.collision;
                             goto DEFAULT;
                         case 0x00005C0478803010UL:
@@ -3261,7 +3104,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.str_ratio;
                             goto DEFAULT;
                         case 0x000022849BA0CFE0UL:
@@ -3269,23 +3111,13 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.attack_us;
-                            goto DEFAULT;
-                        case 0x00004E007932BF38UL:
-                            if (variantSpan.Length != 0)
-                            {
-                                result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
-                            }
-                            variant = uint.MaxValue;
-                            pair_Pair_NullableString_NullableIntElement = ref node.offset_on;
                             goto DEFAULT;
                         case 0x0000572BFB6B6835UL:
                             if (variantSpan.Length != 0)
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.range_min;
                             goto DEFAULT;
                         case 0x00004AC35604839FUL:
@@ -3293,7 +3125,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.next_last;
                             goto DEFAULT;
                         case 0x00003F5ABF1C46D5UL:
@@ -3301,7 +3132,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.just_next;
                             goto MEMBER;
                         case 0x000050C58E79F593UL:
@@ -3309,7 +3139,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.pair_next;
                             goto DEFAULT;
                         case 0x00003C0A5AB7BD01UL:
@@ -3317,7 +3146,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.item_type;
                             goto DEFAULT;
                         case 0x00003C0A5AB6C203UL:
@@ -3325,7 +3153,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.item_sort;
                             goto DEFAULT;
                     }
@@ -3338,7 +3165,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.alpha_butt;
                             goto DEFAULT;
                         case 0x00073C05D58D6262UL:
@@ -3346,7 +3172,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.force_fire;
                             goto DEFAULT;
                         case 0x000EE7F45182C992UL:
@@ -3354,7 +3179,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.wait_time2;
                             goto DEFAULT;
                         case 0x0004D073BDD87E5EUL:
@@ -3362,7 +3186,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.afterdeath;
                             goto DEFAULT;
                         case 0x000ACE3B6F09A234UL:
@@ -3370,7 +3193,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.next_order;
                             goto DEFAULT;
                         case 0x000ACE3B6E0199DCUL:
@@ -3378,7 +3200,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.next_first;
                             goto DEFAULT;
                     }
@@ -3391,7 +3212,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.quickreload;
                             goto DEFAULT;
                         case 0x01E8438BC28C3774UL:
@@ -3399,7 +3219,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.slide_speed;
                             goto DEFAULT;
                         case 0x01E8438BC0D6E5C6UL:
@@ -3407,7 +3226,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.slide_delay;
                             goto DEFAULT;
                         case 0x01E8438BC28F3AB8UL:
@@ -3415,7 +3233,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.slide_stamp;
                             goto DEFAULT;
                         case 0x010A1553423BEC86UL:
@@ -3423,7 +3240,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.flash_anime;
                             goto DEFAULT;
                         case 0x010A1553431FC28BUL:
@@ -3431,7 +3247,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.flash_image;
                             goto DEFAULT;
                         case 0x01A120882055E4C4UL:
@@ -3439,7 +3254,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.offset_attr;
                             goto DEFAULT;
                         case 0x016097FBE9D43BA5UL:
@@ -3447,7 +3261,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.knock_speed;
                             goto DEFAULT;
                         case 0x016097FBE97E0B45UL:
@@ -3455,7 +3268,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.knock_power;
                             goto DEFAULT;
                         case 0x01DB764CF3625D9CUL:
@@ -3463,7 +3275,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.rush_degree;
                             goto DEFAULT;
                         case 0x00EADC442C9961D3UL:
@@ -3471,7 +3282,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.drop_degree;
                             goto DEFAULT;
                         case 0x014FE69AD3C50F69UL:
@@ -3479,7 +3289,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.joint_skill;
                             goto DEFAULT;
                         case 0x01E5182C5128E733UL:
@@ -3487,7 +3296,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.send_target;
                             goto DEFAULT;
                         case 0x0141135F06A974A6UL:
@@ -3495,7 +3303,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.item_nosell;
                             goto DEFAULT;
                     }
@@ -3508,7 +3315,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_start;
                             goto DEFAULT;
                         case 0x43A6C61F225AA711UL:
@@ -3516,7 +3322,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_w_max;
                             goto DEFAULT;
                         case 0x43A6C61F225AA82FUL:
@@ -3524,7 +3329,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_w_min;
                             goto DEFAULT;
                         case 0x43A6C61F20ADB210UL:
@@ -3532,7 +3336,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_h_min;
                             goto DEFAULT;
                         case 0x43A6C61F20ADB0F2UL:
@@ -3540,7 +3343,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_h_max;
                             goto DEFAULT;
                         case 0x43A6C61F22774002UL:
@@ -3548,7 +3350,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_x_max;
                             goto DEFAULT;
                         case 0x43A6C61F22774120UL:
@@ -3556,7 +3357,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_x_min;
                             goto DEFAULT;
                         case 0x43A6C61F2293DA11UL:
@@ -3564,7 +3364,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_y_min;
                             goto DEFAULT;
                         case 0x43A6C61F2293D8F3UL:
@@ -3572,7 +3371,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_y_max;
                             goto DEFAULT;
                         case 0x43A6C61F1FE5825BUL:
@@ -3580,7 +3378,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_a_max;
                             goto DEFAULT;
                         case 0x43A6C61F21E8434DUL:
@@ -3588,7 +3385,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_s_max;
                             goto DEFAULT;
                         case 0x43A6C61F1FE58379UL:
@@ -3596,7 +3392,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_a_min;
                             goto DEFAULT;
                         case 0x43A6C61F21E8446BUL:
@@ -3604,7 +3399,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_s_min;
                             goto DEFAULT;
                         case 0x436010B1286E51B0UL:
@@ -3612,7 +3406,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.random_space;
                             goto DEFAULT;
                         case 0x4716EAAD8C76E211UL:
@@ -3620,7 +3413,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.start_degree;
                             goto DEFAULT;
                         case 0x21F1D5DA722B2381UL:
@@ -3628,7 +3420,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.drop_degree2;
                             goto DEFAULT;
                         case 0x472D7A0547477D16UL:
@@ -3636,7 +3427,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.summon_level;
                             goto DEFAULT;
                     }
@@ -3649,7 +3439,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.rush_interval;
                             goto DEFAULT;
                         case 0x39C8DBD126324B9FUL when span[StringHashUtility.HashLengthMax] == 'l':
@@ -3657,7 +3446,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.next_interval;
                             goto DEFAULT;
                     }
@@ -3670,7 +3458,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.anime_interval;
                             goto DEFAULT;
                         case 0x43A6C61F21BADA0DUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("se"):
@@ -3678,7 +3465,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_reverse;
                             goto DEFAULT;
                         case 0x43A6C61F225AC9CFUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rt"):
@@ -3686,7 +3472,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_w_start;
                             goto DEFAULT;
                         case 0x43A6C61F20ADD3B0UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rt"):
@@ -3694,7 +3479,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_h_start;
                             goto DEFAULT;
                         case 0x43A6C61F227762C0UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rt"):
@@ -3702,7 +3486,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_x_start;
                             goto DEFAULT;
                         case 0x43A6C61F2293FBB1UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rt"):
@@ -3710,7 +3493,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_y_start;
                             goto DEFAULT;
                         case 0x43A6C61F1FE5A519UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rt"):
@@ -3718,7 +3500,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_a_start;
                             goto DEFAULT;
                         case 0x43A6C61F21E8660BUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("rt"):
@@ -3726,7 +3507,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_s_start;
                             goto DEFAULT;
                     }
@@ -3739,7 +3519,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.resize_interval;
                             goto DEFAULT;
                     }
@@ -3752,7 +3531,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.random_space_min;
                             goto DEFAULT;
                         case 0x4716EAAD8C76E211UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_fix"):
@@ -3760,7 +3538,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.start_degree_fix;
                             goto DEFAULT;
                     }
@@ -3773,7 +3550,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.start_degree_type;
                             goto DEFAULT;
                         case 0x461C7E615863DCC7UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("egree"):
@@ -3781,7 +3557,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.send_image_degree;
                             goto DEFAULT;
                     }
@@ -3794,7 +3569,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.rush_random_degree;
                             goto DEFAULT;
                     }
@@ -3807,7 +3581,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.damage_range_adjust;
                             goto DEFAULT;
                         case 0x4716EAADC5E7159AUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("_degree"):
@@ -3815,7 +3588,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.start_random_degree;
                             goto DEFAULT;
                     }
@@ -3828,7 +3600,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.start_degree_turnunit;
                             goto DEFAULT;
                     }
@@ -3848,8 +3619,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -3876,8 +3646,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -3904,8 +3673,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -3932,8 +3700,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -3960,8 +3727,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -3988,8 +3754,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -4015,20 +3780,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkillset(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseSkillset(ref Context context, ref Result result, out bool canContinue)
     {
         result.SkillsetNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillsetNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.SkillsetSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -4076,7 +3840,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.name;
                             goto DEFAULT;
                         case 0x000000000008B7C9UL:
@@ -4084,7 +3847,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableIntElement = ref node.back;
                             goto DEFAULT;
                     }
@@ -4097,7 +3859,6 @@ public static partial class Parser
                             {
                                 result.ErrorAdd_VariantNotAllowed(node.Kind, currentIndex);
                             }
-                            variant = uint.MaxValue;
                             pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member;
                             goto MEMBER;
                     }
@@ -4117,8 +3878,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -4145,8 +3905,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -4172,20 +3931,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSpot(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseSpot(ref Context context, ref Result result, out bool canContinue)
     {
         result.SpotNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SpotNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.SpotSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -4229,16 +3987,16 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000000000021UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.x.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.x.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000022UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.y.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.y.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000020UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.w.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.w.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000011UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.h.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.h.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4246,13 +4004,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000000003D7DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.big.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.big.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000007731UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.map.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.map.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000003D39UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4260,13 +4018,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000011FF91UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000C95FBUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.gain.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.gain.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000016B9C9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variantSpan, ref result);
                             goto TEXT;
                     }
                     break;
@@ -4274,16 +4032,16 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000037EB482UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.value.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.value.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000028088F9UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x000000000213F9C8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000266EDACUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.limit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.limit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4291,16 +4049,16 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000008F4B4AB6UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x0000000082E0752EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000032CD7DBEUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.castle.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.castle.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005C8FE96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                     }
                     break;
@@ -4308,13 +4066,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000D8A4BD447UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.monster.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.monster.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x0000000842B1F90FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dungeon.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dungeon.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000E24A4DF2CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_home.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_home.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4322,13 +4080,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000023742B809ABUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.politics.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.politics.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000010F9E58E79EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.capacity.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.capacity.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000020B4CE75560UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_raise.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_raise.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4336,7 +4094,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0005ACD3970076D4UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.castle_lot.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.castle_lot.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4344,7 +4102,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x1E5937828052AC7AUL when span[StringHashUtility.HashLengthMax] == 'e':
-                            pair_Pair_NullableString_NullableIntElement = ref node.castle_battle.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.castle_battle.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4363,8 +4121,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -4391,8 +4148,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -4419,8 +4175,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -4447,8 +4202,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -4474,20 +4228,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseUnit(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseUnit(ref Context context, ref Result result, out bool canContinue)
     {
         result.UnitNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.UnitNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.UnitSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -4531,13 +4284,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000000000AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.a.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.a.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000011UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.h.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.h.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000020UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.w.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.w.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4545,10 +4298,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000000028EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000000347UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4556,19 +4309,19 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000000097E3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sex.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sex.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000009276UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.red.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.red.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000004FBCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.exp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.exp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000003D39UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.bgm.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000052F2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.fix.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.fix.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4576,58 +4329,58 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000000011FF91UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000D71ADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.help.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000016B9C9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.text.EnsureGet(variantSpan, ref result);
                             goto TEXT;
                         case 0x00000000000A5BF9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dext.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dext.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000001185DFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.move.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.move.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000DADCDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hpUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hpUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000118B1EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mpUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mpUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000151593UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.race.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.race.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000009CADDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.cost.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.cost.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000BCF37UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.face.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.face.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000000109EC4UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.line.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.line.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000C050FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.fkey.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.fkey.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                         case 0x00000000000E86BBUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.item.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x00000000001A7E83UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.yabo.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.yabo.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000C09C2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.flag.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.flag.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000DA741UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.home.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.home.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x00000000000F3270UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.join.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.join.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000000A5896UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dead.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dead.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4635,76 +4388,76 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000000014FAAADUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.brave.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.brave.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                         case 0x00000000026405BDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.level.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.level.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000027D378EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magic.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magic.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000033459E2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speed.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speed.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001FA0D0BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprec.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprec.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000028909C0UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprec.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprec.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000001F9F1CFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hpMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hpMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000288EE84UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mpMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mpMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000002E02FE4UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.price.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.price.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000034D4C76UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.tkool.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.tkool.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000000213F9C8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000028088F9UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.merce.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x00000000028CC92CUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.multi.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.multi.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x00000000037EB482UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.value.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.value.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000014FBD0EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.@break.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.@break.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000003309300UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x0000000002639753UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.learn.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.learn.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x000000000167A00FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.@class.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.@class.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000024F1765UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.kosen.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.kosen.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000012E9734UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.align.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.align.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000000026BCFD6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.loyal.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.loyal.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                         case 0x0000000001A27237UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.enemy.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.enemy.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x0000000003375C19UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.staff.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.staff.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x000000000127DE6EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.actor.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.actor.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4712,58 +4465,58 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000000008F4B4AB6UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.yorozu.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x0000000070C13ECEUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.radius.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.radius.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000004777B577UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hasexp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hasexp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000002CA900F2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attack.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attack.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005C18ED22UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdef.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdef.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000003765DB00UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dextUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dextUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005DB4E9F6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.moveUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.moveUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000002AC30672UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.active.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.active.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000004773D106UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.handle.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.handle.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000005C8FE96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.member.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                         case 0x000000004111EBAEUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.friend.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x000000003459F96EUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.consti.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x000000007527454DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.scream.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.scream.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000076053F02UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.skill2.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x00000000790B8CFAUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.talent.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.talent.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000082E0752EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.volume.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000003C772DD9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.enable.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.enable.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000002C61FBD1UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.arbeit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.arbeit.EnsureGet(variantSpan, ref result);
                             goto LOYAL;
                     }
                     break;
@@ -4771,49 +4524,49 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00000011337A2C7CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.stealth.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.stealth.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000007FFAA2929UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defense.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defense.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D4F9E1ACDUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magicUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magicUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000001122F4AE01UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speedUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speedUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000A922FC442UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprecUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprecUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D8ED5282FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprecUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprecUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000801B87A2EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dextMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dextMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D8B25A3BCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.moveMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.moveMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000001120521284UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sortkey.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sortkey.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000F3B0F1053UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000942F003D3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.finance.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.finance.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000000D5FD0B866UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.medical.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.medical.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000008E84EFD21UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.exp_mul.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.exp_mul.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00000008E84EFA49UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.exp_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.exp_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000105E46AAE2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.retreat.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.retreat.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4821,46 +4574,46 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000020B4C2950CEUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_knock.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_knock.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000020B4B4574E3UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_cover.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_cover.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000018049457B3FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.heal_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.heal_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001283FB4B7B6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dext_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dext_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001F51C7BB93CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.move_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.move_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001F51C769275UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.movetype.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000000EED3C61291UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attackUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attackUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001EC814C1F41UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdefUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdefUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001EC81D9B2CFUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magicMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magicMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000027A0D5CF953UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speedMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speedMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000018720E730B8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprecMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprecMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001F5A4CEA1F9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprecMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprecMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000023742B809ABUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.politics.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.politics.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000001280DF26B20UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                     }
                     break;
@@ -4868,64 +4621,64 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00003248949915F5UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.free_move.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.free_move.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00004BA1E9B1B936UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_escape.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_escape.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000649EF308E947UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.view_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.view_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005A61598E0CF0UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.satellite.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.satellite.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000472EC481E6FBUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magic_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magic_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005BA3EE7B180FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.speed_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.speed_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00003887C17519A8UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hprec_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hprec_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00004880D1E8780DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.mprec_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.mprec_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00002AC634F620B0UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defenseUp.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defenseUp.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000022849BA08223UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attackMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attackMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000472EB0005793UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdefMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdefMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000041227B8AD841UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.keep_form.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.keep_form.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000210CFE52C9D5UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.activenum.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.activenum.EnsureGet(variantSpan, ref result);
                             goto RAY;
                         case 0x0000572C0E63669DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.rank_text.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.rank_text.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005A5D2CB2BCE2UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.same_call.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.same_call.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0000445E4459E93AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.level_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.level_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00005C11030B2081UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00002ACA04097BA2UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill2.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill2.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                         case 0x000021CD8D6DC4DCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.alive_per.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.alive_per.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00002B24B4CD765FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.diplomacy.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.diplomacy.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -4933,52 +4686,52 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000DBC2B5E063415UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.troop_sort.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.troop_sort.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000AEE6E51687A88UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_regular.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_regular.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00062E36BEF534F9UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.dead_event.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.dead_event.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000541D973BFBE24UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.beast_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.beast_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000D4F604EC7393AUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.summon_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.summon_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0006D14D70144C37UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.escape_run.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.escape_run.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0007FB5B2446E55DUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.hand_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.hand_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000EE81790163CCAUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.wake_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.wake_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000E8AF91FE9F921UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.view_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.view_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0004FD2A7E3DDE1FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attack_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attack_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000A49BF7017B74FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.magdef_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.magdef_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x00062EA5A7928C9EUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defenseMax.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defenseMax.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0004C8BBAC41A930UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.add_vassal.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.add_vassal.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000BDA74826B3E9FUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.power_name.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.power_name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x0006C128B3434B96UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.enable_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.enable_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x000E9E701D86CC99UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.voice_type.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.voice_type.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                     }
                     break;
@@ -4986,22 +4739,22 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x00E4BDF1383961E6UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.defense_max.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.defense_max.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x01947625A2CF03ABUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.no_training.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.no_training.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x010BACD7DF3D3A0BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.force_voice.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.force_voice.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x01E33C44161E196CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.same_friend.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.same_friend.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x017231D8F49E722CUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.lost_corpse.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.lost_corpse.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x01943C9D70BCCBAEUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.noitem_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.noitem_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -5009,37 +4762,37 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x435B8333AB107290UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.radius_press.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.radius_press.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x472D7A0547477D16UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.summon_level.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.summon_level.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x1AADD83D19679D60UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.attack_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.attack_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x2475471C5C7C1F39UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.escape_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.escape_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED264DD440UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_menu.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_menu.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED26453CBCUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_back.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_back.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x1CFCD904CD15E648UL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.breast_width.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.breast_width.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x23FEC33DD6C8760BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.element_lost.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.element_lost.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x34CDD9F7EEC7D69BUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.leader_skill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.leader_skill.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x1A9C679DC1FF7621UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.assist_skill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.assist_skill.EnsureGet(variantSpan, ref result);
                             goto CONSTI;
                         case 0x1E59378280F0B886UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.castle_guard.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.castle_guard.EnsureGet(variantSpan, ref result);
                             goto MEMBER;
                     }
                     break;
@@ -5047,25 +4800,25 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x1E5A5D7107455699UL when span[StringHashUtility.HashLengthMax] == 'e':
-                            pair_Pair_NullableString_NullableIntElement = ref node.cavalry_range.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.cavalry_range.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0xFFFFFFFFFFFFFFFFUL when span[StringHashUtility.HashLengthMax] == 'n':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_atmark_cutin.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_atmark_cutin.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED264890C3UL when span[StringHashUtility.HashLengthMax] == 'r':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_floor.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_floor.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED265286B1UL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x241EF2A6A38DA426UL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.enable_select.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.enable_select.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3A70BB53B670C3FEUL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.noremove_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.noremove_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3A6AD48AA576EE12UL when span[StringHashUtility.HashLengthMax] == 't':
-                            pair_Pair_NullableString_NullableIntElement = ref node.noemploy_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.noemploy_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -5073,13 +4826,13 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x47289207309F1706UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("en"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image_even.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.sub_image_even.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED2646E045UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("il"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_detail.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_detail.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED2646199DUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("er"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_center.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_center.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -5087,10 +4840,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x26AFFB33432B24BDUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("nit"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.force_view_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.force_view_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x1A836B3363EDCA2AUL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("ity"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.arbeit_capacity.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.arbeit_capacity.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -5098,10 +4851,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x26AFFB32F0D9BAF2UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("unit"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.force_blind_unit.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.force_blind_unit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED265286B1UL when span.Slice(StringHashUtility.HashLengthMax).SequenceEqual("t_up"):
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift_up.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableIntElement = ref node.picture_shift_up.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                     }
                     break;
@@ -5120,8 +4873,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -5148,8 +4900,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -5176,8 +4927,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
@@ -5204,8 +4954,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -5232,8 +4981,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -5260,8 +5008,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -5288,8 +5035,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -5315,20 +5061,19 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseVoice(ref Context context, ref Result result, AnalysisResult analysisResult, out bool canContinue)
+    private static bool ParseVoice(ref Context context, ref Result result, out bool canContinue)
     {
         result.VoiceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.VoiceNodeList.Last;
         node.Kind = tokenList.LastIndex;
         canContinue = false;
-        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node, ref analysisResult.VoiceSet))
+        if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
         }
 
         var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
-        uint variant = uint.MaxValue;
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
         do
@@ -5371,10 +5116,10 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000000162D72UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.spot.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.spot.EnsureGet(variantSpan, ref result);
                             goto ROAM;
                         case 0x000000000015602FUL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.roam.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.roam.EnsureGet(variantSpan, ref result);
                             goto ROAM;
                     }
                     break;
@@ -5382,7 +5127,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x0000000002DE2982UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.power.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.power.EnsureGet(variantSpan, ref result);
                             goto ROAM;
                     }
                     break;
@@ -5390,7 +5135,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000001280DF26B20UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.delskill.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                     }
                     break;
@@ -5398,7 +5143,7 @@ public static partial class Parser
                     switch (key)
                     {
                         case 0x000E9E701D86CC99UL:
-                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.voice_type.EnsureGet(variant = analysisResult.ScenarioSet.GetOrAdd(variantSpan, currentIndex));
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.voice_type.EnsureGet(variantSpan, ref result);
                             goto OFFSET;
                     }
                     break;
@@ -5417,8 +5162,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
@@ -5445,8 +5189,7 @@ public static partial class Parser
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
                 pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Voice_ROAM_EnglishMode(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {

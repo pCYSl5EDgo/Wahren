@@ -73,47 +73,94 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref PowerNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.PowerSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle_battle);
 		ValidateBoolean(ref result, ref node.castle_battle, "Power", "castle_battle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.@event);
 		ValidateBoolean(ref result, ref node.@event, "Power", "event");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Power name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.help);
 		// Ignore Text Power help
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.master);
 		AddReference(ref result, ref node.master, ref analysisResult.UnitSet, ReferenceKind.Unit);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.flag);
 		AddReference(ref result, ref node.flag, ref analysisResult.flagSet, ReferenceKind.flag);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bgm);
 		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.volume);
 		ValidateNumber(ref result, ref node.volume, "Power", "volume");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.diplomacy);
 		ValidateBoolean(ref result, ref node.diplomacy, "Power", "diplomacy");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enable_select);
 		ValidateBoolean(ref result, ref node.enable_select, "Power", "enable_select");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enable_talent);
 		ValidateBoolean(ref result, ref node.enable_talent, "Power", "enable_talent");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.free_raise);
 		ValidateBoolean(ref result, ref node.free_raise, "Power", "free_raise");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.money);
 		ValidateNumber(ref result, ref node.money, "Power", "money");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.home);
 		AddReference(ref result, ref node.home, ref analysisResult.SpotSet, ReferenceKind.Spot);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.fix);
 		SpecialTreatment_power_fix(ref result, ref node, ref node.fix);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.diplo);
 		AddReference(ref result, ref node.diplo, ref analysisResult.PowerSet, ReferenceKind.Power);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.league);
 		AddReference(ref result, ref node.league, ref analysisResult.PowerSet, ReferenceKind.Power);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enemy_power);
 		AddReference(ref result, ref node.enemy_power, ref analysisResult.PowerSet, ReferenceKind.Power);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.training_average);
 		ValidateNumber(ref result, ref node.training_average, "Power", "training_average");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.base_merits);
 		ValidateNumber(ref result, ref node.base_merits, "Power", "base_merits");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.merits);
 		AddReference(ref result, ref node.merits, ref analysisResult.UnitSet, ReferenceKind.Unit);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.base_loyal);
 		ValidateNumber(ref result, ref node.base_loyal, "Power", "base_loyal");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.loyals);
 		AddReference(ref result, ref node.loyals, ref analysisResult.UnitSet, ReferenceKind.Unit);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.head);
 		// Ignore Text Power head
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.head2);
 		// Ignore Text Power head2
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.head3);
 		// Ignore Text Power head3
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.head4);
 		// Ignore Text Power head4
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.head5);
 		// Ignore Text Power head5
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.head6);
 		// Ignore Text Power head6
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.diff);
 		// Ignore Text Power diff
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.yabo);
 		ValidateNumber(ref result, ref node.yabo, "Power", "yabo");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.kosen);
 		ValidateNumber(ref result, ref node.kosen, "Power", "kosen");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.text);
 		// Ignore Text Power text
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.member);
 		AddReference(ref result, ref node.member, ref analysisResult.SpotSet, ReferenceKind.Spot);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.friend);
 		AddReference(ref result, ref node.friend, ref analysisResult.ScenarioSet, ReferenceKind.Scenario);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.master2);
 		// Ignore Text Power master2
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.master3);
 		// Ignore Text Power master3
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.master4);
 		// Ignore Text Power master4
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.master5);
 		// Ignore Text Power master5
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.master6);
 		// Ignore Text Power master6
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enable);
 		// Ignore Unknown Power enable
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.training_up);
 		ValidateNumber(ref result, ref node.training_up, "Power", "training_up");
 	}
 
@@ -174,136 +221,272 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref ClassNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.ClassSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.troop_sort);
 		ValidateNumber(ref result, ref node.troop_sort, "Class", "troop_sort");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.stealth);
 		ValidateNumber(ref result, ref node.stealth, "Class", "stealth");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.free_move);
 		ValidateNumber(ref result, ref node.free_move, "Class", "free_move");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Class name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.help);
 		// Ignore Text Class help
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sex);
 		SpecialTreatment_class_sex(ref result, ref node, ref node.sex);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.a);
 		ValidateNumber(ref result, ref node.a, "Class", "a");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.h);
 		ValidateNumber(ref result, ref node.h, "Class", "h");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.w);
 		ValidateNumber(ref result, ref node.w, "Class", "w");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.text);
 		// Ignore Text Class text
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image_even);
 		ValidateBoolean(ref result, ref node.sub_image_even, "Class", "sub_image_even");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.yorozu);
 		SpecialTreatment_class_yorozu(ref result, ref node, ref node.yorozu);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.radius);
 		ValidateNumber(ref result, ref node.radius, "Class", "radius");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.radius_press);
 		ValidateNumber(ref result, ref node.radius_press, "Class", "radius_press");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_escape);
 		ValidateBoolean(ref result, ref node.no_escape, "Class", "no_escape");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_regular);
 		ValidateBoolean(ref result, ref node.no_regular, "Class", "no_regular");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_knock);
 		ValidateBooleanNumber(ref result, ref node.no_knock, "Class", "no_knock");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_cover);
 		ValidateBoolean(ref result, ref node.no_cover, "Class", "no_cover");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dead_event);
 		AddReference(ref result, ref node.dead_event, ref analysisResult.EventSet, ReferenceKind.Event);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.beast_unit);
 		ValidateBoolean(ref result, ref node.beast_unit, "Class", "beast_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.summon_max);
 		ValidateNumber(ref result, ref node.summon_max, "Class", "summon_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.summon_level);
 		ValidateNumber(ref result, ref node.summon_level, "Class", "summon_level");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attack_range);
 		ValidateNumber(ref result, ref node.attack_range, "Class", "attack_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.escape_range);
 		ValidateNumber(ref result, ref node.escape_range, "Class", "escape_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.escape_run);
 		ValidateNumber(ref result, ref node.escape_run, "Class", "escape_run");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hand_range);
 		ValidateNumber(ref result, ref node.hand_range, "Class", "hand_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.wake_range);
 		ValidateNumber(ref result, ref node.wake_range, "Class", "wake_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.view_range);
 		ValidateNumber(ref result, ref node.view_range, "Class", "view_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.cavalry_range);
 		ValidateNumber(ref result, ref node.cavalry_range, "Class", "cavalry_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.view_unit);
 		ValidateBoolean(ref result, ref node.view_unit, "Class", "view_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.force_view_unit);
 		ValidateBoolean(ref result, ref node.force_view_unit, "Class", "force_view_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.force_blind_unit);
 		ValidateBoolean(ref result, ref node.force_blind_unit, "Class", "force_blind_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.satellite);
 		ValidateBooleanNumber(ref result, ref node.satellite, "Class", "satellite");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hasexp);
 		ValidateNumber(ref result, ref node.hasexp, "Class", "hasexp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.brave);
 		ValidateBooleanNumber(ref result, ref node.brave, "Class", "brave");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.level);
 		ValidateNumber(ref result, ref node.level, "Class", "level");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hp);
 		ValidateNumber(ref result, ref node.hp, "Class", "hp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mp);
 		ValidateNumber(ref result, ref node.mp, "Class", "mp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attack);
 		ValidateNumber(ref result, ref node.attack, "Class", "attack");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defense);
 		ValidateNumber(ref result, ref node.defense, "Class", "defense");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magic);
 		ValidateNumber(ref result, ref node.magic, "Class", "magic");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdef);
 		ValidateNumber(ref result, ref node.magdef, "Class", "magdef");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speed);
 		ValidateNumber(ref result, ref node.speed, "Class", "speed");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dext);
 		ValidateNumber(ref result, ref node.dext, "Class", "dext");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.move);
 		ValidateNumber(ref result, ref node.move, "Class", "move");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprec);
 		ValidateNumber(ref result, ref node.hprec, "Class", "hprec");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprec);
 		ValidateNumber(ref result, ref node.mprec, "Class", "mprec");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.heal_max);
 		ValidateNumber(ref result, ref node.heal_max, "Class", "heal_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attack_max);
 		ValidateNumber(ref result, ref node.attack_max, "Class", "attack_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defense_max);
 		ValidateNumber(ref result, ref node.defense_max, "Class", "defense_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magic_max);
 		ValidateNumber(ref result, ref node.magic_max, "Class", "magic_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdef_max);
 		ValidateNumber(ref result, ref node.magdef_max, "Class", "magdef_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speed_max);
 		ValidateNumber(ref result, ref node.speed_max, "Class", "speed_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dext_max);
 		ValidateNumber(ref result, ref node.dext_max, "Class", "dext_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.move_max);
 		ValidateNumber(ref result, ref node.move_max, "Class", "move_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprec_max);
 		ValidateNumber(ref result, ref node.hprec_max, "Class", "hprec_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprec_max);
 		ValidateNumber(ref result, ref node.mprec_max, "Class", "mprec_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.movetype);
 		AddReference(ref result, ref node.movetype, ref analysisResult.MovetypeSet, ReferenceKind.Movetype);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hpUp);
 		ValidateNumber(ref result, ref node.hpUp, "Class", "hpUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mpUp);
 		ValidateNumber(ref result, ref node.mpUp, "Class", "mpUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attackUp);
 		ValidateNumber(ref result, ref node.attackUp, "Class", "attackUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defenseUp);
 		ValidateNumber(ref result, ref node.defenseUp, "Class", "defenseUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magicUp);
 		ValidateNumber(ref result, ref node.magicUp, "Class", "magicUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdefUp);
 		ValidateNumber(ref result, ref node.magdefUp, "Class", "magdefUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speedUp);
 		ValidateNumber(ref result, ref node.speedUp, "Class", "speedUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dextUp);
 		ValidateNumber(ref result, ref node.dextUp, "Class", "dextUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.moveUp);
 		ValidateNumber(ref result, ref node.moveUp, "Class", "moveUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprecUp);
 		ValidateNumber(ref result, ref node.hprecUp, "Class", "hprecUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprecUp);
 		ValidateNumber(ref result, ref node.mprecUp, "Class", "mprecUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hpMax);
 		ValidateNumber(ref result, ref node.hpMax, "Class", "hpMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mpMax);
 		ValidateNumber(ref result, ref node.mpMax, "Class", "mpMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attackMax);
 		ValidateNumber(ref result, ref node.attackMax, "Class", "attackMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defenseMax);
 		ValidateNumber(ref result, ref node.defenseMax, "Class", "defenseMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magicMax);
 		ValidateNumber(ref result, ref node.magicMax, "Class", "magicMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdefMax);
 		ValidateNumber(ref result, ref node.magdefMax, "Class", "magdefMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speedMax);
 		ValidateNumber(ref result, ref node.speedMax, "Class", "speedMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dextMax);
 		ValidateNumber(ref result, ref node.dextMax, "Class", "dextMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.moveMax);
 		ValidateNumber(ref result, ref node.moveMax, "Class", "moveMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprecMax);
 		ValidateNumber(ref result, ref node.hprecMax, "Class", "hprecMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprecMax);
 		ValidateNumber(ref result, ref node.mprecMax, "Class", "mprecMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.race);
 		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sortkey);
 		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture);
 		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_atmark_cutin);
 		// Ignore Unknown Class picture@cutin
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_detail);
 		SpecialTreatment_class_picture_detail(ref result, ref node, ref node.picture_detail);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_menu);
 		ValidateNumber(ref result, ref node.picture_menu, "Class", "picture_menu");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_floor);
 		SpecialTreatment_class_picture_floor(ref result, ref node, ref node.picture_floor);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_shift);
 		ValidateNumber(ref result, ref node.picture_shift, "Class", "picture_shift");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_shift_up);
 		ValidateNumber(ref result, ref node.picture_shift_up, "Class", "picture_shift_up");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_center);
 		ValidateNumber(ref result, ref node.picture_center, "Class", "picture_center");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_back);
 		// Ignore Unknown Class picture_back
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.price);
 		ValidateNumber(ref result, ref node.price, "Class", "price");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.cost);
 		ValidateNumber(ref result, ref node.cost, "Class", "cost");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.finance);
 		ValidateNumber(ref result, ref node.finance, "Class", "finance");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.tkool);
 		ValidateBoolean(ref result, ref node.tkool, "Class", "tkool");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.keep_form);
 		ValidateBooleanNumber(ref result, ref node.keep_form, "Class", "keep_form");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.breast_width);
 		ValidateNumber(ref result, ref node.breast_width, "Class", "breast_width");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.medical);
 		ValidateNumber(ref result, ref node.medical, "Class", "medical");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.active);
 		SpecialTreatment_class_active(ref result, ref node, ref node.active);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.activenum);
 		// Ignore Unknown Class activenum
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.handle);
 		ValidateBoolean(ref result, ref node.handle, "Class", "handle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.red);
 		ValidateBoolean(ref result, ref node.red, "Class", "red");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.rank_text);
 		// Ignore Text Class rank_text
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_training);
 		ValidateBoolean(ref result, ref node.no_training, "Class", "no_training");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.force_voice);
 		ValidateBoolean(ref result, ref node.force_voice, "Class", "force_voice");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.face);
 		AddReference(ref result, ref node.face, ref analysisResult.faceSet, ReferenceKind.face);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.same_friend);
 		ValidateBoolean(ref result, ref node.same_friend, "Class", "same_friend");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.same_call);
 		ValidateBoolean(ref result, ref node.same_call, "Class", "same_call");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.level_max);
 		ValidateNumber(ref result, ref node.level_max, "Class", "level_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.exp);
 		ValidateNumber(ref result, ref node.exp, "Class", "exp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.exp_mul);
 		ValidateNumber(ref result, ref node.exp_mul, "Class", "exp_mul");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.exp_max);
 		ValidateNumber(ref result, ref node.exp_max, "Class", "exp_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.line);
 		SpecialTreatment_class_line(ref result, ref node, ref node.line);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.image);
 		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image);
 		AddReference(ref result, ref node.sub_image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.politics);
 		SpecialTreatment_class_politics(ref result, ref node, ref node.politics);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.element_lost);
 		ValidateBoolean(ref result, ref node.element_lost, "Class", "element_lost");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.fkey);
 		AddReference(ref result, ref node.fkey, ref analysisResult.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.consti);
 		AddReference(ref result, ref node.consti, ref analysisResult.AttributeTypeSet, ReferenceKind.AttributeType);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.multi);
 		ValidateStatusNumber(ref result, ref node.multi, "Class", "multi");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.lost_corpse);
 		ValidateNumber(ref result, ref node.lost_corpse, "Class", "lost_corpse");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.add_vassal);
 		SpecialTreatment_class_add_vassal(ref result, ref node, ref node.add_vassal);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.value);
 		ValidateNumber(ref result, ref node.value, "Class", "value");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.@break);
 		AddReference(ref result, ref node.@break, ref analysisResult.SkillSet, ReferenceKind.Skill);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.scream);
 		AddReference(ref result, ref node.scream, ref analysisResult.soundSet, ReferenceKind.sound);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.item);
 		AddReference(ref result, ref node.item, ref analysisResult.SkillSet, ReferenceKind.Skill);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.image2);
 		AddReference(ref result, ref node.image2, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image2);
 		AddReference(ref result, ref node.sub_image2, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.unique);
 		ValidateBoolean(ref result, ref node.unique, "Class", "unique");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.same_sex);
 		ValidateBoolean(ref result, ref node.same_sex, "Class", "same_sex");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.change);
 		AddReference(ref result, ref node.change, ref analysisResult.ClassSet, ReferenceKind.Class);
 	}
 
@@ -703,35 +886,70 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref DungeonNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.DungeonSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Dungeon name
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.max);
 		ValidateNumber(ref result, ref node.max, "Dungeon", "max");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.move_speed);
 		ValidateNumber(ref result, ref node.move_speed, "Dungeon", "move_speed");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.prefix);
 		// Ignore Text Dungeon prefix
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.suffix);
 		// Ignore Text Dungeon suffix
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.lv_adjust);
 		ValidateNumber(ref result, ref node.lv_adjust, "Dungeon", "lv_adjust");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.open);
 		ValidateBoolean(ref result, ref node.open, "Dungeon", "open");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.limit);
 		ValidateNumber(ref result, ref node.limit, "Dungeon", "limit");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.bgm);
 		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.volume);
 		ValidateNumber(ref result, ref node.volume, "Dungeon", "volume");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.blind);
 		ValidateNumber(ref result, ref node.blind, "Dungeon", "blind");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.base_level);
 		ValidateNumber(ref result, ref node.base_level, "Dungeon", "base_level");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.color);
 		ValidateNumber(ref result, ref node.color, "Dungeon", "color");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.map);
 		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.floor);
 		AddReference(ref result, ref node.floor, ref analysisResult.FieldSet, ReferenceKind.Field);
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.wall);
 		AddReference(ref result, ref node.wall, ref analysisResult.ObjectSet, ReferenceKind.Object);
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.start);
 		AddReference(ref result, ref node.start, ref analysisResult.ObjectSet, ReferenceKind.Object);
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.goal);
 		AddReference(ref result, ref node.goal, ref analysisResult.ObjectSet, ReferenceKind.Object);
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.monster_num);
 		ValidateNumber(ref result, ref node.monster_num, "Dungeon", "monster_num");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.box);
 		AddReference(ref result, ref node.box, ref analysisResult.ObjectSet, ReferenceKind.Object);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.item);
 		// Ignore Unknown Dungeon item
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.item_num);
 		ValidateNumber(ref result, ref node.item_num, "Dungeon", "item_num");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.item_text);
 		ValidateBoolean(ref result, ref node.item_text, "Dungeon", "item_text");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.home);
 		ValidateNumber(ref result, ref node.home, "Dungeon", "home");
+        CollectNumber(ref result, ref analysisResult.ScenarioSet, ref node.ray);
 		ValidateNumber(ref result, ref node.ray, "Dungeon", "ray");
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref FieldNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.FieldSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		// Ignore Unknown Field type
 		AddReference(ref result, ref node.attr, ref analysisResult.FieldAttributeTypeWriterSet, ReferenceKind.FieldAttributeTypeWriter);
 		ValidateNumber(ref result, ref node.color, "Field", "color");
@@ -748,6 +966,11 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref MovetypeNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.MovetypeSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		// Ignore Text Movetype name
 		// Ignore Text Movetype help
 		AddReference(ref result, ref node.consti, ref analysisResult.FieldAttributeTypeReaderSet, ReferenceKind.FieldAttributeTypeReader);
@@ -755,6 +978,11 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref ObjectNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.ObjectSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		// Ignore Unknown Object skill
 		// Ignore Unknown Object front
 		ValidateNumber(ref result, ref node.width, "Object", "width");
@@ -783,15 +1011,30 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref RaceNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.RaceSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Race name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.align);
 		ValidateNumber(ref result, ref node.align, "Race", "align");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.brave);
 		ValidateNumber(ref result, ref node.brave, "Race", "brave");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.consti);
 		AddReference(ref result, ref node.consti, ref analysisResult.AttributeTypeSet, ReferenceKind.AttributeType);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.movetype);
 		AddReference(ref result, ref node.movetype, ref analysisResult.MovetypeSet, ReferenceKind.Movetype);
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref SkillNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.SkillSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		ValidateBoolean(ref result, ref node.bright, "Skill", "bright");
 		SpecialTreatment_skill_func(ref result, ref node, ref node.func);
 		// Ignore Text Skill name
@@ -805,7 +1048,9 @@ public static partial class PerResultValidator
 		// Ignore Text Skill help
 		ValidateBoolean(ref result, ref node.hide_help, "Skill", "hide_help");
 		AddReference(ref result, ref node.sound, ref analysisResult.soundSet, ReferenceKind.sound);
+        Collect(ref result, ref analysisResult.UnitSet, ref node.msg);
 		// Ignore Text Skill msg
+        Collect(ref result, ref analysisResult.UnitSet, ref node.picture);
 		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
 		SpecialTreatment_skill_cutin(ref result, ref node, ref node.cutin);
 		ValidateNumber(ref result, ref node.value, "Skill", "value");
@@ -889,7 +1134,6 @@ public static partial class PerResultValidator
 		ValidateBooleanNumber(ref result, ref node.hard2, "Skill", "hard2");
 		ValidateBoolean(ref result, ref node.onehit, "Skill", "onehit");
 		AddReference(ref result, ref node.offset_attr, ref analysisResult.SkillSet, ReferenceKind.Skill);
-		ValidateBoolean(ref result, ref node.offset_on, "Skill", "offset_on");
 		ValidateNumber(ref result, ref node.knock, "Skill", "knock");
 		ValidateNumber(ref result, ref node.knock_speed, "Skill", "knock_speed");
 		ValidateNumber(ref result, ref node.knock_power, "Skill", "knock_power");
@@ -1213,6 +1457,11 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref SkillsetNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.SkillsetSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		// Ignore Text Skillset name
 		// Ignore icon Skillset back
 		AddReference(ref result, ref node.member, ref analysisResult.SkillSet, ReferenceKind.Skill);
@@ -1220,28 +1469,56 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref SpotNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.SpotSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.value);
 		ValidateNumber(ref result, ref node.value, "Spot", "value");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.politics);
 		SpecialTreatment_spot_politics(ref result, ref node, ref node.politics);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Spot name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.image);
 		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.x);
 		ValidateNumber(ref result, ref node.x, "Spot", "x");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.y);
 		ValidateNumber(ref result, ref node.y, "Spot", "y");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.w);
 		ValidateNumber(ref result, ref node.w, "Spot", "w");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.h);
 		ValidateNumber(ref result, ref node.h, "Spot", "h");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.big);
 		// Ignore Unknown Spot big
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.map);
 		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle_battle);
 		ValidateBoolean(ref result, ref node.castle_battle, "Spot", "castle_battle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.yorozu);
 		AddReference(ref result, ref node.yorozu, ref analysisResult.ClassSet, ReferenceKind.Class);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.limit);
 		ValidateNumber(ref result, ref node.limit, "Spot", "limit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bgm);
 		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.volume);
 		ValidateNumber(ref result, ref node.volume, "Spot", "volume");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.gain);
 		ValidateNumber(ref result, ref node.gain, "Spot", "gain");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle);
 		ValidateNumber(ref result, ref node.castle, "Spot", "castle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.capacity);
 		ValidateNumber(ref result, ref node.capacity, "Spot", "capacity");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dungeon);
 		AddReference(ref result, ref node.dungeon, ref analysisResult.DungeonSet, ReferenceKind.Dungeon);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_home);
 		ValidateBoolean(ref result, ref node.no_home, "Spot", "no_home");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_raise);
 		ValidateBoolean(ref result, ref node.no_raise, "Spot", "no_raise");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle_lot);
 		ValidateNumber(ref result, ref node.castle_lot, "Spot", "castle_lot");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.text);
 		// Ignore Text Spot text
 	}
 
@@ -1282,159 +1559,318 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref UnitNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.UnitSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.troop_sort);
 		ValidateNumber(ref result, ref node.troop_sort, "Unit", "troop_sort");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.stealth);
 		ValidateNumber(ref result, ref node.stealth, "Unit", "stealth");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.free_move);
 		ValidateNumber(ref result, ref node.free_move, "Unit", "free_move");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Unit name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.help);
 		// Ignore Text Unit help
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sex);
 		SpecialTreatment_unit_sex(ref result, ref node, ref node.sex);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.a);
 		ValidateNumber(ref result, ref node.a, "Unit", "a");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.h);
 		ValidateNumber(ref result, ref node.h, "Unit", "h");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.w);
 		ValidateNumber(ref result, ref node.w, "Unit", "w");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.text);
 		// Ignore Text Unit text
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image_even);
 		ValidateBoolean(ref result, ref node.sub_image_even, "Unit", "sub_image_even");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.yorozu);
 		SpecialTreatment_unit_yorozu(ref result, ref node, ref node.yorozu);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.radius);
 		ValidateNumber(ref result, ref node.radius, "Unit", "radius");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.radius_press);
 		ValidateNumber(ref result, ref node.radius_press, "Unit", "radius_press");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_escape);
 		ValidateBoolean(ref result, ref node.no_escape, "Unit", "no_escape");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_regular);
 		ValidateBoolean(ref result, ref node.no_regular, "Unit", "no_regular");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_knock);
 		ValidateBooleanNumber(ref result, ref node.no_knock, "Unit", "no_knock");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_cover);
 		ValidateBoolean(ref result, ref node.no_cover, "Unit", "no_cover");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dead_event);
 		AddReference(ref result, ref node.dead_event, ref analysisResult.EventSet, ReferenceKind.Event);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.beast_unit);
 		ValidateBoolean(ref result, ref node.beast_unit, "Unit", "beast_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.summon_max);
 		ValidateNumber(ref result, ref node.summon_max, "Unit", "summon_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.summon_level);
 		ValidateNumber(ref result, ref node.summon_level, "Unit", "summon_level");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attack_range);
 		ValidateNumber(ref result, ref node.attack_range, "Unit", "attack_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.escape_range);
 		ValidateNumber(ref result, ref node.escape_range, "Unit", "escape_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.escape_run);
 		ValidateNumber(ref result, ref node.escape_run, "Unit", "escape_run");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hand_range);
 		ValidateNumber(ref result, ref node.hand_range, "Unit", "hand_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.wake_range);
 		ValidateNumber(ref result, ref node.wake_range, "Unit", "wake_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.view_range);
 		ValidateNumber(ref result, ref node.view_range, "Unit", "view_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.cavalry_range);
 		ValidateNumber(ref result, ref node.cavalry_range, "Unit", "cavalry_range");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.view_unit);
 		ValidateBoolean(ref result, ref node.view_unit, "Unit", "view_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.force_view_unit);
 		ValidateBoolean(ref result, ref node.force_view_unit, "Unit", "force_view_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.force_blind_unit);
 		ValidateBoolean(ref result, ref node.force_blind_unit, "Unit", "force_blind_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.satellite);
 		ValidateBooleanNumber(ref result, ref node.satellite, "Unit", "satellite");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hasexp);
 		ValidateNumber(ref result, ref node.hasexp, "Unit", "hasexp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.brave);
 		ValidateBooleanNumber(ref result, ref node.brave, "Unit", "brave");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.level);
 		ValidateNumber(ref result, ref node.level, "Unit", "level");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hp);
 		ValidateNumber(ref result, ref node.hp, "Unit", "hp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mp);
 		ValidateNumber(ref result, ref node.mp, "Unit", "mp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attack);
 		ValidateNumber(ref result, ref node.attack, "Unit", "attack");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defense);
 		ValidateNumber(ref result, ref node.defense, "Unit", "defense");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magic);
 		ValidateNumber(ref result, ref node.magic, "Unit", "magic");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdef);
 		ValidateNumber(ref result, ref node.magdef, "Unit", "magdef");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speed);
 		ValidateNumber(ref result, ref node.speed, "Unit", "speed");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dext);
 		ValidateNumber(ref result, ref node.dext, "Unit", "dext");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.move);
 		ValidateNumber(ref result, ref node.move, "Unit", "move");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprec);
 		ValidateNumber(ref result, ref node.hprec, "Unit", "hprec");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprec);
 		ValidateNumber(ref result, ref node.mprec, "Unit", "mprec");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.heal_max);
 		ValidateNumber(ref result, ref node.heal_max, "Unit", "heal_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attack_max);
 		ValidateNumber(ref result, ref node.attack_max, "Unit", "attack_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defense_max);
 		ValidateNumber(ref result, ref node.defense_max, "Unit", "defense_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magic_max);
 		ValidateNumber(ref result, ref node.magic_max, "Unit", "magic_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdef_max);
 		ValidateNumber(ref result, ref node.magdef_max, "Unit", "magdef_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speed_max);
 		ValidateNumber(ref result, ref node.speed_max, "Unit", "speed_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dext_max);
 		ValidateNumber(ref result, ref node.dext_max, "Unit", "dext_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.move_max);
 		ValidateNumber(ref result, ref node.move_max, "Unit", "move_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprec_max);
 		ValidateNumber(ref result, ref node.hprec_max, "Unit", "hprec_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprec_max);
 		ValidateNumber(ref result, ref node.mprec_max, "Unit", "mprec_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.movetype);
 		AddReference(ref result, ref node.movetype, ref analysisResult.MovetypeSet, ReferenceKind.Movetype);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hpUp);
 		ValidateNumber(ref result, ref node.hpUp, "Unit", "hpUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mpUp);
 		ValidateNumber(ref result, ref node.mpUp, "Unit", "mpUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attackUp);
 		ValidateNumber(ref result, ref node.attackUp, "Unit", "attackUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defenseUp);
 		ValidateNumber(ref result, ref node.defenseUp, "Unit", "defenseUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magicUp);
 		ValidateNumber(ref result, ref node.magicUp, "Unit", "magicUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdefUp);
 		ValidateNumber(ref result, ref node.magdefUp, "Unit", "magdefUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speedUp);
 		ValidateNumber(ref result, ref node.speedUp, "Unit", "speedUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dextUp);
 		ValidateNumber(ref result, ref node.dextUp, "Unit", "dextUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.moveUp);
 		ValidateNumber(ref result, ref node.moveUp, "Unit", "moveUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprecUp);
 		ValidateNumber(ref result, ref node.hprecUp, "Unit", "hprecUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprecUp);
 		ValidateNumber(ref result, ref node.mprecUp, "Unit", "mprecUp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hpMax);
 		ValidateNumber(ref result, ref node.hpMax, "Unit", "hpMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mpMax);
 		ValidateNumber(ref result, ref node.mpMax, "Unit", "mpMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.attackMax);
 		ValidateNumber(ref result, ref node.attackMax, "Unit", "attackMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.defenseMax);
 		ValidateNumber(ref result, ref node.defenseMax, "Unit", "defenseMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magicMax);
 		ValidateNumber(ref result, ref node.magicMax, "Unit", "magicMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.magdefMax);
 		ValidateNumber(ref result, ref node.magdefMax, "Unit", "magdefMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.speedMax);
 		ValidateNumber(ref result, ref node.speedMax, "Unit", "speedMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dextMax);
 		ValidateNumber(ref result, ref node.dextMax, "Unit", "dextMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.moveMax);
 		ValidateNumber(ref result, ref node.moveMax, "Unit", "moveMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.hprecMax);
 		ValidateNumber(ref result, ref node.hprecMax, "Unit", "hprecMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.mprecMax);
 		ValidateNumber(ref result, ref node.mprecMax, "Unit", "mprecMax");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.race);
 		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sortkey);
 		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture);
 		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_atmark_cutin);
 		// Ignore Unknown Unit picture@cutin
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_detail);
 		SpecialTreatment_unit_picture_detail(ref result, ref node, ref node.picture_detail);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_menu);
 		ValidateNumber(ref result, ref node.picture_menu, "Unit", "picture_menu");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_floor);
 		SpecialTreatment_unit_picture_floor(ref result, ref node, ref node.picture_floor);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_shift);
 		ValidateNumber(ref result, ref node.picture_shift, "Unit", "picture_shift");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_shift_up);
 		ValidateNumber(ref result, ref node.picture_shift_up, "Unit", "picture_shift_up");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_center);
 		ValidateNumber(ref result, ref node.picture_center, "Unit", "picture_center");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_back);
 		// Ignore Unknown Unit picture_back
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.price);
 		ValidateNumber(ref result, ref node.price, "Unit", "price");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.cost);
 		ValidateNumber(ref result, ref node.cost, "Unit", "cost");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.finance);
 		ValidateNumber(ref result, ref node.finance, "Unit", "finance");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.tkool);
 		ValidateBoolean(ref result, ref node.tkool, "Unit", "tkool");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.keep_form);
 		ValidateBooleanNumber(ref result, ref node.keep_form, "Unit", "keep_form");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.breast_width);
 		ValidateNumber(ref result, ref node.breast_width, "Unit", "breast_width");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.medical);
 		ValidateNumber(ref result, ref node.medical, "Unit", "medical");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.active);
 		SpecialTreatment_unit_active(ref result, ref node, ref node.active);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.activenum);
 		// Ignore Unknown Unit activenum
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.handle);
 		ValidateBoolean(ref result, ref node.handle, "Unit", "handle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.red);
 		ValidateBoolean(ref result, ref node.red, "Unit", "red");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.rank_text);
 		// Ignore Text Unit rank_text
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.no_training);
 		ValidateBoolean(ref result, ref node.no_training, "Unit", "no_training");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.force_voice);
 		ValidateBoolean(ref result, ref node.force_voice, "Unit", "force_voice");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.face);
 		AddReference(ref result, ref node.face, ref analysisResult.faceSet, ReferenceKind.face);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.same_friend);
 		ValidateBoolean(ref result, ref node.same_friend, "Unit", "same_friend");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.same_call);
 		ValidateBoolean(ref result, ref node.same_call, "Unit", "same_call");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.level_max);
 		ValidateNumber(ref result, ref node.level_max, "Unit", "level_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.exp);
 		ValidateNumber(ref result, ref node.exp, "Unit", "exp");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.exp_mul);
 		ValidateNumber(ref result, ref node.exp_mul, "Unit", "exp_mul");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.exp_max);
 		ValidateNumber(ref result, ref node.exp_max, "Unit", "exp_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.line);
 		SpecialTreatment_unit_line(ref result, ref node, ref node.line);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.image);
 		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image);
 		AddReference(ref result, ref node.sub_image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.politics);
 		SpecialTreatment_unit_politics(ref result, ref node, ref node.politics);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.element_lost);
 		ValidateBoolean(ref result, ref node.element_lost, "Unit", "element_lost");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.fkey);
 		AddReference(ref result, ref node.fkey, ref analysisResult.ClassTypeWriterSet, ReferenceKind.ClassTypeWriter);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.consti);
 		AddReference(ref result, ref node.consti, ref analysisResult.AttributeTypeSet, ReferenceKind.AttributeType);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.multi);
 		ValidateStatusNumber(ref result, ref node.multi, "Unit", "multi");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.lost_corpse);
 		ValidateNumber(ref result, ref node.lost_corpse, "Unit", "lost_corpse");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.add_vassal);
 		SpecialTreatment_unit_add_vassal(ref result, ref node, ref node.add_vassal);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.value);
 		ValidateNumber(ref result, ref node.value, "Unit", "value");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.@break);
 		AddReference(ref result, ref node.@break, ref analysisResult.SkillSet, ReferenceKind.Skill);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.scream);
 		AddReference(ref result, ref node.scream, ref analysisResult.soundSet, ReferenceKind.sound);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.item);
 		AddReference(ref result, ref node.item, ref analysisResult.SkillSet, ReferenceKind.Skill);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.talent);
 		ValidateBoolean(ref result, ref node.talent, "Unit", "talent");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.@class);
 		AddReference(ref result, ref node.@class, ref analysisResult.ClassSet, ReferenceKind.Class);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bgm);
 		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.volume);
 		ValidateNumber(ref result, ref node.volume, "Unit", "volume");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.alive_per);
 		ValidateNumber(ref result, ref node.alive_per, "Unit", "alive_per");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.yabo);
 		ValidateNumber(ref result, ref node.yabo, "Unit", "yabo");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.kosen);
 		ValidateNumber(ref result, ref node.kosen, "Unit", "kosen");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.align);
 		ValidateNumber(ref result, ref node.align, "Unit", "align");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.loyal);
 		AddReference(ref result, ref node.loyal, ref analysisResult.UnitSet, ReferenceKind.Unit);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.power_name);
 		// Ignore Text Unit power_name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enemy);
 		AddReference(ref result, ref node.enemy, ref analysisResult.UnitSet, ReferenceKind.Unit);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.flag);
 		AddReference(ref result, ref node.flag, ref analysisResult.flagSet, ReferenceKind.flag);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.diplomacy);
 		ValidateBoolean(ref result, ref node.diplomacy, "Unit", "diplomacy");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.actor);
 		ValidateBoolean(ref result, ref node.actor, "Unit", "actor");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enable);
 		ValidateNumber(ref result, ref node.enable, "Unit", "enable");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enable_select);
 		ValidateBoolean(ref result, ref node.enable_select, "Unit", "enable_select");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.enable_max);
 		ValidateNumber(ref result, ref node.enable_max, "Unit", "enable_max");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.fix);
 		SpecialTreatment_unit_fix(ref result, ref node, ref node.fix);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.home);
 		AddReference(ref result, ref node.home, ref analysisResult.SpotSet, ReferenceKind.Spot);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.noremove_unit);
 		ValidateBoolean(ref result, ref node.noremove_unit, "Unit", "noremove_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.noemploy_unit);
 		ValidateBoolean(ref result, ref node.noemploy_unit, "Unit", "noemploy_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.noitem_unit);
 		ValidateBoolean(ref result, ref node.noitem_unit, "Unit", "noitem_unit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.arbeit);
 		SpecialTreatment_unit_arbeit(ref result, ref node, ref node.arbeit);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.arbeit_capacity);
 		ValidateNumber(ref result, ref node.arbeit_capacity, "Unit", "arbeit_capacity");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.join);
 		// Ignore Text Unit join
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dead);
 		// Ignore Text Unit dead
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.retreat);
 		// Ignore Text Unit retreat
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.voice_type);
 		AddReference(ref result, ref node.voice_type, ref analysisResult.VoiceTypeWriterSet, ReferenceKind.VoiceTypeWriter);
 	}
 
@@ -1927,15 +2363,30 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref VoiceNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.VoiceSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.voice_type);
 		AddReference(ref result, ref node.voice_type, ref analysisResult.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.delskill);
 		AddReference(ref result, ref node.delskill, ref analysisResult.VoiceTypeReaderSet, ReferenceKind.VoiceTypeReader);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.spot);
 		// Ignore Text Voice spot
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.roam);
 		// Ignore Text Voice roam
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.power);
 		// Ignore Text Voice power
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref ScenarioNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.ScenarioSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		foreach (var statement in node.Statements.AsSpan())
 		{
 			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
@@ -2034,48 +2485,89 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref EventNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.EventSet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		foreach (var statement in node.Statements.AsSpan())
 		{
 			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.disperse);
 		ValidateBoolean(ref result, ref node.disperse, "Event", "disperse");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle);
 		ValidateNumber(ref result, ref node.castle, "Event", "castle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle_battle);
 		ValidateBoolean(ref result, ref node.castle_battle, "Event", "castle_battle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.personal_battle);
 		ValidateBoolean(ref result, ref node.personal_battle, "Event", "personal_battle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.blind);
 		ValidateBooleanNumber(ref result, ref node.blind, "Event", "blind");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.w);
 		ValidateNumber(ref result, ref node.w, "Event", "w");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.h);
 		ValidateNumber(ref result, ref node.h, "Event", "h");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bg);
 		// Ignore Unknown Event bg
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bcg);
 		// Ignore Unknown Event bcg
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bgm);
 		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.map);
 		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Event name
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.size);
 		// Ignore Unknown Event size
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.color);
 		ValidateNumber(ref result, ref node.color, "Event", "color");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.block);
 		// Ignore Unknown Event block
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.limit);
 		ValidateNumber(ref result, ref node.limit, "Event", "limit");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.title);
 		// Ignore Text Event title
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.center);
 		// Ignore Unknown Event center
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.italic);
 		// Ignore Unknown Event italic
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.handle);
 		ValidateRedBlue(ref result, ref node.handle, "Event", "handle");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.member);
 		// Ignore Unknown Event member
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.second);
 		// Ignore Unknown Event second
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.volume);
 		ValidateNumber(ref result, ref node.volume, "Event", "volume");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bg_fade);
 		// Ignore Unknown Event bg_fade
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dark_fade);
 		// Ignore Unknown Event dark_fade
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dark_alpha);
 		// Ignore Unknown Event dark_alpha
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.bg_interval);
 		// Ignore Unknown Event bg_interval
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.dark_fade_e);
 		// Ignore Unknown Event dark_fade_e
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.last_second);
 		// Ignore Unknown Event last_second
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref StoryNode node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.StorySet.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 		foreach (var statement in node.Statements.AsSpan())
 		{
 			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.friend);
 		AddReference(ref result, ref node.friend, ref analysisResult.ScenarioSet, ReferenceKind.Scenario);
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.fight);
 		ValidateBoolean(ref result, ref node.fight, "Story", "fight");
 	}
 }

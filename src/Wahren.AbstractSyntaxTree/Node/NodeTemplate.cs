@@ -744,7 +744,6 @@ public partial struct SkillNode : IInheritableNode
 	public Pair_NullableString_NullableIntElement? onehit = default;
 	public Pair_NullableString_NullableInt_ArrayElement? offset = default;
 	public Pair_NullableString_NullableIntElement? offset_attr = default;
-	public Pair_NullableString_NullableIntElement? offset_on = default;
 	public Pair_NullableString_NullableIntElement? knock = default;
 	public Pair_NullableString_NullableIntElement? knock_speed = default;
 	public Pair_NullableString_NullableIntElement? knock_power = default;
@@ -904,7 +903,6 @@ public partial struct SkillNode : IInheritableNode
 		offset?.Dispose();
 		offset = default;
 		offset_attr = default;
-		offset_on = default;
 		knock = default;
 		knock_speed = default;
 		knock_power = default;

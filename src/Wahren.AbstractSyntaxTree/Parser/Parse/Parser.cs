@@ -174,7 +174,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool ParseNameAndSuperAndBracketLeft<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet)
+    private static bool ParseNameAndSuperAndBracketLeft<T>(ref Context context, ref Result result, ref T node)
         where T : struct, IInheritableNode
     {
         ref var tokenList = ref result.TokenList;
@@ -198,7 +198,7 @@ public static partial class Parser
             return false;
         }
 
-        if (result.IsColon(tokenList.LastIndex) && !ProcessSuper(ref context, ref result, ref node, ref superSet))
+        if (result.IsColon(tokenList.LastIndex) && !ProcessSuper(ref context, ref result, ref node))
         {
             return false;
         }
@@ -213,7 +213,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool ProcessSuper<T>(ref Context context, ref Result result, ref T node, ref StringSpanKeySlowSet superSet)
+    private static bool ProcessSuper<T>(ref Context context, ref Result result, ref T node)
         where T : struct, IInheritableNode
     {
         if (!ReadUsefulToken(ref context, ref result))
@@ -227,7 +227,6 @@ public static partial class Parser
         node.HasSuper = true;
         node.Super = tokenList.LastIndex;
         var superSpan = result.GetSpan(tokenList.LastIndex);
-        superSet.GetOrAdd(superSpan, node.Super);
 
         var nodeNameSpan = result.GetSpan(node.Name);
         if (superSpan.SequenceEqual(nodeNameSpan))

@@ -197,8 +197,7 @@ public partial class Program
         }
 
         Context context = new(treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, deleteDiscardedToken, DiagnosticSeverity.Error);
-        using AnalysisResult analysisResult = new();
-        Parser.Parse(ref context, ref result, analysisResult);
+        Parser.Parse(ref context, ref result);
         var byteList = new List<byte>();
         try
         {

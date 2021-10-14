@@ -2,7 +2,7 @@
 
 public static partial class Parser
 {
-    public static bool Parse(ref Context context, ref Result result, AnalysisResult analysisResult)
+    public static bool Parse(ref Context context, ref Result result)
     {
         ref var source = ref result.Source;
         ref var position = ref context.Position;
@@ -62,7 +62,7 @@ public static partial class Parser
                             goto FALSE;
                         case 'l' when result.Is_class_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.@class;
-                            success &= ParseClass(ref context, ref result, analysisResult, out canContinue);
+                            success &= ParseClass(ref context, ref result, out canContinue);
                             if (canContinue)
                             {
                                 continue;
@@ -77,7 +77,7 @@ public static partial class Parser
                     {
                         case 'e' when result.Is_detail_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.detail;
-                            if (ParseDetail(ref context, ref result, analysisResult))
+                            if (ParseDetail(ref context, ref result))
                             {
                                 continue;
                             }
@@ -85,7 +85,7 @@ public static partial class Parser
                             goto FALSE;
                         case 'u' when result.Is_dungeon_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.dungeon;
-                            success &= ParseDungeon(ref context, ref result, analysisResult, out canContinue);
+                            success &= ParseDungeon(ref context, ref result, out canContinue);
                             if (canContinue)
                             {
                                 continue;
@@ -97,7 +97,7 @@ public static partial class Parser
                     goto default;
                 case 'e' when next == 'v' && result.Is_event_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.@event;
-                    success &= ParseEvent(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParseEvent(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -108,7 +108,7 @@ public static partial class Parser
                     if (result.Is_field_Skip2(tokenList.LastIndex))
                     {
                         lastKind = TokenKind.field;
-                        success &= ParseField(ref context, ref result, analysisResult, out canContinue);
+                        success &= ParseField(ref context, ref result, out canContinue);
                         if (canContinue)
                         {
                             continue;
@@ -119,7 +119,7 @@ public static partial class Parser
                     else if (result.Is_fight_Skip2(tokenList.LastIndex))
                     {
                         lastKind = TokenKind.fight;
-                        success &= ParseEvent(ref context, ref result, analysisResult, out canContinue);
+                        success &= ParseEvent(ref context, ref result, out canContinue);
                         if (canContinue)
                         {
                             continue;
@@ -131,7 +131,7 @@ public static partial class Parser
                     goto default;
                 case 'm' when next == 'o' && result.Is_movetype_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.movetype;
-                    success &= ParseMovetype(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParseMovetype(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -140,7 +140,7 @@ public static partial class Parser
                     goto FALSE;
                 case 'o' when next == 'b' && result.Is_object_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.@object;
-                    success &= ParseObject(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParseObject(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -149,7 +149,7 @@ public static partial class Parser
                     goto FALSE;
                 case 'p' when next == 'o' && result.Is_power_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.power;
-                    success &= ParsePower(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParsePower(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -158,7 +158,7 @@ public static partial class Parser
                     goto FALSE;
                 case 'r' when next == 'a' && result.Is_race_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.race;
-                    success &= ParseRace(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParseRace(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -170,7 +170,7 @@ public static partial class Parser
                     {
                         case 'c' when result.Is_scenario_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.scenario;
-                            success &= ParseScenario(ref context, ref result, analysisResult, out canContinue);
+                            success &= ParseScenario(ref context, ref result, out canContinue);
                             if (canContinue)
                             {
                                 continue;
@@ -181,7 +181,7 @@ public static partial class Parser
                             if (result.Is_skill_Skip2(tokenList.LastIndex))
                             {
                                 lastKind = TokenKind.skill;
-                                success &= ParseSkill(ref context, ref result, analysisResult, out canContinue);
+                                success &= ParseSkill(ref context, ref result, out canContinue);
                                 if (canContinue)
                                 {
                                     continue;
@@ -192,7 +192,7 @@ public static partial class Parser
                             else if (result.Is_skillset_Skip2(tokenList.LastIndex))
                             {
                                 lastKind = TokenKind.skillset;
-                                success &= ParseSkillset(ref context, ref result, analysisResult, out canContinue);
+                                success &= ParseSkillset(ref context, ref result, out canContinue);
                                 if (canContinue)
                                 {
                                     continue;
@@ -204,7 +204,7 @@ public static partial class Parser
                             break;
                         case 'o' when result.Is_sound_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.sound;
-                            if (ParseSound(ref context, ref result, analysisResult))
+                            if (ParseSound(ref context, ref result))
                             {
                                 continue;
                             }
@@ -212,7 +212,7 @@ public static partial class Parser
                             goto FALSE;
                         case 'p' when result.Is_spot_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.spot;
-                            success &= ParseSpot(ref context, ref result, analysisResult, out canContinue);
+                            success &= ParseSpot(ref context, ref result, out canContinue);
                             if (canContinue)
                             {
                                 continue;
@@ -221,7 +221,7 @@ public static partial class Parser
                             goto FALSE;
                         case 't' when result.Is_story_Skip2(tokenList.LastIndex):
                             lastKind = TokenKind.story;
-                            success &= ParseStory(ref context, ref result, analysisResult, out canContinue);
+                            success &= ParseStory(ref context, ref result, out canContinue);
                             if (canContinue)
                             {
                                 continue;
@@ -233,7 +233,7 @@ public static partial class Parser
                     goto default;
                 case 'u' when next == 'n' && result.Is_unit_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.unit;
-                    success &= ParseUnit(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParseUnit(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -242,7 +242,7 @@ public static partial class Parser
                     goto FALSE;
                 case 'v' when next == 'o' && result.Is_voice_Skip2(tokenList.LastIndex):
                     lastKind = TokenKind.voice;
-                    success &= ParseVoice(ref context, ref result, analysisResult, out canContinue);
+                    success &= ParseVoice(ref context, ref result, out canContinue);
                     if (canContinue)
                     {
                         continue;
@@ -263,7 +263,7 @@ public static partial class Parser
                     else if (result.Is_world_Skip2(tokenList.LastIndex))
                     {
                         lastKind = TokenKind.world;
-                        success &= ParseEvent(ref context, ref result, analysisResult, out canContinue);
+                        success &= ParseEvent(ref context, ref result, out canContinue);
                         if (canContinue)
                         {
                             continue;

@@ -32,14 +32,24 @@ public static partial class PerResultValidator
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref <#= nodeInfo.Name #>Node node)
 	{
+        if (node.HasSuper)
+        {
+            analysisResult.<#= nodeInfo.Name #>Set.GetOrAdd(result.GetSpan(node.Super), node.Super);
+        }
+
 <#  if (nodeInfo.HasBlock) { #>
 		foreach (var statement in node.Statements.AsSpan())
 		{
 			AddReferenceAndValidateStatement(ref context, ref result, analysisResult, statement);
 		}
 <#  } #>
-<#	foreach (var element in elements) {
-		switch (element.ReferenceKind) { #>
+<#	foreach (var element in elements) { #>
+<#      if (element.VariantType.StartsWith("Number")) { #>
+        CollectNumber(ref result, ref analysisResult.<#= element.VariantType.Substring(6) #>Set, ref node.<#= element.Name.Escape() #>);
+<#      } else if (element.VariantType != "") { #>
+        Collect(ref result, ref analysisResult.<#= element.VariantType #>Set, ref node.<#= element.Name.Escape() #>);
+<#      } #>
+<#		switch (element.ReferenceKind) { #>
 <#			default: #>
 		// Ignore <#= element.ReferenceKind #> <#= nodeInfo.Name #> <#= element.Name #>
 <#				break;#>
