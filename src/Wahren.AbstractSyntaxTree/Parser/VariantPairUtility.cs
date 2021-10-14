@@ -19,7 +19,7 @@ public static class VariantPairUtility
                 ref T? item = ref pair.VariantArray[i];
                 if (item is not null)
                 {
-                    length = (int)item.ElementKeyRange.Length;
+                    length = (int)item.ElementKeyLength;
                     element = item.ElementTokenId;
                     goto EQUALITY_COMPARE;
                 }
@@ -29,7 +29,7 @@ public static class VariantPairUtility
         }
         else
         {
-            length = (int)pair.Value.ElementKeyRange.Length;
+            length = (int)pair.Value.ElementKeyLength;
             element = pair.Value.ElementTokenId;
         }
 
@@ -37,30 +37,30 @@ public static class VariantPairUtility
         return span.SequenceEqual(result.GetSpan(element).Slice(0, length));
     }
 
-    public static ref T? EnsureGet<T>(ref this VariantPair<T> pair, uint scenario)
+    public static ref T? EnsureGet<T>(ref this VariantPair<T> pair, uint variationId)
         where T : class, IElement
     {
-        if (scenario == uint.MaxValue)
+        if (variationId == uint.MaxValue)
         {
             return ref pair.Value;
         }
 
         if (pair.VariantArray is null)
         {
-            pair.VariantArray = ArrayPool<T?>.Shared.Rent((int)scenario + 1);
+            pair.VariantArray = ArrayPool<T?>.Shared.Rent((int)variationId + 1);
             Array.Clear(pair.VariantArray);
-            return ref pair.VariantArray[scenario];
+            return ref pair.VariantArray[variationId];
         }
 
-        if (scenario >= pair.VariantArray.LongLength)
+        if (variationId >= pair.VariantArray.LongLength)
         {
-            var newArray = ArrayPool<T?>.Shared.Rent((int)scenario + 1);
+            var newArray = ArrayPool<T?>.Shared.Rent((int)variationId + 1);
             pair.VariantArray.CopyTo(newArray.AsSpan(0, pair.VariantArray.Length));
             newArray.AsSpan(pair.VariantArray.Length).Clear();
             Array.Clear(pair.VariantArray);
             pair.VariantArray = newArray;
         }
 
-        return ref pair.VariantArray[scenario];
+        return ref pair.VariantArray[variationId];
     }
 }

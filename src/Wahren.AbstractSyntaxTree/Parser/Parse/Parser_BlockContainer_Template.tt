@@ -164,11 +164,8 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
             {
                 pair_<#= type #> = new(currentIndex);
                 pair_<#= type #>.ElementScenarioId = variant;
-                pair_<#= type #>.ElementKeyRange.Length = (uint)span.Length;
-                {
-                    pair_<#= type #>.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                    pair_<#= type #>.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
-                }
+                pair_<#= type #>.ElementKeyLength = (uint)span.Length;
+                pair_<#= type #>.HasElementVariant = !variantSpan.IsEmpty;
                 if (<#= func #>(ref context, ref result, pair_<#= type #>))
                 {
                     continue;

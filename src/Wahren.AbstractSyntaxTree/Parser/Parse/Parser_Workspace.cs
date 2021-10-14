@@ -42,9 +42,7 @@ public static partial class Parser
                 return false;
             }
 
-            element.ElementKeyRange.Length = (uint)span.Length;
-            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
-            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
+            element.ElementKeyLength = (uint)span.Length;
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))
             {
                 return false;

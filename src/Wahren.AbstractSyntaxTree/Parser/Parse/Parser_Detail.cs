@@ -33,9 +33,8 @@ public static partial class Parser
                 return false;
             }
 
-            element.ElementKeyRange.Length = (uint)keySpan.Length;
-            element.ElementKeyRange.Line = tokenList.GetLine(element.ElementTokenId);
-            element.ElementKeyRange.Offset = tokenList.GetOffset(element.ElementTokenId);
+            element.ElementKeyLength = (uint)keySpan.Length;
+            element.HasElementVariant = !variantSpan.IsEmpty;
             element.ElementScenarioId = analysisResult.ScenarioSet.GetOrAdd(variantSpan, element.ElementTokenId);
 
             if (!ReadAssign(ref context, ref result, element.ElementTokenId))

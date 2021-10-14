@@ -1,6 +1,6 @@
 ﻿namespace Wahren.AbstractSyntaxTree;
 
-public struct Position : System.IEquatable<Position>
+public struct Position : IEquatable<Position>
 {
     public uint Line;
     public uint Offset;

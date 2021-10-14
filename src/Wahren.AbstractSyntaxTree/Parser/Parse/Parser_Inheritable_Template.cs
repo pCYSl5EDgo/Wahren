@@ -259,9 +259,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -288,9 +287,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -317,9 +315,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -346,9 +343,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -375,9 +371,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -404,9 +399,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1000,9 +994,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -1029,9 +1022,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -1058,9 +1050,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -1087,9 +1078,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1116,9 +1106,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1145,9 +1134,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1174,9 +1162,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1393,9 +1380,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -1422,9 +1408,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1451,9 +1436,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1673,9 +1657,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -1702,9 +1685,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1731,9 +1713,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -1861,9 +1842,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -1890,9 +1870,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -2223,9 +2202,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -2252,9 +2230,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -2281,9 +2258,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -2310,9 +2286,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -2441,9 +2416,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -2470,9 +2444,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -2499,9 +2472,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -3877,9 +3849,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -3906,9 +3877,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -3935,9 +3905,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -3964,9 +3933,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -3993,9 +3961,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -4022,9 +3989,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -4152,9 +4118,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -4181,9 +4146,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -4400,9 +4364,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -4429,9 +4392,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -4458,9 +4420,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -4487,9 +4448,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -5161,9 +5121,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -5190,9 +5149,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -5219,9 +5177,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableIntElement = new(currentIndex);
                 pair_Pair_NullableString_NullableIntElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                    continue;
@@ -5248,9 +5205,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -5277,9 +5233,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -5306,9 +5261,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -5335,9 +5289,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -5465,9 +5418,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;
@@ -5494,9 +5446,8 @@ public static partial class Parser
             {
                 pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
                 pair_Pair_NullableString_NullableInt_ArrayElement.ElementScenarioId = variant;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Length = (uint)span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Line = tokenList.GetLine(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyRange.Offset = tokenList.GetOffset(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = (uint)span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
                 if (Parse_Voice_ROAM_EnglishMode(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                    continue;

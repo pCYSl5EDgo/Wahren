@@ -60,9 +60,7 @@ public static partial class Parser
             if (elementReference is null)
             {
                 elementReference = new Pair_NullableString_NullableInt_ArrayElement(elementIndex);
-                elementReference.ElementKeyRange.Length = (uint)elementSpan.Length;
-                elementReference.ElementKeyRange.Line = tokenList.GetLine(elementIndex);
-                elementReference.ElementKeyRange.Offset = tokenList.GetOffset(elementIndex);
+                elementReference.ElementKeyLength = (uint)elementSpan.Length;
 
                 if (Parse_Element_MEMBER(ref context, ref result, elementReference))
                 {

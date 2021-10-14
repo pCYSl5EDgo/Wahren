@@ -49,9 +49,7 @@ public static partial class Parser
             if (Unsafe.IsNullRef(ref elementReference))
             {
                 var element = new Pair_NullableString_NullableIntElement(elementIndex);
-                element.ElementKeyRange.Length = (uint)span.Length;
-                element.ElementKeyRange.Line = tokenList.GetLine(elementIndex);
-                element.ElementKeyRange.Offset = tokenList.GetOffset(elementIndex);
+                element.ElementKeyLength = (uint)span.Length;
 
                 if (!Parse_Element_LOYAL(ref context, ref result, element))
                 {
@@ -63,9 +61,7 @@ public static partial class Parser
             else if (elementReference is null)
             {
                 elementReference = new Pair_NullableString_NullableIntElement(elementIndex);
-                elementReference.ElementKeyRange.Length = (uint)span.Length;
-                elementReference.ElementKeyRange.Line = tokenList.GetLine(elementIndex);
-                elementReference.ElementKeyRange.Offset = tokenList.GetOffset(elementIndex);
+                elementReference.ElementKeyLength = (uint)span.Length;
 
                 if (!Parse_Element_LOYAL(ref context, ref result, elementReference))
                 {
