@@ -99,7 +99,7 @@ public partial class Program
             await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token,
                 async (path, token) =>
                 {
-                    Microsoft.Win32.SafeHandles.SafeFileHandle? handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096);
+                    Microsoft.Win32.SafeHandles.SafeFileHandle? handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous);
                     try
                     {
                         var bytesCount = RandomAccess.GetLength(handle);
@@ -158,7 +158,7 @@ public partial class Program
     {
         Result result;
         byte[]? rental;
-        var handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.SequentialScan | FileOptions.Asynchronous, 4096);
+        var handle = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.SequentialScan | FileOptions.Asynchronous);
         try
         {
             var length = RandomAccess.GetLength(handle);
