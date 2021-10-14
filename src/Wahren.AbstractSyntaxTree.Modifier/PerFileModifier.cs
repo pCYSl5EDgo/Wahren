@@ -11,21 +11,23 @@ public static class PerFileModifier
         result.Source.InsertEmpty(lineIndex);
         ref var tokenList = ref result.TokenList;
         var lineSpan = tokenList.Line;
-        for (int i = 0; i < lineSpan.Length; ++i)
+        int i = 0;
+        for (; i < lineSpan.Length; ++i)
         {
-            ref var line = ref lineSpan[i];
-            if (line < lineIndex)
+            if (lineSpan[i] >= lineIndex)
             {
-                continue;
+                break;
             }
+        }
 
-            if (line++ == lineIndex)
-            {
-                if (tokenList.GetOffset((uint)i) == tokenList.GetPrecedingWhitespaceCount((uint)i))
-                {
-                    tokenList.GetPrecedingNewLineCount((uint)i)++;
-                }
-            }
+        if (lineSpan[i]++ == lineIndex && tokenList.GetOffset((uint)i) == tokenList.GetPrecedingWhitespaceCount((uint)i))
+        {
+            tokenList.GetPrecedingNewLineCount((uint)i)++;
+        }
+
+        for (++i; i < lineSpan.Length; ++i)
+        {
+            lineSpan[i]++;
         }
     }
 
