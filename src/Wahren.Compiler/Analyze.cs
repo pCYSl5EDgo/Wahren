@@ -419,7 +419,7 @@ public partial class Program
     private static async ValueTask EnsureExistanceImageDataAsync(Project project, HashSet<string> hashSet, string contentsFolder, string datFileName, string chipFolderName, CancellationToken token)
     {
         var imagedatPath = Path.Combine(contentsFolder, "image", datFileName);
-        using var handle = File.OpenHandle(imagedatPath, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous, 4096 * 4);
+        using var handle = File.OpenHandle(imagedatPath, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous);
         var length = RandomAccess.GetLength(handle);
         if (length == 0 && hashSet.Count != 0)
         {
