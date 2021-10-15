@@ -6,13 +6,12 @@ namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
 {
-    private static bool ParsePower(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParsePower(ref Context context, ref Result result)
     {
         result.PowerNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.PowerNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -33,7 +32,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -418,13 +416,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseClass(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseClass(ref Context context, ref Result result)
     {
         result.ClassNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ClassNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -445,7 +442,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -1173,13 +1169,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseDungeon(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseDungeon(ref Context context, ref Result result)
     {
         result.DungeonNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.DungeonNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -1200,7 +1195,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -1443,13 +1437,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseField(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseField(ref Context context, ref Result result)
     {
         result.FieldNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.FieldNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -1470,7 +1463,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -1704,13 +1696,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseMovetype(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseMovetype(ref Context context, ref Result result)
     {
         result.MovetypeNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.MovetypeNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -1731,7 +1722,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -1855,13 +1845,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseObject(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseObject(ref Context context, ref Result result)
     {
         result.ObjectNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.ObjectNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -1882,7 +1871,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -2242,13 +2230,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseRace(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseRace(ref Context context, ref Result result)
     {
         result.RaceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.RaceNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -2269,7 +2256,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -2424,13 +2410,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkill(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseSkill(ref Context context, ref Result result)
     {
         result.SkillNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -2451,7 +2436,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -3780,13 +3764,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSkillset(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseSkillset(ref Context context, ref Result result)
     {
         result.SkillsetNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SkillsetNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -3807,7 +3790,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -3931,13 +3913,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseSpot(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseSpot(ref Context context, ref Result result)
     {
         result.SpotNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.SpotNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -3958,7 +3939,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -4228,13 +4208,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseUnit(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseUnit(ref Context context, ref Result result)
     {
         result.UnitNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.UnitNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -4255,7 +4234,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 
@@ -5061,13 +5039,12 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool ParseVoice(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseVoice(ref Context context, ref Result result)
     {
         result.VoiceNodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.VoiceNodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -5087,7 +5064,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 

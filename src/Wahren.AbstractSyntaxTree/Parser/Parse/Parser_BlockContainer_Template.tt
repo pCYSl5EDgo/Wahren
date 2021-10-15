@@ -25,13 +25,12 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
     ElementInfo[] elements = node.Elements;
     var usageGroup = elements.MakeUsageGroup();
 #>
-    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, out bool canContinue)
+    private static bool Parse<#= node.Name #>(ref Context context, ref Result result)
     {
         result.<#= node.Name #>NodeList.Add(new());
         ref var node = ref result.<#= node.Name #>NodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -56,7 +55,6 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
             {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
-                canContinue = true;
                 return true;
             }
 

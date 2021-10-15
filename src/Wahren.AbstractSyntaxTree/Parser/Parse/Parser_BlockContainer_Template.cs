@@ -8,13 +8,12 @@ using Statement;
 
 public static partial class Parser
 {
-    private static bool ParseScenario(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseScenario(ref Context context, ref Result result)
     {
         result.ScenarioNodeList.Add(new());
         ref var node = ref result.ScenarioNodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -38,7 +37,6 @@ public static partial class Parser
             {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
-                canContinue = true;
                 return true;
             }
 
@@ -730,13 +728,12 @@ public static partial class Parser
         blockStack.Dispose();
         return false;
     }
-    private static bool ParseEvent(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseEvent(ref Context context, ref Result result)
     {
         result.EventNodeList.Add(new());
         ref var node = ref result.EventNodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -760,7 +757,6 @@ public static partial class Parser
             {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
-                canContinue = true;
                 return true;
             }
 
@@ -1080,13 +1076,12 @@ public static partial class Parser
         blockStack.Dispose();
         return false;
     }
-    private static bool ParseStory(ref Context context, ref Result result, out bool canContinue)
+    private static bool ParseStory(ref Context context, ref Result result)
     {
         result.StoryNodeList.Add(new());
         ref var node = ref result.StoryNodeList.Last;
         ref var tokenList = ref result.TokenList;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -1110,7 +1105,6 @@ public static partial class Parser
             {
                 node.BracketRight = currentIndex;
                 blockStack.Dispose();
-                canContinue = true;
                 return true;
             }
 

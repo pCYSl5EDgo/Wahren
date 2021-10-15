@@ -260,4 +260,15 @@ public static partial class TokenUtility
 
         return false;
     }
+
+    public static bool Is_else(ref this Result result, uint tokenIndex)
+    {
+        if (result.GetSpan(tokenIndex).SequenceEqual("else"))
+        {
+            result.TokenList.GetKind(tokenIndex) = TokenKind.Else;
+            return true;
+        }
+
+        return false;
+    }
 }

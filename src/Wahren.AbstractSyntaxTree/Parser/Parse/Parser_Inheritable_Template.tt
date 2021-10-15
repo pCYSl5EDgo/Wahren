@@ -21,13 +21,12 @@ public static partial class Parser
 <# foreach (var node in NodeInfo.Nodes.Where(x => !x.HasBlock)) {
     ElementInfo[] elements = node.Elements;
     var usageGroup = elements.MakeUsageGroup(); #>
-    private static bool Parse<#= node.Name #>(ref Context context, ref Result result, out bool canContinue)
+    private static bool Parse<#= node.Name #>(ref Context context, ref Result result)
     {
         result.<#= node.Name #>NodeList.Add(new());
         ref var tokenList = ref result.TokenList;
         ref var node = ref result.<#= node.Name #>NodeList.Last;
         node.Kind = tokenList.LastIndex;
-        canContinue = false;
         if (!ParseNameAndSuperAndBracketLeft(ref context, ref result, ref node))
         {
             return false;
@@ -49,7 +48,6 @@ public static partial class Parser
             if (result.IsBracketRight(tokenList.LastIndex))
             {
                 node.BracketRight = tokenList.LastIndex;
-                canContinue = true;
                 return true;
             }
 

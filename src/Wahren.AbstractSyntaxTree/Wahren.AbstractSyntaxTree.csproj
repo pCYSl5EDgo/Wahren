@@ -61,6 +61,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
     </None>
+    <None Include="Parser\Parse\Parser_RootTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_RootTemplate.tt</DependentUpon>
+    </None>
     <None Include="Project\Proect_InfiniteLoopTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -80,11 +85,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
-    </None>
-    <None Include="TokenUtilityTextTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TokenUtilityTextTemplate.tt</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +136,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
     </None>
+    <None Update="Parser\Parse\Parser_RootTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Parser_RootTemplate.cs</LastGenOutput>
+    </None>
     <None Update="Project\Proect_InfiniteLoopTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Proect_InfiniteLoopTemplate.cs</LastGenOutput>
@@ -151,10 +155,6 @@
     <None Update="PerResultValidator\PerResultValidatorTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PerResultValidatorTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="TokenUtilityTextTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TokenUtilityTextTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +246,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
     </Compile>
+    <Compile Update="Parser\Parse\Parser_RootTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_RootTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="Project\Proect_InfiniteLoopTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -275,11 +280,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="TokenUtilityTextTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TokenUtilityTextTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>
