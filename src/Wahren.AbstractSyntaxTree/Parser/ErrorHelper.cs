@@ -380,12 +380,22 @@ public static class ErrorHelper
         result.ErrorAdd(text, tokenId);
     }
 
+    public static void ErrorAdd_UnexpectedArgumentSpecialValue(ref this Result result, ReadOnlySpan<char> callName, ReadOnlySpan<char> values, uint tokenId)
+    {
+#if JAPANESE
+        var text = $"{callName}関数の引数の値'{result.GetSpan(tokenId)}'は期待される値'{values}'ではありません。";
+#else
+        var text = $"Value '{result.GetSpan(tokenId)}' is not '{values}' required by action/function '{callName}'.";
+#endif
+        result.ErrorAdd(text, tokenId);
+    }
+
     public static void ErrorAdd_UnexpectedElementSpecialValue(ref this Result result, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName, ReadOnlySpan<char> values, uint tokenId)
     {
 #if JAPANESE
-        var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は期待される値{values}ではありません。";
+        var text = $"{nodeKind}構造体の要素'{elementName}'の値'{result.GetSpan(tokenId)}'は期待される値'{values}'ではありません。";
 #else
-        var text = $"Value '{result.GetSpan(tokenId)}' is not {values} required by element '{elementName}' of struct {nodeKind}.";
+        var text = $"Value '{result.GetSpan(tokenId)}' is not '{values}' required by element '{elementName}' of struct {nodeKind}.";
 #endif
         result.ErrorAdd(text, tokenId);
     }

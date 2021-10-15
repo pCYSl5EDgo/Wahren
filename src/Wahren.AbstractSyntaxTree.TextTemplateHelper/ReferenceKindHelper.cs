@@ -4,6 +4,32 @@ namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
 public static class ReferenceKindHelper
 {
+    public static bool AllProcessLate(this ReferenceKind[][] referencesArray)
+    {
+        foreach (ReferenceKind[] references in referencesArray)
+        {
+            if (!AllProcessLate(references))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static bool AllProcessLate(this ReferenceKind[] references)
+    {
+        foreach (ReferenceKind item in references)
+        {
+            if (CanProcessEarly(item))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static bool CanProcessEarly(this ReferenceKind[][] referencesArray)
     {
         foreach (var references in referencesArray)
@@ -114,7 +140,7 @@ public static class ReferenceKindHelper
         StringBuilder builder = new(256);
         if (reference.CanProcessEarly())
         {
-            return reference.ProcessEarly(i, name, indent, builder, "DiagnosticSeverity.Warning <= RequiredSeverity");
+            throw new System.Exception();
         }
 
         if (reference == (ReferenceKind.Number | ReferenceKind.CompoundText))
@@ -187,14 +213,14 @@ public static class ReferenceKindHelper
         Inden().Append("    if (span.IsEmpty)").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("    }").AppendLine();
         Inden().Append("    else if (span[0] == '@')").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        if (span.Length == 1)").AppendLine();
         Inden().Append("        {").AppendLine();
         Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("        }").AppendLine();
         Inden().Append("        else").AppendLine();
         Inden().Append("        {").AppendLine();
@@ -209,7 +235,7 @@ public static class ReferenceKindHelper
         Inden().Append("        if (Unsafe.IsNullRef(ref track))").AppendLine();
         Inden().Append("        {").AppendLine();
         Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("        }").AppendLine();
         Inden().Append("        else").AppendLine();
         Inden().Append("        {").AppendLine();
@@ -234,7 +260,7 @@ public static class ReferenceKindHelper
 
         Inden().Append("                default:").AppendLine();
         Inden().Append("                    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("                    argument.HasReference = false;").AppendLine();
         Inden().Append("                    break;").AppendLine();
         Inden().Append("            }").AppendLine();
@@ -274,14 +300,14 @@ public static class ReferenceKindHelper
         Inden().Append("    if (span.IsEmpty)").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append("    , "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("    }").AppendLine();
         Inden().Append("    else if (span[0] == '@')").AppendLine();
         Inden().Append("    {").AppendLine();
         Inden().Append("        if (span.Length == 1)").AppendLine();
         Inden().Append("        {").AppendLine();
         Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-        builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+        builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
         Inden().Append("        }").AppendLine();
         Inden().Append("        else").AppendLine();
         Inden().Append("        {").AppendLine();
@@ -341,7 +367,7 @@ public static class ReferenceKindHelper
         {
             Inden().Append("                default:").AppendLine();
             Inden().Append("                    result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-            builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+            builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
             Inden().Append("                    argument.HasReference = false;").AppendLine();
             Inden().Append("                    break;").AppendLine();
         }
@@ -352,7 +378,7 @@ public static class ReferenceKindHelper
             Inden().Append("        else").AppendLine();
             Inden().Append("        {").AppendLine();
             Inden().Append("            result.ErrorAdd_UnexpectedArgumentReferenceKind(\"").Append(name).Append("\", "); if (i < 0) { builder.Append("i + 1"); } else { builder.Append(i + 1); }
-            builder.Append(", "); builder.Append("\"").Append(reference).AppendLine("\", argument.TokenId);");
+            builder.Append(", \"").Append(reference).AppendLine("\", argument.TokenId);");
             Inden().Append("        }").AppendLine();
         }
         Inden().Append("    }").AppendLine();
@@ -427,7 +453,7 @@ public static class ReferenceKindHelper
         builder.AppendLine("// ERROR 0");
     }
 
-    public static string ProcessEarly(this ReferenceKind reference, int i, string name, int indent, StringBuilder? builder = null, string severityCheck = "context.CreateError(DiagnosticSeverity.Warning)")
+    public static string ProcessEarly(this ReferenceKind reference, string[]? specialArray, int i, string name, int indent, StringBuilder? builder = null, string severityCheck = "context.CreateError(DiagnosticSeverity.Warning)")
     {
         builder ??= new(256);
         StringBuilder I()
@@ -456,6 +482,30 @@ public static class ReferenceKindHelper
 
         switch (reference)
         {
+            case ReferenceKind.Special when specialArray is { Length: > 0 }:
+                F().Append("if (argument.TrailingTokenCount == 0)").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    span = result.GetSpan(argument.TokenId);").AppendLine();
+                I().Append("    if (!span.SequenceEqual(\"").Append(specialArray[0]).Append("\")");
+                for (int j = 1; j < specialArray.Length; j++)
+                {
+                    builder.Append(" && !span.SequenceEqual(\"").Append(specialArray[j]).Append("\")");
+                }
+                builder.Append(")").AppendLine();
+                I().Append("    {").AppendLine();
+                I().Append("        result.ErrorAdd_UnexpectedArgumentSpecialValue(\"").Append(name).Append("\", \"").Append(specialArray[0]);
+                for (int j = 1; j < specialArray.Length; j++)
+                {
+                    builder.Append(", ").Append(specialArray[j]);
+                }
+                builder.Append("\", argument.TokenId);").AppendLine();
+                I().Append("    }").AppendLine();
+                I().Append("}").AppendLine();
+                I().Append("else").AppendLine();
+                I().Append("{").AppendLine();
+                I().Append("    result.ErrorAdd_InvalidMultipleTokenArgument(\"").Append(name).Append("\", argument.TokenId, argument.TrailingTokenCount);").AppendLine();
+                I().Append("}").AppendLine();
+                break;
             case ReferenceKind.Scenario:
             case ReferenceKind.Event:
             case ReferenceKind.Story:

@@ -7,6 +7,7 @@ public struct CallableInfo
     public int Min;
     public int Max;
     public ReferenceKind[][] KindArray;
+    public string[]?[]?[]? SpecialArray;
 
     public CallableInfo(string name, int min, int max)
     {
@@ -14,6 +15,7 @@ public struct CallableInfo
         Min = min;
         Max = max;
         KindArray = System.Array.Empty<ReferenceKind[]>();
+        SpecialArray = null;
     }
 
     public CallableInfo(string name, int min, int max, params ReferenceKind[] kinds)
@@ -22,6 +24,7 @@ public struct CallableInfo
         Min = min;
         Max = max;
         KindArray = new ReferenceKind[][] { kinds };
+        SpecialArray = null;
     }
 
     public CallableInfo(string name, int min, int max, params ReferenceKind[][] kinds)
@@ -30,6 +33,7 @@ public struct CallableInfo
         Min = min;
         Max = max;
         KindArray = kinds;
+        SpecialArray = null;
     }
 
     public void Deconstruct(out string name, out int min, out int max)
@@ -156,7 +160,7 @@ public struct CallableInfo
         new("addGain", 2, 2, SSpo, NumReader),
         new("addItem", 1, 1, SSki),
         new("addSpot", 1, 2, SSpo, SPow),
-        new("addUnit", 2, 3),
+        new("addUnit", 2, 3, new[] { SUniCla, SSpoPowUni }, new[] { SUni, SSpo, ReferenceKind.Special }) { SpecialArray = new[] { null, new[] { null, null, new[] { "roam" } } } },
         new("doskill", 5, 5, ReferenceKind.Skill, NumReader, NumReader, NumReader, ReferenceKind.Boolean),
         new("fadeout", 0, 1, NumReader),
         new("loopBGM", 1, int.MaxValue, ReferenceKind.bgm),
@@ -269,7 +273,7 @@ public struct CallableInfo
         new("setDungeon", 2, 2, SSpo, ReferenceKind.Dungeon),
         new("shiftTroop", 3, 4, SUniCla, NumReader, NumReader, ReferenceKind.Boolean),
         new("shuffleVar", 1, 1, ReferenceKind.StringVariableReader),
-        new("skillTroop", 2, 3),
+        new("skillTroop", 2, 3, SUniCla, ReferenceKind.Skill, ReferenceKind.Special) { SpecialArray = new[] { new[] { null, null, new[] { "on", "dead_ok" } } } },
         new("sleepTroop", 1, 1, SUniCla),
         new("speedTroop", 2, 2, SUniCla, NumReader),
         new("unionPower", 2, 2, SPow, SPow),
@@ -427,7 +431,7 @@ public struct CallableInfo
         new("countForce", 1, 1, SPow),
         new("countMoney", 1, 1, SPow),
         new("countPower", 0, 0),
-        new("countSkill", 1, 1, ReferenceKind.Skill | ReferenceKind.StringVariableReader),
+        new("countSkill", 1, 1, SSki),
         new("getLifePer", 1, 1, SUni),
         new("inRoamSpot", 2, int.MaxValue, SSpo, SUni),
         new("isInterval", 1, 1, NumReader),
