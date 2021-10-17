@@ -436,8 +436,7 @@ public struct ElementInfo
         new("mprecMax", ReferenceKind.Number),
         new("race", ReferenceKind.Race),
         new("sortkey",  referenceKind: ReferenceKind.Number),
-        new("picture", ReferenceKind.picture),
-        new("picture@cutin"),
+        new("picture", ReferenceKind.SpecialLate),
         new("picture_detail", ReferenceKind.Special) { SpecialStringArray = new[] { "off", "on", "on1", "on2", "on3", } },
         new("picture_menu",  referenceKind: ReferenceKind.Number),
         new("picture_floor", ReferenceKind.Special) { SpecialStringArray = new[] { "top", "msg", "base", "bottom", } },
@@ -488,6 +487,8 @@ public struct ElementInfo
         new("delskill", ReferenceKind.Skill | ReferenceKind.Skillset),
         new("delskill2", ReferenceKind.Skill | ReferenceKind.Skillset),
         new("item", ReferenceKind.Skill),
+        new("leader_skill", ReferenceKind.Skill | ReferenceKind.Skillset),
+        new("assist_skill", ReferenceKind.Skill | ReferenceKind.Skillset),
     };
 
     internal static readonly ElementInfo[] Unit = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(UnitFallthroughClass, new ElementInfo[]
@@ -497,8 +498,6 @@ public struct ElementInfo
         new("bgm", ReferenceKind.bgm),
         new("volume", ReferenceKind.Number),
         new("alive_per", ReferenceKind.Number),
-        new("leader_skill", ReferenceKind.Skill | ReferenceKind.Skillset),
-        new("assist_skill", ReferenceKind.Skill | ReferenceKind.Skillset),
         new("yabo", ReferenceKind.Number),
         new("kosen", ReferenceKind.Number),
         new("align", ReferenceKind.Number),

@@ -4,14 +4,28 @@ using Parser;
 
 public sealed partial class Project
 {
+    private void SpecialTreatment_unit_picture(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    {
+        SpecialTreatment_unit_class_picture(ref result, analysisResult, ref value, "unit");
+    }
+
+    private void SpecialTreatment_class_picture(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    {
+        SpecialTreatment_unit_class_picture(ref result, analysisResult, ref value, "class");
+    }
+
+    private void SpecialTreatment_unit_class_picture(ref Result result, AnalysisResult analysisResult, ref Pair_NullableString_NullableInt value, string kind)
+    {
+    }
+
     private void SpecialTreatment_unit_friend(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
     {
-        SpecialTreatment_unit_class_friend(ref result, analysisResult, ref value, "Unit");
+        SpecialTreatment_unit_class_friend(ref result, analysisResult, ref value, "unit");
     }
 
     private void SpecialTreatment_class_friend(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
     {
-        SpecialTreatment_unit_class_friend(ref result, analysisResult, ref value, "Class");
+        SpecialTreatment_unit_class_friend(ref result, analysisResult, ref value, "class");
     }
 
     private void SpecialTreatment_unit_class_friend(ref Result result, AnalysisResult analysisResult, ref Pair_NullableString_NullableInt value, string kind)

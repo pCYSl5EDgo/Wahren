@@ -106,6 +106,17 @@ public struct Result : IDisposable
         var line = TokenList.GetLine(tokenIndex);
         var offset = TokenList.GetOffset(tokenIndex);
         var lastIndex = tokenIndex + trailingTokenCount;
+        var lineLast = TokenList.GetLine(lastIndex);
+        if (line != lineLast)
+        {
+#if JAPANESE
+            var text = "改行してはなりません。";
+#else
+            var text = "Invalid Line Feed.";
+#endif
+            ErrorList.Add(new(text, line, offset, TokenList.GetLength(tokenIndex)));
+            return GetSpan(tokenIndex);
+        }
         var offsetLast = TokenList.GetOffset(lastIndex);
         var lengthLast = TokenList.GetLength(lastIndex);
         return Source[line].AsSpan(offset, offsetLast + lengthLast - offset);

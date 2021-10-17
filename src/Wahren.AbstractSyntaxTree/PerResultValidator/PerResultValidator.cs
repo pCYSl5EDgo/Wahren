@@ -36,14 +36,9 @@ public static partial class PerResultValidator
             value.HasReference = true;
         }
 
-        if (pair.VariantArray is not { Length: > 0 })
+        foreach (var item in pair.Variants)
         {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
-        {
-            if (item is null || !item.HasValue)
+            if (!item.HasValue)
             {
                 continue;
             }
@@ -91,14 +86,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is not { Length: > 0 })
+        foreach (var item in pair.Variants)
         {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
-        {
-            if (item is null || !item.HasValue)
+            if (!item.HasValue)
             {
                 continue;
             }
@@ -276,16 +266,14 @@ public static partial class PerResultValidator
 
     private static void ValidateNumber(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ReadOnlySpan<char> nodeKind, ReadOnlySpan<char> elementName)
     {
-        ValidateNumber(ref result, ref pair.Value, nodeKind, elementName);
-
-        if (pair.VariantArray is null)
+        if (pair.Value is not null)
         {
-            return;
+            ValidateNumber(ref result, ref pair.Value, nodeKind, elementName);
         }
 
-        foreach (ref var item in pair.VariantArray.AsSpan())
+        foreach (ref var item in pair.Variants)
         {
-            ValidateNumber(ref result, ref item, nodeKind, elementName);
+            ValidateNumber(ref result, ref item!, nodeKind, elementName);
         }
     }
 
@@ -305,14 +293,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
+        foreach (var item in pair.Variants)
         {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
-        {
-            if (item is null || !item.HasValue)
+            if (!item.HasValue)
             {
                 continue;
             }
@@ -351,12 +334,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
-        {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
+        foreach (var item in pair.Variants)
         {
             if (item is not { HasValue: true, Value.HasNumber: false })
             {
@@ -399,14 +377,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
+        foreach (var item in pair.Variants)
         {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
-        {
-            if (item is null || !item.HasValue)
+            if (!item.HasValue)
             {
                 continue;
             }
@@ -445,12 +418,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
-        {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
+        foreach (var item in pair.Variants)
         {
             if (item is not { HasValue: true })
             {
@@ -485,12 +453,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
-        {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
+        foreach (var item in pair.Variants)
         {
             if (item is not { HasValue: true })
             {
@@ -525,14 +488,9 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
+        foreach (var item in pair.Variants)
         {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
-        {
-            if (item is null || !item.HasValue)
+            if (!item.HasValue)
             {
                 continue;
             }
@@ -568,12 +526,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
-        {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
+        foreach (var item in pair.Variants)
         {
             if (item is null || !item.HasValue)
             {
@@ -722,12 +675,7 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is null)
-        {
-            return;
-        }
-
-        foreach (var item in pair.VariantArray)
+        foreach (var item in pair.Variants)
         {
             if (item is not { HasValue: true, Value.HasNumber: false })
             {

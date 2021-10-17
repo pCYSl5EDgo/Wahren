@@ -381,27 +381,24 @@ public sealed partial class Project
             SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref node.<#= element.CSharpableName #>.Value.Value);
         }
 <#          } #>
-        if (node.<#= element.CSharpableName #>.VariantArray is { Length: > 0 })
+        foreach (var element in node.<#= element.CSharpableName #>.Variants)
         {
-            foreach (var element in node.<#= element.CSharpableName #>.VariantArray)
-            {
 <#          if (isArray) { #>
-                if (element is not { HasValue: true, Value.Count: > 0 })
-                {
-                    continue;
-                }
-                foreach (ref var value in element.Value.AsSpan())
-                {
-                    SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
-                }
-<#          } else { #>
-                if (element is not { HasValue: true })
-                {
-                    continue;
-                }
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref element.Value);
-<#          } #>
+            if (element is not { HasValue: true, Value.Count: > 0 })
+            {
+                continue;
             }
+            foreach (ref var value in element.Value.AsSpan())
+            {
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
+            }
+<#          } else { #>
+            if (element is not { HasValue: true })
+            {
+                continue;
+            }
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref element.Value);
+<#          } #>
         }
 <#      } #>
 <#  } #>

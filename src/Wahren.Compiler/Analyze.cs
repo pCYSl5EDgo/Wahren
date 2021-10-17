@@ -29,14 +29,73 @@ public partial class Program
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
-        using CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
-        Console.CancelKeyPress += new((object? _, ConsoleCancelEventArgs args) =>
+        using var cancellationTokenSource = PrepareCancellationTokenSource(TimeSpan.FromMinutes(1));
+        var token = cancellationTokenSource.Token;
+        try
         {
-            cancellationTokenSource?.Cancel();
-            args.Cancel = true;
-        });
-        var debugPaper = await GetDebugPaper(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
+            var (success, contentsFolder, _, files, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, token).ConfigureAwait(false);
+            if (!success)
+            {
+                return 1;
+            }
+
+            using var project = new Project()
+            {
+                RequiredSeverity = (DiagnosticSeverity)(uint)severity
+            };
+
+            project.Files.PrepareAddRange(files.Length);
+            for (int i = 0; i < files.Length; i++)
+            {
+                project.Files.Add(new((uint)i));
+                project.Files.Last.FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[i]);
+                project.FileAnalysisList.Add(new());
+            }
+
+            await ParallelLoadAndParseAsync(project, @switch, isUnicode, isEnglish, token).ConfigureAwait(false);
+
+            token.ThrowIfCancellationRequested();
+            if (!CompileResultSync(project))
+            {
+                return 1;
+            }
+
+            token.ThrowIfCancellationRequested();
+            if (!CheckSync(project))
+            {
+                return 1;
+            }
+
+            token.ThrowIfCancellationRequested();
+            await ParallelCheckFileExistanceAsync(project, contentsFolder, token).ConfigureAwait(false);
+            foreach (var error in project.ErrorBag)
+            {
+                Console.WriteLine(error.Text);
+            }
+            project.ErrorBag.Clear();
+        }
+        catch (TaskCanceledException)
+        {
+            Console.WriteLine("Cancel Requested...");
+        }
+        finally
+        {
+            stopwatch?.Stop();
+            if (stopwatch is not null)
+            {
+                var milliseconds = stopwatch.ElapsedMilliseconds;
+                Console.WriteLine($"{milliseconds} milli seconds passed.");
+            }
+        }
+
+        return 0;
+    }
+
+    private static async ValueTask<(bool success, string contentsFolder, string scriptFolder, string[] scriptFiles, bool isUnicode, bool isEnglish)> GetInitialSettingsAsync(string rootFolder, CancellationToken token)
+    {
+        var getDebugPaperTask = GetDebugPaper(rootFolder, token);
         string? contentsFolder = DetectContentsFolder(rootFolder); ;
+        var debugPaper = await getDebugPaperTask.ConfigureAwait(false);
         if (debugPaper.Folder is not null)
         {
             var debugFolder = Path.Combine(rootFolder, debugPaper.Folder);
@@ -50,64 +109,25 @@ public partial class Program
 #else
             Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
 #endif
-            return 1;
+            return (false, "", "", Array.Empty<string>(), false, false);
         }
 
         var scriptFolderPath = Path.Combine(contentsFolder, "script");
-        var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
+        var isEnglishTask = IsEnglish(scriptFolderPath);
         var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-        var project = new Project()
+        var (isUnicode, isEnglish) = await isEnglishTask.ConfigureAwait(false);
+        return (true, contentsFolder, scriptFolderPath, files, isUnicode, isEnglish);
+    }
+
+    private static CancellationTokenSource PrepareCancellationTokenSource(TimeSpan timeSpan)
+    {
+        CancellationTokenSource cancellationTokenSource = new(timeSpan);
+        Console.CancelKeyPress += new((object? _, ConsoleCancelEventArgs args) =>
         {
-            RequiredSeverity = (DiagnosticSeverity)(uint)severity
-        };
-        try
-        {
-            project.Files.PrepareAddRange(files.Length);
-            for (int i = 0; i < files.Length; i++)
-            {
-                project.Files.Add(new((uint)i));
-                project.FileAnalysisList.Add(new());
-                project.Files.Last.FilePath = Path.GetRelativePath(Environment.CurrentDirectory, files[i]);
-            }
-
-            await ParallelLoadAndParseAsync(project, @switch, isUnicode, isEnglish, cancellationTokenSource.Token).ConfigureAwait(false);
-
-            cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            if (!CompileResultSync(project))
-            {
-                return 0;
-            }
-
-            cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            if (!CheckSync(project))
-            {
-                return 0;
-            }
-
-            cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            await ParallelCheckFileExistanceAsync(project, contentsFolder, cancellationTokenSource.Token).ConfigureAwait(false);
-            foreach (var error in project.ErrorBag)
-            {
-                Console.WriteLine(error.Text);
-            }
-            project.ErrorBag.Clear();
-        }
-        catch (TaskCanceledException)
-        {
-            Console.WriteLine("Cancel Requested...");
-        }
-        finally
-        {
-            project.Dispose();
-            stopwatch?.Stop();
-            if (stopwatch is not null)
-            {
-                var milliseconds = stopwatch.ElapsedMilliseconds;
-                Console.WriteLine($"{milliseconds} milli seconds passed.");
-            }
-        }
-
-        return 0;
+            cancellationTokenSource?.Cancel();
+            args.Cancel = true;
+        });
+        return cancellationTokenSource;
     }
 
     private static async ValueTask<MapInfo[]> ParallelMapLoadAsync(string stageFolderPath, CancellationToken token)

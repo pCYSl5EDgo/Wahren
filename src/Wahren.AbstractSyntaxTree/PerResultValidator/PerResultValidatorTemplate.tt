@@ -172,14 +172,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 <#              } else { #>
@@ -191,16 +188,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.Count: > 0 })
             {
-                if (item is { HasValue: true, Value.Count: > 0 })
+                foreach (ref var value in item.Value.AsSpan())
                 {
-                    foreach (ref var value in item.Value.AsSpan())
-                    {
-                        Validate(ref result, ref value);
-                    }
+                    Validate(ref result, ref value);
                 }
             }
         }

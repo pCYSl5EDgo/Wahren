@@ -207,14 +207,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -390,10 +387,6 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.sortkey);
 		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture);
-		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_atmark_cutin);
-		// Ignore Unknown Class picture@cutin
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_detail);
 		SpecialTreatment_class_picture_detail(ref result, ref node, ref node.picture_detail);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_menu);
@@ -521,14 +514,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -571,16 +561,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.Count: > 0 })
             {
-                if (item is { HasValue: true, Value.Count: > 0 })
+                foreach (ref var value in item.Value.AsSpan())
                 {
-                    foreach (ref var value in item.Value.AsSpan())
-                    {
-                        Validate(ref result, ref value);
-                    }
+                    Validate(ref result, ref value);
                 }
             }
         }
@@ -625,14 +612,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -672,14 +656,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -743,14 +724,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -782,14 +760,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -829,14 +804,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -872,14 +844,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -1545,14 +1514,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -1728,10 +1694,6 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.sortkey);
 		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture);
-		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_atmark_cutin);
-		// Ignore Unknown Unit picture@cutin
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_detail);
 		SpecialTreatment_unit_picture_detail(ref result, ref node, ref node.picture_detail);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_menu);
@@ -1905,14 +1867,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -1955,16 +1914,13 @@ public static partial class PerResultValidator
             }
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.Count: > 0 })
             {
-                if (item is { HasValue: true, Value.Count: > 0 })
+                foreach (ref var value in item.Value.AsSpan())
                 {
-                    foreach (ref var value in item.Value.AsSpan())
-                    {
-                        Validate(ref result, ref value);
-                    }
+                    Validate(ref result, ref value);
                 }
             }
         }
@@ -2009,14 +1965,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2056,14 +2009,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2127,14 +2077,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2166,14 +2113,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2213,14 +2157,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2256,14 +2197,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2299,14 +2237,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}
@@ -2349,14 +2284,11 @@ public static partial class PerResultValidator
             Validate(ref result, ref pair.Value.Value);
         }
 
-        if (pair.VariantArray is not null)
+        foreach (var item in pair.Variants)
         {
-            foreach (var item in pair.VariantArray)
+            if (item is { HasValue: true, Value.HasText: true })
             {
-                if (item is { HasValue: true, Value.HasText: true })
-                {
-                    Validate(ref result, ref item.Value);
-                }
+                Validate(ref result, ref item.Value);
             }
         }
 	}

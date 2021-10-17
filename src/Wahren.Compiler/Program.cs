@@ -73,15 +73,68 @@ public partial class Program : ConsoleAppBase
             return;
         }
 
-        var currentTag = $"v{version.Major}.{version.Minor}.{version.Build}";
 
         using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token).ConfigureAwait(false);
         var latestResponse = await System.Text.Json.JsonSerializer.DeserializeAsync<GitHubLatestReleaseResponse>(stream, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
-        if (latestResponse is null || latestResponse.tag_name == currentTag)
+        if (latestResponse is null)
+        {
+            return;
+        }
+        
+        static bool IsValidTag(ReadOnlySpan<char> tag, out int major, out int minor, out int build)
+        {
+            major = minor = build = 0;
+            if (tag.IsEmpty || tag[0] != 'v')
+            {
+                return false;
+            }
+
+            tag = tag.Slice(1);
+            var firstDot = tag.IndexOf('.');
+            if (firstDot <= 0)
+            {
+                return false;
+            }
+
+            if (!int.TryParse(tag.Slice(0, firstDot), out major))
+            {
+                return false;
+            }
+
+            tag = tag.Slice(firstDot + 1);
+            var secondDot = tag.IndexOf('.');
+            if (secondDot <= 0)
+            {
+                return false;
+            }
+
+            return int.TryParse(tag.Slice(0, secondDot), out minor) && int.TryParse(tag.Slice(secondDot + 1), out build);
+        }
+        if (!IsValidTag(latestResponse.tag_name.AsSpan(), out var major, out var minor, out var build))
         {
             return;
         }
 
+        if (major < version.Major)
+        {
+            return;
+        }
+        else if (major == version.Major)
+        {
+            if (minor < version.Minor)
+            {
+                return;
+            }
+            else if (minor == version.Minor)
+            {
+                if (build <= version.Build)
+                {
+                    return;
+                }
+            }
+        }
+
+        var currentTag = $"v{version.Major}.{version.Minor}.{version.Build}";
         var fileName = Path.GetFileName(processPath);
         foreach (var asset in latestResponse.assets)
         {

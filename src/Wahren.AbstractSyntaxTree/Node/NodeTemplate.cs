@@ -203,7 +203,6 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> race = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> sortkey = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> picture_atmark_cutin = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture_detail = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture_menu = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture_floor = new();
@@ -254,6 +253,8 @@ public partial struct ClassNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill2 = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> leader_skill = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> assist_skill = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> image2 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> sub_image2 = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> unique = new();
@@ -346,7 +347,6 @@ public partial struct ClassNode : IInheritableNode
 		race.Dispose();
 		sortkey.Dispose();
 		picture.Dispose();
-		picture_atmark_cutin.Dispose();
 		picture_detail.Dispose();
 		picture_menu.Dispose();
 		picture_floor.Dispose();
@@ -397,6 +397,8 @@ public partial struct ClassNode : IInheritableNode
 		delskill.Dispose();
 		delskill2.Dispose();
 		item.Dispose();
+		leader_skill.Dispose();
+		assist_skill.Dispose();
 		image2.Dispose();
 		sub_image2.Dispose();
 		unique.Dispose();
@@ -1136,7 +1138,6 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> race = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> sortkey = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> picture_atmark_cutin = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture_detail = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture_menu = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> picture_floor = new();
@@ -1187,13 +1188,13 @@ public partial struct UnitNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> delskill2 = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> item = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> leader_skill = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> assist_skill = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> talent = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> @class = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> bgm = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> volume = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> alive_per = new();
-	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> leader_skill = new();
-	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> assist_skill = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> yabo = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> kosen = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> align = new();
@@ -1305,7 +1306,6 @@ public partial struct UnitNode : IInheritableNode
 		race.Dispose();
 		sortkey.Dispose();
 		picture.Dispose();
-		picture_atmark_cutin.Dispose();
 		picture_detail.Dispose();
 		picture_menu.Dispose();
 		picture_floor.Dispose();
@@ -1356,13 +1356,13 @@ public partial struct UnitNode : IInheritableNode
 		delskill.Dispose();
 		delskill2.Dispose();
 		item.Dispose();
+		leader_skill.Dispose();
+		assist_skill.Dispose();
 		talent.Dispose();
 		@class.Dispose();
 		bgm.Dispose();
 		volume.Dispose();
 		alive_per.Dispose();
-		leader_skill.Dispose();
-		assist_skill.Dispose();
 		yabo.Dispose();
 		kosen.Dispose();
 		align.Dispose();

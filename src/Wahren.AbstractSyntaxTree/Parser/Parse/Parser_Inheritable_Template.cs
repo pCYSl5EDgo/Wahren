@@ -914,6 +914,12 @@ public static partial class Parser
                         case 0x23FEC33DD6C8760BUL:
                             pair_Pair_NullableString_NullableIntElement = ref node.element_lost.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
+                        case 0x34CDD9F7EEC7D69BUL:
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.leader_skill.EnsureGet(variantSpan, ref result);
+                            goto CONSTI;
+                        case 0x1A9C679DC1FF7621UL:
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.assist_skill.EnsureGet(variantSpan, ref result);
+                            goto CONSTI;
                     }
                     break;
                 case 13:
@@ -921,9 +927,6 @@ public static partial class Parser
                     {
                         case 0x1E5A5D7107455699UL when span[StringHashUtility.HashLengthMax] == 'e':
                             pair_Pair_NullableString_NullableIntElement = ref node.cavalry_range.EnsureGet(variantSpan, ref result);
-                            goto DEFAULT;
-                        case 0xFFFFFFFFFFFFFFFFUL when span[StringHashUtility.HashLengthMax] == 'n':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_atmark_cutin.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED264890C3UL when span[StringHashUtility.HashLengthMax] == 'r':
                             pair_Pair_NullableString_NullableIntElement = ref node.picture_floor.EnsureGet(variantSpan, ref result);
@@ -4779,9 +4782,6 @@ public static partial class Parser
                     {
                         case 0x1E5A5D7107455699UL when span[StringHashUtility.HashLengthMax] == 'e':
                             pair_Pair_NullableString_NullableIntElement = ref node.cavalry_range.EnsureGet(variantSpan, ref result);
-                            goto DEFAULT;
-                        case 0xFFFFFFFFFFFFFFFFUL when span[StringHashUtility.HashLengthMax] == 'n':
-                            pair_Pair_NullableString_NullableIntElement = ref node.picture_atmark_cutin.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
                         case 0x3EF3ACED264890C3UL when span[StringHashUtility.HashLengthMax] == 'r':
                             pair_Pair_NullableString_NullableIntElement = ref node.picture_floor.EnsureGet(variantSpan, ref result);

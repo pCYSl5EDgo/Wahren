@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="InteractTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InteractTemplate.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="3.3.1" />
   </ItemGroup>
 
@@ -14,6 +22,25 @@
     <ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
     <ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
     <ProjectReference Include="..\Wahren.Map\Wahren.Map.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="InteractTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InteractTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="InteractTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InteractTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

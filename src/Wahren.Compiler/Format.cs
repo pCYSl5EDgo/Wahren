@@ -16,33 +16,17 @@ public partial class Program
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
-        CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromMinutes(1));
-
-        var debugPaper = await GetDebugPaper(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
-        string? contentsFolder;
-        if (debugPaper.Folder is null)
-        {
-            contentsFolder = DetectContentsFolder(rootFolder);
-        }
-        else
-        {
-            contentsFolder = Path.Combine(rootFolder, debugPaper.Folder);
-        }
-
-        if (contentsFolder is null || !Directory.Exists(contentsFolder))
-        {
-            Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
-            return 1;
-        }
-
-        var scriptFolderPath = Path.Combine(contentsFolder, "script");
-        var (isUnicode, isEnglish) = await IsEnglish(scriptFolderPath).ConfigureAwait(false);
-        var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-        var toUnicodeFolderStructureTask = ToUnicodeFolderStructure(isUnicode, forceUnicode, scriptFolderPath, cancellationTokenSource);
+        using var cancellationTokenSource = PrepareCancellationTokenSource(TimeSpan.FromMinutes(1));
         try
         {
-            var enumerates = Directory.EnumerateFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-            await Parallel.ForEachAsync(enumerates, cancellationTokenSource.Token,
+            var (success, contentsFolder, scriptFolderPath, scriptFiles, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
+            if (!success)
+            {
+                return 1;
+            }
+
+            var toUnicodeFolderStructureTask = ToUnicodeFolderStructure(isUnicode, forceUnicode, scriptFolderPath, cancellationTokenSource);
+            await Parallel.ForEachAsync(scriptFiles, cancellationTokenSource.Token,
                 (path, token) =>
                 {
                     return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, forceUnicode, deleteDiscardedToken, token);
