@@ -387,6 +387,8 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.sortkey);
 		ValidateNumber(ref result, ref node.sortkey, "Class", "sortkey");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture);
+		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_detail);
 		SpecialTreatment_class_picture_detail(ref result, ref node, ref node.picture_detail);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_menu);
@@ -447,7 +449,7 @@ public static partial class PerResultValidator
 		SpecialTreatment_class_line(ref result, ref node, ref node.line);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.image);
 		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image);
+        CollectSpecial_sub_image(ref result, ref analysisResult.ScenarioSet, ref node.sub_image);
 		AddReference(ref result, ref node.sub_image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.politics);
 		SpecialTreatment_class_politics(ref result, ref node, ref node.politics);
@@ -1694,6 +1696,8 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.race, ref analysisResult.RaceSet, ReferenceKind.Race);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.sortkey);
 		ValidateNumber(ref result, ref node.sortkey, "Unit", "sortkey");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture);
+		AddReference(ref result, ref node.picture, ref analysisResult.pictureSet, ReferenceKind.picture);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_detail);
 		SpecialTreatment_unit_picture_detail(ref result, ref node, ref node.picture_detail);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.picture_menu);
@@ -1754,7 +1758,7 @@ public static partial class PerResultValidator
 		SpecialTreatment_unit_line(ref result, ref node, ref node.line);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.image);
 		AddReference(ref result, ref node.image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image);
+        CollectSpecial_sub_image(ref result, ref analysisResult.ScenarioSet, ref node.sub_image);
 		AddReference(ref result, ref node.sub_image, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.politics);
 		SpecialTreatment_unit_politics(ref result, ref node, ref node.politics);

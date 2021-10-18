@@ -46,6 +46,8 @@ public static partial class PerResultValidator
 <#	foreach (var element in elements) { #>
 <#      if (element.VariantType.StartsWith("Number")) { #>
         CollectNumber(ref result, ref analysisResult.<#= element.VariantType.Substring(6) #>Set, ref node.<#= element.Name.Escape() #>);
+<#      } else if (element.VariantType == "Special_sub_image") { #>
+        CollectSpecial_sub_image(ref result, ref analysisResult.ScenarioSet, ref node.<#= element.Name.Escape() #>);
 <#      } else if (element.VariantType != "") { #>
         Collect(ref result, ref analysisResult.<#= element.VariantType #>Set, ref node.<#= element.Name.Escape() #>);
 <#      } #>

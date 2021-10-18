@@ -7471,18 +7471,6 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref ClassNode node)
     {
-        if (node.picture.Value is { HasValue: true })
-        {
-            SpecialTreatment_class_picture(ref result, analysisResult, ref node, ref node.picture.Value.Value);
-        }
-        foreach (var element in node.picture.Variants)
-        {
-            if (element is not { HasValue: true })
-            {
-                continue;
-            }
-            SpecialTreatment_class_picture(ref result, analysisResult, ref node, ref element.Value);
-        }
         if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())
@@ -7833,18 +7821,6 @@ public sealed partial class Project
 
     private void AddReferenceAndValidate(ref Result result, AnalysisResult analysisResult, ref UnitNode node)
     {
-        if (node.picture.Value is { HasValue: true })
-        {
-            SpecialTreatment_unit_picture(ref result, analysisResult, ref node, ref node.picture.Value.Value);
-        }
-        foreach (var element in node.picture.Variants)
-        {
-            if (element is not { HasValue: true })
-            {
-                continue;
-            }
-            SpecialTreatment_unit_picture(ref result, analysisResult, ref node, ref element.Value);
-        }
         if (node.member.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.member.Value.Value.AsSpan())

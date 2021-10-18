@@ -119,7 +119,7 @@ public static partial class Parser
     private static bool SplitElementPlain(ref this Result result, uint tokenId, out Span<char> span, out Span<char> afterAtmark)
     {
         span = result.GetSpan(tokenId);
-        var index = span.LastIndexOf('@');
+        var index = span.IndexOf('@');
         switch (index)
         {
             case -1:

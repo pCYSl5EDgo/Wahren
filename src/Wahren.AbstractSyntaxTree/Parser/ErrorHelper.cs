@@ -46,6 +46,36 @@ public static class ErrorHelper
         result.ErrorAdd(error, tokenId);
     }
 
+    public static void ErrorAdd_sub_image_InvalidNumber(ref this Result result, uint tokenId)
+    {
+#if JAPANESE
+        var error = $"{result.GetSpan(tokenId)}の数値が正しくありません。";
+#else
+        var error = $"Number value of {result.GetSpan(tokenId)} is invalid.";
+#endif
+        result.ErrorAdd(error, tokenId);
+    }
+
+    public static void ErrorAdd_sub_image_Invalid(ref this Result result, uint tokenId)
+    {
+#if JAPANESE
+        var error = $"{result.GetSpan(tokenId)}は正しくありません。";
+#else
+        var error = $"Value of {result.GetSpan(tokenId)} is invalid.";
+#endif
+        result.ErrorAdd(error, tokenId);
+    }
+
+    public static void ErrorAdd_sub_image_InvalidOrder(ref this Result result, uint tokenId)
+    {
+#if JAPANESE
+        var error = $"{result.GetSpan(tokenId)}は正しくありません。'@@'と'@'の順番が逆です。";
+#else
+        var error = $"Order of {result.GetSpan(tokenId)} is invalid. Swap '@@' and '@'.";
+#endif
+        result.ErrorAdd(error, tokenId);
+    }
+
     public static void ErrorAdd_SucceedingSuperIsExpected(ref this Result result, uint nodeNameTokenId)
     {
 #if JAPANESE

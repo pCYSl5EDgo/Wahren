@@ -26,6 +26,55 @@ public static partial class PerResultValidator
         }
     }
 
+    private static void CollectSpecial_sub_image<T>(ref Result result, ref StringSpanKeySlowSet set, ref VariantPair<T> pair)
+        where T : class, IElement
+    {
+        foreach (ref T variant in pair.Variants)
+        {
+            var rest = result.GetSpan(variant.ElementTokenId).Slice(variant.ElementKeyLength + 1);
+            if (rest.IsEmpty)
+            {
+                continue;
+            }
+
+            if (rest[0] == '@')
+            {
+                var atmarkIndex = rest.Slice(1).IndexOf('@');
+                if (atmarkIndex == -1)
+                {
+                    if (!int.TryParse(rest.Slice(1), out _))
+                    {
+                        result.ErrorAdd_sub_image_InvalidNumber(variant.ElementTokenId);
+                    }
+                }
+                else if (atmarkIndex == 0)
+                {
+                    result.ErrorAdd_sub_image_Invalid(variant.ElementTokenId);
+                }
+                else if (int.TryParse(rest.Slice(1, atmarkIndex), out _))
+                {
+                    set.GetOrAdd(rest.Slice(2 + atmarkIndex), variant.ElementTokenId);
+                }
+                else
+                {
+                    result.ErrorAdd_sub_image_InvalidNumber(variant.ElementTokenId);
+                }
+            }
+            else
+            {
+                var atmarkIndex = rest.IndexOf("@@");
+                if (atmarkIndex == -1)
+                {
+                    set.GetOrAdd(rest, variant.ElementTokenId);
+                }
+                else
+                {
+                    result.ErrorAdd_sub_image_InvalidOrder(variant.ElementTokenId);
+                }
+            }
+        }
+    }
+
     public static void AddReference(ref Result result, ref VariantPair<Pair_NullableString_NullableIntElement> pair, ref StringSpanKeySlowSet set, ReferenceKind kind)
     {
         if (pair.Value is not null && pair.Value.HasValue)
