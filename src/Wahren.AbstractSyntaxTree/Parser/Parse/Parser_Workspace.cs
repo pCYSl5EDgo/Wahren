@@ -53,9 +53,9 @@ public static partial class Parser
                 return false;
             }
             
-            if (!node.Dictionary.TryAdd(span, element) && context.CreateError(DiagnosticSeverity.Warning))
+            if (!node.Dictionary.TryAdd(span, element))
             {
-                result.WarningAdd_MultipleAssignment(element.ElementTokenId);
+                result.ErrorAdd_MultipleAssignment(element.ElementTokenId);
             }
         } while (true);
     }

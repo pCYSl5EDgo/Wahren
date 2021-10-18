@@ -55,10 +55,7 @@ public static partial class Parser
 
             if (!node.Others.TryAdd(span, element))
             {
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.WarningAdd_MultipleAssignment(element.ElementTokenId);
-                }
+                result.ErrorAdd_MultipleAssignment(element.ElementTokenId);
             }
         } while (true);
     }

@@ -19,7 +19,6 @@ public static partial class Parser
             return false;
         }
 
-        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         List<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -564,11 +563,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -593,11 +588,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_TEXT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -622,11 +613,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -651,11 +638,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -680,11 +663,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_ROAM(ref context, ref result, currentIndex))
             {
                 continue;
@@ -709,11 +688,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -739,7 +714,6 @@ public static partial class Parser
             return false;
         }
 
-        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         List<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
@@ -999,11 +973,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1028,11 +998,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1057,11 +1023,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1087,7 +1049,6 @@ public static partial class Parser
             return false;
         }
 
-        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         List<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
@@ -1182,11 +1143,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_OFFSET(ref context, ref result, currentIndex))
             {
                 continue;
@@ -1211,11 +1168,7 @@ public static partial class Parser
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_DEFAULT(ref context, ref result, currentIndex))
             {
                 continue;

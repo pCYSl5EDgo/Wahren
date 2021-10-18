@@ -29,55 +29,92 @@ public static partial class Parser
             }
 
             var elementIndex = tokenList.LastIndex;
-            if (!SplitElementPlain(ref result, elementIndex, out var span, out var variantSpan))
+            var span = result.GetSpan(elementIndex);
+            if (span.IsEmpty)
             {
                 return false;
             }
 
-            if (!variantSpan.IsEmpty)
+            if (span[0] == '@')
             {
-                result.ErrorAdd_NoVariation("attribute", elementIndex);
-                return false;
-            }
+                if (span.Length == 1 || span[span.Length - 1] != '@')
+                {
+                    result.ErrorAdd_NoVariation("attribute", elementIndex);
+                    return false;
+                }
 
-            if (!ReadAssign(ref context, ref result, elementIndex))
-            {
-                return false;
-            }
-
-            ref var elementReference = ref node.TryGet(span);
-            if (Unsafe.IsNullRef(ref elementReference))
-            {
-                var element = new Pair_NullableString_NullableIntElement(elementIndex);
-                element.ElementKeyLength = span.Length;
-
-                if (!Parse_Element_LOYAL(ref context, ref result, element))
+                span = span.Slice(1, span.Length - 2);
+                if (!ReadAssign(ref context, ref result, elementIndex))
                 {
                     return false;
                 }
 
-                node.Others.TryAdd(span, element);
-            }
-            else if (elementReference is null)
-            {
-                elementReference = new Pair_NullableString_NullableIntElement(elementIndex);
-                elementReference.ElementKeyLength = span.Length;
-
-                if (!Parse_Element_LOYAL(ref context, ref result, elementReference))
+                ref var elementReference = ref node.Hides.TryGetRef(span);
+                if (Unsafe.IsNullRef(ref elementReference))
                 {
-                    return false;
+                    var element = new Pair_NullableString_NullableIntElement(elementIndex);
+                    element.ElementKeyLength = span.Length;
+                    if (!Parse_Element_DEFAULT(ref context, ref result, element))
+                    {
+                        return false;
+                    }
+                    node.Hides.TryAdd(span, element);
+                }
+                else if (elementReference is null)
+                {
+                    elementReference = new(elementIndex);
+                    if (!Parse_Element_DEFAULT(ref context, ref result, elementReference))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_MultipleAssignment(elementIndex);
+                    if (!Parse_Discard_DEFAULT(ref context, ref result, elementIndex))
+                    {
+                        return false;
+                    }
                 }
             }
             else
             {
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.WarningAdd_MultipleAssignment(elementIndex);
-                }
-
-                if (!Parse_Discard_LOYAL(ref context, ref result, elementIndex))
+                if (!ReadAssign(ref context, ref result, elementIndex))
                 {
                     return false;
+                }
+
+                ref var elementReference = ref node.TryGet(span);
+                if (Unsafe.IsNullRef(ref elementReference))
+                {
+                    var element = new Pair_NullableString_NullableIntElement(elementIndex);
+                    element.ElementKeyLength = span.Length;
+
+                    if (!Parse_Element_LOYAL(ref context, ref result, element))
+                    {
+                        return false;
+                    }
+
+                    node.Others.TryAdd(span, element);
+                }
+                else if (elementReference is null)
+                {
+                    elementReference = new Pair_NullableString_NullableIntElement(elementIndex);
+                    elementReference.ElementKeyLength = span.Length;
+
+                    if (!Parse_Element_LOYAL(ref context, ref result, elementReference))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_MultipleAssignment(elementIndex);
+
+                    if (!Parse_Discard_LOYAL(ref context, ref result, elementIndex))
+                    {
+                        return false;
+                    }
                 }
             }
         } while (true);

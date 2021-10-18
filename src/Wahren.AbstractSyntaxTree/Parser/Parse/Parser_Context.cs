@@ -71,11 +71,7 @@ public static partial class Parser
             }
             else
             {
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.WarningAdd_MultipleAssignment(elementIndex);
-                }
-
+                result.ErrorAdd_MultipleAssignment(elementIndex);
                 if (Parse_Discard_MEMBER(ref context, ref result, elementIndex))
                 {
                     continue;

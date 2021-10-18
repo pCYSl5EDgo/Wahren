@@ -36,7 +36,6 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
             return false;
         }
 
-        var createErrorWarning = context.CreateError(DiagnosticSeverity.Warning);
         List<IBlockStatement> blockStack = new();
 <#  foreach (var (type, _) in usageGroup) { #>
         ref var pair_<#= type #> = ref Unsafe.NullRef<<#= type #>?>();
@@ -171,11 +170,7 @@ foreach (var node in NodeInfo.Nodes.Where(x => x.HasBlock)) {
                 }
             }
 
-            if (createErrorWarning)
-            {
-                result.WarningAdd_MultipleAssignment(currentIndex);
-            }
-
+            result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_<#= trailer #>(ref context, ref result, currentIndex))
             {
                 continue;

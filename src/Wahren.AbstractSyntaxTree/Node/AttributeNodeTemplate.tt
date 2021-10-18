@@ -28,6 +28,7 @@ public sealed class AttributeNode : INode
     public Pair_NullableString_NullableIntElement? <#= name #> = null;
 <# } #>
     public StringSpanKeyDictionary<Pair_NullableString_NullableIntElement> Others = new();
+    public StringSpanKeyDictionary<Pair_NullableString_NullableIntElement> Hides = new();
 
     public void Dispose()
     {
@@ -35,6 +36,7 @@ public sealed class AttributeNode : INode
         <#= name #> = null;
 <# } #>
         Others.Dispose();
+        Hides.Dispose();
     }
 
     public ref Pair_NullableString_NullableIntElement? TryGet(ReadOnlySpan<char> key)

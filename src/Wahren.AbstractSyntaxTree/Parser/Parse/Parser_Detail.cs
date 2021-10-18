@@ -62,7 +62,7 @@ public static partial class Parser
                 {
                     if (context.CreateError(DiagnosticSeverity.Warning))
                     {
-                        result.WarningAdd_MultipleAssignment(element.ElementTokenId);
+                        result.ErrorAdd_MultipleAssignment(element.ElementTokenId);
                     }
                 }
                 continue;
@@ -76,10 +76,7 @@ public static partial class Parser
             }
             else
             {
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.WarningAdd_MultipleAssignment(element.ElementTokenId);
-                }
+                result.ErrorAdd_MultipleAssignment(element.ElementTokenId);
             }
         } while (true);
     }

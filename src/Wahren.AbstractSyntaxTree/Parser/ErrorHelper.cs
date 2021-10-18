@@ -26,14 +26,14 @@ public static class ErrorHelper
         result.ErrorList.Add(new(text, tokenList.GetLine(tokenId), tokenList.GetOffset(tokenId), tokenList.GetLength(tokenId), DiagnosticSeverity.Hint));
     }
 
-    public static void WarningAdd_MultipleAssignment(ref this Result result, uint tokenId)
+    public static void ErrorAdd_MultipleAssignment(ref this Result result, uint tokenId)
     {
 #if JAPANESE
-        var error = $"要素'{result.GetSpan(tokenId)}'への多重代入は深刻なエラーの原因となりえます。この代入は無視されます。";
+        var error = $"要素'{result.GetSpan(tokenId)}'への同一の構造体内での複数回の代入は２回目から無視され、意図しない結果を引き起こします。";
 #else
         var error = $"Multiple assignment to '{result.GetSpan(tokenId)}' can cause serious error.";
 #endif
-        result.WarningAdd(error, tokenId);
+        result.ErrorAdd(error, tokenId);
     }
 
     public static void ErrorAdd_NoVariation(ref this Result result, ReadOnlySpan<char> kind, uint tokenId)
