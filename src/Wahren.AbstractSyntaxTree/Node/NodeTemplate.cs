@@ -15,7 +15,6 @@ public partial struct PowerNode : IInheritableNode
     public uint Super { get; set; }
 	public bool HasSuper { get; set; }
 
-	public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> Others = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle_battle = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> @event = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
@@ -63,7 +62,6 @@ public partial struct PowerNode : IInheritableNode
 
 	public void Dispose()
 	{
-		Others.Dispose();
 		castle_battle.Dispose();
 		@event.Dispose();
 		name.Dispose();

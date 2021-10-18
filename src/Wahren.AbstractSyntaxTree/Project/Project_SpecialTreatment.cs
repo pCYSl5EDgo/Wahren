@@ -116,7 +116,7 @@ public sealed partial class Project
                 else
                 {
                     value.HasReference = false;
-                    result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "attr", "heal -> Status, AbnormalAttribute, all", value.Text);
+                    result.ErrorAdd_UnexpectedElementReferenceKind("skill", "attr", "heal -> Status, AbnormalAttribute, all", value.Text);
                 }
                 break;
             case SkillKind.status:
@@ -142,7 +142,7 @@ public sealed partial class Project
                 else
                 {
                     value.HasReference = false;
-                    result.ErrorAdd_UnexpectedElementReferenceKind("Skill", "attr", "status -> Status, AbnormalAttribute, summon_max, training, movetype", value.Text);
+                    result.ErrorAdd_UnexpectedElementReferenceKind("skill", "attr", "status -> Status, AbnormalAttribute, summon_max, training, movetype", value.Text);
                 }
                 break;
             default:
@@ -184,7 +184,7 @@ public sealed partial class Project
                     {
                         if (GetRecursive_SkillKind(ref result, ref node) != SkillKind.heal)
                         {
-                            result.ErrorAdd_ElementValueInvalid_NotEqual("Skill", "speed", 0, node.speed!.Value.Text);
+                            result.ErrorAdd_ElementValueInvalid_NotEqual("skill", "speed", 0, node.speed!.Value.Text);
                         }
                         return node.SkillMovetype = SkillMovetype.drop;
                     }
@@ -199,7 +199,7 @@ public sealed partial class Project
                 }
                 else
                 {
-                    result.ErrorAdd_ElementValueInvalid_Equal("Skill", "movetype", "drop", node.movetype.Value.Text);
+                    result.ErrorAdd_ElementValueInvalid_Equal("skill", "movetype", "drop", node.movetype.Value.Text);
                     return default;
                 }
             }

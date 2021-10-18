@@ -240,17 +240,15 @@ public static partial class Parser
                     break;
             }
 
-            foreach (ref var other in node.Others)
+            if (Parse_Discard(ref context, ref result, currentIndex, key))
             {
-                if (other.EqualsKey(span, ref result))
-                {
-                    pair_Pair_NullableString_NullableIntElement = ref other.EnsureGet(variantSpan, ref result);
-                    goto DEFAULT;
-                }
+                result.ErrorAdd_UnexpectedElementName(node.Kind, currentIndex);
+                continue;
             }
-
-            node.Others.Add(new());
-            pair_Pair_NullableString_NullableIntElement = ref node.Others.Last.EnsureGet(variantSpan, ref result);
+            else
+            {
+                return false;
+            }
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {

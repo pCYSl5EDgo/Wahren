@@ -6,7 +6,6 @@ public struct NodeInfo
     public bool HasBlock;
     public ElementInfo[] Elements;
     public AdditionalField[] Fields;
-    public bool IsAllowedUndefinedContent => Name == "Power";
 
     public NodeInfo(string name, ElementInfo[] elements, bool hasBlock = false)
     {
@@ -33,7 +32,7 @@ public struct NodeInfo
     public bool IsDetail5 => Name == nameof(Power) || Name == nameof(Spot) || Name == nameof(Race) || Name == nameof(Unit) || Name == nameof(Class);
     public bool IsSkillOrSkillset => Name == nameof(Skill) || Name == nameof(Skillset);
 
-    public static readonly NodeInfo Power = new("Power", ElementInfo.Power) { Fields = new AdditionalField[] { new("DisposableList<VariantPair<Pair_NullableString_NullableIntElement>>", "Others", true) } };
+    public static readonly NodeInfo Power = new("Power", ElementInfo.Power);
     public static readonly NodeInfo Class = new("Class", ElementInfo.Class);
     public static readonly NodeInfo Dungeon = new("Dungeon", ElementInfo.Dungeon);
     public static readonly NodeInfo Field = new("Field", ElementInfo.Field);
