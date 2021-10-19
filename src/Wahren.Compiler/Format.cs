@@ -189,8 +189,7 @@ public partial class Program
             {
                 byteList.Add(0xff);
                 byteList.Add(0xfe);
-                var formatter = BinaryFormatter.GetDefault_Utf16Le(true);
-                if (!formatter.TryFormat(ref result, ref byteList))
+                if (!Utf16BinaryFormatter.TryFormat(ref result, ref byteList))
                 {
                     StringBuilder stringBuilder = new();
                     foreach (var error in result.ErrorList)
@@ -221,8 +220,7 @@ public partial class Program
             }
             else
             {
-                var formatter = BinaryFormatter.GetDefault_Cp932(true);
-                if (!formatter.TryFormat(ref result, ref byteList))
+                if (!Cp932BinaryFormatter.TryFormat(ref result, ref byteList))
                 {
                     StringBuilder stringBuilder = new();
                     foreach (var error in result.ErrorList)

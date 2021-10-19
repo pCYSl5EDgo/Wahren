@@ -145,8 +145,7 @@ public struct Result : IDisposable
             var isBeautify = formatSpan.Contains('b');
             if (isBeautify)
             {
-                var formatter = Formatter.UnicodeFormatter.GetDefault(isCrLf);
-                if (formatter.TryFormat(ref this, ref list))
+                if (Formatter.UnicodeFormatter.TryFormat(ref this, ref list))
                 {
                     return new string(list.AsSpan());
                 }

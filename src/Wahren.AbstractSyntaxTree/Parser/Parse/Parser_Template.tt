@@ -66,16 +66,15 @@ foreach (var node in NodeInfo.Nodes) {
                 goto FALSE;
             }
 
-<#  if (node.HasBlock) { #>
             if (!result.IsAssign(tokenList.LastIndex))
             {
+<#  if (node.HasBlock) { #>
                 if (result.IsParenLeft(tokenList.LastIndex))
                 {
                     if (Parse_RootBlock(ref context, ref result, currentIndex, ref node.Statements, ref blockStack))
                     {
                         continue;
                     }
-
                     goto FALSE;
                 }
 <#      if (node.Name == "Event") { #>
@@ -109,11 +108,10 @@ foreach (var node in NodeInfo.Nodes) {
                     goto FALSE;
                 }
 <#      } #>
-
-                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
+<#  } #>
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                 goto FALSE;
             }
-<#  } #>
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {

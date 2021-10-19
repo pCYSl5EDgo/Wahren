@@ -42,6 +42,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -434,6 +439,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -1172,6 +1182,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -1430,6 +1445,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -1679,6 +1699,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -1820,6 +1845,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -2193,6 +2223,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -2363,6 +2398,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -3701,6 +3741,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -3842,6 +3887,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -4153,6 +4203,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -4962,6 +5017,11 @@ public static partial class Parser
                 goto FALSE;
             }
 
+            if (!result.IsAssign(tokenList.LastIndex))
+            {
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
+                goto FALSE;
+            }
 
             if (!result.SplitElementPlain(currentIndex, out var span, out var variantSpan))
             {
@@ -5117,11 +5177,9 @@ public static partial class Parser
                     {
                         continue;
                     }
-
                     goto FALSE;
                 }
-
-                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                 goto FALSE;
             }
 
@@ -5811,7 +5869,6 @@ public static partial class Parser
                     {
                         continue;
                     }
-
                     goto FALSE;
                 }
                 else if (result.IsBracketLeft(tokenList.LastIndex) && result.GetSpan(currentIndex).SequenceEqual("battle"))
@@ -5843,8 +5900,7 @@ public static partial class Parser
 
                     goto FALSE;
                 }
-
-                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                 goto FALSE;
             }
 
@@ -6142,11 +6198,9 @@ public static partial class Parser
                     {
                         continue;
                     }
-
                     goto FALSE;
                 }
-
-                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex, "'=' or '(' is expected but not found.");
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                 goto FALSE;
             }
 
