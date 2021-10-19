@@ -51,15 +51,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
     </None>
-    <None Include="Parser\Parse\Parser_Inheritable_Template.cs">
+    <None Include="Parser\Parse\Parser_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Inheritable_Template.tt</DependentUpon>
-    </None>
-    <None Include="Parser\Parse\Parser_BlockContainer_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
+      <DependentUpon>Parser_Template.tt</DependentUpon>
     </None>
     <None Include="Parser\Parse\Parser_RootTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -128,13 +123,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_Discard_Template.cs</LastGenOutput>
     </None>
-    <None Update="Parser\Parse\Parser_Inheritable_Template.tt">
+    <None Update="Parser\Parse\Parser_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Parser_Inheritable_Template.cs</LastGenOutput>
-    </None>
-    <None Update="Parser\Parse\Parser_BlockContainer_Template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Parser_BlockContainer_Template.cs</LastGenOutput>
+      <LastGenOutput>Parser_Template.cs</LastGenOutput>
     </None>
     <None Update="Parser\Parse\Parser_RootTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -231,11 +222,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
     </Compile>
-    <Compile Update="Parser\Parse\Parser_Inheritable_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Inheritable_Template.tt</DependentUpon>
-    </Compile>
     <Compile Update="Parser\Parser_Power_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -250,6 +236,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_RootTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Parser\Parse\Parser_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Parser_Template.tt</DependentUpon>
     </Compile>
     <Compile Update="Project\Proect_InfiniteLoopTemplate.cs">
       <DesignTime>True</DesignTime>
