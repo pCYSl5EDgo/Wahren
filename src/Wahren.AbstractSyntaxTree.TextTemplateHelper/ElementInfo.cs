@@ -7,12 +7,6 @@ public struct ElementInfo
     public ReferenceKind ReferenceKind;
     public string[]? SpecialStringArray;
 
-    public string CSharpableName => Name switch
-    {
-        "picture@cutin" => "picture_atmark_cutin",
-        _ => Name,
-    };
-
     public string Type => Helper.GetCorrespondingType(Name);
 
     public ElementInfo(string name, ReferenceKind referenceKind = ReferenceKind.Unknown, string variantType = nameof(Scenario))

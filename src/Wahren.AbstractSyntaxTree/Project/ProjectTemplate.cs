@@ -13,12 +13,6 @@ public sealed partial class Project
 {
 	public ref Result TryGetPowerNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Power.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Power)
         {
@@ -32,12 +26,6 @@ public sealed partial class Project
 
     public ref Result TryGetPowerNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Power.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Power)
         {
@@ -51,12 +39,6 @@ public sealed partial class Project
 
 	public ref Result TryGetClassNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Class.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Class)
         {
@@ -70,12 +52,6 @@ public sealed partial class Project
 
     public ref Result TryGetClassNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Class.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Class)
         {
@@ -89,32 +65,11 @@ public sealed partial class Project
 
 	public ref Result TryGetDungeonNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Dungeon.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Dungeon.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Dungeon)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.DungeonNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Dungeon.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -123,31 +78,11 @@ public sealed partial class Project
 
     public ref Result TryGetDungeonNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Dungeon.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Dungeon.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Dungeon)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.DungeonNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -156,32 +91,11 @@ public sealed partial class Project
 
 	public ref Result TryGetFieldNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Field.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Field.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Field)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.FieldNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Field.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -190,31 +104,11 @@ public sealed partial class Project
 
     public ref Result TryGetFieldNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Field.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Field.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Field)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.FieldNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -223,32 +117,11 @@ public sealed partial class Project
 
 	public ref Result TryGetMovetypeNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Movetype.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Movetype.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Movetype)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.MovetypeNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Movetype.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -257,31 +130,11 @@ public sealed partial class Project
 
     public ref Result TryGetMovetypeNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Movetype.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Movetype.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Movetype)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.MovetypeNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -290,32 +143,11 @@ public sealed partial class Project
 
 	public ref Result TryGetObjectNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Object.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Object.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Object)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.ObjectNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Object.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -324,31 +156,11 @@ public sealed partial class Project
 
     public ref Result TryGetObjectNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Object.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Object.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Object)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.ObjectNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -357,12 +169,6 @@ public sealed partial class Project
 
 	public ref Result TryGetRaceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Race.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Race)
         {
@@ -376,12 +182,6 @@ public sealed partial class Project
 
     public ref Result TryGetRaceNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Race.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Race)
         {
@@ -395,12 +195,6 @@ public sealed partial class Project
 
 	public ref Result TryGetSkillNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Skill.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skill)
         {
@@ -414,12 +208,6 @@ public sealed partial class Project
 
     public ref Result TryGetSkillNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Skill.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skill)
         {
@@ -433,12 +221,6 @@ public sealed partial class Project
 
 	public ref Result TryGetSkillsetNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Skillset.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skillset)
         {
@@ -452,12 +234,6 @@ public sealed partial class Project
 
     public ref Result TryGetSkillsetNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Skillset.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Skillset)
         {
@@ -471,12 +247,6 @@ public sealed partial class Project
 
 	public ref Result TryGetSpotNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Spot.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Spot)
         {
@@ -490,12 +260,6 @@ public sealed partial class Project
 
     public ref Result TryGetSpotNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Spot.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Spot)
         {
@@ -509,12 +273,6 @@ public sealed partial class Project
 
 	public ref Result TryGetUnitNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Unit.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Unit)
         {
@@ -528,12 +286,6 @@ public sealed partial class Project
 
     public ref Result TryGetUnitNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Unit.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
         ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Unit)
         {
@@ -547,32 +299,11 @@ public sealed partial class Project
 
 	public ref Result TryGetVoiceNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Voice.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Voice.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Voice)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.VoiceNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Voice.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -581,31 +312,11 @@ public sealed partial class Project
 
     public ref Result TryGetVoiceNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Voice.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Voice.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Voice)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.VoiceNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -614,32 +325,11 @@ public sealed partial class Project
 
 	public ref Result TryGetScenarioNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Scenario.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Scenario.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Scenario)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.ScenarioNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Scenario.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -648,31 +338,11 @@ public sealed partial class Project
 
     public ref Result TryGetScenarioNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Scenario.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Scenario.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Scenario)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.ScenarioNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -681,32 +351,11 @@ public sealed partial class Project
 
 	public ref Result TryGetEventNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Event.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Event.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Event)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.EventNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Event.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -715,31 +364,11 @@ public sealed partial class Project
 
     public ref Result TryGetEventNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Event.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Event.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Event)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.EventNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -748,32 +377,11 @@ public sealed partial class Project
 
 	public ref Result TryGetStoryNode(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Story.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Story.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Story)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.StoryNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    Story.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -782,31 +390,11 @@ public sealed partial class Project
 
     public ref Result TryGetStoryNode(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref Story.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
+        ref var track = ref AmbiguousDictionary_Story.TryGet(name);
+        if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.Story)
         {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.StoryNodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
+            index = (uint)track.NodeIndex;
+            return ref Files[track.ResultId];
         }
 
         index = 0;
@@ -992,7 +580,7 @@ public sealed partial class Project
         {
             ref var file = ref fileSpan[(int)fileIndex];
             ref var set = ref FileAnalysisList[fileIndex].UnitSet;
-            for (uint i = 2, end = set.Count; i != end ; i++)
+            for (uint i = 0, end = set.Count; i != end ; i++)
             {
                 var name = set[i];
                 if (!Unsafe.IsNullRef(ref TryGetUnitNode(fileIndex, name, out _)))

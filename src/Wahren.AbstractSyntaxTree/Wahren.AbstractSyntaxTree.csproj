@@ -61,10 +61,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Parser_RootTemplate.tt</DependentUpon>
     </None>
-    <None Include="Project\Proect_InfiniteLoopTemplate.cs">
+    <None Include="Project\ProjectHelper_Template.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Proect_InfiniteLoopTemplate.tt</DependentUpon>
+      <DependentUpon>ProjectHelper_Template.tt</DependentUpon>
+    </None>
+    <None Include="Project\Project_InfiniteLoopTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Project_InfiniteLoopTemplate.tt</DependentUpon>
+    </None>
+    <None Include="Project\Project_GetRecursiveTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Project_GetRecursiveTemplate.tt</DependentUpon>
     </None>
     <None Include="Project\ProjectTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -131,9 +141,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Parser_RootTemplate.cs</LastGenOutput>
     </None>
-    <None Update="Project\Proect_InfiniteLoopTemplate.tt">
+    <None Update="Project\ProjectHelper_Template.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Proect_InfiniteLoopTemplate.cs</LastGenOutput>
+      <LastGenOutput>ProjectHelper_Template.cs</LastGenOutput>
+    </None>
+    <None Update="Project\Project_InfiniteLoopTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Project_InfiniteLoopTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Project\Project_GetRecursiveTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Project_GetRecursiveTemplate.cs</LastGenOutput>
     </None>
     <None Update="Project\ProjectTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -247,10 +265,35 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Proect_InfiniteLoopTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="Project\Progetc_GetRecursiveTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Progetc_GetRecursiveTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Project\ProjectHelper_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProjectHelper_Template.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Project\ProjectHlper_Template.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProjectHlper_Template.tt</DependentUpon>
+    </Compile>
     <Compile Update="Project\ProjectTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ProjectTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Project\Project_GetRecursiveTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Project_GetRecursiveTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Project\Project_InfiniteLoopTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Project_InfiniteLoopTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Project\SolutionTemplate.cs">
       <DesignTime>True</DesignTime>

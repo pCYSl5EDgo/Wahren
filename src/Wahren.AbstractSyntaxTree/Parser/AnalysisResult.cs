@@ -108,8 +108,10 @@ public sealed class AnalysisResult : IDisposable
 
     private void Initialize()
     {
-        UnitSet.InitialAdd("dead_event_a");
-        UnitSet.InitialAdd("dead_event_d");
+        StringVariableReaderSet.InitialAdd("dead_event_a");
+        StringVariableReaderSet.InitialAdd("dead_event_d");
+        StringVariableWriterSet.InitialAdd("dead_event_a");
+        StringVariableWriterSet.InitialAdd("dead_event_d");
         ScenarioSet.InitialAdd("a");
         ScenarioSet.InitialAdd("b");
         ScenarioSet.InitialAdd("c");

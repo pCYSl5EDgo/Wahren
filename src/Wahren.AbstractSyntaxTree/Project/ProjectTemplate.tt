@@ -43,42 +43,18 @@ public sealed partial class Project
 
 	public ref Result TryGet<#= node.Name #>Node(uint queryFileId, ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref <#= node.Name #>.TryGetTrack(name, queryFileId);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-<#  if (node.IsDetail5 || node.IsSkillOrSkillset) { #>
-        ref var track = ref AmbiguousDictionary_<#= node.IsDetail5 ? "UnitClassPowerSpotRace" : "SkillSkillset" #>.TryGet(name);
+<#  if (node.IsDetail5) { #>
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+<#  } else if (node.IsSkillOrSkillset) { #>
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+<#  } else { #>
+        ref var track = ref AmbiguousDictionary_<#= node.Name #>.TryGet(name);
+<#  } #>
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.<#= node.Name #>)
         {
             index = (uint)track.NodeIndex;
             return ref Files[track.ResultId];
         }
-<#  } else { #>
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.<#= node.Name #>NodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    <#= node.Name #>.TryRegisterTrack(name, ((uint)i, index), queryFileId);
-                    return ref file;
-                }
-            }
-        }
-<#  } #>
 
         index = 0;
         return ref Unsafe.NullRef<Result>();
@@ -86,41 +62,18 @@ public sealed partial class Project
 
     public ref Result TryGet<#= node.Name #>Node(ReadOnlySpan<char> name, out uint index)
     {
-        ref var pair = ref <#= node.Name #>.TryGet(name, out _);
-        if (!Unsafe.IsNullRef(ref pair))
-        {
-            index = pair.Id;
-            return ref Files[pair.FileId];
-        }
-<#  if (node.IsDetail5 || node.IsSkillOrSkillset) { #>
-        ref var track = ref AmbiguousDictionary_<#= node.IsDetail5 ? "UnitClassPowerSpotRace" : "SkillSkillset" #>.TryGet(name);
+<#  if (node.IsDetail5) { #>
+        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(name);
+<#  } else if (node.IsSkillOrSkillset) { #>
+        ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(name);
+<#  } else { #>
+        ref var track = ref AmbiguousDictionary_<#= node.Name #>.TryGet(name);
+<#  } #>
         if (!Unsafe.IsNullRef(ref track) && track.Kind == ReferenceKind.<#= node.Name #>)
         {
             index = (uint)track.NodeIndex;
             return ref Files[track.ResultId];
         }
-<#  } else { #>
-        var files = Files.AsSpan();
-        for (int i = 0; i < files.Length; ++i)
-        {
-            ref var file = ref files[i];
-            ref var list = ref file.<#= node.Name #>NodeList;
-            uint end = (uint)list.Count;
-            if (end == 0)
-            {
-                continue;
-            }
-
-            for (index = 0; index != end; ++index)
-            {
-                ref var node = ref list[index];
-                if (name.SequenceEqual(file.GetSpan(node.Name)))
-                {
-                    return ref file;
-                }
-            }
-        }
-<#  } #>
 
         index = 0;
         return ref Unsafe.NullRef<Result>();
@@ -136,9 +89,6 @@ public sealed partial class Project
     switch (node.Name){
         case "Scenario":
             offset = 10;
-            break;
-        case "Unit":
-            offset = 2;
             break;
     }#>
 
@@ -353,35 +303,35 @@ public sealed partial class Project
 <#      bool isArray = element.Type == "Pair_NullableString_NullableInt_ArrayElement"; #>
 <#      if (element.VariantType == "") { #>
 <#          if (isArray) { #>
-        if (node.<#= element.CSharpableName #> is { HasValue: true, Value.Count: > 0 })
+        if (node.<#= element.Name #> is { HasValue: true, Value.Count: > 0 })
         {
-            foreach (ref var value in node.<#= element.CSharpableName #>.Value.AsSpan())
+            foreach (ref var value in node.<#= element.Name #>.Value.AsSpan())
             {
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, analysisResult, ref node, ref value);
             }
         }
 <#          } else { #>
-        if (node.<#= element.CSharpableName #> is { HasValue: true })
+        if (node.<#= element.Name #> is { HasValue: true })
         {
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref node.<#= element.CSharpableName #>.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, analysisResult, ref node, ref node.<#= element.Name #>.Value);
         }
 <#          } #>
 <#      } else { #>
 <#          if (isArray) { #>
-        if (node.<#= element.CSharpableName #>.Value is { HasValue: true, Value.Count: > 0 })
+        if (node.<#= element.Name #>.Value is { HasValue: true, Value.Count: > 0 })
         {
-            foreach (ref var value in node.<#= element.CSharpableName #>.Value.Value.AsSpan())
+            foreach (ref var value in node.<#= element.Name #>.Value.Value.AsSpan())
             {
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, analysisResult, ref node, ref value);
             }
         }
 <#          } else { #>
-        if (node.<#= element.CSharpableName #>.Value is { HasValue: true })
+        if (node.<#= element.Name #>.Value is { HasValue: true })
         {
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref node.<#= element.CSharpableName #>.Value.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, analysisResult, ref node, ref node.<#= element.Name #>.Value.Value);
         }
 <#          } #>
-        foreach (var element in node.<#= element.CSharpableName #>.Variants)
+        foreach (var element in node.<#= element.Name #>.Variants)
         {
 <#          if (isArray) { #>
             if (element is not { HasValue: true, Value.Count: > 0 })
@@ -390,14 +340,14 @@ public sealed partial class Project
             }
             foreach (ref var value in element.Value.AsSpan())
             {
-                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref value);
+                SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, analysisResult, ref node, ref value);
             }
 <#          } else { #>
             if (element is not { HasValue: true })
             {
                 continue;
             }
-            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref result, analysisResult, ref node, ref element.Value);
+            SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref result, analysisResult, ref node, ref element.Value);
 <#          } #>
         }
 <#      } #>
@@ -410,7 +360,7 @@ public sealed partial class Project
 <#      ref var element = ref elements[elementIndex]; #>
 <#      if (element.ReferenceKind == ReferenceKind.SpecialLate) continue; #>
 
-    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.CSharpableName #>(ref Result result, AnalysisResult analysisResult, ref <#= node.Name #>Node node, ref Pair_NullableString_NullableInt value)
+    private void SpecialTreatment_<#= node.Name.ToLowerInvariant() #>_<#= element.Name #>(ref Result result, AnalysisResult analysisResult, ref <#= node.Name #>Node node, ref Pair_NullableString_NullableInt value)
     {
         <#= ReferenceKindHelper.ProcessElementLate(node.Name, ref element, 2) #>
     }

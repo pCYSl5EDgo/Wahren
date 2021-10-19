@@ -179,7 +179,7 @@ public sealed partial class Project
             {
                 if (node.movetype.Value.ReferenceId == 1)
                 {
-                    var speed = GetRecursive_speed(ref result, ref node);
+                    var speed = GetRecursive_speed_Value(ref result, ref node);
                     if (!speed.HasValue || speed.Value == 0)
                     {
                         if (GetRecursive_SkillKind(ref result, ref node) != SkillKind.heal)
@@ -205,7 +205,7 @@ public sealed partial class Project
             }
             else
             {
-                var speed = GetRecursive_speed(ref result, ref node);
+                var speed = GetRecursive_speed_Value(ref result, ref node);
                 return node.SkillMovetype = !speed.HasValue || speed.Value == 0 ? SkillMovetype.Stop : SkillMovetype.Straight;
             }
         }
@@ -221,7 +221,7 @@ public sealed partial class Project
         return node.SkillMovetype = GetRecursive_SkillMovetype(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
     }
 
-    private int? GetRecursive_speed(ref Result result, ref SkillNode node)
+    private int? GetRecursive_speed_Value(ref Result result, ref SkillNode node)
     {
         if (node.speed is not null)
         {
@@ -241,7 +241,7 @@ public sealed partial class Project
         var superSpan = result.GetSpan(node.Super);
         ref var track = ref AmbiguousDictionary_SkillSkillset.TryGet(superSpan);
         ref var superResult = ref Files[track.ResultId];
-        return GetRecursive_speed(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
+        return GetRecursive_speed_Value(ref superResult, ref superResult.SkillNodeList[track.NodeIndex]);
     }
 
     private SkillKind GetRecursive_SkillKind(ref Result result, ref SkillNode node)
