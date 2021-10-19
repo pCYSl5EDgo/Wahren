@@ -7,7 +7,7 @@ public static partial class Parser
     /// <summary>
     /// Already read '('.
     /// </summary>
-    private static bool Parse_RootBlock(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ref List<IBlockStatement> blockStack)
+    private static bool Parse_RootBlock(ref Context context, ref Result result, uint currentIndex, ref ArrayPoolList<IStatement> statements, ref ArrayPoolList<IBlockStatement> blockStack)
     {
         ref var tokenList = ref result.TokenList;
         var actionKind = ActionKindHelper.Convert(result.GetSpan(currentIndex));
@@ -119,9 +119,9 @@ public static partial class Parser
     /// <summary>
     /// Already read '{'.
     /// </summary>
-    private static bool Parse_Block(ref Context context, ref Result result, ref List<IStatement> statements, ref List<IBlockStatement> blockStack)
+    private static bool Parse_Block(ref Context context, ref Result result, ref ArrayPoolList<IStatement> statements, ref ArrayPoolList<IBlockStatement> blockStack)
     {
-        static WhileStatement? GetWhile(ref List<IBlockStatement> blockStack)
+        static WhileStatement? GetWhile(ref ArrayPoolList<IBlockStatement> blockStack)
         {
             for (int i = blockStack.Count - 1; i >= 0; --i)
             {
@@ -301,7 +301,7 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool Parse_While(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ref List<IBlockStatement> blockStack)
+    private static bool Parse_While(ref Context context, ref Result result, uint currentIndex, ref ArrayPoolList<IStatement> statements, ref ArrayPoolList<IBlockStatement> blockStack)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(tokenList.LastIndex) = TokenKind.@while;
@@ -319,7 +319,7 @@ public static partial class Parser
         return answer;
     }
 
-    private static bool Parse_If(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ref List<IBlockStatement> blockStack, bool isRepeatIf)
+    private static bool Parse_If(ref Context context, ref Result result, uint currentIndex, ref ArrayPoolList<IStatement> statements, ref ArrayPoolList<IBlockStatement> blockStack, bool isRepeatIf)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(tokenList.LastIndex) = isRepeatIf ? TokenKind.rif : TokenKind.@if;
@@ -474,7 +474,7 @@ public static partial class Parser
     /// <summary>
     /// Already read '('.
     /// </summary>
-    private static bool Parse_CallAction(ref Context context, ref Result result, uint currentIndex, ref List<IStatement> statements, ActionKind actionKind)
+    private static bool Parse_CallAction(ref Context context, ref Result result, uint currentIndex, ref ArrayPoolList<IStatement> statements, ActionKind actionKind)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(currentIndex) = TokenKind.CallAction;

@@ -4,7 +4,7 @@ public sealed record class CallActionStatement(uint TokenId, ActionKind Kind) : 
 {
     public uint ParenRightTokenId;
 
-    public List<Argument> Arguments = new();
+    public ArrayPoolList<Argument> Arguments = new();
 
     public string DisplayName => "action call";
 

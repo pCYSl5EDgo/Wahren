@@ -2,16 +2,16 @@
 
 public struct DualList<T> : IDisposable
 {
-    private List<T>[] array;
+    private ArrayPoolList<T>[] array;
     private int count;
 
     public DualList()
     {
-        array = Array.Empty<List<T>>();
+        array = Array.Empty<ArrayPoolList<T>>();
         count = default;
     }
 
-    public ref List<T> this[int index]
+    public ref ArrayPoolList<T> this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -25,7 +25,7 @@ public struct DualList<T> : IDisposable
         }
     }
 
-    public ref List<T> this[uint index]
+    public ref ArrayPoolList<T> this[uint index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -39,9 +39,9 @@ public struct DualList<T> : IDisposable
         }
     }
 
-    public Span<List<T>> AsSpan() => array.AsSpan(0, count);
+    public Span<ArrayPoolList<T>> AsSpan() => array.AsSpan(0, count);
 
-    public ref List<T> Last => ref count == 0 ? ref Unsafe.NullRef<List<T>>() : ref array[count - 1];
+    public ref ArrayPoolList<T> Last => ref count == 0 ? ref Unsafe.NullRef<ArrayPoolList<T>>() : ref array[count - 1];
 
     public uint LastIndex => (uint)count - 1U;
 
@@ -57,8 +57,8 @@ public struct DualList<T> : IDisposable
             item.Dispose();
         }
 
-        ArrayPool<List<T>>.Shared.Return(array);
-        array = Array.Empty<List<T>>();
+        ArrayPool<ArrayPoolList<T>>.Shared.Return(array);
+        array = Array.Empty<ArrayPoolList<T>>();
         count = 0;
     }
 
@@ -66,13 +66,13 @@ public struct DualList<T> : IDisposable
     {
         if (array.Length == 0)
         {
-            array = ArrayPool<List<T>>.Shared.Rent(16);
+            array = ArrayPool<ArrayPoolList<T>>.Shared.Rent(16);
         }
         else if (count == array.Length)
         {
-            var newArray = ArrayPool<List<T>>.Shared.Rent(count << 1);
+            var newArray = ArrayPool<ArrayPoolList<T>>.Shared.Rent(count << 1);
             array.CopyTo(newArray.AsSpan(0, count));
-            ArrayPool<List<T>>.Shared.Return(array);
+            ArrayPool<ArrayPoolList<T>>.Shared.Return(array);
             array = newArray;
         }
 

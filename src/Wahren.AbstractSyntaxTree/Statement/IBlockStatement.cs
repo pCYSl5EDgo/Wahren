@@ -2,7 +2,7 @@
 
 public interface IBlockStatement : IStatement
 {
-    ref List<IStatement> Statements { get; }
+    ref ArrayPoolList<IStatement> Statements { get; }
 
-    ref List<IStatement> LastStatements { get; }
+    ref ArrayPoolList<IStatement> LastStatements { get; }
 }

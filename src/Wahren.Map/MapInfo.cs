@@ -25,7 +25,7 @@ public struct MapInfo : IDisposable
         Path = path;
     }
 
-    public ref List<ChipData> this[uint x, uint y] => ref Board[x + y * Width];
+    public ref ArrayPoolList<ChipData> this[uint x, uint y] => ref Board[x + y * Width];
 
     public void Dispose()
     {

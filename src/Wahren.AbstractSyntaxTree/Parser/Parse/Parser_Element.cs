@@ -87,7 +87,7 @@ public static partial class Parser
     /// Already read '='. Already split element.
     /// element: [ ray, poli, camp, home, multi, learn, skill, color, joint, weapon, skill2, weapon2, activenum, friend_ex ]
     /// </summary>
-    private static bool Parse_Element_RAY(ref Context context, ref Result result, IElement<List<Pair_NullableString_NullableInt>> element)
+    private static bool Parse_Element_RAY(ref Context context, ref Result result, IElement<ArrayPoolList<Pair_NullableString_NullableInt>> element)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.RAY;
@@ -194,7 +194,7 @@ public static partial class Parser
     /// struct: [ workspace, context ]
     /// element: [ member, merce, add2, next2, next3, just_next, monster, sound, item, castle_guard, item_sale, item_hold ]
     /// </summary>
-    private static bool Parse_Element_MEMBER(ref Context context, ref Result result, IElement<List<Pair_NullableString_NullableInt>> element)
+    private static bool Parse_Element_MEMBER(ref Context context, ref Result result, IElement<ArrayPoolList<Pair_NullableString_NullableInt>> element)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.MEMBER;
@@ -204,7 +204,7 @@ public static partial class Parser
             return false;
         }
 
-        static bool AddValue_Pair_NullableString_NullableInt(IElement<List<Pair_NullableString_NullableInt>> element, ref Result result, ref TokenList tokenList)
+        static bool AddValue_Pair_NullableString_NullableInt(IElement<ArrayPoolList<Pair_NullableString_NullableInt>> element, ref Result result, ref TokenList tokenList)
         {
             if (result.IsOperator(tokenList.LastIndex))
             {
@@ -344,7 +344,7 @@ public static partial class Parser
     /// Already read '='. Already Split.
     /// element [ consti, icon, leader_skill, assist_skill, diplo, league, enemy_power, merits, loyals, wave, cutin, yorozu ]
     /// </summary>
-    private static bool Parse_Element_CONSTI(ref Context context, ref Result result, IElement<List<Pair_NullableString_NullableInt>> element)
+    private static bool Parse_Element_CONSTI(ref Context context, ref Result result, IElement<ArrayPoolList<Pair_NullableString_NullableInt>> element)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.CONSTI;

@@ -2,11 +2,11 @@
 
 public sealed record class BattleStatement(uint TokenId, NextStatement? Next) : IBlockStatement
 {
-    private List<IStatement> statements = new();
+    private ArrayPoolList<IStatement> statements = new();
 
-    public ref List<IStatement> Statements => ref statements;
+    public ref ArrayPoolList<IStatement> Statements => ref statements;
 
-    public ref List<IStatement> LastStatements => ref statements;
+    public ref ArrayPoolList<IStatement> LastStatements => ref statements;
 
     public string DisplayName => "battle";
 

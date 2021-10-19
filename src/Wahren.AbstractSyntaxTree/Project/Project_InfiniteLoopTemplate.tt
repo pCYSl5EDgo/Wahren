@@ -20,7 +20,7 @@ public sealed partial class Project
     {
         var files = Files.AsSpan();
         DualList<byte> dualList = new();
-        List<(uint fileId, uint nodeId)> trackingList = new();
+        ArrayPoolList<(uint fileId, uint nodeId)> trackingList = new();
         const byte Processed = 2;
         const byte Processing = 1;
         const byte NotYet = 0;

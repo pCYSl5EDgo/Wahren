@@ -19,8 +19,8 @@ namespace Wahren.AbstractSyntaxTree.Formatter;
 public class <#= encoding #>BinaryFormatter : IFormatter<byte>
 {
     private static readonly byte[] registeredBytes;
-    private static readonly List<byte>.AddConverter<char> Converter;
-    private static readonly List<byte>.AddConverterAssumption Assumption;
+    private static readonly ArrayPoolList<byte>.AddConverter<char> Converter;
+    private static readonly ArrayPoolList<byte>.AddConverterAssumption Assumption;
 
     private static readonly int NewLine_Offset;
     private static readonly int NewLine_Count;
@@ -100,13 +100,13 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
 <# } #>
     }
 
-    private static void Append_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_Offset, NewLine_Count));
     }
 
-    private static void Ensure_NewLine_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
+    private static void Ensure_NewLine_Indent(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -126,7 +126,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         }
     }
 
-    private static void Append_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
+    private static void Append_Indent(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -141,13 +141,13 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         }
     }
 
-    private static void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
+    private static void Append_Copy(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         JustChangeLine = false;
         destination.AddRangeConversion(Converter, Assumption, singleLineSource);
     }
 
-    private static void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_NewLine_BracketLeft_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
@@ -155,7 +155,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
 
 <# foreach (var x in FormatterHelper.Pairs_NewLine) { #>
 
-    private static void Append_<#= x.name #>_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_<#= x.name #>_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(<#= x.name #>_NewLine_Offset, <#= x.name #>_NewLine_Count));
@@ -163,7 +163,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs) { #>
 
-    private static void Append_<#= x.name #>(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_<#= x.name #>(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(<#= x.name #>_Offset, <#= x.name #>_Count));
@@ -171,14 +171,14 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { #>
 
-    private static void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(<#= x.name0 #>_NewLine_<#= x.name1 #>_Offset, <#= x.name0 #>_NewLine_<#= x.name1 #>_Count));
     }
 <# } #>
 
-    public static bool TryFormat(ref Result result, ref List<byte> destination)
+    public static bool TryFormat(ref Result result, ref ArrayPoolList<byte> destination)
     {
         ref var tokenList = ref result.TokenList;
         ref var source = ref result.Source;
@@ -260,7 +260,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         return true;
 	}
 
-    private static bool TryFormat_Block(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Block(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -376,7 +376,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -445,7 +445,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         var elementTokenIndex = tokenIndex;
         ref var tokenList = ref result.TokenList;
@@ -475,7 +475,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         return true;
     }
 
-    private static bool TryFormatCallActionArguments(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatCallActionArguments(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -529,7 +529,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         } while (true);
     }
 
-    private static bool TryFormat_If(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_If(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -567,7 +567,7 @@ foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { total += x.content0.Len
         }
     }
 
-    private static bool TryFormat_Condition(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Condition(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do

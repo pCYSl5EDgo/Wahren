@@ -7,7 +7,7 @@ public struct Result : IDisposable
 {
     public DualList<char> Source = new();
     public TokenList TokenList = new();
-    public List<Error> ErrorList = new();
+    public ArrayPoolList<Error> ErrorList = new();
 
     public DisposableList<ScenarioNode> ScenarioNodeList = new();
     public DisposableList<EventNode> EventNodeList = new();
@@ -139,7 +139,7 @@ public struct Result : IDisposable
             isCrLf = Environment.NewLine == "\r\n";
         }
 
-        List<char> list = new();
+        ArrayPoolList<char> list = new();
         try
         {
             var isBeautify = formatSpan.Contains('b');

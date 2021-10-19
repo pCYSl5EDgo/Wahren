@@ -31,13 +31,13 @@ public class UnicodeFormatter : IFormatter<char>
     private const string NewLine = "\r\n";
     private const string Indent = "    ";
 
-    private static void Append_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(NewLine);
     }
 
-    private static void Ensure_NewLine_Indent(ref List<char> destination, ref bool JustChangeLine, int indentCount)
+    private static void Ensure_NewLine_Indent(ref ArrayPoolList<char> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -56,7 +56,7 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    private static void Append_Indent(ref List<char> destination, ref bool JustChangeLine, int indentCount)
+    private static void Append_Indent(ref ArrayPoolList<char> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -70,20 +70,20 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    private static void Append_Copy(ref List<char> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
+    private static void Append_Copy(ref ArrayPoolList<char> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         JustChangeLine = false;
         destination.AddRange(singleLineSource);
     }
 
     private static readonly string battle_NewLine_BracketLeft_NewLine;
-    private static void Append_battle_NewLine_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_battle_NewLine_BracketLeft_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine_BracketLeft_NewLine);
     }
 
-    private static void Append_NewLine_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_NewLine_BracketLeft_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine_BracketLeft_NewLine.AsSpan(6));
@@ -91,7 +91,7 @@ public class UnicodeFormatter : IFormatter<char>
 <# foreach (var x in FormatterHelper.Pairs_NewLine) { #>
 
     private static readonly string <#= x.name #>_NewLine;
-    private static void Append_<#= x.name #>_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_<#= x.name #>_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(<#= x.name #>_NewLine);
@@ -99,7 +99,7 @@ public class UnicodeFormatter : IFormatter<char>
 <# } #>
 <# foreach (var x in FormatterHelper.Pairs) { #>
 
-    private static void Append_<#= x.name #>(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_<#= x.name #>(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("<#= x.content #>");
@@ -108,14 +108,14 @@ public class UnicodeFormatter : IFormatter<char>
 <# foreach (var x in FormatterHelper.Pairs_NewLine_Pairs) { #>
 
     private static readonly string <#= x.name0 #>_NewLine_<#= x.name1 #>;
-    private static void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_<#= x.name0 #>_NewLine_<#= x.name1 #>(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(<#= x.name0 #>_NewLine_<#= x.name1 #>);
     }
 <# } #>
 
-    public static bool TryFormat(ref Result result, ref List<char> destination)
+    public static bool TryFormat(ref Result result, ref ArrayPoolList<char> destination)
     {
         ref var tokenList = ref result.TokenList;
         ref var source = ref result.Source;
@@ -197,7 +197,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
 	}
 
-    private static bool TryFormat_Block(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Block(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -313,7 +313,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -382,7 +382,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         var elementTokenIndex = tokenIndex;
         ref var tokenList = ref result.TokenList;
@@ -412,7 +412,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
     }
 
-    private static bool TryFormatCallActionArguments(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatCallActionArguments(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -466,7 +466,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    private static bool TryFormat_If(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_If(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -504,7 +504,7 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    private static bool TryFormat_Condition(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Condition(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do

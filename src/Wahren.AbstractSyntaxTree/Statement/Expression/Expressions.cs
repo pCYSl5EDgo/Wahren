@@ -147,7 +147,7 @@ public sealed record class NumberCalculatorOperatorExpression(uint TokenId, Numb
 public sealed record class CallFunctionExpression(uint TokenId, FunctionKind Kind)
     : ISingleTermExpression
 {
-    public List<Argument> Arguments = new();
+    public ArrayPoolList<Argument> Arguments = new();
 
     public void Dispose()
     {

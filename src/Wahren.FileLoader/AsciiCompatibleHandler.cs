@@ -2,7 +2,7 @@ namespace Wahren.FileLoader;
 
 public static unsafe class AsciiCompatibleHandler
 {
-    public static void Load(Span<byte> content, List<char>.AddConverter<byte> GetChars, out DualList<char> source)
+    public static void Load(Span<byte> content, ArrayPoolList<char>.AddConverter<byte> GetChars, out DualList<char> source)
     {
         source = new DualList<char>();
         source.AddEmpty();

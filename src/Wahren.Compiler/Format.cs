@@ -182,7 +182,7 @@ public partial class Program
 
         Context context = new(treatSlashPlusAsSingleLineComment: @switch, isEnglishMode: isEnglish, deleteDiscardedToken, DiagnosticSeverity.Error);
         Parser.Parse(ref context, ref result);
-        var byteList = new List<byte>();
+        var byteList = new ArrayPoolList<byte>();
         try
         {
             if (isUnicode || forceUnicode)

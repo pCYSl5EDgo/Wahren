@@ -1425,7 +1425,7 @@ public partial struct ScenarioNode : IInheritableNode
     public uint Super { get; set; }
 	public bool HasSuper { get; set; }
 
-    public List<IStatement> Statements = new();
+    public ArrayPoolList<IStatement> Statements = new();
 	public Pair_NullableString_NullableIntElement? ws_red = default;
 	public Pair_NullableString_NullableIntElement? ws_blue = default;
 	public Pair_NullableString_NullableIntElement? ws_green = default;
@@ -1568,7 +1568,7 @@ public partial struct EventNode : IInheritableNode
     public uint Super { get; set; }
 	public bool HasSuper { get; set; }
 
-    public List<IStatement> Statements = new();
+    public ArrayPoolList<IStatement> Statements = new();
 	public EventKind EventKind = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> disperse = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle = new();
@@ -1642,7 +1642,7 @@ public partial struct StoryNode : IInheritableNode
     public uint Super { get; set; }
 	public bool HasSuper { get; set; }
 
-    public List<IStatement> Statements = new();
+    public ArrayPoolList<IStatement> Statements = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> friend = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> fight = new();
 

@@ -29,13 +29,13 @@ public class UnicodeFormatter : IFormatter<char>
     private const string NewLine = "\r\n";
     private const string Indent = "    ";
 
-    private static void Append_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(NewLine);
     }
 
-    private static void Ensure_NewLine_Indent(ref List<char> destination, ref bool JustChangeLine, int indentCount)
+    private static void Ensure_NewLine_Indent(ref ArrayPoolList<char> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -54,7 +54,7 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    private static void Append_Indent(ref List<char> destination, ref bool JustChangeLine, int indentCount)
+    private static void Append_Indent(ref ArrayPoolList<char> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -68,2619 +68,2619 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    private static void Append_Copy(ref List<char> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
+    private static void Append_Copy(ref ArrayPoolList<char> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         JustChangeLine = false;
         destination.AddRange(singleLineSource);
     }
 
     private static readonly string battle_NewLine_BracketLeft_NewLine;
-    private static void Append_battle_NewLine_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_battle_NewLine_BracketLeft_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine_BracketLeft_NewLine);
     }
 
-    private static void Append_NewLine_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_NewLine_BracketLeft_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine_BracketLeft_NewLine.AsSpan(6));
     }
 
     private static readonly string BracketRight_NewLine;
-    private static void Append_BracketRight_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_BracketRight_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(BracketRight_NewLine);
     }
 
     private static readonly string BracketLeft_NewLine;
-    private static void Append_BracketLeft_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_BracketLeft_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(BracketLeft_NewLine);
     }
 
     private static readonly string else_NewLine;
-    private static void Append_else_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_else_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(else_NewLine);
     }
 
     private static readonly string battle_NewLine;
-    private static void Append_battle_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_battle_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(battle_NewLine);
     }
 
     private static readonly string next_ParenLeft_ParenRight_NewLine;
-    private static void Append_next_ParenLeft_ParenRight_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_next_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(next_ParenLeft_ParenRight_NewLine);
     }
 
     private static readonly string return_ParenLeft_ParenRight_NewLine;
-    private static void Append_return_ParenLeft_ParenRight_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_return_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(return_ParenLeft_ParenRight_NewLine);
     }
 
     private static readonly string continue_ParenLeft_ParenRight_NewLine;
-    private static void Append_continue_ParenLeft_ParenRight_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_continue_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(continue_ParenLeft_ParenRight_NewLine);
     }
 
     private static readonly string break_ParenLeft_ParenRight_NewLine;
-    private static void Append_break_ParenLeft_ParenRight_NewLine(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_break_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(break_ParenLeft_ParenRight_NewLine);
     }
 
-    private static void Append_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" ");
     }
 
-    private static void Append_Space_Assign(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Assign(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" =");
     }
 
-    private static void Append_Semicolon(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Semicolon(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(";");
     }
 
-    private static void Append_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("(");
     }
 
-    private static void Append_BracketLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_BracketLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("{");
     }
 
-    private static void Append_ParenRight(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_ParenRight(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(")");
     }
 
-    private static void Append_else_Space_if_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_else_Space_if_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("else if (");
     }
 
-    private static void Append_else_Space_rif_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_else_Space_rif_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("else rif (");
     }
 
-    private static void Append_Comma(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Comma(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(",");
     }
 
-    private static void Append_Comma_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Comma_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(", ");
     }
 
-    private static void Append_Space_Assign_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Assign_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" = ");
     }
 
-    private static void Append_Space_Colon_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Colon_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" : ");
     }
 
-    private static void Append_Space_Mul_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Mul_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" * ");
     }
 
-    private static void Append_Space_Add_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Add_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" + ");
     }
 
-    private static void Append_Space_Sub_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Sub_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" - ");
     }
 
-    private static void Append_Space_Div_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Div_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" / ");
     }
 
-    private static void Append_Space_Percent_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Percent_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" % ");
     }
 
-    private static void Append_Space_And_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_And_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" && ");
     }
 
-    private static void Append_Space_Or_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_Or_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" || ");
     }
 
-    private static void Append_Space_CompareEqual_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareEqual_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" == ");
     }
 
-    private static void Append_Space_CompareNotEqual_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareNotEqual_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" != ");
     }
 
-    private static void Append_Space_CompareGreaterThan_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareGreaterThan_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" > ");
     }
 
-    private static void Append_Space_CompareGreaterThanOrEqualTo_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareGreaterThanOrEqualTo_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" >= ");
     }
 
-    private static void Append_Space_CompareLessThan_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareLessThan_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" < ");
     }
 
-    private static void Append_Space_CompareLessThanOrEqualTo_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareLessThanOrEqualTo_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(" <= ");
     }
 
-    private static void Append_if_Space_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_if_Space_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("if (");
     }
 
-    private static void Append_rif_Space_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_rif_Space_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("rif (");
     }
 
-    private static void Append_while_Space_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_while_Space_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("while (");
     }
 
-    private static void Append_spot_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_spot_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("spot ");
     }
 
-    private static void Append_unit_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_unit_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("unit ");
     }
 
-    private static void Append_race_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_race_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("race ");
     }
 
-    private static void Append_class_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_class_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("class ");
     }
 
-    private static void Append_field_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_field_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("field ");
     }
 
-    private static void Append_skill_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_skill_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("skill ");
     }
 
-    private static void Append_power_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_power_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("power ");
     }
 
-    private static void Append_voice_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_voice_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("voice ");
     }
 
-    private static void Append_object_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_object_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("object ");
     }
 
-    private static void Append_dungeon_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_dungeon_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("dungeon ");
     }
 
-    private static void Append_movetype_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_movetype_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("movetype ");
     }
 
-    private static void Append_skillset_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_skillset_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("skillset ");
     }
 
-    private static void Append_story_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_story_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("story ");
     }
 
-    private static void Append_fight_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_fight_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("fight ");
     }
 
-    private static void Append_world_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_world_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("world ");
     }
 
-    private static void Append_event_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_event_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("event ");
     }
 
-    private static void Append_scenario_Space(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_scenario_Space(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("scenario ");
     }
 
-    private static void Append_vc_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_vc_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("vc(");
     }
 
-    private static void Append_play_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_play_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("play(");
     }
 
-    private static void Append_ppl1_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_ppl1_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("ppl1(");
     }
 
-    private static void Append_citom_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_citom_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("citom(");
     }
 
-    private static void Append_setbcg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setbcg_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setbcg(");
     }
 
-    private static void Append_showCamp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showCamp_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showCamp(");
     }
 
-    private static void Append_clickWait_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_clickWait_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("clickWait(");
     }
 
-    private static void Append_worldskin_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_worldskin_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("worldskin(");
     }
 
-    private static void Append_darkness_off_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_darkness_off_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("darkness_off(");
     }
 
-    private static void Append_doGameEnding_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_doGameEnding_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("doGameEnding(");
     }
 
-    private static void Append_storeDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeDeath_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeDeath(");
     }
 
-    private static void Append_pushDeath_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushDeath_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushDeath(");
     }
 
-    private static void Append_setPowerHome_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setPowerHome_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setPowerHome(");
     }
 
-    private static void Append_msg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_msg_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("msg(");
     }
 
-    private static void Append_msg2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_msg2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("msg2(");
     }
 
-    private static void Append_talk_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_talk_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("talk(");
     }
 
-    private static void Append_talk2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_talk2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("talk2(");
     }
 
-    private static void Append_chat_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_chat_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("chat(");
     }
 
-    private static void Append_chat2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_chat2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("chat2(");
     }
 
-    private static void Append_dialog_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_dialog_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("dialog(");
     }
 
-    private static void Append_dialogF_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_dialogF_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("dialogF(");
     }
 
-    private static void Append_select_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_select_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("select(");
     }
 
-    private static void Append_choice_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_choice_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("choice(");
     }
 
-    private static void Append_exit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_exit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("exit(");
     }
 
-    private static void Append_image_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_image_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("image(");
     }
 
-    private static void Append_image2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_image2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("image2(");
     }
 
-    private static void Append_showImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showImage_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showImage(");
     }
 
-    private static void Append_hideImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideImage_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideImage(");
     }
 
-    private static void Append_face_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_face_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("face(");
     }
 
-    private static void Append_face2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_face2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("face2(");
     }
 
-    private static void Append_showFace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showFace_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showFace(");
     }
 
-    private static void Append_hideFace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideFace_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideFace(");
     }
 
-    private static void Append_picture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_picture_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("picture(");
     }
 
-    private static void Append_picture2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_picture2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("picture2(");
     }
 
-    private static void Append_showPict_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showPict_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showPict(");
     }
 
-    private static void Append_showPicture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showPicture_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showPicture(");
     }
 
-    private static void Append_hidePicture_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hidePicture_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hidePicture(");
     }
 
-    private static void Append_stop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_stop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("stop(");
     }
 
-    private static void Append_bg_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_bg_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("bg(");
     }
 
-    private static void Append_add_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_add_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("add(");
     }
 
-    private static void Append_div_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_div_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("div(");
     }
 
-    private static void Append_mod_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_mod_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("mod(");
     }
 
-    private static void Append_mul_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_mul_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("mul(");
     }
 
-    private static void Append_per_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_per_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("per(");
     }
 
-    private static void Append_set_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_set_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("set(");
     }
 
-    private static void Append_sub_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_sub_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("sub(");
     }
 
-    private static void Append_win_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_win_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("win(");
     }
 
-    private static void Append_addv_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addv_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addv(");
     }
 
-    private static void Append_call_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_call_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("call(");
     }
 
-    private static void Append_font_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_font_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("font(");
     }
 
-    private static void Append_save_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_save_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("save(");
     }
 
-    private static void Append_setv_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setv_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setv(");
     }
 
-    private static void Append_subv_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_subv_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("subv(");
     }
 
-    private static void Append_wait_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_wait_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("wait(");
     }
 
-    private static void Append_zoom_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_zoom_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("zoom(");
     }
 
-    private static void Append_clear_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_clear_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("clear(");
     }
 
-    private static void Append_erase_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_erase_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("erase(");
     }
 
-    private static void Append_event_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_event_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("event(");
     }
 
-    private static void Append_focus_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_focus_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("focus(");
     }
 
-    private static void Append_fontc_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_fontc_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("fontc(");
     }
 
-    private static void Append_gread_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_gread_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("gread(");
     }
 
-    private static void Append_gwrite_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_gwrite_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("gwrite(");
     }
 
-    private static void Append_index_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_index_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("index(");
     }
 
-    private static void Append_storeIndex_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeIndex_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeIndex(");
     }
 
-    private static void Append_storeIndexVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeIndexVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeIndexVar(");
     }
 
-    private static void Append_pushv_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushv_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushv(");
     }
 
-    private static void Append_setPM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setPM_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setPM(");
     }
 
-    private static void Append_setud_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setud_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setud(");
     }
 
-    private static void Append_storeud_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeud_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeud(");
     }
 
-    private static void Append_shake_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_shake_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("shake(");
     }
 
-    private static void Append_title_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_title_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("title(");
     }
 
-    private static void Append_addstr_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addstr_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addstr(");
     }
 
-    private static void Append_addVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addVar(");
     }
 
-    private static void Append_fadein_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_fadein_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("fadein(");
     }
 
-    private static void Append_locate_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_locate_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("locate(");
     }
 
-    private static void Append_playSE_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_playSE_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("playSE(");
     }
 
-    private static void Append_scroll_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_scroll_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("scroll(");
     }
 
-    private static void Append_scroll2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_scroll2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("scroll2(");
     }
 
-    private static void Append_setVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setVar(");
     }
 
-    private static void Append_shadow_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_shadow_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("shadow(");
     }
 
-    private static void Append_subVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_subVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("subVar(");
     }
 
-    private static void Append_title2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_title2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("title2(");
     }
 
-    private static void Append_volume_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_volume_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("volume(");
     }
 
-    private static void Append_addCapa_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addCapa_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addCapa(");
     }
 
-    private static void Append_addGain_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addGain_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addGain(");
     }
 
-    private static void Append_addItem_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addItem_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addItem(");
     }
 
-    private static void Append_addSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addSpot(");
     }
 
-    private static void Append_addUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addUnit(");
     }
 
-    private static void Append_doskill_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_doskill_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("doskill(");
     }
 
-    private static void Append_fadeout_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_fadeout_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("fadeout(");
     }
 
-    private static void Append_loopBGM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_loopBGM_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("loopBGM(");
     }
 
-    private static void Append_minimap_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_minimap_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("minimap(");
     }
 
-    private static void Append_playBGM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_playBGM_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("playBGM(");
     }
 
-    private static void Append_pushCon_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushCon_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushCon(");
     }
 
-    private static void Append_pushSex_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushSex_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushSex(");
     }
 
-    private static void Append_pushVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushVar(");
     }
 
-    private static void Append_routine_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_routine_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("routine(");
     }
 
-    private static void Append_setCapa_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setCapa_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setCapa(");
     }
 
-    private static void Append_setDone_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setDone_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setDone(");
     }
 
-    private static void Append_setGain_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setGain_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setGain(");
     }
 
-    private static void Append_shuffle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_shuffle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("shuffle(");
     }
 
-    private static void Append_stopBGM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_stopBGM_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("stopBGM(");
     }
 
-    private static void Append_storePM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePM_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePM(");
     }
 
-    private static void Append_addDiplo_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addDiplo_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addDiplo(");
     }
 
-    private static void Append_levelup_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_levelup_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("levelup(");
     }
 
-    private static void Append_addLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addLevel_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addLevel(");
     }
 
-    private static void Append_addLimit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addLimit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addLimit(");
     }
 
-    private static void Append_addLoyal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addLoyal_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addLoyal(");
     }
 
-    private static void Append_addMoney_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addMoney_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addMoney(");
     }
 
-    private static void Append_addPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addPower(");
     }
 
-    private static void Append_addSkill_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addSkill_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addSkill(");
     }
 
-    private static void Append_addTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addTroop(");
     }
 
-    private static void Append_stopTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_stopTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("stopTroop(");
     }
 
-    private static void Append_addTrust_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addTrust_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addTrust(");
     }
 
-    private static void Append_aimTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_aimTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("aimTroop(");
     }
 
-    private static void Append_clearVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_clearVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("clearVar(");
     }
 
-    private static void Append_darkness_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_darkness_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("darkness(");
     }
 
-    private static void Append_exitItem_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_exitItem_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("exitItem(");
     }
 
-    private static void Append_hideLink_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideLink_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideLink(");
     }
 
-    private static void Append_hideSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideSpot(");
     }
 
-    private static void Append_linkSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_linkSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("linkSpot(");
     }
 
-    private static void Append_openGoal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_openGoal_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("openGoal(");
     }
 
-    private static void Append_pushCapa_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushCapa_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushCapa(");
     }
 
-    private static void Append_pushGain_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushGain_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushGain(");
     }
 
-    private static void Append_pushItem_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushItem_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushItem(");
     }
 
-    private static void Append_pushRand_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushRand_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushRand(");
     }
 
-    private static void Append_pushRank_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushRank_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushRank(");
     }
 
-    private static void Append_pushSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushSpot(");
     }
 
-    private static void Append_pushTurn_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushTurn_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushTurn(");
     }
 
-    private static void Append_roamUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_roamUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("roamUnit(");
     }
 
-    private static void Append_roamUnit2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_roamUnit2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("roamUnit2(");
     }
 
-    private static void Append_setDiplo_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setDiplo_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setDiplo(");
     }
 
-    private static void Append_setLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setLevel_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setLevel(");
     }
 
-    private static void Append_setLimit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setLimit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setLimit(");
     }
 
-    private static void Append_setMoney_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setMoney_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setMoney(");
     }
 
-    private static void Append_setTruce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setTruce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setTruce(");
     }
 
-    private static void Append_showSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showSpot(");
     }
 
-    private static void Append_spotmark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_spotmark_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("spotmark(");
     }
 
-    private static void Append_showSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showSpotMark_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showSpotMark(");
     }
 
-    private static void Append_hideSpotMark_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideSpotMark_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideSpotMark(");
     }
 
-    private static void Append_hideEscape_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideEscape_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideEscape(");
     }
 
-    private static void Append_showParty_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showParty_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showParty(");
     }
 
-    private static void Append_addCastle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addCastle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addCastle(");
     }
 
-    private static void Append_addFriend_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addFriend_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addFriend(");
     }
 
-    private static void Append_addMerits_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addMerits_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addMerits(");
     }
 
-    private static void Append_addSkill2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addSkill2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addSkill2(");
     }
 
-    private static void Append_addStatus_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addStatus_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addStatus(");
     }
 
-    private static void Append_changeMap_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeMap_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeMap(");
     }
 
-    private static void Append_closeGoal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_closeGoal_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("closeGoal(");
     }
 
-    private static void Append_ctrlTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_ctrlTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("ctrlTroop(");
     }
 
-    private static void Append_entryItem_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_entryItem_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("entryItem(");
     }
 
-    private static void Append_equipItem_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_equipItem_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("equipItem(");
     }
 
-    private static void Append_eraseItem_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseItem_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseItem(");
     }
 
-    private static void Append_eraseUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseUnit(");
     }
 
-    private static void Append_formTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_formTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("formTroop(");
     }
 
-    private static void Append_freeTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_freeTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("freeTroop(");
     }
 
-    private static void Append_haltTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_haltTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("haltTroop(");
     }
 
-    private static void Append_hideBlind_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideBlind_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideBlind(");
     }
 
-    private static void Append_hideChara_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_hideChara_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("hideChara(");
     }
 
-    private static void Append_moveTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_moveTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("moveTroop(");
     }
 
-    private static void Append_moveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_moveTroopFix_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("moveTroopFix(");
     }
 
-    private static void Append_smoveTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_smoveTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("smoveTroop(");
     }
 
-    private static void Append_smoveTroopFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_smoveTroopFix_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("smoveTroopFix(");
     }
 
-    private static void Append_playWorld_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_playWorld_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("playWorld(");
     }
 
-    private static void Append_pushDiplo_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushDiplo_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushDiplo(");
     }
 
-    private static void Append_pushForce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushForce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushForce(");
     }
 
-    private static void Append_pushLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushLevel_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushLevel(");
     }
 
-    private static void Append_pushLimit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushLimit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushLimit(");
     }
 
-    private static void Append_pushLoyal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushLoyal_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushLoyal(");
     }
 
-    private static void Append_pushMoney_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushMoney_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushMoney(");
     }
 
-    private static void Append_pushRand2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushRand2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushRand2(");
     }
 
-    private static void Append_pushTrain_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushTrain_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushTrain(");
     }
 
-    private static void Append_pushTrust_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushTrust_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushTrust(");
     }
 
-    private static void Append_resetTime_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_resetTime_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("resetTime(");
     }
 
-    private static void Append_resetZone_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_resetZone_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("resetZone(");
     }
 
-    private static void Append_setArbeit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setArbeit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setArbeit(");
     }
 
-    private static void Append_setCastle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setCastle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setCastle(");
     }
 
-    private static void Append_setLeague_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setLeague_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setLeague(");
     }
 
-    private static void Append_setStatus_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setStatus_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setStatus(");
     }
 
-    private static void Append_showBlind_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showBlind_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showBlind(");
     }
 
-    private static void Append_showChara_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showChara_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showChara(");
     }
 
-    private static void Append_terminate_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_terminate_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("terminate(");
     }
 
-    private static void Append_backScroll_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_backScroll_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("backScroll(");
     }
 
-    private static void Append_changeRace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeRace_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeRace(");
     }
 
-    private static void Append_endingRoll_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_endingRoll_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("endingRoll(");
     }
 
-    private static void Append_erasePower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_erasePower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("erasePower(");
     }
 
-    private static void Append_eraseSkill_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseSkill_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseSkill(");
     }
 
-    private static void Append_eraseUnit2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnit2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseUnit2(");
     }
 
-    private static void Append_eraseTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseTroop(");
     }
 
-    private static void Append_linkEscape_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_linkEscape_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("linkEscape(");
     }
 
-    private static void Append_playBattle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_playBattle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("playBattle(");
     }
 
-    private static void Append_pushCastle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushCastle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushCastle(");
     }
 
-    private static void Append_pushMerits_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushMerits_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushMerits(");
     }
 
-    private static void Append_pushStatus_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushStatus_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushStatus(");
     }
 
-    private static void Append_reloadMenu_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_reloadMenu_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("reloadMenu(");
     }
 
-    private static void Append_removeSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_removeSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("removeSpot(");
     }
 
-    private static void Append_resetTruce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_resetTruce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("resetTruce(");
     }
 
-    private static void Append_setDungeon_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setDungeon_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setDungeon(");
     }
 
-    private static void Append_shiftTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_shiftTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("shiftTroop(");
     }
 
-    private static void Append_shuffleVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_shuffleVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("shuffleVar(");
     }
 
-    private static void Append_skillTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_skillTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("skillTroop(");
     }
 
-    private static void Append_sleepTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_sleepTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("sleepTroop(");
     }
 
-    private static void Append_speedTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_speedTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("speedTroop(");
     }
 
-    private static void Append_unionPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_unionPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("unionPower(");
     }
 
-    private static void Append_activeTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_activeTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("activeTroop(");
     }
 
-    private static void Append_addTraining_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addTraining_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addTraining(");
     }
 
-    private static void Append_battleEvent_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_battleEvent_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("battleEvent(");
     }
 
-    private static void Append_changeClass_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeClass_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeClass(");
     }
 
-    private static void Append_choiceTitle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_choiceTitle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("choiceTitle(");
     }
 
-    private static void Append_eraseFriend_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseFriend_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseFriend(");
     }
 
-    private static void Append_pushSpotPos_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushSpotPos_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushSpotPos(");
     }
 
-    private static void Append_pushTrainUp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushTrainUp_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushTrainUp(");
     }
 
-    private static void Append_removeSkill_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_removeSkill_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("removeSkill(");
     }
 
-    private static void Append_removeTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_removeTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("removeTroop(");
     }
 
-    private static void Append_resetLeague_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_resetLeague_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("resetLeague(");
     }
 
-    private static void Append_scrollSpeed_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_scrollSpeed_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("scrollSpeed(");
     }
 
-    private static void Append_setTraining_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setTraining_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setTraining(");
     }
 
-    private static void Append_shiftTroop2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_shiftTroop2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("shiftTroop2(");
     }
 
-    private static void Append_showDungeon_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showDungeon_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showDungeon(");
     }
 
-    private static void Append_unctrlTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_unctrlTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("unctrlTroop(");
     }
 
-    private static void Append_addBaseLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addBaseLevel_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addBaseLevel(");
     }
 
-    private static void Append_changeCastle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeCastle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeCastle(");
     }
 
-    private static void Append_changeMaster_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeMaster_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeMaster(");
     }
 
-    private static void Append_changePlayer_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changePlayer_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changePlayer(");
     }
 
-    private static void Append_retreatTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_retreatTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("retreatTroop(");
     }
 
-    private static void Append_reverseChara_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_reverseChara_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("reverseChara(");
     }
 
-    private static void Append_setBaseLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setBaseLevel_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setBaseLevel(");
     }
 
-    private static void Append_setGameClear_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setGameClear_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setGameClear(");
     }
 
-    private static void Append_showPolitics_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_showPolitics_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("showPolitics(");
     }
 
-    private static void Append_storeAllSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeAllSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeAllSpot(");
     }
 
-    private static void Append_addPowerMerce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addPowerMerce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addPowerMerce(");
     }
 
-    private static void Append_addPowerStaff_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addPowerStaff_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addPowerStaff(");
     }
 
-    private static void Append_addPowerMerce2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addPowerMerce2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addPowerMerce2(");
     }
 
-    private static void Append_addPowerStaff2_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addPowerStaff2_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addPowerStaff2(");
     }
 
-    private static void Append_addTrainingUp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_addTrainingUp_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("addTrainingUp(");
     }
 
-    private static void Append_changeDungeon_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeDungeon_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeDungeon(");
     }
 
-    private static void Append_pushBaseLevel_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushBaseLevel_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushBaseLevel(");
     }
 
-    private static void Append_setEnemyPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setEnemyPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setEnemyPower(");
     }
 
-    private static void Append_setTrainingUp_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setTrainingUp_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setTrainingUp(");
     }
 
-    private static void Append_setWorldMusic_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setWorldMusic_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setWorldMusic(");
     }
 
-    private static void Append_storeAllPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeAllPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeAllPower(");
     }
 
-    private static void Append_storeComPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeComPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeComPower(");
     }
 
-    private static void Append_storeNextSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeNextSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeNextSpot(");
     }
 
-    private static void Append_storeNowPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeNowPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeNowPower(");
     }
 
-    private static void Append_storeRectUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeRectUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeRectUnit(");
     }
 
-    private static void Append_storeSkillset_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeSkillset_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeSkillset(");
     }
 
-    private static void Append_storeTodoUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeTodoUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeTodoUnit(");
     }
 
-    private static void Append_changePowerFix_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changePowerFix_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changePowerFix(");
     }
 
-    private static void Append_eraseUnitTroop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnitTroop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eraseUnitTroop(");
     }
 
-    private static void Append_pushBattleHome_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushBattleHome_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushBattleHome(");
     }
 
-    private static void Append_pushBattleRect_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushBattleRect_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushBattleRect(");
     }
 
-    private static void Append_pushCountPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_pushCountPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("pushCountPower(");
     }
 
-    private static void Append_storeAliveUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeAliveUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeAliveUnit(");
     }
 
-    private static void Append_storeAllTalent_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeAllTalent_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeAllTalent(");
     }
 
-    private static void Append_changePowerFlag_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changePowerFlag_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changePowerFlag(");
     }
 
-    private static void Append_changePowerName_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changePowerName_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changePowerName(");
     }
 
-    private static void Append_changeSpotImage_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_changeSpotImage_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("changeSpotImage(");
     }
 
-    private static void Append_erasePowerMerce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_erasePowerMerce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("erasePowerMerce(");
     }
 
-    private static void Append_erasePowerStaff_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_erasePowerStaff_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("erasePowerStaff(");
     }
 
-    private static void Append_resetEnemyPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_resetEnemyPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("resetEnemyPower(");
     }
 
-    private static void Append_resetWorldMusic_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_resetWorldMusic_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("resetWorldMusic(");
     }
 
-    private static void Append_setDungeonFloor_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_setDungeonFloor_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("setDungeonFloor(");
     }
 
-    private static void Append_storeBattleSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeBattleSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeBattleSpot(");
     }
 
-    private static void Append_storePlayerUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePlayerUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePlayerUnit(");
     }
 
-    private static void Append_storeRaceOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeRaceOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeRaceOfUnit(");
     }
 
-    private static void Append_storeSpotOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeSpotOfUnit(");
     }
 
-    private static void Append_storeUnitOfSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeUnitOfSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeUnitOfSpot(");
     }
 
-    private static void Append_storeAttackPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeAttackPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeAttackPower(");
     }
 
-    private static void Append_storeClassOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeClassOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeClassOfUnit(");
     }
 
-    private static void Append_storeNeutralSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeNeutralSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeNeutralSpot(");
     }
 
-    private static void Append_storePlayerPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePlayerPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePlayerPower(");
     }
 
-    private static void Append_storePowerOfSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePowerOfSpot(");
     }
 
-    private static void Append_storePowerOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePowerOfUnit(");
     }
 
-    private static void Append_storeSkillOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeSkillOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeSkillOfUnit(");
     }
 
-    private static void Append_storeSpotOfPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeSpotOfPower(");
     }
 
-    private static void Append_storeTalentPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeTalentPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeTalentPower(");
     }
 
-    private static void Append_storeUnitOfPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeUnitOfPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeUnitOfPower(");
     }
 
-    private static void Append_clearBattleRecord_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_clearBattleRecord_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("clearBattleRecord(");
     }
 
-    private static void Append_storeDefensePower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeDefensePower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeDefensePower(");
     }
 
-    private static void Append_storeLeaderOfSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeLeaderOfSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeLeaderOfSpot(");
     }
 
-    private static void Append_storeMasterOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeMasterOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeMasterOfUnit(");
     }
 
-    private static void Append_storeMemberOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeMemberOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeMemberOfUnit(");
     }
 
-    private static void Append_storePowerOfForce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfForce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePowerOfForce(");
     }
 
-    private static void Append_storeSpotOfBattle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfBattle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeSpotOfBattle(");
     }
 
-    private static void Append_storeLeaderOfPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeLeaderOfPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeLeaderOfPower(");
     }
 
-    private static void Append_storeMasterOfPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeMasterOfPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeMasterOfPower(");
     }
 
-    private static void Append_storePowerOfAttack_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfAttack_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePowerOfAttack(");
     }
 
-    private static void Append_storeNonPlayerPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeNonPlayerPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeNonPlayerPower(");
     }
 
-    private static void Append_storePowerOfDefense_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfDefense_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storePowerOfDefense(");
     }
 
-    private static void Append_storeRoamUnitOfSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeRoamUnitOfSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeRoamUnitOfSpot(");
     }
 
-    private static void Append_storeBaseClassOfUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_storeBaseClassOfUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("storeBaseClassOfUnit(");
     }
 
-    private static void Append_isSelect_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isSelect_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isSelect(");
     }
 
-    private static void Append_isWhoDead_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isWhoDead_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isWhoDead(");
     }
 
-    private static void Append_isGameOver_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isGameOver_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isGameOver(");
     }
 
-    private static void Append_has_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_has_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("has(");
     }
 
-    private static void Append_inVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_inVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("inVar(");
     }
 
-    private static void Append_yet_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_yet_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("yet(");
     }
 
-    private static void Append_rand_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_rand_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("rand(");
     }
 
-    private static void Append_count_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_count_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("count(");
     }
 
-    private static void Append_amount_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_amount_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("amount(");
     }
 
-    private static void Append_equal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_equal_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("equal(");
     }
 
-    private static void Append_eqVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_eqVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("eqVar(");
     }
 
-    private static void Append_isMap_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isMap_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isMap(");
     }
 
-    private static void Append_isNpc_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isNpc_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isNpc(");
     }
 
-    private static void Append_isNPM_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isNPM_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isNPM(");
     }
 
-    private static void Append_isWar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isWar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isWar(");
     }
 
-    private static void Append_ptest_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_ptest_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("ptest(");
     }
 
-    private static void Append_conVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_conVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("conVar(");
     }
 
-    private static void Append_inSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_inSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("inSpot(");
     }
 
-    private static void Append_isDead_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isDead_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isDead(");
     }
 
-    private static void Append_isDone_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isDone_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isDone(");
     }
 
-    private static void Append_isJoin_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isJoin_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isJoin(");
     }
 
-    private static void Append_isNext_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isNext_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isNext(");
     }
 
-    private static void Append_reckon_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_reckon_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("reckon(");
     }
 
-    private static void Append_getLife_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getLife_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getLife(");
     }
 
-    private static void Append_getMode_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getMode_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getMode(");
     }
 
-    private static void Append_getTime_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getTime_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getTime(");
     }
 
-    private static void Append_getTurn_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getTurn_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getTurn(");
     }
 
-    private static void Append_inPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_inPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("inPower(");
     }
 
-    private static void Append_isAlive_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isAlive_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isAlive(");
     }
 
-    private static void Append_isEnemy_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isEnemy_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isEnemy(");
     }
 
-    private static void Append_isEvent_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isEvent_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isEvent(");
     }
 
-    private static void Append_isPeace_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isPeace_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isPeace(");
     }
 
-    private static void Append_isWorld_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isWorld_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isWorld(");
     }
 
-    private static void Append_countVar_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countVar_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countVar(");
     }
 
-    private static void Append_getLimit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getLimit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getLimit(");
     }
 
-    private static void Append_inBattle_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_inBattle_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("inBattle(");
     }
 
-    private static void Append_isActive_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isActive_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isActive(");
     }
 
-    private static void Append_isArbeit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isArbeit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isArbeit(");
     }
 
-    private static void Append_isEnable_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isEnable_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isEnable(");
     }
 
-    private static void Append_isFriend_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isFriend_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isFriend(");
     }
 
-    private static void Append_isInvade_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isInvade_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isInvade(");
     }
 
-    private static void Append_isLeader_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isLeader_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isLeader(");
     }
 
-    private static void Append_isLeague_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isLeague_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isLeague(");
     }
 
-    private static void Append_isMaster_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isMaster_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isMaster(");
     }
 
-    private static void Append_isPlayer_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isPlayer_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isPlayer(");
     }
 
-    private static void Append_isPostIn_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isPostIn_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isPostIn(");
     }
 
-    private static void Append_isRoamer_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isRoamer_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isRoamer(");
     }
 
-    private static void Append_isTalent_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isTalent_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isTalent(");
     }
 
-    private static void Append_isVassal_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isVassal_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isVassal(");
     }
 
-    private static void Append_countGain_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countGain_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countGain(");
     }
 
-    private static void Append_countPost_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countPost_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countPost(");
     }
 
-    private static void Append_countSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countSpot(");
     }
 
-    private static void Append_countUnit_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countUnit_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countUnit(");
     }
 
-    private static void Append_isAllDead_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isAllDead_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isAllDead(");
     }
 
-    private static void Append_isAnyDead_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isAnyDead_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isAnyDead(");
     }
 
-    private static void Append_isComTurn_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isComTurn_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isComTurn(");
     }
 
-    private static void Append_isDungeon_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isDungeon_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isDungeon(");
     }
 
-    private static void Append_isNewTurn_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isNewTurn_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isNewTurn(");
     }
 
-    private static void Append_isNowSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isNowSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isNowSpot(");
     }
 
-    private static void Append_istoWorld_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_istoWorld_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("istoWorld(");
     }
 
-    private static void Append_countForce_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countForce_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countForce(");
     }
 
-    private static void Append_countMoney_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countMoney_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countMoney(");
     }
 
-    private static void Append_countPower_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countPower_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countPower(");
     }
 
-    private static void Append_countSkill_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_countSkill_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("countSkill(");
     }
 
-    private static void Append_getLifePer_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getLifePer_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getLifePer(");
     }
 
-    private static void Append_inRoamSpot_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_inRoamSpot_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("inRoamSpot(");
     }
 
-    private static void Append_isInterval_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isInterval_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isInterval(");
     }
 
-    private static void Append_isRedAlive_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isRedAlive_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isRedAlive(");
     }
 
-    private static void Append_isSameArmy_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isSameArmy_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isSameArmy(");
     }
 
-    private static void Append_isScenario_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isScenario_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isScenario(");
     }
 
-    private static void Append_isWatching_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isWatching_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isWatching(");
     }
 
-    private static void Append_getDistance_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getDistance_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getDistance(");
     }
 
-    private static void Append_getRedCount_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getRedCount_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getRedCount(");
     }
 
-    private static void Append_isBlueAlive_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isBlueAlive_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isBlueAlive(");
     }
 
-    private static void Append_isGameClear_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isGameClear_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isGameClear(");
     }
 
-    private static void Append_isPlayerEnd_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isPlayerEnd_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isPlayerEnd(");
     }
 
-    private static void Append_getBlueCount_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getBlueCount_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getBlueCount(");
     }
 
-    private static void Append_isPlayerTurn_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isPlayerTurn_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isPlayerTurn(");
     }
 
-    private static void Append_isRoamLeader_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isRoamLeader_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isRoamLeader(");
     }
 
-    private static void Append_getClearFloor_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_getClearFloor_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("getClearFloor(");
     }
 
-    private static void Append_isWorldMusicStop_ParenLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_isWorldMusicStop_ParenLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange("isWorldMusicStop(");
     }
 
     private static readonly string context_NewLine_BracketLeft;
-    private static void Append_context_NewLine_BracketLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_context_NewLine_BracketLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(context_NewLine_BracketLeft);
     }
 
     private static readonly string workspace_NewLine_BracketLeft;
-    private static void Append_workspace_NewLine_BracketLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_workspace_NewLine_BracketLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(workspace_NewLine_BracketLeft);
     }
 
     private static readonly string attribute_NewLine_BracketLeft;
-    private static void Append_attribute_NewLine_BracketLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_attribute_NewLine_BracketLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(attribute_NewLine_BracketLeft);
     }
 
     private static readonly string sound_NewLine_BracketLeft;
-    private static void Append_sound_NewLine_BracketLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_sound_NewLine_BracketLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(sound_NewLine_BracketLeft);
     }
 
     private static readonly string detail_NewLine_BracketLeft;
-    private static void Append_detail_NewLine_BracketLeft(ref List<char> destination, ref bool JustChangeLine)
+    private static void Append_detail_NewLine_BracketLeft(ref ArrayPoolList<char> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(detail_NewLine_BracketLeft);
     }
 
-    public static bool TryFormat(ref Result result, ref List<char> destination)
+    public static bool TryFormat(ref Result result, ref ArrayPoolList<char> destination)
     {
         ref var tokenList = ref result.TokenList;
         ref var source = ref result.Source;
@@ -2918,7 +2918,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
 	}
 
-    private static bool TryFormat_Block(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Block(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -4202,7 +4202,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -4271,7 +4271,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         var elementTokenIndex = tokenIndex;
         ref var tokenList = ref result.TokenList;
@@ -4301,7 +4301,7 @@ public class UnicodeFormatter : IFormatter<char>
         return true;
     }
 
-    private static bool TryFormatCallActionArguments(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatCallActionArguments(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -4355,7 +4355,7 @@ public class UnicodeFormatter : IFormatter<char>
         } while (true);
     }
 
-    private static bool TryFormat_If(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_If(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -4393,7 +4393,7 @@ public class UnicodeFormatter : IFormatter<char>
         }
     }
 
-    private static bool TryFormat_Condition(ref Result result, ref List<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Condition(ref Result result, ref ArrayPoolList<char> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do

@@ -5143,7 +5143,7 @@ public static partial class Parser
         {
             return false;
         }
-        List<IBlockStatement> blockStack = new();
+        ArrayPoolList<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -5835,7 +5835,7 @@ public static partial class Parser
         {
             return false;
         }
-        List<IBlockStatement> blockStack = new();
+        ArrayPoolList<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ulong key = 0UL;
@@ -6164,7 +6164,7 @@ public static partial class Parser
         {
             return false;
         }
-        List<IBlockStatement> blockStack = new();
+        ArrayPoolList<IBlockStatement> blockStack = new();
         ref var pair_Pair_NullableString_NullableInt_ArrayElement = ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
         ref var pair_Pair_NullableString_NullableIntElement = ref Unsafe.NullRef<Pair_NullableString_NullableIntElement?>();
         ulong key = 0UL;

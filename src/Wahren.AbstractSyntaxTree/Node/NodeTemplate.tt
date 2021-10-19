@@ -29,7 +29,7 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 	public bool HasSuper { get; set; }
 
 <# if (node.HasBlock) { #>
-    public List<IStatement> Statements = new();
+    public ArrayPoolList<IStatement> Statements = new();
 <# } #>
 <# foreach (var additionalField in node.Fields) { #>
 	public <#= additionalField.Type #> <#= additionalField.Name #> = new();

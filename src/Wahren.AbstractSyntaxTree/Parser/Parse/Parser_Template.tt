@@ -36,7 +36,7 @@ foreach (var node in NodeInfo.Nodes) {
             return false;
         }
 <#  if (node.HasBlock) { #>
-        List<IBlockStatement> blockStack = new();
+        ArrayPoolList<IBlockStatement> blockStack = new();
 <#  } #>
 <#  foreach (var (type, _) in usageGroup) { #>
         ref var pair_<#= type #> = ref Unsafe.NullRef<<#= type #>?>();

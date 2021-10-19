@@ -1,10 +1,10 @@
 namespace Wahren.AbstractSyntaxTree.Element;
 
-public sealed record class Pair_NullableString_NullableInt_ArrayElement(uint ElementTokenId) : IElement<List<Pair_NullableString_NullableInt>>
+public sealed record class Pair_NullableString_NullableInt_ArrayElement(uint ElementTokenId) : IElement<ArrayPoolList<Pair_NullableString_NullableInt>>
 {
-    private List<Pair_NullableString_NullableInt> value = new();
+    private ArrayPoolList<Pair_NullableString_NullableInt> value = new();
 
-    public ref List<Pair_NullableString_NullableInt> Value => ref value;
+    public ref ArrayPoolList<Pair_NullableString_NullableInt> Value => ref value;
     public int ElementKeyLength { get; set; }
     public bool HasElementVariant { get; set; }
 

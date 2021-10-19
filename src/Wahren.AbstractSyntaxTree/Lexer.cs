@@ -156,7 +156,7 @@ public static class Lexer
 
     private static void ReadBackUntilNotWhitespaceAppears(ref DualList<char> source, ref Position position, ref Position startInclusive)
     {
-        ref List<char> currentLine = ref source[position.Line];
+        ref ArrayPoolList<char> currentLine = ref source[position.Line];
         do
         {
             if (position.Line < startInclusive.Line || (position.Line == startInclusive.Line && position.Offset <= startInclusive.Offset))

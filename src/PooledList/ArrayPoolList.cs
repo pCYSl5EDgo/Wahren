@@ -1,11 +1,11 @@
 ﻿namespace Wahren.PooledList;
 
-public struct List<T> : IDisposable, System.Collections.Generic.IList<T>, IEquatable<List<T>>
+public struct ArrayPoolList<T> : IDisposable, System.Collections.Generic.IList<T>, IEquatable<ArrayPoolList<T>>
 {
     private T[] array;
     private int count;
 
-    public List()
+    public ArrayPoolList()
     {
         array = Array.Empty<T>();
         count = default;
@@ -335,22 +335,22 @@ public struct List<T> : IDisposable, System.Collections.Generic.IList<T>, IEquat
 
     public Enumerator GetEnumerator() => new(ref this);
 
-    public bool Equals(ref List<T> other)
+    public bool Equals(ref ArrayPoolList<T> other)
     {
         return count == other.count && array == other.array;
     }
 
-    bool IEquatable<List<T>>.Equals(List<T> other)
+    bool IEquatable<ArrayPoolList<T>>.Equals(ArrayPoolList<T> other)
     {
         return count == other.count && array == other.array;
     }
 
     public struct Enumerator : System.Collections.Generic.IEnumerator<T>
     {
-        private readonly List<T> parent;
+        private readonly ArrayPoolList<T> parent;
         private int index;
 
-        public Enumerator(ref List<T> parent)
+        public Enumerator(ref ArrayPoolList<T> parent)
         {
             this.parent = parent;
             index = -1;

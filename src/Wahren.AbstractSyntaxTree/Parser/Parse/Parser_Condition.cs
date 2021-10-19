@@ -6,7 +6,7 @@ using Statement.Expression;
 
 public static partial class Parser
 {
-    delegate T? StartReduce<T>(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, bool isLowPriority) where T : class, IExpression;
+    delegate T? StartReduce<T>(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, bool isLowPriority) where T : class, IExpression;
 
     /// <summary>
     /// Already read 'if/rif/while' and '('.
@@ -15,7 +15,7 @@ public static partial class Parser
     internal static IReturnBooleanExpression? ParseCondition(ref Context context, ref Result result, uint statementTokenId, ConditionStatementKind statementKind)
     {
         ref var tokenList = ref result.TokenList;
-        List<IExpression> expressionList = new();
+        ArrayPoolList<IExpression> expressionList = new();
         try
         {
             var condition = ExpressionParseInParen(ref context, ref result, ref expressionList, 0, statementTokenId, statementKind, GetCompleteBoolean);
@@ -61,7 +61,7 @@ public static partial class Parser
         }
     }
 
-    private static T? ExpressionParseInParen<T>(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint statementTokenId, ConditionStatementKind statementKind, StartReduce<T> reduce)
+    private static T? ExpressionParseInParen<T>(ref Context context, ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, uint statementTokenId, ConditionStatementKind statementKind, StartReduce<T> reduce)
         where T : class, IExpression
     {
         ref var tokenList = ref result.TokenList;
@@ -400,7 +400,7 @@ public static partial class Parser
         } while (true);
     }
 
-    private static bool AddOperatorReduce(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, bool isOrExpression)
+    private static bool AddOperatorReduce(ref Context context, ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, bool isOrExpression)
     {
         var left = GetCompleteBoolean(ref result, ref expressionList, expressionListStartIndex, isOrExpression);
         if (left is null)
@@ -412,7 +412,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddOperatorReduce(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberCalculatorOperator op)
+    private static bool AddOperatorReduce(ref Context context, ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberCalculatorOperator op)
     {
         var left = GetCompleteNumber(ref result, ref expressionList, expressionListStartIndex, op <= NumberCalculatorOperator.Sub);
         if (left is null)
@@ -424,7 +424,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddOperatorReduce(ref Context context, ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberComparerOperator op)
+    private static bool AddOperatorReduce(ref Context context, ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, uint currentIndex, NumberComparerOperator op)
     {
         var left = GetCompleteNumber(ref result, ref expressionList, expressionListStartIndex, true);
         if (left is null)
@@ -455,7 +455,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddValueReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, IExpression expression)
+    private static bool AddValueReduce(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, IExpression expression)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {
@@ -475,7 +475,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddValueReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, IReturnBooleanExpression expression)
+    private static bool AddValueReduce(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, IReturnBooleanExpression expression)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {
@@ -505,7 +505,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddValueReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, IReturnStringExpression expression)
+    private static bool AddValueReduce(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, IReturnStringExpression expression)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {
@@ -545,7 +545,7 @@ public static partial class Parser
         return true;
     }
 
-    private static bool AddValueReduce(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, IReturnNumberExpression expression)
+    private static bool AddValueReduce(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, IReturnNumberExpression expression)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {
@@ -638,7 +638,7 @@ public static partial class Parser
         return true;
     }
 
-    private static IReturnBooleanExpression? GetCompleteBoolean(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, bool isLowPriority)
+    private static IReturnBooleanExpression? GetCompleteBoolean(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, bool isLowPriority)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {
@@ -711,7 +711,7 @@ public static partial class Parser
         return null;
     }
 
-    private static IReturnNumberExpression? GetCompleteNumber(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, bool isLowPriority)
+    private static IReturnNumberExpression? GetCompleteNumber(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, bool isLowPriority)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {
@@ -746,7 +746,7 @@ public static partial class Parser
         return pre;
     }
 
-    private static IExpression? GetUnknown(ref Result result, ref List<IExpression> expressionList, int expressionListStartIndex, bool isLowPrioty)
+    private static IExpression? GetUnknown(ref Result result, ref ArrayPoolList<IExpression> expressionList, int expressionListStartIndex, bool isLowPrioty)
     {
         if (expressionListStartIndex >= expressionList.Count)
         {

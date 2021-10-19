@@ -9,8 +9,8 @@ namespace Wahren.AbstractSyntaxTree.Formatter;
 public class Cp932BinaryFormatter : IFormatter<byte>
 {
     private static readonly byte[] registeredBytes;
-    private static readonly List<byte>.AddConverter<char> Converter;
-    private static readonly List<byte>.AddConverterAssumption Assumption;
+    private static readonly ArrayPoolList<byte>.AddConverter<char> Converter;
+    private static readonly ArrayPoolList<byte>.AddConverterAssumption Assumption;
 
     private static readonly int NewLine_Offset;
     private static readonly int NewLine_Count;
@@ -2661,13 +2661,13 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         detail_NewLine_BracketLeft_Count = accum - detail_NewLine_BracketLeft_Offset;
     }
 
-    private static void Append_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_Offset, NewLine_Count));
     }
 
-    private static void Ensure_NewLine_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
+    private static void Ensure_NewLine_Indent(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -2687,7 +2687,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private static void Append_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
+    private static void Append_Indent(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -2702,2600 +2702,2600 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private static void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
+    private static void Append_Copy(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         JustChangeLine = false;
         destination.AddRangeConversion(Converter, Assumption, singleLineSource);
     }
 
-    private static void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_NewLine_BracketLeft_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
     }
 
 
-    private static void Append_BracketRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_BracketRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketRight_NewLine_Offset, BracketRight_NewLine_Count));
     }
 
-    private static void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_BracketLeft_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketLeft_NewLine_Offset, BracketLeft_NewLine_Count));
     }
 
-    private static void Append_else_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_else_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(else_NewLine_Offset, else_NewLine_Count));
     }
 
-    private static void Append_battle_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_battle_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(battle_NewLine_Offset, battle_NewLine_Count));
     }
 
-    private static void Append_next_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_next_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(next_ParenLeft_ParenRight_NewLine_Offset, next_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_return_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_return_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(return_ParenLeft_ParenRight_NewLine_Offset, return_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_continue_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_continue_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(continue_ParenLeft_ParenRight_NewLine_Offset, continue_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_break_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_break_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(break_ParenLeft_ParenRight_NewLine_Offset, break_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Offset, Space_Count));
     }
 
-    private static void Append_Space_Assign(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Assign(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Assign_Offset, Space_Assign_Count));
     }
 
-    private static void Append_Semicolon(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Semicolon(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Semicolon_Offset, Semicolon_Count));
     }
 
-    private static void Append_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ParenLeft_Offset, ParenLeft_Count));
     }
 
-    private static void Append_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(BracketLeft_Offset, BracketLeft_Count));
     }
 
-    private static void Append_ParenRight(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ParenRight(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ParenRight_Offset, ParenRight_Count));
     }
 
-    private static void Append_else_Space_if_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_else_Space_if_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(else_Space_if_ParenLeft_Offset, else_Space_if_ParenLeft_Count));
     }
 
-    private static void Append_else_Space_rif_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_else_Space_rif_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(else_Space_rif_ParenLeft_Offset, else_Space_rif_ParenLeft_Count));
     }
 
-    private static void Append_Comma(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Comma(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Comma_Offset, Comma_Count));
     }
 
-    private static void Append_Comma_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Comma_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Comma_Space_Offset, Comma_Space_Count));
     }
 
-    private static void Append_Space_Assign_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Assign_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Assign_Space_Offset, Space_Assign_Space_Count));
     }
 
-    private static void Append_Space_Colon_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Colon_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Colon_Space_Offset, Space_Colon_Space_Count));
     }
 
-    private static void Append_Space_Mul_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Mul_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Mul_Space_Offset, Space_Mul_Space_Count));
     }
 
-    private static void Append_Space_Add_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Add_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Add_Space_Offset, Space_Add_Space_Count));
     }
 
-    private static void Append_Space_Sub_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Sub_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Sub_Space_Offset, Space_Sub_Space_Count));
     }
 
-    private static void Append_Space_Div_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Div_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Div_Space_Offset, Space_Div_Space_Count));
     }
 
-    private static void Append_Space_Percent_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Percent_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Percent_Space_Offset, Space_Percent_Space_Count));
     }
 
-    private static void Append_Space_And_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_And_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_And_Space_Offset, Space_And_Space_Count));
     }
 
-    private static void Append_Space_Or_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Or_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Or_Space_Offset, Space_Or_Space_Count));
     }
 
-    private static void Append_Space_CompareEqual_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareEqual_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareEqual_Space_Offset, Space_CompareEqual_Space_Count));
     }
 
-    private static void Append_Space_CompareNotEqual_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareNotEqual_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareNotEqual_Space_Offset, Space_CompareNotEqual_Space_Count));
     }
 
-    private static void Append_Space_CompareGreaterThan_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareGreaterThan_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareGreaterThan_Space_Offset, Space_CompareGreaterThan_Space_Count));
     }
 
-    private static void Append_Space_CompareGreaterThanOrEqualTo_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareGreaterThanOrEqualTo_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareGreaterThanOrEqualTo_Space_Offset, Space_CompareGreaterThanOrEqualTo_Space_Count));
     }
 
-    private static void Append_Space_CompareLessThan_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareLessThan_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareLessThan_Space_Offset, Space_CompareLessThan_Space_Count));
     }
 
-    private static void Append_Space_CompareLessThanOrEqualTo_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareLessThanOrEqualTo_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareLessThanOrEqualTo_Space_Offset, Space_CompareLessThanOrEqualTo_Space_Count));
     }
 
-    private static void Append_if_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_if_Space_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(if_Space_ParenLeft_Offset, if_Space_ParenLeft_Count));
     }
 
-    private static void Append_rif_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_rif_Space_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(rif_Space_ParenLeft_Offset, rif_Space_ParenLeft_Count));
     }
 
-    private static void Append_while_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_while_Space_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(while_Space_ParenLeft_Offset, while_Space_ParenLeft_Count));
     }
 
-    private static void Append_spot_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_spot_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spot_Space_Offset, spot_Space_Count));
     }
 
-    private static void Append_unit_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_unit_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unit_Space_Offset, unit_Space_Count));
     }
 
-    private static void Append_race_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_race_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(race_Space_Offset, race_Space_Count));
     }
 
-    private static void Append_class_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_class_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(class_Space_Offset, class_Space_Count));
     }
 
-    private static void Append_field_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_field_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(field_Space_Offset, field_Space_Count));
     }
 
-    private static void Append_skill_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_skill_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skill_Space_Offset, skill_Space_Count));
     }
 
-    private static void Append_power_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_power_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(power_Space_Offset, power_Space_Count));
     }
 
-    private static void Append_voice_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_voice_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(voice_Space_Offset, voice_Space_Count));
     }
 
-    private static void Append_object_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_object_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(object_Space_Offset, object_Space_Count));
     }
 
-    private static void Append_dungeon_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_dungeon_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dungeon_Space_Offset, dungeon_Space_Count));
     }
 
-    private static void Append_movetype_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_movetype_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(movetype_Space_Offset, movetype_Space_Count));
     }
 
-    private static void Append_skillset_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_skillset_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skillset_Space_Offset, skillset_Space_Count));
     }
 
-    private static void Append_story_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_story_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(story_Space_Offset, story_Space_Count));
     }
 
-    private static void Append_fight_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fight_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fight_Space_Offset, fight_Space_Count));
     }
 
-    private static void Append_world_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_world_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(world_Space_Offset, world_Space_Count));
     }
 
-    private static void Append_event_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_event_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(event_Space_Offset, event_Space_Count));
     }
 
-    private static void Append_scenario_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scenario_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scenario_Space_Offset, scenario_Space_Count));
     }
 
-    private static void Append_vc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_vc_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(vc_ParenLeft_Offset, vc_ParenLeft_Count));
     }
 
-    private static void Append_play_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_play_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(play_ParenLeft_Offset, play_ParenLeft_Count));
     }
 
-    private static void Append_ppl1_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ppl1_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ppl1_ParenLeft_Offset, ppl1_ParenLeft_Count));
     }
 
-    private static void Append_citom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_citom_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(citom_ParenLeft_Offset, citom_ParenLeft_Count));
     }
 
-    private static void Append_setbcg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setbcg_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setbcg_ParenLeft_Offset, setbcg_ParenLeft_Count));
     }
 
-    private static void Append_showCamp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showCamp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showCamp_ParenLeft_Offset, showCamp_ParenLeft_Count));
     }
 
-    private static void Append_clickWait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clickWait_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clickWait_ParenLeft_Offset, clickWait_ParenLeft_Count));
     }
 
-    private static void Append_worldskin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_worldskin_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(worldskin_ParenLeft_Offset, worldskin_ParenLeft_Count));
     }
 
-    private static void Append_darkness_off_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_darkness_off_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(darkness_off_ParenLeft_Offset, darkness_off_ParenLeft_Count));
     }
 
-    private static void Append_doGameEnding_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_doGameEnding_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(doGameEnding_ParenLeft_Offset, doGameEnding_ParenLeft_Count));
     }
 
-    private static void Append_storeDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeDeath_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeDeath_ParenLeft_Offset, storeDeath_ParenLeft_Count));
     }
 
-    private static void Append_pushDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushDeath_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushDeath_ParenLeft_Offset, pushDeath_ParenLeft_Count));
     }
 
-    private static void Append_setPowerHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setPowerHome_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPowerHome_ParenLeft_Offset, setPowerHome_ParenLeft_Count));
     }
 
-    private static void Append_msg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_msg_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(msg_ParenLeft_Offset, msg_ParenLeft_Count));
     }
 
-    private static void Append_msg2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_msg2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(msg2_ParenLeft_Offset, msg2_ParenLeft_Count));
     }
 
-    private static void Append_talk_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_talk_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(talk_ParenLeft_Offset, talk_ParenLeft_Count));
     }
 
-    private static void Append_talk2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_talk2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(talk2_ParenLeft_Offset, talk2_ParenLeft_Count));
     }
 
-    private static void Append_chat_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_chat_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(chat_ParenLeft_Offset, chat_ParenLeft_Count));
     }
 
-    private static void Append_chat2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_chat2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(chat2_ParenLeft_Offset, chat2_ParenLeft_Count));
     }
 
-    private static void Append_dialog_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_dialog_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dialog_ParenLeft_Offset, dialog_ParenLeft_Count));
     }
 
-    private static void Append_dialogF_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_dialogF_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dialogF_ParenLeft_Offset, dialogF_ParenLeft_Count));
     }
 
-    private static void Append_select_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_select_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(select_ParenLeft_Offset, select_ParenLeft_Count));
     }
 
-    private static void Append_choice_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_choice_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choice_ParenLeft_Offset, choice_ParenLeft_Count));
     }
 
-    private static void Append_exit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_exit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exit_ParenLeft_Offset, exit_ParenLeft_Count));
     }
 
-    private static void Append_image_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_image_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(image_ParenLeft_Offset, image_ParenLeft_Count));
     }
 
-    private static void Append_image2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_image2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(image2_ParenLeft_Offset, image2_ParenLeft_Count));
     }
 
-    private static void Append_showImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showImage_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showImage_ParenLeft_Offset, showImage_ParenLeft_Count));
     }
 
-    private static void Append_hideImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideImage_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideImage_ParenLeft_Offset, hideImage_ParenLeft_Count));
     }
 
-    private static void Append_face_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_face_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(face_ParenLeft_Offset, face_ParenLeft_Count));
     }
 
-    private static void Append_face2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_face2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(face2_ParenLeft_Offset, face2_ParenLeft_Count));
     }
 
-    private static void Append_showFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showFace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showFace_ParenLeft_Offset, showFace_ParenLeft_Count));
     }
 
-    private static void Append_hideFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideFace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideFace_ParenLeft_Offset, hideFace_ParenLeft_Count));
     }
 
-    private static void Append_picture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_picture_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(picture_ParenLeft_Offset, picture_ParenLeft_Count));
     }
 
-    private static void Append_picture2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_picture2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(picture2_ParenLeft_Offset, picture2_ParenLeft_Count));
     }
 
-    private static void Append_showPict_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showPict_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPict_ParenLeft_Offset, showPict_ParenLeft_Count));
     }
 
-    private static void Append_showPicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showPicture_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPicture_ParenLeft_Offset, showPicture_ParenLeft_Count));
     }
 
-    private static void Append_hidePicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hidePicture_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hidePicture_ParenLeft_Offset, hidePicture_ParenLeft_Count));
     }
 
-    private static void Append_stop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_stop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stop_ParenLeft_Offset, stop_ParenLeft_Count));
     }
 
-    private static void Append_bg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_bg_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(bg_ParenLeft_Offset, bg_ParenLeft_Count));
     }
 
-    private static void Append_add_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_add_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(add_ParenLeft_Offset, add_ParenLeft_Count));
     }
 
-    private static void Append_div_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_div_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(div_ParenLeft_Offset, div_ParenLeft_Count));
     }
 
-    private static void Append_mod_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_mod_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mod_ParenLeft_Offset, mod_ParenLeft_Count));
     }
 
-    private static void Append_mul_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_mul_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mul_ParenLeft_Offset, mul_ParenLeft_Count));
     }
 
-    private static void Append_per_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_per_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(per_ParenLeft_Offset, per_ParenLeft_Count));
     }
 
-    private static void Append_set_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_set_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(set_ParenLeft_Offset, set_ParenLeft_Count));
     }
 
-    private static void Append_sub_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_sub_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sub_ParenLeft_Offset, sub_ParenLeft_Count));
     }
 
-    private static void Append_win_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_win_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(win_ParenLeft_Offset, win_ParenLeft_Count));
     }
 
-    private static void Append_addv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addv_ParenLeft_Offset, addv_ParenLeft_Count));
     }
 
-    private static void Append_call_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_call_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(call_ParenLeft_Offset, call_ParenLeft_Count));
     }
 
-    private static void Append_font_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_font_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(font_ParenLeft_Offset, font_ParenLeft_Count));
     }
 
-    private static void Append_save_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_save_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(save_ParenLeft_Offset, save_ParenLeft_Count));
     }
 
-    private static void Append_setv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setv_ParenLeft_Offset, setv_ParenLeft_Count));
     }
 
-    private static void Append_subv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_subv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subv_ParenLeft_Offset, subv_ParenLeft_Count));
     }
 
-    private static void Append_wait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_wait_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(wait_ParenLeft_Offset, wait_ParenLeft_Count));
     }
 
-    private static void Append_zoom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_zoom_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(zoom_ParenLeft_Offset, zoom_ParenLeft_Count));
     }
 
-    private static void Append_clear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clear_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clear_ParenLeft_Offset, clear_ParenLeft_Count));
     }
 
-    private static void Append_erase_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erase_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erase_ParenLeft_Offset, erase_ParenLeft_Count));
     }
 
-    private static void Append_event_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_event_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(event_ParenLeft_Offset, event_ParenLeft_Count));
     }
 
-    private static void Append_focus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_focus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(focus_ParenLeft_Offset, focus_ParenLeft_Count));
     }
 
-    private static void Append_fontc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fontc_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fontc_ParenLeft_Offset, fontc_ParenLeft_Count));
     }
 
-    private static void Append_gread_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_gread_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(gread_ParenLeft_Offset, gread_ParenLeft_Count));
     }
 
-    private static void Append_gwrite_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_gwrite_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(gwrite_ParenLeft_Offset, gwrite_ParenLeft_Count));
     }
 
-    private static void Append_index_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_index_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(index_ParenLeft_Offset, index_ParenLeft_Count));
     }
 
-    private static void Append_storeIndex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeIndex_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeIndex_ParenLeft_Offset, storeIndex_ParenLeft_Count));
     }
 
-    private static void Append_storeIndexVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeIndexVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeIndexVar_ParenLeft_Offset, storeIndexVar_ParenLeft_Count));
     }
 
-    private static void Append_pushv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushv_ParenLeft_Offset, pushv_ParenLeft_Count));
     }
 
-    private static void Append_setPM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setPM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPM_ParenLeft_Offset, setPM_ParenLeft_Count));
     }
 
-    private static void Append_setud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setud_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setud_ParenLeft_Offset, setud_ParenLeft_Count));
     }
 
-    private static void Append_storeud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeud_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeud_ParenLeft_Offset, storeud_ParenLeft_Count));
     }
 
-    private static void Append_shake_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shake_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shake_ParenLeft_Offset, shake_ParenLeft_Count));
     }
 
-    private static void Append_title_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_title_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(title_ParenLeft_Offset, title_ParenLeft_Count));
     }
 
-    private static void Append_addstr_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addstr_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addstr_ParenLeft_Offset, addstr_ParenLeft_Count));
     }
 
-    private static void Append_addVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addVar_ParenLeft_Offset, addVar_ParenLeft_Count));
     }
 
-    private static void Append_fadein_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fadein_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadein_ParenLeft_Offset, fadein_ParenLeft_Count));
     }
 
-    private static void Append_locate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_locate_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(locate_ParenLeft_Offset, locate_ParenLeft_Count));
     }
 
-    private static void Append_playSE_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playSE_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playSE_ParenLeft_Offset, playSE_ParenLeft_Count));
     }
 
-    private static void Append_scroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scroll_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scroll_ParenLeft_Offset, scroll_ParenLeft_Count));
     }
 
-    private static void Append_scroll2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scroll2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scroll2_ParenLeft_Offset, scroll2_ParenLeft_Count));
     }
 
-    private static void Append_setVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setVar_ParenLeft_Offset, setVar_ParenLeft_Count));
     }
 
-    private static void Append_shadow_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shadow_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shadow_ParenLeft_Offset, shadow_ParenLeft_Count));
     }
 
-    private static void Append_subVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_subVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subVar_ParenLeft_Offset, subVar_ParenLeft_Count));
     }
 
-    private static void Append_title2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_title2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(title2_ParenLeft_Offset, title2_ParenLeft_Count));
     }
 
-    private static void Append_volume_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_volume_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(volume_ParenLeft_Offset, volume_ParenLeft_Count));
     }
 
-    private static void Append_addCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addCapa_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addCapa_ParenLeft_Offset, addCapa_ParenLeft_Count));
     }
 
-    private static void Append_addGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addGain_ParenLeft_Offset, addGain_ParenLeft_Count));
     }
 
-    private static void Append_addItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addItem_ParenLeft_Offset, addItem_ParenLeft_Count));
     }
 
-    private static void Append_addSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSpot_ParenLeft_Offset, addSpot_ParenLeft_Count));
     }
 
-    private static void Append_addUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addUnit_ParenLeft_Offset, addUnit_ParenLeft_Count));
     }
 
-    private static void Append_doskill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_doskill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(doskill_ParenLeft_Offset, doskill_ParenLeft_Count));
     }
 
-    private static void Append_fadeout_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fadeout_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadeout_ParenLeft_Offset, fadeout_ParenLeft_Count));
     }
 
-    private static void Append_loopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_loopBGM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(loopBGM_ParenLeft_Offset, loopBGM_ParenLeft_Count));
     }
 
-    private static void Append_minimap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_minimap_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(minimap_ParenLeft_Offset, minimap_ParenLeft_Count));
     }
 
-    private static void Append_playBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playBGM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playBGM_ParenLeft_Offset, playBGM_ParenLeft_Count));
     }
 
-    private static void Append_pushCon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCon_ParenLeft_Offset, pushCon_ParenLeft_Count));
     }
 
-    private static void Append_pushSex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushSex_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSex_ParenLeft_Offset, pushSex_ParenLeft_Count));
     }
 
-    private static void Append_pushVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushVar_ParenLeft_Offset, pushVar_ParenLeft_Count));
     }
 
-    private static void Append_routine_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_routine_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(routine_ParenLeft_Offset, routine_ParenLeft_Count));
     }
 
-    private static void Append_setCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setCapa_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setCapa_ParenLeft_Offset, setCapa_ParenLeft_Count));
     }
 
-    private static void Append_setDone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDone_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDone_ParenLeft_Offset, setDone_ParenLeft_Count));
     }
 
-    private static void Append_setGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setGain_ParenLeft_Offset, setGain_ParenLeft_Count));
     }
 
-    private static void Append_shuffle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shuffle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shuffle_ParenLeft_Offset, shuffle_ParenLeft_Count));
     }
 
-    private static void Append_stopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_stopBGM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stopBGM_ParenLeft_Offset, stopBGM_ParenLeft_Count));
     }
 
-    private static void Append_storePM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePM_ParenLeft_Offset, storePM_ParenLeft_Count));
     }
 
-    private static void Append_addDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addDiplo_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addDiplo_ParenLeft_Offset, addDiplo_ParenLeft_Count));
     }
 
-    private static void Append_levelup_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_levelup_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(levelup_ParenLeft_Offset, levelup_ParenLeft_Count));
     }
 
-    private static void Append_addLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLevel_ParenLeft_Offset, addLevel_ParenLeft_Count));
     }
 
-    private static void Append_addLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLimit_ParenLeft_Offset, addLimit_ParenLeft_Count));
     }
 
-    private static void Append_addLoyal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addLoyal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLoyal_ParenLeft_Offset, addLoyal_ParenLeft_Count));
     }
 
-    private static void Append_addMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addMoney_ParenLeft_Offset, addMoney_ParenLeft_Count));
     }
 
-    private static void Append_addPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPower_ParenLeft_Offset, addPower_ParenLeft_Count));
     }
 
-    private static void Append_addSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSkill_ParenLeft_Offset, addSkill_ParenLeft_Count));
     }
 
-    private static void Append_addTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTroop_ParenLeft_Offset, addTroop_ParenLeft_Count));
     }
 
-    private static void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_stopTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
     }
 
-    private static void Append_addTrust_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTrust_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTrust_ParenLeft_Offset, addTrust_ParenLeft_Count));
     }
 
-    private static void Append_aimTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_aimTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(aimTroop_ParenLeft_Offset, aimTroop_ParenLeft_Count));
     }
 
-    private static void Append_clearVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clearVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clearVar_ParenLeft_Offset, clearVar_ParenLeft_Count));
     }
 
-    private static void Append_darkness_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_darkness_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(darkness_ParenLeft_Offset, darkness_ParenLeft_Count));
     }
 
-    private static void Append_exitItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_exitItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exitItem_ParenLeft_Offset, exitItem_ParenLeft_Count));
     }
 
-    private static void Append_hideLink_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideLink_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideLink_ParenLeft_Offset, hideLink_ParenLeft_Count));
     }
 
-    private static void Append_hideSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideSpot_ParenLeft_Offset, hideSpot_ParenLeft_Count));
     }
 
-    private static void Append_linkSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_linkSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(linkSpot_ParenLeft_Offset, linkSpot_ParenLeft_Count));
     }
 
-    private static void Append_openGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_openGoal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(openGoal_ParenLeft_Offset, openGoal_ParenLeft_Count));
     }
 
-    private static void Append_pushCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCapa_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCapa_ParenLeft_Offset, pushCapa_ParenLeft_Count));
     }
 
-    private static void Append_pushGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushGain_ParenLeft_Offset, pushGain_ParenLeft_Count));
     }
 
-    private static void Append_pushItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushItem_ParenLeft_Offset, pushItem_ParenLeft_Count));
     }
 
-    private static void Append_pushRand_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushRand_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRand_ParenLeft_Offset, pushRand_ParenLeft_Count));
     }
 
-    private static void Append_pushRank_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushRank_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRank_ParenLeft_Offset, pushRank_ParenLeft_Count));
     }
 
-    private static void Append_pushSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSpot_ParenLeft_Offset, pushSpot_ParenLeft_Count));
     }
 
-    private static void Append_pushTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTurn_ParenLeft_Offset, pushTurn_ParenLeft_Count));
     }
 
-    private static void Append_roamUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_roamUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(roamUnit_ParenLeft_Offset, roamUnit_ParenLeft_Count));
     }
 
-    private static void Append_roamUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_roamUnit2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(roamUnit2_ParenLeft_Offset, roamUnit2_ParenLeft_Count));
     }
 
-    private static void Append_setDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDiplo_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDiplo_ParenLeft_Offset, setDiplo_ParenLeft_Count));
     }
 
-    private static void Append_setLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLevel_ParenLeft_Offset, setLevel_ParenLeft_Count));
     }
 
-    private static void Append_setLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLimit_ParenLeft_Offset, setLimit_ParenLeft_Count));
     }
 
-    private static void Append_setMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setMoney_ParenLeft_Offset, setMoney_ParenLeft_Count));
     }
 
-    private static void Append_setTruce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setTruce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTruce_ParenLeft_Offset, setTruce_ParenLeft_Count));
     }
 
-    private static void Append_showSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showSpot_ParenLeft_Offset, showSpot_ParenLeft_Count));
     }
 
-    private static void Append_spotmark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_spotmark_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spotmark_ParenLeft_Offset, spotmark_ParenLeft_Count));
     }
 
-    private static void Append_showSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showSpotMark_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showSpotMark_ParenLeft_Offset, showSpotMark_ParenLeft_Count));
     }
 
-    private static void Append_hideSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideSpotMark_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideSpotMark_ParenLeft_Offset, hideSpotMark_ParenLeft_Count));
     }
 
-    private static void Append_hideEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideEscape_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideEscape_ParenLeft_Offset, hideEscape_ParenLeft_Count));
     }
 
-    private static void Append_showParty_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showParty_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showParty_ParenLeft_Offset, showParty_ParenLeft_Count));
     }
 
-    private static void Append_addCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addCastle_ParenLeft_Offset, addCastle_ParenLeft_Count));
     }
 
-    private static void Append_addFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addFriend_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addFriend_ParenLeft_Offset, addFriend_ParenLeft_Count));
     }
 
-    private static void Append_addMerits_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addMerits_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addMerits_ParenLeft_Offset, addMerits_ParenLeft_Count));
     }
 
-    private static void Append_addSkill2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addSkill2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSkill2_ParenLeft_Offset, addSkill2_ParenLeft_Count));
     }
 
-    private static void Append_addStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addStatus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addStatus_ParenLeft_Offset, addStatus_ParenLeft_Count));
     }
 
-    private static void Append_changeMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeMap_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMap_ParenLeft_Offset, changeMap_ParenLeft_Count));
     }
 
-    private static void Append_closeGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_closeGoal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(closeGoal_ParenLeft_Offset, closeGoal_ParenLeft_Count));
     }
 
-    private static void Append_ctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ctrlTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ctrlTroop_ParenLeft_Offset, ctrlTroop_ParenLeft_Count));
     }
 
-    private static void Append_entryItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_entryItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(entryItem_ParenLeft_Offset, entryItem_ParenLeft_Count));
     }
 
-    private static void Append_equipItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_equipItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(equipItem_ParenLeft_Offset, equipItem_ParenLeft_Count));
     }
 
-    private static void Append_eraseItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseItem_ParenLeft_Offset, eraseItem_ParenLeft_Count));
     }
 
-    private static void Append_eraseUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit_ParenLeft_Offset, eraseUnit_ParenLeft_Count));
     }
 
-    private static void Append_formTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_formTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(formTroop_ParenLeft_Offset, formTroop_ParenLeft_Count));
     }
 
-    private static void Append_freeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_freeTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(freeTroop_ParenLeft_Offset, freeTroop_ParenLeft_Count));
     }
 
-    private static void Append_haltTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_haltTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(haltTroop_ParenLeft_Offset, haltTroop_ParenLeft_Count));
     }
 
-    private static void Append_hideBlind_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideBlind_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideBlind_ParenLeft_Offset, hideBlind_ParenLeft_Count));
     }
 
-    private static void Append_hideChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideChara_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideChara_ParenLeft_Offset, hideChara_ParenLeft_Count));
     }
 
-    private static void Append_moveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_moveTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(moveTroop_ParenLeft_Offset, moveTroop_ParenLeft_Count));
     }
 
-    private static void Append_moveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_moveTroopFix_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(moveTroopFix_ParenLeft_Offset, moveTroopFix_ParenLeft_Count));
     }
 
-    private static void Append_smoveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_smoveTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(smoveTroop_ParenLeft_Offset, smoveTroop_ParenLeft_Count));
     }
 
-    private static void Append_smoveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_smoveTroopFix_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(smoveTroopFix_ParenLeft_Offset, smoveTroopFix_ParenLeft_Count));
     }
 
-    private static void Append_playWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playWorld_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playWorld_ParenLeft_Offset, playWorld_ParenLeft_Count));
     }
 
-    private static void Append_pushDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushDiplo_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushDiplo_ParenLeft_Offset, pushDiplo_ParenLeft_Count));
     }
 
-    private static void Append_pushForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushForce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushForce_ParenLeft_Offset, pushForce_ParenLeft_Count));
     }
 
-    private static void Append_pushLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLevel_ParenLeft_Offset, pushLevel_ParenLeft_Count));
     }
 
-    private static void Append_pushLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLimit_ParenLeft_Offset, pushLimit_ParenLeft_Count));
     }
 
-    private static void Append_pushLoyal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushLoyal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLoyal_ParenLeft_Offset, pushLoyal_ParenLeft_Count));
     }
 
-    private static void Append_pushMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushMoney_ParenLeft_Offset, pushMoney_ParenLeft_Count));
     }
 
-    private static void Append_pushRand2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushRand2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRand2_ParenLeft_Offset, pushRand2_ParenLeft_Count));
     }
 
-    private static void Append_pushTrain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTrain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrain_ParenLeft_Offset, pushTrain_ParenLeft_Count));
     }
 
-    private static void Append_pushTrust_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTrust_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrust_ParenLeft_Offset, pushTrust_ParenLeft_Count));
     }
 
-    private static void Append_resetTime_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetTime_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetTime_ParenLeft_Offset, resetTime_ParenLeft_Count));
     }
 
-    private static void Append_resetZone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetZone_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetZone_ParenLeft_Offset, resetZone_ParenLeft_Count));
     }
 
-    private static void Append_setArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setArbeit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setArbeit_ParenLeft_Offset, setArbeit_ParenLeft_Count));
     }
 
-    private static void Append_setCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setCastle_ParenLeft_Offset, setCastle_ParenLeft_Count));
     }
 
-    private static void Append_setLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setLeague_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLeague_ParenLeft_Offset, setLeague_ParenLeft_Count));
     }
 
-    private static void Append_setStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setStatus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setStatus_ParenLeft_Offset, setStatus_ParenLeft_Count));
     }
 
-    private static void Append_showBlind_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showBlind_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showBlind_ParenLeft_Offset, showBlind_ParenLeft_Count));
     }
 
-    private static void Append_showChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showChara_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showChara_ParenLeft_Offset, showChara_ParenLeft_Count));
     }
 
-    private static void Append_terminate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_terminate_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(terminate_ParenLeft_Offset, terminate_ParenLeft_Count));
     }
 
-    private static void Append_backScroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_backScroll_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(backScroll_ParenLeft_Offset, backScroll_ParenLeft_Count));
     }
 
-    private static void Append_changeRace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeRace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeRace_ParenLeft_Offset, changeRace_ParenLeft_Count));
     }
 
-    private static void Append_endingRoll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_endingRoll_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(endingRoll_ParenLeft_Offset, endingRoll_ParenLeft_Count));
     }
 
-    private static void Append_erasePower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erasePower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePower_ParenLeft_Offset, erasePower_ParenLeft_Count));
     }
 
-    private static void Append_eraseSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseSkill_ParenLeft_Offset, eraseSkill_ParenLeft_Count));
     }
 
-    private static void Append_eraseUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnit2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit2_ParenLeft_Offset, eraseUnit2_ParenLeft_Count));
     }
 
-    private static void Append_eraseTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseTroop_ParenLeft_Offset, eraseTroop_ParenLeft_Count));
     }
 
-    private static void Append_linkEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_linkEscape_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(linkEscape_ParenLeft_Offset, linkEscape_ParenLeft_Count));
     }
 
-    private static void Append_playBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playBattle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playBattle_ParenLeft_Offset, playBattle_ParenLeft_Count));
     }
 
-    private static void Append_pushCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCastle_ParenLeft_Offset, pushCastle_ParenLeft_Count));
     }
 
-    private static void Append_pushMerits_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushMerits_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushMerits_ParenLeft_Offset, pushMerits_ParenLeft_Count));
     }
 
-    private static void Append_pushStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushStatus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushStatus_ParenLeft_Offset, pushStatus_ParenLeft_Count));
     }
 
-    private static void Append_reloadMenu_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_reloadMenu_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reloadMenu_ParenLeft_Offset, reloadMenu_ParenLeft_Count));
     }
 
-    private static void Append_removeSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_removeSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeSpot_ParenLeft_Offset, removeSpot_ParenLeft_Count));
     }
 
-    private static void Append_resetTruce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetTruce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetTruce_ParenLeft_Offset, resetTruce_ParenLeft_Count));
     }
 
-    private static void Append_setDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDungeon_ParenLeft_Offset, setDungeon_ParenLeft_Count));
     }
 
-    private static void Append_shiftTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shiftTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shiftTroop_ParenLeft_Offset, shiftTroop_ParenLeft_Count));
     }
 
-    private static void Append_shuffleVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shuffleVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shuffleVar_ParenLeft_Offset, shuffleVar_ParenLeft_Count));
     }
 
-    private static void Append_skillTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_skillTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skillTroop_ParenLeft_Offset, skillTroop_ParenLeft_Count));
     }
 
-    private static void Append_sleepTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_sleepTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sleepTroop_ParenLeft_Offset, sleepTroop_ParenLeft_Count));
     }
 
-    private static void Append_speedTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_speedTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(speedTroop_ParenLeft_Offset, speedTroop_ParenLeft_Count));
     }
 
-    private static void Append_unionPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_unionPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unionPower_ParenLeft_Offset, unionPower_ParenLeft_Count));
     }
 
-    private static void Append_activeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_activeTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(activeTroop_ParenLeft_Offset, activeTroop_ParenLeft_Count));
     }
 
-    private static void Append_addTraining_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTraining_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTraining_ParenLeft_Offset, addTraining_ParenLeft_Count));
     }
 
-    private static void Append_battleEvent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_battleEvent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(battleEvent_ParenLeft_Offset, battleEvent_ParenLeft_Count));
     }
 
-    private static void Append_changeClass_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeClass_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeClass_ParenLeft_Offset, changeClass_ParenLeft_Count));
     }
 
-    private static void Append_choiceTitle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_choiceTitle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choiceTitle_ParenLeft_Offset, choiceTitle_ParenLeft_Count));
     }
 
-    private static void Append_eraseFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseFriend_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseFriend_ParenLeft_Offset, eraseFriend_ParenLeft_Count));
     }
 
-    private static void Append_pushSpotPos_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushSpotPos_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSpotPos_ParenLeft_Offset, pushSpotPos_ParenLeft_Count));
     }
 
-    private static void Append_pushTrainUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTrainUp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrainUp_ParenLeft_Offset, pushTrainUp_ParenLeft_Count));
     }
 
-    private static void Append_removeSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_removeSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeSkill_ParenLeft_Offset, removeSkill_ParenLeft_Count));
     }
 
-    private static void Append_removeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_removeTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeTroop_ParenLeft_Offset, removeTroop_ParenLeft_Count));
     }
 
-    private static void Append_resetLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetLeague_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetLeague_ParenLeft_Offset, resetLeague_ParenLeft_Count));
     }
 
-    private static void Append_scrollSpeed_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scrollSpeed_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scrollSpeed_ParenLeft_Offset, scrollSpeed_ParenLeft_Count));
     }
 
-    private static void Append_setTraining_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setTraining_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTraining_ParenLeft_Offset, setTraining_ParenLeft_Count));
     }
 
-    private static void Append_shiftTroop2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shiftTroop2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shiftTroop2_ParenLeft_Offset, shiftTroop2_ParenLeft_Count));
     }
 
-    private static void Append_showDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showDungeon_ParenLeft_Offset, showDungeon_ParenLeft_Count));
     }
 
-    private static void Append_unctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_unctrlTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unctrlTroop_ParenLeft_Offset, unctrlTroop_ParenLeft_Count));
     }
 
-    private static void Append_addBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addBaseLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addBaseLevel_ParenLeft_Offset, addBaseLevel_ParenLeft_Count));
     }
 
-    private static void Append_changeCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeCastle_ParenLeft_Offset, changeCastle_ParenLeft_Count));
     }
 
-    private static void Append_changeMaster_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeMaster_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMaster_ParenLeft_Offset, changeMaster_ParenLeft_Count));
     }
 
-    private static void Append_changePlayer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePlayer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePlayer_ParenLeft_Offset, changePlayer_ParenLeft_Count));
     }
 
-    private static void Append_retreatTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_retreatTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(retreatTroop_ParenLeft_Offset, retreatTroop_ParenLeft_Count));
     }
 
-    private static void Append_reverseChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_reverseChara_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reverseChara_ParenLeft_Offset, reverseChara_ParenLeft_Count));
     }
 
-    private static void Append_setBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setBaseLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setBaseLevel_ParenLeft_Offset, setBaseLevel_ParenLeft_Count));
     }
 
-    private static void Append_setGameClear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setGameClear_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setGameClear_ParenLeft_Offset, setGameClear_ParenLeft_Count));
     }
 
-    private static void Append_showPolitics_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showPolitics_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPolitics_ParenLeft_Offset, showPolitics_ParenLeft_Count));
     }
 
-    private static void Append_storeAllSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAllSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllSpot_ParenLeft_Offset, storeAllSpot_ParenLeft_Count));
     }
 
-    private static void Append_addPowerMerce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerMerce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerMerce_ParenLeft_Offset, addPowerMerce_ParenLeft_Count));
     }
 
-    private static void Append_addPowerStaff_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerStaff_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerStaff_ParenLeft_Offset, addPowerStaff_ParenLeft_Count));
     }
 
-    private static void Append_addPowerMerce2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerMerce2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerMerce2_ParenLeft_Offset, addPowerMerce2_ParenLeft_Count));
     }
 
-    private static void Append_addPowerStaff2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerStaff2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerStaff2_ParenLeft_Offset, addPowerStaff2_ParenLeft_Count));
     }
 
-    private static void Append_addTrainingUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTrainingUp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTrainingUp_ParenLeft_Offset, addTrainingUp_ParenLeft_Count));
     }
 
-    private static void Append_changeDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeDungeon_ParenLeft_Offset, changeDungeon_ParenLeft_Count));
     }
 
-    private static void Append_pushBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushBaseLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBaseLevel_ParenLeft_Offset, pushBaseLevel_ParenLeft_Count));
     }
 
-    private static void Append_setEnemyPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setEnemyPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setEnemyPower_ParenLeft_Offset, setEnemyPower_ParenLeft_Count));
     }
 
-    private static void Append_setTrainingUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setTrainingUp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTrainingUp_ParenLeft_Offset, setTrainingUp_ParenLeft_Count));
     }
 
-    private static void Append_setWorldMusic_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setWorldMusic_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setWorldMusic_ParenLeft_Offset, setWorldMusic_ParenLeft_Count));
     }
 
-    private static void Append_storeAllPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAllPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllPower_ParenLeft_Offset, storeAllPower_ParenLeft_Count));
     }
 
-    private static void Append_storeComPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeComPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeComPower_ParenLeft_Offset, storeComPower_ParenLeft_Count));
     }
 
-    private static void Append_storeNextSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNextSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNextSpot_ParenLeft_Offset, storeNextSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeNowPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNowPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNowPower_ParenLeft_Offset, storeNowPower_ParenLeft_Count));
     }
 
-    private static void Append_storeRectUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeRectUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRectUnit_ParenLeft_Offset, storeRectUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSkillset_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSkillset_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSkillset_ParenLeft_Offset, storeSkillset_ParenLeft_Count));
     }
 
-    private static void Append_storeTodoUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeTodoUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeTodoUnit_ParenLeft_Offset, storeTodoUnit_ParenLeft_Count));
     }
 
-    private static void Append_changePowerFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePowerFix_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerFix_ParenLeft_Offset, changePowerFix_ParenLeft_Count));
     }
 
-    private static void Append_eraseUnitTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnitTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnitTroop_ParenLeft_Offset, eraseUnitTroop_ParenLeft_Count));
     }
 
-    private static void Append_pushBattleHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushBattleHome_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBattleHome_ParenLeft_Offset, pushBattleHome_ParenLeft_Count));
     }
 
-    private static void Append_pushBattleRect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushBattleRect_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBattleRect_ParenLeft_Offset, pushBattleRect_ParenLeft_Count));
     }
 
-    private static void Append_pushCountPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCountPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCountPower_ParenLeft_Offset, pushCountPower_ParenLeft_Count));
     }
 
-    private static void Append_storeAliveUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAliveUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAliveUnit_ParenLeft_Offset, storeAliveUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeAllTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAllTalent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllTalent_ParenLeft_Offset, storeAllTalent_ParenLeft_Count));
     }
 
-    private static void Append_changePowerFlag_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePowerFlag_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerFlag_ParenLeft_Offset, changePowerFlag_ParenLeft_Count));
     }
 
-    private static void Append_changePowerName_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePowerName_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerName_ParenLeft_Offset, changePowerName_ParenLeft_Count));
     }
 
-    private static void Append_changeSpotImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeSpotImage_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeSpotImage_ParenLeft_Offset, changeSpotImage_ParenLeft_Count));
     }
 
-    private static void Append_erasePowerMerce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erasePowerMerce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePowerMerce_ParenLeft_Offset, erasePowerMerce_ParenLeft_Count));
     }
 
-    private static void Append_erasePowerStaff_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erasePowerStaff_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePowerStaff_ParenLeft_Offset, erasePowerStaff_ParenLeft_Count));
     }
 
-    private static void Append_resetEnemyPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetEnemyPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetEnemyPower_ParenLeft_Offset, resetEnemyPower_ParenLeft_Count));
     }
 
-    private static void Append_resetWorldMusic_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetWorldMusic_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetWorldMusic_ParenLeft_Offset, resetWorldMusic_ParenLeft_Count));
     }
 
-    private static void Append_setDungeonFloor_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDungeonFloor_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDungeonFloor_ParenLeft_Offset, setDungeonFloor_ParenLeft_Count));
     }
 
-    private static void Append_storeBattleSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeBattleSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeBattleSpot_ParenLeft_Offset, storeBattleSpot_ParenLeft_Count));
     }
 
-    private static void Append_storePlayerUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePlayerUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePlayerUnit_ParenLeft_Offset, storePlayerUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeRaceOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeRaceOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRaceOfUnit_ParenLeft_Offset, storeRaceOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSpotOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfUnit_ParenLeft_Offset, storeSpotOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeUnitOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeUnitOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeUnitOfSpot_ParenLeft_Offset, storeUnitOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeAttackPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAttackPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAttackPower_ParenLeft_Offset, storeAttackPower_ParenLeft_Count));
     }
 
-    private static void Append_storeClassOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeClassOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeClassOfUnit_ParenLeft_Offset, storeClassOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeNeutralSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNeutralSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNeutralSpot_ParenLeft_Offset, storeNeutralSpot_ParenLeft_Count));
     }
 
-    private static void Append_storePlayerPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePlayerPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePlayerPower_ParenLeft_Offset, storePlayerPower_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfSpot_ParenLeft_Offset, storePowerOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfUnit_ParenLeft_Offset, storePowerOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSkillOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSkillOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSkillOfUnit_ParenLeft_Offset, storeSkillOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSpotOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfPower_ParenLeft_Offset, storeSpotOfPower_ParenLeft_Count));
     }
 
-    private static void Append_storeTalentPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeTalentPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeTalentPower_ParenLeft_Offset, storeTalentPower_ParenLeft_Count));
     }
 
-    private static void Append_storeUnitOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeUnitOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeUnitOfPower_ParenLeft_Offset, storeUnitOfPower_ParenLeft_Count));
     }
 
-    private static void Append_clearBattleRecord_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clearBattleRecord_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clearBattleRecord_ParenLeft_Offset, clearBattleRecord_ParenLeft_Count));
     }
 
-    private static void Append_storeDefensePower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeDefensePower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeDefensePower_ParenLeft_Offset, storeDefensePower_ParenLeft_Count));
     }
 
-    private static void Append_storeLeaderOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeLeaderOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeLeaderOfSpot_ParenLeft_Offset, storeLeaderOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeMasterOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeMasterOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMasterOfUnit_ParenLeft_Offset, storeMasterOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeMemberOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeMemberOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMemberOfUnit_ParenLeft_Offset, storeMemberOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfForce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfForce_ParenLeft_Offset, storePowerOfForce_ParenLeft_Count));
     }
 
-    private static void Append_storeSpotOfBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfBattle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfBattle_ParenLeft_Offset, storeSpotOfBattle_ParenLeft_Count));
     }
 
-    private static void Append_storeLeaderOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeLeaderOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeLeaderOfPower_ParenLeft_Offset, storeLeaderOfPower_ParenLeft_Count));
     }
 
-    private static void Append_storeMasterOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeMasterOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMasterOfPower_ParenLeft_Offset, storeMasterOfPower_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfAttack_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfAttack_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfAttack_ParenLeft_Offset, storePowerOfAttack_ParenLeft_Count));
     }
 
-    private static void Append_storeNonPlayerPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNonPlayerPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNonPlayerPower_ParenLeft_Offset, storeNonPlayerPower_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfDefense_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfDefense_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfDefense_ParenLeft_Offset, storePowerOfDefense_ParenLeft_Count));
     }
 
-    private static void Append_storeRoamUnitOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeRoamUnitOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRoamUnitOfSpot_ParenLeft_Offset, storeRoamUnitOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeBaseClassOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeBaseClassOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeBaseClassOfUnit_ParenLeft_Offset, storeBaseClassOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_isSelect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isSelect_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isSelect_ParenLeft_Offset, isSelect_ParenLeft_Count));
     }
 
-    private static void Append_isWhoDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWhoDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWhoDead_ParenLeft_Offset, isWhoDead_ParenLeft_Count));
     }
 
-    private static void Append_isGameOver_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isGameOver_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isGameOver_ParenLeft_Offset, isGameOver_ParenLeft_Count));
     }
 
-    private static void Append_has_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_has_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(has_ParenLeft_Offset, has_ParenLeft_Count));
     }
 
-    private static void Append_inVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inVar_ParenLeft_Offset, inVar_ParenLeft_Count));
     }
 
-    private static void Append_yet_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_yet_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(yet_ParenLeft_Offset, yet_ParenLeft_Count));
     }
 
-    private static void Append_rand_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_rand_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(rand_ParenLeft_Offset, rand_ParenLeft_Count));
     }
 
-    private static void Append_count_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_count_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(count_ParenLeft_Offset, count_ParenLeft_Count));
     }
 
-    private static void Append_amount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_amount_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(amount_ParenLeft_Offset, amount_ParenLeft_Count));
     }
 
-    private static void Append_equal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_equal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(equal_ParenLeft_Offset, equal_ParenLeft_Count));
     }
 
-    private static void Append_eqVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eqVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eqVar_ParenLeft_Offset, eqVar_ParenLeft_Count));
     }
 
-    private static void Append_isMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isMap_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isMap_ParenLeft_Offset, isMap_ParenLeft_Count));
     }
 
-    private static void Append_isNpc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNpc_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNpc_ParenLeft_Offset, isNpc_ParenLeft_Count));
     }
 
-    private static void Append_isNPM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNPM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNPM_ParenLeft_Offset, isNPM_ParenLeft_Count));
     }
 
-    private static void Append_isWar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWar_ParenLeft_Offset, isWar_ParenLeft_Count));
     }
 
-    private static void Append_ptest_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ptest_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ptest_ParenLeft_Offset, ptest_ParenLeft_Count));
     }
 
-    private static void Append_conVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_conVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(conVar_ParenLeft_Offset, conVar_ParenLeft_Count));
     }
 
-    private static void Append_inSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inSpot_ParenLeft_Offset, inSpot_ParenLeft_Count));
     }
 
-    private static void Append_isDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDead_ParenLeft_Offset, isDead_ParenLeft_Count));
     }
 
-    private static void Append_isDone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isDone_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDone_ParenLeft_Offset, isDone_ParenLeft_Count));
     }
 
-    private static void Append_isJoin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isJoin_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isJoin_ParenLeft_Offset, isJoin_ParenLeft_Count));
     }
 
-    private static void Append_isNext_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNext_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNext_ParenLeft_Offset, isNext_ParenLeft_Count));
     }
 
-    private static void Append_reckon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_reckon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reckon_ParenLeft_Offset, reckon_ParenLeft_Count));
     }
 
-    private static void Append_getLife_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getLife_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLife_ParenLeft_Offset, getLife_ParenLeft_Count));
     }
 
-    private static void Append_getMode_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getMode_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getMode_ParenLeft_Offset, getMode_ParenLeft_Count));
     }
 
-    private static void Append_getTime_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getTime_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getTime_ParenLeft_Offset, getTime_ParenLeft_Count));
     }
 
-    private static void Append_getTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getTurn_ParenLeft_Offset, getTurn_ParenLeft_Count));
     }
 
-    private static void Append_inPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inPower_ParenLeft_Offset, inPower_ParenLeft_Count));
     }
 
-    private static void Append_isAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isAlive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAlive_ParenLeft_Offset, isAlive_ParenLeft_Count));
     }
 
-    private static void Append_isEnemy_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isEnemy_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEnemy_ParenLeft_Offset, isEnemy_ParenLeft_Count));
     }
 
-    private static void Append_isEvent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isEvent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEvent_ParenLeft_Offset, isEvent_ParenLeft_Count));
     }
 
-    private static void Append_isPeace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPeace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPeace_ParenLeft_Offset, isPeace_ParenLeft_Count));
     }
 
-    private static void Append_isWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWorld_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWorld_ParenLeft_Offset, isWorld_ParenLeft_Count));
     }
 
-    private static void Append_countVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countVar_ParenLeft_Offset, countVar_ParenLeft_Count));
     }
 
-    private static void Append_getLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLimit_ParenLeft_Offset, getLimit_ParenLeft_Count));
     }
 
-    private static void Append_inBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inBattle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inBattle_ParenLeft_Offset, inBattle_ParenLeft_Count));
     }
 
-    private static void Append_isActive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isActive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isActive_ParenLeft_Offset, isActive_ParenLeft_Count));
     }
 
-    private static void Append_isArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isArbeit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isArbeit_ParenLeft_Offset, isArbeit_ParenLeft_Count));
     }
 
-    private static void Append_isEnable_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isEnable_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEnable_ParenLeft_Offset, isEnable_ParenLeft_Count));
     }
 
-    private static void Append_isFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isFriend_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isFriend_ParenLeft_Offset, isFriend_ParenLeft_Count));
     }
 
-    private static void Append_isInvade_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isInvade_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isInvade_ParenLeft_Offset, isInvade_ParenLeft_Count));
     }
 
-    private static void Append_isLeader_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isLeader_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isLeader_ParenLeft_Offset, isLeader_ParenLeft_Count));
     }
 
-    private static void Append_isLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isLeague_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isLeague_ParenLeft_Offset, isLeague_ParenLeft_Count));
     }
 
-    private static void Append_isMaster_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isMaster_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isMaster_ParenLeft_Offset, isMaster_ParenLeft_Count));
     }
 
-    private static void Append_isPlayer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPlayer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayer_ParenLeft_Offset, isPlayer_ParenLeft_Count));
     }
 
-    private static void Append_isPostIn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPostIn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPostIn_ParenLeft_Offset, isPostIn_ParenLeft_Count));
     }
 
-    private static void Append_isRoamer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isRoamer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRoamer_ParenLeft_Offset, isRoamer_ParenLeft_Count));
     }
 
-    private static void Append_isTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isTalent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isTalent_ParenLeft_Offset, isTalent_ParenLeft_Count));
     }
 
-    private static void Append_isVassal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isVassal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isVassal_ParenLeft_Offset, isVassal_ParenLeft_Count));
     }
 
-    private static void Append_countGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countGain_ParenLeft_Offset, countGain_ParenLeft_Count));
     }
 
-    private static void Append_countPost_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countPost_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countPost_ParenLeft_Offset, countPost_ParenLeft_Count));
     }
 
-    private static void Append_countSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countSpot_ParenLeft_Offset, countSpot_ParenLeft_Count));
     }
 
-    private static void Append_countUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countUnit_ParenLeft_Offset, countUnit_ParenLeft_Count));
     }
 
-    private static void Append_isAllDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isAllDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAllDead_ParenLeft_Offset, isAllDead_ParenLeft_Count));
     }
 
-    private static void Append_isAnyDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isAnyDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAnyDead_ParenLeft_Offset, isAnyDead_ParenLeft_Count));
     }
 
-    private static void Append_isComTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isComTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isComTurn_ParenLeft_Offset, isComTurn_ParenLeft_Count));
     }
 
-    private static void Append_isDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDungeon_ParenLeft_Offset, isDungeon_ParenLeft_Count));
     }
 
-    private static void Append_isNewTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNewTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNewTurn_ParenLeft_Offset, isNewTurn_ParenLeft_Count));
     }
 
-    private static void Append_isNowSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNowSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNowSpot_ParenLeft_Offset, isNowSpot_ParenLeft_Count));
     }
 
-    private static void Append_istoWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_istoWorld_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(istoWorld_ParenLeft_Offset, istoWorld_ParenLeft_Count));
     }
 
-    private static void Append_countForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countForce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countForce_ParenLeft_Offset, countForce_ParenLeft_Count));
     }
 
-    private static void Append_countMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countMoney_ParenLeft_Offset, countMoney_ParenLeft_Count));
     }
 
-    private static void Append_countPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countPower_ParenLeft_Offset, countPower_ParenLeft_Count));
     }
 
-    private static void Append_countSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countSkill_ParenLeft_Offset, countSkill_ParenLeft_Count));
     }
 
-    private static void Append_getLifePer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getLifePer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLifePer_ParenLeft_Offset, getLifePer_ParenLeft_Count));
     }
 
-    private static void Append_inRoamSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inRoamSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inRoamSpot_ParenLeft_Offset, inRoamSpot_ParenLeft_Count));
     }
 
-    private static void Append_isInterval_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isInterval_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isInterval_ParenLeft_Offset, isInterval_ParenLeft_Count));
     }
 
-    private static void Append_isRedAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isRedAlive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRedAlive_ParenLeft_Offset, isRedAlive_ParenLeft_Count));
     }
 
-    private static void Append_isSameArmy_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isSameArmy_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isSameArmy_ParenLeft_Offset, isSameArmy_ParenLeft_Count));
     }
 
-    private static void Append_isScenario_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isScenario_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isScenario_ParenLeft_Offset, isScenario_ParenLeft_Count));
     }
 
-    private static void Append_isWatching_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWatching_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWatching_ParenLeft_Offset, isWatching_ParenLeft_Count));
     }
 
-    private static void Append_getDistance_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getDistance_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getDistance_ParenLeft_Offset, getDistance_ParenLeft_Count));
     }
 
-    private static void Append_getRedCount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getRedCount_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getRedCount_ParenLeft_Offset, getRedCount_ParenLeft_Count));
     }
 
-    private static void Append_isBlueAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isBlueAlive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isBlueAlive_ParenLeft_Offset, isBlueAlive_ParenLeft_Count));
     }
 
-    private static void Append_isGameClear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isGameClear_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isGameClear_ParenLeft_Offset, isGameClear_ParenLeft_Count));
     }
 
-    private static void Append_isPlayerEnd_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPlayerEnd_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayerEnd_ParenLeft_Offset, isPlayerEnd_ParenLeft_Count));
     }
 
-    private static void Append_getBlueCount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getBlueCount_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getBlueCount_ParenLeft_Offset, getBlueCount_ParenLeft_Count));
     }
 
-    private static void Append_isPlayerTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPlayerTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayerTurn_ParenLeft_Offset, isPlayerTurn_ParenLeft_Count));
     }
 
-    private static void Append_isRoamLeader_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isRoamLeader_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRoamLeader_ParenLeft_Offset, isRoamLeader_ParenLeft_Count));
     }
 
-    private static void Append_getClearFloor_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getClearFloor_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getClearFloor_ParenLeft_Offset, getClearFloor_ParenLeft_Count));
     }
 
-    private static void Append_isWorldMusicStop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWorldMusicStop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWorldMusicStop_ParenLeft_Offset, isWorldMusicStop_ParenLeft_Count));
     }
 
-    private static void Append_context_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_context_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(context_NewLine_BracketLeft_Offset, context_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_workspace_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_workspace_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(workspace_NewLine_BracketLeft_Offset, workspace_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_attribute_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_attribute_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(attribute_NewLine_BracketLeft_Offset, attribute_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_sound_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_sound_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sound_NewLine_BracketLeft_Offset, sound_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_detail_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_detail_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(detail_NewLine_BracketLeft_Offset, detail_NewLine_BracketLeft_Count));
     }
 
-    public static bool TryFormat(ref Result result, ref List<byte> destination)
+    public static bool TryFormat(ref Result result, ref ArrayPoolList<byte> destination)
     {
         ref var tokenList = ref result.TokenList;
         ref var source = ref result.Source;
@@ -5533,7 +5533,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         return true;
 	}
 
-    private static bool TryFormat_Block(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Block(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -6817,7 +6817,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -6886,7 +6886,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         var elementTokenIndex = tokenIndex;
         ref var tokenList = ref result.TokenList;
@@ -6916,7 +6916,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         return true;
     }
 
-    private static bool TryFormatCallActionArguments(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatCallActionArguments(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -6970,7 +6970,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private static bool TryFormat_If(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_If(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -7008,7 +7008,7 @@ public class Cp932BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private static bool TryFormat_Condition(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Condition(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -7334,8 +7334,8 @@ public class Cp932BinaryFormatter : IFormatter<byte>
 public class Utf16BinaryFormatter : IFormatter<byte>
 {
     private static readonly byte[] registeredBytes;
-    private static readonly List<byte>.AddConverter<char> Converter;
-    private static readonly List<byte>.AddConverterAssumption Assumption;
+    private static readonly ArrayPoolList<byte>.AddConverter<char> Converter;
+    private static readonly ArrayPoolList<byte>.AddConverterAssumption Assumption;
 
     private static readonly int NewLine_Offset;
     private static readonly int NewLine_Count;
@@ -9986,13 +9986,13 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         detail_NewLine_BracketLeft_Count = accum - detail_NewLine_BracketLeft_Offset;
     }
 
-    private static void Append_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_Offset, NewLine_Count));
     }
 
-    private static void Ensure_NewLine_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
+    private static void Ensure_NewLine_Indent(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (!JustChangeLine)
         {
@@ -10012,7 +10012,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private static void Append_Indent(ref List<byte> destination, ref bool JustChangeLine, int indentCount)
+    private static void Append_Indent(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, int indentCount)
     {
         if (indentCount == 0)
         {
@@ -10027,2600 +10027,2600 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private static void Append_Copy(ref List<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
+    private static void Append_Copy(ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ReadOnlySpan<char> singleLineSource)
     {
         JustChangeLine = false;
         destination.AddRangeConversion(Converter, Assumption, singleLineSource);
     }
 
-    private static void Append_NewLine_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_NewLine_BracketLeft_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(NewLine_BracketLeft_NewLine_Offset, NewLine_BracketLeft_NewLine_Count));
     }
 
 
-    private static void Append_BracketRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_BracketRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketRight_NewLine_Offset, BracketRight_NewLine_Count));
     }
 
-    private static void Append_BracketLeft_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_BracketLeft_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(BracketLeft_NewLine_Offset, BracketLeft_NewLine_Count));
     }
 
-    private static void Append_else_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_else_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(else_NewLine_Offset, else_NewLine_Count));
     }
 
-    private static void Append_battle_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_battle_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(battle_NewLine_Offset, battle_NewLine_Count));
     }
 
-    private static void Append_next_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_next_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(next_ParenLeft_ParenRight_NewLine_Offset, next_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_return_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_return_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(return_ParenLeft_ParenRight_NewLine_Offset, return_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_continue_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_continue_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(continue_ParenLeft_ParenRight_NewLine_Offset, continue_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_break_ParenLeft_ParenRight_NewLine(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_break_ParenLeft_ParenRight_NewLine(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = true;
         destination.AddRange(registeredBytes.AsSpan(break_ParenLeft_ParenRight_NewLine_Offset, break_ParenLeft_ParenRight_NewLine_Count));
     }
 
-    private static void Append_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Offset, Space_Count));
     }
 
-    private static void Append_Space_Assign(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Assign(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Assign_Offset, Space_Assign_Count));
     }
 
-    private static void Append_Semicolon(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Semicolon(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Semicolon_Offset, Semicolon_Count));
     }
 
-    private static void Append_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ParenLeft_Offset, ParenLeft_Count));
     }
 
-    private static void Append_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(BracketLeft_Offset, BracketLeft_Count));
     }
 
-    private static void Append_ParenRight(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ParenRight(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ParenRight_Offset, ParenRight_Count));
     }
 
-    private static void Append_else_Space_if_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_else_Space_if_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(else_Space_if_ParenLeft_Offset, else_Space_if_ParenLeft_Count));
     }
 
-    private static void Append_else_Space_rif_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_else_Space_rif_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(else_Space_rif_ParenLeft_Offset, else_Space_rif_ParenLeft_Count));
     }
 
-    private static void Append_Comma(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Comma(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Comma_Offset, Comma_Count));
     }
 
-    private static void Append_Comma_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Comma_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Comma_Space_Offset, Comma_Space_Count));
     }
 
-    private static void Append_Space_Assign_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Assign_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Assign_Space_Offset, Space_Assign_Space_Count));
     }
 
-    private static void Append_Space_Colon_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Colon_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Colon_Space_Offset, Space_Colon_Space_Count));
     }
 
-    private static void Append_Space_Mul_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Mul_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Mul_Space_Offset, Space_Mul_Space_Count));
     }
 
-    private static void Append_Space_Add_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Add_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Add_Space_Offset, Space_Add_Space_Count));
     }
 
-    private static void Append_Space_Sub_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Sub_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Sub_Space_Offset, Space_Sub_Space_Count));
     }
 
-    private static void Append_Space_Div_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Div_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Div_Space_Offset, Space_Div_Space_Count));
     }
 
-    private static void Append_Space_Percent_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Percent_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Percent_Space_Offset, Space_Percent_Space_Count));
     }
 
-    private static void Append_Space_And_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_And_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_And_Space_Offset, Space_And_Space_Count));
     }
 
-    private static void Append_Space_Or_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_Or_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_Or_Space_Offset, Space_Or_Space_Count));
     }
 
-    private static void Append_Space_CompareEqual_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareEqual_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareEqual_Space_Offset, Space_CompareEqual_Space_Count));
     }
 
-    private static void Append_Space_CompareNotEqual_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareNotEqual_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareNotEqual_Space_Offset, Space_CompareNotEqual_Space_Count));
     }
 
-    private static void Append_Space_CompareGreaterThan_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareGreaterThan_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareGreaterThan_Space_Offset, Space_CompareGreaterThan_Space_Count));
     }
 
-    private static void Append_Space_CompareGreaterThanOrEqualTo_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareGreaterThanOrEqualTo_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareGreaterThanOrEqualTo_Space_Offset, Space_CompareGreaterThanOrEqualTo_Space_Count));
     }
 
-    private static void Append_Space_CompareLessThan_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareLessThan_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareLessThan_Space_Offset, Space_CompareLessThan_Space_Count));
     }
 
-    private static void Append_Space_CompareLessThanOrEqualTo_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_Space_CompareLessThanOrEqualTo_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(Space_CompareLessThanOrEqualTo_Space_Offset, Space_CompareLessThanOrEqualTo_Space_Count));
     }
 
-    private static void Append_if_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_if_Space_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(if_Space_ParenLeft_Offset, if_Space_ParenLeft_Count));
     }
 
-    private static void Append_rif_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_rif_Space_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(rif_Space_ParenLeft_Offset, rif_Space_ParenLeft_Count));
     }
 
-    private static void Append_while_Space_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_while_Space_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(while_Space_ParenLeft_Offset, while_Space_ParenLeft_Count));
     }
 
-    private static void Append_spot_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_spot_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spot_Space_Offset, spot_Space_Count));
     }
 
-    private static void Append_unit_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_unit_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unit_Space_Offset, unit_Space_Count));
     }
 
-    private static void Append_race_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_race_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(race_Space_Offset, race_Space_Count));
     }
 
-    private static void Append_class_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_class_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(class_Space_Offset, class_Space_Count));
     }
 
-    private static void Append_field_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_field_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(field_Space_Offset, field_Space_Count));
     }
 
-    private static void Append_skill_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_skill_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skill_Space_Offset, skill_Space_Count));
     }
 
-    private static void Append_power_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_power_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(power_Space_Offset, power_Space_Count));
     }
 
-    private static void Append_voice_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_voice_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(voice_Space_Offset, voice_Space_Count));
     }
 
-    private static void Append_object_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_object_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(object_Space_Offset, object_Space_Count));
     }
 
-    private static void Append_dungeon_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_dungeon_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dungeon_Space_Offset, dungeon_Space_Count));
     }
 
-    private static void Append_movetype_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_movetype_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(movetype_Space_Offset, movetype_Space_Count));
     }
 
-    private static void Append_skillset_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_skillset_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skillset_Space_Offset, skillset_Space_Count));
     }
 
-    private static void Append_story_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_story_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(story_Space_Offset, story_Space_Count));
     }
 
-    private static void Append_fight_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fight_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fight_Space_Offset, fight_Space_Count));
     }
 
-    private static void Append_world_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_world_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(world_Space_Offset, world_Space_Count));
     }
 
-    private static void Append_event_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_event_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(event_Space_Offset, event_Space_Count));
     }
 
-    private static void Append_scenario_Space(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scenario_Space(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scenario_Space_Offset, scenario_Space_Count));
     }
 
-    private static void Append_vc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_vc_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(vc_ParenLeft_Offset, vc_ParenLeft_Count));
     }
 
-    private static void Append_play_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_play_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(play_ParenLeft_Offset, play_ParenLeft_Count));
     }
 
-    private static void Append_ppl1_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ppl1_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ppl1_ParenLeft_Offset, ppl1_ParenLeft_Count));
     }
 
-    private static void Append_citom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_citom_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(citom_ParenLeft_Offset, citom_ParenLeft_Count));
     }
 
-    private static void Append_setbcg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setbcg_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setbcg_ParenLeft_Offset, setbcg_ParenLeft_Count));
     }
 
-    private static void Append_showCamp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showCamp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showCamp_ParenLeft_Offset, showCamp_ParenLeft_Count));
     }
 
-    private static void Append_clickWait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clickWait_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clickWait_ParenLeft_Offset, clickWait_ParenLeft_Count));
     }
 
-    private static void Append_worldskin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_worldskin_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(worldskin_ParenLeft_Offset, worldskin_ParenLeft_Count));
     }
 
-    private static void Append_darkness_off_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_darkness_off_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(darkness_off_ParenLeft_Offset, darkness_off_ParenLeft_Count));
     }
 
-    private static void Append_doGameEnding_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_doGameEnding_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(doGameEnding_ParenLeft_Offset, doGameEnding_ParenLeft_Count));
     }
 
-    private static void Append_storeDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeDeath_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeDeath_ParenLeft_Offset, storeDeath_ParenLeft_Count));
     }
 
-    private static void Append_pushDeath_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushDeath_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushDeath_ParenLeft_Offset, pushDeath_ParenLeft_Count));
     }
 
-    private static void Append_setPowerHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setPowerHome_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPowerHome_ParenLeft_Offset, setPowerHome_ParenLeft_Count));
     }
 
-    private static void Append_msg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_msg_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(msg_ParenLeft_Offset, msg_ParenLeft_Count));
     }
 
-    private static void Append_msg2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_msg2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(msg2_ParenLeft_Offset, msg2_ParenLeft_Count));
     }
 
-    private static void Append_talk_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_talk_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(talk_ParenLeft_Offset, talk_ParenLeft_Count));
     }
 
-    private static void Append_talk2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_talk2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(talk2_ParenLeft_Offset, talk2_ParenLeft_Count));
     }
 
-    private static void Append_chat_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_chat_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(chat_ParenLeft_Offset, chat_ParenLeft_Count));
     }
 
-    private static void Append_chat2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_chat2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(chat2_ParenLeft_Offset, chat2_ParenLeft_Count));
     }
 
-    private static void Append_dialog_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_dialog_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dialog_ParenLeft_Offset, dialog_ParenLeft_Count));
     }
 
-    private static void Append_dialogF_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_dialogF_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(dialogF_ParenLeft_Offset, dialogF_ParenLeft_Count));
     }
 
-    private static void Append_select_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_select_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(select_ParenLeft_Offset, select_ParenLeft_Count));
     }
 
-    private static void Append_choice_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_choice_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choice_ParenLeft_Offset, choice_ParenLeft_Count));
     }
 
-    private static void Append_exit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_exit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exit_ParenLeft_Offset, exit_ParenLeft_Count));
     }
 
-    private static void Append_image_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_image_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(image_ParenLeft_Offset, image_ParenLeft_Count));
     }
 
-    private static void Append_image2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_image2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(image2_ParenLeft_Offset, image2_ParenLeft_Count));
     }
 
-    private static void Append_showImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showImage_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showImage_ParenLeft_Offset, showImage_ParenLeft_Count));
     }
 
-    private static void Append_hideImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideImage_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideImage_ParenLeft_Offset, hideImage_ParenLeft_Count));
     }
 
-    private static void Append_face_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_face_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(face_ParenLeft_Offset, face_ParenLeft_Count));
     }
 
-    private static void Append_face2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_face2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(face2_ParenLeft_Offset, face2_ParenLeft_Count));
     }
 
-    private static void Append_showFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showFace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showFace_ParenLeft_Offset, showFace_ParenLeft_Count));
     }
 
-    private static void Append_hideFace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideFace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideFace_ParenLeft_Offset, hideFace_ParenLeft_Count));
     }
 
-    private static void Append_picture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_picture_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(picture_ParenLeft_Offset, picture_ParenLeft_Count));
     }
 
-    private static void Append_picture2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_picture2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(picture2_ParenLeft_Offset, picture2_ParenLeft_Count));
     }
 
-    private static void Append_showPict_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showPict_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPict_ParenLeft_Offset, showPict_ParenLeft_Count));
     }
 
-    private static void Append_showPicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showPicture_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPicture_ParenLeft_Offset, showPicture_ParenLeft_Count));
     }
 
-    private static void Append_hidePicture_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hidePicture_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hidePicture_ParenLeft_Offset, hidePicture_ParenLeft_Count));
     }
 
-    private static void Append_stop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_stop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stop_ParenLeft_Offset, stop_ParenLeft_Count));
     }
 
-    private static void Append_bg_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_bg_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(bg_ParenLeft_Offset, bg_ParenLeft_Count));
     }
 
-    private static void Append_add_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_add_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(add_ParenLeft_Offset, add_ParenLeft_Count));
     }
 
-    private static void Append_div_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_div_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(div_ParenLeft_Offset, div_ParenLeft_Count));
     }
 
-    private static void Append_mod_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_mod_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mod_ParenLeft_Offset, mod_ParenLeft_Count));
     }
 
-    private static void Append_mul_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_mul_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(mul_ParenLeft_Offset, mul_ParenLeft_Count));
     }
 
-    private static void Append_per_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_per_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(per_ParenLeft_Offset, per_ParenLeft_Count));
     }
 
-    private static void Append_set_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_set_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(set_ParenLeft_Offset, set_ParenLeft_Count));
     }
 
-    private static void Append_sub_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_sub_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sub_ParenLeft_Offset, sub_ParenLeft_Count));
     }
 
-    private static void Append_win_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_win_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(win_ParenLeft_Offset, win_ParenLeft_Count));
     }
 
-    private static void Append_addv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addv_ParenLeft_Offset, addv_ParenLeft_Count));
     }
 
-    private static void Append_call_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_call_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(call_ParenLeft_Offset, call_ParenLeft_Count));
     }
 
-    private static void Append_font_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_font_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(font_ParenLeft_Offset, font_ParenLeft_Count));
     }
 
-    private static void Append_save_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_save_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(save_ParenLeft_Offset, save_ParenLeft_Count));
     }
 
-    private static void Append_setv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setv_ParenLeft_Offset, setv_ParenLeft_Count));
     }
 
-    private static void Append_subv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_subv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subv_ParenLeft_Offset, subv_ParenLeft_Count));
     }
 
-    private static void Append_wait_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_wait_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(wait_ParenLeft_Offset, wait_ParenLeft_Count));
     }
 
-    private static void Append_zoom_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_zoom_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(zoom_ParenLeft_Offset, zoom_ParenLeft_Count));
     }
 
-    private static void Append_clear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clear_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clear_ParenLeft_Offset, clear_ParenLeft_Count));
     }
 
-    private static void Append_erase_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erase_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erase_ParenLeft_Offset, erase_ParenLeft_Count));
     }
 
-    private static void Append_event_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_event_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(event_ParenLeft_Offset, event_ParenLeft_Count));
     }
 
-    private static void Append_focus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_focus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(focus_ParenLeft_Offset, focus_ParenLeft_Count));
     }
 
-    private static void Append_fontc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fontc_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fontc_ParenLeft_Offset, fontc_ParenLeft_Count));
     }
 
-    private static void Append_gread_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_gread_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(gread_ParenLeft_Offset, gread_ParenLeft_Count));
     }
 
-    private static void Append_gwrite_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_gwrite_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(gwrite_ParenLeft_Offset, gwrite_ParenLeft_Count));
     }
 
-    private static void Append_index_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_index_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(index_ParenLeft_Offset, index_ParenLeft_Count));
     }
 
-    private static void Append_storeIndex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeIndex_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeIndex_ParenLeft_Offset, storeIndex_ParenLeft_Count));
     }
 
-    private static void Append_storeIndexVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeIndexVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeIndexVar_ParenLeft_Offset, storeIndexVar_ParenLeft_Count));
     }
 
-    private static void Append_pushv_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushv_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushv_ParenLeft_Offset, pushv_ParenLeft_Count));
     }
 
-    private static void Append_setPM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setPM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setPM_ParenLeft_Offset, setPM_ParenLeft_Count));
     }
 
-    private static void Append_setud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setud_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setud_ParenLeft_Offset, setud_ParenLeft_Count));
     }
 
-    private static void Append_storeud_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeud_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeud_ParenLeft_Offset, storeud_ParenLeft_Count));
     }
 
-    private static void Append_shake_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shake_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shake_ParenLeft_Offset, shake_ParenLeft_Count));
     }
 
-    private static void Append_title_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_title_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(title_ParenLeft_Offset, title_ParenLeft_Count));
     }
 
-    private static void Append_addstr_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addstr_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addstr_ParenLeft_Offset, addstr_ParenLeft_Count));
     }
 
-    private static void Append_addVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addVar_ParenLeft_Offset, addVar_ParenLeft_Count));
     }
 
-    private static void Append_fadein_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fadein_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadein_ParenLeft_Offset, fadein_ParenLeft_Count));
     }
 
-    private static void Append_locate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_locate_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(locate_ParenLeft_Offset, locate_ParenLeft_Count));
     }
 
-    private static void Append_playSE_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playSE_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playSE_ParenLeft_Offset, playSE_ParenLeft_Count));
     }
 
-    private static void Append_scroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scroll_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scroll_ParenLeft_Offset, scroll_ParenLeft_Count));
     }
 
-    private static void Append_scroll2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scroll2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scroll2_ParenLeft_Offset, scroll2_ParenLeft_Count));
     }
 
-    private static void Append_setVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setVar_ParenLeft_Offset, setVar_ParenLeft_Count));
     }
 
-    private static void Append_shadow_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shadow_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shadow_ParenLeft_Offset, shadow_ParenLeft_Count));
     }
 
-    private static void Append_subVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_subVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(subVar_ParenLeft_Offset, subVar_ParenLeft_Count));
     }
 
-    private static void Append_title2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_title2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(title2_ParenLeft_Offset, title2_ParenLeft_Count));
     }
 
-    private static void Append_volume_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_volume_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(volume_ParenLeft_Offset, volume_ParenLeft_Count));
     }
 
-    private static void Append_addCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addCapa_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addCapa_ParenLeft_Offset, addCapa_ParenLeft_Count));
     }
 
-    private static void Append_addGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addGain_ParenLeft_Offset, addGain_ParenLeft_Count));
     }
 
-    private static void Append_addItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addItem_ParenLeft_Offset, addItem_ParenLeft_Count));
     }
 
-    private static void Append_addSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSpot_ParenLeft_Offset, addSpot_ParenLeft_Count));
     }
 
-    private static void Append_addUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addUnit_ParenLeft_Offset, addUnit_ParenLeft_Count));
     }
 
-    private static void Append_doskill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_doskill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(doskill_ParenLeft_Offset, doskill_ParenLeft_Count));
     }
 
-    private static void Append_fadeout_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_fadeout_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(fadeout_ParenLeft_Offset, fadeout_ParenLeft_Count));
     }
 
-    private static void Append_loopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_loopBGM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(loopBGM_ParenLeft_Offset, loopBGM_ParenLeft_Count));
     }
 
-    private static void Append_minimap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_minimap_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(minimap_ParenLeft_Offset, minimap_ParenLeft_Count));
     }
 
-    private static void Append_playBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playBGM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playBGM_ParenLeft_Offset, playBGM_ParenLeft_Count));
     }
 
-    private static void Append_pushCon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCon_ParenLeft_Offset, pushCon_ParenLeft_Count));
     }
 
-    private static void Append_pushSex_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushSex_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSex_ParenLeft_Offset, pushSex_ParenLeft_Count));
     }
 
-    private static void Append_pushVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushVar_ParenLeft_Offset, pushVar_ParenLeft_Count));
     }
 
-    private static void Append_routine_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_routine_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(routine_ParenLeft_Offset, routine_ParenLeft_Count));
     }
 
-    private static void Append_setCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setCapa_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setCapa_ParenLeft_Offset, setCapa_ParenLeft_Count));
     }
 
-    private static void Append_setDone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDone_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDone_ParenLeft_Offset, setDone_ParenLeft_Count));
     }
 
-    private static void Append_setGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setGain_ParenLeft_Offset, setGain_ParenLeft_Count));
     }
 
-    private static void Append_shuffle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shuffle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shuffle_ParenLeft_Offset, shuffle_ParenLeft_Count));
     }
 
-    private static void Append_stopBGM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_stopBGM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stopBGM_ParenLeft_Offset, stopBGM_ParenLeft_Count));
     }
 
-    private static void Append_storePM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePM_ParenLeft_Offset, storePM_ParenLeft_Count));
     }
 
-    private static void Append_addDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addDiplo_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addDiplo_ParenLeft_Offset, addDiplo_ParenLeft_Count));
     }
 
-    private static void Append_levelup_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_levelup_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(levelup_ParenLeft_Offset, levelup_ParenLeft_Count));
     }
 
-    private static void Append_addLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLevel_ParenLeft_Offset, addLevel_ParenLeft_Count));
     }
 
-    private static void Append_addLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLimit_ParenLeft_Offset, addLimit_ParenLeft_Count));
     }
 
-    private static void Append_addLoyal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addLoyal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addLoyal_ParenLeft_Offset, addLoyal_ParenLeft_Count));
     }
 
-    private static void Append_addMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addMoney_ParenLeft_Offset, addMoney_ParenLeft_Count));
     }
 
-    private static void Append_addPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPower_ParenLeft_Offset, addPower_ParenLeft_Count));
     }
 
-    private static void Append_addSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSkill_ParenLeft_Offset, addSkill_ParenLeft_Count));
     }
 
-    private static void Append_addTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTroop_ParenLeft_Offset, addTroop_ParenLeft_Count));
     }
 
-    private static void Append_stopTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_stopTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(stopTroop_ParenLeft_Offset, stopTroop_ParenLeft_Count));
     }
 
-    private static void Append_addTrust_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTrust_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTrust_ParenLeft_Offset, addTrust_ParenLeft_Count));
     }
 
-    private static void Append_aimTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_aimTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(aimTroop_ParenLeft_Offset, aimTroop_ParenLeft_Count));
     }
 
-    private static void Append_clearVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clearVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clearVar_ParenLeft_Offset, clearVar_ParenLeft_Count));
     }
 
-    private static void Append_darkness_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_darkness_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(darkness_ParenLeft_Offset, darkness_ParenLeft_Count));
     }
 
-    private static void Append_exitItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_exitItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(exitItem_ParenLeft_Offset, exitItem_ParenLeft_Count));
     }
 
-    private static void Append_hideLink_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideLink_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideLink_ParenLeft_Offset, hideLink_ParenLeft_Count));
     }
 
-    private static void Append_hideSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideSpot_ParenLeft_Offset, hideSpot_ParenLeft_Count));
     }
 
-    private static void Append_linkSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_linkSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(linkSpot_ParenLeft_Offset, linkSpot_ParenLeft_Count));
     }
 
-    private static void Append_openGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_openGoal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(openGoal_ParenLeft_Offset, openGoal_ParenLeft_Count));
     }
 
-    private static void Append_pushCapa_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCapa_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCapa_ParenLeft_Offset, pushCapa_ParenLeft_Count));
     }
 
-    private static void Append_pushGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushGain_ParenLeft_Offset, pushGain_ParenLeft_Count));
     }
 
-    private static void Append_pushItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushItem_ParenLeft_Offset, pushItem_ParenLeft_Count));
     }
 
-    private static void Append_pushRand_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushRand_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRand_ParenLeft_Offset, pushRand_ParenLeft_Count));
     }
 
-    private static void Append_pushRank_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushRank_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRank_ParenLeft_Offset, pushRank_ParenLeft_Count));
     }
 
-    private static void Append_pushSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSpot_ParenLeft_Offset, pushSpot_ParenLeft_Count));
     }
 
-    private static void Append_pushTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTurn_ParenLeft_Offset, pushTurn_ParenLeft_Count));
     }
 
-    private static void Append_roamUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_roamUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(roamUnit_ParenLeft_Offset, roamUnit_ParenLeft_Count));
     }
 
-    private static void Append_roamUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_roamUnit2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(roamUnit2_ParenLeft_Offset, roamUnit2_ParenLeft_Count));
     }
 
-    private static void Append_setDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDiplo_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDiplo_ParenLeft_Offset, setDiplo_ParenLeft_Count));
     }
 
-    private static void Append_setLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLevel_ParenLeft_Offset, setLevel_ParenLeft_Count));
     }
 
-    private static void Append_setLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLimit_ParenLeft_Offset, setLimit_ParenLeft_Count));
     }
 
-    private static void Append_setMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setMoney_ParenLeft_Offset, setMoney_ParenLeft_Count));
     }
 
-    private static void Append_setTruce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setTruce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTruce_ParenLeft_Offset, setTruce_ParenLeft_Count));
     }
 
-    private static void Append_showSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showSpot_ParenLeft_Offset, showSpot_ParenLeft_Count));
     }
 
-    private static void Append_spotmark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_spotmark_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(spotmark_ParenLeft_Offset, spotmark_ParenLeft_Count));
     }
 
-    private static void Append_showSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showSpotMark_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showSpotMark_ParenLeft_Offset, showSpotMark_ParenLeft_Count));
     }
 
-    private static void Append_hideSpotMark_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideSpotMark_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideSpotMark_ParenLeft_Offset, hideSpotMark_ParenLeft_Count));
     }
 
-    private static void Append_hideEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideEscape_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideEscape_ParenLeft_Offset, hideEscape_ParenLeft_Count));
     }
 
-    private static void Append_showParty_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showParty_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showParty_ParenLeft_Offset, showParty_ParenLeft_Count));
     }
 
-    private static void Append_addCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addCastle_ParenLeft_Offset, addCastle_ParenLeft_Count));
     }
 
-    private static void Append_addFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addFriend_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addFriend_ParenLeft_Offset, addFriend_ParenLeft_Count));
     }
 
-    private static void Append_addMerits_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addMerits_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addMerits_ParenLeft_Offset, addMerits_ParenLeft_Count));
     }
 
-    private static void Append_addSkill2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addSkill2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addSkill2_ParenLeft_Offset, addSkill2_ParenLeft_Count));
     }
 
-    private static void Append_addStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addStatus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addStatus_ParenLeft_Offset, addStatus_ParenLeft_Count));
     }
 
-    private static void Append_changeMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeMap_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMap_ParenLeft_Offset, changeMap_ParenLeft_Count));
     }
 
-    private static void Append_closeGoal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_closeGoal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(closeGoal_ParenLeft_Offset, closeGoal_ParenLeft_Count));
     }
 
-    private static void Append_ctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ctrlTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ctrlTroop_ParenLeft_Offset, ctrlTroop_ParenLeft_Count));
     }
 
-    private static void Append_entryItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_entryItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(entryItem_ParenLeft_Offset, entryItem_ParenLeft_Count));
     }
 
-    private static void Append_equipItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_equipItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(equipItem_ParenLeft_Offset, equipItem_ParenLeft_Count));
     }
 
-    private static void Append_eraseItem_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseItem_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseItem_ParenLeft_Offset, eraseItem_ParenLeft_Count));
     }
 
-    private static void Append_eraseUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit_ParenLeft_Offset, eraseUnit_ParenLeft_Count));
     }
 
-    private static void Append_formTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_formTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(formTroop_ParenLeft_Offset, formTroop_ParenLeft_Count));
     }
 
-    private static void Append_freeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_freeTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(freeTroop_ParenLeft_Offset, freeTroop_ParenLeft_Count));
     }
 
-    private static void Append_haltTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_haltTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(haltTroop_ParenLeft_Offset, haltTroop_ParenLeft_Count));
     }
 
-    private static void Append_hideBlind_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideBlind_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideBlind_ParenLeft_Offset, hideBlind_ParenLeft_Count));
     }
 
-    private static void Append_hideChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_hideChara_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(hideChara_ParenLeft_Offset, hideChara_ParenLeft_Count));
     }
 
-    private static void Append_moveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_moveTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(moveTroop_ParenLeft_Offset, moveTroop_ParenLeft_Count));
     }
 
-    private static void Append_moveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_moveTroopFix_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(moveTroopFix_ParenLeft_Offset, moveTroopFix_ParenLeft_Count));
     }
 
-    private static void Append_smoveTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_smoveTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(smoveTroop_ParenLeft_Offset, smoveTroop_ParenLeft_Count));
     }
 
-    private static void Append_smoveTroopFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_smoveTroopFix_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(smoveTroopFix_ParenLeft_Offset, smoveTroopFix_ParenLeft_Count));
     }
 
-    private static void Append_playWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playWorld_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playWorld_ParenLeft_Offset, playWorld_ParenLeft_Count));
     }
 
-    private static void Append_pushDiplo_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushDiplo_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushDiplo_ParenLeft_Offset, pushDiplo_ParenLeft_Count));
     }
 
-    private static void Append_pushForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushForce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushForce_ParenLeft_Offset, pushForce_ParenLeft_Count));
     }
 
-    private static void Append_pushLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLevel_ParenLeft_Offset, pushLevel_ParenLeft_Count));
     }
 
-    private static void Append_pushLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLimit_ParenLeft_Offset, pushLimit_ParenLeft_Count));
     }
 
-    private static void Append_pushLoyal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushLoyal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushLoyal_ParenLeft_Offset, pushLoyal_ParenLeft_Count));
     }
 
-    private static void Append_pushMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushMoney_ParenLeft_Offset, pushMoney_ParenLeft_Count));
     }
 
-    private static void Append_pushRand2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushRand2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushRand2_ParenLeft_Offset, pushRand2_ParenLeft_Count));
     }
 
-    private static void Append_pushTrain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTrain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrain_ParenLeft_Offset, pushTrain_ParenLeft_Count));
     }
 
-    private static void Append_pushTrust_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTrust_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrust_ParenLeft_Offset, pushTrust_ParenLeft_Count));
     }
 
-    private static void Append_resetTime_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetTime_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetTime_ParenLeft_Offset, resetTime_ParenLeft_Count));
     }
 
-    private static void Append_resetZone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetZone_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetZone_ParenLeft_Offset, resetZone_ParenLeft_Count));
     }
 
-    private static void Append_setArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setArbeit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setArbeit_ParenLeft_Offset, setArbeit_ParenLeft_Count));
     }
 
-    private static void Append_setCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setCastle_ParenLeft_Offset, setCastle_ParenLeft_Count));
     }
 
-    private static void Append_setLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setLeague_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setLeague_ParenLeft_Offset, setLeague_ParenLeft_Count));
     }
 
-    private static void Append_setStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setStatus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setStatus_ParenLeft_Offset, setStatus_ParenLeft_Count));
     }
 
-    private static void Append_showBlind_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showBlind_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showBlind_ParenLeft_Offset, showBlind_ParenLeft_Count));
     }
 
-    private static void Append_showChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showChara_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showChara_ParenLeft_Offset, showChara_ParenLeft_Count));
     }
 
-    private static void Append_terminate_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_terminate_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(terminate_ParenLeft_Offset, terminate_ParenLeft_Count));
     }
 
-    private static void Append_backScroll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_backScroll_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(backScroll_ParenLeft_Offset, backScroll_ParenLeft_Count));
     }
 
-    private static void Append_changeRace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeRace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeRace_ParenLeft_Offset, changeRace_ParenLeft_Count));
     }
 
-    private static void Append_endingRoll_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_endingRoll_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(endingRoll_ParenLeft_Offset, endingRoll_ParenLeft_Count));
     }
 
-    private static void Append_erasePower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erasePower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePower_ParenLeft_Offset, erasePower_ParenLeft_Count));
     }
 
-    private static void Append_eraseSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseSkill_ParenLeft_Offset, eraseSkill_ParenLeft_Count));
     }
 
-    private static void Append_eraseUnit2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnit2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnit2_ParenLeft_Offset, eraseUnit2_ParenLeft_Count));
     }
 
-    private static void Append_eraseTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseTroop_ParenLeft_Offset, eraseTroop_ParenLeft_Count));
     }
 
-    private static void Append_linkEscape_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_linkEscape_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(linkEscape_ParenLeft_Offset, linkEscape_ParenLeft_Count));
     }
 
-    private static void Append_playBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_playBattle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(playBattle_ParenLeft_Offset, playBattle_ParenLeft_Count));
     }
 
-    private static void Append_pushCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCastle_ParenLeft_Offset, pushCastle_ParenLeft_Count));
     }
 
-    private static void Append_pushMerits_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushMerits_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushMerits_ParenLeft_Offset, pushMerits_ParenLeft_Count));
     }
 
-    private static void Append_pushStatus_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushStatus_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushStatus_ParenLeft_Offset, pushStatus_ParenLeft_Count));
     }
 
-    private static void Append_reloadMenu_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_reloadMenu_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reloadMenu_ParenLeft_Offset, reloadMenu_ParenLeft_Count));
     }
 
-    private static void Append_removeSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_removeSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeSpot_ParenLeft_Offset, removeSpot_ParenLeft_Count));
     }
 
-    private static void Append_resetTruce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetTruce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetTruce_ParenLeft_Offset, resetTruce_ParenLeft_Count));
     }
 
-    private static void Append_setDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDungeon_ParenLeft_Offset, setDungeon_ParenLeft_Count));
     }
 
-    private static void Append_shiftTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shiftTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shiftTroop_ParenLeft_Offset, shiftTroop_ParenLeft_Count));
     }
 
-    private static void Append_shuffleVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shuffleVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shuffleVar_ParenLeft_Offset, shuffleVar_ParenLeft_Count));
     }
 
-    private static void Append_skillTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_skillTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(skillTroop_ParenLeft_Offset, skillTroop_ParenLeft_Count));
     }
 
-    private static void Append_sleepTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_sleepTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sleepTroop_ParenLeft_Offset, sleepTroop_ParenLeft_Count));
     }
 
-    private static void Append_speedTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_speedTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(speedTroop_ParenLeft_Offset, speedTroop_ParenLeft_Count));
     }
 
-    private static void Append_unionPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_unionPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unionPower_ParenLeft_Offset, unionPower_ParenLeft_Count));
     }
 
-    private static void Append_activeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_activeTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(activeTroop_ParenLeft_Offset, activeTroop_ParenLeft_Count));
     }
 
-    private static void Append_addTraining_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTraining_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTraining_ParenLeft_Offset, addTraining_ParenLeft_Count));
     }
 
-    private static void Append_battleEvent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_battleEvent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(battleEvent_ParenLeft_Offset, battleEvent_ParenLeft_Count));
     }
 
-    private static void Append_changeClass_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeClass_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeClass_ParenLeft_Offset, changeClass_ParenLeft_Count));
     }
 
-    private static void Append_choiceTitle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_choiceTitle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(choiceTitle_ParenLeft_Offset, choiceTitle_ParenLeft_Count));
     }
 
-    private static void Append_eraseFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseFriend_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseFriend_ParenLeft_Offset, eraseFriend_ParenLeft_Count));
     }
 
-    private static void Append_pushSpotPos_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushSpotPos_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushSpotPos_ParenLeft_Offset, pushSpotPos_ParenLeft_Count));
     }
 
-    private static void Append_pushTrainUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushTrainUp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushTrainUp_ParenLeft_Offset, pushTrainUp_ParenLeft_Count));
     }
 
-    private static void Append_removeSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_removeSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeSkill_ParenLeft_Offset, removeSkill_ParenLeft_Count));
     }
 
-    private static void Append_removeTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_removeTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(removeTroop_ParenLeft_Offset, removeTroop_ParenLeft_Count));
     }
 
-    private static void Append_resetLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetLeague_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetLeague_ParenLeft_Offset, resetLeague_ParenLeft_Count));
     }
 
-    private static void Append_scrollSpeed_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_scrollSpeed_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(scrollSpeed_ParenLeft_Offset, scrollSpeed_ParenLeft_Count));
     }
 
-    private static void Append_setTraining_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setTraining_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTraining_ParenLeft_Offset, setTraining_ParenLeft_Count));
     }
 
-    private static void Append_shiftTroop2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_shiftTroop2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(shiftTroop2_ParenLeft_Offset, shiftTroop2_ParenLeft_Count));
     }
 
-    private static void Append_showDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showDungeon_ParenLeft_Offset, showDungeon_ParenLeft_Count));
     }
 
-    private static void Append_unctrlTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_unctrlTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(unctrlTroop_ParenLeft_Offset, unctrlTroop_ParenLeft_Count));
     }
 
-    private static void Append_addBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addBaseLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addBaseLevel_ParenLeft_Offset, addBaseLevel_ParenLeft_Count));
     }
 
-    private static void Append_changeCastle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeCastle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeCastle_ParenLeft_Offset, changeCastle_ParenLeft_Count));
     }
 
-    private static void Append_changeMaster_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeMaster_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeMaster_ParenLeft_Offset, changeMaster_ParenLeft_Count));
     }
 
-    private static void Append_changePlayer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePlayer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePlayer_ParenLeft_Offset, changePlayer_ParenLeft_Count));
     }
 
-    private static void Append_retreatTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_retreatTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(retreatTroop_ParenLeft_Offset, retreatTroop_ParenLeft_Count));
     }
 
-    private static void Append_reverseChara_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_reverseChara_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reverseChara_ParenLeft_Offset, reverseChara_ParenLeft_Count));
     }
 
-    private static void Append_setBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setBaseLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setBaseLevel_ParenLeft_Offset, setBaseLevel_ParenLeft_Count));
     }
 
-    private static void Append_setGameClear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setGameClear_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setGameClear_ParenLeft_Offset, setGameClear_ParenLeft_Count));
     }
 
-    private static void Append_showPolitics_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_showPolitics_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(showPolitics_ParenLeft_Offset, showPolitics_ParenLeft_Count));
     }
 
-    private static void Append_storeAllSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAllSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllSpot_ParenLeft_Offset, storeAllSpot_ParenLeft_Count));
     }
 
-    private static void Append_addPowerMerce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerMerce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerMerce_ParenLeft_Offset, addPowerMerce_ParenLeft_Count));
     }
 
-    private static void Append_addPowerStaff_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerStaff_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerStaff_ParenLeft_Offset, addPowerStaff_ParenLeft_Count));
     }
 
-    private static void Append_addPowerMerce2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerMerce2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerMerce2_ParenLeft_Offset, addPowerMerce2_ParenLeft_Count));
     }
 
-    private static void Append_addPowerStaff2_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addPowerStaff2_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addPowerStaff2_ParenLeft_Offset, addPowerStaff2_ParenLeft_Count));
     }
 
-    private static void Append_addTrainingUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_addTrainingUp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(addTrainingUp_ParenLeft_Offset, addTrainingUp_ParenLeft_Count));
     }
 
-    private static void Append_changeDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeDungeon_ParenLeft_Offset, changeDungeon_ParenLeft_Count));
     }
 
-    private static void Append_pushBaseLevel_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushBaseLevel_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBaseLevel_ParenLeft_Offset, pushBaseLevel_ParenLeft_Count));
     }
 
-    private static void Append_setEnemyPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setEnemyPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setEnemyPower_ParenLeft_Offset, setEnemyPower_ParenLeft_Count));
     }
 
-    private static void Append_setTrainingUp_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setTrainingUp_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setTrainingUp_ParenLeft_Offset, setTrainingUp_ParenLeft_Count));
     }
 
-    private static void Append_setWorldMusic_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setWorldMusic_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setWorldMusic_ParenLeft_Offset, setWorldMusic_ParenLeft_Count));
     }
 
-    private static void Append_storeAllPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAllPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllPower_ParenLeft_Offset, storeAllPower_ParenLeft_Count));
     }
 
-    private static void Append_storeComPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeComPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeComPower_ParenLeft_Offset, storeComPower_ParenLeft_Count));
     }
 
-    private static void Append_storeNextSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNextSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNextSpot_ParenLeft_Offset, storeNextSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeNowPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNowPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNowPower_ParenLeft_Offset, storeNowPower_ParenLeft_Count));
     }
 
-    private static void Append_storeRectUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeRectUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRectUnit_ParenLeft_Offset, storeRectUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSkillset_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSkillset_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSkillset_ParenLeft_Offset, storeSkillset_ParenLeft_Count));
     }
 
-    private static void Append_storeTodoUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeTodoUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeTodoUnit_ParenLeft_Offset, storeTodoUnit_ParenLeft_Count));
     }
 
-    private static void Append_changePowerFix_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePowerFix_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerFix_ParenLeft_Offset, changePowerFix_ParenLeft_Count));
     }
 
-    private static void Append_eraseUnitTroop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eraseUnitTroop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eraseUnitTroop_ParenLeft_Offset, eraseUnitTroop_ParenLeft_Count));
     }
 
-    private static void Append_pushBattleHome_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushBattleHome_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBattleHome_ParenLeft_Offset, pushBattleHome_ParenLeft_Count));
     }
 
-    private static void Append_pushBattleRect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushBattleRect_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushBattleRect_ParenLeft_Offset, pushBattleRect_ParenLeft_Count));
     }
 
-    private static void Append_pushCountPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_pushCountPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(pushCountPower_ParenLeft_Offset, pushCountPower_ParenLeft_Count));
     }
 
-    private static void Append_storeAliveUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAliveUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAliveUnit_ParenLeft_Offset, storeAliveUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeAllTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAllTalent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAllTalent_ParenLeft_Offset, storeAllTalent_ParenLeft_Count));
     }
 
-    private static void Append_changePowerFlag_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePowerFlag_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerFlag_ParenLeft_Offset, changePowerFlag_ParenLeft_Count));
     }
 
-    private static void Append_changePowerName_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changePowerName_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changePowerName_ParenLeft_Offset, changePowerName_ParenLeft_Count));
     }
 
-    private static void Append_changeSpotImage_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_changeSpotImage_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(changeSpotImage_ParenLeft_Offset, changeSpotImage_ParenLeft_Count));
     }
 
-    private static void Append_erasePowerMerce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erasePowerMerce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePowerMerce_ParenLeft_Offset, erasePowerMerce_ParenLeft_Count));
     }
 
-    private static void Append_erasePowerStaff_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_erasePowerStaff_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(erasePowerStaff_ParenLeft_Offset, erasePowerStaff_ParenLeft_Count));
     }
 
-    private static void Append_resetEnemyPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetEnemyPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetEnemyPower_ParenLeft_Offset, resetEnemyPower_ParenLeft_Count));
     }
 
-    private static void Append_resetWorldMusic_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_resetWorldMusic_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(resetWorldMusic_ParenLeft_Offset, resetWorldMusic_ParenLeft_Count));
     }
 
-    private static void Append_setDungeonFloor_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_setDungeonFloor_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(setDungeonFloor_ParenLeft_Offset, setDungeonFloor_ParenLeft_Count));
     }
 
-    private static void Append_storeBattleSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeBattleSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeBattleSpot_ParenLeft_Offset, storeBattleSpot_ParenLeft_Count));
     }
 
-    private static void Append_storePlayerUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePlayerUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePlayerUnit_ParenLeft_Offset, storePlayerUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeRaceOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeRaceOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRaceOfUnit_ParenLeft_Offset, storeRaceOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSpotOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfUnit_ParenLeft_Offset, storeSpotOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeUnitOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeUnitOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeUnitOfSpot_ParenLeft_Offset, storeUnitOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeAttackPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeAttackPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeAttackPower_ParenLeft_Offset, storeAttackPower_ParenLeft_Count));
     }
 
-    private static void Append_storeClassOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeClassOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeClassOfUnit_ParenLeft_Offset, storeClassOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeNeutralSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNeutralSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNeutralSpot_ParenLeft_Offset, storeNeutralSpot_ParenLeft_Count));
     }
 
-    private static void Append_storePlayerPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePlayerPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePlayerPower_ParenLeft_Offset, storePlayerPower_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfSpot_ParenLeft_Offset, storePowerOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfUnit_ParenLeft_Offset, storePowerOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSkillOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSkillOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSkillOfUnit_ParenLeft_Offset, storeSkillOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeSpotOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfPower_ParenLeft_Offset, storeSpotOfPower_ParenLeft_Count));
     }
 
-    private static void Append_storeTalentPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeTalentPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeTalentPower_ParenLeft_Offset, storeTalentPower_ParenLeft_Count));
     }
 
-    private static void Append_storeUnitOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeUnitOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeUnitOfPower_ParenLeft_Offset, storeUnitOfPower_ParenLeft_Count));
     }
 
-    private static void Append_clearBattleRecord_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_clearBattleRecord_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(clearBattleRecord_ParenLeft_Offset, clearBattleRecord_ParenLeft_Count));
     }
 
-    private static void Append_storeDefensePower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeDefensePower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeDefensePower_ParenLeft_Offset, storeDefensePower_ParenLeft_Count));
     }
 
-    private static void Append_storeLeaderOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeLeaderOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeLeaderOfSpot_ParenLeft_Offset, storeLeaderOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeMasterOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeMasterOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMasterOfUnit_ParenLeft_Offset, storeMasterOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storeMemberOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeMemberOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMemberOfUnit_ParenLeft_Offset, storeMemberOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfForce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfForce_ParenLeft_Offset, storePowerOfForce_ParenLeft_Count));
     }
 
-    private static void Append_storeSpotOfBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeSpotOfBattle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeSpotOfBattle_ParenLeft_Offset, storeSpotOfBattle_ParenLeft_Count));
     }
 
-    private static void Append_storeLeaderOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeLeaderOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeLeaderOfPower_ParenLeft_Offset, storeLeaderOfPower_ParenLeft_Count));
     }
 
-    private static void Append_storeMasterOfPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeMasterOfPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeMasterOfPower_ParenLeft_Offset, storeMasterOfPower_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfAttack_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfAttack_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfAttack_ParenLeft_Offset, storePowerOfAttack_ParenLeft_Count));
     }
 
-    private static void Append_storeNonPlayerPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeNonPlayerPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeNonPlayerPower_ParenLeft_Offset, storeNonPlayerPower_ParenLeft_Count));
     }
 
-    private static void Append_storePowerOfDefense_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storePowerOfDefense_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storePowerOfDefense_ParenLeft_Offset, storePowerOfDefense_ParenLeft_Count));
     }
 
-    private static void Append_storeRoamUnitOfSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeRoamUnitOfSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeRoamUnitOfSpot_ParenLeft_Offset, storeRoamUnitOfSpot_ParenLeft_Count));
     }
 
-    private static void Append_storeBaseClassOfUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_storeBaseClassOfUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(storeBaseClassOfUnit_ParenLeft_Offset, storeBaseClassOfUnit_ParenLeft_Count));
     }
 
-    private static void Append_isSelect_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isSelect_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isSelect_ParenLeft_Offset, isSelect_ParenLeft_Count));
     }
 
-    private static void Append_isWhoDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWhoDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWhoDead_ParenLeft_Offset, isWhoDead_ParenLeft_Count));
     }
 
-    private static void Append_isGameOver_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isGameOver_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isGameOver_ParenLeft_Offset, isGameOver_ParenLeft_Count));
     }
 
-    private static void Append_has_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_has_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(has_ParenLeft_Offset, has_ParenLeft_Count));
     }
 
-    private static void Append_inVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inVar_ParenLeft_Offset, inVar_ParenLeft_Count));
     }
 
-    private static void Append_yet_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_yet_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(yet_ParenLeft_Offset, yet_ParenLeft_Count));
     }
 
-    private static void Append_rand_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_rand_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(rand_ParenLeft_Offset, rand_ParenLeft_Count));
     }
 
-    private static void Append_count_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_count_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(count_ParenLeft_Offset, count_ParenLeft_Count));
     }
 
-    private static void Append_amount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_amount_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(amount_ParenLeft_Offset, amount_ParenLeft_Count));
     }
 
-    private static void Append_equal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_equal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(equal_ParenLeft_Offset, equal_ParenLeft_Count));
     }
 
-    private static void Append_eqVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_eqVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(eqVar_ParenLeft_Offset, eqVar_ParenLeft_Count));
     }
 
-    private static void Append_isMap_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isMap_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isMap_ParenLeft_Offset, isMap_ParenLeft_Count));
     }
 
-    private static void Append_isNpc_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNpc_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNpc_ParenLeft_Offset, isNpc_ParenLeft_Count));
     }
 
-    private static void Append_isNPM_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNPM_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNPM_ParenLeft_Offset, isNPM_ParenLeft_Count));
     }
 
-    private static void Append_isWar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWar_ParenLeft_Offset, isWar_ParenLeft_Count));
     }
 
-    private static void Append_ptest_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_ptest_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(ptest_ParenLeft_Offset, ptest_ParenLeft_Count));
     }
 
-    private static void Append_conVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_conVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(conVar_ParenLeft_Offset, conVar_ParenLeft_Count));
     }
 
-    private static void Append_inSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inSpot_ParenLeft_Offset, inSpot_ParenLeft_Count));
     }
 
-    private static void Append_isDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDead_ParenLeft_Offset, isDead_ParenLeft_Count));
     }
 
-    private static void Append_isDone_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isDone_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDone_ParenLeft_Offset, isDone_ParenLeft_Count));
     }
 
-    private static void Append_isJoin_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isJoin_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isJoin_ParenLeft_Offset, isJoin_ParenLeft_Count));
     }
 
-    private static void Append_isNext_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNext_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNext_ParenLeft_Offset, isNext_ParenLeft_Count));
     }
 
-    private static void Append_reckon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_reckon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(reckon_ParenLeft_Offset, reckon_ParenLeft_Count));
     }
 
-    private static void Append_getLife_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getLife_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLife_ParenLeft_Offset, getLife_ParenLeft_Count));
     }
 
-    private static void Append_getMode_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getMode_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getMode_ParenLeft_Offset, getMode_ParenLeft_Count));
     }
 
-    private static void Append_getTime_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getTime_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getTime_ParenLeft_Offset, getTime_ParenLeft_Count));
     }
 
-    private static void Append_getTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getTurn_ParenLeft_Offset, getTurn_ParenLeft_Count));
     }
 
-    private static void Append_inPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inPower_ParenLeft_Offset, inPower_ParenLeft_Count));
     }
 
-    private static void Append_isAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isAlive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAlive_ParenLeft_Offset, isAlive_ParenLeft_Count));
     }
 
-    private static void Append_isEnemy_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isEnemy_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEnemy_ParenLeft_Offset, isEnemy_ParenLeft_Count));
     }
 
-    private static void Append_isEvent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isEvent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEvent_ParenLeft_Offset, isEvent_ParenLeft_Count));
     }
 
-    private static void Append_isPeace_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPeace_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPeace_ParenLeft_Offset, isPeace_ParenLeft_Count));
     }
 
-    private static void Append_isWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWorld_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWorld_ParenLeft_Offset, isWorld_ParenLeft_Count));
     }
 
-    private static void Append_countVar_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countVar_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countVar_ParenLeft_Offset, countVar_ParenLeft_Count));
     }
 
-    private static void Append_getLimit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getLimit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLimit_ParenLeft_Offset, getLimit_ParenLeft_Count));
     }
 
-    private static void Append_inBattle_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inBattle_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inBattle_ParenLeft_Offset, inBattle_ParenLeft_Count));
     }
 
-    private static void Append_isActive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isActive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isActive_ParenLeft_Offset, isActive_ParenLeft_Count));
     }
 
-    private static void Append_isArbeit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isArbeit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isArbeit_ParenLeft_Offset, isArbeit_ParenLeft_Count));
     }
 
-    private static void Append_isEnable_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isEnable_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isEnable_ParenLeft_Offset, isEnable_ParenLeft_Count));
     }
 
-    private static void Append_isFriend_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isFriend_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isFriend_ParenLeft_Offset, isFriend_ParenLeft_Count));
     }
 
-    private static void Append_isInvade_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isInvade_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isInvade_ParenLeft_Offset, isInvade_ParenLeft_Count));
     }
 
-    private static void Append_isLeader_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isLeader_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isLeader_ParenLeft_Offset, isLeader_ParenLeft_Count));
     }
 
-    private static void Append_isLeague_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isLeague_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isLeague_ParenLeft_Offset, isLeague_ParenLeft_Count));
     }
 
-    private static void Append_isMaster_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isMaster_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isMaster_ParenLeft_Offset, isMaster_ParenLeft_Count));
     }
 
-    private static void Append_isPlayer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPlayer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayer_ParenLeft_Offset, isPlayer_ParenLeft_Count));
     }
 
-    private static void Append_isPostIn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPostIn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPostIn_ParenLeft_Offset, isPostIn_ParenLeft_Count));
     }
 
-    private static void Append_isRoamer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isRoamer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRoamer_ParenLeft_Offset, isRoamer_ParenLeft_Count));
     }
 
-    private static void Append_isTalent_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isTalent_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isTalent_ParenLeft_Offset, isTalent_ParenLeft_Count));
     }
 
-    private static void Append_isVassal_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isVassal_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isVassal_ParenLeft_Offset, isVassal_ParenLeft_Count));
     }
 
-    private static void Append_countGain_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countGain_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countGain_ParenLeft_Offset, countGain_ParenLeft_Count));
     }
 
-    private static void Append_countPost_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countPost_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countPost_ParenLeft_Offset, countPost_ParenLeft_Count));
     }
 
-    private static void Append_countSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countSpot_ParenLeft_Offset, countSpot_ParenLeft_Count));
     }
 
-    private static void Append_countUnit_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countUnit_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countUnit_ParenLeft_Offset, countUnit_ParenLeft_Count));
     }
 
-    private static void Append_isAllDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isAllDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAllDead_ParenLeft_Offset, isAllDead_ParenLeft_Count));
     }
 
-    private static void Append_isAnyDead_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isAnyDead_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isAnyDead_ParenLeft_Offset, isAnyDead_ParenLeft_Count));
     }
 
-    private static void Append_isComTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isComTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isComTurn_ParenLeft_Offset, isComTurn_ParenLeft_Count));
     }
 
-    private static void Append_isDungeon_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isDungeon_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isDungeon_ParenLeft_Offset, isDungeon_ParenLeft_Count));
     }
 
-    private static void Append_isNewTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNewTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNewTurn_ParenLeft_Offset, isNewTurn_ParenLeft_Count));
     }
 
-    private static void Append_isNowSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isNowSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isNowSpot_ParenLeft_Offset, isNowSpot_ParenLeft_Count));
     }
 
-    private static void Append_istoWorld_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_istoWorld_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(istoWorld_ParenLeft_Offset, istoWorld_ParenLeft_Count));
     }
 
-    private static void Append_countForce_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countForce_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countForce_ParenLeft_Offset, countForce_ParenLeft_Count));
     }
 
-    private static void Append_countMoney_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countMoney_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countMoney_ParenLeft_Offset, countMoney_ParenLeft_Count));
     }
 
-    private static void Append_countPower_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countPower_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countPower_ParenLeft_Offset, countPower_ParenLeft_Count));
     }
 
-    private static void Append_countSkill_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_countSkill_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(countSkill_ParenLeft_Offset, countSkill_ParenLeft_Count));
     }
 
-    private static void Append_getLifePer_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getLifePer_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getLifePer_ParenLeft_Offset, getLifePer_ParenLeft_Count));
     }
 
-    private static void Append_inRoamSpot_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_inRoamSpot_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(inRoamSpot_ParenLeft_Offset, inRoamSpot_ParenLeft_Count));
     }
 
-    private static void Append_isInterval_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isInterval_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isInterval_ParenLeft_Offset, isInterval_ParenLeft_Count));
     }
 
-    private static void Append_isRedAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isRedAlive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRedAlive_ParenLeft_Offset, isRedAlive_ParenLeft_Count));
     }
 
-    private static void Append_isSameArmy_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isSameArmy_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isSameArmy_ParenLeft_Offset, isSameArmy_ParenLeft_Count));
     }
 
-    private static void Append_isScenario_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isScenario_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isScenario_ParenLeft_Offset, isScenario_ParenLeft_Count));
     }
 
-    private static void Append_isWatching_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWatching_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWatching_ParenLeft_Offset, isWatching_ParenLeft_Count));
     }
 
-    private static void Append_getDistance_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getDistance_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getDistance_ParenLeft_Offset, getDistance_ParenLeft_Count));
     }
 
-    private static void Append_getRedCount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getRedCount_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getRedCount_ParenLeft_Offset, getRedCount_ParenLeft_Count));
     }
 
-    private static void Append_isBlueAlive_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isBlueAlive_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isBlueAlive_ParenLeft_Offset, isBlueAlive_ParenLeft_Count));
     }
 
-    private static void Append_isGameClear_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isGameClear_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isGameClear_ParenLeft_Offset, isGameClear_ParenLeft_Count));
     }
 
-    private static void Append_isPlayerEnd_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPlayerEnd_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayerEnd_ParenLeft_Offset, isPlayerEnd_ParenLeft_Count));
     }
 
-    private static void Append_getBlueCount_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getBlueCount_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getBlueCount_ParenLeft_Offset, getBlueCount_ParenLeft_Count));
     }
 
-    private static void Append_isPlayerTurn_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isPlayerTurn_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isPlayerTurn_ParenLeft_Offset, isPlayerTurn_ParenLeft_Count));
     }
 
-    private static void Append_isRoamLeader_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isRoamLeader_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isRoamLeader_ParenLeft_Offset, isRoamLeader_ParenLeft_Count));
     }
 
-    private static void Append_getClearFloor_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_getClearFloor_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(getClearFloor_ParenLeft_Offset, getClearFloor_ParenLeft_Count));
     }
 
-    private static void Append_isWorldMusicStop_ParenLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_isWorldMusicStop_ParenLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(isWorldMusicStop_ParenLeft_Offset, isWorldMusicStop_ParenLeft_Count));
     }
 
-    private static void Append_context_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_context_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(context_NewLine_BracketLeft_Offset, context_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_workspace_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_workspace_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(workspace_NewLine_BracketLeft_Offset, workspace_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_attribute_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_attribute_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(attribute_NewLine_BracketLeft_Offset, attribute_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_sound_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_sound_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(sound_NewLine_BracketLeft_Offset, sound_NewLine_BracketLeft_Count));
     }
 
-    private static void Append_detail_NewLine_BracketLeft(ref List<byte> destination, ref bool JustChangeLine)
+    private static void Append_detail_NewLine_BracketLeft(ref ArrayPoolList<byte> destination, ref bool JustChangeLine)
     {
         JustChangeLine = false;
         destination.AddRange(registeredBytes.AsSpan(detail_NewLine_BracketLeft_Offset, detail_NewLine_BracketLeft_Count));
     }
 
-    public static bool TryFormat(ref Result result, ref List<byte> destination)
+    public static bool TryFormat(ref Result result, ref ArrayPoolList<byte> destination)
     {
         ref var tokenList = ref result.TokenList;
         ref var source = ref result.Source;
@@ -12858,7 +12858,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         return true;
 	}
 
-    private static bool TryFormat_Block(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Block(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -14142,7 +14142,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_Not_DEFAULT(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormatElementAssignment_DEFAULT(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -14211,7 +14211,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatElementAssignment_DEFAULT(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         var elementTokenIndex = tokenIndex;
         ref var tokenList = ref result.TokenList;
@@ -14241,7 +14241,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         return true;
     }
 
-    private static bool TryFormatCallActionArguments(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormatCallActionArguments(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do
@@ -14295,7 +14295,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         } while (true);
     }
 
-    private static bool TryFormat_If(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_If(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         if (!TryFormat_Condition(ref result, ref destination, ref JustChangeLine, ref tokenIndex, spaces))
         {
@@ -14333,7 +14333,7 @@ public class Utf16BinaryFormatter : IFormatter<byte>
         }
     }
 
-    private static bool TryFormat_Condition(ref Result result, ref List<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
+    private static bool TryFormat_Condition(ref Result result, ref ArrayPoolList<byte> destination, ref bool JustChangeLine, ref uint tokenIndex, int spaces)
     {
         ref var tokenList = ref result.TokenList;
         do

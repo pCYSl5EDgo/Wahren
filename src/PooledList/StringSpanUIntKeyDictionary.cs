@@ -3,7 +3,7 @@
 public struct StringSpanUIntKeyDictionary<T> : IDisposable
     where T : class
 {
-    private List<char> keys;
+    private ArrayPoolList<char> keys;
     private DualList<T?> originalValueDualList;
     private DualList<uint> originalKeyDualList;
     private DualList<T?>[] variantValueDualListArray;
@@ -26,8 +26,8 @@ public struct StringSpanUIntKeyDictionary<T> : IDisposable
         }
 
         var keyIndex = (uint)key.Length - 1;
-        ref var keyList = ref Unsafe.NullRef<List<uint>>();
-        ref var valueList = ref Unsafe.NullRef<List<T?>>();
+        ref var keyList = ref Unsafe.NullRef<ArrayPoolList<uint>>();
+        ref var valueList = ref Unsafe.NullRef<ArrayPoolList<T?>>();
         if (variation == uint.MaxValue)
         {
             if (keyIndex >= originalKeyDualList.Count)
@@ -76,8 +76,8 @@ public struct StringSpanUIntKeyDictionary<T> : IDisposable
             return false;
         }
 
-        ref List<T?> valueList = ref Unsafe.NullRef<List<T?>>();
-        ref List<uint> keyList = ref Unsafe.NullRef<List<uint>>();
+        ref ArrayPoolList<T?> valueList = ref Unsafe.NullRef<ArrayPoolList<T?>>();
+        ref ArrayPoolList<uint> keyList = ref Unsafe.NullRef<ArrayPoolList<uint>>();
         uint keyLengthIndex = (uint)(key.Length - 1);
         if (variation == uint.MaxValue)
         {
@@ -197,7 +197,7 @@ public struct StringSpanUIntKeyDictionary<T> : IDisposable
 public struct StringSpanKeyDictionary<T> : IDisposable
     where T : class
 {
-    private List<char> keys;
+    private ArrayPoolList<char> keys;
     private DualList<T?> originalValueDualList;
     private DualList<uint> originalKeyDualList;
 
