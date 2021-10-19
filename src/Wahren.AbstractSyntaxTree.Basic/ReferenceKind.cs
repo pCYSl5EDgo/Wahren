@@ -52,7 +52,7 @@ public enum ReferenceKind : ulong
     face = 0x_0000_2000_0000_0000UL,
     sound = 0x_0000_4000_0000_0000UL,
     picture = 0x_0000_8000_0000_0000UL,
-    image_file = 0x_0001_0000_0000_0000UL,
+    image = 0x_0001_0000_0000_0000UL,
     flag = 0x_0002_0000_0000_0000UL,
     icon = 0x_0004_0000_0000_0000UL,
     font = 0x_0008_0000_0000_0000UL,

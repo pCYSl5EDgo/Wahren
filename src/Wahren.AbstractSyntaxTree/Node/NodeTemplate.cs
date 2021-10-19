@@ -996,6 +996,7 @@ public partial struct SpotNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> w = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> h = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> big = new();
+	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> color = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> map = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> castle_battle = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> yorozu = new();
@@ -1025,6 +1026,7 @@ public partial struct SpotNode : IInheritableNode
 		w.Dispose();
 		h.Dispose();
 		big.Dispose();
+		color.Dispose();
 		map.Dispose();
 		castle_battle.Dispose();
 		yorozu.Dispose();
@@ -1580,7 +1582,6 @@ public partial struct EventNode : IInheritableNode
 	public VariantPair<Pair_NullableString_NullableIntElement> bgm = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> map = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> name = new();
-	public VariantPair<Pair_NullableString_NullableIntElement> size = new();
 	public VariantPair<Pair_NullableString_NullableInt_ArrayElement> color = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> block = new();
 	public VariantPair<Pair_NullableString_NullableIntElement> limit = new();
@@ -1613,7 +1614,6 @@ public partial struct EventNode : IInheritableNode
 		bgm.Dispose();
 		map.Dispose();
 		name.Dispose();
-		size.Dispose();
 		color.Dispose();
 		block.Dispose();
 		limit.Dispose();

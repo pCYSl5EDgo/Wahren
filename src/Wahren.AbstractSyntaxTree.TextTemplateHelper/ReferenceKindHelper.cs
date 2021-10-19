@@ -101,7 +101,7 @@ public static class ReferenceKindHelper
             ReferenceKind.icon or
             ReferenceKind.sound or
             ReferenceKind.picture or
-            ReferenceKind.image_file or
+            ReferenceKind.image or
             ReferenceKind.flag or
             ReferenceKind.font or
             ReferenceKind.Number or
@@ -555,7 +555,7 @@ public static class ReferenceKindHelper
             case ReferenceKind.face:
             case ReferenceKind.sound:
             case ReferenceKind.picture:
-            case ReferenceKind.image_file:
+            case ReferenceKind.image:
             case ReferenceKind.flag:
             case ReferenceKind.font:
                 F().Append("argument.ReferenceKind = ReferenceKind.").Append(reference).AppendLine(";");

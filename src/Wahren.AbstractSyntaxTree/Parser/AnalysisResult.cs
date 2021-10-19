@@ -37,7 +37,7 @@ public sealed class AnalysisResult : IDisposable
     public StringSpanKeySlowSet faceSet = new();
     public StringSpanKeySlowSet soundSet = new();
     public StringSpanKeySlowSet pictureSet = new();
-    public StringSpanKeySlowSet image_fileSet = new();
+    public StringSpanKeySlowSet imageSet = new();
     public StringSpanKeySlowSet flagSet = new();
     public StringSpanKeySlowSet fontSet = new();
 
@@ -101,7 +101,7 @@ public sealed class AnalysisResult : IDisposable
         faceSet.Dispose();
         soundSet.Dispose();
         pictureSet.Dispose();
-        image_fileSet.Dispose();
+        imageSet.Dispose();
         flagSet.Dispose();
         fontSet.Dispose();
     }

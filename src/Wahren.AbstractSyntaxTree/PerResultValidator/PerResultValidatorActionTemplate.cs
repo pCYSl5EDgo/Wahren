@@ -230,8 +230,8 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.hideImage:
-                argument.ReferenceKind = ReferenceKind.image_file;
-                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.ReferenceKind = ReferenceKind.image;
+                argument.ReferenceId = analysisResult.imageSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
                 argument.HasReference = true;
 
                 if (arguments.Length <= 1)
@@ -296,8 +296,8 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.bg:
-                argument.ReferenceKind = ReferenceKind.image_file;
-                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.ReferenceKind = ReferenceKind.image;
+                argument.ReferenceId = analysisResult.imageSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
                 argument.HasReference = true;
 
                 if (arguments.Length <= 1)
@@ -5846,8 +5846,8 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.image:
-                argument.ReferenceKind = ReferenceKind.image_file;
-                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.ReferenceKind = ReferenceKind.image;
+                argument.ReferenceId = analysisResult.imageSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
                 argument.HasReference = true;
 
                 if (arguments.Length <= 1)
@@ -5916,8 +5916,8 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.image2:
-                argument.ReferenceKind = ReferenceKind.image_file;
-                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.ReferenceKind = ReferenceKind.image;
+                argument.ReferenceId = analysisResult.imageSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
                 argument.HasReference = true;
 
                 if (arguments.Length <= 1)
@@ -5986,8 +5986,8 @@ public static partial class PerResultValidator
 
                 break;
             case ActionKind.showImage:
-                argument.ReferenceKind = ReferenceKind.image_file;
-                argument.ReferenceId = analysisResult.image_fileSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
+                argument.ReferenceKind = ReferenceKind.image;
+                argument.ReferenceId = analysisResult.imageSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
                 argument.HasReference = true;
 
                 if (arguments.Length <= 1)

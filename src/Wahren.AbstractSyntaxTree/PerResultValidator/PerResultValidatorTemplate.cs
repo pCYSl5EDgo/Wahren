@@ -959,8 +959,8 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.width, "Object", "width");
 		ValidateNumber(ref result, ref node.height, "Object", "height");
 		ValidateNumber(ref result, ref node.alpha, "Object", "alpha");
-		// Ignore Unknown Object type
-		// Ignore Unknown Object breakfire
+		SpecialTreatment_object_type(ref result, ref node, ref node.type);
+		AddReference(ref result, ref node.breakfire, ref analysisResult.SkillSet, ReferenceKind.Skill);
 		ValidateNumber(ref result, ref node.color, "Object", "color");
 		ValidateBooleanNumber(ref result, ref node.land_base, "Object", "land_base");
 		ValidateBoolean(ref result, ref node.no_stop, "Object", "no_stop");
@@ -976,8 +976,56 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.image2_w, "Object", "image2_w");
 		ValidateNumber(ref result, ref node.image2_h, "Object", "image2_h");
 		ValidateNumber(ref result, ref node.image2_a, "Object", "image2_a");
-		// Ignore Unknown Object member
+		AddReference(ref result, ref node.member, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
 		ValidateBoolean(ref result, ref node.ground, "Object", "ground");
+	}
+
+	private static void SpecialTreatment_object_type(ref Result result, ref ObjectNode node, ref Pair_NullableString_NullableIntElement? value)
+	{
+		static void Validate(ref Result result, ref Pair_NullableString_NullableInt value)
+        {
+            var span = result.GetSpan(value.Text);
+			value.HasReference = true;
+			value.ReferenceKind = ReferenceKind.Special;
+            if (span.SequenceEqual("coll"))
+            {
+                value.ReferenceId = 0;
+            }
+            else if (span.SequenceEqual("wall"))
+            {
+                value.ReferenceId = 1;
+            }
+            else if (span.SequenceEqual("wall2"))
+            {
+                value.ReferenceId = 2;
+            }
+            else if (span.SequenceEqual("break"))
+            {
+                value.ReferenceId = 3;
+            }
+            else if (span.SequenceEqual("break2"))
+            {
+                value.ReferenceId = 4;
+            }
+            else if (span.SequenceEqual("gate"))
+            {
+                value.ReferenceId = 5;
+            }
+            else if (span.SequenceEqual("floor"))
+            {
+                value.ReferenceId = 6;
+            }
+            else
+            {
+                value.HasReference = false;
+                result.ErrorAdd_UnexpectedElementSpecialValue("Object", "type", "coll, wall, wall2, break, break2, gate, floor", value.Text);
+            }
+        }
+
+        if (value is { HasValue: true })
+        {
+            Validate(ref result, ref value.Value);
+        }
 	}
 
 	public static void AddReferenceAndValidate(ref Context context, ref Result result, AnalysisResult analysisResult, ref RaceNode node)
@@ -1462,7 +1510,9 @@ public static partial class PerResultValidator
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.h);
 		ValidateNumber(ref result, ref node.h, "Spot", "h");
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.big);
-		// Ignore Unknown Spot big
+		ValidateNumber(ref result, ref node.big, "Spot", "big");
+        Collect(ref result, ref analysisResult.ScenarioSet, ref node.color);
+		ValidateNumber(ref result, ref node.color, "Spot", "color");
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.map);
 		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.castle_battle);
@@ -2339,7 +2389,7 @@ public static partial class PerResultValidator
 		ValidateNumber(ref result, ref node.max_unit, "Scenario", "max_unit");
 		ValidateNumber(ref result, ref node.blind, "Scenario", "blind");
 		// Ignore Text Scenario name
-		AddReference(ref result, ref node.map, ref analysisResult.image_fileSet, ReferenceKind.image_file);
+		AddReference(ref result, ref node.map, ref analysisResult.imageSet, ReferenceKind.image);
 		// Ignore Text Scenario help
 		ValidateNumber(ref result, ref node.locate_x, "Scenario", "locate_x");
 		ValidateNumber(ref result, ref node.locate_y, "Scenario", "locate_y");
@@ -2445,17 +2495,15 @@ public static partial class PerResultValidator
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.h);
 		ValidateNumber(ref result, ref node.h, "Event", "h");
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.bg);
-		// Ignore Unknown Event bg
+		AddReference(ref result, ref node.bg, ref analysisResult.imageSet, ReferenceKind.image);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.bcg);
-		// Ignore Unknown Event bcg
+		AddReference(ref result, ref node.bcg, ref analysisResult.imageSet, ReferenceKind.image);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.bgm);
 		AddReference(ref result, ref node.bgm, ref analysisResult.bgmSet, ReferenceKind.bgm);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.map);
 		AddReference(ref result, ref node.map, ref analysisResult.mapSet, ReferenceKind.map);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.name);
 		// Ignore Text Event name
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.size);
-		// Ignore Unknown Event size
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.color);
 		ValidateNumber(ref result, ref node.color, "Event", "color");
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.block);

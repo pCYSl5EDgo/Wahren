@@ -334,9 +334,9 @@ public partial class Program
                 case 6:
                     foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
-                        for (uint i = 0, count = analysisResult.image_fileSet.Count; i != count; ++i)
+                        for (uint i = 0, count = analysisResult.imageSet.Count; i != count; ++i)
                         {
-                            hashSet.Add(new(analysisResult.image_fileSet[i]));
+                            hashSet.Add(new(analysisResult.imageSet[i]));
                         }
                     }
                     token.ThrowIfCancellationRequested();
@@ -347,11 +347,11 @@ public partial class Program
                         {
                             for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                             {
-                                if (!project.FileAnalysisList[i].image_fileSet.TryGet(name.AsSpan(), out var setId))
+                                if (!project.FileAnalysisList[i].imageSet.TryGet(name.AsSpan(), out var setId))
                                 {
                                     continue;
                                 }
-                                project.ErrorAdd_FileNotFound("image", name, ref project.Files[i], project.FileAnalysisList[i].image_fileSet.References[setId].AsSpan());
+                                project.ErrorAdd_FileNotFound("image", name, ref project.Files[i], project.FileAnalysisList[i].imageSet.References[setId].AsSpan());
                             }
                         }
                     }

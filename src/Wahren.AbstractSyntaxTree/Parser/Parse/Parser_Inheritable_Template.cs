@@ -3867,6 +3867,9 @@ public static partial class Parser
                         case 0x000000000213F9C8UL:
                             pair_Pair_NullableString_NullableIntElement = ref node.image.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
+                        case 0x00000000016A2BE4UL:
+                            pair_Pair_NullableString_NullableInt_ArrayElement = ref node.color.EnsureGet(variantSpan, ref result);
+                            goto RAY;
                         case 0x000000000266EDACUL:
                             pair_Pair_NullableString_NullableIntElement = ref node.limit.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
@@ -4006,6 +4009,29 @@ public static partial class Parser
 
             result.ErrorAdd_MultipleAssignment(currentIndex);
             if (Parse_Discard_MEMBER(ref context, ref result, currentIndex))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        RAY:
+            if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
+            {
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
+                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
+                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
+                {
+                   continue;
+                }
+
+                return false;
+            }
+
+            result.ErrorAdd_MultipleAssignment(currentIndex);
+            if (Parse_Discard_RAY(ref context, ref result, currentIndex))
             {
                 continue;
             }

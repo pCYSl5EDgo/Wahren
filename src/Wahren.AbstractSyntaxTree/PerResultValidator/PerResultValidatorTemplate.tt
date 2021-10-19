@@ -86,7 +86,7 @@ public static partial class PerResultValidator
 <#			case ReferenceKind.face						: #>
 <#			case ReferenceKind.sound					: #>
 <#			case ReferenceKind.picture					: #>
-<#			case ReferenceKind.image_file				: #>
+<#			case ReferenceKind.image     				: #>
 <#			case ReferenceKind.flag						: #>
 <#			case ReferenceKind.font						: #>
 		AddReference(ref result, ref node.<#= element.Name.Escape() #>, ref analysisResult.<#= element.ReferenceKind #>Set, ReferenceKind.<#= element.ReferenceKind #>);

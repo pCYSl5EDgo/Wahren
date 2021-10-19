@@ -832,9 +832,6 @@ public static partial class Parser
                         case 0x000000000011FF91UL:
                             pair_Pair_NullableString_NullableIntElement = ref node.name.EnsureGet(variantSpan, ref result);
                             goto DEFAULT;
-                        case 0x000000000016098BUL:
-                            pair_Pair_NullableString_NullableIntElement = ref node.size.EnsureGet(variantSpan, ref result);
-                            goto DEFAULT;
                     }
                     break;
                 case 5:
