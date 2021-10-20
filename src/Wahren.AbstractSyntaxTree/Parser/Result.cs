@@ -3,7 +3,7 @@
 using Node;
 using System;
 
-public struct Result : IDisposable
+public struct Result : IDisposable, ITokenIdModifiable
 {
     public DualList<char> Source = new();
     public TokenList TokenList = new();
@@ -69,6 +69,156 @@ public struct Result : IDisposable
         Source.Dispose();
         Success = false;
         FilePath = null;
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        foreach (ref var node in ScenarioNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in EventNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in StoryNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in MovetypeNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in FieldNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in ObjectNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in SkillNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in SkillsetNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in UnitNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in ClassNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in SpotNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in PowerNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in RaceNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in DungeonNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in VoiceNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in WorkspaceNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in DetailNodeList.AsSpan())
+        {
+            node.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+        AttributeNode?.DecrementToken(indexEqualToOrGreaterThan, count);
+        ContextNode?.DecrementToken(indexEqualToOrGreaterThan, count);
+        SoundNode?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        foreach (ref var node in ScenarioNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in EventNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in StoryNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in MovetypeNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in FieldNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in ObjectNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in SkillNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in SkillsetNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in UnitNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in ClassNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in SpotNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in PowerNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in RaceNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in DungeonNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in VoiceNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in WorkspaceNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        foreach (ref var node in DetailNodeList.AsSpan())
+        {
+            node.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+        AttributeNode?.IncrementToken(indexEqualToOrGreaterThan, count);
+        ContextNode?.IncrementToken(indexEqualToOrGreaterThan, count);
+        SoundNode?.IncrementToken(indexEqualToOrGreaterThan, count);
     }
 
     public void UnionLast2Tokens()

@@ -75,18 +75,31 @@ public struct TokenList : IDisposable
         count -= removeCount;
     }
 
-    public void InsertUndefinedRange(int index, int additiveCount)
+    public Span<TokenKind> InsertUndefinedRange(int index, int additiveCount, out Span<uint> line, out Span<uint> offset, out Span<uint> length, out Span<uint> precedingNewLineCount, out Span<uint> precedingWhitespaceCount, out Span<uint> other)
     {
         if (index == count)
         {
             PrepareAddRange(additiveCount);
+            var answer = arrayTokenKind.AsSpan(count, additiveCount);
+            line = arrayUInt32.AsSpan(count, additiveCount);
+            offset = arrayUInt32.AsSpan(eachLimit + count, additiveCount);
+            length = arrayUInt32.AsSpan(eachLimit * 2 + count, additiveCount);
+            precedingNewLineCount = arrayUInt32.AsSpan(eachLimit * 3 + count, additiveCount);
+            precedingWhitespaceCount = arrayUInt32.AsSpan(eachLimit * 4 + count, additiveCount);
+            other = arrayUInt32.AsSpan(eachLimit * 5 + count, additiveCount);
             count += additiveCount;
-            return;
+            return answer;
         }
 
         if (additiveCount <= 0)
         {
-            return;
+            line = Span<uint>.Empty;
+            offset = Span<uint>.Empty;
+            length = Span<uint>.Empty;
+            precedingNewLineCount = Span<uint>.Empty;
+            precedingWhitespaceCount = Span<uint>.Empty;
+            other = Span<uint>.Empty;
+            return Span<TokenKind>.Empty;
         }
 
         var rest = count - index;
@@ -132,6 +145,14 @@ public struct TokenList : IDisposable
         }
 
         count += additiveCount;
+        
+        line = arrayUInt32.AsSpan(index, additiveCount);
+        offset = arrayUInt32.AsSpan(eachLimit + index, additiveCount);
+        length = arrayUInt32.AsSpan(eachLimit * 2 + index, additiveCount);
+        precedingNewLineCount = arrayUInt32.AsSpan(eachLimit * 3 + index, additiveCount);
+        precedingWhitespaceCount = arrayUInt32.AsSpan(eachLimit * 4 + index, additiveCount);
+        other = arrayUInt32.AsSpan(eachLimit * 5 + index, additiveCount);
+        return arrayTokenKind.AsSpan(index, additiveCount);
     }
 
     public void PrepareAddRange(int additiveCount)

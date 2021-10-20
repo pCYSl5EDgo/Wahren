@@ -30,10 +30,4 @@ public static class PerFileModifier
             lineSpan[i]++;
         }
     }
-
-    public static void InsertDeletedToken(ref this Result result, int tokenIndex, int tokenCount)
-    {
-        result.TokenList.InsertUndefinedRange(tokenIndex, tokenCount);
-        throw new NotImplementedException();
-    }
 }
