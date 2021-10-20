@@ -19,11 +19,15 @@ public struct Pair_NullableString_NullableInt : ITokenIdModifiable
     [FieldOffset(16)]
     public ReferenceKind ReferenceKind;
     [FieldOffset(24)]
+    public uint NumberTokenId;
+    [FieldOffset(28)]
     public bool HasText;
-    [FieldOffset(25)]
+    [FieldOffset(29)]
     public bool HasNumber;
-    [FieldOffset(26)]
+    [FieldOffset(30)]
     public bool HasReference;
+    [FieldOffset(31)]
+    public bool HasNumberTokenId;
 
     public Pair_NullableString_NullableInt(uint tokenId) : this()
     {
@@ -37,6 +41,11 @@ public struct Pair_NullableString_NullableInt : ITokenIdModifiable
         {
             Text += count;
         }
+
+        if (HasNumberTokenId && NumberTokenId >= indexEqualToOrGreaterThan)
+        {
+            NumberTokenId += count;
+        }
     }
 
     public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
@@ -44,6 +53,11 @@ public struct Pair_NullableString_NullableInt : ITokenIdModifiable
         if (Text >= indexEqualToOrGreaterThan)
         {
             Text -= count;
+        }
+
+        if (HasNumberTokenId && NumberTokenId >= indexEqualToOrGreaterThan)
+        {
+            NumberTokenId -= count;
         }
     }
 }

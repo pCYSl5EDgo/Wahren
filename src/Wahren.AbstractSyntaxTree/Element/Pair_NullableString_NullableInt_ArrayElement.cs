@@ -28,8 +28,22 @@ public sealed class Pair_NullableString_NullableInt_ArrayElement : IElement<Arra
             ElementTokenId += count;
         }
 
-        foreach (ref var item in value.AsSpan())
+        var span = value.AsSpan();
+        if (span.IsEmpty)
         {
+            return;
+        }
+
+        span[0].IncrementToken(indexEqualToOrGreaterThan, count);
+        for (int i = 1; i < span.Length; i++)
+        {
+            ref var prev = ref span[i - 1];
+            ref var item = ref span[i];
+            if (prev.Text == item.Text)
+            {
+                continue;
+            }
+
             item.IncrementToken(indexEqualToOrGreaterThan, count);
         }
     }
@@ -41,8 +55,22 @@ public sealed class Pair_NullableString_NullableInt_ArrayElement : IElement<Arra
             ElementTokenId -= count;
         }
 
-        foreach (ref var item in value.AsSpan())
+        var span = value.AsSpan();
+        if (span.IsEmpty)
         {
+            return;
+        }
+
+        span[0].DecrementToken(indexEqualToOrGreaterThan, count);
+        for (int i = 1; i < span.Length; i++)
+        {
+            ref var prev = ref span[i - 1];
+            ref var item = ref span[i];
+            if (prev.Text == item.Text)
+            {
+                continue;
+            }
+
             item.DecrementToken(indexEqualToOrGreaterThan, count);
         }
     }

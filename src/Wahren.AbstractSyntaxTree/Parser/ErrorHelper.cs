@@ -26,6 +26,30 @@ public static class ErrorHelper
         result.ErrorList.Add(new(text, tokenList.GetLine(tokenId), tokenList.GetOffset(tokenId), tokenList.GetLength(tokenId), DiagnosticSeverity.Hint));
     }
 
+    public static void ErrorAdd_LineFeedIsNecessary(ref this Result result, uint tokenId)
+    {
+        string error;
+        var lineIndex = result.TokenList.GetLine(tokenId);
+        ref var line = ref result.Source[lineIndex];
+        if (!line.IsEmpty && char.IsWhiteSpace(line.Last))
+        {
+#if JAPANESE
+            error = $"行末に余分な空白が存在しています。{result.GetSpan(tokenId)}の直後に改行が必要です。";
+#else
+            error = $"Extra whitespace exists at the last of the line. Line feed is necessary immediately after '{result.GetSpan(tokenId)}'.";
+#endif
+        }
+        else
+        {
+#if JAPANESE
+            error = $"{result.GetSpan(tokenId)}の直後に改行が必要です。";
+#else
+            error = $"Line feed is necessary immediately after '{result.GetSpan(tokenId)}'.";
+#endif
+        }
+        result.ErrorAdd(error, tokenId);
+    }
+
     public static void ErrorAdd_MultipleAssignment(ref this Result result, uint tokenId)
     {
 #if JAPANESE
@@ -115,6 +139,16 @@ public static class ErrorHelper
         var error = $"'{span}' is invalid as identifier.";
 #endif
         result.WarningAdd(error, tokenId);
+    }
+
+    public static void ErrorAdd_NegativeRepeatCount(ref this Result result, uint numberTokenId, int repeatCount)
+    {
+#if JAPANESE
+        var error = $"繰り返し回数'*{repeatCount}'は0以上でなくてはなりません。";
+#else
+        var error = $"Repeat count({repeatCount}) should be greater than -1.";
+#endif
+        result.ErrorAdd(error, numberTokenId);
     }
 
     public static void ErrorAdd_LastAndLastBut1MustBeOneLine(ref this Result result)

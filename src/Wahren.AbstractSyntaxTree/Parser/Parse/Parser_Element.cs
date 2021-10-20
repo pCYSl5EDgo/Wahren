@@ -22,7 +22,7 @@ public static partial class Parser
         {
             if (!result.IsEndOfLine(tokenList.LastIndex))
             {
-                result.ErrorAdd("Line feed must be next to number value in this kind of element. Neither text nor comment are allowed.", tokenList.LastIndex);
+                result.ErrorAdd_LineFeedIsNecessary(tokenList.LastIndex);
                 return false;
             }
         }
@@ -60,10 +60,12 @@ public static partial class Parser
             }
 
             tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
-            element.Value.HasNumber = result.TryParse(tokenList.LastIndex, out element.Value.Number);
+            element.Value.HasNumberTokenId = true;
+            element.Value.NumberTokenId = tokenList.LastIndex;
+            element.Value.HasNumber = result.TryParse(element.Value.NumberTokenId, out element.Value.Number);
             if (!element.Value.HasNumber)
             {
-                result.ErrorAdd("Number text must follows '*'.", textIndex);
+                result.ErrorAdd_NumberIsExpected(textIndex);
             }
 
             if (result.IsEndOfLine(tokenList.LastIndex))
@@ -71,7 +73,7 @@ public static partial class Parser
                 break;
             }
 
-            result.ErrorAdd($"Line feed must be next to number value in this kind of element '{result.GetSpan(element.ElementTokenId)}'. Neither text nor comment are allowed.", textIndex);
+            result.ErrorAdd_LineFeedIsNecessary(textIndex);
             return false;
         }
 
@@ -194,7 +196,7 @@ public static partial class Parser
     /// struct: [ workspace, context ]
     /// element: [ member, merce, add2, next2, next3, just_next, monster, sound, item, castle_guard, item_sale, item_hold ]
     /// </summary>
-    private static bool Parse_Element_MEMBER(ref Context context, ref Result result, IElement<ArrayPoolList<Pair_NullableString_NullableInt>> element)
+    private static bool Parse_Element_MEMBER(ref Context context, ref Result result, Pair_NullableString_NullableInt_ArrayElement element)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.MEMBER;
@@ -225,7 +227,7 @@ public static partial class Parser
         element.HasValue = true;
         if (!AddValue_Pair_NullableString_NullableInt(element, ref result, ref tokenList))
         {
-            result.ErrorAdd($"Unexpected operator char {result.GetSpan(tokenList.LastIndex)} appears. Text is expected.", tokenList.LastIndex);
+            result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
             return false;
         }
 
@@ -257,7 +259,7 @@ public static partial class Parser
                     continue;
                 }
 
-                result.ErrorAdd($"Unexpected operator char {result.GetSpan(tokenList.LastIndex)} appears. Text is expected.", tokenList.LastIndex);
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                 return false;
             }
 
@@ -273,16 +275,19 @@ public static partial class Parser
                 return false;
             }
 
+            element.Value.Last.HasNumberTokenId = true;
+            element.Value.Last.NumberTokenId = tokenList.LastIndex;
             tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
             if (result.TryParse(tokenList.LastIndex, out int repeatCount))
             {
-                if (createWarning)
+
+                if (repeatCount < 0)
                 {
-                    if (repeatCount < 0)
-                    {
-                        result.WarningAdd($"Repeat count({repeatCount}) should be greater than -1.", tokenList.LastIndex);
-                    }
-                    else if (repeatCount == 0)
+                    result.ErrorAdd_NegativeRepeatCount(tokenList.LastIndex, repeatCount);
+                }
+                else if (createWarning)
+                {
+                    if (repeatCount == 0)
                     {
                         result.WarningAdd("Repeat count is 0. I recommend you not to write \"*0\".", tokenList.LastIndex);
                         element.Value.RemoveLast();
@@ -326,7 +331,7 @@ public static partial class Parser
 
             if (!AddValue_Pair_NullableString_NullableInt(element, ref result, ref tokenList))
             {
-                result.ErrorAdd($"Unexpected operator char {result.GetSpan(tokenList.LastIndex)} appears. Text is expected.", tokenList.LastIndex);
+                result.ErrorAdd_UnexpectedOperatorToken(tokenList.LastIndex);
                 return false;
             }
         } while (true);
@@ -382,6 +387,8 @@ public static partial class Parser
                     }
 
                     tokenList.GetKind(tokenList.LastIndex) = TokenKind.Content;
+                    element.Value.Last.HasNumberTokenId = true;
+                    element.Value.Last.NumberTokenId = tokenList.LastIndex;
                     if (!(element.Value.Last.HasNumber = result.TryParse(tokenList.LastIndex, out element.Value.Last.Number)))
                     {
                         result.ErrorAdd_NumberIsExpected(element.ElementTokenId);
