@@ -8,7 +8,7 @@ public enum ConditionStatementKind
     While
 }
 
-public sealed record class WhileStatement(uint TokenId, IReturnBooleanExpression Condition) : IConditionalStatement
+public sealed class WhileStatement : IConditionalStatement
 {
     private ArrayPoolList<IStatement> statements = new();
 
@@ -29,22 +29,112 @@ public sealed record class WhileStatement(uint TokenId, IReturnBooleanExpression
 
         Statements.Dispose();
     }
+
+    public WhileStatement(uint tokenId, IReturnBooleanExpression condition)
+    {
+        TokenId = tokenId;
+        Condition = condition;
+    }
+
+    public uint TokenId { get; set; }
+    public IReturnBooleanExpression Condition { get; set; }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+
+        foreach (ref var statement in statements.AsSpan())
+        {
+            statement.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+        Condition.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+
+        foreach (ref var statement in statements.AsSpan())
+        {
+            statement.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+        Condition.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
-public sealed record class BreakStatement(uint TokenId, WhileStatement? While) : IStatement
+public sealed class BreakStatement : IStatement
 {
     public string DisplayName => "break";
 
     public void Dispose()
     {
     }
+
+    public uint TokenId { get; set; }
+    
+    public WeakReference<WhileStatement>? While { get; set; }
+
+    public BreakStatement(uint tokenId, WhileStatement? @while)
+    {
+        TokenId = tokenId;
+        While = @while is null ? null : new(@while);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+    }
 }
 
-public sealed record class ContinueStatement(uint TokenId, WhileStatement? While) : IStatement
+public sealed class ContinueStatement : IStatement
 {
     public string DisplayName => "continue";
 
     public void Dispose()
     {
+    }
+
+    public uint TokenId { get; set; }
+    public WeakReference<WhileStatement>? While { get; set; }
+
+    public ContinueStatement(uint tokenId, WhileStatement? @while)
+    {
+        TokenId = tokenId;
+        While = @while is null ? null : new(@while);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
     }
 }

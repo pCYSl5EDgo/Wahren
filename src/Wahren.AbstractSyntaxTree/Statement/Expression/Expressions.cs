@@ -1,33 +1,126 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Statement.Expression;
 
-public sealed record class NumberExpression(uint TokenId, int Number) : IReturnNumberExpression
+public sealed class NumberExpression : IReturnNumberExpression
 {
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+
+    public uint TokenId { get; set; }
+    public int Number { get; set; }
+
+    public NumberExpression(uint tokenId, int number)
+    {
+        TokenId = tokenId;
+        Number = number;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+    }
 }
 
-public sealed record class StringExpression(uint TokenId) : IReturnStringExpression
+public sealed class StringExpression : IReturnStringExpression
 {
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+    public uint TokenId { get; set; }
+
+    public StringExpression(uint tokenId)
+    {
+        TokenId = tokenId;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+    }
 }
 
-public sealed record class StringVariableExpression(uint TokenId) : IReturnStringExpression
+public sealed class StringVariableExpression : IReturnStringExpression
 {
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
     public uint ReferenceId = uint.MaxValue;
+
+    public uint TokenId { get; set; }
+
+    public StringVariableExpression(uint tokenId)
+    {
+        TokenId = tokenId;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+    }
 }
 
-public sealed record class IdentifierExpression(uint TokenId) : ISingleTermExpression
+public sealed class IdentifierExpression : ISingleTermExpression
 {
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
     public uint ReferenceId = uint.MaxValue;
+
+    public uint TokenId { get; set; }
+
+    public IdentifierExpression(uint tokenId)
+    {
+        TokenId = tokenId;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+    }
 }
 
 public enum LogicOperator
@@ -36,7 +129,7 @@ public enum LogicOperator
     And,
 }
 
-public sealed record class LogicOperatorExpression(uint TokenId, LogicOperator Operator, IReturnBooleanExpression Left) : IReturnBooleanLogicalBooleanBinaryOperatorExpression
+public sealed class LogicOperatorExpression : IReturnBooleanLogicalBooleanBinaryOperatorExpression
 {
     private IReturnBooleanExpression? right = null;
 
@@ -55,6 +148,39 @@ public sealed record class LogicOperatorExpression(uint TokenId, LogicOperator O
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+
+    public uint TokenId { get; set; }
+    public LogicOperator Operator { get; set; }
+    public IReturnBooleanExpression Left { get; set; }
+
+    public LogicOperatorExpression(uint tokenId, LogicOperator @operator, IReturnBooleanExpression left)
+    {
+        TokenId = tokenId;
+        Operator = @operator;
+        Left = left;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+
+        Left.IncrementToken(indexEqualToOrGreaterThan, count);
+        right?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+
+        Left.DecrementToken(indexEqualToOrGreaterThan, count);
+        right?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public enum EqualityComparerOperator
@@ -63,7 +189,7 @@ public enum EqualityComparerOperator
     NotEqual
 }
 
-public sealed record class StringEqualityComparerExpression(uint TokenId, EqualityComparerOperator Operator, IReturnStringExpression Left)
+public sealed record class StringEqualityComparerExpression
     : IReturnBooleanExpression, IBinaryOperatorExpression<IReturnStringExpression>
 {
     private IReturnStringExpression? right;
@@ -81,6 +207,39 @@ public sealed record class StringEqualityComparerExpression(uint TokenId, Equali
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+
+    public uint TokenId { get; set; }
+    public EqualityComparerOperator Operator { get; set; }
+    public IReturnStringExpression Left { get; set; }
+
+    public StringEqualityComparerExpression(uint tokenId, EqualityComparerOperator @operator, IReturnStringExpression left)
+    {
+        TokenId = tokenId;
+        Operator = @operator;
+        Left = left;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+
+        Left.IncrementToken(indexEqualToOrGreaterThan, count);
+        right?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+
+        Left.DecrementToken(indexEqualToOrGreaterThan, count);
+        right?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public enum NumberComparerOperator
@@ -93,7 +252,7 @@ public enum NumberComparerOperator
     LessThanOrEqualTo,
 }
 
-public sealed record class NumberComparerExpression(uint TokenId, NumberComparerOperator Operator, IReturnNumberExpression Left)
+public sealed class NumberComparerExpression
     : IReturnBooleanCompareNumberBinaryOperatorExpression
 {
     private IReturnNumberExpression? right;
@@ -110,7 +269,41 @@ public sealed record class NumberComparerExpression(uint TokenId, NumberComparer
 
     private uint parenCount;
     public uint ParenCount => parenCount;
+
+    public uint TokenId { get; set; }
+    public NumberComparerOperator Operator { get; set; }
+    public IReturnNumberExpression Left { get; set; }
+
     public void IncrementParenCount() => parenCount++;
+
+    public NumberComparerExpression(uint tokenId, NumberComparerOperator @operator, IReturnNumberExpression left)
+    {
+        TokenId = tokenId;
+        Operator = @operator;
+        Left = left;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+
+        Left.IncrementToken(indexEqualToOrGreaterThan, count);
+        right?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+
+        Left.DecrementToken(indexEqualToOrGreaterThan, count);
+        right?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public enum NumberCalculatorOperator
@@ -122,7 +315,7 @@ public enum NumberCalculatorOperator
     Percent
 }
 
-public sealed record class NumberCalculatorOperatorExpression(uint TokenId, NumberCalculatorOperator Operator, IReturnNumberExpression Left)
+public sealed class NumberCalculatorOperatorExpression
     : IReturnNumberBinaryOperatorExpression
 {
     private IReturnNumberExpression? right;
@@ -141,10 +334,44 @@ public sealed record class NumberCalculatorOperatorExpression(uint TokenId, Numb
 
     private uint parenCount;
     public uint ParenCount => parenCount;
+
+    public uint TokenId { get; set; }
+    public NumberCalculatorOperator Operator { get; set; }
+    public IReturnNumberExpression Left { get; set; }
+
     public void IncrementParenCount() => parenCount++;
+
+    public NumberCalculatorOperatorExpression(uint tokenId, NumberCalculatorOperator @operator, IReturnNumberExpression left)
+    {
+        TokenId = tokenId;
+        Operator = @operator;
+        Left = left;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+
+        Left.IncrementToken(indexEqualToOrGreaterThan, count);
+        right?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+
+        Left.DecrementToken(indexEqualToOrGreaterThan, count);
+        right?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
-public sealed record class CallFunctionExpression(uint TokenId, FunctionKind Kind)
+public sealed class CallFunctionExpression
     : ISingleTermExpression
 {
     public ArrayPoolList<Argument> Arguments = new();
@@ -157,4 +384,39 @@ public sealed record class CallFunctionExpression(uint TokenId, FunctionKind Kin
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
+    
+    public uint TokenId { get; set; }
+    public FunctionKind Kind { get; set; }
+
+    public CallFunctionExpression(uint tokenId, FunctionKind kind)
+    {
+        TokenId = tokenId;
+        Kind = kind;
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+
+        foreach (ref var argument in Arguments.AsSpan())
+        {
+            argument.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+
+        foreach (ref var argument in Arguments.AsSpan())
+        {
+            argument.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
 }

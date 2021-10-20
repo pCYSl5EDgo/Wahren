@@ -107,6 +107,152 @@ public partial struct PowerNode : IInheritableNode
 		enable.Dispose();
 		training_up.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    castle_battle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    @event.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    help.IncrementToken(indexEqualToOrGreaterThan, count);
+	    master.IncrementToken(indexEqualToOrGreaterThan, count);
+	    flag.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.IncrementToken(indexEqualToOrGreaterThan, count);
+	    volume.IncrementToken(indexEqualToOrGreaterThan, count);
+	    diplomacy.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable_select.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable_talent.IncrementToken(indexEqualToOrGreaterThan, count);
+	    free_raise.IncrementToken(indexEqualToOrGreaterThan, count);
+	    money.IncrementToken(indexEqualToOrGreaterThan, count);
+	    home.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fix.IncrementToken(indexEqualToOrGreaterThan, count);
+	    diplo.IncrementToken(indexEqualToOrGreaterThan, count);
+	    league.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enemy_power.IncrementToken(indexEqualToOrGreaterThan, count);
+	    staff.IncrementToken(indexEqualToOrGreaterThan, count);
+	    merce.IncrementToken(indexEqualToOrGreaterThan, count);
+	    training_average.IncrementToken(indexEqualToOrGreaterThan, count);
+	    base_merits.IncrementToken(indexEqualToOrGreaterThan, count);
+	    merits.IncrementToken(indexEqualToOrGreaterThan, count);
+	    base_loyal.IncrementToken(indexEqualToOrGreaterThan, count);
+	    loyals.IncrementToken(indexEqualToOrGreaterThan, count);
+	    head.IncrementToken(indexEqualToOrGreaterThan, count);
+	    head2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    head3.IncrementToken(indexEqualToOrGreaterThan, count);
+	    head4.IncrementToken(indexEqualToOrGreaterThan, count);
+	    head5.IncrementToken(indexEqualToOrGreaterThan, count);
+	    head6.IncrementToken(indexEqualToOrGreaterThan, count);
+	    diff.IncrementToken(indexEqualToOrGreaterThan, count);
+	    yabo.IncrementToken(indexEqualToOrGreaterThan, count);
+	    kosen.IncrementToken(indexEqualToOrGreaterThan, count);
+	    text.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member.IncrementToken(indexEqualToOrGreaterThan, count);
+	    friend.IncrementToken(indexEqualToOrGreaterThan, count);
+	    master2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    master3.IncrementToken(indexEqualToOrGreaterThan, count);
+	    master4.IncrementToken(indexEqualToOrGreaterThan, count);
+	    master5.IncrementToken(indexEqualToOrGreaterThan, count);
+	    master6.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable.IncrementToken(indexEqualToOrGreaterThan, count);
+	    training_up.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    castle_battle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    @event.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    help.DecrementToken(indexEqualToOrGreaterThan, count);
+	    master.DecrementToken(indexEqualToOrGreaterThan, count);
+	    flag.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.DecrementToken(indexEqualToOrGreaterThan, count);
+	    volume.DecrementToken(indexEqualToOrGreaterThan, count);
+	    diplomacy.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable_select.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable_talent.DecrementToken(indexEqualToOrGreaterThan, count);
+	    free_raise.DecrementToken(indexEqualToOrGreaterThan, count);
+	    money.DecrementToken(indexEqualToOrGreaterThan, count);
+	    home.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fix.DecrementToken(indexEqualToOrGreaterThan, count);
+	    diplo.DecrementToken(indexEqualToOrGreaterThan, count);
+	    league.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enemy_power.DecrementToken(indexEqualToOrGreaterThan, count);
+	    staff.DecrementToken(indexEqualToOrGreaterThan, count);
+	    merce.DecrementToken(indexEqualToOrGreaterThan, count);
+	    training_average.DecrementToken(indexEqualToOrGreaterThan, count);
+	    base_merits.DecrementToken(indexEqualToOrGreaterThan, count);
+	    merits.DecrementToken(indexEqualToOrGreaterThan, count);
+	    base_loyal.DecrementToken(indexEqualToOrGreaterThan, count);
+	    loyals.DecrementToken(indexEqualToOrGreaterThan, count);
+	    head.DecrementToken(indexEqualToOrGreaterThan, count);
+	    head2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    head3.DecrementToken(indexEqualToOrGreaterThan, count);
+	    head4.DecrementToken(indexEqualToOrGreaterThan, count);
+	    head5.DecrementToken(indexEqualToOrGreaterThan, count);
+	    head6.DecrementToken(indexEqualToOrGreaterThan, count);
+	    diff.DecrementToken(indexEqualToOrGreaterThan, count);
+	    yabo.DecrementToken(indexEqualToOrGreaterThan, count);
+	    kosen.DecrementToken(indexEqualToOrGreaterThan, count);
+	    text.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member.DecrementToken(indexEqualToOrGreaterThan, count);
+	    friend.DecrementToken(indexEqualToOrGreaterThan, count);
+	    master2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    master3.DecrementToken(indexEqualToOrGreaterThan, count);
+	    master4.DecrementToken(indexEqualToOrGreaterThan, count);
+	    master5.DecrementToken(indexEqualToOrGreaterThan, count);
+	    master6.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable.DecrementToken(indexEqualToOrGreaterThan, count);
+	    training_up.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct ClassNode : IInheritableNode
@@ -404,6 +550,346 @@ public partial struct ClassNode : IInheritableNode
 		change.Dispose();
 		friend_ex.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    troop_sort.IncrementToken(indexEqualToOrGreaterThan, count);
+	    stealth.IncrementToken(indexEqualToOrGreaterThan, count);
+	    free_move.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    help.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sex.IncrementToken(indexEqualToOrGreaterThan, count);
+	    a.IncrementToken(indexEqualToOrGreaterThan, count);
+	    h.IncrementToken(indexEqualToOrGreaterThan, count);
+	    w.IncrementToken(indexEqualToOrGreaterThan, count);
+	    text.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image_even.IncrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu.IncrementToken(indexEqualToOrGreaterThan, count);
+	    radius.IncrementToken(indexEqualToOrGreaterThan, count);
+	    radius_press.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_escape.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_regular.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_knock.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_cover.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dead_event.IncrementToken(indexEqualToOrGreaterThan, count);
+	    beast_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    summon_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    summon_level.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    escape_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    escape_run.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hand_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    wake_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    view_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    cavalry_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    view_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_view_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_blind_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    satellite.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hasexp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    brave.IncrementToken(indexEqualToOrGreaterThan, count);
+	    level.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defense.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magic.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdef.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speed.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dext.IncrementToken(indexEqualToOrGreaterThan, count);
+	    move.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprec.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprec.IncrementToken(indexEqualToOrGreaterThan, count);
+	    heal_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defense_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magic_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdef_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speed_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dext_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    move_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprec_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprec_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    movetype.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hpUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mpUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attackUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defenseUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magicUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdefUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speedUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dextUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    moveUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprecUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprecUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hpMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mpMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attackMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defenseMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magicMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdefMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speedMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dextMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    moveMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprecMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprecMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    race.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_detail.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_menu.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_floor.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift_up.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_center.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_back.IncrementToken(indexEqualToOrGreaterThan, count);
+	    price.IncrementToken(indexEqualToOrGreaterThan, count);
+	    cost.IncrementToken(indexEqualToOrGreaterThan, count);
+	    finance.IncrementToken(indexEqualToOrGreaterThan, count);
+	    tkool.IncrementToken(indexEqualToOrGreaterThan, count);
+	    keep_form.IncrementToken(indexEqualToOrGreaterThan, count);
+	    breast_width.IncrementToken(indexEqualToOrGreaterThan, count);
+	    medical.IncrementToken(indexEqualToOrGreaterThan, count);
+	    active.IncrementToken(indexEqualToOrGreaterThan, count);
+	    activenum.IncrementToken(indexEqualToOrGreaterThan, count);
+	    handle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    red.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rank_text.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_training.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_voice.IncrementToken(indexEqualToOrGreaterThan, count);
+	    face.IncrementToken(indexEqualToOrGreaterThan, count);
+	    same_friend.IncrementToken(indexEqualToOrGreaterThan, count);
+	    same_call.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member.IncrementToken(indexEqualToOrGreaterThan, count);
+	    level_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp_mul.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    line.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image.IncrementToken(indexEqualToOrGreaterThan, count);
+	    politics.IncrementToken(indexEqualToOrGreaterThan, count);
+	    element_lost.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fkey.IncrementToken(indexEqualToOrGreaterThan, count);
+	    friend.IncrementToken(indexEqualToOrGreaterThan, count);
+	    merce.IncrementToken(indexEqualToOrGreaterThan, count);
+	    consti.IncrementToken(indexEqualToOrGreaterThan, count);
+	    multi.IncrementToken(indexEqualToOrGreaterThan, count);
+	    lost_corpse.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add_vassal.IncrementToken(indexEqualToOrGreaterThan, count);
+	    value.IncrementToken(indexEqualToOrGreaterThan, count);
+	    @break.IncrementToken(indexEqualToOrGreaterThan, count);
+	    scream.IncrementToken(indexEqualToOrGreaterThan, count);
+	    skill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    skill2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    learn.IncrementToken(indexEqualToOrGreaterThan, count);
+	    delskill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    delskill2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item.IncrementToken(indexEqualToOrGreaterThan, count);
+	    leader_skill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    assist_skill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    unique.IncrementToken(indexEqualToOrGreaterThan, count);
+	    same_sex.IncrementToken(indexEqualToOrGreaterThan, count);
+	    change.IncrementToken(indexEqualToOrGreaterThan, count);
+	    friend_ex.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    troop_sort.DecrementToken(indexEqualToOrGreaterThan, count);
+	    stealth.DecrementToken(indexEqualToOrGreaterThan, count);
+	    free_move.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    help.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sex.DecrementToken(indexEqualToOrGreaterThan, count);
+	    a.DecrementToken(indexEqualToOrGreaterThan, count);
+	    h.DecrementToken(indexEqualToOrGreaterThan, count);
+	    w.DecrementToken(indexEqualToOrGreaterThan, count);
+	    text.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image_even.DecrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu.DecrementToken(indexEqualToOrGreaterThan, count);
+	    radius.DecrementToken(indexEqualToOrGreaterThan, count);
+	    radius_press.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_escape.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_regular.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_knock.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_cover.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dead_event.DecrementToken(indexEqualToOrGreaterThan, count);
+	    beast_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    summon_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    summon_level.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    escape_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    escape_run.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hand_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    wake_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    view_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    cavalry_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    view_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_view_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_blind_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    satellite.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hasexp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    brave.DecrementToken(indexEqualToOrGreaterThan, count);
+	    level.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defense.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magic.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdef.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speed.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dext.DecrementToken(indexEqualToOrGreaterThan, count);
+	    move.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprec.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprec.DecrementToken(indexEqualToOrGreaterThan, count);
+	    heal_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defense_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magic_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdef_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speed_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dext_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    move_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprec_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprec_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    movetype.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hpUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mpUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attackUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defenseUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magicUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdefUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speedUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dextUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    moveUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprecUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprecUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hpMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mpMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attackMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defenseMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magicMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdefMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speedMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dextMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    moveMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprecMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprecMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    race.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_detail.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_menu.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_floor.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift_up.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_center.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_back.DecrementToken(indexEqualToOrGreaterThan, count);
+	    price.DecrementToken(indexEqualToOrGreaterThan, count);
+	    cost.DecrementToken(indexEqualToOrGreaterThan, count);
+	    finance.DecrementToken(indexEqualToOrGreaterThan, count);
+	    tkool.DecrementToken(indexEqualToOrGreaterThan, count);
+	    keep_form.DecrementToken(indexEqualToOrGreaterThan, count);
+	    breast_width.DecrementToken(indexEqualToOrGreaterThan, count);
+	    medical.DecrementToken(indexEqualToOrGreaterThan, count);
+	    active.DecrementToken(indexEqualToOrGreaterThan, count);
+	    activenum.DecrementToken(indexEqualToOrGreaterThan, count);
+	    handle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    red.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rank_text.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_training.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_voice.DecrementToken(indexEqualToOrGreaterThan, count);
+	    face.DecrementToken(indexEqualToOrGreaterThan, count);
+	    same_friend.DecrementToken(indexEqualToOrGreaterThan, count);
+	    same_call.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member.DecrementToken(indexEqualToOrGreaterThan, count);
+	    level_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp_mul.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    line.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image.DecrementToken(indexEqualToOrGreaterThan, count);
+	    politics.DecrementToken(indexEqualToOrGreaterThan, count);
+	    element_lost.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fkey.DecrementToken(indexEqualToOrGreaterThan, count);
+	    friend.DecrementToken(indexEqualToOrGreaterThan, count);
+	    merce.DecrementToken(indexEqualToOrGreaterThan, count);
+	    consti.DecrementToken(indexEqualToOrGreaterThan, count);
+	    multi.DecrementToken(indexEqualToOrGreaterThan, count);
+	    lost_corpse.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add_vassal.DecrementToken(indexEqualToOrGreaterThan, count);
+	    value.DecrementToken(indexEqualToOrGreaterThan, count);
+	    @break.DecrementToken(indexEqualToOrGreaterThan, count);
+	    scream.DecrementToken(indexEqualToOrGreaterThan, count);
+	    skill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    skill2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    learn.DecrementToken(indexEqualToOrGreaterThan, count);
+	    delskill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    delskill2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item.DecrementToken(indexEqualToOrGreaterThan, count);
+	    leader_skill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    assist_skill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    unique.DecrementToken(indexEqualToOrGreaterThan, count);
+	    same_sex.DecrementToken(indexEqualToOrGreaterThan, count);
+	    change.DecrementToken(indexEqualToOrGreaterThan, count);
+	    friend_ex.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct DungeonNode : IInheritableNode
@@ -471,6 +957,116 @@ public partial struct DungeonNode : IInheritableNode
 		home.Dispose();
 		ray.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    move_speed.IncrementToken(indexEqualToOrGreaterThan, count);
+	    prefix.IncrementToken(indexEqualToOrGreaterThan, count);
+	    suffix.IncrementToken(indexEqualToOrGreaterThan, count);
+	    lv_adjust.IncrementToken(indexEqualToOrGreaterThan, count);
+	    open.IncrementToken(indexEqualToOrGreaterThan, count);
+	    limit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.IncrementToken(indexEqualToOrGreaterThan, count);
+	    volume.IncrementToken(indexEqualToOrGreaterThan, count);
+	    blind.IncrementToken(indexEqualToOrGreaterThan, count);
+	    base_level.IncrementToken(indexEqualToOrGreaterThan, count);
+	    color.IncrementToken(indexEqualToOrGreaterThan, count);
+	    map.IncrementToken(indexEqualToOrGreaterThan, count);
+	    floor.IncrementToken(indexEqualToOrGreaterThan, count);
+	    wall.IncrementToken(indexEqualToOrGreaterThan, count);
+	    start.IncrementToken(indexEqualToOrGreaterThan, count);
+	    goal.IncrementToken(indexEqualToOrGreaterThan, count);
+	    monster.IncrementToken(indexEqualToOrGreaterThan, count);
+	    monster_num.IncrementToken(indexEqualToOrGreaterThan, count);
+	    box.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_num.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_text.IncrementToken(indexEqualToOrGreaterThan, count);
+	    home.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ray.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    move_speed.DecrementToken(indexEqualToOrGreaterThan, count);
+	    prefix.DecrementToken(indexEqualToOrGreaterThan, count);
+	    suffix.DecrementToken(indexEqualToOrGreaterThan, count);
+	    lv_adjust.DecrementToken(indexEqualToOrGreaterThan, count);
+	    open.DecrementToken(indexEqualToOrGreaterThan, count);
+	    limit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.DecrementToken(indexEqualToOrGreaterThan, count);
+	    volume.DecrementToken(indexEqualToOrGreaterThan, count);
+	    blind.DecrementToken(indexEqualToOrGreaterThan, count);
+	    base_level.DecrementToken(indexEqualToOrGreaterThan, count);
+	    color.DecrementToken(indexEqualToOrGreaterThan, count);
+	    map.DecrementToken(indexEqualToOrGreaterThan, count);
+	    floor.DecrementToken(indexEqualToOrGreaterThan, count);
+	    wall.DecrementToken(indexEqualToOrGreaterThan, count);
+	    start.DecrementToken(indexEqualToOrGreaterThan, count);
+	    goal.DecrementToken(indexEqualToOrGreaterThan, count);
+	    monster.DecrementToken(indexEqualToOrGreaterThan, count);
+	    monster_num.DecrementToken(indexEqualToOrGreaterThan, count);
+	    box.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_num.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_text.DecrementToken(indexEqualToOrGreaterThan, count);
+	    home.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ray.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct FieldNode : IInheritableNode
@@ -514,6 +1110,88 @@ public partial struct FieldNode : IInheritableNode
 		alt_max = default;
 		smooth = default;
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    type?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attr?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    color?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    id?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    edge?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    joint?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    alt?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    alt_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    smooth?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    type?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attr?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    color?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    id?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    edge?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    joint?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    alt?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    alt_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    smooth?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct MovetypeNode : IInheritableNode
@@ -536,6 +1214,70 @@ public partial struct MovetypeNode : IInheritableNode
 		consti?.Dispose();
 		consti = default;
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    name?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    help?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    consti?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    name?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    help?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    consti?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct ObjectNode : IInheritableNode
@@ -602,6 +1344,112 @@ public partial struct ObjectNode : IInheritableNode
 		member = default;
 		ground = default;
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    skill?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    front?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    width?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    height?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    alpha?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    type?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    breakfire?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    color?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    land_base?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_stop?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_wall2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_arc_hit?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    radius?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    blk?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    w?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    h?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    a?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image2_w?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image2_h?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image2_a?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ground?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    skill?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    front?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    width?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    height?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    alpha?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    type?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    breakfire?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    color?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    land_base?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_stop?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_wall2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_arc_hit?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    radius?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    blk?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    w?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    h?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    a?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image2_w?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image2_h?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image2_a?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ground?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct RaceNode : IInheritableNode
@@ -627,6 +1475,74 @@ public partial struct RaceNode : IInheritableNode
 		consti.Dispose();
 		movetype.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    align.IncrementToken(indexEqualToOrGreaterThan, count);
+	    brave.IncrementToken(indexEqualToOrGreaterThan, count);
+	    consti.IncrementToken(indexEqualToOrGreaterThan, count);
+	    movetype.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    align.DecrementToken(indexEqualToOrGreaterThan, count);
+	    brave.DecrementToken(indexEqualToOrGreaterThan, count);
+	    consti.DecrementToken(indexEqualToOrGreaterThan, count);
+	    movetype.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct SkillNode : IInheritableNode
@@ -953,6 +1869,360 @@ public partial struct SkillNode : IInheritableNode
 		friend = default;
 		summon_level = default;
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    bright?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    func?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    icon?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fkey?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    special?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    delay?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    gun_delay?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    quickreload?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    help?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hide_help?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sound?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    msg.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture.IncrementToken(indexEqualToOrGreaterThan, count);
+	    cutin?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    value?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    talent?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp_per?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    movetype?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    type?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    color?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    w?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    h?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    a?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mp?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    alpha_tip?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    alpha_butt?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    anime?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    anime_interval?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    center?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ground?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    d360?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    d360_adj?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rotate?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    direct?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_interval?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_reverse?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s_start?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s_max?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_fire?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    slow_per?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    slow_time?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    slide?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    slide_speed?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    slide_delay?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    slide_stamp?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    wait_time?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    wait_time2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    shake?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ray?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_ray?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    flash?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    flash_anime?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    flash_image?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    collision?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    afterdeath?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    afterhit?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    str?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    str_ratio?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attr?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add_all?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add_per?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    damage?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    damage_range_adjust?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack_us?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    allfunc?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bom?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    homing?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    homing2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    forward?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    far?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hard?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hard2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    onehit?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    offset?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    offset_attr?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    knock?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    knock_speed?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    knock_power?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    range?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    range_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    check?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speed?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    wave?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    origin?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    random_space?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    random_space_min?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    time?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    height?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rush?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rush_interval?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rush_degree?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rush_random_degree?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    follow?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree_fix?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree_turnunit?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree_type?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    start_random_degree?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    drop_degree?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    drop_degree2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    joint_skill?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    send_target?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    send_image_degree?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next3?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next4?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next_order?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next_last?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next_first?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    next_interval?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    just_next?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    pair_next?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_type?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_sort?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_nosell?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    price?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    friend?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    summon_level?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    bright?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    func?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    icon?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fkey?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    special?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    delay?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    gun_delay?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    quickreload?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    help?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hide_help?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sound?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    msg.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture.DecrementToken(indexEqualToOrGreaterThan, count);
+	    cutin?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    value?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    talent?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp_per?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    movetype?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    type?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    color?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    w?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    h?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    a?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mp?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    alpha_tip?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    alpha_butt?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    anime?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    anime_interval?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    center?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ground?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    d360?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    d360_adj?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rotate?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    direct?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_interval?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_reverse?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_w_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_h?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_x_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_y?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s_start?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s_max?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_a_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    resize_s_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_fire?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    slow_per?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    slow_time?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    slide?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    slide_speed?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    slide_delay?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    slide_stamp?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    wait_time?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    wait_time2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    shake?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ray?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_ray?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    flash?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    flash_anime?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    flash_image?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    collision?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    afterdeath?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    afterhit?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    str?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    str_ratio?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attr?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add_all?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add_per?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    damage?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    damage_range_adjust?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack_us?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    allfunc?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bom?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    homing?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    homing2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    forward?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    far?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hard?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hard2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    onehit?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    offset?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    offset_attr?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    knock?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    knock_speed?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    knock_power?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    range?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    range_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    check?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speed?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    wave?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    origin?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    random_space?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    random_space_min?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    time?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    height?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rush?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rush_interval?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rush_degree?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rush_random_degree?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    follow?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree_fix?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree_turnunit?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    start_degree_type?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    start_random_degree?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    drop_degree?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    drop_degree2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    joint_skill?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    send_target?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    send_image_degree?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next3?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next4?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next_order?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next_last?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next_first?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    next_interval?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    just_next?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    pair_next?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_type?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_sort?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_nosell?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    price?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    friend?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    summon_level?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct SkillsetNode : IInheritableNode
@@ -975,6 +2245,70 @@ public partial struct SkillsetNode : IInheritableNode
 		member?.Dispose();
 		member = default;
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    name?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    back?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    name?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    back?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct SpotNode : IInheritableNode
@@ -1044,6 +2378,118 @@ public partial struct SpotNode : IInheritableNode
 		castle_lot.Dispose();
 		text.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    value.IncrementToken(indexEqualToOrGreaterThan, count);
+	    politics.IncrementToken(indexEqualToOrGreaterThan, count);
+	    merce.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image.IncrementToken(indexEqualToOrGreaterThan, count);
+	    x.IncrementToken(indexEqualToOrGreaterThan, count);
+	    y.IncrementToken(indexEqualToOrGreaterThan, count);
+	    w.IncrementToken(indexEqualToOrGreaterThan, count);
+	    h.IncrementToken(indexEqualToOrGreaterThan, count);
+	    big.IncrementToken(indexEqualToOrGreaterThan, count);
+	    color.IncrementToken(indexEqualToOrGreaterThan, count);
+	    map.IncrementToken(indexEqualToOrGreaterThan, count);
+	    castle_battle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu.IncrementToken(indexEqualToOrGreaterThan, count);
+	    limit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.IncrementToken(indexEqualToOrGreaterThan, count);
+	    volume.IncrementToken(indexEqualToOrGreaterThan, count);
+	    gain.IncrementToken(indexEqualToOrGreaterThan, count);
+	    castle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    capacity.IncrementToken(indexEqualToOrGreaterThan, count);
+	    monster.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dungeon.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_home.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_raise.IncrementToken(indexEqualToOrGreaterThan, count);
+	    castle_lot.IncrementToken(indexEqualToOrGreaterThan, count);
+	    text.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    value.DecrementToken(indexEqualToOrGreaterThan, count);
+	    politics.DecrementToken(indexEqualToOrGreaterThan, count);
+	    merce.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image.DecrementToken(indexEqualToOrGreaterThan, count);
+	    x.DecrementToken(indexEqualToOrGreaterThan, count);
+	    y.DecrementToken(indexEqualToOrGreaterThan, count);
+	    w.DecrementToken(indexEqualToOrGreaterThan, count);
+	    h.DecrementToken(indexEqualToOrGreaterThan, count);
+	    big.DecrementToken(indexEqualToOrGreaterThan, count);
+	    color.DecrementToken(indexEqualToOrGreaterThan, count);
+	    map.DecrementToken(indexEqualToOrGreaterThan, count);
+	    castle_battle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu.DecrementToken(indexEqualToOrGreaterThan, count);
+	    limit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.DecrementToken(indexEqualToOrGreaterThan, count);
+	    volume.DecrementToken(indexEqualToOrGreaterThan, count);
+	    gain.DecrementToken(indexEqualToOrGreaterThan, count);
+	    castle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    capacity.DecrementToken(indexEqualToOrGreaterThan, count);
+	    monster.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dungeon.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_home.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_raise.DecrementToken(indexEqualToOrGreaterThan, count);
+	    castle_lot.DecrementToken(indexEqualToOrGreaterThan, count);
+	    text.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct UnitNode : IInheritableNode
@@ -1389,6 +2835,394 @@ public partial struct UnitNode : IInheritableNode
 		retreat.Dispose();
 		voice_type.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    troop_sort.IncrementToken(indexEqualToOrGreaterThan, count);
+	    stealth.IncrementToken(indexEqualToOrGreaterThan, count);
+	    free_move.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    help.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sex.IncrementToken(indexEqualToOrGreaterThan, count);
+	    a.IncrementToken(indexEqualToOrGreaterThan, count);
+	    h.IncrementToken(indexEqualToOrGreaterThan, count);
+	    w.IncrementToken(indexEqualToOrGreaterThan, count);
+	    text.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image_even.IncrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu.IncrementToken(indexEqualToOrGreaterThan, count);
+	    radius.IncrementToken(indexEqualToOrGreaterThan, count);
+	    radius_press.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_escape.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_regular.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_knock.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_cover.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dead_event.IncrementToken(indexEqualToOrGreaterThan, count);
+	    beast_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    summon_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    summon_level.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    escape_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    escape_run.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hand_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    wake_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    view_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    cavalry_range.IncrementToken(indexEqualToOrGreaterThan, count);
+	    view_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_view_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_blind_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    satellite.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hasexp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    brave.IncrementToken(indexEqualToOrGreaterThan, count);
+	    level.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defense.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magic.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdef.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speed.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dext.IncrementToken(indexEqualToOrGreaterThan, count);
+	    move.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprec.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprec.IncrementToken(indexEqualToOrGreaterThan, count);
+	    heal_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attack_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defense_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magic_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdef_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speed_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dext_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    move_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprec_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprec_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    movetype.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hpUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mpUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attackUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defenseUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magicUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdefUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speedUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dextUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    moveUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprecUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprecUp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hpMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mpMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    attackMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    defenseMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magicMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    magdefMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    speedMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dextMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    moveMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    hprecMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    mprecMax.IncrementToken(indexEqualToOrGreaterThan, count);
+	    race.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_detail.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_menu.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_floor.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift_up.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_center.IncrementToken(indexEqualToOrGreaterThan, count);
+	    picture_back.IncrementToken(indexEqualToOrGreaterThan, count);
+	    price.IncrementToken(indexEqualToOrGreaterThan, count);
+	    cost.IncrementToken(indexEqualToOrGreaterThan, count);
+	    finance.IncrementToken(indexEqualToOrGreaterThan, count);
+	    tkool.IncrementToken(indexEqualToOrGreaterThan, count);
+	    keep_form.IncrementToken(indexEqualToOrGreaterThan, count);
+	    breast_width.IncrementToken(indexEqualToOrGreaterThan, count);
+	    medical.IncrementToken(indexEqualToOrGreaterThan, count);
+	    active.IncrementToken(indexEqualToOrGreaterThan, count);
+	    activenum.IncrementToken(indexEqualToOrGreaterThan, count);
+	    handle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    red.IncrementToken(indexEqualToOrGreaterThan, count);
+	    rank_text.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_training.IncrementToken(indexEqualToOrGreaterThan, count);
+	    force_voice.IncrementToken(indexEqualToOrGreaterThan, count);
+	    face.IncrementToken(indexEqualToOrGreaterThan, count);
+	    same_friend.IncrementToken(indexEqualToOrGreaterThan, count);
+	    same_call.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member.IncrementToken(indexEqualToOrGreaterThan, count);
+	    level_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp_mul.IncrementToken(indexEqualToOrGreaterThan, count);
+	    exp_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    line.IncrementToken(indexEqualToOrGreaterThan, count);
+	    image.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image.IncrementToken(indexEqualToOrGreaterThan, count);
+	    politics.IncrementToken(indexEqualToOrGreaterThan, count);
+	    element_lost.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fkey.IncrementToken(indexEqualToOrGreaterThan, count);
+	    friend.IncrementToken(indexEqualToOrGreaterThan, count);
+	    merce.IncrementToken(indexEqualToOrGreaterThan, count);
+	    consti.IncrementToken(indexEqualToOrGreaterThan, count);
+	    multi.IncrementToken(indexEqualToOrGreaterThan, count);
+	    lost_corpse.IncrementToken(indexEqualToOrGreaterThan, count);
+	    add_vassal.IncrementToken(indexEqualToOrGreaterThan, count);
+	    value.IncrementToken(indexEqualToOrGreaterThan, count);
+	    @break.IncrementToken(indexEqualToOrGreaterThan, count);
+	    scream.IncrementToken(indexEqualToOrGreaterThan, count);
+	    skill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    skill2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    learn.IncrementToken(indexEqualToOrGreaterThan, count);
+	    delskill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    delskill2.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item.IncrementToken(indexEqualToOrGreaterThan, count);
+	    leader_skill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    assist_skill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    talent.IncrementToken(indexEqualToOrGreaterThan, count);
+	    @class.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.IncrementToken(indexEqualToOrGreaterThan, count);
+	    volume.IncrementToken(indexEqualToOrGreaterThan, count);
+	    alive_per.IncrementToken(indexEqualToOrGreaterThan, count);
+	    yabo.IncrementToken(indexEqualToOrGreaterThan, count);
+	    kosen.IncrementToken(indexEqualToOrGreaterThan, count);
+	    align.IncrementToken(indexEqualToOrGreaterThan, count);
+	    loyal.IncrementToken(indexEqualToOrGreaterThan, count);
+	    power_name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enemy.IncrementToken(indexEqualToOrGreaterThan, count);
+	    flag.IncrementToken(indexEqualToOrGreaterThan, count);
+	    staff.IncrementToken(indexEqualToOrGreaterThan, count);
+	    diplomacy.IncrementToken(indexEqualToOrGreaterThan, count);
+	    castle_guard.IncrementToken(indexEqualToOrGreaterThan, count);
+	    actor.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable_select.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable_max.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fix.IncrementToken(indexEqualToOrGreaterThan, count);
+	    home.IncrementToken(indexEqualToOrGreaterThan, count);
+	    noremove_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    noemploy_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    noitem_unit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    arbeit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    arbeit_capacity.IncrementToken(indexEqualToOrGreaterThan, count);
+	    join.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dead.IncrementToken(indexEqualToOrGreaterThan, count);
+	    retreat.IncrementToken(indexEqualToOrGreaterThan, count);
+	    voice_type.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    troop_sort.DecrementToken(indexEqualToOrGreaterThan, count);
+	    stealth.DecrementToken(indexEqualToOrGreaterThan, count);
+	    free_move.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    help.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sex.DecrementToken(indexEqualToOrGreaterThan, count);
+	    a.DecrementToken(indexEqualToOrGreaterThan, count);
+	    h.DecrementToken(indexEqualToOrGreaterThan, count);
+	    w.DecrementToken(indexEqualToOrGreaterThan, count);
+	    text.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image_even.DecrementToken(indexEqualToOrGreaterThan, count);
+	    yorozu.DecrementToken(indexEqualToOrGreaterThan, count);
+	    radius.DecrementToken(indexEqualToOrGreaterThan, count);
+	    radius_press.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_escape.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_regular.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_knock.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_cover.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dead_event.DecrementToken(indexEqualToOrGreaterThan, count);
+	    beast_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    summon_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    summon_level.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    escape_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    escape_run.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hand_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    wake_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    view_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    cavalry_range.DecrementToken(indexEqualToOrGreaterThan, count);
+	    view_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_view_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_blind_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    satellite.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hasexp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    brave.DecrementToken(indexEqualToOrGreaterThan, count);
+	    level.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defense.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magic.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdef.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speed.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dext.DecrementToken(indexEqualToOrGreaterThan, count);
+	    move.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprec.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprec.DecrementToken(indexEqualToOrGreaterThan, count);
+	    heal_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attack_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defense_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magic_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdef_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speed_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dext_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    move_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprec_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprec_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    movetype.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hpUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mpUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attackUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defenseUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magicUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdefUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speedUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dextUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    moveUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprecUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprecUp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hpMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mpMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    attackMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    defenseMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magicMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    magdefMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    speedMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dextMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    moveMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    hprecMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    mprecMax.DecrementToken(indexEqualToOrGreaterThan, count);
+	    race.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_detail.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_menu.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_floor.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_shift_up.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_center.DecrementToken(indexEqualToOrGreaterThan, count);
+	    picture_back.DecrementToken(indexEqualToOrGreaterThan, count);
+	    price.DecrementToken(indexEqualToOrGreaterThan, count);
+	    cost.DecrementToken(indexEqualToOrGreaterThan, count);
+	    finance.DecrementToken(indexEqualToOrGreaterThan, count);
+	    tkool.DecrementToken(indexEqualToOrGreaterThan, count);
+	    keep_form.DecrementToken(indexEqualToOrGreaterThan, count);
+	    breast_width.DecrementToken(indexEqualToOrGreaterThan, count);
+	    medical.DecrementToken(indexEqualToOrGreaterThan, count);
+	    active.DecrementToken(indexEqualToOrGreaterThan, count);
+	    activenum.DecrementToken(indexEqualToOrGreaterThan, count);
+	    handle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    red.DecrementToken(indexEqualToOrGreaterThan, count);
+	    rank_text.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_training.DecrementToken(indexEqualToOrGreaterThan, count);
+	    force_voice.DecrementToken(indexEqualToOrGreaterThan, count);
+	    face.DecrementToken(indexEqualToOrGreaterThan, count);
+	    same_friend.DecrementToken(indexEqualToOrGreaterThan, count);
+	    same_call.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member.DecrementToken(indexEqualToOrGreaterThan, count);
+	    level_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp_mul.DecrementToken(indexEqualToOrGreaterThan, count);
+	    exp_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    line.DecrementToken(indexEqualToOrGreaterThan, count);
+	    image.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sub_image.DecrementToken(indexEqualToOrGreaterThan, count);
+	    politics.DecrementToken(indexEqualToOrGreaterThan, count);
+	    element_lost.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fkey.DecrementToken(indexEqualToOrGreaterThan, count);
+	    friend.DecrementToken(indexEqualToOrGreaterThan, count);
+	    merce.DecrementToken(indexEqualToOrGreaterThan, count);
+	    consti.DecrementToken(indexEqualToOrGreaterThan, count);
+	    multi.DecrementToken(indexEqualToOrGreaterThan, count);
+	    lost_corpse.DecrementToken(indexEqualToOrGreaterThan, count);
+	    add_vassal.DecrementToken(indexEqualToOrGreaterThan, count);
+	    value.DecrementToken(indexEqualToOrGreaterThan, count);
+	    @break.DecrementToken(indexEqualToOrGreaterThan, count);
+	    scream.DecrementToken(indexEqualToOrGreaterThan, count);
+	    skill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    skill2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    learn.DecrementToken(indexEqualToOrGreaterThan, count);
+	    delskill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    delskill2.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item.DecrementToken(indexEqualToOrGreaterThan, count);
+	    leader_skill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    assist_skill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    talent.DecrementToken(indexEqualToOrGreaterThan, count);
+	    @class.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.DecrementToken(indexEqualToOrGreaterThan, count);
+	    volume.DecrementToken(indexEqualToOrGreaterThan, count);
+	    alive_per.DecrementToken(indexEqualToOrGreaterThan, count);
+	    yabo.DecrementToken(indexEqualToOrGreaterThan, count);
+	    kosen.DecrementToken(indexEqualToOrGreaterThan, count);
+	    align.DecrementToken(indexEqualToOrGreaterThan, count);
+	    loyal.DecrementToken(indexEqualToOrGreaterThan, count);
+	    power_name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enemy.DecrementToken(indexEqualToOrGreaterThan, count);
+	    flag.DecrementToken(indexEqualToOrGreaterThan, count);
+	    staff.DecrementToken(indexEqualToOrGreaterThan, count);
+	    diplomacy.DecrementToken(indexEqualToOrGreaterThan, count);
+	    castle_guard.DecrementToken(indexEqualToOrGreaterThan, count);
+	    actor.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable_select.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable_max.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fix.DecrementToken(indexEqualToOrGreaterThan, count);
+	    home.DecrementToken(indexEqualToOrGreaterThan, count);
+	    noremove_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    noemploy_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    noitem_unit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    arbeit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    arbeit_capacity.DecrementToken(indexEqualToOrGreaterThan, count);
+	    join.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dead.DecrementToken(indexEqualToOrGreaterThan, count);
+	    retreat.DecrementToken(indexEqualToOrGreaterThan, count);
+	    voice_type.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct VoiceNode : IInheritableNode
@@ -1414,6 +3248,74 @@ public partial struct VoiceNode : IInheritableNode
 		roam.Dispose();
 		power.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+	    voice_type.IncrementToken(indexEqualToOrGreaterThan, count);
+	    delskill.IncrementToken(indexEqualToOrGreaterThan, count);
+	    spot.IncrementToken(indexEqualToOrGreaterThan, count);
+	    roam.IncrementToken(indexEqualToOrGreaterThan, count);
+	    power.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+	    voice_type.DecrementToken(indexEqualToOrGreaterThan, count);
+	    delskill.DecrementToken(indexEqualToOrGreaterThan, count);
+	    spot.DecrementToken(indexEqualToOrGreaterThan, count);
+	    roam.DecrementToken(indexEqualToOrGreaterThan, count);
+	    power.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct ScenarioNode : IInheritableNode
@@ -1557,6 +3459,190 @@ public partial struct ScenarioNode : IInheritableNode
 		offset?.Dispose();
 		offset = default;
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+        foreach (ref var statement in Statements.AsSpan())
+        {
+            statement.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+	    ws_red?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ws_blue?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ws_green?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ws_alpha?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ws_light?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    ws_light_range?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    discus?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    save_name?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable_select?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    max_unit?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    blind?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    map?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    help?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    locate_x?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    locate_y?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    begin_text?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    world?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fight?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    politics?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    war_capacity?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    spot_capacity?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    gain_per?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    support_range?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    my_range?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    myhelp_range?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    base_level?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    monster_level?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    training_up?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    actor_per?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    default_ending?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    power_order?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    enable_talent?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    party?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    no_autosave?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    zone?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    nozone?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item0?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item1?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item2?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item3?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item4?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item5?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item6?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_limit?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    poli?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    camp?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    multi?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_sale?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    item_hold?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    text?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    roam?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    spot?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    power?.IncrementToken(indexEqualToOrGreaterThan, count);
+	    offset?.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+        foreach (ref var statement in Statements.AsSpan())
+        {
+            statement.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+	    ws_red?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ws_blue?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ws_green?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ws_alpha?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ws_light?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    ws_light_range?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    discus?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    save_name?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable_select?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    max_unit?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    blind?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    map?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    help?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    locate_x?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    locate_y?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    begin_text?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    world?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fight?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    politics?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    war_capacity?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    spot_capacity?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    gain_per?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    support_range?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    my_range?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    myhelp_range?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    base_level?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    monster_level?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    training_up?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    actor_per?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    sortkey?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    default_ending?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    power_order?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    enable_talent?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    party?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    no_autosave?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    zone?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    nozone?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item0?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item1?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item2?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item3?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item4?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item5?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item6?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_limit?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    poli?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    camp?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    multi?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_sale?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    item_hold?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    text?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    roam?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    spot?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    power?.DecrementToken(indexEqualToOrGreaterThan, count);
+	    offset?.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct EventNode : IInheritableNode
@@ -1631,6 +3717,130 @@ public partial struct EventNode : IInheritableNode
 		dark_fade_e.Dispose();
 		last_second.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+        foreach (ref var statement in Statements.AsSpan())
+        {
+            statement.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+	    disperse.IncrementToken(indexEqualToOrGreaterThan, count);
+	    castle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    castle_battle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    personal_battle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    blind.IncrementToken(indexEqualToOrGreaterThan, count);
+	    w.IncrementToken(indexEqualToOrGreaterThan, count);
+	    h.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bg.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bcg.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.IncrementToken(indexEqualToOrGreaterThan, count);
+	    map.IncrementToken(indexEqualToOrGreaterThan, count);
+	    name.IncrementToken(indexEqualToOrGreaterThan, count);
+	    color.IncrementToken(indexEqualToOrGreaterThan, count);
+	    block.IncrementToken(indexEqualToOrGreaterThan, count);
+	    limit.IncrementToken(indexEqualToOrGreaterThan, count);
+	    title.IncrementToken(indexEqualToOrGreaterThan, count);
+	    center.IncrementToken(indexEqualToOrGreaterThan, count);
+	    italic.IncrementToken(indexEqualToOrGreaterThan, count);
+	    handle.IncrementToken(indexEqualToOrGreaterThan, count);
+	    member.IncrementToken(indexEqualToOrGreaterThan, count);
+	    second.IncrementToken(indexEqualToOrGreaterThan, count);
+	    volume.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bg_fade.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dark_fade.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dark_alpha.IncrementToken(indexEqualToOrGreaterThan, count);
+	    bg_interval.IncrementToken(indexEqualToOrGreaterThan, count);
+	    dark_fade_e.IncrementToken(indexEqualToOrGreaterThan, count);
+	    last_second.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+        foreach (ref var statement in Statements.AsSpan())
+        {
+            statement.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+	    disperse.DecrementToken(indexEqualToOrGreaterThan, count);
+	    castle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    castle_battle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    personal_battle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    blind.DecrementToken(indexEqualToOrGreaterThan, count);
+	    w.DecrementToken(indexEqualToOrGreaterThan, count);
+	    h.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bg.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bcg.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bgm.DecrementToken(indexEqualToOrGreaterThan, count);
+	    map.DecrementToken(indexEqualToOrGreaterThan, count);
+	    name.DecrementToken(indexEqualToOrGreaterThan, count);
+	    color.DecrementToken(indexEqualToOrGreaterThan, count);
+	    block.DecrementToken(indexEqualToOrGreaterThan, count);
+	    limit.DecrementToken(indexEqualToOrGreaterThan, count);
+	    title.DecrementToken(indexEqualToOrGreaterThan, count);
+	    center.DecrementToken(indexEqualToOrGreaterThan, count);
+	    italic.DecrementToken(indexEqualToOrGreaterThan, count);
+	    handle.DecrementToken(indexEqualToOrGreaterThan, count);
+	    member.DecrementToken(indexEqualToOrGreaterThan, count);
+	    second.DecrementToken(indexEqualToOrGreaterThan, count);
+	    volume.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bg_fade.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dark_fade.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dark_alpha.DecrementToken(indexEqualToOrGreaterThan, count);
+	    bg_interval.DecrementToken(indexEqualToOrGreaterThan, count);
+	    dark_fade_e.DecrementToken(indexEqualToOrGreaterThan, count);
+	    last_second.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }
 
 public partial struct StoryNode : IInheritableNode
@@ -1652,4 +3862,76 @@ public partial struct StoryNode : IInheritableNode
 		friend.Dispose();
 		fight.Dispose();
 	}
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name += count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super += count;
+        }
+
+        foreach (ref var statement in Statements.AsSpan())
+        {
+            statement.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+	    friend.IncrementToken(indexEqualToOrGreaterThan, count);
+	    fight.IncrementToken(indexEqualToOrGreaterThan, count);
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        if (Name >= indexEqualToOrGreaterThan)
+        {
+            Name -= count;
+        }
+
+        if (HasSuper && Super >= indexEqualToOrGreaterThan)
+        {
+            Super -= count;
+        }
+
+        foreach (ref var statement in Statements.AsSpan())
+        {
+            statement.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+	    friend.DecrementToken(indexEqualToOrGreaterThan, count);
+	    fight.DecrementToken(indexEqualToOrGreaterThan, count);
+    }
 }

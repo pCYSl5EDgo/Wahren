@@ -1,6 +1,6 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Element;
 
-public struct VariantPair<T> : IDisposable
+public struct VariantPair<T> : IDisposable, ITokenIdModifiable
     where T : class, IElement
 {
     public T? Value = null;
@@ -10,6 +10,24 @@ public struct VariantPair<T> : IDisposable
 
     public Span<T> Variants => VariantArray.AsSpan(0, Count);
     public Span<ulong> HashSpan => HashArray.AsSpan(0, Count);
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        Value?.IncrementToken(indexEqualToOrGreaterThan, count);
+        foreach (ref var item in Variants)
+        {
+            item.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        Value?.DecrementToken(indexEqualToOrGreaterThan, count);
+        foreach (ref var item in Variants)
+        {
+            item.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
 
     public void EnsureCapacity()
     {

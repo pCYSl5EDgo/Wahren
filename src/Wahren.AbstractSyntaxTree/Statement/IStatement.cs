@@ -1,6 +1,6 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Statement;
 
-public interface IStatement : IDisposable
+public interface IStatement : IDisposable, ITokenIdModifiable
 {
     uint TokenId { get; }
 

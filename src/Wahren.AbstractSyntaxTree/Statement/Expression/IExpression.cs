@@ -1,6 +1,6 @@
 ﻿namespace Wahren.AbstractSyntaxTree.Statement.Expression;
 
-public interface IExpression : IDisposable
+public interface IExpression : IDisposable, ITokenIdModifiable
 {
     uint TokenId { get; }
 

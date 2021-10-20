@@ -65,4 +65,38 @@ public sealed class AttributeNode : INode
 
         return ref Others.TryGetRef(key);
     }
+<# foreach (var (prefix, op) in new[] { ("In", "+"), ("De", "-") }) { #>
+
+    public void <#= prefix #>crementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind <#= op #>= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft <#= op #>= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight <#= op #>= count;
+        }
+
+<#  foreach (var name in names) { #>
+        <#= name #>?.<#= prefix #>crementToken(indexEqualToOrGreaterThan, count);
+<#  } #>
+
+        foreach(var item in Others)
+        {
+            item?.<#= prefix #>crementToken(indexEqualToOrGreaterThan, count);
+        }
+
+        foreach(var item in Hides)
+        {
+            item?.<#= prefix #>crementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
+<# } #>
 }

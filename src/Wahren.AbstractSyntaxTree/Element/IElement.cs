@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Element;
 
-public interface IElement
+public interface IElement : ITokenIdModifiable
 {
     uint ElementTokenId { get; }
     

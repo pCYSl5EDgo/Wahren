@@ -3,7 +3,7 @@
 namespace Wahren.AbstractSyntaxTree.Statement;
 
 [StructLayout(LayoutKind.Explicit, Pack = 32, Size = 32)]
-public struct Argument
+public struct Argument : ITokenIdModifiable
 {
     [FieldOffset(0)]
     public uint TokenId;
@@ -31,4 +31,20 @@ public struct Argument
     private bool _4;
     [FieldOffset(31)]
     private bool _5;
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId += count;
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (TokenId >= indexEqualToOrGreaterThan)
+        {
+            TokenId -= count;
+        }
+    }
 }

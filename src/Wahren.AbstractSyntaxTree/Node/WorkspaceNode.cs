@@ -13,4 +13,50 @@ public struct WorkspaceNode
     {
         Dictionary.Dispose();
     }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        foreach (var item in Dictionary)
+        {
+            item?.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        foreach (var item in Dictionary)
+        {
+            item?.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
 }

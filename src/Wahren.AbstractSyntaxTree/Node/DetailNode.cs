@@ -12,4 +12,50 @@ public struct DetailNode : INode
     {
         StringElementList.Dispose();
     }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        foreach (ref var pair in StringElementList.AsSpan())
+        {
+            pair.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        foreach (ref var pair in StringElementList.AsSpan())
+        {
+            pair.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
 }

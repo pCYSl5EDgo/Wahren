@@ -24,8 +24,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Compiler", "Wahren.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.DebugPaper", "Wahren.DebugPaper\Wahren.DebugPaper.csproj", "{A3434EF6-2928-43A6-BA72-2C0577BF4843}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Server", "Wahren.Server\Wahren.Server.csproj", "{57221454-4467-48BE-8688-6B838331E690}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.Basic", "Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj", "{09E18557-F116-41B3-B36B-C6E2CC76257E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Map", "Wahren.Map\Wahren.Map.csproj", "{AAD137F4-B451-426F-AF98-9081E4028215}"
@@ -35,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.AbstractSyntaxTree.Modifier", "Wahren.AbstractSyntaxTree.Modifier\Wahren.AbstractSyntaxTree.Modifier.csproj", "{864DCE89-3A1E-4B6F-BCCC-9F3C199C1076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.Modifier", "Wahren.AbstractSyntaxTree.Modifier\Wahren.AbstractSyntaxTree.Modifier.csproj", "{864DCE89-3A1E-4B6F-BCCC-9F3C199C1076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

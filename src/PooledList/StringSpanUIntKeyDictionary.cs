@@ -291,4 +291,38 @@ public struct StringSpanKeyDictionary<T> : IDisposable
         originalValueDualList.Dispose();
         originalKeyDualList.Dispose();
     }
+
+    public Enumerator GetEnumerator() => new(ref originalValueDualList);
+
+    public ref struct Enumerator
+    {
+        private readonly DualList<T?> list;
+        private int indexOuter;
+        private int indexInner;
+
+        public Enumerator(ref DualList<T?> list)
+        {
+            this.list = list;
+            indexOuter = 0;
+            indexInner = -1;
+        }
+
+        public bool MoveNext()
+        {
+            if (indexOuter >= list.Count)
+            {
+                return false;
+            }
+
+            while (++indexInner >= list[indexOuter].Count)
+            {
+                indexInner = -1;
+                indexOuter++;
+            }
+
+            return indexOuter < list.Count;
+        }
+
+        public T? Current => list[indexOuter][indexInner];
+    }
 }

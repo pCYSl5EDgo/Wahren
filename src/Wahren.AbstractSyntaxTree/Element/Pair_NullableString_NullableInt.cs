@@ -3,7 +3,7 @@
 namespace Wahren.AbstractSyntaxTree.Element;
 
 [StructLayout(LayoutKind.Explicit, Pack = 32, Size = 32)]
-public struct Pair_NullableString_NullableInt
+public struct Pair_NullableString_NullableInt : ITokenIdModifiable
 {
     /// <summary>
     /// TokenId
@@ -29,5 +29,21 @@ public struct Pair_NullableString_NullableInt
     {
         Text = tokenId;
         HasText = true;
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Text >= indexEqualToOrGreaterThan)
+        {
+            Text += count;
+        }
+    }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Text >= indexEqualToOrGreaterThan)
+        {
+            Text -= count;
+        }
     }
 }

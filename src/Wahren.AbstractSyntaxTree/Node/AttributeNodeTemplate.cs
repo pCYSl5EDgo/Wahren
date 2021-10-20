@@ -96,4 +96,86 @@ public sealed class AttributeNode : INode
 
         return ref Others.TryGetRef(key);
     }
+
+    public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind += count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft += count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight += count;
+        }
+
+        poi?.IncrementToken(indexEqualToOrGreaterThan, count);
+        para?.IncrementToken(indexEqualToOrGreaterThan, count);
+        sil?.IncrementToken(indexEqualToOrGreaterThan, count);
+        ill?.IncrementToken(indexEqualToOrGreaterThan, count);
+        conf?.IncrementToken(indexEqualToOrGreaterThan, count);
+        stone?.IncrementToken(indexEqualToOrGreaterThan, count);
+        fear?.IncrementToken(indexEqualToOrGreaterThan, count);
+        suck?.IncrementToken(indexEqualToOrGreaterThan, count);
+        magsuck?.IncrementToken(indexEqualToOrGreaterThan, count);
+        drain?.IncrementToken(indexEqualToOrGreaterThan, count);
+        death?.IncrementToken(indexEqualToOrGreaterThan, count);
+        wall?.IncrementToken(indexEqualToOrGreaterThan, count);
+
+        foreach(var item in Others)
+        {
+            item?.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+        foreach(var item in Hides)
+        {
+            item?.IncrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
+
+    public void DecrementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind -= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft -= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight -= count;
+        }
+
+        poi?.DecrementToken(indexEqualToOrGreaterThan, count);
+        para?.DecrementToken(indexEqualToOrGreaterThan, count);
+        sil?.DecrementToken(indexEqualToOrGreaterThan, count);
+        ill?.DecrementToken(indexEqualToOrGreaterThan, count);
+        conf?.DecrementToken(indexEqualToOrGreaterThan, count);
+        stone?.DecrementToken(indexEqualToOrGreaterThan, count);
+        fear?.DecrementToken(indexEqualToOrGreaterThan, count);
+        suck?.DecrementToken(indexEqualToOrGreaterThan, count);
+        magsuck?.DecrementToken(indexEqualToOrGreaterThan, count);
+        drain?.DecrementToken(indexEqualToOrGreaterThan, count);
+        death?.DecrementToken(indexEqualToOrGreaterThan, count);
+        wall?.DecrementToken(indexEqualToOrGreaterThan, count);
+
+        foreach(var item in Others)
+        {
+            item?.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+
+        foreach(var item in Hides)
+        {
+            item?.DecrementToken(indexEqualToOrGreaterThan, count);
+        }
+    }
 }

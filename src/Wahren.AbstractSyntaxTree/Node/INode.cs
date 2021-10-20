@@ -1,6 +1,6 @@
 namespace Wahren.AbstractSyntaxTree.Node;
 
-public interface INode : IDisposable
+public interface INode : IDisposable, ITokenIdModifiable
 {
     uint Kind { get; set; }
     uint BracketLeft { get; set; }

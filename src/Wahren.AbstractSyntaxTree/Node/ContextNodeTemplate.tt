@@ -421,4 +421,29 @@ public sealed class ContextNode : INode
     FALSE:
         return ref Unsafe.NullRef<Pair_NullableString_NullableInt_ArrayElement?>();
     }
+<# foreach (var (prefix, op) in new[] { ("In", "+"), ("De", "-") }) { #>
+
+    public void <#= prefix #>crementToken(uint indexEqualToOrGreaterThan, uint count)
+    {
+        if (Kind >= indexEqualToOrGreaterThan)
+        {
+            Kind <#= op #>= count;
+        }
+
+        if (BracketLeft >= indexEqualToOrGreaterThan)
+        {
+            BracketLeft <#= op #>= count;
+        }
+
+        if (BracketRight >= indexEqualToOrGreaterThan)
+        {
+            BracketRight <#= op #>= count;
+        }
+<#  foreach (var t in array) {
+        foreach (var item in t) { #>
+        <#= item.Escape() #>?.<#= prefix #>crementToken(indexEqualToOrGreaterThan, count);
+<#      }
+    } #>
+    }
+<# } #>
 }
