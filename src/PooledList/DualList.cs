@@ -81,13 +81,8 @@ public struct DualList<T> : IDisposable
 
     public int Count => count;
 
-    public void InsertEmpty(int index)
+    public void InsertEmpty(uint index)
     {
-        if (index < 0)
-        {
-            throw new ArgumentOutOfRangeException();
-        }
-
         AddEmpty();
         if (index == count - 1)
         {
@@ -99,9 +94,9 @@ public struct DualList<T> : IDisposable
         array[index] = last;
     }
 
-    public void RemoveAt(int index)
+    public void RemoveAt(uint index)
     {
-        if (index < 0 || index >= count)
+        if (index >= count)
         {
             throw new ArgumentOutOfRangeException();
         }
@@ -114,5 +109,64 @@ public struct DualList<T> : IDisposable
         }
 
         Array.Copy(array, index + 1, array, index, count - index);
+    }
+
+    public void RemoveRange(uint startLine, uint startOffsetInclusive, uint endLine, uint endOffsetExclusive)
+    {
+        var lineMoveCount = 1;
+        for (uint iterator = startLine, iteratorOffset = startOffsetInclusive; iterator != endLine; ++iterator, iteratorOffset = 0)
+        {
+            ref var line = ref array[iterator];
+            if (iteratorOffset == 0)
+            {
+                line.Dispose();
+                ++lineMoveCount;
+            }
+            else
+            {
+                line.RemoveRange(iteratorOffset, (uint)line.Count - startOffsetInclusive);
+            }
+        }
+
+        if (startLine == endLine)
+        {
+            ref var line = ref array[endLine];
+            if (startOffsetInclusive == 0 && line.Count == endOffsetExclusive)
+            {
+                line.Dispose();
+            }
+            else
+            {
+                line.RemoveRange(startOffsetInclusive, endOffsetExclusive - startOffsetInclusive);
+                --lineMoveCount;
+            }
+        }
+        else
+        {
+            ref var line = ref array[endLine];
+            if (line.Count == endOffsetExclusive)
+            {
+                line.Dispose();
+            }
+            else
+            {
+                array[startLine].AddRange(line.AsSpan(endOffsetExclusive));
+                line.Dispose();
+            }
+        }
+
+        if (lineMoveCount == 0)
+        {
+            return;
+        }
+
+        count -= lineMoveCount;
+        var targetLine = startLine + (startOffsetInclusive != 0 ? 1 : 0);
+        if (targetLine == count)
+        {
+            return;
+        }
+
+        Array.Copy(array, targetLine + lineMoveCount, array, targetLine, count - startLine);
     }
 }
