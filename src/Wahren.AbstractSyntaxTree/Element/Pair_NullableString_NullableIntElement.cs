@@ -13,10 +13,14 @@ public sealed class Pair_NullableString_NullableIntElement : IElement<Pair_Nulla
 
     public bool HasValue { get; set; }
 
-    public Pair_NullableString_NullableIntElement(uint elementTokenId)
+    public Pair_NullableString_NullableIntElement(uint elementTokenId, int elementKeyLength, bool hasElementVariant)
     {
         ElementTokenId = elementTokenId;
+        ElementKeyLength = elementKeyLength;
+        HasElementVariant = hasElementVariant;
     }
+    
+    static IElement IElement.Create(uint elementTokenId, int elementKeyLength, bool hasElementVariant) => new Pair_NullableString_NullableIntElement(elementTokenId, elementKeyLength, hasElementVariant);
 
     public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
     {

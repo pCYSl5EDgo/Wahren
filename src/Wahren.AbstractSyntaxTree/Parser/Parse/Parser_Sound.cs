@@ -44,10 +44,7 @@ public static partial class Parser
                 return false;
             }
 
-            var element = new Pair_NullableString_NullableIntElement(elementIndex)
-            {
-                ElementKeyLength = span.Length,
-            };
+            var element = new Pair_NullableString_NullableIntElement(elementIndex, span.Length, false);
             if (!Parse_Element_DEFAULT(ref context, ref result, element))
             {
                 return false;

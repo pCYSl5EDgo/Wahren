@@ -9,6 +9,8 @@ public interface IElement : ITokenIdModifiable
     bool HasElementVariant { get; set; }
     
     bool HasValue { get; set; }
+
+    abstract static IElement Create(uint elementTokenId, int elementKeyLength, bool hasElementVariant);
 }
 
 public interface IElement<T> : IElement

@@ -59,9 +59,7 @@ public static partial class Parser
 
             if (elementReference is null)
             {
-                elementReference = new Pair_NullableString_NullableInt_ArrayElement(elementIndex);
-                elementReference.ElementKeyLength = elementSpan.Length;
-
+                elementReference = new Pair_NullableString_NullableInt_ArrayElement(elementIndex, elementSpan.Length, false);
                 if (Parse_Element_MEMBER(ref context, ref result, elementReference))
                 {
                     continue;

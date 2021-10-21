@@ -253,9 +253,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -278,9 +276,7 @@ public static partial class Parser
         TEXT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -303,9 +299,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -328,9 +322,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -353,9 +345,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -378,9 +368,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -971,9 +959,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -996,9 +982,7 @@ public static partial class Parser
         TEXT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -1021,9 +1005,7 @@ public static partial class Parser
         LOYAL:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -1046,9 +1028,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1071,9 +1051,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1096,9 +1074,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1121,9 +1097,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1334,9 +1308,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -1359,9 +1331,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1384,9 +1354,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1588,9 +1556,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -1613,9 +1579,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1638,9 +1602,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -1759,9 +1721,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -1784,9 +1744,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -2087,9 +2045,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -2112,9 +2068,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -2137,9 +2091,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -2162,9 +2114,7 @@ public static partial class Parser
         LOYAL:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -2287,9 +2237,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -2312,9 +2260,7 @@ public static partial class Parser
         LOYAL:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -2337,9 +2283,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -3555,9 +3499,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -3580,9 +3522,7 @@ public static partial class Parser
         LOYAL:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -3605,9 +3545,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -3630,9 +3568,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -3655,9 +3591,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -3680,9 +3614,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -3801,9 +3733,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -3826,9 +3756,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4042,9 +3970,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -4067,9 +3993,7 @@ public static partial class Parser
         TEXT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -4092,9 +4016,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4117,9 +4039,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4142,9 +4062,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4807,9 +4725,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -4832,9 +4748,7 @@ public static partial class Parser
         TEXT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -4857,9 +4771,7 @@ public static partial class Parser
         LOYAL:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_LOYAL(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -4882,9 +4794,7 @@ public static partial class Parser
         CONSTI:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_CONSTI(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4907,9 +4817,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4932,9 +4840,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -4957,9 +4863,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -5081,9 +4985,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -5106,9 +5008,7 @@ public static partial class Parser
         ROAM:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_ROAM(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -5672,9 +5572,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -5697,9 +5595,7 @@ public static partial class Parser
         TEXT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_TEXT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -5722,9 +5618,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -5747,9 +5641,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -5772,9 +5664,7 @@ public static partial class Parser
         ROAM:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_ROAM(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -5797,9 +5687,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -6076,9 +5964,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;
@@ -6101,9 +5987,7 @@ public static partial class Parser
         RAY:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_RAY(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -6126,9 +6010,7 @@ public static partial class Parser
         MEMBER:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_MEMBER(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -6243,9 +6125,7 @@ public static partial class Parser
         OFFSET:
             if (pair_Pair_NullableString_NullableInt_ArrayElement is null)
             {
-                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex);
-                pair_Pair_NullableString_NullableInt_ArrayElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableInt_ArrayElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableInt_ArrayElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_OFFSET(ref context, ref result, pair_Pair_NullableString_NullableInt_ArrayElement))
                 {
                     continue;
@@ -6268,9 +6148,7 @@ public static partial class Parser
         DEFAULT:
             if (pair_Pair_NullableString_NullableIntElement is null)
             {
-                pair_Pair_NullableString_NullableIntElement = new(currentIndex);
-                pair_Pair_NullableString_NullableIntElement.ElementKeyLength = span.Length;
-                pair_Pair_NullableString_NullableIntElement.HasElementVariant = !variantSpan.IsEmpty;
+                pair_Pair_NullableString_NullableIntElement = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (Parse_Element_DEFAULT(ref context, ref result, pair_Pair_NullableString_NullableIntElement))
                 {
                     continue;

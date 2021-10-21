@@ -52,8 +52,7 @@ public static partial class Parser
                 ref var elementReference = ref node.Hides.TryGetRef(span);
                 if (Unsafe.IsNullRef(ref elementReference))
                 {
-                    var element = new Pair_NullableString_NullableIntElement(elementIndex);
-                    element.ElementKeyLength = span.Length;
+                    var element = new Pair_NullableString_NullableIntElement(elementIndex, span.Length, false);
                     if (!Parse_Element_DEFAULT(ref context, ref result, element))
                     {
                         return false;
@@ -62,7 +61,7 @@ public static partial class Parser
                 }
                 else if (elementReference is null)
                 {
-                    elementReference = new(elementIndex);
+                    elementReference = new(elementIndex, span.Length, false);
                     if (!Parse_Element_DEFAULT(ref context, ref result, elementReference))
                     {
                         return false;
@@ -87,9 +86,7 @@ public static partial class Parser
                 ref var elementReference = ref node.TryGet(span);
                 if (Unsafe.IsNullRef(ref elementReference))
                 {
-                    var element = new Pair_NullableString_NullableIntElement(elementIndex);
-                    element.ElementKeyLength = span.Length;
-
+                    var element = new Pair_NullableString_NullableIntElement(elementIndex, span.Length, false);
                     if (!Parse_Element_LOYAL(ref context, ref result, element))
                     {
                         return false;
@@ -99,9 +96,7 @@ public static partial class Parser
                 }
                 else if (elementReference is null)
                 {
-                    elementReference = new Pair_NullableString_NullableIntElement(elementIndex);
-                    elementReference.ElementKeyLength = span.Length;
-
+                    elementReference = new Pair_NullableString_NullableIntElement(elementIndex, span.Length, false);
                     if (!Parse_Element_LOYAL(ref context, ref result, elementReference))
                     {
                         return false;

@@ -27,12 +27,12 @@ public static partial class Parser
                 return true;
             }
 
-            Pair_NullableString_NullableIntElement element = new(tokenList.LastIndex);
-            if (!SplitElementPlain(ref result, element.ElementTokenId, out var keySpan, out var variantSpan))
+            if (!SplitElementPlain(ref result, tokenList.LastIndex, out var keySpan, out var variantSpan))
             {
                 return false;
             }
 
+            Pair_NullableString_NullableIntElement element = new(tokenList.LastIndex, keySpan.Length, !variantSpan.IsEmpty);
             element.ElementKeyLength = keySpan.Length;
             element.HasElementVariant = !variantSpan.IsEmpty;
 

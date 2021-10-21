@@ -160,9 +160,7 @@ foreach (var node in NodeInfo.Nodes) {
         <#= trailer #>:
             if (pair_<#= type #> is null)
             {
-                pair_<#= type #> = new(currentIndex);
-                pair_<#= type #>.ElementKeyLength = span.Length;
-                pair_<#= type #>.HasElementVariant = !variantSpan.IsEmpty;
+                pair_<#= type #> = new(currentIndex, span.Length, !variantSpan.IsEmpty);
                 if (<#= func #>(ref context, ref result, pair_<#= type #>))
                 {
                     continue;

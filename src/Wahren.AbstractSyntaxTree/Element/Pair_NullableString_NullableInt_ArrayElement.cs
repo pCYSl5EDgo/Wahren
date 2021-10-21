@@ -11,10 +11,14 @@ public sealed class Pair_NullableString_NullableInt_ArrayElement : IElement<Arra
 
     public bool HasValue { get; set; }
 
-    public Pair_NullableString_NullableInt_ArrayElement(uint elementTokenId)
+    public Pair_NullableString_NullableInt_ArrayElement(uint elementTokenId, int elementKeyLength, bool hasElementVariant)
     {
         ElementTokenId = elementTokenId;
+        ElementKeyLength = elementKeyLength;
+        HasElementVariant = hasElementVariant;
     }
+
+    static IElement IElement.Create(uint elementTokenId, int elementKeyLength, bool hasElementVariant) => new Pair_NullableString_NullableInt_ArrayElement(elementTokenId, elementKeyLength, hasElementVariant);
 
     public void Dispose()
     {

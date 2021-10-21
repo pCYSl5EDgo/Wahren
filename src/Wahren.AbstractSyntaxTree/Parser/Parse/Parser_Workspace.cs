@@ -30,12 +30,12 @@ public static partial class Parser
                 return true;
             }
 
-            var element = new Pair_NullableString_NullableInt_ArrayElement(tokenList.LastIndex);
-            if (!result.SplitElementPlain(element.ElementTokenId, out var span, out var variantSpan))
+            if (!result.SplitElementPlain(tokenList.LastIndex, out var span, out var variantSpan))
             {
                 return false;
             }
 
+            Pair_NullableString_NullableInt_ArrayElement element = new(tokenList.LastIndex, span.Length, !variantSpan.IsEmpty);
             if (!variantSpan.IsEmpty)
             {
                 result.ErrorAdd_NoVariation("workspace", element.ElementTokenId);
