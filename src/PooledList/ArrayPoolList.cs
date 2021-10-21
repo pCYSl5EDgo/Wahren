@@ -248,18 +248,16 @@ public struct ArrayPoolList<T> : IDisposable, System.Collections.Generic.IList<T
         array[index] = item;
     }
 
-    public void InsertRange(int index, ReadOnlySpan<T> span)
+    public Span<T> InsertUndefinedRange(uint index, uint insertCount)
     {
-        if (index == count)
+        PrepareAddRange((int)insertCount);
+        if (index != count)
         {
-            AddRange(span);
-            return;
+            Array.Copy(array, index, array, index + insertCount, count - index);
         }
-
-        PrepareAddRange(span.Length);
-        Array.Copy(array, index, array, index + span.Length, count - index);
-        count += span.Length;
-        span.CopyTo(array.AsSpan(index));
+        
+        count += (int)insertCount;
+        return array.AsSpan((int)index, (int)insertCount);
     }
 
     public void RemoveAt(int index)
@@ -276,6 +274,18 @@ public struct ArrayPoolList<T> : IDisposable, System.Collections.Generic.IList<T
         }
 
         Array.Copy(array, index + 1, array, index, --count - index);
+    }
+
+    public void RemoveRange(uint index, uint removeCount)
+    {
+        if (index == count - removeCount)
+        {
+            count = (int)index;
+            return;
+        }
+
+        Array.Copy(array, index + removeCount, array, index, count - removeCount - index);
+        count -= (int)removeCount;
     }
 
     public void Clear()
