@@ -75,31 +75,37 @@ public struct TokenList : IDisposable
         count -= removeCount;
     }
 
-    public Span<TokenKind> InsertUndefinedRange(int index, int additiveCount, out Span<uint> line, out Span<uint> offset, out Span<uint> length, out Span<uint> precedingNewLineCount, out Span<uint> precedingWhitespaceCount, out Span<uint> other)
+    public ref struct UndefinedRange
+    {
+        public Span<uint> lineSpan;
+        public Span<uint> offsetSpan;
+        public Span<uint> lengthSpan;
+        public Span<uint> precedingNewLineCountSpan;
+        public Span<uint> precedingWhitespaceCountSpan;
+        public Span<uint> otherSpan;
+        public Span<TokenKind> kindSpan;
+    }
+
+    public void InsertUndefinedRange(int index, int additiveCount, out UndefinedRange undefinedRange)
     {
         if (index == count)
         {
             PrepareAddRange(additiveCount);
-            var answer = arrayTokenKind.AsSpan(count, additiveCount);
-            line = arrayUInt32.AsSpan(count, additiveCount);
-            offset = arrayUInt32.AsSpan(eachLimit + count, additiveCount);
-            length = arrayUInt32.AsSpan(eachLimit * 2 + count, additiveCount);
-            precedingNewLineCount = arrayUInt32.AsSpan(eachLimit * 3 + count, additiveCount);
-            precedingWhitespaceCount = arrayUInt32.AsSpan(eachLimit * 4 + count, additiveCount);
-            other = arrayUInt32.AsSpan(eachLimit * 5 + count, additiveCount);
+            undefinedRange.lineSpan = arrayUInt32.AsSpan(count, additiveCount);
+            undefinedRange.offsetSpan = arrayUInt32.AsSpan(eachLimit + count, additiveCount);
+            undefinedRange.lengthSpan = arrayUInt32.AsSpan(eachLimit * 2 + count, additiveCount);
+            undefinedRange.precedingNewLineCountSpan = arrayUInt32.AsSpan(eachLimit * 3 + count, additiveCount);
+            undefinedRange.precedingWhitespaceCountSpan = arrayUInt32.AsSpan(eachLimit * 4 + count, additiveCount);
+            undefinedRange.otherSpan = arrayUInt32.AsSpan(eachLimit * 5 + count, additiveCount);
+            undefinedRange.kindSpan = arrayTokenKind.AsSpan(count, additiveCount);
             count += additiveCount;
-            return answer;
+            return;
         }
 
         if (additiveCount <= 0)
         {
-            line = Span<uint>.Empty;
-            offset = Span<uint>.Empty;
-            length = Span<uint>.Empty;
-            precedingNewLineCount = Span<uint>.Empty;
-            precedingWhitespaceCount = Span<uint>.Empty;
-            other = Span<uint>.Empty;
-            return Span<TokenKind>.Empty;
+            undefinedRange = default;
+            return;
         }
 
         var rest = count - index;
@@ -146,13 +152,13 @@ public struct TokenList : IDisposable
 
         count += additiveCount;
         
-        line = arrayUInt32.AsSpan(index, additiveCount);
-        offset = arrayUInt32.AsSpan(eachLimit + index, additiveCount);
-        length = arrayUInt32.AsSpan(eachLimit * 2 + index, additiveCount);
-        precedingNewLineCount = arrayUInt32.AsSpan(eachLimit * 3 + index, additiveCount);
-        precedingWhitespaceCount = arrayUInt32.AsSpan(eachLimit * 4 + index, additiveCount);
-        other = arrayUInt32.AsSpan(eachLimit * 5 + index, additiveCount);
-        return arrayTokenKind.AsSpan(index, additiveCount);
+        undefinedRange.lineSpan = arrayUInt32.AsSpan(index, additiveCount);
+        undefinedRange.offsetSpan = arrayUInt32.AsSpan(eachLimit + index, additiveCount);
+        undefinedRange.lengthSpan = arrayUInt32.AsSpan(eachLimit * 2 + index, additiveCount);
+        undefinedRange.precedingNewLineCountSpan = arrayUInt32.AsSpan(eachLimit * 3 + index, additiveCount);
+        undefinedRange.precedingWhitespaceCountSpan = arrayUInt32.AsSpan(eachLimit * 4 + index, additiveCount);
+        undefinedRange.otherSpan = arrayUInt32.AsSpan(eachLimit * 5 + index, additiveCount);
+        undefinedRange.kindSpan = arrayTokenKind.AsSpan(index, additiveCount);
     }
 
     public void PrepareAddRange(int additiveCount)
