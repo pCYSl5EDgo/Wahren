@@ -47,6 +47,7 @@ public struct NodeInfo
     public static readonly NodeInfo Scenario = new("Scenario", ElementInfo.Scenario, hasBlock: true);
     public static readonly NodeInfo Event = new("Event", ElementInfo.Event, hasBlock: true) { Fields = new AdditionalField[] { new(nameof(EventKind), nameof(EventKind), false) } };
     public static readonly NodeInfo Story = new("Story", ElementInfo.Story, hasBlock: true);
+    public static readonly NodeInfo Context = new("Context", ElementInfo.Context);
 
     public static readonly NodeInfo[] Nodes = new NodeInfo[]
     {
