@@ -3,8 +3,16 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PooledList\Wahren.PooledList.csproj" />
+    <ProjectReference Include="..\Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj" />
+    <ProjectReference Include="..\Wahren.AbstractSyntaxTree.Modifier\Wahren.AbstractSyntaxTree.Modifier.csproj" />
+    <ProjectReference Include="..\Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj" />
+    <ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
+    <ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
+  </ItemGroup>
 
 </Project>
