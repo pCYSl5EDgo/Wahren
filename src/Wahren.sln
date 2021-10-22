@@ -35,7 +35,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.Modifier", "Wahren.AbstractSyntaxTree.Modifier\Wahren.AbstractSyntaxTree.Modifier.csproj", "{864DCE89-3A1E-4B6F-BCCC-9F3C199C1076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.GraphicalEditor", "Wahren.GraphicalEditor\Wahren.GraphicalEditor.csproj", "{F601E4BF-CC87-4737-BB94-680A81D85927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.GraphicalEditor", "Wahren.GraphicalEditor\Wahren.GraphicalEditor.csproj", "{F601E4BF-CC87-4737-BB94-680A81D85927}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.Imagedata", "Wahren.Imagedata\Wahren.Imagedata.csproj", "{AC905827-9D2D-4079-9048-86E084B7742C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{F601E4BF-CC87-4737-BB94-680A81D85927}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F601E4BF-CC87-4737-BB94-680A81D85927}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F601E4BF-CC87-4737-BB94-680A81D85927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC905827-9D2D-4079-9048-86E084B7742C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC905827-9D2D-4079-9048-86E084B7742C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC905827-9D2D-4079-9048-86E084B7742C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC905827-9D2D-4079-9048-86E084B7742C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -209,28 +209,25 @@ public partial class Program
             HashSet<string> hashSet = new();
             switch (index)
             {
-                /*
-                NOTIMPLEMENTED YET
                 case 0:
                     for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                     {
-                        for (uint i = 0, count = file.imagedataSet.Count; i != count; ++i)
+                        for (uint j = 0, count = project.FileAnalysisList[i].imagedataSet.Count; j != count; ++j)
                         {
-                            hashSet.Add(new(file.imagedataSet[i]));
+                            hashSet.Add(new(project.FileAnalysisList[i].imagedataSet[j]));
                         }
                     }
                     return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata.dat", "chip", token);
                 case 1:
                     for (uint i = 0, end = (uint)project.Files.Count; i < end; ++i)
                     {
-                        for (uint i = 0, count = file.imagedata2Set.Count; i != count; ++i)
+                        for (uint j = 0, count = project.FileAnalysisList[i].imagedata2Set.Count; j != count; ++j)
                         {
-                            hashSet.Add(new(file.imagedata2Set[i]));
+                            hashSet.Add(new(project.FileAnalysisList[i].imagedata2Set[j]));
                         }
                     }
                     hashSet.Remove("@@");
                     return EnsureExistanceImageDataAsync(project, hashSet, contentsFolder, "imagedata2.dat", "chip2", token);
-                */
                 case 2:
                     foreach (var analysisResult in project.FileAnalysisList.AsSpan())
                     {
@@ -438,43 +435,32 @@ public partial class Program
 
     private static async ValueTask EnsureExistanceImageDataAsync(Project project, HashSet<string> hashSet, string contentsFolder, string datFileName, string chipFolderName, CancellationToken token)
     {
+        using Imagedata.Imagedata data = new();
         var imagedatPath = Path.Combine(contentsFolder, "image", datFileName);
-        using var handle = File.OpenHandle(imagedatPath, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous);
-        var length = RandomAccess.GetLength(handle);
-        if (length == 0 && hashSet.Count != 0)
+        var readTask = ReadFileUtility.ReadAsync(imagedatPath, token);
+
+        var chipFolderPath = Path.Combine(contentsFolder, chipFolderName);
+        foreach (var item in Directory.EnumerateFiles(chipFolderPath, "*.png", SearchOption.TopDirectoryOnly))
         {
-#if JAPANESE
-            project.ErrorBag.Add(new($"{datFileName}が空です。"));
-#else
-            project.ErrorBag.Add(new($"{datFileName} is empty."));
-#endif
+            hashSet.Remove(Path.GetFileNameWithoutExtension(item));
+        }
+        foreach (var item in Directory.EnumerateFiles(chipFolderPath, "*.bmp", SearchOption.TopDirectoryOnly))
+        {
+            hashSet.Remove(Path.GetFileNameWithoutExtension(item));
+        }
+
+        var (buffer, bufferSize) = await readTask.ConfigureAwait(false);
+        if (!data.TryLoadDataFileBinary(buffer, bufferSize))
+        {
             return;
         }
-        if (length > int.MaxValue)
+
+        for (uint i = 0, end = data.Set.Count; i != end; ++i)
         {
-            project.ErrorAdd_InsufficientMemory(imagedatPath, length);
-            return;
+            var str = new string(data.Set[i]);
+            hashSet.Remove(str);
         }
-        var buffer = ArrayPool<byte>.Shared.Rent((int)length);
-        try
-        {
-            ValueTask<int> readingTask = RandomAccess.ReadAsync(handle, buffer.AsMemory(0, (int)length), 0, token);
-            var chipFolderPath = Path.Combine(contentsFolder, chipFolderName);
-            foreach (var item in Directory.EnumerateFiles(chipFolderPath, "*.png", SearchOption.TopDirectoryOnly))
-            {
-                hashSet.Remove(Path.GetFileNameWithoutExtension(item));
-            }
-            foreach (var item in Directory.EnumerateFiles(chipFolderPath, "*.bmp", SearchOption.TopDirectoryOnly))
-            {
-                hashSet.Remove(Path.GetFileNameWithoutExtension(item));
-            }
-            var actual = await readingTask.ConfigureAwait(false);
-            EnsureExistanceImageDataSync(project, hashSet, buffer, actual, datFileName);
-        }
-        finally
-        {
-            ArrayPool<byte>.Shared.Return(buffer);
-        }
+
         foreach (var name in hashSet)
         {
             static void Process(Project project, string chipFolderName, string name)
@@ -494,40 +480,6 @@ public partial class Program
 
             Process(project, chipFolderName, name);
         }
-    }
-
-    private static void EnsureExistanceImageDataSync(Project project, HashSet<string> hashSet, byte[] buffer, int length, string datFileName)
-    {
-        int offset = length < 12 ? length : 12;
-        do
-        {
-            var index = buffer.AsSpan(offset).IndexOf<byte>(0x00);
-            if (index <= 0)
-            {
-#if JAPANESE
-                project.ErrorBag.Add(new($"不正なデータフォーマットをしています。\n  {datFileName}"));
-#else
-                project.ErrorBag.Add(new($"Invalid data format error.\n  {datFileName}"));
-#endif
-                return;
-            }
-
-            if (index == 8 && Unsafe.As<byte, ulong>(ref buffer[offset]) == 0x5f5f5f5f5f5f5f5fUL)
-            {
-                break;
-            }
-
-            var imageName = string.Create(index, (buffer, offset), static (Span<char> destination, (byte[] buffer, int offset) pair) =>
-            {
-                var span = pair.buffer.AsSpan(pair.offset, destination.Length);
-                for (int i = 0; i < destination.Length; i++)
-                {
-                    destination[i] = (char)span[i];
-                }
-            });
-            hashSet.Remove(imageName);
-            offset += index + 17;
-        } while (true);
     }
 
     private static bool CheckSync(Project project)
