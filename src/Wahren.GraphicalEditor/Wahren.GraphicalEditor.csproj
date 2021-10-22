@@ -14,10 +14,12 @@
         <ProjectReference Include="..\Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj" />
         <ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
         <ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
+        <ProjectReference Include="..\Wahren.Imagedata\Wahren.Imagedata.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+        <PackageReference Include="ReactiveProperty.WPF" Version="7.12.0" />
     </ItemGroup>
 
 </Project>
