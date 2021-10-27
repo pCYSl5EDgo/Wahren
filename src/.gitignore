@@ -5,3 +5,4 @@
 **/**.bat
 **/**.exe
 *.txt
+*.bytes
