@@ -7,7 +7,27 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\EditPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ErrorFixPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\InitialPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\EditPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ErrorFixPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\InitialPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
