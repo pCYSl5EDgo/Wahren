@@ -7,7 +7,7 @@ public static partial class Parser
     /// structure: attribute
     /// element: [ loyal, change, fkey, str, arbeit, brave, ground, gun_delay ]
     /// </summary>
-    public static bool Parse_Element_LOYAL(ref Context context, ref Result result, Pair_NullableString_NullableIntElement element)
+    private static bool Parse_Element_LOYAL(ref Context context, ref Result result, Pair_NullableString_NullableIntElement element)
     {
         ref var tokenList = ref result.TokenList;
         tokenList.GetKind(element.ElementTokenId) = TokenKind.LOYAL;
