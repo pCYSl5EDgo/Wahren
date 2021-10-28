@@ -7,6 +7,10 @@ using Parser;
 
 public sealed partial class Project : IDisposable
 {
+    public bool IsUnicode;
+    public bool IsEnglish;
+    public bool IsSwitch;
+
     public DiagnosticSeverity RequiredSeverity;
     public DisposableList<Result> Files = new();
     public DisposableList<AnalysisResult> FileAnalysisList = new();

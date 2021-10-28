@@ -27,6 +27,9 @@ public partial class Program
             Project project = new()
             {
                 RequiredSeverity = DiagnosticSeverity.Error,
+                IsUnicode = isUnicode,
+                IsEnglish = isEnglish,
+                IsSwitch = false,
             };
 
             static async ValueTask<int> Reload(Project project, string[] files, bool isUnicode, bool isEnglish, CancellationToken token)
@@ -39,7 +42,7 @@ public partial class Program
                     project.FileAnalysisList.Add(new());
                 }
 
-                await ParallelLoadAndParseAsync(project, false, isUnicode, isEnglish, token).ConfigureAwait(false);
+                await ParallelLoadAndParseAsync(project, token).ConfigureAwait(false);
                 project.AddReferenceAndValidate();
                 return 0;
             }

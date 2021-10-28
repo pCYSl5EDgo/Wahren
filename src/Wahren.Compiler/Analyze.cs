@@ -41,7 +41,10 @@ public partial class Program
 
             using var project = new Project()
             {
-                RequiredSeverity = (DiagnosticSeverity)(uint)severity
+                RequiredSeverity = (DiagnosticSeverity)(uint)severity,
+                IsUnicode = isUnicode,
+                IsEnglish = isEnglish,
+                IsSwitch = @switch,
             };
 
             project.Files.PrepareAddRange(files.Length);
@@ -52,7 +55,7 @@ public partial class Program
                 project.FileAnalysisList.Add(new());
             }
 
-            await ParallelLoadAndParseAsync(project, @switch, isUnicode, isEnglish, token).ConfigureAwait(false);
+            await ParallelLoadAndParseAsync(project, token).ConfigureAwait(false);
 
             token.ThrowIfCancellationRequested();
             if (!CompileResultSync(project))
@@ -176,7 +179,7 @@ public partial class Program
         return answer;
     }
 
-    private static Task ParallelLoadAndParseAsync(Project project, bool @switch, bool isUnicode, bool isEnglish, CancellationToken token)
+    private static Task ParallelLoadAndParseAsync(Project project, CancellationToken token)
     {
         return Parallel.ForEachAsync(System.Linq.Enumerable.Range(0, project.Files.Count), token, async (int index, CancellationToken token) =>
         {
@@ -190,7 +193,7 @@ public partial class Program
                     return;
                 }
                 token.ThrowIfCancellationRequested();
-                LoadAndParse(project.RequiredSeverity, @switch, isUnicode, isEnglish, ref project.Files[index], project.FileAnalysisList[index], rental.AsSpan(0, actual));
+                LoadAndParse(project.RequiredSeverity, project.IsSwitch, project.IsUnicode, project.IsEnglish, ref project.Files[index], project.FileAnalysisList[index], rental.AsSpan(0, actual));
             }
             finally
             {
