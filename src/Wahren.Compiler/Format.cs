@@ -19,14 +19,14 @@ public partial class Program
         using var cancellationTokenSource = PrepareCancellationTokenSource(TimeSpan.FromMinutes(1));
         try
         {
-            var (success, contentsFolder, scriptFolderPath, scriptFiles, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
-            if (!success)
+            var (pathSet, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);
+            if (pathSet is null)
             {
                 return 1;
             }
 
-            var toUnicodeFolderStructureTask = ToUnicodeFolderStructure(isUnicode, forceUnicode, scriptFolderPath, cancellationTokenSource);
-            await Parallel.ForEachAsync(scriptFiles, cancellationTokenSource.Token,
+            var toUnicodeFolderStructureTask = ToUnicodeFolderStructure(isUnicode, forceUnicode, pathSet.Script, cancellationTokenSource);
+            await Parallel.ForEachAsync(pathSet.GetScriptDatArray(), cancellationTokenSource.Token,
                 (path, token) =>
                 {
                     return ProcessEachFilesOverwrite(path, @switch, isUnicode, isEnglish, forceUnicode, deleteDiscardedToken, token);

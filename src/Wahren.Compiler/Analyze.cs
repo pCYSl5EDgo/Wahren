@@ -33,8 +33,8 @@ public partial class Program
         var token = cancellationTokenSource.Token;
         try
         {
-            var (success, contentsFolder, _, files, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, token).ConfigureAwait(false);
-            if (!success)
+            var (pathSet, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, token).ConfigureAwait(false);
+            if (pathSet is null)
             {
                 return 1;
             }
@@ -47,6 +47,7 @@ public partial class Program
                 IsSwitch = @switch,
             };
 
+            var files = pathSet.GetScriptDatArray();
             project.Files.PrepareAddRange(files.Length);
             for (int i = 0; i < files.Length; i++)
             {
@@ -70,7 +71,7 @@ public partial class Program
             }
 
             token.ThrowIfCancellationRequested();
-            await ParallelCheckFileExistanceAsync(project, contentsFolder, token).ConfigureAwait(false);
+            await ParallelCheckFileExistanceAsync(project, pathSet.Contents, token).ConfigureAwait(false);
             foreach (var error in project.ErrorBag)
             {
                 Console.WriteLine(error.Text);
@@ -94,7 +95,7 @@ public partial class Program
         return 0;
     }
 
-    private static async ValueTask<(bool success, string contentsFolder, string scriptFolder, string[] scriptFiles, bool isUnicode, bool isEnglish)> GetInitialSettingsAsync(string rootFolder, CancellationToken token)
+    private static async ValueTask<(PathSet? pathSet, bool isUnicode, bool isEnglish)> GetInitialSettingsAsync(string rootFolder, CancellationToken token)
     {
         var getDebugPaperTask = GetDebugPaper(rootFolder, token);
         string? contentsFolder = DetectContentsFolder(rootFolder); ;
@@ -112,14 +113,12 @@ public partial class Program
 #else
             Console.Error.WriteLine("Contents folder is not found.\n\nContents folder contains 'script'/'image'/'stage' folders.");
 #endif
-            return (false, "", "", Array.Empty<string>(), false, false);
+            return (null, false, false);
         }
 
-        var scriptFolderPath = Path.Combine(contentsFolder, "script");
-        var isEnglishTask = IsEnglish(scriptFolderPath);
-        var files = Directory.GetFiles(scriptFolderPath, "*.dat", SearchOption.AllDirectories);
-        var (isUnicode, isEnglish) = await isEnglishTask.ConfigureAwait(false);
-        return (true, contentsFolder, scriptFolderPath, files, isUnicode, isEnglish);
+        PathSet pathSet = new(contentsFolder);
+        var (isUnicode, isEnglish) = await IsEnglish(pathSet.Script).ConfigureAwait(false);
+        return (pathSet, isUnicode, isEnglish);
     }
 
     private static CancellationTokenSource PrepareCancellationTokenSource(TimeSpan timeSpan)

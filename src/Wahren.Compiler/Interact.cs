@@ -18,8 +18,8 @@ public partial class Program
         var token = cancellationTokenSource.Token;
         try
         {
-            var (success, contentsFolder, scriptFolder, _, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, token).ConfigureAwait(false);
-            if (!success)
+            var (pathSet, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, token).ConfigureAwait(false);
+            if (pathSet is null)
             {
                 return 1;
             }
@@ -32,9 +32,10 @@ public partial class Program
                 IsSwitch = false,
             };
 
-            static async ValueTask<int> Reload(Project project, string[] files, bool isUnicode, bool isEnglish, CancellationToken token)
+            static async ValueTask<int> Reload(Project project, PathSet pathSet, CancellationToken token)
             {
                 project.Dispose();
+                var files = pathSet.GetScriptDatArray();
                 for (int i = 0; i < files.Length; i++)
                 {
                     project.Files.Add(new((uint)i));
@@ -42,7 +43,8 @@ public partial class Program
                     project.FileAnalysisList.Add(new());
                 }
 
-                await ParallelLoadAndParseAsync(project, token).ConfigureAwait(false);
+                var loadAndParseTask = ParallelLoadAndParseAsync(project, token);
+                await loadAndParseTask.ConfigureAwait(false);
                 project.AddReferenceAndValidate();
                 return 0;
             }
@@ -68,8 +70,7 @@ public partial class Program
                 switch (stage)
                 {
                     case 0:
-                        var files = Directory.GetFiles(scriptFolder, "*.dat", SearchOption.AllDirectories);
-                        var reloadResult = await Reload(project, files, isUnicode, isEnglish, token).ConfigureAwait(false);
+                        var reloadResult = await Reload(project, pathSet, token).ConfigureAwait(false);
                         if (reloadResult == 0)
                         {
                             if (theme is not null)
@@ -207,5 +208,40 @@ internal class ColorTheme
         Error = error;
         Normal0 = normal0;
         Normal1 = normal1;
+    }
+}
+
+internal class PathSet
+{
+    public readonly string Contents;
+    public readonly string Script;
+    public readonly string Chip;
+    public readonly string Chip2;
+    public readonly string Picture;
+    public readonly string Image;
+    public readonly string Face;
+    public readonly string Image_dat;
+    public readonly string Image2_dat;
+    public readonly string Imagedata_dat;
+    public readonly string Imagedata2_dat;
+
+    public PathSet(string contents)
+    {
+        Contents = contents;
+        Script = Path.Combine(Contents, "script");
+        Chip = Path.Combine(Contents, "chip");
+        Chip2 = Path.Combine(Contents, "chip2");
+        Image = Path.Combine(Contents, "image");
+        Image_dat = Path.Combine(Image, "image.dat");
+        Image2_dat = Path.Combine(Image, "image2.dat");
+        Imagedata_dat = Path.Combine(Image, "imagedata.dat");
+        Imagedata2_dat = Path.Combine(Image, "imagedata2.dat");
+        Picture = Path.Combine(Contents, "picture");
+        Face = Path.Combine(Contents, "face");
+    }
+
+    public string[] GetScriptDatArray()
+    {
+        return Directory.GetFiles(Script, "*.dat", SearchOption.AllDirectories);
     }
 }
