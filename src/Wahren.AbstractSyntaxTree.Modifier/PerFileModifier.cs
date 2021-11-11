@@ -4,7 +4,7 @@ global using Wahren.AbstractSyntaxTree.Parser;
 global using Wahren.AbstractSyntaxTree.Element;
 global using Wahren.AbstractSyntaxTree.Statement;
 global using Wahren.AbstractSyntaxTree.Statement.Expression;
-global using Wahren.PooledList;
+global using Wahren.ArrayPoolCollections;
 global using System;
 
 namespace Wahren.AbstractSyntaxTree.Modifier;

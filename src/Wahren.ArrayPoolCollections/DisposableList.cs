@@ -1,4 +1,4 @@
-namespace Wahren.PooledList;
+namespace Wahren.ArrayPoolCollections;
 
 public struct DisposableList<T> : IDisposable, System.Collections.Generic.IList<T>
     where T : IDisposable

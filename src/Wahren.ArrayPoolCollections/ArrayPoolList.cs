@@ -1,4 +1,4 @@
-﻿namespace Wahren.PooledList;
+﻿namespace Wahren.ArrayPoolCollections;
 
 public struct ArrayPoolList<T> : IDisposable, System.Collections.Generic.IList<T>, IEquatable<ArrayPoolList<T>>
 {

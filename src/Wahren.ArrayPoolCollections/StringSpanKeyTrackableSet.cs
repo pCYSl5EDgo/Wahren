@@ -2,7 +2,7 @@
 global using System.Buffers;
 global using System.Runtime.CompilerServices;
 
-namespace Wahren.PooledList;
+namespace Wahren.ArrayPoolCollections;
 
 public struct StringSpanKeyTrackableSet<TTrackId> : IDisposable
     where TTrackId : unmanaged

@@ -401,10 +401,6 @@ public sealed partial class Project
         return ref Unsafe.NullRef<Result>();
     }
 
-    /// <summary>
-    /// Ensure project's nodes have their own super nodes.
-    /// </summary>
-    /// <returns>true: no error.</returns>
     public bool CheckExistance()
     {
         var fileSpan = Files.AsSpan();

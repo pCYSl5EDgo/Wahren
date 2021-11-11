@@ -139,7 +139,7 @@ public partial class Program
             Console.Write(Stage1Success);
             Console.ForegroundColor = prev;
         }
-        
+
         return 1;
     }
 
@@ -243,5 +243,55 @@ internal class PathSet
     public string[] GetScriptDatArray()
     {
         return Directory.GetFiles(Script, "*.dat", SearchOption.AllDirectories);
+    }
+
+    public TripleImageSet GetImages()
+    {
+        return new(Directory.GetFiles(Image, "*.png"), Directory.GetFiles(Image, "*.bmp"), Directory.GetFiles(Image, "*.jpg"));
+    }
+
+    public record struct TripleImageSet(string[] Png, string[] Bmp, string[] Jpg)
+    {
+        public Enumerator GetEnumerator() => new(ref this);
+
+        public struct Enumerator
+        {
+            private readonly TripleImageSet set;
+
+            private string[] array;
+            private int index;
+
+            public Enumerator(ref TripleImageSet set)
+            {
+                this.set = set;
+                array = set.Png;
+                index = -1;
+            }
+
+            public bool MoveNext()
+            {
+                if (++index >= array.Length)
+                {
+                    if (array == set.Jpg)
+                    {
+                        return false;
+                    }
+                    else if (array == set.Bmp)
+                    {
+                        array = set.Jpg;
+                    }
+                    else
+                    {
+                        array = set.Bmp;
+                    }
+
+                    index = 0;
+                }
+
+                return true;
+            }
+
+            public ReadOnlySpan<char> Current => Path.GetFileNameWithoutExtension(array[index].AsSpan());
+        }
     }
 }

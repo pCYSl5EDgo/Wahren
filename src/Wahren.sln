@@ -6,11 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.FileLoader", "Wahren.FileLoader\Wahren.FileLoader.csproj", "{26C20AC6-7C86-4C2D-A8B3-04E06F4DA5B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Tests", "Wahren.FileLoader.Test\Wahren.Tests.csproj", "{C21E11DA-740A-459A-9272-B2C22AE8EEBA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{370A857A-6746-4F7D-99E8-955641E18F65} = {370A857A-6746-4F7D-99E8-955641E18F65}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.PooledList", "PooledList\Wahren.PooledList.csproj", "{370A857A-6746-4F7D-99E8-955641E18F65}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree", "Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj", "{DA80436B-0986-47F4-9C04-5EF822423665}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -37,7 +32,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.GraphicalEditor", "Wahren.GraphicalEditor\Wahren.GraphicalEditor.csproj", "{F601E4BF-CC87-4737-BB94-680A81D85927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahren.Imagedata", "Wahren.Imagedata\Wahren.Imagedata.csproj", "{AC905827-9D2D-4079-9048-86E084B7742C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Imagedata", "Wahren.Imagedata\Wahren.Imagedata.csproj", "{AC905827-9D2D-4079-9048-86E084B7742C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.ArrayPoolCollections", "Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj", "{A8AB261B-A03C-42FD-961F-2DCDC5DF970A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +50,6 @@ Global
 		{C21E11DA-740A-459A-9272-B2C22AE8EEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C21E11DA-740A-459A-9272-B2C22AE8EEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C21E11DA-740A-459A-9272-B2C22AE8EEBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{370A857A-6746-4F7D-99E8-955641E18F65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{370A857A-6746-4F7D-99E8-955641E18F65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{370A857A-6746-4F7D-99E8-955641E18F65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{370A857A-6746-4F7D-99E8-955641E18F65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA80436B-0986-47F4-9C04-5EF822423665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA80436B-0986-47F4-9C04-5EF822423665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA80436B-0986-47F4-9C04-5EF822423665}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +86,10 @@ Global
 		{AC905827-9D2D-4079-9048-86E084B7742C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC905827-9D2D-4079-9048-86E084B7742C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC905827-9D2D-4079-9048-86E084B7742C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8AB261B-A03C-42FD-961F-2DCDC5DF970A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8AB261B-A03C-42FD-961F-2DCDC5DF970A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8AB261B-A03C-42FD-961F-2DCDC5DF970A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8AB261B-A03C-42FD-961F-2DCDC5DF970A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

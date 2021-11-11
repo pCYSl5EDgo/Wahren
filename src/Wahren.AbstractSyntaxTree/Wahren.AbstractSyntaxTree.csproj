@@ -93,7 +93,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PooledList\Wahren.PooledList.csproj" />
+    <ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
     <ProjectReference Include="..\Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.Runtime.CompilerServices;
 global using Wahren.AbstractSyntaxTree.Element;
 global using Wahren.AbstractSyntaxTree.Node;
-global using Wahren.PooledList;
+global using Wahren.ArrayPoolCollections;
 
 [module: SkipLocalsInit]
 

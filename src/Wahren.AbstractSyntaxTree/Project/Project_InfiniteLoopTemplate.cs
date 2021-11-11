@@ -4,10 +4,6 @@ namespace Wahren.AbstractSyntaxTree.Project;
 
 public sealed partial class Project
 {
-    /// <summary>
-    /// Ensure the project does not have infinite loop.
-    /// </summary>
-    /// <returns>true: no infinite loop.</returns>
     public bool DetectInfiniteLoop()
     {
         var files = Files.AsSpan();

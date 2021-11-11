@@ -7,6 +7,7 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <Deterministic>true</Deterministic>
         <LangVersion>preview</LangVersion>
+        <EnablePreviewFeatures>true</EnablePreviewFeatures>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
         <NoWarn>CS0105</NoWarn>

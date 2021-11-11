@@ -1,6 +1,6 @@
 ﻿global using System;
 global using System.Buffers;
-global using Wahren.PooledList;
+global using Wahren.ArrayPoolCollections;
 
 using System.Runtime.InteropServices;
 

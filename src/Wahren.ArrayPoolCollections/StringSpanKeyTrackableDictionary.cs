@@ -1,4 +1,4 @@
-﻿namespace Wahren.PooledList;
+﻿namespace Wahren.ArrayPoolCollections;
 
 public struct StringSpanKeyTrackableDictionary<TValue, TTrackId> : IDisposable
     where TValue : unmanaged

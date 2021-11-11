@@ -1,4 +1,4 @@
-﻿namespace Wahren.PooledList;
+﻿namespace Wahren.ArrayPoolCollections;
 
 public struct StringSpanKeySlowSet : IDisposable
 {

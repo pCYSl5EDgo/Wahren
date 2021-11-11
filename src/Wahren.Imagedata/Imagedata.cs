@@ -2,7 +2,7 @@
 using System.Buffers;
 using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
-using Wahren.PooledList;
+using Wahren.ArrayPoolCollections;
 
 namespace Wahren.Imagedata;
 
