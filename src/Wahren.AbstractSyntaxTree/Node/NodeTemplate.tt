@@ -29,18 +29,35 @@ public partial struct <#= node.Name #>Node : IInheritableNode
 	public bool HasSuper { get; set; }
 
 <# if (node.HasBlock) { #>
-    public ArrayPoolList<IStatement> Statements = new();
+    public ArrayPoolList<IStatement> Statements;
 <# } #>
 <# foreach (var additionalField in node.Fields) { #>
-	public <#= additionalField.Type #> <#= additionalField.Name #> = new();
+	public <#= additionalField.Type #> <#= additionalField.Name #>;
 <# } #>
 <# foreach (var item in elements) { #>
 <#		if (item.VariantType == "") { #>
-	public <#= item.Type #>? <#= item.Name.Escape() #> = default;
+	public <#= item.Type #>? <#= item.Name.Escape() #>;
 <#		} else { #>
-	public VariantPair<<#= item.Type #>> <#= item.Name.Escape() #> = new();
+	public VariantPair<<#= item.Type #>> <#= item.Name.Escape() #>;
 <#		} #>
 <# } #>
+
+    public <#= node.Name #>Node()
+    {
+<# if (node.HasBlock) { #>
+        Statements = new();
+<# } #>    
+<# foreach (var additionalField in node.Fields) { #>
+	<#= additionalField.Name #> = new();
+<# } #>
+<# foreach (var item in elements) { #>
+<#		if (item.VariantType == "") { #>
+	<#= item.Name.Escape() #> = default;
+<#		} else { #>
+	<#= item.Name.Escape() #> = new();
+<#		} #>
+<# } #>
+    }
 
 	public void Dispose()
 	{

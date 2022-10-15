@@ -7,7 +7,11 @@ public struct WorkspaceNode
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
 
-    public StringSpanKeyDictionary<Pair_NullableString_NullableInt_ArrayElement> Dictionary = new();
+    public StringSpanKeyDictionary<Pair_NullableString_NullableInt_ArrayElement> Dictionary;
+    public WorkspaceNode()
+    {
+        Dictionary = new();
+    }
 
     public void Dispose()
     {

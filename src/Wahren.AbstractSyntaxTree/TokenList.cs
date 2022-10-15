@@ -2,10 +2,18 @@
 
 public struct TokenList : IDisposable
 {
-    private uint[] arrayUInt32 = Array.Empty<uint>();
-    private TokenKind[] arrayTokenKind = Array.Empty<TokenKind>();
-    private int count = 0;
-    private int eachLimit = 0;
+    private uint[] arrayUInt32;
+    private TokenKind[] arrayTokenKind;
+    private int count;
+    private int eachLimit;
+
+    public TokenList()
+    {
+        arrayUInt32 = Array.Empty<uint>();
+        arrayTokenKind = Array.Empty<TokenKind>();
+        count = 0;
+        eachLimit = 0;
+    }
     
     public int Count => count;
     public uint LastIndex => (uint)(count - 1);

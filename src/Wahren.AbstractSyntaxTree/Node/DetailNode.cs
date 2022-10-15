@@ -6,7 +6,12 @@ public struct DetailNode : INode
     public uint BracketLeft { get; set; }
     public uint BracketRight { get; set; }
 
-    public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> StringElementList = new();
+    public DisposableList<VariantPair<Pair_NullableString_NullableIntElement>> StringElementList;
+
+    public DetailNode()
+    {
+        StringElementList = new();
+    }
 
     public void Dispose()
     {

@@ -2,12 +2,22 @@
 
 public struct StringSpanKeySlowSet : IDisposable
 {
-    private ArrayPoolList<char> keys = new();
-    private uint[][] offset_value_pairBuckets = Array.Empty<uint[]>();
-    private ArrayPoolList<uint> eachBucketCount = new();
-    private ArrayPoolList<ulong> offset_length_Pairs = new();
-    public DualList<uint> References = new();
-    private uint count = default;
+    private ArrayPoolList<char> keys;
+    private uint[][] offset_value_pairBuckets;
+    private ArrayPoolList<uint> eachBucketCount;
+    private ArrayPoolList<ulong> offset_length_Pairs;
+    public DualList<uint> References;
+    private uint count;
+
+    public StringSpanKeySlowSet()
+    {
+        keys = new();
+        offset_value_pairBuckets = Array.Empty<uint[]>();
+        eachBucketCount = new();
+        offset_length_Pairs = new();
+        References = new();
+        count = default;
+    }
 
     public bool TryGet(ReadOnlySpan<char> key, out uint id)
     {

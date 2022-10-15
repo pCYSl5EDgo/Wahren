@@ -3,10 +3,18 @@
 public struct VariantPair<T> : IDisposable, ITokenIdModifiable
     where T : class, IElement
 {
-    public T? Value = null;
-    public T[] VariantArray = Array.Empty<T>();
-    public ulong[] HashArray = Array.Empty<ulong>();
-    public int Count = 0;
+    public T? Value;
+    public T[] VariantArray;
+    public ulong[] HashArray;
+    public int Count;
+
+    public VariantPair()
+    {
+        Value = null;
+        VariantArray = Array.Empty<T>();
+        HashArray = Array.Empty<ulong>();
+        Count = 0;
+    }
 
     public Span<T> Variants => VariantArray.AsSpan(0, Count);
     public Span<ulong> HashSpan => HashArray.AsSpan(0, Count);
