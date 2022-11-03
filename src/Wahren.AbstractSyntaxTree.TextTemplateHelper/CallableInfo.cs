@@ -168,7 +168,7 @@ public struct CallableInfo
         new("playBGM", 0, 1, ReferenceKind.bgm),
         new("pushCon", 3, 3, SSpo, SUni | ReferenceKind.Class, ReferenceKind.NumberVariableWriter),
         new("pushSex", 2, 2, SUni, ReferenceKind.NumberVariableWriter),
-        new("pushVar", 2, 2, ReferenceKind.StringVariableReader, ReferenceKind.NumberVariableWriter),
+        new("pushVar", 2, 3, new[] { ReferenceKind.StringVariableReader, ReferenceKind.NumberVariableWriter }, new[] { ReferenceKind.StringVariableReader, StrReader , ReferenceKind.NumberVariableWriter }),
         new("routine", 1, 1, ReferenceKind.Event),
         new("setCapa", 2, 2, SSpo, NumReader),
         new("setDone", 2, 2, SUni, ReferenceKind.Boolean),
