@@ -399,7 +399,7 @@ public struct CallableInfo
         new("isAlive", 1, int.MaxValue, SPowUni),
         new("isEnemy", 2, 2, SSpoUni, SSpoUni),
         new("isEvent", 0, 0),
-        new("isPeace", 0, 0),
+        new("isPeace", 0, 1, ReferenceKind.Boolean),
         new("isWorld", 0, 0),
         new("countVar", 1, 1, ReferenceKind.StringVariableReader),
         new("getLimit", 0, 0),
