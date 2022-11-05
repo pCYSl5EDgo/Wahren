@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Wahren.FileLoader;
 
-public static unsafe class UnicodeHandler
+public static class UnicodeHandler
 {
     public static void LoadFromString(ReadOnlySpan<char> content, out DualList<char> source)
     {
@@ -41,7 +41,7 @@ public static unsafe class UnicodeHandler
         source = new DualList<char>();
         source.AddEmpty();
 
-        if (content.Length >= 32 && content[0] == 1 && content[1] == 2 && content[2] == 3 && content[3] == 4)
+        if (content.Length >= 32 && Unsafe.As<byte, uint>(ref MemoryMarshall.GetReference(content)) == 0x04030201U)
         {
             CryptUtility.Decrypt(content.Slice(4, 28), content.Slice(32));
             content = content.Slice(32);

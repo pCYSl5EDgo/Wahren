@@ -1,360 +1,85 @@
-﻿using System.Runtime.InteropServices;
+﻿global using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
-using System.Runtime.Intrinsics.Arm;
-using System.Runtime.Intrinsics.X86;
 
 namespace Wahren.FileLoader;
 
-public static unsafe class CryptUtility
+public static class CryptUtility
 {
     public static void Decrypt(ReadOnlySpan<byte> cryptSpan, Span<byte> content)
     {
-        byte* temp = stackalloc byte[56];
-        fixed (byte* cryptSource = cryptSpan)
+        const int stride256 = 32 * 7;
+        const int stride128 = 16 * 7;
+        Span<byte> temp = stackalloc byte[56];
+        cryptSpan.CopyTo(temp);
+        cryptSpan.CopyTo(temp.Slice(28));
+        ref var itr = ref MemoryMarshal.GetReference(content);
+        ref byte itrEnd = ref itr;
+        Unsafe.AddByteOffset(ref itrEnd, content.Length);
+        if (content.Length >= stride256 && Vector256.IsHardwareAccelerated)
         {
-            Buffer.MemoryCopy(cryptSource, temp, 28, 28);
-            Buffer.MemoryCopy(cryptSource, temp + 28, 28, 28);
+            var v0 = Vector256.LoadUnsafe(ref temp);
+            var v1 = Vector256.LoadUnsafe(ref temp, 4);
+            var v2 = Vector256.LoadUnsafe(ref temp, 8);
+            var v3 = Vector256.LoadUnsafe(ref temp, 12);
+            var v4 = Vector256.LoadUnsafe(ref temp, 16);
+            var v5 = Vector256.LoadUnsafe(ref temp, 20);
+            var v6 = Vector256.LoadUnsafe(ref temp, 24);
+            do
+            {
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v1).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v2).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v3).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v4).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v5).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v6).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+                Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v0).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 32);
+            } while (Unsafe.IsAddressLessThan(ref itr, ref itrEnd));
         }
-
-        fixed (byte* contentPtr = content)
+        else if (content.Length >= stride128 && Vector128.IsHardwareAccelerated)
         {
-            byte* end = contentPtr + content.Length;
-            byte* itrEnd = contentPtr;
-
-            if (Avx2.IsSupported)
+            var v0 = Vector128.LoadUnsafe(ref temp);
+            var v1 = Vector128.LoadUnsafe(ref temp, 4);
+            var v2 = Vector128.LoadUnsafe(ref temp, 8);
+            var v3 = Vector128.LoadUnsafe(ref temp, 12);
+            var v4 = Vector128.LoadUnsafe(ref temp, 16);
+            var v5 = Vector128.LoadUnsafe(ref temp, 20);
+            var v6 = Vector128.LoadUnsafe(ref temp, 24);
+            do
             {
-                const int LoopSize = 32;
-                itrEnd += (content.Length / (LoopSize * 7)) * (LoopSize * 7);
-                Vector256<byte> v0 = Avx.LoadVector256(temp);
-                Vector256<byte> v1 = Avx.LoadVector256(temp + 4);
-                Vector256<byte> v2 = Avx.LoadVector256(temp + 8);
-                Vector256<byte> v3 = Avx.LoadVector256(temp + 12);
-                Vector256<byte> v4 = Avx.LoadVector256(temp + 16);
-                Vector256<byte> v5 = Avx.LoadVector256(temp + 20);
-                Vector256<byte> v6 = Avx.LoadVector256(temp + 24);
-                for (var itr = contentPtr; itr != itrEnd;)
-                {
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v1));
-                    itr += LoopSize;
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v2));
-                    itr += LoopSize;
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v3));
-                    itr += LoopSize;
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v4));
-                    itr += LoopSize;
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v5));
-                    itr += LoopSize;
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v6));
-                    itr += LoopSize;
-                    Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v0));
-                    itr += LoopSize;
-                }
-            }
-            else if (Sse2.IsSupported)
-            {
-                const int LoopSize = 16;
-                itrEnd += (content.Length / (LoopSize * 7)) * (LoopSize * 7);
-                Vector128<byte> v0 = Sse2.LoadVector128(temp);
-                Vector128<byte> v1 = Sse2.LoadVector128(temp + 4);
-                Vector128<byte> v2 = Sse2.LoadVector128(temp + 8);
-                Vector128<byte> v3 = Sse2.LoadVector128(temp + 12);
-                Vector128<byte> v4 = Sse2.LoadVector128(temp + 16);
-                Vector128<byte> v5 = Sse2.LoadVector128(temp + 20);
-                Vector128<byte> v6 = Sse2.LoadVector128(temp + 24);
-                for (var itr = contentPtr; itr != itrEnd;)
-                {
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v1));
-                    itr += LoopSize;
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v5));
-                    itr += LoopSize;
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v2));
-                    itr += LoopSize;
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v6));
-                    itr += LoopSize;
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v3));
-                    itr += LoopSize;
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v0));
-                    itr += LoopSize;
-                    Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v4));
-                    itr += LoopSize;
-                }
-            }
-            else if (AdvSimd.IsSupported)
-            {
-                const int LoopSize = 16;
-                itrEnd += (content.Length / (LoopSize * 7)) * (LoopSize * 7);
-                Vector128<byte> v0 = AdvSimd.LoadVector128(temp);
-                Vector128<byte> v1 = AdvSimd.LoadVector128(temp + 4);
-                Vector128<byte> v2 = AdvSimd.LoadVector128(temp + 8);
-                Vector128<byte> v3 = AdvSimd.LoadVector128(temp + 12);
-                Vector128<byte> v4 = AdvSimd.LoadVector128(temp + 16);
-                Vector128<byte> v5 = AdvSimd.LoadVector128(temp + 20);
-                Vector128<byte> v6 = AdvSimd.LoadVector128(temp + 24);
-                for (var itr = contentPtr; itr != itrEnd;)
-                {
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v1));
-                    itr += LoopSize;
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v5));
-                    itr += LoopSize;
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v2));
-                    itr += LoopSize;
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v6));
-                    itr += LoopSize;
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v3));
-                    itr += LoopSize;
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v0));
-                    itr += LoopSize;
-                    AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v4));
-                    itr += LoopSize;
-                }
-            }
-
-            for (int index = 4; itrEnd != end; itrEnd++)
-            {
-                *itrEnd -= temp[index];
-                if (++index == 56)
-                {
-                    index = 0;
-                }
-            }
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v1).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v5).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v2).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v6).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v3).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v0).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v4).StoreUnsafe(ref itr);
+                Unsafe.Add(ref itr, 16);
+                Unsafe.Add(ref itr, stride128);
+            } while (Unsafe.IsAddressLessThan(ref itr, ref itrEnd));
         }
-    }
-
-    [UnmanagedCallersOnly]
-    public static void DecryptUnamanagedOnly(byte* cryptSource, byte* contentPtr, nuint contentSize)
-    {
-        byte* temp = stackalloc byte[56];
-        Buffer.MemoryCopy(cryptSource, temp, 28, 28);
-        Buffer.MemoryCopy(cryptSource, temp + 28, 28, 28);
-
-        byte* end = contentPtr + contentSize;
-        byte* itrEnd = contentPtr;
-
-        if (Avx2.IsSupported)
+        
+        int index = 0;
+        while (Unsafe.IsAddressLessThan(ref itr, ref itrEnd))
         {
-            const int LoopSize = 32;
-            itrEnd += (contentSize / (LoopSize * 7)) * (LoopSize * 7);
-            Vector256<byte> v0 = Avx.LoadVector256(temp);
-            Vector256<byte> v1 = Avx.LoadVector256(temp + 4);
-            Vector256<byte> v2 = Avx.LoadVector256(temp + 8);
-            Vector256<byte> v3 = Avx.LoadVector256(temp + 12);
-            Vector256<byte> v4 = Avx.LoadVector256(temp + 16);
-            Vector256<byte> v5 = Avx.LoadVector256(temp + 20);
-            Vector256<byte> v6 = Avx.LoadVector256(temp + 24);
-            for (var itr = contentPtr; itr != itrEnd;)
-            {
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v1));
-                itr += LoopSize;
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v2));
-                itr += LoopSize;
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v3));
-                itr += LoopSize;
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v4));
-                itr += LoopSize;
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v5));
-                itr += LoopSize;
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v6));
-                itr += LoopSize;
-                Avx.Store(itr, Avx2.Subtract(Avx.LoadVector256(itr), v0));
-                itr += LoopSize;
-            }
-        }
-        else if (Sse2.IsSupported)
-        {
-            const int LoopSize = 16;
-            itrEnd += (contentSize / (LoopSize * 7)) * (LoopSize * 7);
-            Vector128<byte> v0 = Sse2.LoadVector128(temp);
-            Vector128<byte> v1 = Sse2.LoadVector128(temp + 4);
-            Vector128<byte> v2 = Sse2.LoadVector128(temp + 8);
-            Vector128<byte> v3 = Sse2.LoadVector128(temp + 12);
-            Vector128<byte> v4 = Sse2.LoadVector128(temp + 16);
-            Vector128<byte> v5 = Sse2.LoadVector128(temp + 20);
-            Vector128<byte> v6 = Sse2.LoadVector128(temp + 24);
-            for (var itr = contentPtr; itr != itrEnd;)
-            {
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v1));
-                itr += LoopSize;
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v5));
-                itr += LoopSize;
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v2));
-                itr += LoopSize;
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v6));
-                itr += LoopSize;
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v3));
-                itr += LoopSize;
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v0));
-                itr += LoopSize;
-                Sse2.Store(itr, Sse2.Subtract(Sse2.LoadVector128(itr), v4));
-                itr += LoopSize;
-            }
-        }
-        else if (AdvSimd.IsSupported)
-        {
-            const int LoopSize = 16;
-            itrEnd += (contentSize / (LoopSize * 7)) * (LoopSize * 7);
-            Vector128<byte> v0 = AdvSimd.LoadVector128(temp);
-            Vector128<byte> v1 = AdvSimd.LoadVector128(temp + 4);
-            Vector128<byte> v2 = AdvSimd.LoadVector128(temp + 8);
-            Vector128<byte> v3 = AdvSimd.LoadVector128(temp + 12);
-            Vector128<byte> v4 = AdvSimd.LoadVector128(temp + 16);
-            Vector128<byte> v5 = AdvSimd.LoadVector128(temp + 20);
-            Vector128<byte> v6 = AdvSimd.LoadVector128(temp + 24);
-            for (var itr = contentPtr; itr != itrEnd;)
-            {
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v1));
-                itr += LoopSize;
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v5));
-                itr += LoopSize;
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v2));
-                itr += LoopSize;
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v6));
-                itr += LoopSize;
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v3));
-                itr += LoopSize;
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v0));
-                itr += LoopSize;
-                AdvSimd.Store(itr, AdvSimd.Subtract(AdvSimd.LoadVector128(itr), v4));
-                itr += LoopSize;
-            }
-        }
-
-        for (int index = 4; itrEnd != end; itrEnd++)
-        {
-            *itrEnd -= temp[index];
+            itr = itr - temp[index];
             if (++index == 56)
             {
                 index = 0;
             }
-        }
-    }
-
-    [UnmanagedCallersOnly]
-    public static void EncryptUnamanagedOnly(byte* cryptSource, byte* contentPtr, nuint contentSize)
-    {
-        byte* temp = stackalloc byte[56];
-        Buffer.MemoryCopy(cryptSource, temp, 28, 28);
-        Buffer.MemoryCopy(cryptSource, temp + 28, 28, 28);
-
-        byte* end = contentPtr + contentSize;
-        byte* itrEnd = contentPtr;
-        byte* destItr = cryptSource + 28;
-
-        if (Avx2.IsSupported)
-        {
-            const int LoopSize = 32;
-            itrEnd += (contentSize / (LoopSize * 7)) * (LoopSize * 7);
-            Vector256<byte> v0 = Avx.LoadVector256(temp);
-            Vector256<byte> v1 = Avx.LoadVector256(temp + 4);
-            Vector256<byte> v2 = Avx.LoadVector256(temp + 8);
-            Vector256<byte> v3 = Avx.LoadVector256(temp + 12);
-            Vector256<byte> v4 = Avx.LoadVector256(temp + 16);
-            Vector256<byte> v5 = Avx.LoadVector256(temp + 20);
-            Vector256<byte> v6 = Avx.LoadVector256(temp + 24);
-            for (var itr = contentPtr; itr != itrEnd;)
-            {
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v1));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v2));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v3));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v4));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v5));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v6));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Avx.Store(destItr, Avx2.Add(Avx.LoadVector256(itr), v0));
-                itr += LoopSize;
-                destItr += LoopSize;
-            }
-        }
-        else if (Sse2.IsSupported)
-        {
-            const int LoopSize = 16;
-            itrEnd += (contentSize / (LoopSize * 7)) * (LoopSize * 7);
-            Vector128<byte> v0 = Sse2.LoadVector128(temp);
-            Vector128<byte> v1 = Sse2.LoadVector128(temp + 4);
-            Vector128<byte> v2 = Sse2.LoadVector128(temp + 8);
-            Vector128<byte> v3 = Sse2.LoadVector128(temp + 12);
-            Vector128<byte> v4 = Sse2.LoadVector128(temp + 16);
-            Vector128<byte> v5 = Sse2.LoadVector128(temp + 20);
-            Vector128<byte> v6 = Sse2.LoadVector128(temp + 24);
-            for (var itr = contentPtr; itr != itrEnd;)
-            {
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v1));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v5));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v2));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v6));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v3));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v0));
-                itr += LoopSize;
-                destItr += LoopSize;
-                Sse2.Store(destItr, Sse2.Add(Sse2.LoadVector128(itr), v4));
-                itr += LoopSize;
-                destItr += LoopSize;
-            }
-        }
-        else if (AdvSimd.IsSupported)
-        {
-            const int LoopSize = 16;
-            itrEnd += (contentSize / (LoopSize * 7)) * (LoopSize * 7);
-            Vector128<byte> v0 = AdvSimd.LoadVector128(temp);
-            Vector128<byte> v1 = AdvSimd.LoadVector128(temp + 4);
-            Vector128<byte> v2 = AdvSimd.LoadVector128(temp + 8);
-            Vector128<byte> v3 = AdvSimd.LoadVector128(temp + 12);
-            Vector128<byte> v4 = AdvSimd.LoadVector128(temp + 16);
-            Vector128<byte> v5 = AdvSimd.LoadVector128(temp + 20);
-            Vector128<byte> v6 = AdvSimd.LoadVector128(temp + 24);
-            for (var itr = contentPtr; itr != itrEnd;)
-            {
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v1));
-                itr += LoopSize;
-                destItr += LoopSize;
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v5));
-                itr += LoopSize;
-                destItr += LoopSize;
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v2));
-                itr += LoopSize;
-                destItr += LoopSize;
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v6));
-                itr += LoopSize;
-                destItr += LoopSize;
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v3));
-                itr += LoopSize;
-                destItr += LoopSize;
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v0));
-                itr += LoopSize;
-                destItr += LoopSize;
-                AdvSimd.Store(destItr, AdvSimd.Add(AdvSimd.LoadVector128(itr), v4));
-                itr += LoopSize;
-                destItr += LoopSize;
-            }
-        }
-
-        for (int index = 4; itrEnd != end; itrEnd++, destItr++)
-        {
-            *destItr = (byte)(*itrEnd + temp[index]);
-            if (++index == 56)
-            {
-                index = 0;
-            }
+            Unsafe.Add(ref itr, 1);
         }
     }
 }

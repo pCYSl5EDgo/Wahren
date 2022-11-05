@@ -7,7 +7,6 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <Deterministic>true</Deterministic>
         <LangVersion>11</LangVersion>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
         <NoWarn>CS0105</NoWarn>
         <DefineConstants>JAPANESE</DefineConstants>

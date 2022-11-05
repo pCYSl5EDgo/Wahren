@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Wahren.FileLoader;
 
-public static unsafe class Cp932Handler
+public static class Cp932Handler
 {
     static Cp932Handler()
     {
@@ -14,7 +14,7 @@ public static unsafe class Cp932Handler
 
     public static void Load(Span<byte> content, out DualList<char> source)
     {
-        if (content.Length >= 32 && content[0] == 1 && content[1] == 2 && content[2] == 3 && content[3] == 4)
+        if (content.Length >= 32 && Unsafe.As<byte, uint>(ref MemoryMarshall.GetReference(content)) == 0x04030201U)
         {
             CryptUtility.Decrypt(content.Slice(4, 28), content.Slice(32));
             content = content.Slice(32);

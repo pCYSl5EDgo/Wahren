@@ -32,17 +32,19 @@ public static class Lexer
 
         NO_INCREMENT_LINE:
             var currentLineRestSpan = line.AsSpan(position.Offset);
-            token.PrecedingWhitespaceCount = CountLeadingWhitespace(currentLineRestSpan);
-            if (token.PrecedingWhitespaceCount == currentLineRestSpan.Length)
+            var notWhitespaceIndex = currentLineRestSpan.IndexOfAnyExcept(' ', '\t');
+            if (notWhitespaceIndex < 0)
             {
+                token.PrecedingWhitespaceCount = currentLineRestSpan.Length;
                 goto INCREMENT_LINE;
             }
 
-            position.Offset += token.PrecedingWhitespaceCount;
+            token.PrecedingWhitespaceCount = (uint)notWhitespaceIndex;
+            position.Offset += (uint)notWhitespaceIndex;
             token.Position = position;
-            currentLineRestSpan = currentLineRestSpan.Slice((int)token.PrecedingWhitespaceCount);
+            currentLineRestSpan = currentLineRestSpan.Slice(notWhitespaceIndex);
             var whitespaceIndex = currentLineRestSpan.IndexOfAny(' ', '\t');
-            var inspectionSpan = whitespaceIndex == -1 ? currentLineRestSpan : currentLineRestSpan.Slice(0, whitespaceIndex);
+            var inspectionSpan = whitespaceIndex < 0 ? currentLineRestSpan : currentLineRestSpan.Slice(0, whitespaceIndex);
             var symbolIndex = inspectionSpan.IndexOfAny("{}(),;:=!<>&|*/+-%");
             switch (symbolIndex)
             {
@@ -152,87 +154,5 @@ public static class Lexer
     RETURN_VALIDATION:
         token.Length = position.Offset - token.Position.Offset;
         return true;
-    }
-
-    private static void ReadBackUntilNotWhitespaceAppears(ref DualList<char> source, ref Position position, ref Position startInclusive)
-    {
-        ref ArrayPoolList<char> currentLine = ref source[position.Line];
-        do
-        {
-            if (position.Line < startInclusive.Line || (position.Line == startInclusive.Line && position.Offset <= startInclusive.Offset))
-            {
-                position = startInclusive;
-                return;
-            }
-
-            if (position.Offset == 0)
-            {
-                do
-                {
-                    if (--position.Line < 0)
-                    {
-                        position = startInclusive;
-                        return;
-                    }
-                    currentLine = ref source[position.Line];
-                    position.Offset = currentLine.LastIndex;
-                } while (currentLine.IsEmpty);
-            }
-            else
-            {
-                --position.Offset;
-            }
-
-            switch (currentLine[position.Offset])
-            {
-                case ' ':
-                case '\t':
-                    continue;
-                default:
-                    if (++position.Offset >= currentLine.Count)
-                    {
-                        position.Line++;
-                        position.Offset = 0;
-                    }
-                    return;
-            }
-        } while (true);
-    }
-
-    public static unsafe uint CountLeadingWhitespace(ReadOnlySpan<char> span)
-    {
-        var index = 0U;
-        if (Avx2.IsSupported && span.Length >= 32)
-        {
-            const uint dropMask = 0b1111_1111_1111_1111_1111_1111_1111_0000U;
-            index = (uint)span.Length & dropMask;
-            fixed (char* ptr = span)
-            {
-                var vector0x20 = Vector256.Create((short)0x20);
-                var vectorZero = Vector256<short>.Zero;
-                var itr = (short*)ptr;
-                var itrEnd = itr + index;
-                for (; itr != itrEnd; itr += 16)
-                {
-                    var itrVector = Avx.LoadVector256(itr);
-                    var trailingZero = Bmi1.TrailingZeroCount((uint)Avx2.MoveMask(Avx2.Or(Avx2.CompareGreaterThan(itrVector, vector0x20), Avx2.CompareGreaterThan(vectorZero, itrVector)).AsByte()));
-                    if (trailingZero != 32)
-                    {
-                        return (uint)(((nuint)itr - (nuint)ptr + trailingZero) >> 1);
-                    }
-                }
-            }
-        }
-
-        for (; index < span.Length; ++index)
-        {
-            var c = (ushort)span[(int)index];
-            if (c > 0x20U)
-            {
-                return index;
-            }
-        }
-
-        return (uint)span.Length;
     }
 }
