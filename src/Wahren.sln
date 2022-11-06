@@ -28,8 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.AbstractSyntaxTree.Modifier", "Wahren.AbstractSyntaxTree.Modifier\Wahren.AbstractSyntaxTree.Modifier.csproj", "{864DCE89-3A1E-4B6F-BCCC-9F3C199C1076}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.Imagedata", "Wahren.Imagedata\Wahren.Imagedata.csproj", "{AC905827-9D2D-4079-9048-86E084B7742C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wahren.ArrayPoolCollections", "Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj", "{A8AB261B-A03C-42FD-961F-2DCDC5DF970A}"
