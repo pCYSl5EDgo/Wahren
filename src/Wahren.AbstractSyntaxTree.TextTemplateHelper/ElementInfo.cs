@@ -480,7 +480,7 @@ public struct ElementInfo
         new("learn", ReferenceKind.Skill | ReferenceKind.Skillset),
         new("delskill", ReferenceKind.Skill | ReferenceKind.Skillset),
         new("delskill2", ReferenceKind.Skill | ReferenceKind.Skillset),
-        new("item", ReferenceKind.Skill),
+        new("item", ReferenceKind.Skill | ReferenceKind.Skillset | ReferenceKind.Number),
         new("leader_skill", ReferenceKind.Skill | ReferenceKind.Skillset),
         new("assist_skill", ReferenceKind.Skill | ReferenceKind.Skillset),
     };
@@ -968,6 +968,8 @@ public struct ElementInfo
         new("unit_castle_forcefire"),
     };
 
+    // 複数回の代入は禁止されているが、次の項目を読み取りに行くためにはこの項目を適切に読まねばならない
+    // だが一々完璧にデシリアライズするのは無駄of無駄なので専用にDiscardというメソッド群を用意することにした
     public static readonly ElementInfo[] Discards = new ElementInfo[] {
         new("str"),
         new("fkey"),
