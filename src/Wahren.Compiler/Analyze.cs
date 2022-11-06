@@ -565,16 +565,18 @@ public partial class Program
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, false, severity);
         result.Success = Parser.Parse(ref context, ref result);
         PerResultValidator.AddReferenceAndValidate(ref context, ref result, analysisResult);
-        if (result.Success)
+        if (!result.Success)
         {
-            ref var errorList = ref result.ErrorList;
-            for (uint i = 0, end = (uint)errorList.Count; i != end; i++)
+            return;
+        }
+
+        ref var errorList = ref result.ErrorList;
+        for (uint i = 0, end = (uint)errorList.Count; i != end; i++)
+        {
+            if (errorList[i].Severity == DiagnosticSeverity.Error)
             {
-                if (errorList[i].Severity == DiagnosticSeverity.Error)
-                {
-                    result.Success = false;
-                    break;
-                }
+                result.Success = false;
+                break;
             }
         }
     }
