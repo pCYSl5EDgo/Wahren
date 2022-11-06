@@ -184,23 +184,15 @@ public partial class Program
         {
             var path = project.Files[index].FilePath;
             Debug.Assert(path is not null);
-            var (rental, actual) = await ReadFileUtility.ReadAsync(path, token).ConfigureAwait(false);
-            try
+            token.ThrowIfCancellationRequested();
+            using (var input = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous))
             {
-                if (actual == 0)
-                {
-                    return;
-                }
-                token.ThrowIfCancellationRequested();
-                LoadAndParse(project.RequiredSeverity, project.IsSwitch, project.IsUnicode, project.IsEnglish, ref project.Files[index], project.FileAnalysisList[index], rental.AsSpan(0, actual));
+                var task = project.IsUnicode
+                 ? UnicodeHandler.LoadAsync(input, token)
+                 : Cp932Handler.LoadAsync(input, token);
+                result.Source = await task.ConfigureAwait(false);
             }
-            finally
-            {
-                if (rental.Length != 0)
-                {
-                    ArrayPool<byte>.Shared.Return(rental);
-                }
-            }
+            Parse(project.RequiredSeverity, project.IsSwitch, project.IsEnglish, ref project.Files[index], project.FileAnalysisList[index]);
         });
     }
 
@@ -568,17 +560,8 @@ public partial class Program
         stringBuilder.AppendLine();
     }
 
-    private static void LoadAndParse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isUnicode, bool isEnglish, ref Result result, AnalysisResult analysisResult, Span<byte> input)
+    private static Parse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isEnglish, ref Result result, AnalysisResult analysisResult)
     {
-        if (isUnicode)
-        {
-            UnicodeHandler.Load(input, out result.Source);
-        }
-        else
-        {
-            Cp932Handler.Load(input, out result.Source);
-        }
-
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, false, severity);
         result.Success = Parser.Parse(ref context, ref result);
         PerResultValidator.AddReferenceAndValidate(ref context, ref result, analysisResult);
