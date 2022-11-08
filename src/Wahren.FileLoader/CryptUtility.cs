@@ -78,15 +78,20 @@ public static class CryptUtility
             Unsafe.Add(ref itrEnd, stride128);
         }
         
-        int index = 4;
+        ref var cryptStart = ref MemoryMarshal.GetReference(cryptSpan);
+        ref var cryptItr = ref cryptStart;
+        Unsafe.Add(ref cryptItr, 4);
+        ref var cryptEnd = ref cryptItr;
+        Unsafe.Add(ref cryptEnd, 52);
         while (Unsafe.IsAddressLessThan(ref itr, ref itrEnd))
         {
-            itr -= cryptSpan[index];
-            if (++index == 56)
-            {
-                index = 0;
-            }
+            itr -= cryptItr;
             Unsafe.Add(ref itr, 1);
+            Unsafe.Add(ref cryptItr, 1);
+            if (Unsafe.AreSame(ref cryptItr, ref cryptEnd))
+            {
+                cryptItr = ref cryptStart;
+            }
         }
     }
 }
