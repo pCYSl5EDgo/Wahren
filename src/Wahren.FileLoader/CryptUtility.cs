@@ -28,7 +28,7 @@ public static class CryptUtility
             var v4 = Vector256.LoadUnsafe(ref cryptSpan[16]);
             var v5 = Vector256.LoadUnsafe(ref cryptSpan[20]);
             var v6 = Vector256.LoadUnsafe(ref cryptSpan[24]);
-            Unsafe.Subtract(ref itrEnd, 32 * 7);
+            Unsafe.Subtract(ref itrEnd, stride256);
             do
             {
                 Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v1).StoreUnsafe(ref itr);
@@ -46,7 +46,7 @@ public static class CryptUtility
                 Vector256<byte>.Subtract(Vector256.LoadUnsafe(ref itr), v0).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
             } while (!Unsafe.IsAddressGreaterThan(ref itrEnd, ref itr));
-            Unsafe.Add(ref itrEnd, 32 * 7);
+            Unsafe.Add(ref itrEnd, stride256);
         }
         else if (content.Length >= stride128 && Vector128.IsHardwareAccelerated)
         {
@@ -57,7 +57,7 @@ public static class CryptUtility
             var v4 = Vector128.LoadUnsafe(ref cryptSpan[16]);
             var v5 = Vector128.LoadUnsafe(ref cryptSpan[20]);
             var v6 = Vector128.LoadUnsafe(ref cryptSpan[24]);
-            Unsafe.Subtract(ref itrEnd, 16 * 7);
+            Unsafe.Subtract(ref itrEnd, stride128);
             do
             {
                 Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v1).StoreUnsafe(ref itr);
@@ -75,7 +75,7 @@ public static class CryptUtility
                 Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v4).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
             } while (!Unsafe.IsAddressGreaterThan(ref itrEnd, ref itr));
-            Unsafe.Add(ref itrEnd, 16 * 7);
+            Unsafe.Add(ref itrEnd, stride128);
         }
         
         int index = 4;
