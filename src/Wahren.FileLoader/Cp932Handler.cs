@@ -35,7 +35,7 @@ public static class Cp932Handler
         var length = RandomAccess.GetLength(handle);
         if (length == 0L) { return source; }
         const int stride = 1024 * 7 * 8;
-        var remainder = default(byte?);
+        var tempCount = 0;
         var tempBuffer = ArrayPool<byte>.Shared.Rent(1024 * 64);
         var buffer = ArrayPool<byte>.Shared.Rent(32 + 7 * 8 * 1024);
         byte[]? cryptBuffer = null
@@ -48,11 +48,11 @@ public static class Cp932Handler
                 if (length >= 32 && Unsafe.As<byte, uint>(ref buffer) == 0x04030201U)
                 {
                     CryptUtility.Decrypt(buffer.AsSpan(4, 28), buffer.AsSpan(32, (int)length - 32));
-                    InnerLoad(ref source, buffer.AsSpan(32, (int)length - 32), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                    InnerLoad(ref source, buffer.AsSpan(32, (int)length - 32), tempBuffer, ref tempCount, token);
                 }
                 else
                 {
-                    InnerLoad(ref source, buffer.AsSpan(0, (int)length), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                    InnerLoad(ref source, buffer.AsSpan(0, (int)length), tempBuffer, ref tempCount, token);
                 }
                 return source;
             }
@@ -61,7 +61,7 @@ public static class Cp932Handler
             if (Unsafe.As<byte, uint>(ref buffer[0]) == 0x04030201)
             {
                 CryptUtility.Decrypt(buffer.AsSpan(4, 28), buffer.AsSpan(32, firstReadSize - 32));
-                InnerLoad(ref source, buffer.AsSpan(32, firstReadSize - 32), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                InnerLoad(ref source, buffer.AsSpan(32, firstReadSize - 32), tempBuffer, ref tempCount, token);
                 cryptBuffer = ArrayPool<byte>.Shared.Rent(56);
                 buffer.AsSpan(4, 28).CopyTo(cryptBuffer);
                 buffer.AsSpan(4, 28).CopyTo(cryptBuffer.AsSpan(28));
@@ -70,18 +70,18 @@ public static class Cp932Handler
                 {
                     _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, stride), offset, token).ConfigureAwait(false);
                     CryptUtility.Decrypt(cryptBuffer.AsSpan(0, 56), buffer.AsSpan(0, stride));
-                    InnerLoad(ref source, buffer.AsSpan(0, stride), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                    InnerLoad(ref source, buffer.AsSpan(0, stride), tempBuffer, ref tempCount, token);
                 }
                 if (remainder != 0)
                 {
                     var actual = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, remainder), length - remainder, token);
                     CryptUtility.Decrypt(cryptBuffer.AsSpan(0, 56), buffer.AsSpan(0, actual));
-                    InnerLoad(ref source, buffer.AsSpan(0, actual), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                    InnerLoad(ref source, buffer.AsSpan(0, actual), tempBuffer, ref tempCount, token);
                 }
             }
             else
             {
-                InnerLoad(ref source, buffer.AsSpan(0, firstReadSize), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                InnerLoad(ref source, buffer.AsSpan(0, firstReadSize), tempBuffer, ref tempCount, token);
                 long offset = firstReadSize;
                 do
                 {
@@ -91,10 +91,11 @@ public static class Cp932Handler
                         break;
                     }
                     actual &= -2;
-                    InnerLoad(ref source, buffer.AsSpan(0, actual), MemoryMarshal.Cast<byte, char>(tempBuffer.AsSpan()), ref remainder, token);
+                    InnerLoad(ref source, buffer.AsSpan(0, actual), tempBuffer, ref tempCount, token);
                     offset += actual;
                 } while (true);
             }
+            InnerLastLoad(ref source, tempBuffer.AsSpan(0, tempCount));
             return source;
         }
         finally
@@ -108,59 +109,42 @@ public static class Cp932Handler
         }
     }
 
-    private static void InnerLoad(ref DualList<char> source, ReadOnlySpan<byte> input, Span<char> tempSpan, ref byte? remainder, CancellationToken token)
+    private static void InnerLoad(ref DualList<char> source, ReadOnlySpan<byte> input, Span<byte> tempBuffer, ref int tempCount, CancellationToken token)
     {
-        ushort bytes4 = 0;
-        var remainderSpan = MemoryMarshal.Cast<ushort, byte>(MemoryMarshal.CreateSpan(ref bytes4, 1));
-        while (!input.IsEmpty)
-        {
+        for (var newLineIndex = input.IndexOf((byte)'\n'); newLineIndex >= 0; input = input[(newLineIndex + 1)..], newLineIndex = input.IndexOf((byte)'\n')) {
             token.ThrowIfCancellationRequested();
-            if (remainder.HasValue)
+            var slice = input[..(newLineIndex != 0 ? newLineIndex - 1 : 0)];
+            if (tempCount != 0)
             {
-                remainderSpan[0] = remainder.Value;
-                remainderSpan[1] = input[1];
-                input = input[1..];
-                _ = Encoding.GetChars(remainderSpan, tempSpan);
-                source.Last.AddRange(tempSpan[..((tempSpan[0].IsSurrogatePair ? 1 : 0) + 1)]);
-                remainder = default;
+                slice.CopyTo(tempBuffer[tempCount..]);
+                slice = tempBuffer[..(tempCount + slice.Length)];
+                tempCount = 0;
             }
-            else if (input.Length == 1)
+            var charCount = Encoding.GetCharCount(slice);
+            if (charCount != 0)
             {
-                if (Encoding.GetChars(input, tempSpan) == 0)
-                {
-                    remainder = input[0];
-                    return;
-                }
-                switch (tempSpan[0])
-                {
-                    case '\n':
-                        source.AddEmpty();
-                        return;
-                    case '\r':
-                        return;
-                    default:
-                        source.Last.Add(ref tempSpan[0]);
-                        return;
-                }
+                ref var last = ref source.Last;
+                var dest = last.InsertUndefinedRange(last.Count, (uint)charCount);
+                Encoding.GetChars(slice, dest);
             }
-
-            var readCount = Encoding.GetChars(input, tempSpan);
-            input = input[readCount..];
-            var content = tempSpan;
-            while (!content.IsEmtpy)
-            {
-                var linefeedIndex = content.IndexOf('\n');
-                ref var lastLine = ref source.Last;
-                if (linefeedIndex < 0)
-                {
-                    lastLine.AddRange(content);
-                    break;
-                }
-            
-                lastLine.AddRange(content.Slice(0, linefeedIndex - ((linefeedIndex > 0 && content[linefeedIndex - 1] == '\r') ? 1 : 0)));
-                source.AddEmpty();
-                content = content.Slice(linefeedIndex + 1);
-            }
+            source.AddEmpty();
         }
+        if (!input.IsEmpty)
+        {
+            tempCount = input.Length;
+            input.CopyTo(tempBuffer);
+        }
+    }
+
+    private static void InnerLastLoad(ref DualList<char> source, Span<byte> input)
+    {
+        var count = Encoding.GetCharCount(input);
+        if (count == 0)
+        {
+            return;
+        }
+        ref var last = ref source.Last;
+        var dest = last.InsertUndefinedRange(last.Count, (uint)charCount);
+        Encoding.GetChars(slice, dest);
     }
 }
