@@ -7,7 +7,6 @@ public static class CryptUtility
 {
     public static void Decrypt(ReadOnlySpan<byte> cryptSpan, Span<byte> content)
     {
-        Debug.Assert(cryptSpan.Length is 28 or 56);
         const int stride256 = 32 * 7;
         const int stride128 = 16 * 7;
         Span<byte> temp = stackalloc byte[56];
@@ -75,15 +74,14 @@ public static class CryptUtility
                 Unsafe.Add(ref itr, 16);
                 Vector128<byte>.Subtract(Vector128.LoadUnsafe(ref itr), v4).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Unsafe.Add(ref itr, stride128);
             } while (!Unsafe.IsAddressGreaterThan(ref itrEnd, ref itr));
             Unsafe.Add(ref itrEnd, 16 * 7);
         }
         
-        int index = 0;
+        int index = 4;
         while (Unsafe.IsAddressLessThan(ref itr, ref itrEnd))
         {
-            itr = itr - cryptSpan[index];
+            itr -= cryptSpan[index];
             if (++index == 56)
             {
                 index = 0;
