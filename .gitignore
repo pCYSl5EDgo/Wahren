@@ -1,3 +1,5 @@
+.vs/**
+.vscode/**
 node_modules/**
 bin/**
 package.json

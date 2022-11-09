@@ -4,15 +4,12 @@ namespace Wahren.Compiler;
 
 public partial class Program
 {
-    [Command(new string[] {
-        "format",
-    })]
-    public async ValueTask<int> Format(
-        [Option(0, "input folder")] string rootFolder = ".",
-        [Option("switch")] bool @switch = false,
-        [Option("t")] bool time = false,
-        [Option("unicode")] bool forceUnicode = false,
-        [Option("delete")] bool deleteDiscardedToken = false
+    public static async ValueTask<int> FormatAsync(
+        string rootFolder = ".",
+        bool @switch = false,
+        bool time = false,
+        bool forceUnicode = false,
+        bool deleteDiscardedToken = false
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;

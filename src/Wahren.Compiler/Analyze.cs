@@ -1,21 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using Wahren.ArrayPoolCollections;
 using Wahren.Map;
 
 namespace Wahren.Compiler;
 
 public partial class Program
 {
-    [Command(new string[] {
-        "analyze",
-    })]
-#pragma warning disable CA1822
-    public async ValueTask<int> Analyze(
-#pragma warning restore CA1822
-        [Option(0, "input folder")] string rootFolder = ".",
-        [Option("switch")] bool @switch = false,
-        [Option("s")] PseudoDiagnosticSeverity severity = PseudoDiagnosticSeverity.Error,
-        [Option("t")] bool time = false
+    public static async ValueTask<int> AnalyzeAsync(
+        string rootFolder = ".",
+        bool @switch = false,
+        PseudoDiagnosticSeverity severity = PseudoDiagnosticSeverity.Error,
+        bool time = false
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
@@ -175,13 +170,16 @@ public partial class Program
             var path = project.Files[index].FilePath;
             Debug.Assert(path is not null);
             token.ThrowIfCancellationRequested();
+            DualList<char> source;
             using (var input = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous))
             {
-                var task = project.IsUnicode
+                Debug.Assert(input is not null);
+                source = await (project.IsUnicode
                  ? UnicodeHandler.LoadAsync(input, token)
-                 : Cp932Handler.LoadAsync(input, token);
-                project.Files[index].Source = await task.ConfigureAwait(false);
+                 : Cp932Handler.LoadAsync(input, token)).ConfigureAwait(false);
             }
+
+            project.Files[index].Source = source;
             Parse(project.RequiredSeverity, project.IsSwitch, project.IsEnglish, ref project.Files[index], project.FileAnalysisList[index]);
         });
     }

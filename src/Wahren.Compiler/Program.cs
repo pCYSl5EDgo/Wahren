@@ -1,32 +1,91 @@
-﻿using Microsoft.Extensions.Hosting;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using System.Text.Json.Serialization;
+﻿using System.Net.Http;
+using System.Reflection;
 
 namespace Wahren.Compiler;
 
-public partial class Program : ConsoleAppBase
+public partial class Program
 {
-    public static async Task Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
-        await Host.CreateDefaultBuilder().RunConsoleAppFrameworkAsync<Program>(args).ConfigureAwait(false);
-    }
-
-    public async ValueTask<int> Run()
-    {
-        var task = Analyze(".", false, PseudoDiagnosticSeverity.Error, true);
-        try
+        var (commandKind, readCount) = CommandKindHelper.DecideCommandKind(args);
+        switch (commandKind)
         {
-            await CheckUpdateAsync().ConfigureAwait(false);
-        }
-        catch
-        {
-        }
-        var result = await task.ConfigureAwait(false);
+            case CommandKind.Analyze:
+                {
+                    var arguments = new AnalyzeArguments();
+                    if (!arguments.TryParse(args.AsSpan(readCount)))
+                    {
+                        Console.WriteLine(args.ToString());
+                        break;
+                    }
 
-        Console.WriteLine("Press Enter Key...");
-        Console.ReadLine();
-        return result;
+                    return await AnalyzeAsync(arguments.rootFolder, arguments.@switch, arguments.severity, arguments.time).ConfigureAwait(false);
+                }
+            case CommandKind.Format:
+                {
+                    var arguments = new FormatArguments();
+                    if (!arguments.TryParse(args.AsSpan(readCount)))
+                    {
+                        Console.WriteLine(args.ToString());
+                        break;
+                    }
+
+                    return await FormatAsync(arguments.rootFolder, arguments.@switch, arguments.time, arguments.forceUnicode, arguments.deleteDiscardedToken).ConfigureAwait(false);
+                }
+            case CommandKind.Update:
+                try
+                {
+                    await CheckUpdateAsync().ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    return 1;
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine(e.ToString());
+                    return 1;
+                }
+                break;
+            case CommandKind.Version:
+                if (Assembly.GetExecutingAssembly().GetName() is not { Version: { } version })
+                {
+                    Console.WriteLine("Version: Unknown");
+                    break;
+                }
+
+                Console.WriteLine($"Version: {version.Major}.{version.Minor}.{version.Revision}");
+                break;
+            case CommandKind.License:
+                Console.WriteLine("""
+                Copyright 2017-2022 pCYSl5EDgo
+
+                Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+                The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                """);
+                break;
+            case CommandKind.Help:
+            default:
+                Console.WriteLine("""
+                Wahren.Compiler.exe
+
+                使用可能なコマンド
+                - analyze
+                - format
+                - update
+                - help
+                - version
+                - license
+
+                各コマンドの詳細については --helpオプションを付与して確認してください
+                """);
+                break;
+        }
+
+        return 0;
     }
 
     private static async ValueTask CheckUpdateAsync()
@@ -174,6 +233,7 @@ public partial class Program : ConsoleAppBase
     }
 }
 
+#pragma warning disable IDE1006
 internal class GitHubLatestReleaseResponse
 {
     public string tag_name { get; set; } = "";
@@ -186,13 +246,4 @@ internal class GitHubLatestReleaseResponseAsset
     public string url { get; set; } = "";
     public int size { get; set; }
 }
-
-[JsonSourceGenerationOptions(WriteIndented = true)]
-[JsonSerializable(typeof(GitHubLatestReleaseResponse))]
-[JsonSerializable(typeof(GitHubLatestReleaseResponseAsset[]))]
-[JsonSerializable(typeof(GitHubLatestReleaseResponseAsset))]
-[JsonSerializable(typeof(string))]
-[JsonSerializable(typeof(int))]
-internal partial class SourceGenerationContext : JsonSerializerContext
-{
-}
+#pragma warning restore IDE1006
