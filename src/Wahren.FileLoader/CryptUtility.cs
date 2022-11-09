@@ -35,19 +35,19 @@ public static class CryptUtility
             Unsafe.Subtract(ref itrEnd, stride256);
             do
             {
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v1).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v1).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v2).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v2).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v3).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v3).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v4).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v4).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v5).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v5).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v6).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v6).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
-                Vector256.Subtract(Vector256.LoadUnsafe(ref itr), v0).StoreUnsafe(ref itr);
+                (Vector256.LoadUnsafe(ref itr) - v0).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 32);
             } while (!Unsafe.IsAddressGreaterThan(ref itrEnd, ref itr));
             Unsafe.Add(ref itrEnd, stride256);
@@ -64,19 +64,19 @@ public static class CryptUtility
             Unsafe.Subtract(ref itrEnd, stride128);
             do
             {
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v1).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v1).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v5).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v5).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v2).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v2).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v6).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v6).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v3).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v3).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v0).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v0).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
-                Vector128.Subtract(Vector128.LoadUnsafe(ref itr), v4).StoreUnsafe(ref itr);
+                (Vector128.LoadUnsafe(ref itr) - v4).StoreUnsafe(ref itr);
                 Unsafe.Add(ref itr, 16);
             } while (!Unsafe.IsAddressGreaterThan(ref itrEnd, ref itr));
             Unsafe.Add(ref itrEnd, stride128);
