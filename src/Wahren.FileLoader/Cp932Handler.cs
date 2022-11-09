@@ -14,7 +14,7 @@ public static class Cp932Handler
 
     public static void Load(Span<byte> content, out DualList<char> source)
     {
-        if (content.Length >= 32 && Unsafe.As<byte, uint>(ref MemoryMarshall.GetReference(content)) == 0x04030201U)
+        if (content.Length >= 32 && Unsafe.As<byte, uint>(ref MemoryMarshal.GetReference(content)) == 0x04030201U)
         {
             CryptUtility.Decrypt(content.Slice(4, 28), content.Slice(32));
             content = content.Slice(32);
@@ -38,14 +38,14 @@ public static class Cp932Handler
         var tempCount = 0;
         var tempBuffer = ArrayPool<byte>.Shared.Rent(1024 * 64);
         var buffer = ArrayPool<byte>.Shared.Rent(32 + 7 * 8 * 1024);
-        byte[]? cryptBuffer = null
+        byte[]? cryptBuffer = null;
         try
         {
             const int firstReadSize = 4 + 28 + 32 * 7;
-            if (legnth < firstReadSize)
+            if (length < firstReadSize)
             {
                 _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, (int)length), 0, token).ConfigureAwait(false);
-                if (length >= 32 && Unsafe.As<byte, uint>(ref buffer) == 0x04030201U)
+                if (length >= 32 && Unsafe.As<byte, uint>(ref buffer[0]) == 0x04030201U)
                 {
                     CryptUtility.Decrypt(buffer.AsSpan(4, 28), buffer.AsSpan(32, (int)length - 32));
                     InnerLoad(ref source, buffer.AsSpan(32, (int)length - 32), tempBuffer, ref tempCount, token);
@@ -57,7 +57,7 @@ public static class Cp932Handler
                 return source;
             }
 
-            _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, firstReadSize), 0, token).ConfigureAwait();
+            _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, firstReadSize), 0, token).ConfigureAwait(false);
             if (Unsafe.As<byte, uint>(ref buffer[0]) == 0x04030201)
             {
                 CryptUtility.Decrypt(buffer.AsSpan(4, 28), buffer.AsSpan(32, firstReadSize - 32));
@@ -74,7 +74,7 @@ public static class Cp932Handler
                 }
                 if (remainder != 0)
                 {
-                    var actual = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, remainder), length - remainder, token);
+                    var actual = await RandomAccess.ReadAsync(handle, new Memory<byte>(buffer, 0, (int)remainder), length - remainder, token);
                     CryptUtility.Decrypt(cryptBuffer.AsSpan(0, 56), buffer.AsSpan(0, actual));
                     InnerLoad(ref source, buffer.AsSpan(0, actual), tempBuffer, ref tempCount, token);
                 }
@@ -124,7 +124,7 @@ public static class Cp932Handler
             if (charCount != 0)
             {
                 ref var last = ref source.Last;
-                var dest = last.InsertUndefinedRange(last.Count, (uint)charCount);
+                var dest = last.InsertUndefinedRange((uint)last.Count, (uint)charCount);
                 Encoding.GetChars(slice, dest);
             }
             source.AddEmpty();
@@ -144,7 +144,7 @@ public static class Cp932Handler
             return;
         }
         ref var last = ref source.Last;
-        var dest = last.InsertUndefinedRange(last.Count, (uint)charCount);
-        Encoding.GetChars(slice, dest);
+        var dest = last.InsertUndefinedRange((uint)last.Count, (uint)count);
+        Encoding.GetChars(input, dest);
     }
 }

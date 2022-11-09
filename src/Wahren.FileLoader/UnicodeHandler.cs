@@ -1,10 +1,9 @@
 ﻿global using System;
 global using System.Buffers;
 global using Wahren.ArrayPoolCollections;
-
-using System.Runtime.InteropServices;
-
-[module: System.Runtime.CompilerServices.SkipLocalsInit]
+global using System.Threading;
+global using System.Runtime.InteropServices;
+global using System.Runtime.CompilerServices;
 
 namespace Wahren.FileLoader;
 
@@ -82,10 +81,10 @@ public static class UnicodeHandler
         try
         {
             const int firstReadSize = 4 + 28 + 32 * 7;
-            if (legnth < firstReadSize)
+            if (length < firstReadSize)
             {
-                _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, (int)length), 0, token).ConfigureAwait(false);
-                if (length >= 32 && Unsafe.As<byte, uint>(ref buffer) == 0x04030201U)
+                _ = await RandomAccess.ReadAsync(handle, new Memory<byte>(buffer, 0, (int)length), 0, token).ConfigureAwait(false);
+                if (length >= 32 && Unsafe.As<byte, uint>(ref buffer[0]) == 0x04030201U)
                 {
                     CryptUtility.Decrypt(buffer.AsSpan(4, 28), buffer.AsSpan(32, (int)length - 32));
                     InnerLoad(ref source, buffer.AsSpan(32, (int)length - 32), token);
@@ -97,7 +96,7 @@ public static class UnicodeHandler
                 return source;
             }
 
-            _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, firstReadSize), 0, token).ConfigureAwait();
+            _ = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, firstReadSize), 0, token).ConfigureAwait(false);
             if (Unsafe.As<byte, uint>(ref buffer[0]) == 0x04030201)
             {
                 CryptUtility.Decrypt(buffer.AsSpan(4, 28), buffer.AsSpan(32, firstReadSize - 32));
@@ -114,7 +113,7 @@ public static class UnicodeHandler
                 }
                 if (remainder != 0)
                 {
-                    var actual = await RandomAccess.ReadAsync(handle, buffer.AsMemory(0, remainder), length - remainder, token);
+                    var actual = await RandomAccess.ReadAsync(handle, new Memory<byte>(buffer, 0, (int)remainder), length - remainder, token);
                     CryptUtility.Decrypt(cryptBuffer.AsSpan(0, 56), buffer.AsSpan(0, actual));
                     InnerLoad(ref source, buffer.AsSpan(0, actual), token);
                 }
@@ -125,7 +124,7 @@ public static class UnicodeHandler
                 long offset = firstReadSize;
                 do
                 {
-                    var actual = await RandomAccess.ReadAsync(handle, buffer.AsMemory(), offset, token).ConfigureAwait(false);
+                    var actual = await RandomAccess.ReadAsync(handle, new Memory<byte>(buffer), offset, token).ConfigureAwait(false);
                     if (actual == 0)
                     {
                         break;
@@ -149,7 +148,7 @@ public static class UnicodeHandler
 
     private static void InnerLoad(ref DualList<char> source, ReadOnlySpan<byte> input, CancellationToken token)
     {
-        var span = MemoryMarshal.Cast<byte, char>(input);
+        var charSpan = MemoryMarshal.Cast<byte, char>(input);
         do
         {
             token.ThrowIfCancellationRequested();
