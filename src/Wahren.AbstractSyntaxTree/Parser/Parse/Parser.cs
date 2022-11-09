@@ -6,8 +6,6 @@ global using Wahren.AbstractSyntaxTree.Element;
 global using Wahren.AbstractSyntaxTree.Node;
 global using Wahren.ArrayPoolCollections;
 
-[module: SkipLocalsInit]
-
 namespace Wahren.AbstractSyntaxTree.Parser;
 
 public static partial class Parser
