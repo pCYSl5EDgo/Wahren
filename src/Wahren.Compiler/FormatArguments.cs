@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Wahren.Compiler;
+﻿namespace Wahren.Compiler;
 
 public struct FormatArguments
 {
@@ -123,8 +120,7 @@ public struct FormatArguments
             switch (____argumentIndex____++)
             {
                 case 0:
-                    rootFolder = JsonSerializer.Deserialize(____argument____, SourceGenerationContext.Default.String) ?? rootFolder;
-                    
+                    rootFolder = ____argument____.IsEmpty ? string.Empty : new(____argument____);                    
                     ++____index____;
                     break;
                 default:

@@ -19,6 +19,12 @@ public partial class Program
                         break;
                     }
 
+                    if (arguments.____help____)
+                    {
+                        Console.WriteLine(arguments.ToString());
+                        break;
+                    }
+
                     return await AnalyzeAsync(arguments.rootFolder, arguments.@switch, arguments.severity, arguments.time).ConfigureAwait(false);
                 }
             case CommandKind.Format:
@@ -27,6 +33,12 @@ public partial class Program
                     if (!arguments.TryParse(args.AsSpan(readCount)))
                     {
                         Console.WriteLine(args.ToString());
+                        break;
+                    }
+
+                    if (arguments.____help____)
+                    {
+                        Console.WriteLine(arguments.ToString());
                         break;
                     }
 
