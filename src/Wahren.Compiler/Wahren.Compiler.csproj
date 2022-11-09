@@ -8,7 +8,7 @@
 		<InvariantGlobalization>true</InvariantGlobalization>
 		<UseSystemResourceKeys>true</UseSystemResourceKeys>
 
-		<IlcOptimizationPreference>Size</IlcOptimizationPreference>
+		<IlcOptimizationPreference>Speed</IlcOptimizationPreference>
 		<IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
 
 		<DebuggerSupport>false</DebuggerSupport>
