@@ -37,7 +37,7 @@ public static partial class Parser
 
             if (span[0] == '@')
             {
-                if (span.Length == 1 || span[span.Length - 1] != '@')
+                if (span.Length == 1 || span[^1] != '@')
                 {
                     result.ErrorAdd_NoVariation("attribute", elementIndex);
                     return false;

@@ -1,2 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<Using Include="System"/>
+		<Using Include="System.Buffers"/>
+		<Using Include="System.Runtime.CompilerServices"/>
+	</ItemGroup>
 </Project>

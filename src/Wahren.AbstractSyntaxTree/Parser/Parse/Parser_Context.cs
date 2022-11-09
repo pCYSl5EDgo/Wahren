@@ -64,7 +64,7 @@ public static partial class Parser
                 {
                     continue;
                 }
-                
+
                 return false;
             }
             else

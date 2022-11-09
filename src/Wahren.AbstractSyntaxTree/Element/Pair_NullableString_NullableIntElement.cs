@@ -19,7 +19,7 @@ public sealed class Pair_NullableString_NullableIntElement : IElement<Pair_Nulla
         ElementKeyLength = elementKeyLength;
         HasElementVariant = hasElementVariant;
     }
-    
+
     static IElement IElement.Create(uint elementTokenId, int elementKeyLength, bool hasElementVariant) => new Pair_NullableString_NullableIntElement(elementTokenId, elementKeyLength, hasElementVariant);
 
     public void IncrementToken(uint indexEqualToOrGreaterThan, uint count)
@@ -38,7 +38,7 @@ public sealed class Pair_NullableString_NullableIntElement : IElement<Pair_Nulla
         {
             ElementTokenId -= count;
         }
-        
+
         value.DecrementToken(indexEqualToOrGreaterThan, count);
     }
 }

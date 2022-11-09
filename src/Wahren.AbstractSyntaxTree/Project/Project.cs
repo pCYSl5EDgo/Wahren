@@ -72,7 +72,7 @@ public sealed partial class Project : IDisposable
                 continue;
             }
             i++;
-            if (tokenList.GetPrecedingWhitespaceCount(i -2U) != 0 || tokenList.GetPrecedingNewLineCount(i - 2U) != 0)
+            if (tokenList.GetPrecedingWhitespaceCount(i - 2U) != 0 || tokenList.GetPrecedingNewLineCount(i - 2U) != 0)
             {
                 continue;
             }

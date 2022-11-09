@@ -14,7 +14,7 @@ public struct TokenList : IDisposable
         count = 0;
         eachLimit = 0;
     }
-    
+
     public int Count => count;
     public uint LastIndex => (uint)(count - 1);
 
@@ -63,12 +63,12 @@ public struct TokenList : IDisposable
         {
             return;
         }
-        
+
         if (index < 0 || removeCount < 0 || index + removeCount > count)
         {
             throw new ArgumentOutOfRangeException();
         }
-        
+
         if (index + removeCount != count)
         {
             Line.Slice(index + removeCount).CopyTo(Line.Slice(index));
@@ -159,7 +159,7 @@ public struct TokenList : IDisposable
         }
 
         count += additiveCount;
-        
+
         undefinedRange.lineSpan = arrayUInt32.AsSpan(index, additiveCount);
         undefinedRange.offsetSpan = arrayUInt32.AsSpan(eachLimit + index, additiveCount);
         undefinedRange.lengthSpan = arrayUInt32.AsSpan(eachLimit * 2 + index, additiveCount);

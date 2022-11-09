@@ -384,7 +384,7 @@ public sealed class CallFunctionExpression
     private uint parenCount;
     public uint ParenCount => parenCount;
     public void IncrementParenCount() => parenCount++;
-    
+
     public uint TokenId { get; set; }
     public FunctionKind Kind { get; set; }
 

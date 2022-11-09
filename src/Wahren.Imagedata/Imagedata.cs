@@ -87,7 +87,7 @@ public sealed class Imagedata : IDisposable
             {
                 return false;
             }
-            
+
             var x = BinaryPrimitives.ReadUInt32LittleEndian(span);
             var y = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(4));
             var w = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(8));

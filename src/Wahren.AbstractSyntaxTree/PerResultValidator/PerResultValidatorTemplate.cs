@@ -471,8 +471,6 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.@break, ref analysisResult.SkillSet, ReferenceKind.Skill);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.scream);
 		AddReference(ref result, ref node.scream, ref analysisResult.soundSet, ReferenceKind.sound);
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.item);
-		AddReference(ref result, ref node.item, ref analysisResult.SkillSet, ReferenceKind.Skill);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.image2);
 		AddReference(ref result, ref node.image2, ref analysisResult.imagedataSet, ReferenceKind.imagedata);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.sub_image2);
@@ -1830,8 +1828,6 @@ public static partial class PerResultValidator
 		AddReference(ref result, ref node.@break, ref analysisResult.SkillSet, ReferenceKind.Skill);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.scream);
 		AddReference(ref result, ref node.scream, ref analysisResult.soundSet, ReferenceKind.sound);
-        Collect(ref result, ref analysisResult.ScenarioSet, ref node.item);
-		AddReference(ref result, ref node.item, ref analysisResult.SkillSet, ReferenceKind.Skill);
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.talent);
 		ValidateBoolean(ref result, ref node.talent, "Unit", "talent");
         Collect(ref result, ref analysisResult.ScenarioSet, ref node.@class);

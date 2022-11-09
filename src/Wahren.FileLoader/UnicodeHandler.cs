@@ -1,11 +1,4 @@
-﻿global using System;
-global using System.Buffers;
-global using Wahren.ArrayPoolCollections;
-global using System.Threading;
-global using System.Runtime.InteropServices;
-global using System.Runtime.CompilerServices;
-
-namespace Wahren.FileLoader;
+﻿namespace Wahren.FileLoader;
 
 public static class UnicodeHandler
 {
@@ -159,7 +152,7 @@ public static class UnicodeHandler
                 lastLine.AddRange(charSpan);
                 return;
             }
-        
+
             lastLine.AddRange(charSpan.Slice(0, linefeedIndex - ((linefeedIndex > 0 && charSpan[linefeedIndex - 1] == '\r') ? 1 : 0)));
             source.AddEmpty();
             charSpan = charSpan.Slice(linefeedIndex + 1);

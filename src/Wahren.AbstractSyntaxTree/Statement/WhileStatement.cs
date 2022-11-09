@@ -79,7 +79,7 @@ public sealed class BreakStatement : IStatement
     }
 
     public uint TokenId { get; set; }
-    
+
     public WeakReference<WhileStatement>? While { get; set; }
 
     public BreakStatement(uint tokenId, WhileStatement? @while)

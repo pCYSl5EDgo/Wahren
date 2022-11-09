@@ -111,7 +111,8 @@ public static class Cp932Handler
 
     private static void InnerLoad(ref DualList<char> source, ReadOnlySpan<byte> input, Span<byte> tempBuffer, ref int tempCount, CancellationToken token)
     {
-        for (var newLineIndex = input.IndexOf((byte)'\n'); newLineIndex >= 0; input = input[(newLineIndex + 1)..], newLineIndex = input.IndexOf((byte)'\n')) {
+        for (var newLineIndex = input.IndexOf((byte)'\n'); newLineIndex >= 0; input = input[(newLineIndex + 1)..], newLineIndex = input.IndexOf((byte)'\n'))
+        {
             token.ThrowIfCancellationRequested();
             var slice = input[..(newLineIndex != 0 ? newLineIndex - 1 : 0)];
             if (tempCount != 0)

@@ -1,5 +1,4 @@
-﻿global using System.Collections.Generic;
-namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
+﻿namespace Wahren.AbstractSyntaxTree.TextTemplateHelper;
 
 public struct CallableInfo
 {

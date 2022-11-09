@@ -35,7 +35,7 @@ public static class Lexer
             var notWhitespaceIndex = currentLineRestSpan.IndexOfAnyExcept(' ', '\t');
             if (notWhitespaceIndex < 0)
             {
-                token.PrecedingWhitespaceCount = currentLineRestSpan.Length;
+                token.PrecedingWhitespaceCount = (uint)currentLineRestSpan.Length;
                 goto INCREMENT_LINE;
             }
 

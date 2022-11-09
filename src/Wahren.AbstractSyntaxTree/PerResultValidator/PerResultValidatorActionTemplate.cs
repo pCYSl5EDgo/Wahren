@@ -34,12 +34,6 @@ public static partial class PerResultValidator
                     result.WarningAdd($"Unknown action 'play'.", call.TokenId);
                 }
                 break;
-            case ActionKind.ppl1:
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.WarningAdd($"Unknown action 'ppl1'.", call.TokenId);
-                }
-                break;
             case ActionKind.citom:
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
@@ -62,12 +56,6 @@ public static partial class PerResultValidator
                 if (context.CreateError(DiagnosticSeverity.Warning))
                 {
                     result.WarningAdd($"Unknown action 'clickWait'.", call.TokenId);
-                }
-                break;
-            case ActionKind.worldskin:
-                if (context.CreateError(DiagnosticSeverity.Warning))
-                {
-                    result.WarningAdd($"Unknown action 'worldskin'.", call.TokenId);
                 }
                 break;
             case ActionKind.darkness_off:
@@ -473,6 +461,132 @@ public static partial class PerResultValidator
                     {
                         argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
                         argument.ReferenceKind = ReferenceKind.Power;
+                        argument.HasReference = true;
+                    }
+                }
+
+                break;
+            case ActionKind.roamUnit:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("roamUnit", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit", 1, "Unit", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Unit;
+                        argument.HasReference = true;
+                    }
+                }
+
+                if (arguments.Length <= 1)
+                {
+                    break;
+                }
+                argument = ref arguments[1];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("roamUnit", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit", 2, "Spot", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Spot;
+                        argument.HasReference = true;
+                    }
+                }
+
+                break;
+            case ActionKind.roamUnit2:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("roamUnit2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit2", 1, "Unit", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Unit;
+                        argument.HasReference = true;
+                    }
+                }
+
+                if (arguments.Length <= 1)
+                {
+                    break;
+                }
+                argument = ref arguments[1];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("roamUnit2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit2", 2, "Spot", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Spot;
                         argument.HasReference = true;
                     }
                 }
@@ -1787,52 +1901,6 @@ public static partial class PerResultValidator
                 }
 
                 break;
-            case ActionKind.pushVar:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("pushVar", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                    }
-                    else
-                    {
-                        if (context.CreateError(DiagnosticSeverity.Warning))
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
-                        }
-                        argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                        argument.HasReference = true;
-                        argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                    }
-                }
-
-                argument = ref arguments[1];
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("pushVar", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                break;
             case ActionKind.setCapa:
                 if (argument.TrailingTokenCount != 0)
                 {
@@ -3082,15 +3150,17 @@ public static partial class PerResultValidator
                 }
 
                 argument = ref arguments[1];
-                if (argument.TrailingTokenCount == 0)
+                if (argument.TrailingTokenCount != 0)
                 {
-                    argument.ReferenceKind = ReferenceKind.Dungeon;
-                    argument.ReferenceId = analysisResult.DungeonSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
+                    result.ErrorAdd_InvalidMultipleTokenArgument("setDungeon", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                {
+                    argument.ReferenceKind = ReferenceKind.Boolean;
                 }
                 else
                 {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("setDungeon", argument.TokenId, argument.TrailingTokenCount);
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDungeon", 2, "Boolean", argument.TokenId);
                 }
 
                 break;
@@ -5914,6 +5984,54 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("image", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("image", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("image", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.image2:
                 argument.ReferenceKind = ReferenceKind.image;
@@ -5973,6 +6091,54 @@ public static partial class PerResultValidator
                     break;
                 }
                 argument = ref arguments[4];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("image2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("image2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("image2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
                 if (argument.TrailingTokenCount != 0)
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("image2", argument.TokenId, argument.TrailingTokenCount);
@@ -6054,6 +6220,54 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showImage", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showImage", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showImage", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.face:
                 argument.ReferenceKind = ReferenceKind.face;
@@ -6113,6 +6327,54 @@ public static partial class PerResultValidator
                     break;
                 }
                 argument = ref arguments[4];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("face", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("face", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("face", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
                 if (argument.TrailingTokenCount != 0)
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("face", argument.TokenId, argument.TrailingTokenCount);
@@ -6194,6 +6456,54 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("face2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("face2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("face2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.showFace:
                 argument.ReferenceKind = ReferenceKind.face;
@@ -6253,6 +6563,54 @@ public static partial class PerResultValidator
                     break;
                 }
                 argument = ref arguments[4];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showFace", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showFace", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showFace", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
                 if (argument.TrailingTokenCount != 0)
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("showFace", argument.TokenId, argument.TrailingTokenCount);
@@ -6334,6 +6692,54 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("picture", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("picture", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("picture", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.picture2:
                 argument.ReferenceKind = ReferenceKind.picture;
@@ -6393,6 +6799,54 @@ public static partial class PerResultValidator
                     break;
                 }
                 argument = ref arguments[4];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("picture2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("picture2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("picture2", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
                 if (argument.TrailingTokenCount != 0)
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("picture2", argument.TokenId, argument.TrailingTokenCount);
@@ -6474,16 +6928,60 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
+                if (arguments.Length <= 5)
+                {
+                    break;
+                }
+                argument = ref arguments[5];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showPict", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 6)
+                {
+                    break;
+                }
+                argument = ref arguments[6];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showPict", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
+                if (arguments.Length <= 7)
+                {
+                    break;
+                }
+                argument = ref arguments[7];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("showPict", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+
                 break;
             case ActionKind.showPicture:
                 argument.ReferenceKind = ReferenceKind.picture;
                 argument.ReferenceId = analysisResult.pictureSet.GetOrAdd(result.GetSpan(argument.TokenId, argument.TrailingTokenCount), argument.TokenId);
                 argument.HasReference = true;
 
-                if (arguments.Length <= 1)
-                {
-                    break;
-                }
                 argument = ref arguments[1];
                 if (argument.TrailingTokenCount != 0)
                 {
@@ -6501,9 +6999,136 @@ public static partial class PerResultValidator
                     break;
                 }
                 argument = ref arguments[2];
-                if (argument.TrailingTokenCount != 0)
+                if (argument.TrailingTokenCount == 0)
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (!span.SequenceEqual("on") && !span.SequenceEqual("center") && !span.SequenceEqual("right"))
+                    {
+                        result.ErrorAdd_UnexpectedArgumentSpecialValue("showPicture", "on, center, right", argument.TokenId);
+                    }
+                }
+                else
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("showPicture", argument.TokenId, argument.TrailingTokenCount);
+                }
+
+                break;
+            case ActionKind.gread:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("gread", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 1, "GlobalVariableReader", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.GlobalVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.GlobalVariableReader;
+                        argument.HasReference = true;
+                    }
+                }
+
+                argument = ref arguments[1];
+                if (argument.TrailingTokenCount == 0)
+                {
+                    argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.HasReference = true;
+                }
+                else
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("gread", argument.TokenId, argument.TrailingTokenCount);
+                }
+
+                if (arguments.Length <= 2)
+                {
+                    break;
+                }
+                argument = ref arguments[2];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("gread", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length == 1)
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
+                        }
+                        else
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                    }
+                    else
+                    {
+                        if (context.CreateError(DiagnosticSeverity.Warning))
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
+                        }
+                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.HasReference = true;
+                        argument.ReferenceKind = ReferenceKind.StringVariableWriter;
+                    }
+                }
+
+                break;
+            case ActionKind.gwrite:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("gwrite", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gwrite", 1, "GlobalVariableWriter", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.GlobalVariableWriterSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.GlobalVariableWriter;
+                        argument.HasReference = true;
+                    }
+                }
+
+                argument = ref arguments[1];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("gwrite", argument.TokenId, argument.TrailingTokenCount);
                 }
                 else if (!argument.IsNumber)
                 {
@@ -6512,36 +7137,939 @@ public static partial class PerResultValidator
                     argument.HasReference = true;
                 }
 
-                if (arguments.Length <= 3)
+                if (arguments.Length <= 2)
                 {
                     break;
                 }
-                argument = ref arguments[3];
-                if (argument.TrailingTokenCount != 0)
+                argument = ref arguments[2];
+                span = result.GetSpan(argument.TokenId);
+                if (span.Length > 1 && span[0] == '@')
                 {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("showPicture", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else if (!argument.IsNumber)
-                {
-                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
                     argument.HasReference = true;
                 }
 
-                if (arguments.Length <= 4)
+                break;
+            case ActionKind.pushv:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.Length > 1 && span[0] == '@')
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.addUnit:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Unit;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Spot", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Spot;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (!span.SequenceEqual("roam"))
+                            {
+                                result.ErrorAdd_UnexpectedArgumentSpecialValue("addUnit", "roam", argument.TokenId);
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.pushVar:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushVar", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushVar", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushVar", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushVar", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        span = result.GetSpan(argument.TokenId);
+                        if (span.Length > 1 && span[0] == '@')
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
+                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("pushVar", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.addDiplo:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 2, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.aimTroop:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        break;
+                    case 3:
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.setDiplo:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 2, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.setTruce:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 2, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.equipItem:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("equipItem", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 1, "Unit", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Unit;
+                        argument.HasReference = true;
+                    }
+                }
+
+                argument = ref arguments[1];
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("equipItem", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 2, "Skill", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Skill;
+                        argument.HasReference = true;
+                    }
+                }
+
+                if (arguments.Length <= 2)
                 {
                     break;
                 }
-                argument = ref arguments[4];
+                argument = ref arguments[2];
                 if (argument.TrailingTokenCount != 0)
                 {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("showPicture", argument.TokenId, argument.TrailingTokenCount);
+                    result.ErrorAdd_InvalidMultipleTokenArgument("equipItem", argument.TokenId, argument.TrailingTokenCount);
                 }
-                else if (!argument.IsNumber)
+                else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
                 {
-                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                    argument.ReferenceKind = ReferenceKind.Boolean;
+                }
+                else
+                {
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 3, "Boolean", argument.TokenId);
+                }
+
+                break;
+            case ActionKind.setLeague:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.HasReference = true;
+                                }
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                            else
+                            {
+                                if (context.CreateError(DiagnosticSeverity.Warning))
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
+                                }
+                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
+                                argument.HasReference = true;
+                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 2, "Power", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length != 1)
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                argument.ReferenceKind = ReferenceKind.Power;
+                                argument.HasReference = true;
+                            }
+                        }
+
+                        argument = ref arguments[2];
+                        if (argument.TrailingTokenCount != 0)
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
+                        }
+                        else if (!argument.IsNumber)
+                        {
+                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
+                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
+                            argument.HasReference = true;
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.skillTroop:
+                argument = ref arguments[1];
+                if (argument.TrailingTokenCount == 0)
+                {
+                    argument.ReferenceKind = ReferenceKind.Skill;
+                    argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
                     argument.HasReference = true;
+                }
+                else
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("skillTroop", argument.TokenId, argument.TrailingTokenCount);
+                }
+
+                if (arguments.Length <= 2)
+                {
+                    break;
+                }
+                argument = ref arguments[2];
+                if (argument.TrailingTokenCount == 0)
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (!span.SequenceEqual("on") && !span.SequenceEqual("dead_ok"))
+                    {
+                        result.ErrorAdd_UnexpectedArgumentSpecialValue("skillTroop", "on, dead_ok", argument.TokenId);
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("skillTroop", argument.TokenId, argument.TrailingTokenCount);
                 }
 
                 break;
@@ -6880,66 +8408,6 @@ public static partial class PerResultValidator
                 else
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("pushTurn", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                break;
-            case ActionKind.roamUnit:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("roamUnit", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit", 1, "Unit", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.Unit;
-                        argument.HasReference = true;
-                    }
-                }
-
-                break;
-            case ActionKind.roamUnit2:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("roamUnit2", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("roamUnit2", 1, "Unit", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.Unit;
-                        argument.HasReference = true;
-                    }
                 }
 
                 break;
@@ -8014,960 +9482,6 @@ public static partial class PerResultValidator
                 if (argument.TrailingTokenCount != 0 || !argument.IsNumber)
                 {
                     result.ErrorAdd_UnexpectedArgumentReferenceKind("fontc", 3, "Number", argument.TokenId);
-                }
-
-                break;
-            case ActionKind.gread:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("gread", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 1, "GlobalVariableReader", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.GlobalVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.GlobalVariableReader;
-                        argument.HasReference = true;
-                    }
-                }
-
-                argument = ref arguments[1];
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                    argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("gread", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                if (arguments.Length <= 2)
-                {
-                    break;
-                }
-                argument = ref arguments[2];
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("gread", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length == 1)
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
-                        }
-                        else
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                    }
-                    else
-                    {
-                        if (context.CreateError(DiagnosticSeverity.Warning))
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("gread", 3, "StringVariableWriter", argument.TokenId);
-                        }
-                        argument.ReferenceId = analysisResult.StringVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                        argument.HasReference = true;
-                        argument.ReferenceKind = ReferenceKind.StringVariableWriter;
-                    }
-                }
-
-                break;
-            case ActionKind.gwrite:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("gwrite", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("gwrite", 1, "GlobalVariableWriter", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.GlobalVariableWriterSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.GlobalVariableWriter;
-                        argument.HasReference = true;
-                    }
-                }
-
-                argument = ref arguments[1];
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("gwrite", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else if (!argument.IsNumber)
-                {
-                    argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                    argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-
-                if (arguments.Length <= 2)
-                {
-                    break;
-                }
-                argument = ref arguments[2];
-                span = result.GetSpan(argument.TokenId);
-                if (span.Length > 1 && span[0] == '@')
-                {
-                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                    argument.HasReference = true;
-                }
-
-                break;
-            case ActionKind.pushv:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.HasReference = true;
-                                }
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                            else
-                            {
-                                if (context.CreateError(DiagnosticSeverity.Warning))
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
-                                }
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                                argument.HasReference = true;
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.HasReference = true;
-                                }
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                            else
-                            {
-                                if (context.CreateError(DiagnosticSeverity.Warning))
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("pushv", 1, "StringVariableReader", argument.TokenId);
-                                }
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                                argument.HasReference = true;
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.Length > 1 && span[0] == '@')
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableWriter;
-                            argument.ReferenceId = analysisResult.NumberVariableWriterSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("pushv", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.addUnit:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Unit;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Spot", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Spot;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (!span.SequenceEqual("roam"))
-                            {
-                                result.ErrorAdd_UnexpectedArgumentSpecialValue("addUnit", "roam", argument.TokenId);
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.addDiplo:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.HasReference = true;
-                                }
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                            else
-                            {
-                                if (context.CreateError(DiagnosticSeverity.Warning))
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "StringVariableReader", argument.TokenId);
-                                }
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                                argument.HasReference = true;
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 1, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addDiplo", 2, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.aimTroop:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        break;
-                    case 3:
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.setDiplo:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.HasReference = true;
-                                }
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                            else
-                            {
-                                if (context.CreateError(DiagnosticSeverity.Warning))
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "StringVariableReader", argument.TokenId);
-                                }
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                                argument.HasReference = true;
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 1, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setDiplo", 2, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setDiplo", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.setTruce:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.HasReference = true;
-                                }
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                            else
-                            {
-                                if (context.CreateError(DiagnosticSeverity.Warning))
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "StringVariableReader", argument.TokenId);
-                                }
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                                argument.HasReference = true;
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 1, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setTruce", 2, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setTruce", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.equipItem:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("equipItem", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 1, "Unit", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.Unit;
-                        argument.HasReference = true;
-                    }
-                }
-
-                argument = ref arguments[1];
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("equipItem", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 2, "Skill", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.Skill;
-                        argument.HasReference = true;
-                    }
-                }
-
-                if (arguments.Length <= 2)
-                {
-                    break;
-                }
-                argument = ref arguments[2];
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("equipItem", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
-                {
-                    argument.ReferenceKind = ReferenceKind.Boolean;
-                }
-                else
-                {
-                    result.ErrorAdd_UnexpectedArgumentReferenceKind("equipItem", 3, "Boolean", argument.TokenId);
-                }
-
-                break;
-            case ActionKind.setLeague:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.HasReference = true;
-                                }
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                            else
-                            {
-                                if (context.CreateError(DiagnosticSeverity.Warning))
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "StringVariableReader", argument.TokenId);
-                                }
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span, argument.TokenId);
-                                argument.HasReference = true;
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 1, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("setLeague", 2, "Power", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length != 1)
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.Power;
-                                argument.HasReference = true;
-                            }
-                        }
-
-                        argument = ref arguments[2];
-                        if (argument.TrailingTokenCount != 0)
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("setLeague", argument.TokenId, argument.TrailingTokenCount);
-                        }
-                        else if (!argument.IsNumber)
-                        {
-                            argument.ReferenceKind = ReferenceKind.NumberVariableReader;
-                            argument.ReferenceId = analysisResult.NumberVariableReaderSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                            argument.HasReference = true;
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.skillTroop:
-                argument = ref arguments[1];
-                if (argument.TrailingTokenCount == 0)
-                {
-                    argument.ReferenceKind = ReferenceKind.Skill;
-                    argument.ReferenceId = analysisResult.SkillSet.GetOrAdd(result.GetSpan(argument.TokenId), argument.TokenId);
-                    argument.HasReference = true;
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("skillTroop", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                if (arguments.Length <= 2)
-                {
-                    break;
-                }
-                argument = ref arguments[2];
-                if (argument.TrailingTokenCount == 0)
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (!span.SequenceEqual("on") && !span.SequenceEqual("dead_ok"))
-                    {
-                        result.ErrorAdd_UnexpectedArgumentSpecialValue("skillTroop", "on, dead_ok", argument.TokenId);
-                    }
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("skillTroop", argument.TokenId, argument.TrailingTokenCount);
                 }
 
                 break;
@@ -10750,6 +11264,33 @@ public static partial class PerResultValidator
 
 		switch (kind)
         {
+            case ActionKind.ppl1:
+            case ActionKind.worldskin:
+            case ActionKind.stop:
+            case ActionKind.win:
+            case ActionKind.save:
+            case ActionKind.erase:
+            case ActionKind.stopBGM:
+            case ActionKind.openGoal:
+            case ActionKind.hideSpotMark:
+            case ActionKind.closeGoal:
+            case ActionKind.hideBlind:
+            case ActionKind.playWorld:
+            case ActionKind.resetTime:
+            case ActionKind.resetZone:
+            case ActionKind.showBlind:
+            case ActionKind.terminate:
+            case ActionKind.backScroll:
+            case ActionKind.playBattle:
+            case ActionKind.setWorldMusic:
+            case ActionKind.resetWorldMusic:
+            case ActionKind.clearBattleRecord:
+				if (count != 0)
+                {
+                    result.ErrorAdd_TooManyArguments(kind, count, 0, index);
+                    return false;
+                }
+                break;
             case ActionKind.pushDeath:
                 if (count < 6)
                 {
@@ -10773,6 +11314,8 @@ public static partial class PerResultValidator
             case ActionKind.scroll:
             case ActionKind.scroll2:
             case ActionKind.addSpot:
+            case ActionKind.roamUnit:
+            case ActionKind.roamUnit2:
             case ActionKind.showSpotMark:
             case ActionKind.resetTruce:
             case ActionKind.resetLeague:
@@ -10830,7 +11373,6 @@ public static partial class PerResultValidator
             case ActionKind.addCapa:
             case ActionKind.addGain:
             case ActionKind.pushSex:
-            case ActionKind.pushVar:
             case ActionKind.setCapa:
             case ActionKind.setDone:
             case ActionKind.setGain:
@@ -10942,6 +11484,7 @@ public static partial class PerResultValidator
             case ActionKind.playBGM:
             case ActionKind.reloadMenu:
             case ActionKind.choiceTitle:
+            case ActionKind.unctrlTroop:
             case ActionKind.changePlayer:
             case ActionKind.setGameClear:
 				if (count > 1)
@@ -10959,40 +11502,38 @@ public static partial class PerResultValidator
             case ActionKind.picture:
             case ActionKind.picture2:
             case ActionKind.showPict:
-            case ActionKind.showPicture:
 				if (count < 1)
                 {
                     result.ErrorAdd_TooLessArguments(kind, count, 1, index);
                     return false;
                 }
-                else if (count > 5)
+                else if (count > 8)
                 {
-                    result.ErrorAdd_TooManyArguments(kind, count, 5, index);
+                    result.ErrorAdd_TooManyArguments(kind, count, 8, index);
                     return false;
                 }
                 break;
-            case ActionKind.stop:
-            case ActionKind.win:
-            case ActionKind.save:
-            case ActionKind.erase:
-            case ActionKind.stopBGM:
-            case ActionKind.openGoal:
-            case ActionKind.hideSpotMark:
-            case ActionKind.closeGoal:
-            case ActionKind.hideBlind:
-            case ActionKind.playWorld:
-            case ActionKind.resetTime:
-            case ActionKind.resetZone:
-            case ActionKind.showBlind:
-            case ActionKind.terminate:
-            case ActionKind.backScroll:
-            case ActionKind.playBattle:
-            case ActionKind.setWorldMusic:
-            case ActionKind.resetWorldMusic:
-            case ActionKind.clearBattleRecord:
-				if (count != 0)
+            case ActionKind.showPicture:
+            case ActionKind.gread:
+            case ActionKind.gwrite:
+            case ActionKind.pushv:
+            case ActionKind.addUnit:
+            case ActionKind.pushVar:
+            case ActionKind.addDiplo:
+            case ActionKind.aimTroop:
+            case ActionKind.setDiplo:
+            case ActionKind.setTruce:
+            case ActionKind.equipItem:
+            case ActionKind.setLeague:
+            case ActionKind.skillTroop:
+				if (count < 2)
                 {
-                    result.ErrorAdd_TooManyArguments(kind, count, 0, index);
+                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
+                    return false;
+                }
+                else if (count > 3)
+                {
+                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
                 }
                 break;
@@ -11007,13 +11548,12 @@ public static partial class PerResultValidator
             case ActionKind.shuffle:
             case ActionKind.addLimit:
             case ActionKind.addPower:
+            case ActionKind.stopTroop:
             case ActionKind.clearVar:
             case ActionKind.exitItem:
             case ActionKind.hideSpot:
             case ActionKind.pushRand:
             case ActionKind.pushTurn:
-            case ActionKind.roamUnit:
-            case ActionKind.roamUnit2:
             case ActionKind.setLimit:
             case ActionKind.showSpot:
             case ActionKind.showParty:
@@ -11037,7 +11577,6 @@ public static partial class PerResultValidator
             case ActionKind.removeTroop:
             case ActionKind.scrollSpeed:
             case ActionKind.showDungeon:
-            case ActionKind.unctrlTroop:
             case ActionKind.retreatTroop:
             case ActionKind.reverseChara:
             case ActionKind.showPolitics:
@@ -11074,28 +11613,6 @@ public static partial class PerResultValidator
             case ActionKind.font:
             case ActionKind.fontc:
 				if (count > 3)
-                {
-                    result.ErrorAdd_TooManyArguments(kind, count, 3, index);
-                    return false;
-                }
-                break;
-            case ActionKind.gread:
-            case ActionKind.gwrite:
-            case ActionKind.pushv:
-            case ActionKind.addUnit:
-            case ActionKind.addDiplo:
-            case ActionKind.aimTroop:
-            case ActionKind.setDiplo:
-            case ActionKind.setTruce:
-            case ActionKind.equipItem:
-            case ActionKind.setLeague:
-            case ActionKind.skillTroop:
-				if (count < 2)
-                {
-                    result.ErrorAdd_TooLessArguments(kind, count, 2, index);
-                    return false;
-                }
-                else if (count > 3)
                 {
                     result.ErrorAdd_TooManyArguments(kind, count, 3, index);
                     return false;
@@ -11145,7 +11662,6 @@ public static partial class PerResultValidator
                 }
                 break;
             case ActionKind.loopBGM:
-            case ActionKind.stopTroop:
             case ActionKind.eraseSkill:
             case ActionKind.eraseFriend:
                 if (count < 1)
@@ -12902,6 +13418,51 @@ public static partial class PerResultValidator
                         break;
                 }
                 break;
+            case FunctionKind.isPeace:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("isPeace", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else if (!argument.IsNumber && (argument.HasReference = PerResultValidator.IsBoolean(result.GetSpan(argument.TokenId), out argument.ReferenceId)))
+                {
+                    argument.ReferenceKind = ReferenceKind.Boolean;
+                }
+                else
+                {
+                    result.ErrorAdd_UnexpectedArgumentReferenceKind("isPeace", 1, "Boolean", argument.TokenId);
+                }
+
+                break;
+            case FunctionKind.isComTurn:
+                if (argument.TrailingTokenCount != 0)
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("isComTurn", argument.TokenId, argument.TrailingTokenCount);
+                }
+                else
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("isComTurn", 1, "Power", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length != 1)
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                        argument.ReferenceKind = ReferenceKind.Power;
+                        argument.HasReference = true;
+                    }
+                }
+
+                break;
             case FunctionKind.isPostIn:
                 switch (arguments.Length)
                 {
@@ -13140,36 +13701,6 @@ public static partial class PerResultValidator
                 }
 
                 break;
-            case FunctionKind.isComTurn:
-                if (argument.TrailingTokenCount != 0)
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("isComTurn", argument.TokenId, argument.TrailingTokenCount);
-                }
-                else
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("isComTurn", 1, "Power", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length != 1)
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                        argument.ReferenceKind = ReferenceKind.Power;
-                        argument.HasReference = true;
-                    }
-                }
-
-                break;
             case FunctionKind.isDungeon:
                 if (argument.TrailingTokenCount == 0)
                 {
@@ -13264,7 +13795,6 @@ public static partial class PerResultValidator
             case FunctionKind.getTime:
             case FunctionKind.getTurn:
             case FunctionKind.isEvent:
-            case FunctionKind.isPeace:
             case FunctionKind.isWorld:
             case FunctionKind.getLimit:
             case FunctionKind.isNewTurn:
@@ -13330,6 +13860,14 @@ public static partial class PerResultValidator
                     return false;
                 }
                 break;
+            case FunctionKind.isPeace:
+            case FunctionKind.isComTurn:
+				if (count > 1)
+                {
+                    result.ErrorAdd_TooManyArguments(kind, count, 1, index);
+                    return false;
+                }
+                break;
             case FunctionKind.isPostIn:
 				if (count < 3)
                 {
@@ -13351,13 +13889,6 @@ public static partial class PerResultValidator
                 else if (count > 6)
                 {
                     result.ErrorAdd_TooManyArguments(kind, count, 6, index);
-                    return false;
-                }
-                break;
-            case FunctionKind.isComTurn:
-				if (count > 1)
-                {
-                    result.ErrorAdd_TooManyArguments(kind, count, 1, index);
                     return false;
                 }
                 break;

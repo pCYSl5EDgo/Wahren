@@ -1,14 +1,4 @@
-﻿global using System;
-global using System.Buffers;
-global using System.Diagnostics;
-global using System.IO;
-global using System.Runtime.InteropServices;
-global using System.Text;
-global using System.Threading;
-global using Wahren.AbstractSyntaxTree.Parser;
-global using Wahren.AbstractSyntaxTree.Project;
-global using Wahren.FileLoader;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Wahren.Map;
 
@@ -190,7 +180,7 @@ public partial class Program
                 var task = project.IsUnicode
                  ? UnicodeHandler.LoadAsync(input, token)
                  : Cp932Handler.LoadAsync(input, token);
-                result.Source = await task.ConfigureAwait(false);
+                project.Files[index].Source = await task.ConfigureAwait(false);
             }
             Parse(project.RequiredSeverity, project.IsSwitch, project.IsEnglish, ref project.Files[index], project.FileAnalysisList[index]);
         });
@@ -560,7 +550,7 @@ public partial class Program
         stringBuilder.AppendLine();
     }
 
-    private static Parse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isEnglish, ref Result result, AnalysisResult analysisResult)
+    private static void Parse(DiagnosticSeverity severity, bool treatSlashPlusAsSingleLineComment, bool isEnglish, ref Result result, AnalysisResult analysisResult)
     {
         Context context = new(treatSlashPlusAsSingleLineComment, isEnglish, false, severity);
         result.Success = Parser.Parse(ref context, ref result);

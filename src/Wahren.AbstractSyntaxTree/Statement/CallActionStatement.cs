@@ -7,7 +7,7 @@ public sealed class CallActionStatement : IStatement
     public ArrayPoolList<Argument> Arguments = new();
 
     public string DisplayName => "action call";
-    
+
     public uint TokenId { get; set; }
     public ActionKind Kind { get; set; }
 

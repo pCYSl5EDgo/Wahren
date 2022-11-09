@@ -1,47 +1,76 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
 
-  <ItemGroup>
-    <None Include="InteractTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>InteractTemplate.tt</DependentUpon>
-    </None>
-  </ItemGroup>
+		<PublishAot>true</PublishAot>
 
-  <ItemGroup>
-    <PackageReference Include="ConsoleAppFramework" Version="3.3.1" />
-  </ItemGroup>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<UseSystemResourceKeys>true</UseSystemResourceKeys>
+		
+		<StripSymbols>true</StripSymbols>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
-    <ProjectReference Include="..\Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj" />
-    <ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
-    <ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
-    <ProjectReference Include="..\Wahren.Imagedata\Wahren.Imagedata.csproj" />
-    <ProjectReference Include="..\Wahren.Map\Wahren.Map.csproj" />
-  </ItemGroup>
+		<IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
 
-  <ItemGroup>
-    <None Update="InteractTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InteractTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+		<DebuggerSupport>false</DebuggerSupport>
+		<EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+		<EventSourceSupport>false</EventSourceSupport>
+		<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="InteractTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>InteractTemplate.tt</DependentUpon>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="InteractTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>InteractTemplate.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
+		<ProjectReference Include="..\Wahren.AbstractSyntaxTree\Wahren.AbstractSyntaxTree.csproj" />
+		<ProjectReference Include="..\Wahren.DebugPaper\Wahren.DebugPaper.csproj" />
+		<ProjectReference Include="..\Wahren.FileLoader\Wahren.FileLoader.csproj" />
+		<ProjectReference Include="..\Wahren.Imagedata\Wahren.Imagedata.csproj" />
+		<ProjectReference Include="..\Wahren.Map\Wahren.Map.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="InteractTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>InteractTemplate.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="InteractTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>InteractTemplate.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="ConsoleAppFramework" />
+		<Using Include="System" />
+		<Using Include="System.Buffers" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.IO" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Text" />
+		<Using Include="System.Threading" />
+		<Using Include="System.Threading.Tasks" />
+		<Using Include="Wahren.AbstractSyntaxTree.Parser" />
+		<Using Include="Wahren.AbstractSyntaxTree.Project" />
+		<Using Include="Wahren.FileLoader" />
+	</ItemGroup>
 </Project>

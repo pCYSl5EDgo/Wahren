@@ -255,7 +255,7 @@ public struct ArrayPoolList<T> : IDisposable, System.Collections.Generic.IList<T
         {
             Array.Copy(array, index, array, index + insertCount, count - index);
         }
-        
+
         count += (int)insertCount;
         return array.AsSpan((int)index, (int)insertCount);
     }

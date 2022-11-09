@@ -1,319 +1,328 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <t4LibFolder>$(MSBuildProjectDirectory)\..\Wahren.AbstractSyntaxTree.TextTemplateHelper\bin\Debug\netstandard2.0</t4LibFolder>
-    <AnalysisLevel>latest</AnalysisLevel>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-  </PropertyGroup>
-  <ItemGroup>
-    <T4ParameterValues Include="t4LibFolder">
-      <Value>$(t4LibFolder)</Value>
-    </T4ParameterValues>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Formatter\BinaryFormatterTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BinaryFormatterTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Formatter\UnicodeFomatterTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
-    </None>
-    <None Include="ActionFunctionKindTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActionFunctionKindTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Node\AttributeNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AttributeNodeTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Node\ContextNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ContextNodeTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Node\NodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NodeTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Parser\Parse\Parser_Discard_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
-    </None>
-    <None Include="Parser\Parse\Parser_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Template.tt</DependentUpon>
-    </None>
-    <None Include="Parser\Parse\Parser_RootTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_RootTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Project\ProjectHelper_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ProjectHelper_Template.tt</DependentUpon>
-    </None>
-    <None Include="Project\Project_InfiniteLoopTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Project_InfiniteLoopTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Project\Project_GetRecursiveTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Project_GetRecursiveTemplate.tt</DependentUpon>
-    </None>
-    <None Include="Project\ProjectTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ProjectTemplate.tt</DependentUpon>
-    </None>
-    <None Include="PerResultValidator\PerResultValidatorActionTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
-    </None>
-    <None Include="PerResultValidator\PerResultValidatorTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
-    <ProjectReference Include="..\Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Formatter\BinaryFormatterContextTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BinaryFormatterContextTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Formatter\BinaryFormatterTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BinaryFormatterTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Formatter\UnicodeFomatterTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UnicodeFomatterTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Formatter\UnicodeFormatterHelperTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UnicodeFormatterHelperTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="ActionFunctionKindTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionFunctionKindTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Node\AttributeNodeTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AttributeNodeTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Node\ContextNodeTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ContextNodeTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Node\NodeTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NodeTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Parser\Parse\Parser_Discard_Template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Parser_Discard_Template.cs</LastGenOutput>
-    </None>
-    <None Update="Parser\Parse\Parser_Template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Parser_Template.cs</LastGenOutput>
-    </None>
-    <None Update="Parser\Parse\Parser_RootTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Parser_RootTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Project\ProjectHelper_Template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ProjectHelper_Template.cs</LastGenOutput>
-    </None>
-    <None Update="Project\Project_InfiniteLoopTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Project_InfiniteLoopTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Project\Project_GetRecursiveTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Project_GetRecursiveTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Project\ProjectTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ProjectTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="PerResultValidator\PerResultValidatorActionTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PerResultValidatorActionTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="PerResultValidator\PerResultValidatorTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PerResultValidatorTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="ActionFunctionKindTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActionFunctionKindTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Formatter\BinaryFormatterContextTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BinaryFormatterContextTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Formatter\BinaryFormatterTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BinaryFormatterTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Formatter\UnicodeFomatterTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Formatter\UnicodeFormatterHelperTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UnicodeFormatterHelperTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="FunctionKindTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FunctionKindTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Node\AttributeNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AttributeNodeTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Node\BlockContainerNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BlockContainerNodeTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Node\ContextNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ContextNodeTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Node\NodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NodeTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Node\PowerNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PowerNodeTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Node\ScenarioNodeTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ScenarioNodeTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Parse\Parser_BlockContainer_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Parse\Parser_Discard_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Discard_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Parser_Power_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Power_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Parser_Scenario_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Parse\Parser_RootTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_RootTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Parser\Parse\Parser_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Parser_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\Proect_InfiniteLoopTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Proect_InfiniteLoopTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\Progetc_GetRecursiveTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Progetc_GetRecursiveTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\ProjectHelper_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ProjectHelper_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\ProjectHlper_Template.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ProjectHlper_Template.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\ProjectTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ProjectTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\Project_GetRecursiveTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Project_GetRecursiveTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\Project_InfiniteLoopTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Project_InfiniteLoopTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Project\SolutionTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SolutionTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="PerResultValidator\PerResultValidator.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PerResultValidator.tt</DependentUpon>
-    </Compile>
-    <Compile Update="PerResultValidator\PerResultValidatorActionTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="PerResultValidator\PerResultValidatorTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup>
+		<t4LibFolder>$(MSBuildProjectDirectory)\..\Wahren.AbstractSyntaxTree.TextTemplateHelper\bin\Debug\netstandard2.0</t4LibFolder>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	</PropertyGroup>
+	<ItemGroup>
+		<Using Include="System" />
+		<Using Include="System.Buffers" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
+		<Using Include="System.Runtime.CompilerServices" />
+		<Using Include="Wahren.AbstractSyntaxTree.Element" />
+		<Using Include="Wahren.AbstractSyntaxTree.Node" />
+		<Using Include="Wahren.ArrayPoolCollections" />
+	</ItemGroup>
+	<ItemGroup>
+		<T4ParameterValues Include="t4LibFolder">
+			<Value>$(t4LibFolder)</Value>
+		</T4ParameterValues>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Formatter\BinaryFormatterTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>BinaryFormatterTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Formatter\UnicodeFomatterTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
+		</None>
+		<None Include="ActionFunctionKindTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ActionFunctionKindTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Node\AttributeNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AttributeNodeTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Node\ContextNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ContextNodeTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Node\NodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>NodeTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Parser\Parse\Parser_Discard_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_Discard_Template.tt</DependentUpon>
+		</None>
+		<None Include="Parser\Parse\Parser_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_Template.tt</DependentUpon>
+		</None>
+		<None Include="Parser\Parse\Parser_RootTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_RootTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Project\ProjectHelper_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ProjectHelper_Template.tt</DependentUpon>
+		</None>
+		<None Include="Project\Project_InfiniteLoopTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Project_InfiniteLoopTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Project\Project_GetRecursiveTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Project_GetRecursiveTemplate.tt</DependentUpon>
+		</None>
+		<None Include="Project\ProjectTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ProjectTemplate.tt</DependentUpon>
+		</None>
+		<None Include="PerResultValidator\PerResultValidatorActionTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
+		</None>
+		<None Include="PerResultValidator\PerResultValidatorTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
+		<ProjectReference Include="..\Wahren.AbstractSyntaxTree.Basic\Wahren.AbstractSyntaxTree.Basic.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Formatter\BinaryFormatterContextTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>BinaryFormatterContextTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Formatter\BinaryFormatterTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>BinaryFormatterTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Formatter\UnicodeFomatterTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>UnicodeFomatterTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Formatter\UnicodeFormatterHelperTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>UnicodeFormatterHelperTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="ActionFunctionKindTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>ActionFunctionKindTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Node\AttributeNodeTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>AttributeNodeTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Node\ContextNodeTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>ContextNodeTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Node\NodeTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>NodeTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Parser\Parse\Parser_Discard_Template.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Parser_Discard_Template.cs</LastGenOutput>
+		</None>
+		<None Update="Parser\Parse\Parser_Template.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Parser_Template.cs</LastGenOutput>
+		</None>
+		<None Update="Parser\Parse\Parser_RootTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Parser_RootTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Project\ProjectHelper_Template.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>ProjectHelper_Template.cs</LastGenOutput>
+		</None>
+		<None Update="Project\Project_InfiniteLoopTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Project_InfiniteLoopTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Project\Project_GetRecursiveTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Project_GetRecursiveTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="Project\ProjectTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>ProjectTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="PerResultValidator\PerResultValidatorActionTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>PerResultValidatorActionTemplate.cs</LastGenOutput>
+		</None>
+		<None Update="PerResultValidator\PerResultValidatorTemplate.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>PerResultValidatorTemplate.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="ActionFunctionKindTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ActionFunctionKindTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Formatter\BinaryFormatterContextTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>BinaryFormatterContextTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Formatter\BinaryFormatterTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>BinaryFormatterTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Formatter\UnicodeFomatterTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>UnicodeFomatterTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Formatter\UnicodeFormatterHelperTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>UnicodeFormatterHelperTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="FunctionKindTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>FunctionKindTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Node\AttributeNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AttributeNodeTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Node\BlockContainerNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>BlockContainerNodeTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Node\ContextNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ContextNodeTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Node\NodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>NodeTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Node\PowerNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PowerNodeTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Node\ScenarioNodeTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ScenarioNodeTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Parser\Parse\Parser_BlockContainer_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_BlockContainer_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Parser\Parse\Parser_Discard_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_Discard_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Parser\Parser_Power_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_Power_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Parser\Parser_Scenario_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_Scenario_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Parser\Parse\Parser_RootTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_RootTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Parser\Parse\Parser_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Parser_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\Proect_InfiniteLoopTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Proect_InfiniteLoopTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\Progetc_GetRecursiveTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Progetc_GetRecursiveTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\ProjectHelper_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ProjectHelper_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\ProjectHlper_Template.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ProjectHlper_Template.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\ProjectTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ProjectTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\Project_GetRecursiveTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Project_GetRecursiveTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\Project_InfiniteLoopTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Project_InfiniteLoopTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Project\SolutionTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SolutionTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="PerResultValidator\PerResultValidator.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PerResultValidator.tt</DependentUpon>
+		</Compile>
+		<Compile Update="PerResultValidator\PerResultValidatorActionTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PerResultValidatorActionTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="PerResultValidator\PerResultValidatorTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PerResultValidatorTemplate.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
 </Project>

@@ -1,5 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Wahren.ArrayPoolCollections\Wahren.ArrayPoolCollections.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Using Include="System" />
+		<Using Include="System.Buffers" />
+		<Using Include="System.IO" />
+		<Using Include="System.Runtime.CompilerServices" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Runtime.Intrinsics" />
+		<Using Include="System.Threading" />
+		<Using Include="System.Threading.Tasks" />
+		<Using Include="Microsoft.Win32.SafeHandles" />
+		<Using Include="Wahren.ArrayPoolCollections" />
+	</ItemGroup>
 </Project>

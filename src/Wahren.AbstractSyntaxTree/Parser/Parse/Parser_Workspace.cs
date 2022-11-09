@@ -52,7 +52,7 @@ public static partial class Parser
             {
                 return false;
             }
-            
+
             if (!node.Dictionary.TryAdd(span, element))
             {
                 result.ErrorAdd_MultipleAssignment(element.ElementTokenId);

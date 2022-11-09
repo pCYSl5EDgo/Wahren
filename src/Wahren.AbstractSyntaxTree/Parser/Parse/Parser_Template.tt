@@ -39,7 +39,7 @@ foreach (var node in NodeInfo.Nodes) {
         ArrayPoolList<IBlockStatement> blockStack = new();
 <#  } #>
 <#  foreach (var (type, _) in usageGroup) { #>
-        ref var pair_<#= type #> = ref Unsafe.NullRef<<#= type #>?>();
+        scoped ref var pair_<#= type #> = ref Unsafe.NullRef<<#= type #>?>();
 <#  } #>
         ulong key = 0UL;
         do

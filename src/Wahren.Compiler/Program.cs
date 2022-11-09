@@ -1,7 +1,7 @@
-﻿global using ConsoleAppFramework;
-global using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Wahren.Compiler;
 
@@ -11,7 +11,6 @@ public partial class Program : ConsoleAppBase
     {
         await Host.CreateDefaultBuilder().RunConsoleAppFrameworkAsync<Program>(args).ConfigureAwait(false);
     }
-
 
     public async ValueTask<int> Run()
     {
@@ -75,12 +74,12 @@ public partial class Program : ConsoleAppBase
 
 
         using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationTokenSource.Token).ConfigureAwait(false);
-        var latestResponse = await System.Text.Json.JsonSerializer.DeserializeAsync<GitHubLatestReleaseResponse>(stream, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
+        var latestResponse = await System.Text.Json.JsonSerializer.DeserializeAsync(stream, SourceGenerationContext.Default.GitHubLatestReleaseResponse, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
         if (latestResponse is null)
         {
             return;
         }
-        
+
         static bool IsValidTag(ReadOnlySpan<char> tag, out int major, out int minor, out int build)
         {
             major = minor = build = 0;
@@ -186,4 +185,14 @@ internal class GitHubLatestReleaseResponseAsset
     public string name { get; set; } = "";
     public string url { get; set; } = "";
     public int size { get; set; }
+}
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(GitHubLatestReleaseResponse))]
+[JsonSerializable(typeof(GitHubLatestReleaseResponseAsset[]))]
+[JsonSerializable(typeof(GitHubLatestReleaseResponseAsset))]
+[JsonSerializable(typeof(string))]
+[JsonSerializable(typeof(int))]
+internal partial class SourceGenerationContext : JsonSerializerContext
+{
 }

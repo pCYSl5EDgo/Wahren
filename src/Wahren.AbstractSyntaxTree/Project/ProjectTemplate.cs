@@ -2129,9 +2129,6 @@ public sealed partial class Project
             case ActionKind.play:
                 result.ErrorAdd($"Unknown action 'play'.", call.TokenId);
                 break;
-            case ActionKind.ppl1:
-                result.ErrorAdd($"Unknown action 'ppl1'.", call.TokenId);
-                break;
             case ActionKind.citom:
                 result.ErrorAdd($"Unknown action 'citom'.", call.TokenId);
                 break;
@@ -2143,9 +2140,6 @@ public sealed partial class Project
                 break;
             case ActionKind.clickWait:
                 result.ErrorAdd($"Unknown action 'clickWait'.", call.TokenId);
-                break;
-            case ActionKind.worldskin:
-                result.ErrorAdd($"Unknown action 'worldskin'.", call.TokenId);
                 break;
             case ActionKind.darkness_off:
                 result.ErrorAdd($"Unknown action 'darkness_off'.", call.TokenId);
@@ -4594,6 +4588,473 @@ public sealed partial class Project
                 }
 
                 break;
+            case ActionKind.unctrlTroop:
+                if (arguments.Length <= 0)
+                {
+                    break;
+                }
+                if (argument.TrailingTokenCount == 0)
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length == 1)
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                        }
+                        else
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                        if (!Unsafe.IsNullRef(ref track))
+                        {
+                            switch (track.Kind)
+                            {
+                                case ReferenceKind.Unit:
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Unit;
+                                    argument.HasReference = true;
+                                    break;
+                                case ReferenceKind.Class:
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Class;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                    argument.HasReference = false;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                        }
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("unctrlTroop", argument.TokenId, argument.TrailingTokenCount);
+                }
+
+                break;
+            case ActionKind.addUnit:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length == 1)
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                                else
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                                if (!Unsafe.IsNullRef(ref track))
+                                {
+                                    switch (track.Kind)
+                                    {
+                                        case ReferenceKind.Unit:
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Unit;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Class:
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Class;
+                                            argument.HasReference = true;
+                                            break;
+                                        default:
+                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                            argument.HasReference = false;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length == 1)
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
+                                }
+                                else
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                                if (!Unsafe.IsNullRef(ref track))
+                                {
+                                    switch (track.Kind)
+                                    {
+                                        case ReferenceKind.Unit:
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Unit;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Power:
+                                            argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Power;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Spot:
+                                            argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Spot;
+                                            argument.HasReference = true;
+                                            break;
+                                        default:
+                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
+                                            argument.HasReference = false;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                    case 3:
+                        break;
+                }
+                break;
+            case ActionKind.aimTroop:
+                switch (arguments.Length)
+                {
+                    case 2:
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length == 1)
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                                else
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                                if (!Unsafe.IsNullRef(ref track))
+                                {
+                                    switch (track.Kind)
+                                    {
+                                        case ReferenceKind.Unit:
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Unit;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Class:
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Class;
+                                            argument.HasReference = true;
+                                            break;
+                                        default:
+                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                            argument.HasReference = false;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        argument = ref arguments[1];
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length == 1)
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                                else
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                                if (!Unsafe.IsNullRef(ref track))
+                                {
+                                    switch (track.Kind)
+                                    {
+                                        case ReferenceKind.Unit:
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Unit;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Class:
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Class;
+                                            argument.HasReference = true;
+                                            break;
+                                        default:
+                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
+                                            argument.HasReference = false;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                    case 3:
+                        if (argument.TrailingTokenCount == 0)
+                        {
+                            span = result.GetSpan(argument.TokenId);
+                            if (span.IsEmpty)
+                            {
+                                result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                            }
+                            else if (span[0] == '@')
+                            {
+                                if (span.Length == 1)
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                                else
+                                {
+                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                                    argument.HasReference = true;
+                                }
+                            }
+                            else
+                            {
+                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                                if (!Unsafe.IsNullRef(ref track))
+                                {
+                                    switch (track.Kind)
+                                    {
+                                        case ReferenceKind.Unit:
+                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Unit;
+                                            argument.HasReference = true;
+                                            break;
+                                        case ReferenceKind.Class:
+                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                            argument.ReferenceKind = ReferenceKind.Class;
+                                            argument.HasReference = true;
+                                            break;
+                                        default:
+                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                            argument.HasReference = false;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
+                        }
+
+                        break;
+                }
+                break;
+            case ActionKind.skillTroop:
+                if (argument.TrailingTokenCount == 0)
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length == 1)
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                        }
+                        else
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                        if (!Unsafe.IsNullRef(ref track))
+                        {
+                            switch (track.Kind)
+                            {
+                                case ReferenceKind.Unit:
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Unit;
+                                    argument.HasReference = true;
+                                    break;
+                                case ReferenceKind.Class:
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Class;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                    argument.HasReference = false;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                        }
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("skillTroop", argument.TokenId, argument.TrailingTokenCount);
+                }
+
+                break;
+            case ActionKind.stopTroop:
+                if (argument.TrailingTokenCount == 0)
+                {
+                    span = result.GetSpan(argument.TokenId);
+                    if (span.IsEmpty)
+                    {
+                        result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                    }
+                    else if (span[0] == '@')
+                    {
+                        if (span.Length == 1)
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                        }
+                        else
+                        {
+                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
+                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
+                            argument.HasReference = true;
+                        }
+                    }
+                    else
+                    {
+                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
+                        if (!Unsafe.IsNullRef(ref track))
+                        {
+                            switch (track.Kind)
+                            {
+                                case ReferenceKind.Unit:
+                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Unit;
+                                    argument.HasReference = true;
+                                    break;
+                                case ReferenceKind.Class:
+                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
+                                    argument.ReferenceKind = ReferenceKind.Class;
+                                    argument.HasReference = true;
+                                    break;
+                                default:
+                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                                    argument.HasReference = false;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
+                        }
+                    }
+                }
+                else
+                {
+                    result.ErrorAdd_InvalidMultipleTokenArgument("stopTroop", argument.TokenId, argument.TrailingTokenCount);
+                }
+
+                break;
             case ActionKind.ctrlTroop:
                 if (argument.TrailingTokenCount == 0)
                 {
@@ -4986,62 +5447,6 @@ public sealed partial class Project
                 }
 
                 break;
-            case ActionKind.unctrlTroop:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length == 1)
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                        else
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (!Unsafe.IsNullRef(ref track))
-                        {
-                            switch (track.Kind)
-                            {
-                                case ReferenceKind.Unit:
-                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Unit;
-                                    argument.HasReference = true;
-                                    break;
-                                case ReferenceKind.Class:
-                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Class;
-                                    argument.HasReference = true;
-                                    break;
-                                default:
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                    argument.HasReference = false;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("unctrlTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                    }
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("unctrlTroop", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                break;
             case ActionKind.retreatTroop:
                 if (argument.TrailingTokenCount == 0)
                 {
@@ -5151,357 +5556,6 @@ public sealed partial class Project
                 else
                 {
                     result.ErrorAdd_InvalidMultipleTokenArgument("eraseUnitTroop", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                break;
-            case ActionKind.addUnit:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Power:
-                                            argument.ReferenceId = analysisResult.PowerSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Power;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Spot:
-                                            argument.ReferenceId = analysisResult.SpotSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Spot;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("addUnit", 2, "Unit, Power, Spot, StringVariableReader", argument.TokenId);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("addUnit", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        break;
-                    case 3:
-                        break;
-                }
-                break;
-            case ActionKind.aimTroop:
-                switch (arguments.Length)
-                {
-                    case 2:
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        argument = ref arguments[1];
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 2, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        break;
-                    case 3:
-                        if (argument.TrailingTokenCount == 0)
-                        {
-                            span = result.GetSpan(argument.TokenId);
-                            if (span.IsEmpty)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else if (span[0] == '@')
-                            {
-                                if (span.Length == 1)
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                                else
-                                {
-                                    argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                    argument.HasReference = true;
-                                }
-                            }
-                            else
-                            {
-                                ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                                if (!Unsafe.IsNullRef(ref track))
-                                {
-                                    switch (track.Kind)
-                                    {
-                                        case ReferenceKind.Unit:
-                                            argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Unit;
-                                            argument.HasReference = true;
-                                            break;
-                                        case ReferenceKind.Class:
-                                            argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                            argument.ReferenceKind = ReferenceKind.Class;
-                                            argument.HasReference = true;
-                                            break;
-                                        default:
-                                            result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                            argument.HasReference = false;
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("aimTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_InvalidMultipleTokenArgument("aimTroop", argument.TokenId, argument.TrailingTokenCount);
-                        }
-
-                        break;
-                }
-                break;
-            case ActionKind.skillTroop:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length == 1)
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                        else
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (!Unsafe.IsNullRef(ref track))
-                        {
-                            switch (track.Kind)
-                            {
-                                case ReferenceKind.Unit:
-                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Unit;
-                                    argument.HasReference = true;
-                                    break;
-                                case ReferenceKind.Class:
-                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Class;
-                                    argument.HasReference = true;
-                                    break;
-                                default:
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                    argument.HasReference = false;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("skillTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                    }
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("skillTroop", argument.TokenId, argument.TrailingTokenCount);
                 }
 
                 break;
@@ -5618,120 +5672,6 @@ public sealed partial class Project
                 }
 
                 // ERROR 1
-                break;
-            case ActionKind.stopTroop:
-                if (argument.TrailingTokenCount == 0)
-                {
-                    span = result.GetSpan(argument.TokenId);
-                    if (span.IsEmpty)
-                    {
-                        result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                    }
-                    else if (span[0] == '@')
-                    {
-                        if (span.Length == 1)
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                        else
-                        {
-                            argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                            argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                            argument.HasReference = true;
-                        }
-                    }
-                    else
-                    {
-                        ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                        if (!Unsafe.IsNullRef(ref track))
-                        {
-                            switch (track.Kind)
-                            {
-                                case ReferenceKind.Unit:
-                                    argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Unit;
-                                    argument.HasReference = true;
-                                    break;
-                                case ReferenceKind.Class:
-                                    argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                    argument.ReferenceKind = ReferenceKind.Class;
-                                    argument.HasReference = true;
-                                    break;
-                                default:
-                                    result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                    argument.HasReference = false;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                    }
-                }
-                else
-                {
-                    result.ErrorAdd_InvalidMultipleTokenArgument("stopTroop", argument.TokenId, argument.TrailingTokenCount);
-                }
-
-                for (int i = 1; i < arguments.Length; ++i)
-                {
-                    argument = ref arguments[i];
-                    if (argument.TrailingTokenCount == 0)
-                    {
-                        span = result.GetSpan(argument.TokenId);
-                        if (span.IsEmpty)
-                        {
-                            result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", i + 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                        }
-                        else if (span[0] == '@')
-                        {
-                            if (span.Length == 1)
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", i + 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                            else
-                            {
-                                argument.ReferenceId = analysisResult.StringVariableReaderSet.GetOrAdd(span.Slice(1), argument.TokenId);
-                                argument.ReferenceKind = ReferenceKind.StringVariableReader;
-                                argument.HasReference = true;
-                            }
-                        }
-                        else
-                        {
-                            ref var track = ref AmbiguousDictionary_UnitClassPowerSpotRace.TryGet(span);
-                            if (!Unsafe.IsNullRef(ref track))
-                            {
-                                switch (track.Kind)
-                                {
-                                    case ReferenceKind.Unit:
-                                        argument.ReferenceId = analysisResult.UnitSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Unit;
-                                        argument.HasReference = true;
-                                        break;
-                                    case ReferenceKind.Class:
-                                        argument.ReferenceId = analysisResult.ClassSet.GetOrAdd(span, argument.TokenId);
-                                        argument.ReferenceKind = ReferenceKind.Class;
-                                        argument.HasReference = true;
-                                        break;
-                                    default:
-                                        result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", i + 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                                        argument.HasReference = false;
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                result.ErrorAdd_UnexpectedArgumentReferenceKind("stopTroop", i + 1, "Unit, Class, StringVariableReader", argument.TokenId);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        result.ErrorAdd_InvalidMultipleTokenArgument("stopTroop", argument.TokenId, argument.TrailingTokenCount);
-                    }
-
-                }
                 break;
             case ActionKind.eraseSkill:
                 if (arguments.Length <= 1)
@@ -7203,6 +7143,24 @@ public sealed partial class Project
                 SpecialTreatment_class_delskill2(ref result, analysisResult, ref node, ref value);
             }
         }
+        if (node.item.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in node.item.Value.Value.AsSpan())
+            {
+                SpecialTreatment_class_item(ref result, analysisResult, ref node, ref value);
+            }
+        }
+        foreach (var element in node.item.Variants)
+        {
+            if (element is not { HasValue: true, Value.Count: > 0 })
+            {
+                continue;
+            }
+            foreach (ref var value in element.Value.AsSpan())
+            {
+                SpecialTreatment_class_item(ref result, analysisResult, ref node, ref value);
+            }
+        }
         if (node.leader_skill.Value is { HasValue: true, Value.Count: > 0 })
         {
             foreach (ref var value in node.leader_skill.Value.Value.AsSpan())
@@ -7551,6 +7509,24 @@ public sealed partial class Project
             foreach (ref var value in element.Value.AsSpan())
             {
                 SpecialTreatment_unit_delskill2(ref result, analysisResult, ref node, ref value);
+            }
+        }
+        if (node.item.Value is { HasValue: true, Value.Count: > 0 })
+        {
+            foreach (ref var value in node.item.Value.Value.AsSpan())
+            {
+                SpecialTreatment_unit_item(ref result, analysisResult, ref node, ref value);
+            }
+        }
+        foreach (var element in node.item.Variants)
+        {
+            if (element is not { HasValue: true, Value.Count: > 0 })
+            {
+                continue;
+            }
+            foreach (ref var value in element.Value.AsSpan())
+            {
+                SpecialTreatment_unit_item(ref result, analysisResult, ref node, ref value);
             }
         }
         if (node.leader_skill.Value is { HasValue: true, Value.Count: > 0 })
@@ -7994,6 +7970,42 @@ public sealed partial class Project
                 break;
             default:
                 result.ErrorAdd_UnexpectedElementReferenceKind("Class", "delskill2", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_class_item(ref Result result, AnalysisResult analysisResult, ref ClassNode node, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "item", "Skill, Skillset, Number", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Class", "item", "Skill, Skillset, Number", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Class", "item", "Skill, Skillset, Number", value.Text);
                 break;
         }
     }
@@ -8539,6 +8551,42 @@ public sealed partial class Project
                 break;
             default:
                 result.ErrorAdd_UnexpectedElementReferenceKind("Unit", "delskill2", "Skill, Skillset", value.Text);
+                break;
+        }
+    }
+
+    private void SpecialTreatment_unit_item(ref Result result, AnalysisResult analysisResult, ref UnitNode node, ref Pair_NullableString_NullableInt value)
+    {
+        if (!value.HasText)
+        {
+            return;
+        }
+        var span = result.GetSpan(value.Text);
+        if (value.TrailingTokenCount != 0)
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Unit", "item", "Skill, Skillset, Number", value.Text);
+            return;
+        }
+        ref var reference = ref AmbiguousDictionary_SkillSkillset.TryGet(span);
+        if (Unsafe.IsNullRef(ref reference))
+        {
+            result.ErrorAdd_UnexpectedElementReferenceKind("Unit", "item", "Skill, Skillset, Number", value.Text);
+            return;
+        }
+        switch (reference.Kind)
+        {
+           case ReferenceKind.Skill:
+               value.ReferenceId = analysisResult.SkillSet.GetOrAdd(span, value.Text);
+               value.ReferenceKind = ReferenceKind.Skill;
+               value.HasReference = true;
+               break;
+            case ReferenceKind.Skillset:
+                value.ReferenceId = analysisResult.SkillsetSet.GetOrAdd(span, value.Text);
+                value.ReferenceKind = ReferenceKind.Skillset;
+                value.HasReference = true;
+                break;
+            default:
+                result.ErrorAdd_UnexpectedElementReferenceKind("Unit", "item", "Skill, Skillset, Number", value.Text);
                 break;
         }
     }
