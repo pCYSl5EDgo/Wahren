@@ -103,6 +103,30 @@ public struct AnalyzeArguments
     }
 
     public override string ToString() => """
+        NAME
+          Analyze
+        
+        SYNTAX
+          analyze [<string rootFolder>] [--switch] [--severity/-s <DiagnosticSeverity>] [--time/-t]
 
+        string rootFolder
+          解析対象のフォルダのパスを指定します
+          デフォルトでは'.' つまり現在のパスです
+
+        --switch
+          このフラグを指定した場合デバッグモードと同様の振る舞いをします
+          つまり行頭に/+がある場合コメントとして無視されなくなります
+
+        --severity/-s
+          解析の結果得られたエラーや警告をどの程度詳細に表示するか指定します
+
+        --time/-t
+          解析に何ミリ秒掛かったのかを計測します
+
+        ENUM DiagnosticSeverity
+          Error/error/e : エラーのみ表示します
+          Warning/warning/w　: エラーではありませんがバグに繋がる不適切な記述に対して警告します
+          Info/info/i
+          Hint/hint/h : このツール自体のバグ調査をする時以外はまずこれを選びません
         """;
 }
