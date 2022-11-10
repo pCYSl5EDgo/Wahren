@@ -43,7 +43,7 @@ public partial class Program
 
             await ParallelLoadAndParseAsync(project, token).ConfigureAwait(false);
 
-            if ((uint)severity >= (uint)DiagnosticSeverity.Info)
+            if (severity == PseudoDiagnosticSeverity.Info)
             {
                 Console.WriteLine("parallel parse complete");
             }
@@ -175,6 +175,10 @@ public partial class Program
             var path = project.Files[index].FilePath;
             Debug.Assert(path is not null);
             token.ThrowIfCancellationRequested();
+            if (project.RequiredSeverity == DiagnosticSeverity.Hint)
+            {
+                Console.WriteLine($"Load Start. Index: {index}. Path: {path}");
+            }
             DualList<char> source;
             using (var input = File.OpenHandle(path, FileMode.Open, FileAccess.Read, FileShare.Read, FileOptions.Asynchronous))
             {
@@ -184,8 +188,16 @@ public partial class Program
                  : Cp932Handler.LoadAsync(input, token)).ConfigureAwait(false);
             }
 
+            if (project.RequiredSeverity == DiagnosticSeverity.Hint)
+            {
+                Console.WriteLine($"Load Done Parse Start. Index: {index}. Path: {path}");
+            }
             project.Files[index].Source = source;
             Parse(project.RequiredSeverity, project.IsSwitch, project.IsEnglish, ref project.Files[index], project.FileAnalysisList[index]);
+            if (project.RequiredSeverity == DiagnosticSeverity.Hint)
+            {
+                Console.WriteLine($"Parse Done. Index: {index}. Path: {path}");
+            }
         });
     }
 
