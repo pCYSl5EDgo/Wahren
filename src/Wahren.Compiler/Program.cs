@@ -7,6 +7,7 @@ public partial class Program
 {
     public static async Task<int> Main(string[] args)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         var (commandKind, readCount) = CommandKindHelper.DecideCommandKind(args);
         switch (commandKind)
         {

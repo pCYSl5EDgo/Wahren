@@ -13,7 +13,7 @@ public partial class Program
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
-        using var cancellationTokenSource = PrepareCancellationTokenSource(TimeSpan.FromMinutes(1));
+        using var cancellationTokenSource = PrepareCancellationTokenSource(Timeout.InfiniteTimeSpan);
         try
         {
             var (pathSet, isUnicode, isEnglish) = await GetInitialSettingsAsync(rootFolder, cancellationTokenSource.Token).ConfigureAwait(false);

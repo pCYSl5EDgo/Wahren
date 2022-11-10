@@ -14,7 +14,7 @@ public partial class Program
     )
     {
         var stopwatch = time ? Stopwatch.StartNew() : null;
-        using var cancellationTokenSource = PrepareCancellationTokenSource(TimeSpan.FromMinutes(1));
+        using var cancellationTokenSource = PrepareCancellationTokenSource(Timeout.InfiniteTimeSpan);
         var token = cancellationTokenSource.Token;
         try
         {
@@ -43,6 +43,11 @@ public partial class Program
 
             await ParallelLoadAndParseAsync(project, token).ConfigureAwait(false);
 
+            if ((uint)severity >= (uint)DiagnosticSeverity.Info)
+            {
+                Console.WriteLine("parallel parse complete");
+            }
+            
             token.ThrowIfCancellationRequested();
             if (!CompileResultSync(project))
             {
