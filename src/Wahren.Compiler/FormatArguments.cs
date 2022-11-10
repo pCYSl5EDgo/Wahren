@@ -132,6 +132,28 @@ public struct FormatArguments
     }
 
     public override string ToString() => """
+        NAME
+          Format
 
+        SYNTAX
+          format [<string rootFolder>] [--switch] [--time/-t] [--forceUnicode/-f] [--delete-discarded-token/-d]
+
+        string rootFolder
+          解析対象のフォルダのパスを指定します
+          デフォルトでは'.' つまり現在のパスです
+
+        --switch
+          このフラグを指定した場合デバッグモードと同様の振る舞いをします
+          つまり行頭に/+がある場合コメントとして無視されなくなります
+
+        --time/-t
+          処理に何ミリ秒掛かったのかを計測します
+
+        --forceUnicode/-f
+          元ファイルがShift-JISであったとしても出力するものがUTF16LEとなります
+        
+        --delete-discarded-token/-d
+          無意味な記述を削除します
+          ※注意: バージョン管理システムを使用して復元可能にしてください
         """;
 }
