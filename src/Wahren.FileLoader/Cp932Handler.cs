@@ -54,6 +54,7 @@ public static class Cp932Handler
                 {
                     InnerLoad(ref source, buffer.AsSpan(0, (int)length), tempBuffer, ref tempCount, token);
                 }
+                InnerLastLoad(ref source, tempBuffer.AsSpan(0, tempCount));
                 return source;
             }
 
@@ -90,7 +91,6 @@ public static class Cp932Handler
                     {
                         break;
                     }
-                    actual &= -2;
                     InnerLoad(ref source, buffer.AsSpan(0, actual), tempBuffer, ref tempCount, token);
                     offset += actual;
                 } while (true);
